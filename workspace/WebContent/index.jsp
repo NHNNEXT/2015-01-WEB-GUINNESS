@@ -22,5 +22,6 @@ Team Test
 Conflict Test
 Conflict Test3
 DAT TEST
+Merge tool Test
 </body>
 </html>
