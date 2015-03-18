@@ -3,26 +3,29 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+  <title>스터디의 시작, 기네스</title>
+  <link rel="stylesheet" href="/css/mainStyle.css">
 </head>
 <body>
-NHN NEXT 3rd, A track
-project Guinness
-2015.03.18
-<br/>
-Mocca Test
-Giyatto Test
-Hwiba Test
-Alpha Test
-Alpha Test2
-Ybin Test
-Giyatto Test2
-Giyatto Test3
-Team Test
-Conflict Test
-Conflict Test3
-DAT TEST
-Merge tool Test
-DAT TEST2
-DAT TEST3
+<div id="jumbotron-container">
+  <div class='content wrap'>
+    <div id="jumbotron">
+      <h1>스터디의 시작, 기네스</h1>
+      <div class='subscribe'>기네스에서 나만의 학습 일지를 작성하고, 스터디 멤버들과 함께 그룹을 생성하여 학습 일지를 공유하거나 언제 어디에서나 피드백을 받으세요!</div>
+      <div class='form-group' style='margin:0 auto;'>
+          <input class='text' type="text" placeholder="이메일">
+          <input class='text' type="password" placeholder="비밀번호">
+          <div>
+              <a href='groups.html'><button class='btn'>로그인</button></a>
+          </div>
+      </div>
+      <div id='login-util'>
+        <a><span>회원가입</span></a>
+        <a><span style='border-right:1px solid white; border-left:1px solid white;'>아이디 찾기</span></a>
+        <a><span>비밀번호 찾기</span></a>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
