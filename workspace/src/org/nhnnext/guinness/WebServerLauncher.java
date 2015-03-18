@@ -1,3 +1,4 @@
+package org.nhnnext.guinness;
 
 
 import java.io.File;
