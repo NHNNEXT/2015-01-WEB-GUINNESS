@@ -1,7 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
 <html>
 <head>
-  <title>Guinness Project</title>
+  <title>스터디의 시작, 기네스</title>
   <meta charset="utf-8">
   <link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
   <link rel="stylesheet" href="css/mainStyle.css">
@@ -16,7 +18,7 @@
       <ul class='util'>
         <img src='img/profile_sample.jpg'>
         <a href="#">
-          <li>사용자1 님</li>
+          <li>사용자1 님</li>
         </a>
         <a href-="#">
           <li><i class='fa fa-bell'></i></li>
