@@ -1,0 +1,21 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  %>
+
+<div id="header">
+  <div class='content wrap'>
+      <a href='#' id='brand'>
+          <img src='http://www.w3.org/html/logo/downloads/HTML5_1Color_White.png'>
+      </a>
+      <ul class='util'>
+        <img class='avatar' src='img/avatar-default.png'>
+        <a href="#">
+          <li>사용자1 님</li>
+        </a>
+        <a href-="#">
+          <li><i class='fa fa-bell'></i></li>
+        </a>
+        <a href="#">
+          <li>로그아웃</li>
+        </a>
+      </ul>
+  </div>
+</div>

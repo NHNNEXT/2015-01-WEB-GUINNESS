@@ -17,7 +17,7 @@
       <form method="post" action="/users/create" class='form-group' style='margin:0 auto;'>
           <input class='text' type="text" name="userId" placeholder="이메일">
           <input class='text' type="text" name="userName" placeholder="이름">
-          <input class='text' type="password" name="userPassword" placeholder="비밀번호">
+          <input class='text' type="password" name="userPassword" placeholder="비밀번호"><br/>
           <button type="submit" class='btn'>회원가입</button>
       </form>
       <div id='login-util'>

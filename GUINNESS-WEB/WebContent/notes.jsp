@@ -11,25 +11,7 @@
   <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 </head>
 <body>
-<div id="header">
-  <div class='content wrap'>
-      <a href='#' id='brand'>
-          <img src='http://www.w3.org/html/logo/downloads/HTML5_1Color_White.png'>
-      </a>
-      <ul class='util'>
-        <img src='img/profile_sample.jpg'>
-        <a href="#">
-          <li>사용자1 님</li>
-        </a>
-        <a href-="#">
-          <li><i class='fa fa-bell'></i></li>
-        </a>
-        <a href="#">
-          <li>로그아웃</li>
-        </a>
-      </ul>
-  </div>
-</div>
+<%@ include file="./commons/_topnav.jspf" %>
 <div class='content wrap' style='outline:1px solid red; margin-top:100px'>
   <ul class='time-nav'>
     <li id='to20150311' class='date-nav date-select' ><div class='date-tag'>3월 11일</div><div class='date-point'></div></li>
@@ -44,7 +26,7 @@
     <div id='day-20150311' class='diary-date'>2015년 3월 11일</div>
     <a href="#">
         <li>
-            <img src='img/profile_sample.jpg'>
+            <img class='avatar' class='avatar' src='img/avatar-default.png'>
             <div class='msgContainer'>
                 <span class='userName'>Edward Scott</span>
                 <div class='qhsans'>첫 JSP 학습
@@ -61,7 +43,7 @@
     </a>
     <a href="#">
         <li>
-            <img src='img/profile_sample1.jpg'>
+            <img class='avatar' src='img/avatar-default.png'>
             <div class='msgContainer'>
                 <span class='userName'>Ventaas Quitara</span>
                 <div class='qhsans'>첫 JSP 학습
@@ -78,7 +60,7 @@
     </a>
     <a href="#">
         <li>
-            <img src='img/profile_sample2.jpg'>
+            <img class='avatar' src='img/avatar-default.png'>
             <div class='msgContainer'>
                 <span class='userName'>Rosa Dias</span>
                 <div class='qhsans'>첫 JSP 학습
@@ -98,7 +80,7 @@
     <div id='day-20150309' class='diary-date'>2015년 3월 9일</div>
       <a href="#">
           <li>
-              <img src='img/profile_sample.jpg'>
+              <img class='avatar' src='img/avatar-default.png'>
               <div class='msgContainer'>
                   <span class='userName'>Edward Scott</span>
                   <div class='qhsans'>첫 JSP 학습
@@ -115,7 +97,7 @@
       </a>
       <a href="#">
           <li>
-              <img src='img/profile_sample1.jpg'>
+              <img class='avatar' src='img/avatar-default.png'>
               <div class='msgContainer'>
                   <span class='userName'>Ventaas Quitara</span>
                   <div class='qhsans'>첫 JSP 학습
@@ -132,7 +114,7 @@
       </a>
       <a href="#">
           <li>
-              <img src='img/profile_sample2.jpg'>
+              <img class='avatar' src='img/avatar-default.png'>
               <div class='msgContainer'>
                   <span class='userName'>Rosa Dias</span>
                   <div class='qhsans'>첫 JSP 학습
@@ -152,7 +134,7 @@
     <div id='day-20150308' class='diary-date'>2015년 3월 8일</div>
       <a href="#">
           <li>
-              <img src='img/profile_sample.jpg'>
+              <img class='avatar' src='img/avatar-default.png'>
               <div class='msgContainer'>
                   <span class='userName'>Edward Scott</span>
                   <div class='qhsans'>첫 JSP 학습
@@ -169,7 +151,7 @@
       </a>
       <a href="#">
           <li>
-              <img src='img/profile_sample1.jpg'>
+              <img class='avatar' src='img/avatar-default.png'>
               <div class='msgContainer'>
                   <span class='userName'>Ventaas Quitara</span>
                   <div class='qhsans'>첫 JSP 학습
@@ -186,7 +168,7 @@
       </a>
       <a href="#">
           <li>
-              <img src='img/profile_sample2.jpg'>
+              <img class='avatar' src='img/avatar-default.png'>
               <div class='msgContainer'>
                   <span class='userName'>Rosa Dias</span>
                   <div class='qhsans'>첫 JSP 학습
@@ -202,9 +184,6 @@
           </li>
       </a>
   </ul>
-</div>
-<div id="footer">
-
 </div>
 <script>
   /* scrolling navigation */

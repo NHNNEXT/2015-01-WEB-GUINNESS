@@ -10,25 +10,7 @@
   <link rel="stylesheet" href="css/font-awesome.min.css">
 </head>
 <body>
-<div id="header">
-  <div class='content wrap'>
-      <a href='#' id='brand'>
-          <img src='http://www.w3.org/html/logo/downloads/HTML5_1Color_White.png'>
-      </a>
-      <ul class='util'>
-        <img src='img/profile_sample.jpg'>
-        <a href="#">
-          <li>사용자1 님</li>
-        </a>
-        <a href-="#">
-          <li><i class='fa fa-bell'></i></li>
-        </a>
-        <a href="#">
-          <li>로그아웃</li>
-        </a>
-      </ul>
-  </div>
-</div>
+<%@ include file="./commons/_topnav.jspf" %>
 <div class='content wrap' style='margin-top:100px'>
   <ul id='group-container' class='group-list'>
     <a href="#group/create"><li id='create-new'>새 스터디 그룹 생성...</li></a>
