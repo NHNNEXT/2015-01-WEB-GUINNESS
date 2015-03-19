@@ -20,15 +20,13 @@ public class CreateUserServlet extends HttpServlet{
 		User user = new User(userId, userName, userPassword);
 		
 		UserDAO userDao = new UserDAO();
+
 		try {
 			userDao.createUser(user);
+			resp.sendRedirect("/groups.jsp");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		resp.sendRedirect("/");
-		
-		
 	};
 	
 	

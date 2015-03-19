@@ -27,6 +27,13 @@ public class UserDAO {
 	public void createUser(User user) throws SQLException{
 		String sql = "insert into USERS values(?,?,?,?,?)";
 		
+		String userId = user.getUserId();
+		UserDAO userDao = new UserDAO();
+
+		if (userDao.readUser(userId) != null) {
+			System.out.println("존재하는 userId 입니다!");
+		}
+		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try { 
@@ -54,8 +61,6 @@ public class UserDAO {
 	public User readUser(String userId) throws SQLException{
 		String sql = "select * from USERS where userId=?";
 		
-		System.out.println(userId);
-		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -63,7 +68,6 @@ public class UserDAO {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, userId);
-			System.out.println(pstmt);
 			
 			rs = pstmt.executeQuery();
 
