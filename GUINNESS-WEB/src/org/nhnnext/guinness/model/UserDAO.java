@@ -52,7 +52,9 @@ public class UserDAO {
 	}
 	
 	public User readUser(String userId) throws SQLException{
-		String sql = "select * from USERS where userId = ?";
+		String sql = "select * from USERS where userId=?";
+		
+		System.out.println(userId);
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -61,14 +63,15 @@ public class UserDAO {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, userId);
+			System.out.println(pstmt);
 			
-			rs = pstmt.executeQuery(sql);
+			rs = pstmt.executeQuery();
+
 			if (rs.next()) {
 				User user = new User(rs.getString("userId"), rs.getString("userPassword"), rs.getString("userName"));
 				return user;
 			}
 		} finally {
-			
 			if(pstmt != null) {
 				pstmt.close();
 			}
