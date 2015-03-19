@@ -16,4 +16,10 @@ public class User {
 		this.userImage = userImage;
 	}
 	
+	public User(String userId, String userName, String userPassword) {
+		this.userId = userId;
+		this.userName = userName;
+		this.userPassword = userPassword;
+	}
+	
 }
