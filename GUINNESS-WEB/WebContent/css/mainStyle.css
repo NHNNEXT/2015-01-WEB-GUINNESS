@@ -190,13 +190,14 @@ input.text{
    border-bottom:1px solid #ddd;
 }
 
-.diary-list img{
+.diary-list img.avatar{
    display:block;
    float:left;
    width:45px;
    height:45px;
    border-radius:22px;
    overflow:hidden;
+   background-color:#86E57F;
 }
 .diary-list .msgContainer{
   display:block;

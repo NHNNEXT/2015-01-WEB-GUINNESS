@@ -26,7 +26,7 @@
     <div id='day-20150311' class='diary-date'>2015년 3월 11일</div>
     <a href="#">
         <li>
-            <img src='img/avatar-default.png'>
+            <img class='avatar' class='avatar' src='img/avatar-default.png'>
             <div class='msgContainer'>
                 <span class='userName'>Edward Scott</span>
                 <div class='qhsans'>첫 JSP 학습
@@ -43,7 +43,7 @@
     </a>
     <a href="#">
         <li>
-            <img src='img/avatar-default.png'>
+            <img class='avatar' src='img/avatar-default.png'>
             <div class='msgContainer'>
                 <span class='userName'>Ventaas Quitara</span>
                 <div class='qhsans'>첫 JSP 학습
@@ -60,7 +60,7 @@
     </a>
     <a href="#">
         <li>
-            <img src='img/profile_sample2.jpg'>
+            <img class='avatar' src='img/avatar-default.png'>
             <div class='msgContainer'>
                 <span class='userName'>Rosa Dias</span>
                 <div class='qhsans'>첫 JSP 학습
@@ -80,7 +80,7 @@
     <div id='day-20150309' class='diary-date'>2015년 3월 9일</div>
       <a href="#">
           <li>
-              <img src='img/avatar-default.png'>
+              <img class='avatar' src='img/avatar-default.png'>
               <div class='msgContainer'>
                   <span class='userName'>Edward Scott</span>
                   <div class='qhsans'>첫 JSP 학습
@@ -97,7 +97,7 @@
       </a>
       <a href="#">
           <li>
-              <img src='img/avatar-default.png'>
+              <img class='avatar' src='img/avatar-default.png'>
               <div class='msgContainer'>
                   <span class='userName'>Ventaas Quitara</span>
                   <div class='qhsans'>첫 JSP 학습
@@ -114,7 +114,7 @@
       </a>
       <a href="#">
           <li>
-              <img src='img/avatar-default.png'>
+              <img class='avatar' src='img/avatar-default.png'>
               <div class='msgContainer'>
                   <span class='userName'>Rosa Dias</span>
                   <div class='qhsans'>첫 JSP 학습
@@ -134,7 +134,7 @@
     <div id='day-20150308' class='diary-date'>2015년 3월 8일</div>
       <a href="#">
           <li>
-              <img src='img/avatar-default.png'>
+              <img class='avatar' src='img/avatar-default.png'>
               <div class='msgContainer'>
                   <span class='userName'>Edward Scott</span>
                   <div class='qhsans'>첫 JSP 학습
@@ -151,7 +151,7 @@
       </a>
       <a href="#">
           <li>
-              <img src='img/avatar-default.png'>
+              <img class='avatar' src='img/avatar-default.png'>
               <div class='msgContainer'>
                   <span class='userName'>Ventaas Quitara</span>
                   <div class='qhsans'>첫 JSP 학습
@@ -168,7 +168,7 @@
       </a>
       <a href="#">
           <li>
-              <img src='img/avatar-default.png'>
+              <img class='avatar' src='img/avatar-default.png'>
               <div class='msgContainer'>
                   <span class='userName'>Rosa Dias</span>
                   <div class='qhsans'>첫 JSP 학습
