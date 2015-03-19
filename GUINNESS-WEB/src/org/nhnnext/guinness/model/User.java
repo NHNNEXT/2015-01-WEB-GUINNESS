@@ -21,5 +21,21 @@ public class User {
 		this.userName = userName;
 		this.userPassword = userPassword;
 	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public String getUserPassword() {
+		return userPassword;
+	}
+
+	public byte getUserImage() {
+		return userImage;
+	}
 	
 }
