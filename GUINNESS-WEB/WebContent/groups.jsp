@@ -13,9 +13,19 @@
 <%@ include file="./commons/_topnav.jspf" %>
 <div class='content wrap' style='margin-top:100px'>
   <ul id='group-container' class='group-list'>
-    <a href="#group/create"><li id='create-new'>새 스터디 그룹 생성...</li></a>
+    <a href="javascript:popupOpen();"><li id='create-new'>새 스터디 그룹 생성...</li></a>
   </ul>
 </div>
+
+
+<script type="text/javascript">
+function popupOpen(){
+	var popUrl = "/createGroup.jsp";	//팝업창에 출력될 페이지 URL
+	var popOption = "width=370, height=360, resizable=no, scrollbars=no, status=no;";    //팝업창 옵션(optoin)
+		mywindow = window.open(popUrl,"",popOption);
+	}
+</script>
+
 <script>
   window.addEventListener('load',function(){
      var req = new XMLHttpRequest();
