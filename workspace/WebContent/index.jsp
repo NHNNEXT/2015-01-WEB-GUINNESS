@@ -4,6 +4,7 @@
 <html>
 <head>
   <title>스터디의 시작, 기네스</title>
+  <link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
   <link rel="stylesheet" href="/css/mainStyle.css">
 </head>
 <body>
