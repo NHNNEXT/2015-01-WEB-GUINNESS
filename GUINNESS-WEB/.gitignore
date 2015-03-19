@@ -1,0 +1,13 @@
+.classpath
+
+.metadata
+
+.project
+
+.settings
+
+tomcat.*
+
+WebContent/WEB-INF/classes/
+
+
