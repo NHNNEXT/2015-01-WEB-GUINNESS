@@ -1,4 +1,4 @@
-package org.nhnnext.controller.group;
+package org.nhnnext.guinness.controller.group;
 
 import java.io.IOException;
 import java.sql.SQLException;
