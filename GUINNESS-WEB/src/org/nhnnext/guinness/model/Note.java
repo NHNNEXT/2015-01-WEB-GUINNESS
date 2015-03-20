@@ -11,6 +11,13 @@ public class Note {
 	private String groupId;
 	//createDate?
 	
+	public Note() {
+		this.noteText = null;
+		this.targetDate = null;
+		this.userId = null;
+		this.groupId = null;
+	}
+
 	public Note(String noteText, String targetDate, String userId, String groupId) {
 		this.noteText = noteText;
 		this.targetDate = targetDate;
@@ -18,6 +25,7 @@ public class Note {
 		this.groupId = groupId;
 	}
 	
+
 	public String getNoteText() {
 		return noteText;
 	}

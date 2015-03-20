@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.NoteDAO;
 
+@WebServlet("/notes/create")
 public class CreateNoteServlet extends HttpServlet {
 
 	@Override
@@ -22,12 +24,10 @@ public class CreateNoteServlet extends HttpServlet {
 		String userId = req.getParameter("userId");		
 		String groupId = req.getParameter("groupId");
 		String noteText = req.getParameter("noteText");
-//		
-//		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-//		Date targetDate = formatter.for(req.getParameter("targetDate"));
 		String targetDate = req.getParameter("targetDate");
 		
 		
+		userId = "test@guinness.org";
 		Note note = new Note(noteText, targetDate, userId, groupId);
 		
 		NoteDAO noteDAO = new NoteDAO();
@@ -35,7 +35,6 @@ public class CreateNoteServlet extends HttpServlet {
 		try {
 			noteDAO.createNote(note);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
