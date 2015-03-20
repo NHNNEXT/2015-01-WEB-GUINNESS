@@ -1,4 +1,4 @@
-package org.nhnnext.guinness.controller.users;
+package org.nhnnext.guinness.controller;
 
 import java.sql.SQLException;
 
