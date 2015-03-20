@@ -27,12 +27,12 @@
     <div id='createGroup-body'>
 	    <form name="user" method="post" action="/group/create">
 			<div>
-				그룹이름 <input type="text" name="groupName" value="" />
+				그룹이름 <input type="text" name="groupName" >
 			</div>
 			<div>
 				공개여부 <input type="checkbox" name="isPublic">
-			</div>
-			<input type="submit" value="확인" />
+			</div><br/>
+			<button class='btn'>생성</button>
 		</form>
     </div>
   </div>

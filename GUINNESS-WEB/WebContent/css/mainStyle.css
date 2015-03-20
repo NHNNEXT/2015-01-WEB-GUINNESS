@@ -130,6 +130,10 @@ input.text{
   cursor:pointer;
   padding:5px;
 }
+#login-util a{
+  color:white;
+  text-decoration:underline;	
+}
 
 .group-list{
   display:table;
@@ -285,12 +289,12 @@ input.text{
 	margin-top:-250px;
 	background-color:white;
 	border-radius:10px;
-	color:white;
 	overflow:hidden;
 }
 #createGroup-header{
 	width:100%;
 	display:table;
+	color:white;
 	background-color:#454545;
 	
 }
