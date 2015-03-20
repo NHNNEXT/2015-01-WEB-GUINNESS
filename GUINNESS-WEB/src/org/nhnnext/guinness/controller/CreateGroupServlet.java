@@ -1,4 +1,4 @@
-package org.nhnnext.guinness.controller.group;
+package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.nhnnext.guinness.dao.GroupDAO;
 import org.nhnnext.guinness.model.Group;
+import org.nhnnext.guinness.model.GroupDAO;
 
 @WebServlet("/group/create")
 public class CreateGroupServlet extends HttpServlet {
@@ -23,10 +23,9 @@ public class CreateGroupServlet extends HttpServlet {
 		int isPublic = 0;
 		
 		groupName = (String)req.getParameter("groupName");
+		System.out.println("-----"+req.getParameter("isPublic"));
 		
-		System.out.println(req.getParameter("isPublic"));
-
-		if(req.getParameter("isPublic").equals("on")) {
+		if("public".equals(req.getParameter("isPublic"))) {
 			isPublic = 1;
 		}
 		
@@ -45,7 +44,7 @@ public class CreateGroupServlet extends HttpServlet {
 		System.out.println(createDate);		
 		System.out.println(isPublic);
 
-		Group group = new Group(groupId, groupName, groupCaptainUserId, createDate, isPublic);
+		Group group = new Group(groupName, groupCaptainUserId, isPublic);
 		
 		GroupDAO groupDao = new GroupDAO();
 		try {

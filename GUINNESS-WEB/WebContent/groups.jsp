@@ -30,7 +30,8 @@
 				그룹이름 <input type="text" name="groupName" >
 			</div>
 			<div>
-				공개여부 <input type="checkbox" name="isPublic">
+				<input type="radio" name="isPublic" value="private" checked>비공개
+				<input type="radio" name="isPublic" value="public">공개
 			</div><br/>
 			<button class='btn'>생성</button>
 		</form>
