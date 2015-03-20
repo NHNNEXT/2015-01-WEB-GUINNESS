@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 
-import org.nhnnext.guinness.Time;
 
 public class UserDAO {
 	public Connection getConnection(){
@@ -25,7 +24,7 @@ public class UserDAO {
 	}
 	
 	public void createUser(User user) throws SQLException{
-		String sql = "insert into USERS values(?,?,?,?,?)";
+		String sql = "insert into USERS values(?,?,?,?,default)";
 		
 		String userId = user.getUserId();
 		UserDAO userDao = new UserDAO();
@@ -43,7 +42,6 @@ public class UserDAO {
 			pstmt.setString(2, user.getUserName());
 			pstmt.setString(3, user.getUserPassword());
 			pstmt.setString(4, null);
-			pstmt.setTimestamp(5, Time.getTime());
 			
 			pstmt.executeUpdate();
 			

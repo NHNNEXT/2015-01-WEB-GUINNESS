@@ -9,8 +9,13 @@ import org.junit.Test;
 public class UserDAOTest {
 
 	@Test
-	public void ExistCreateUserTest() throws SQLException {
-		String sql = "insert into USERS values('userId1', 'userName', 'userPassword', null, 2015-03-19 17:47:56)";
+	public void NotExistCreateUserTest() throws SQLException {
+		User user = new User("testUserId2", "testUserName", "testUserPassword");
+		UserDAO userDao = new UserDAO();
+		userDao.createUser(user);
+		User dbUser = userDao.readUser(user.getUserId());
+		assertEquals(user.getUserId(), dbUser.getUserId());
+		
 	}
 	
 	@Test
