@@ -9,52 +9,36 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.nhnnext.guinness.common.*;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.GroupDAO;
 
-@WebServlet("/group/create")
+@WebServlet(ServletName.GROUP_CREATE)
 public class CreateGroupServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		// 그룹 캡틴 유저 아이디
+		//groupCaptainUserId = (String) req.getSession().getAttribute(SessionKey.SESSION_USERID);
+		String groupCaptainUserId="test@guinness.org";
+		String groupName = (String)req.getParameter("groupName");
 
-		String groupId, groupName, groupCaptainUserId, createDate = null;
 		int isPublic = 0;
-		
-		groupName = (String)req.getParameter("groupName");
-		System.out.println("-----"+req.getParameter("isPublic"));
 		
 		if("public".equals(req.getParameter("isPublic"))) {
 			isPublic = 1;
 		}
-		
-		// 그룹 아이디 생성
-		
-		groupId="abcdf";
-		
-		// 그룹 캡틴 유저 아이디
-		
-		//groupCaptainUserId = (String) req.getSession().getAttribute("userId");
-		groupCaptainUserId="test@guinness.org";
-		
-		System.out.println(groupId);
-		System.out.println(groupName);
-		System.out.println(groupCaptainUserId);
-		System.out.println(createDate);		
-		System.out.println(isPublic);
-
+	
 		Group group = new Group(groupName, groupCaptainUserId, isPublic);
 		
 		GroupDAO groupDao = new GroupDAO();
-		try {
-			groupDao.createGroup(group);
-		} catch (SQLException e) {
-		}
+		groupDao.createGroup(group);
+		
+		// Group-User MAP table에 정보 저장
+		groupDao.createGroupUser(groupCaptainUserId, group.getGroupId());
 		
 		resp.sendRedirect("/groups.jsp");
-		System.out.println("그룹 생성을 성공하였습니다.");
-	
 	}
 	
 	

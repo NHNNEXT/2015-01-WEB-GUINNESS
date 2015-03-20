@@ -11,14 +11,14 @@ import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.model.UserDAO;
 
 @WebServlet("/users/create")
-public class CreateUserServlet extends HttpServlet{
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws javax.servlet.ServletException ,java.io.IOException {
+public class CreateUserServlet extends HttpServlet {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws javax.servlet.ServletException, java.io.IOException {
+
 		String userId = (String) req.getParameter("userId");
 		String userPassword = (String) req.getParameter("userPassword");
 		String userName = (String) req.getParameter("userName");
-		
+
 		User user = new User(userId, userName, userPassword);
-		
 		UserDAO userDao = new UserDAO();
 
 		try {
@@ -28,6 +28,5 @@ public class CreateUserServlet extends HttpServlet{
 			e.printStackTrace();
 		}
 	};
-	
-	
+
 }

@@ -11,7 +11,12 @@
 </head>
 <body>
 <%@ include file="./commons/_topnav.jspf" %>
+
+
+
+
 <div class='content wrap' style='margin-top:100px'>
+  
   <ul id='group-container' class='group-list'>
     <li id='create-new'>새 스터디 그룹 생성...</li>
   </ul>

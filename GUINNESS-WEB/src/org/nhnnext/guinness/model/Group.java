@@ -1,5 +1,6 @@
 package org.nhnnext.guinness.model;
 
+import java.sql.SQLException;
 import java.util.Random;
 
 public class Group {
