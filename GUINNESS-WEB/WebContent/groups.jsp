@@ -13,19 +13,30 @@
 <%@ include file="./commons/_topnav.jspf" %>
 <div class='content wrap' style='margin-top:100px'>
   <ul id='group-container' class='group-list'>
-    <a href="javascript:popupOpen();"><li id='create-new'>새 스터디 그룹 생성...</li></a>
+    <li id='create-new'>새 스터디 그룹 생성...</li>
   </ul>
 </div>
 
-
-<script type="text/javascript">
-function popupOpen(){
-	var popUrl = "/createGroup.jsp";	//팝업창에 출력될 페이지 URL
-	var popOption = "width=370, height=360, resizable=no, scrollbars=no, status=no;";    //팝업창 옵션(optoin)
-		mywindow = window.open(popUrl,"",popOption);
-	}
-</script>
-
+<!-- 그룹생성을 위한 Modal -->
+<div id='black-cover'>
+  <div id='createGroup-container'>
+    <div id='createGroup-header'>
+      <div id='createGroup-title'>새 스터디 그룹 생성</div>
+      <div id='createGroup-close'><i class='fa fa-remove'></i></div>
+    </div>
+    <div id='createGroup-body'>
+	    <form name="user" method="post" action="/group/create">
+			<div>
+				그룹이름 <input type="text" name="groupName" value="" />
+			</div>
+			<div>
+				공개여부 <input type="checkbox" name="isPublic">
+			</div>
+			<input type="submit" value="확인" />
+		</form>
+    </div>
+  </div>
+</div>
 <script>
   window.addEventListener('load',function(){
      var req = new XMLHttpRequest();
@@ -40,6 +51,12 @@ function popupOpen(){
      };
      req.open('get','./a.json',true);
      req.send();
+     
+     var el = document.getElementById('create-new');
+     el.addEventListener('mouseup',createGroup,false);
+     el = document.getElementById('createGroup-close');
+     el.addEventListener('mouseup',createGroup,false);
+     
   }, false);
 
   function createGroup(json){
@@ -52,6 +69,15 @@ function popupOpen(){
         newEl.innerHTML = "<li>"+obj.name+"</li>";
         el.appendChild(newEl);
     }
+  }
+  
+  function createGroup(e) {
+	var blkcvr = document.getElementById('black-cover');
+	if (blkcvr.style.display == "none") {
+		blkcvr.style.display = "block";
+	} else {
+		blkcvr.style.display = "none";
+	}
   }
 
 </script>
