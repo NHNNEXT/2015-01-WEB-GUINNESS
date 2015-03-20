@@ -10,6 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import net.slipp.LoginServlet;
 
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.NoteDAO;
@@ -23,13 +26,26 @@ public class CreateNoteServlet extends HttpServlet {
 		
 		req.setCharacterEncoding("utf-8");
 		
-		String userId = req.getParameter("userId");		
-		String groupId = req.getParameter("groupId");
-		String noteText = req.getParameter("noteText");
-		String targetDate = req.getParameter("targetDate");
-		
-		groupId = "abcde";
+		//userId는 세션으로 받아온다.
+		String userId = req.getParameter("userId");
 		userId = "test@guinness.org";
+		
+		//세션 구현 완료되면 
+//		HttpSession session = req.getSession();
+//		Object object = session.getAttribute(LoginUserServlet.SESSION_USER_ID);
+//		if(object == null){
+//			resp.sendRedirect("/");
+//			return;
+//		}
+		
+		String groupId = req.getParameter("groupId");
+		groupId = "abcde";
+		
+		String targetDate = req.getParameter("targetDate");
+		String noteText = req.getParameter("noteText");
+		
+		
+		
 		
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.DATE, Integer.parseInt(targetDate));
