@@ -3,7 +3,7 @@
 Create DATABASE GUINNESS;
 
 /* User 생성 및 DB권한 주기 */
-Create User link413@'localhost' identified by 'link413';
+// Create User link413@'localhost' identified by 'link413';
 
 Grant all privileges on GUINNESS.* to link413@'localhost' identified by 'link413';
 

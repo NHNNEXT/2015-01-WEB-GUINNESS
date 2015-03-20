@@ -1,6 +1,5 @@
 package org.nhnnext.guinness.model;
 
-import java.sql.Date;
 
 public class Note {
 	private long noteId;

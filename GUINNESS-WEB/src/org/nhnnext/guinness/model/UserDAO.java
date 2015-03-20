@@ -5,7 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
-import java.sql.Timestamp;
+
+import com.mysql.fabric.Response;
 
 
 public class UserDAO {
@@ -23,7 +24,7 @@ public class UserDAO {
 		}
 	}
 	
-	public void createUser(User user) throws SQLException{
+	public Boolean createUser(User user) throws SQLException{
 		String sql = "insert into USERS values(?,?,?,?,default)";
 		
 		String userId = user.getUserId();
@@ -31,6 +32,7 @@ public class UserDAO {
 
 		if (userDao.readUser(userId) != null) {
 			System.out.println("존재하는 userId 입니다!");
+			return false;
 		}
 		
 		Connection conn = null;
@@ -53,6 +55,7 @@ public class UserDAO {
 				conn.close();
 			}
 		}
+		return true;
 		
 	}
 	
