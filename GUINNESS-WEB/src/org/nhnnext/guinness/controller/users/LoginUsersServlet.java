@@ -24,7 +24,7 @@ public class LoginUsersServlet extends HttpServlet{
 		try {
 			User user = userDao.readUser(userId);
 			PrintWriter out = resp.getWriter();
-			if (user == null || !user.getUserPassword().equals(userPassword)) {	
+			if (user == null || !user.getUserPassword().equals(userPassword)) {
 				out.print("loginFailed");
 				return;
 			}

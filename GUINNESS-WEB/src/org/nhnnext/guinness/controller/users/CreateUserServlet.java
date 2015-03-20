@@ -31,6 +31,7 @@ public class CreateUserServlet extends HttpServlet{
 				HttpSession session = req.getSession();
 				session.setAttribute("SessionUserId", userId);
 				resp.sendRedirect("/groups.jsp");
+				return;
 			}
 			req.setAttribute("message", "이미 존재하는 아이디입니다.");
 			RequestDispatcher rd = req.getRequestDispatcher("/");

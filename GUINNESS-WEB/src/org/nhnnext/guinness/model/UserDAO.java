@@ -73,7 +73,7 @@ public class UserDAO {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				User user = new User(rs.getString("userId"), rs.getString("userPassword"), rs.getString("userName"));
+				User user = new User(rs.getString("userId"), rs.getString("userName"), rs.getString("userPassword"));
 				return user;
 			}
 		} finally {
