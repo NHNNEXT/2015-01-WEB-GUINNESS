@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.slipp.LoginServlet;
-
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.NoteDAO;
 
@@ -26,34 +24,25 @@ public class CreateNoteServlet extends HttpServlet {
 		
 		req.setCharacterEncoding("utf-8");
 		
-		//userId는 세션으로 받아온다.
-		String userId = req.getParameter("userId");
-		userId = "test@guinness.org";
+		HttpSession session = req.getSession();
+		Object object = session.getAttribute("userId");
+		if(object == null){
+			resp.sendRedirect("/");
+			return;
+		}
 		
-		//세션 구현 완료되면 
-//		HttpSession session = req.getSession();
-//		Object object = session.getAttribute(LoginUserServlet.SESSION_USER_ID);
-//		if(object == null){
-//			resp.sendRedirect("/");
-//			return;
-//		}
-		
+		String userId = (String)object;
 		String groupId = req.getParameter("groupId");
-		groupId = "abcde";
+		groupId = "abcde"; //임시 처리 추후 url 로 파싱
 		
 		String targetDate = req.getParameter("targetDate");
 		String noteText = req.getParameter("noteText");
 		
-		
-		
-		
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.DATE, Integer.parseInt(targetDate));
-
 		targetDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime());
 		
 		Note note = new Note(noteText, targetDate, userId, groupId);
-		
 		NoteDAO noteDAO = new NoteDAO();
 		
 		try {
