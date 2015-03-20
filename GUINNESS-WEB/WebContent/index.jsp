@@ -36,12 +36,11 @@
       </div>
       <div id='login-util'>
         <div id="switchForm">
-          <span id='label-login' style="display:block">이미 아이디가 있습니다!</span>
+          <span id='label-login' style="display:block">로그인</span>
           <span id='label-signUp' style="display:none">회원가입</span>
-        </div>
-        <!-- 
+        </div><!--
         <a><span style='border-right:1px solid white; border-left:1px solid white;'>아이디 찾기</span></a>
-        <a><span>비밀번호 찾기</span></a> -->
+        <a><span>비밀번호 찾기</span></a>-->
       </div>
     </div>
   </div>
