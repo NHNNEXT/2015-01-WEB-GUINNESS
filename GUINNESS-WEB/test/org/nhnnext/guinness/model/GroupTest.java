@@ -1,8 +1,6 @@
 package org.nhnnext.guinness.model;
 
-import static org.junit.Assert.*;
-
-import java.sql.SQLException;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
@@ -12,7 +10,7 @@ public class GroupTest {
 
 	@Test
 	public void testSetNewGroupId() {
-		String newGroupId = TEST_GROUP.setNewGroupId();
+		String newGroupId = Group.setNewGroupId();
 		assertNotNull(newGroupId);
 	}
 }

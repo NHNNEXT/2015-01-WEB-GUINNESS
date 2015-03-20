@@ -1,7 +1,6 @@
 package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,12 +8,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.nhnnext.guinness.common.*;
+import org.nhnnext.guinness.common.ServletName;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.GroupDAO;
 
 @WebServlet(ServletName.GROUP_CREATE)
 public class CreateGroupServlet extends HttpServlet {
+	private static final long serialVersionUID = -2676389998849949681L;
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)

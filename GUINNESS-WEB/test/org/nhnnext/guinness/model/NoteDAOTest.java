@@ -1,6 +1,6 @@
 package org.nhnnext.guinness.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,18 +15,12 @@ public class NoteDAOTest {
 		Connection conn = noteDAO.getConnection();
 		
 		assertNotNull(conn);
-		
 	}
 
 	@Test
 	public void testCreateNote() throws SQLException {
-		
-		//auto increment
 		Note note = new Note("test", "2015-03-19 17:56:24", "test@guinness.org", "abcde");
 		
 		noteDAO.createNote(note);
-		
-		noteDAO.removeUser(note);
 	}
-
 }

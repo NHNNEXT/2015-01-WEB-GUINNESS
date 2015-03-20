@@ -2,13 +2,10 @@ package org.nhnnext.guinness.model;
 
 
 public class Note {
-	private long noteId;
 	private String noteText;
-
 	private String targetDate;
 	private String userId;
 	private String groupId;
-	//createDate?
 	
 	public Note() {
 		this.noteText = null;
@@ -23,7 +20,6 @@ public class Note {
 		this.userId = userId;
 		this.groupId = groupId;
 	}
-	
 
 	public String getNoteText() {
 		return noteText;
@@ -40,5 +36,4 @@ public class Note {
 	public String getGroupId() {
 		return groupId;
 	}
-	
 }
