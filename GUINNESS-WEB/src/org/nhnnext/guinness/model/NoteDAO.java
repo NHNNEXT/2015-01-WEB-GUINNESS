@@ -49,6 +49,12 @@ public class NoteDAO {
 		}
 		
 	}
+
+	public void removeUser(Note note) {
+
+		
+		
+	}
 	
 
 }
