@@ -10,6 +10,11 @@ a{
   text-decoration:none;
 }
 
+.errorMessage {
+	font-size:10px;
+	color:red;
+}
+
 ul{
   margin:0px;
   padding:0px;
@@ -68,7 +73,7 @@ ul{
     height:100%;
     background-image:url('../img/bg_main01.jpg');
     background-position-y:-150px;
-    background-size:100%;
+    background-size:auto 100%;
     background-repeat: no-repeat;
     padding-top:100px;
 }
@@ -220,6 +225,11 @@ input.text{
    margin-top:15px;
    font-size:15px;
    line-height:20px;
+}
+
+#switchForm:hover {
+	color:#BCBCBC;
+	text-decoration: underline;
 }
 
 .time-nav{
