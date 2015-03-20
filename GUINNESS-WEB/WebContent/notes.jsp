@@ -23,7 +23,10 @@
     <li id='to20140101' class='date-nav'><div class='date-tag'>2014년</div><div class='date-point'></div></li>
   </ul>
   <ul class='diary-list'>
-    <div id='day-20150311' class='diary-date'>2015년 3월 11일</div>
+    <div id='day-20150311' class='diary-date'>
+      <span>2015년 3월 11일</span>
+      <i style='float:right;' class='fa fa-pencil'>새 노트 작성</i>	
+    </div>
     <a href="#">
         <li>
             <img class='avatar' class='avatar' src='img/avatar-default.png'>
