@@ -12,6 +12,35 @@
 </head>
 <body>
 <%@ include file="./commons/_topnav.jspf" %>
+<button id='create-new-button'>새 일지 작성</button>
+
+<div id='black-cover-note' style='display:none'>
+  <div id='createNote-container'>
+    <div id='createNote-header'>
+      <div id='createNote-title'>새 일지 작성</div>
+      <div id='createNote-close'><i class='fa fa-remove'></i></div>
+    </div>
+    <div id='createNote-body'>
+	    <form name="user" method="post" action="/notes/create">
+			<table>
+				<tr>
+					<td>날짜</td>
+					<td><select name="targetDate" id="targetDate"></select></td>
+					<!-- <td><input type="text" name="targetDate" value="${targetDate}"></td>-->
+				</tr>
+				<tr>
+					<td>내용</td>
+					<!-- <td><input type="text" name="noteText" value="${noteText}"></td>-->
+					<td><textarea style="resize:none" rows="10" cols="50" name="noteText" value="${noteText}"></textarea></td>
+					
+					
+				</tr>
+			</table>
+			<input type="submit" value="작성" />
+		</form>
+    </div>
+  </div>
+</div>
 <div class='content wrap' style='outline:1px solid red; margin-top:100px'>
   <ul class='time-nav'>
     <li id='to20150311' class='date-nav date-select' ><div class='date-tag'>3월 11일</div><div class='date-point'></div></li>
@@ -23,7 +52,10 @@
     <li id='to20140101' class='date-nav'><div class='date-tag'>2014년</div><div class='date-point'></div></li>
   </ul>
   <ul class='diary-list'>
-    <div id='day-20150311' class='diary-date'>2015년 3월 11일</div>
+    <div id='day-20150311' class='diary-date'>
+      <span>2015년 3월 11일</span>
+      <i style='float:right;' class='fa fa-pencil'>새 노트 작성</i>	
+    </div>
     <a href="#">
         <li>
             <img class='avatar' class='avatar' src='img/avatar-default.png'>
@@ -198,7 +230,36 @@
         }
       },false);
     }
+ 	
+    var el = document.getElementById('create-new-button');
+    el.addEventListener('mouseup',createNote,false);
+    el = document.getElementById('createNote-close');
+    el.addEventListener('mouseup',createNote,false);
+  
+  
   },false);
+ 
+	  
+	  function createNote(e) {
+		var blkcvr = document.getElementById('black-cover-note');
+		if (blkcvr.style.display == "none") {
+			blkcvr.style.display = "block";
+		} else {
+			blkcvr.style.display = "none";
+		}
+	  }
+	  
+	  
+	  var now = new Date();
+	  var mois = document.getElementById( 'targetDate' );
+
+
+	  mois.add( new Option( now.getDate() - 2), now.getMonth() -2);
+	  mois.add( new Option( now.getDate() - 1), now.getMonth() -1);
+	  mois.add( new Option( now.getDate()));
+	  
+
+
 </script>
 </body>
 </html>

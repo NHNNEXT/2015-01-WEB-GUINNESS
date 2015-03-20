@@ -320,3 +320,50 @@ input.text{
 	cursor:pointer;
 	float:right;
 }
+
+#create-new-button {
+	postion: absolute;
+	float: right;
+	top : 100px;
+}
+
+#black-cover-note {
+  position:fixed;
+  top:0px;
+  z-index:999;
+  display:none;
+  width:100%;
+  height:100%;
+  background-color:rgba(14,14,14,.6);
+}
+
+#createNote-container {
+	position:relative;
+	width:500px;
+	height:500px;
+	top:50%;
+	margin:0 auto;
+	margin-top:-250px;
+	background-color:white;
+	border-radius:10px;
+	overflow:hidden;
+}
+#createNote-header{
+	width:100%;
+	display:table;
+	color:white;
+	background-color:#454545;
+	
+}
+#createNote-title{
+	float:left;
+	padding:15px;
+}
+
+#createNote-close {
+	position:relative;
+	padding:10px;
+	font-size:25px;
+	cursor:pointer;
+	float:right;
+}
