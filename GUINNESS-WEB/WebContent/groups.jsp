@@ -11,10 +11,6 @@
 </head>
 <body>
 <%@ include file="./commons/_topnav.jspf" %>
-
-
-
-
 <div class='content wrap' style='margin-top:100px'>
   
   <ul id='group-container' class='group-list'>
@@ -23,7 +19,7 @@
 </div>
 
 <!-- 그룹생성을 위한 Modal -->
-<div id='black-cover'>
+<div id='black-cover' style="display:none;">
   <div id='createGroup-container'>
     <div id='createGroup-header'>
       <div id='createGroup-title'>새 스터디 그룹 생성</div>
@@ -59,9 +55,9 @@
      req.send();
      
      var el = document.getElementById('create-new');
-     el.addEventListener('mouseup',createGroup,false);
+     el.addEventListener('mouseup',showModal,false);
      el = document.getElementById('createGroup-close');
-     el.addEventListener('mouseup',createGroup,false);
+     el.addEventListener('mouseup',showModal,false);
      
   }, false);
 
@@ -77,7 +73,7 @@
     }
   }
   
-  function createGroup(e) {
+  function showModal(e) {
 	var blkcvr = document.getElementById('black-cover');
 	if (blkcvr.style.display == "none") {
 		blkcvr.style.display = "block";
