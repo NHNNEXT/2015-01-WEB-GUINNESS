@@ -19,9 +19,11 @@ import com.google.gson.Gson;
 
 @WebServlet(ServletName.GROUP_READ)
 public class ReadGroupServlet extends HttpServlet {
+	private static final long serialVersionUID = -7534646425281084154L;
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+			
 		// 유저아이디를 받아온다
 //		String userId = (String) req.getSession().getAttribute(
 //				SessionKey.SESSION_USERID);

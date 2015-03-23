@@ -3,7 +3,6 @@ package org.nhnnext.guinness.controller.users;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +14,8 @@ import org.nhnnext.guinness.model.UserDAO;
 
 @WebServlet("/users/login")
 public class LoginUsersServlet extends HttpServlet{
-	
+	private static final long serialVersionUID = -7135687406875475113L;
+
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws javax.servlet.ServletException ,java.io.IOException {
 		String userId = (String) req.getParameter("userId");
 		String userPassword = (String) req.getParameter("userPassword");

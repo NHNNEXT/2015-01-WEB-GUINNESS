@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Date;
 
 
 public class NoteDAO {
@@ -19,7 +18,6 @@ public class NoteDAO {
 			return DriverManager.getConnection(url,id,pw);	
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
-			
 			return null;
 		}
 	}
@@ -32,12 +30,10 @@ public class NoteDAO {
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(query);
-			
 			pstmt.setString(1, note.getNoteText());
 			pstmt.setString(2, note.getTargetDate());
 			pstmt.setString(3, note.getUserId());
 			pstmt.setString(4, note.getGroupId());
-			
 			pstmt.executeUpdate();
 		} finally {
 			if(pstmt != null) {
@@ -47,14 +43,5 @@ public class NoteDAO {
 				conn.close();
 			}
 		}
-		
 	}
-
-	public void removeUser(Note note) {
-
-		
-		
-	}
-	
-
 }

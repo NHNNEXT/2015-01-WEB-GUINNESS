@@ -14,6 +14,8 @@ import org.nhnnext.guinness.model.UserDAO;
 
 @WebServlet("/users/create")
 public class CreateUserServlet extends HttpServlet{
+	private static final long serialVersionUID = -8433534495044878880L;
+
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws javax.servlet.ServletException ,java.io.IOException {
 		String userId = (String) req.getParameter("userId");
 		String userPassword = (String) req.getParameter("userPassword");

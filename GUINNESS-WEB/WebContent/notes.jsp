@@ -25,7 +25,7 @@
 			<table>
 				<tr>
 					<td>날짜</td>
-					<td><select name="targetDate" id="targetDate"></select></td>
+					<td><select name="targetDate" id="targetDate" ></select></td>
 					<!-- <td><input type="text" name="targetDate" value="${targetDate}"></td>-->
 				</tr>
 				<tr>
@@ -236,9 +236,7 @@
     el = document.getElementById('createNote-close');
     el.addEventListener('mouseup',createNote,false);
   
-  
   },false);
- 
 	  
 	  function createNote(e) {
 		var blkcvr = document.getElementById('black-cover-note');
@@ -249,16 +247,12 @@
 		}
 	  }
 	  
-	  
 	  var now = new Date();
 	  var mois = document.getElementById( 'targetDate' );
-
-
+	  
 	  mois.add( new Option( now.getDate() - 2), now.getMonth() -2);
 	  mois.add( new Option( now.getDate() - 1), now.getMonth() -1);
 	  mois.add( new Option( now.getDate()));
-	  
-
 
 </script>
 </body>
