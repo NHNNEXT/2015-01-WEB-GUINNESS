@@ -29,8 +29,7 @@ public class CreateNoteServlet extends HttpServlet {
 			resp.sendRedirect("/");
 			return;
 		}
-		// TODO groupId 가져오는 방법 구현
-		String groupId = "abcde";
+		String groupId = req.getParameter("groupId");
 		String targetDate = req.getParameter("targetDate");
 		String noteText = req.getParameter("noteText");
 

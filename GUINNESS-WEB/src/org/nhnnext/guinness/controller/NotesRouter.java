@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/g/*")
 public class NotesRouter extends HttpServlet {
+	private static final long serialVersionUID = -2978682639372554577L;
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {

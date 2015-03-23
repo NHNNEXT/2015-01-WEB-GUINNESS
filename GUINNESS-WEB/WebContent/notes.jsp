@@ -13,7 +13,7 @@
   <script src="/js/datepickr.min.js"></script>
 </head>
 <body>
-<%@ include file="./commons/_topnav.jspf" %>
+<%@ include file="/commons/_topnav.jspf" %>
 <button id='create-new-button'>새 일지 작성</button>
 
 <div id='black-cover-note' style='display:none'>
@@ -26,6 +26,7 @@
 	    <form name="user" method="post" action="/note/create">
 			<table>
 				<tr>
+					<input id="groupId" type="hidden" name="groupId" value="">
 					<td>날짜</td>
 					<td><input id="datepickr" name="targetDate"></td>
 					<!-- <td><input type="text" name="targetDate" value="${targetDate}"></td>-->
@@ -43,7 +44,7 @@
     </div>
   </div>
 </div>
-<div class='content wrap' style='outline:1px solid red; margin-top:100px'>
+<div id='note-list-container' class='content wrap' style='outline:1px solid red; margin-top:100px'>
   <ul class='time-nav'>
     <li id='to20150311' class='date-nav date-select' ><div class='date-tag'>3월 11일</div><div class='date-point'></div></li>
     <li id='to20150310' class='date-nav'><div class='date-tag'>3월 10일</div><div class='date-point'></div></li>
@@ -53,12 +54,14 @@
     <li id='to20150201' class='date-nav'><div class='date-tag'>지난 달</div><div class='date-point'></div></li>
     <li id='to20140101' class='date-nav'><div class='date-tag'>2014년</div><div class='date-point'></div></li>
   </ul>
-  <ul class='diary-list'>
-    <div id='day-20150311' class='diary-date'>
+  <!-- 
+  <ul id='day-20150311' class='diary-list'>
+    <div class='diary-date'>
       <span>2015년 3월 11일</span>
       <i style='float:right;' class='fa fa-pencil'>새 노트 작성</i>	
     </div>
   </ul>
+   -->
 </div>
 <script>
   /* scrolling navigation */
@@ -79,12 +82,19 @@
     el.addEventListener('mouseup',createNote,false);
     
     var groupId = window.location.pathname.split("/")[2];
-    readNoteList(groupId);
+    var targetDate = "2015-03-11";
+    readNoteList(groupId,targetDate);
+    attachGroupId(groupId);
   },false);
   
-  function readNoteList(groupId) {
+  function attachGroupId(data) {
+	var el = document.getElementById("groupId");
+	el.setAttribute("value", data); 
+  }
+  
+  function readNoteList(groupId, targetDate) {
 	  var req = new XMLHttpRequest();
-	  req.open("GET","/notelist/read?groupId="+groupId,true);
+	  req.open("GET","/notelist/read?groupId="+groupId+"&targetDate="+targetDate,true);
 	  req.onreadystatechange = function() {
 	  	if (req.status === 200 && req.readyState === 4) {
 	  	  res =  JSON.parse(req.responseText);
@@ -96,18 +106,33 @@
   
   function appendNoteList(json) {
 	  //날짜별로 들어갈수 있게...
-	  var el = document.getElementById("day-20150311");
+	  var el = null;
 	  var newEl = null;
 	  var obj = null;
 	  var out = "";
 	  for(var i = 0; i < json.length; i++) {
 		  obj = json[i];
+		  var targetDate = obj.targetDate;
+		  targetDate = targetDate.split(" ");
+		  targetDate = targetDate[0];
+		  targetDate = targetDate.replace(/'-'/g,'');
+		  el = document.getElementById("day-"+targetDate);
+		  if (el == null) {
+			el = document.createElement("ul");
+			el.setAttribute("id","day-"+targetDate);
+			el.setAttribute("class","diary-list");
+			newEl = document.createElement("div");
+			newEl.setAttribute("class","diary-date");
+			newEl.innerHTML = "<span>"+targetDate+"</span><i style='float:right; cursor:pointer;' class='fa fa-pencil'></i>";
+			el.appendChild(newEl);
+			document.getElementById('note-list-container').appendChild(el);
+		  }
 		  newEl = document.createElement("a");
-		  newEl.setAttribute("href","/note/read/"+obj.groupId);
+		  newEl.setAttribute("href","/note/read/"+obj.noteId);
 		  out = "";
 		  out += "<li><img class='avatar' class='avatar' src='/img/avatar-default.png'>";
           out += "<div class='msgContainer'>";
-          out += "<span class='userName'>"+obj.userId+"</span>";
+          out += "<span class='userName'>"+obj.userName+"</span>";
           out += "<div class='qhsans'>";
           out += obj.noteText;
           out += "</div></div></li>";

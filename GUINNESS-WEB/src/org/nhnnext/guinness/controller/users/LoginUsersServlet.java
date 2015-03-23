@@ -17,11 +17,10 @@ import org.nhnnext.guinness.model.UserDAO;
 public class LoginUsersServlet extends HttpServlet{
 	private static final long serialVersionUID = -7135687406875475113L;
 
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws javax.servlet.ServletException ,java.io.IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws javax.servlet.ServletException, java.io.IOException {
 		String userId = (String) req.getParameter("userId");
 		String userPassword = (String) req.getParameter("userPassword");
 		UserDAO userDao = new UserDAO();
-		
 		try {
 			User user = userDao.readUser(userId);
 			PrintWriter out = resp.getWriter();
@@ -33,11 +32,8 @@ public class LoginUsersServlet extends HttpServlet{
 			HttpSession session = req.getSession();
 			session.setAttribute("sessionUserId", userId);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
+			resp.sendRedirect("/exception.jsp");
 		}
-		
-		
 	}
-	
-	
 }
