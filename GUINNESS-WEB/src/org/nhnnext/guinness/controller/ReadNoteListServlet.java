@@ -25,9 +25,10 @@ public class ReadNoteListServlet extends HttpServlet {
 			throws ServletException, IOException {
 		//TODO 사용자가 권한이 있는지 검증
 		String groupId = req.getParameter("groupId");
+		String targetDate = req.getParameter("targetDate");
 		
 		NoteDAO noteDAO = new NoteDAO();
-		NoteList noteList = noteDAO.findByGroupId(groupId);
+		NoteList noteList = noteDAO.findByGroupId(groupId,targetDate);
 		
 		Gson gson = new Gson();
 		String jsonData = gson.toJson(noteList.getItems());

@@ -11,12 +11,10 @@ public class NoteListTest {
 		
 		NoteDAO noteDAO = new NoteDAO();
 		
-		NoteList noteList = noteDAO.findByGroupId("abcde");
+		NoteList noteList = noteDAO.findByGroupId("RAZc11I","2015-03-11 %");
+		assertNull(noteList);
 		
-		System.out.println(noteList.getItems().size());
-		for (int i = 0; i < noteList.getItems().size(); i++) {
-			System.out.println(noteList.getItems().get(i).getNoteText());
-		}
+		noteList = noteDAO.findByGroupId("RAZcI","2015-03-11 %");
 		assertNotNull(noteList);
 	}
 

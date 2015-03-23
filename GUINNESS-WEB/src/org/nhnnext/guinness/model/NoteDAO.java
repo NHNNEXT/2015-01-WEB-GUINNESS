@@ -47,27 +47,28 @@ public class NoteDAO {
 		}
 	}
 
-	public NoteList findByGroupId(String groupId) {
-		String sql = "select * from Notes where groupId = ?";
+	public NoteList findByGroupId(String groupId, String targetDate) {
+		String sql = "select * from NOTES, USERS where notes.userId = users.userId AND groupId = ? AND targetDate = ?";
 
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, groupId);
+			pstmt.setString(2, targetDate);
 			rs = pstmt.executeQuery();
 			NoteList noteList = new NoteList();
 			
-			if (!rs.next())
+			if (!rs.next()) {
 				return null;
-			
-			while(rs.next()) {
-				noteList.getItems().add(new Note(rs.getString("noteId"),
-						rs.getString("noteText"), rs.getString("targetDate"), 
-						rs.getString("userId"), rs.getString("groupId")));
+			} else {
+				rs.beforeFirst();
+				while(rs.next()) {
+					noteList.getItems().add(new Note(rs.getString("noteId"),
+							rs.getString("noteText"), rs.getString("targetDate"), 
+							rs.getString("userId"), rs.getString("groupId"), rs.getString("userName")));
+				}
 			}
-
 			return noteList;
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
