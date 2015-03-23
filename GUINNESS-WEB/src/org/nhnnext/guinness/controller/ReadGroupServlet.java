@@ -2,7 +2,6 @@ package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.channels.SeekableByteChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.nhnnext.guinness.common.*;
+import org.nhnnext.guinness.common.ServletName;
+import org.nhnnext.guinness.common.SessionKey;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.GroupDAO;
 
