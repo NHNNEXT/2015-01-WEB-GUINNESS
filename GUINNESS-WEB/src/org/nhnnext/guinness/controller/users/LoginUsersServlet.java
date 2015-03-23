@@ -32,7 +32,8 @@ public class LoginUsersServlet extends HttpServlet{
 			HttpSession session = req.getSession();
 			session.setAttribute("sessionUserId", userId);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
+			resp.sendRedirect("/exception.jsp");
 		}
 	}
 }

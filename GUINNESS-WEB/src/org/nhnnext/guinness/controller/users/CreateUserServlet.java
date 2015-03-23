@@ -58,7 +58,8 @@ public class CreateUserServlet extends HttpServlet{
 			RequestDispatcher rd = req.getRequestDispatcher("/");
 			rd.forward(req, resp);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
+			resp.sendRedirect("/exception.jsp");
 		}
 	}
 
