@@ -20,22 +20,18 @@ public class CreateGroupServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
+		// 인코딩 
 		req.setCharacterEncoding("utf-8");
 		
 		HttpSession session = req.getSession();
 		String groupCaptainUserId = (String)session.getAttribute(SessionKey.SESSION_USERID);
-
 		String groupName = (String)req.getParameter("groupName");
-
+		
 		int isPublic = 0;
-		
-		if("public".equals(req.getParameter("isPublic"))) {
+		if("public".equals(req.getParameter("isPublic")))
 			isPublic = 1;
-		}
-	
-		Group group = new Group(groupName, groupCaptainUserId, isPublic);
 		
+		Group group = new Group(groupName, groupCaptainUserId, isPublic);
 		GroupDAO groupDao = new GroupDAO();
 		groupDao.createGroup(group);
 		
