@@ -66,7 +66,7 @@
     for(var i = 0; i < json.length; i++){
         obj = json[i];
         var newEl = document.createElement("a");
-        newEl.setAttribute("href","/b/"+obj.groupId);
+        newEl.setAttribute("href","/g/"+obj.groupId);
         newEl.innerHTML = "<li>"+obj.groupName+"</li>";
         el.appendChild(newEl);
     }

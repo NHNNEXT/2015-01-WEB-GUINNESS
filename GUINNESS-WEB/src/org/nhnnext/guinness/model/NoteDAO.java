@@ -3,10 +3,14 @@ package org.nhnnext.guinness.model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
 public class NoteDAO {
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
 
 	public Connection getConnection() {
 		String url = "jdbc:mysql://localhost:3306/GUINNESS";
@@ -24,8 +28,6 @@ public class NoteDAO {
 
 	public void createNote(Note note) throws SQLException {
 		String query = "insert into NOTES (noteText, targetDate, userId, groupId) values(?, ?, ?, ?)";
-		Connection conn = null;
-		PreparedStatement pstmt = null;
 		
 		try {
 			conn = getConnection();
@@ -42,6 +44,48 @@ public class NoteDAO {
 			if(conn != null) {
 				conn.close();
 			}
+		}
+	}
+
+	public NoteList findByGroupId(String groupId) {
+		String sql = "select * from Notes where groupId = ?";
+
+		try {
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, groupId);
+			rs = pstmt.executeQuery();
+			NoteList noteList = new NoteList();
+			
+			if (!rs.next())
+				return null;
+			
+			while(rs.next()) {
+				noteList.getItems().add(new Note(rs.getString("noteId"),
+						rs.getString("noteText"), rs.getString("targetDate"), 
+						rs.getString("userId"), rs.getString("groupId")));
+			}
+
+			return noteList;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			terminateConnection();
+		}
+		return null;
+	}
+	
+	private void terminateConnection() {
+		try {
+			if (rs != null)
+				rs.close();
+			if (pstmt != null)
+				pstmt.close();
+			if (conn != null)
+				conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 }

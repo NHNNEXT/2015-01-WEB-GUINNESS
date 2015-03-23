@@ -13,7 +13,7 @@
   <script src="/js/datepickr.min.js"></script>
 </head>
 <body>
-<%@ include file="./commons/_topnav.jspf" %>
+<%@ include file="/commons/_topnav.jspf" %>
 <button id='create-new-button'>새 일지 작성</button>
 
 <div id='black-cover-note' style='display:none'>
@@ -26,6 +26,7 @@
 	    <form name="user" method="post" action="/note/create">
 			<table>
 				<tr>
+					<input id="groupId" type="hidden" name="groupId" value="">
 					<td>날짜</td>
 					<td><input id="datepickr" name="targetDate"></td>
 					<!-- <td><input type="text" name="targetDate" value="${targetDate}"></td>-->
@@ -80,7 +81,13 @@
     
     var groupId = window.location.pathname.split("/")[2];
     readNoteList(groupId);
+    attachGroupId(groupId);
   },false);
+  
+  function attachGroupId(data) {
+	var el = document.getElementById("groupId");
+	el.setAttribute("value", data); 
+  }
   
   function readNoteList(groupId) {
 	  var req = new XMLHttpRequest();
