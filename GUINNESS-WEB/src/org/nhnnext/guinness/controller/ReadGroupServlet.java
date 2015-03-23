@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.nhnnext.guinness.common.WebServletURL;
+import org.nhnnext.guinness.common.*;
 import org.nhnnext.guinness.model.GroupDAO;
 
 @WebServlet(WebServletURL.GROUP_READ)

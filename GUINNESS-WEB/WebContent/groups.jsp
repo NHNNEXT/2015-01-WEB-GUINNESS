@@ -51,7 +51,7 @@
            }
          }
      };
-     req.open('get','./a.json',true);
+     req.open('get','/group/read',true);
      req.send();
      
      var el = document.getElementById('create-new');
@@ -68,7 +68,7 @@
         obj = json[i];
         var newEl = document.createElement("a");
         newEl.setAttribute("href",obj.url);
-        newEl.innerHTML = "<li>"+obj.name+"</li>";
+        newEl.innerHTML = "<li>"+obj.groupName+"</li>";
         el.appendChild(newEl);
     }
   }

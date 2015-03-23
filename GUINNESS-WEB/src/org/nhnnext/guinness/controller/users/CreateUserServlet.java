@@ -32,7 +32,7 @@ public class CreateUserServlet extends HttpServlet{
 			}
 			if (userDao.createUser(user)) {
 				HttpSession session = req.getSession();
-				session.setAttribute("SessionUserId", userId);
+				session.setAttribute("sessionUserId", userId);
 				resp.sendRedirect("/groups.jsp");
 				return;
 			}

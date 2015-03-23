@@ -3,6 +3,7 @@ package org.nhnnext.guinness.model;
 import static org.junit.Assert.assertEquals;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
