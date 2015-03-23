@@ -9,7 +9,7 @@
           <img src='http://www.w3.org/html/logo/downloads/HTML5_1Color_White.png'>
       </a>
       <ul class='util'>
-        <img class='avatar' src='img/avatar-default.png'>
+        <img class='avatar' src='/img/avatar-default.png'>
         <a href="#">
           <li>${sessionUserId}</li>
         </a>

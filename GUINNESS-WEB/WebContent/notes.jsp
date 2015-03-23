@@ -6,9 +6,9 @@
   <title>스터디의 시작, 기네스</title>
   <meta charset="utf-8">
   <link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
-  <link rel="stylesheet" href="css/mainStyle.css">
-  <link rel="stylesheet" href="css/font-awesome.min.css">
-  <link rel="stylesheet" href="css/datepickr.min.css">
+  <link rel="stylesheet" href="/css/mainStyle.css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/datepickr.min.css">
   <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
   <script src="/js/datepickr.min.js"></script>
 </head>
@@ -58,165 +58,6 @@
       <span>2015년 3월 11일</span>
       <i style='float:right;' class='fa fa-pencil'>새 노트 작성</i>	
     </div>
-    <a href="#">
-        <li>
-            <img class='avatar' class='avatar' src='img/avatar-default.png'>
-            <div class='msgContainer'>
-                <span class='userName'>Edward Scott</span>
-                <div class='qhsans'>첫 JSP 학습
-                    -WTP 설정
-                    -일반적으로 서버는 멀티스레드 환경이라는 것!
-                    -서블릿은 싱글 인스턴스로 생성되어 쓰레드가 재사용하기 때문에 이것에 유의하도록
-                    -따라서 필드(전역변수)에서 개발하게 되면 값을 공유하기때문에 Private한 값은 메서드 안에서 선언하여 사용한다...
-
-                    ? form 에서 post 방식으로 전송된 한글이 깨지는 현상
-
-                    </div>
-            </div>
-        </li>
-    </a>
-    <a href="#">
-        <li>
-            <img class='avatar' src='img/avatar-default.png'>
-            <div class='msgContainer'>
-                <span class='userName'>Ventaas Quitara</span>
-                <div class='qhsans'>첫 JSP 학습
-                    -WTP 설정
-                    -일반적으로 서버는 멀티스레드 환경이라는 것!
-                    -서블릿은 싱글 인스턴스로 생성되어 쓰레드가 재사용하기 때문에 이것에 유의하도록
-                    -따라서 필드(전역변수)에서 개발하게 되면 값을 공유하기때문에 Private한 값은 메서드 안에서 선언하여 사용한다...
-
-                    ? form 에서 post 방식으로 전송된 한글이 깨지는 현상
-
-                    </div>
-            </div>
-        </li>
-    </a>
-    <a href="#">
-        <li>
-            <img class='avatar' src='img/avatar-default.png'>
-            <div class='msgContainer'>
-                <span class='userName'>Rosa Dias</span>
-                <div class='qhsans'>첫 JSP 학습
-                    -WTP 설정
-                    -일반적으로 서버는 멀티스레드 환경이라는 것!
-                    -서블릿은 싱글 인스턴스로 생성되어 쓰레드가 재사용하기 때문에 이것에 유의하도록
-                    -따라서 필드(전역변수)에서 개발하게 되면 값을 공유하기때문에 Private한 값은 메서드 안에서 선언하여 사용한다...
-
-                    ? form 에서 post 방식으로 전송된 한글이 깨지는 현상
-
-                    </div>
-            </div>
-        </li>
-    </a>
-  </ul>
-  <ul class='diary-list'>
-    <div id='day-20150309' class='diary-date'>2015년 3월 9일</div>
-      <a href="#">
-          <li>
-              <img class='avatar' src='img/avatar-default.png'>
-              <div class='msgContainer'>
-                  <span class='userName'>Edward Scott</span>
-                  <div class='qhsans'>첫 JSP 학습
-                      -WTP 설정
-                      -일반적으로 서버는 멀티스레드 환경이라는 것!
-                      -서블릿은 싱글 인스턴스로 생성되어 쓰레드가 재사용하기 때문에 이것에 유의하도록
-                      -따라서 필드(전역변수)에서 개발하게 되면 값을 공유하기때문에 Private한 값은 메서드 안에서 선언하여 사용한다...
-
-                      ? form 에서 post 방식으로 전송된 한글이 깨지는 현상
-
-                  </div>
-              </div>
-          </li>
-      </a>
-      <a href="#">
-          <li>
-              <img class='avatar' src='img/avatar-default.png'>
-              <div class='msgContainer'>
-                  <span class='userName'>Ventaas Quitara</span>
-                  <div class='qhsans'>첫 JSP 학습
-                      -WTP 설정
-                      -일반적으로 서버는 멀티스레드 환경이라는 것!
-                      -서블릿은 싱글 인스턴스로 생성되어 쓰레드가 재사용하기 때문에 이것에 유의하도록
-                      -따라서 필드(전역변수)에서 개발하게 되면 값을 공유하기때문에 Private한 값은 메서드 안에서 선언하여 사용한다...
-
-                      ? form 에서 post 방식으로 전송된 한글이 깨지는 현상
-
-                  </div>
-              </div>
-          </li>
-      </a>
-      <a href="#">
-          <li>
-              <img class='avatar' src='img/avatar-default.png'>
-              <div class='msgContainer'>
-                  <span class='userName'>Rosa Dias</span>
-                  <div class='qhsans'>첫 JSP 학습
-                      -WTP 설정
-                      -일반적으로 서버는 멀티스레드 환경이라는 것!
-                      -서블릿은 싱글 인스턴스로 생성되어 쓰레드가 재사용하기 때문에 이것에 유의하도록
-                      -따라서 필드(전역변수)에서 개발하게 되면 값을 공유하기때문에 Private한 값은 메서드 안에서 선언하여 사용한다...
-
-                      ? form 에서 post 방식으로 전송된 한글이 깨지는 현상
-
-                  </div>
-              </div>
-          </li>
-      </a>
-  </ul>
-  <ul class='diary-list'>
-    <div id='day-20150308' class='diary-date'>2015년 3월 8일</div>
-      <a href="#">
-          <li>
-              <img class='avatar' src='img/avatar-default.png'>
-              <div class='msgContainer'>
-                  <span class='userName'>Edward Scott</span>
-                  <div class='qhsans'>첫 JSP 학습
-                      -WTP 설정
-                      -일반적으로 서버는 멀티스레드 환경이라는 것!
-                      -서블릿은 싱글 인스턴스로 생성되어 쓰레드가 재사용하기 때문에 이것에 유의하도록
-                      -따라서 필드(전역변수)에서 개발하게 되면 값을 공유하기때문에 Private한 값은 메서드 안에서 선언하여 사용한다...
-
-                      ? form 에서 post 방식으로 전송된 한글이 깨지는 현상
-
-                  </div>
-              </div>
-          </li>
-      </a>
-      <a href="#">
-          <li>
-              <img class='avatar' src='img/avatar-default.png'>
-              <div class='msgContainer'>
-                  <span class='userName'>Ventaas Quitara</span>
-                  <div class='qhsans'>첫 JSP 학습
-                      -WTP 설정
-                      -일반적으로 서버는 멀티스레드 환경이라는 것!
-                      -서블릿은 싱글 인스턴스로 생성되어 쓰레드가 재사용하기 때문에 이것에 유의하도록
-                      -따라서 필드(전역변수)에서 개발하게 되면 값을 공유하기때문에 Private한 값은 메서드 안에서 선언하여 사용한다...
-
-                      ? form 에서 post 방식으로 전송된 한글이 깨지는 현상
-
-                  </div>
-              </div>
-          </li>
-      </a>
-      <a href="#">
-          <li>
-              <img class='avatar' src='img/avatar-default.png'>
-              <div class='msgContainer'>
-                  <span class='userName'>Rosa Dias</span>
-                  <div class='qhsans'>첫 JSP 학습
-                      -WTP 설정
-                      -일반적으로 서버는 멀티스레드 환경이라는 것!
-                      -서블릿은 싱글 인스턴스로 생성되어 쓰레드가 재사용하기 때문에 이것에 유의하도록
-                      -따라서 필드(전역변수)에서 개발하게 되면 값을 공유하기때문에 Private한 값은 메서드 안에서 선언하여 사용한다...
-
-                      ? form 에서 post 방식으로 전송된 한글이 깨지는 현상
-
-                  </div>
-              </div>
-          </li>
-      </a>
   </ul>
 </div>
 <script>
@@ -232,25 +73,59 @@
         }
       },false);
     }
- 	
     var el = document.getElementById('create-new-button');
     el.addEventListener('mouseup',createNote,false);
     el = document.getElementById('createNote-close');
     el.addEventListener('mouseup',createNote,false);
-  
+    
+    var groupId = window.location.pathname.split("/")[2];
+    readNoteList(groupId);
   },false);
-	  
-	  function createNote(e) {
-		var blkcvr = document.getElementById('black-cover-note');
-		if (blkcvr.style.display == "none") {
-			blkcvr.style.display = "block";
-		} else {
-			blkcvr.style.display = "none";
-		}
+  
+  function readNoteList(groupId) {
+	  var req = new XMLHttpRequest();
+	  req.open("GET","/notelist/read?groupId="+groupId,true);
+	  req.onreadystatechange = function() {
+	  	if (req.status === 200 && req.readyState === 4) {
+	  	  res =  JSON.parse(req.responseText);
+	  	  appendNoteList(res);
+	  	}
+	  };
+	  req.send();
+  }
+  
+  function appendNoteList(json) {
+	  //날짜별로 들어갈수 있게...
+	  var el = document.getElementById("day-20150311");
+	  var newEl = null;
+	  var obj = null;
+	  var out = "";
+	  for(var i = 0; i < json.length; i++) {
+		  obj = json[i];
+		  newEl = document.createElement("a");
+		  newEl.setAttribute("href","/note/read/"+obj.groupId);
+		  out = "";
+		  out += "<li><img class='avatar' class='avatar' src='/img/avatar-default.png'>";
+          out += "<div class='msgContainer'>";
+          out += "<span class='userName'>"+obj.userId+"</span>";
+          out += "<div class='qhsans'>";
+          out += obj.noteText;
+          out += "</div></div></li>";
+          newEl.innerHTML = out;
+          el.appendChild(newEl);
 	  }
+  }
 	  
-      datepickr('#datepickr', { dateFormat: 'Y-m-d'});
-
+  function createNote(e) {
+    var blkcvr = document.getElementById('black-cover-note');
+    if (blkcvr.style.display == "none") {
+  	blkcvr.style.display = "block";
+    } else {
+      blkcvr.style.display = "none";
+    }
+  }
+	  
+  datepickr('#datepickr', { dateFormat: 'Y-m-d'});
 </script>
 </body>
 </html>
