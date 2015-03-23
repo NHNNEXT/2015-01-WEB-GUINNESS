@@ -3,6 +3,7 @@ package org.nhnnext.guinness.model;
 import static org.junit.Assert.*;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,5 +37,12 @@ public class GroupDAOTest {
 		Group dbGroup = groupDao.findByGroupId(group.getGroupId());
 		
 		assertEquals(group, dbGroup);
+	}
+	
+	@Test
+	public void readGroupList() {
+		List<String> groups = groupDao.readGroupList("test@guinness.org");
+		System.out.println(groups.size());
+		assertNotNull(groups);
 	}
 }
