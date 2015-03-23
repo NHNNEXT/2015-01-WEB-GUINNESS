@@ -16,7 +16,7 @@
         <a href-="#">
           <li><i class='fa fa-bell'></i></li>
         </a>
-        <a href="/users/logout">
+        <a href="/user/logout">
           <li>로그아웃</li>
         </a>
       </ul>

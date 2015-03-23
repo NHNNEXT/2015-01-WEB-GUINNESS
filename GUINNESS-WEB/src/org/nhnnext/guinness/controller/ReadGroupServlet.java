@@ -2,7 +2,6 @@ package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.channels.SeekableByteChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,9 +19,10 @@ import org.nhnnext.guinness.model.GroupDAO;
 
 import com.google.gson.Gson;
 
-@WebServlet(ServletName.GROUP_READ)
+@WebServlet(WebServletURL.GROUP_READ)
 public class ReadGroupServlet extends HttpServlet {
 	private static final long serialVersionUID = -7534646425281084154L;
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -34,6 +34,7 @@ public class ReadGroupServlet extends HttpServlet {
 			resp.sendRedirect("/");
 			return;
 		}
+
 		// DAO를 이용해 그룹유저맵에서 유저가 속한 그룹의 아이디를 받아온다.
 		GroupDAO groupDao = new GroupDAO();
 		ArrayList<Group> groupList = groupDao.readGroupList(userId);
@@ -46,7 +47,7 @@ public class ReadGroupServlet extends HttpServlet {
 		PrintWriter out = null;
 		StringBuffer sb = new StringBuffer();
 		Gson gson = new Gson();
-		
+
 		try {
 			out = resp.getWriter();
 			sb.append(gson.toJson(groupList));

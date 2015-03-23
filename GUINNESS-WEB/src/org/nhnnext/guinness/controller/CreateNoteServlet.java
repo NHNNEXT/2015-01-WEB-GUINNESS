@@ -12,10 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.nhnnext.guinness.common.WebServletURL;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.NoteDAO;
 
-@WebServlet("/notes/create")
+@WebServlet(WebServletURL.NOTE_CREATE)
 public class CreateNoteServlet extends HttpServlet {
 	private static final long serialVersionUID = -4786711774618202192L;
 
@@ -33,11 +34,9 @@ public class CreateNoteServlet extends HttpServlet {
 		// TODO groupId 가져오는 방법 구현
 		String groupId = "abcde";
 		String targetDate = req.getParameter("targetDate");
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.DATE, Integer.parseInt(targetDate));
-		targetDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime());
 		String noteText = req.getParameter("noteText");
 
+		System.out.println("groupId : " + groupId + " targetDate : " + targetDate + " noteText : " + noteText);
 		Note note = new Note(noteText, targetDate, userId, groupId);
 
 		NoteDAO noteDAO = new NoteDAO();

@@ -4,6 +4,7 @@ html,body{
     font-family:'Nanum Gothic';
     height:100%;
     transition-duration:.3s;
+    background-color:#e9eaed;
 }
 
 a{
@@ -175,10 +176,18 @@ input.text{
 /*diary page*/
 
 .diary-list{
+  margin-left:90px;
   padding-left:150px;
+  padding-right:50px;
+  width:650px;
   list-style:none;
   color:#454545;
+  padding-top:20px;
   padding-bottom:30px;
+  margin-bottom:10px;
+  background-color:#fff;
+  border-bottom:1px soild #e5e6e9;
+  border-radius:5px;
 }
 
 .diary-list a{
