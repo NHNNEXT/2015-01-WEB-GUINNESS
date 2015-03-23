@@ -9,10 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-<<<<<<< HEAD
-@WebServlet("/users/logout")
-public class LogoutUserServlet extends HttpServlet {
-=======
 import org.nhnnext.guinness.common.WebServletURL;
 
 @WebServlet(WebServletURL.USER_LOGOUT)
