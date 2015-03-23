@@ -6,6 +6,7 @@ public class Note {
 	private String targetDate;
 	private String userId;
 	private String groupId;
+	private String noteId;
 	
 	public Note() {
 		this.noteText = null;
@@ -35,5 +36,9 @@ public class Note {
 	
 	public String getGroupId() {
 		return groupId;
+	}
+	
+	public String getNoteId() {
+		return noteId;
 	}
 }
