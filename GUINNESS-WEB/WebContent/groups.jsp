@@ -58,7 +58,6 @@
      el.addEventListener('mouseup',showModal,false);
      el = document.getElementById('createGroup-close');
      el.addEventListener('mouseup',showModal,false);
-     
   }, false);
 
   function createGroup(json){
@@ -67,7 +66,7 @@
     for(var i = 0; i < json.length; i++){
         obj = json[i];
         var newEl = document.createElement("a");
-        newEl.setAttribute("href",obj.url);
+        newEl.setAttribute("href","/b/"+obj.groupId);
         newEl.innerHTML = "<li>"+obj.groupName+"</li>";
         el.appendChild(newEl);
     }

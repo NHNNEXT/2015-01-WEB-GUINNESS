@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.channels.SeekableByteChannel;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -33,30 +34,22 @@ public class ReadGroupServlet extends HttpServlet {
 			resp.sendRedirect("/");
 			return;
 		}
-		
 		// DAO를 이용해 그룹유저맵에서 유저가 속한 그룹의 아이디를 받아온다.
 		GroupDAO groupDao = new GroupDAO();
-		List<String> list = new ArrayList<String>();
-
-		list = groupDao.readGroupList(userId);
-
+		ArrayList<Group> groupList = groupDao.readGroupList(userId);
+		
 		// 받아온 그룹아이디 출력 테스트
-		createJsonFile(list, resp);
+		createJsonFile(groupList, resp);
 	}
 
-	public void createJsonFile(List<String> list, HttpServletResponse resp) {
+	public void createJsonFile(ArrayList<Group> groupList, HttpServletResponse resp) {
 		PrintWriter out = null;
 		StringBuffer sb = new StringBuffer();
-		ArrayList<Group> groups = new  ArrayList<Group>();
-		GroupDAO groupDao = new GroupDAO();
 		Gson gson = new Gson();
 		
 		try {
 			out = resp.getWriter();
-			for (String str : list) {
-				groups.add(groupDao.findByGroupId(str));
-			}
-			sb.append(gson.toJson(groups));
+			sb.append(gson.toJson(groupList));
 			System.out.println("userId: " + sb.toString());
 			out.write(sb.toString());
 		} catch (IOException e1) {

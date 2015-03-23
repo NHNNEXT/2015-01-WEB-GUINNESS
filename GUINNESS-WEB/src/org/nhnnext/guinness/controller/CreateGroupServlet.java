@@ -20,6 +20,9 @@ public class CreateGroupServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
+		req.setCharacterEncoding("utf-8");
+		
 		HttpSession session = req.getSession();
 		String groupCaptainUserId = (String)session.getAttribute(SessionKey.SESSION_USERID);
 
