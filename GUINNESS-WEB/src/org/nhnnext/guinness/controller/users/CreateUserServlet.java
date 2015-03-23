@@ -9,10 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.nhnnext.guinness.common.WebServletURL;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.model.UserDAO;
 
-@WebServlet("/users/create")
+@WebServlet(WebServletURL.USER_CREATE)
 public class CreateUserServlet extends HttpServlet{
 	private static final long serialVersionUID = -8433534495044878880L;
 

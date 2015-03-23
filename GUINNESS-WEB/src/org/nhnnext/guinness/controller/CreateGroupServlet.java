@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.nhnnext.guinness.common.ServletName;
+import org.nhnnext.guinness.common.WebServletURL;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.GroupDAO;
 
-@WebServlet(ServletName.GROUP_CREATE)
+@WebServlet(WebServletURL.GROUP_CREATE)
 public class CreateGroupServlet extends HttpServlet {
 	private static final long serialVersionUID = -2676389998849949681L;
 

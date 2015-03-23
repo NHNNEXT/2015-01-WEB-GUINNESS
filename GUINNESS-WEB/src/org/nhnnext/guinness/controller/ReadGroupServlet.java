@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.nhnnext.guinness.common.ServletName;
+import org.nhnnext.guinness.common.WebServletURL;
 import org.nhnnext.guinness.model.GroupDAO;
 
-@WebServlet(ServletName.GROUP_READ)
+@WebServlet(WebServletURL.GROUP_READ)
 public class ReadGroupServlet extends HttpServlet {
 	private static final long serialVersionUID = -7534646425281084154L;
 

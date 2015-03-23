@@ -30,7 +30,7 @@ function loginCheck() {
   	var res = null;
   	var el = document.getElementById("login-error-message");
   	el.innerHTML = "";
-  	req.open("post", "/users/login", true);
+  	req.open("post", "/user/login", true);
   	req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   	req.setParameter;
   	req.onreadystatechange = function() {

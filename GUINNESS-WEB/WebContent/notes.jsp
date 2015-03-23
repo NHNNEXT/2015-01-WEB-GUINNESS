@@ -21,7 +21,7 @@
       <div id='createNote-close'><i class='fa fa-remove'></i></div>
     </div>
     <div id='createNote-body'>
-	    <form name="user" method="post" action="/notes/create">
+	    <form name="user" method="post" action="/note/create">
 			<table>
 				<tr>
 					<td>날짜</td>

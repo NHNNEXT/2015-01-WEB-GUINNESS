@@ -12,10 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.nhnnext.guinness.common.WebServletURL;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.NoteDAO;
 
-@WebServlet("/notes/create")
+@WebServlet(WebServletURL.NOTE_CREATE)
 public class CreateNoteServlet extends HttpServlet {
 	private static final long serialVersionUID = -4786711774618202192L;
 
