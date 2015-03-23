@@ -51,16 +51,7 @@
 		</div>
 	</div>
 	<script>
-		function validator() {
-			var errorMessage = '${errorMessage}';
-			console.log(errorMessage);
-			if( errorMessage != null){
-				console.log("1"+errorMessage);
-				errorMessage = null;
-				return false;
-			}
-			return true;
-		}
+
 		window.addEventListener('load', function() {
 			var req = new XMLHttpRequest();
 			var json = null;
@@ -77,7 +68,6 @@
 			
 			var errorMessage = '${errorMessage}';
 
-<<<<<<< HEAD
 			if(errorMessage !== '') {
 				var blkcvr = document.getElementById('black-cover');
 				blkcvr.style.display = "block";
@@ -88,28 +78,6 @@
 			el = document.getElementById('createGroup-close');
 			el.addEventListener('mouseup', showModal, false);
 		}, false);
-=======
-  function createGroup(json){
-    var el = document.getElementById('group-container');
-    var obj = null;
-    for(var i = 0; i < json.length; i++){
-        obj = json[i];
-        var newEl = document.createElement("a");
-        newEl.setAttribute("href","/g/"+obj.groupId);
-        newEl.innerHTML = "<li>"+obj.groupName+"</li>";
-        el.appendChild(newEl);
-    }
-  }
-  
-  function showModal(e) {
-	var blkcvr = document.getElementById('black-cover');
-	if (blkcvr.style.display == "none") {
-		blkcvr.style.display = "block";
-	} else {
-		blkcvr.style.display = "none";
-	}
-  }
->>>>>>> branch 'master' of https://github.com/NHNNEXT/2015-01-WEB-GUINNESS.git
 
 		function createGroup(json) {
 			var el = document.getElementById('group-container');
