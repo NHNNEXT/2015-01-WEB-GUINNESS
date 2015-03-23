@@ -9,11 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.nhnnext.guinness.common.WebServletURL;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.model.UserDAO;
 
-@WebServlet("/users/login")
-public class LoginUsersServlet extends HttpServlet {
+@WebServlet(WebServletURL.USER_LOGIN)
+public class LoginUsersServlet extends HttpServlet{
 	private static final long serialVersionUID = -7135687406875475113L;
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws javax.servlet.ServletException, java.io.IOException {

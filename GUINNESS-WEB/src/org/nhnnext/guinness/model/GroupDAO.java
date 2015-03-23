@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class GroupDAO {
 
@@ -29,24 +28,24 @@ public class GroupDAO {
 		}
 
 	}
-	
-	private void terminateConnection(){
-        try {
-    		if (rs != null)
-    			rs.close();
-    		if (pstmt != null)
-    			pstmt.close();
-    		if (conn != null)
-    			conn.close();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+
+	private void terminateConnection() {
+		try {
+			if (rs != null)
+				rs.close();
+			if (pstmt != null)
+				pstmt.close();
+			if (conn != null)
+				conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	
+
 	public void createGroup(Group group) {
 		String sql = "insert into GROUPS values(?,?,?,DEFAULT,?)";
-		
+
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -56,14 +55,14 @@ public class GroupDAO {
 			pstmt.setString(3, group.getGroupCaptainUserId());
 			pstmt.setInt(4, group.isPublic());
 			pstmt.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			terminateConnection();
 		}
 	}
-	
+
 	public void removeGroup(Group group) {
 		String sql = "delete from GROUPS where groupId=?";
 
@@ -73,7 +72,7 @@ public class GroupDAO {
 
 			pstmt.setString(1, group.getGroupId());
 			pstmt.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -90,36 +89,35 @@ public class GroupDAO {
 			pstmt.setString(1, groupCaptainUserId);
 			pstmt.setString(2, groupId);
 			pstmt.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			terminateConnection();
 		}
 	}
-	
+
 	public boolean checkExistGroupId(String groupId) {
 		String sql = "select groupId from GROUPS where groupId=?";
 		boolean result = false;
-		
-		
+
 		conn = getConnection();
-		
+
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, groupId);
 			rs = pstmt.executeQuery();
-			
-			rs.last();      
-	        int rowcount = rs.getRow();
-			
-			if(rowcount != 0){
+
+			rs.last();
+			int rowcount = rs.getRow();
+
+			if (rowcount != 0) {
 				result = true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			terminateConnection();	
+			terminateConnection();
 		}
 		return result;
 	}
@@ -143,40 +141,42 @@ public class GroupDAO {
 					rs.getString("groupName"),
 					rs.getString("groupCaptainUserId"), rs.getInt("isPublic"));
 
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		finally {
+		} finally {
 			terminateConnection();
 		}
 		return null;
 	}
 
-	public List<String> readGroupList(String userId) {
-		String sql = "select A.groupId from GROUPS_USERS as A inner join USERS as B on A.userId = B.userId where A.userId =?";
+	public ArrayList<Group> readGroupList(String userId) {
+		String sql = "select A.groupId, B.groupName, B.groupCaptainUserId, B.isPublic "
+					+ "from GROUPS_USERS as A inner join GROUPS as B on A.groupId = B.groupId "
+					+ "where A.userId =?";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		List<String> result = new ArrayList<String>();
+		ArrayList<Group> result = new ArrayList<Group>();
 
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, userId);
-			
+
 			rs = pstmt.executeQuery();
 
-			while(rs.next())
-				result.add(rs.getString("groupId"));
+			while (rs.next()) {
+				result.add(new Group(rs.getString("groupId"),rs.getString("groupName"), 
+						rs.getString("groupCaptainUserId"),rs.getInt("isPublic")));
+			}
 			return result;
 
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		finally {
+		} finally {
 			terminateConnection();
 		}
 		return null;
-    }
+	}
 
 }

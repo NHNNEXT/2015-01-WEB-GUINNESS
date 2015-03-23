@@ -16,7 +16,6 @@ public class NoteTest {
 
 		String targetDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime());
 		System.out.println(targetDate);
-		
 	}
 
 }

@@ -9,30 +9,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.nhnnext.guinness.common.ServletName;
 import org.nhnnext.guinness.common.SessionKey;
+import org.nhnnext.guinness.common.WebServletURL;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.GroupDAO;
 
-@WebServlet(ServletName.GROUP_CREATE)
+@WebServlet(WebServletURL.GROUP_CREATE)
 public class CreateGroupServlet extends HttpServlet {
+	private static final long serialVersionUID = -2676389998849949681L;
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		// 인코딩 
+		req.setCharacterEncoding("utf-8");
+		
 		HttpSession session = req.getSession();
 		String groupCaptainUserId = (String)session.getAttribute(SessionKey.SESSION_USERID);
-
 		String groupName = (String)req.getParameter("groupName");
-
+		
 		int isPublic = 0;
-		
-		if("public".equals(req.getParameter("isPublic"))) {
+		if("public".equals(req.getParameter("isPublic")))
 			isPublic = 1;
-		}
-	
-		Group group = new Group(groupName, groupCaptainUserId, isPublic);
 		
+		Group group = new Group(groupName, groupCaptainUserId, isPublic);
 		GroupDAO groupDao = new GroupDAO();
 		groupDao.createGroup(group);
 		

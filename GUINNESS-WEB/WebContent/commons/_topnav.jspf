@@ -4,21 +4,21 @@
 	<c:redirect url="/" />
 </c:if>
 <div id="header">
-	<div class='content wrap'>
-		<a href='#' id='brand'> <img
-			src='http://www.w3.org/html/logo/downloads/HTML5_1Color_White.png'>
-		</a>
-		<ul class='util'>
-			<img class='avatar' src='img/avatar-default.png'>
-			<a href="#">
-				<li>${sessionUserId}</li>
-			</a>
-			<a href-="#">
-				<li><i class='fa fa-bell'></i></li>
-			</a>
-			<a href="/users/logout">
-				<li>로그아웃</li>
-			</a>
-		</ul>
-	</div>
+  <div class='content wrap'>
+      <a href='#' id='brand'>
+          <img src='http://www.w3.org/html/logo/downloads/HTML5_1Color_White.png'>
+      </a>
+      <ul class='util'>
+        <img class='avatar' src='/img/avatar-default.png'>
+        <a href="#">
+          <li>${sessionUserId}</li>
+        </a>
+        <a href-="#">
+          <li><i class='fa fa-bell'></i></li>
+        </a>
+        <a href="/user/logout">
+          <li>로그아웃</li>
+        </a>
+      </ul>
+  </div>
 </div>
