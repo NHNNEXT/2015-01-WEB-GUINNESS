@@ -33,6 +33,7 @@ public class ReadGroupServlet extends HttpServlet {
 			resp.sendRedirect("/");
 			return;
 		}
+		
 		// DAO를 이용해 그룹유저맵에서 유저가 속한 그룹의 아이디를 받아온다.
 		GroupDAO groupDao = new GroupDAO();
 		List<String> list = new ArrayList<String>();
