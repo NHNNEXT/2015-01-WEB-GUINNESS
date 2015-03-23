@@ -8,7 +8,9 @@
   <link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
   <link rel="stylesheet" href="css/mainStyle.css">
   <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/datepickr.min.css">
   <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+  <script src="/js/datepickr.min.js"></script>
 </head>
 <body>
 <%@ include file="./commons/_topnav.jspf" %>
@@ -25,7 +27,7 @@
 			<table>
 				<tr>
 					<td>날짜</td>
-					<td><select name="targetDate" id="targetDate" ></select></td>
+					<td><input id="datepickr" name="targetDate"></td>
 					<!-- <td><input type="text" name="targetDate" value="${targetDate}"></td>-->
 				</tr>
 				<tr>
@@ -247,12 +249,7 @@
 		}
 	  }
 	  
-	  var now = new Date();
-	  var mois = document.getElementById( 'targetDate' );
-	  
-	  mois.add( new Option( now.getDate() - 2), now.getMonth() -2);
-	  mois.add( new Option( now.getDate() - 1), now.getMonth() -1);
-	  mois.add( new Option( now.getDate()));
+      datepickr('#datepickr', { dateFormat: 'Y-m-d'});
 
 </script>
 </body>
