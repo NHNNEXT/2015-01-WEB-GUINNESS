@@ -1,16 +1,21 @@
 package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
-import java.sql.SQLException;
+import java.util.Set;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
-import org.nhnnext.guinness.common.*;
+import org.nhnnext.guinness.common.MyValidatorFactory;
+import org.nhnnext.guinness.common.SessionKey;
+import org.nhnnext.guinness.common.WebServletURL;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.GroupDAO;
 
@@ -21,7 +26,6 @@ public class CreateGroupServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// 인코딩 
 		req.setCharacterEncoding("utf-8");
 		
 		HttpSession session = req.getSession();
@@ -33,6 +37,19 @@ public class CreateGroupServlet extends HttpServlet {
 			isPublic = 1;
 		
 		Group group = new Group(groupName, groupCaptainUserId, isPublic);
+		Validator validator = MyValidatorFactory.createValidator();
+		Set<ConstraintViolation<Group>> constraintViolation = validator.validate(group);
+		
+		if(constraintViolation.size() > 0){
+			String errorMessage = constraintViolation.iterator().next().getMessage();
+			
+			System.out.println(constraintViolation.iterator().next().getPropertyPath()+" : "+errorMessage);
+			req.setAttribute("errorMessage", errorMessage);
+			RequestDispatcher rd = req.getRequestDispatcher("/groups.jsp");
+			rd.forward(req, resp);
+			return;
+		}
+		
 		GroupDAO groupDao = new GroupDAO();
 		groupDao.createGroup(group);
 		
@@ -41,6 +58,4 @@ public class CreateGroupServlet extends HttpServlet {
 		
 		resp.sendRedirect("/groups.jsp");
 	}
-	
-	
 }

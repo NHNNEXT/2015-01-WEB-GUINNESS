@@ -2,26 +2,20 @@ package org.nhnnext.guinness.model;
 
 import java.util.Random;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
 public class Group {
-	@NotNull
 	@Size(min = 5, max = 5)
 	private String groupId;
 	
-	@NotNull
-	@Max(50)
+	@Size(min = 1, max = 50)
 	private String groupName;
 	
-	@NotNull
 	@Email
-	@Max(50)
+	@Size(min = 1, max = 50)
 	private String groupCaptainUserId;
 	
 	@NotNull
