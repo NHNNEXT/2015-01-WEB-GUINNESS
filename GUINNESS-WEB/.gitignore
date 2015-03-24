@@ -5,6 +5,12 @@
 
 tomcat.*
 
-WebContent/WEB-INF/classes/
+/target/
 
+.project
 
+.classpath
+
+*.class
+
+*.jar

@@ -15,7 +15,6 @@ import org.nhnnext.guinness.model.NoteList;
 import com.google.gson.Gson;
 
 
-//클라이언트로부터 GroupId를 받아와 해당 그룹의 일지목록을 가져와준다.
 @WebServlet("/notelist/read")
 public class ReadNoteListServlet extends HttpServlet {
 	private static final long serialVersionUID = 2679047171727614860L;

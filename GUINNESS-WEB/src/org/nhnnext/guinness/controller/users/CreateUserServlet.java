@@ -25,6 +25,7 @@ public class CreateUserServlet extends HttpServlet{
 	private static final long serialVersionUID = -8433534495044878880L;
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws javax.servlet.ServletException, java.io.IOException {
+		req.setCharacterEncoding("utf-8");
 		String userId = (String) req.getParameter("userId");
 		String userPassword = (String) req.getParameter("userPassword");
 		String userName = (String) req.getParameter("userName");

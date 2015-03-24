@@ -22,7 +22,6 @@ public class CreateNoteServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
-
 		HttpSession session = req.getSession();
 		String userId = (String)session.getAttribute("sessionUserId");
 		if (userId == null) {

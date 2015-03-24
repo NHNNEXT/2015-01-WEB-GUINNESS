@@ -25,7 +25,6 @@ public class ReadGroupServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-			
 		HttpSession session = req.getSession();
 		String userId = (String)session.getAttribute(SessionKey.SESSION_USERID);
 		
@@ -53,11 +52,9 @@ public class ReadGroupServlet extends HttpServlet {
 			System.out.println("userId: " + sb.toString());
 			out.write(sb.toString());
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} finally {
 			out.close();
 		}
 	}
-
 }

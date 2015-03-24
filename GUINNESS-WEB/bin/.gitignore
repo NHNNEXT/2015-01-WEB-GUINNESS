@@ -1,0 +1,11 @@
+
+.metadata
+
+.settings
+
+tomcat.*
+
+WebContent/WEB-INF/classes/
+
+
+/target/

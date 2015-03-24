@@ -27,7 +27,6 @@ public class CreateGroupServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
-		
 		HttpSession session = req.getSession();
 		String groupCaptainUserId = (String)session.getAttribute(SessionKey.SESSION_USERID);
 		String groupName = (String)req.getParameter("groupName");
@@ -42,18 +41,14 @@ public class CreateGroupServlet extends HttpServlet {
 		
 		if(constraintViolation.size() > 0){
 			String errorMessage = constraintViolation.iterator().next().getMessage();
-			
 			System.out.println(constraintViolation.iterator().next().getPropertyPath()+" : "+errorMessage);
 			req.setAttribute("errorMessage", errorMessage);
 			RequestDispatcher rd = req.getRequestDispatcher("/groups.jsp");
 			rd.forward(req, resp);
 			return;
 		}
-		
 		GroupDAO groupDao = new GroupDAO();
 		groupDao.createGroup(group);
-		
-		// Group-User MAP table에 정보 저장
 		groupDao.createGroupUser(groupCaptainUserId, group.getGroupId());
 		
 		resp.sendRedirect("/groups.jsp");
