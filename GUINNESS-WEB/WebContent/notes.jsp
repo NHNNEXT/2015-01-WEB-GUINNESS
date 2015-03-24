@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/css/datepickr.min.css">
   <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
   <script src="/js/datepickr.min.js"></script>
+  <script src="/js/guinness.js"></script>
 </head>
 <body>
 <%@ include file="/commons/_topnav.jspf" %>
