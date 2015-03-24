@@ -3,7 +3,7 @@
 	
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE HTML>
-<html>
+<html lang="ko">
 <head>
 <title>스터디의 시작, 기네스</title>
 <meta charset="utf-8">
