@@ -31,6 +31,7 @@ public class LoginUsersServlet extends HttpServlet{
 			out.print("/groups.jsp");
 			HttpSession session = req.getSession();
 			session.setAttribute("sessionUserId", userId);
+			session.setAttribute("sessionUserName", user.getUserName());
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			resp.sendRedirect("/exception.jsp");

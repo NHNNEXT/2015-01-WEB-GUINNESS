@@ -47,6 +47,7 @@ public class ReadGroupServlet extends HttpServlet {
 		Gson gson = new Gson();
 
 		try {
+			resp.setContentType("application/json; charset=UTF-8");
 			out = resp.getWriter();
 			sb.append(gson.toJson(groupList));
 			System.out.println("userId: " + sb.toString());
