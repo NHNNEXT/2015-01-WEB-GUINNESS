@@ -22,15 +22,15 @@
 	</div>
 
 	<!-- 그룹생성을 위한 Modal -->
-	<div id='black-cover' style="display: none;">
-		<div id='createGroup-container'>
-			<div id='createGroup-header'>
-				<div id='createGroup-title'>새 스터디 그룹 생성</div>
-				<div id='createGroup-close'>
+	<div id='black-cover' class='modal-cover' style="display: none;">
+		<div id='createGroup-container' class='modal-container'>
+			<div id='createGroup-header' class='modal-header'>
+				<div id='createGroup-title' class='modal-title'>새 스터디 그룹 생성</div>
+				<div id='createGroup-close' class='modal-close'>
 					<i class='fa fa-remove'></i>
 				</div>
 			</div>
-			<div id='createGroup-body'>
+			<div id='createGroup-body' class='modal-body'>
 				<form name="user" method="post" action="/group/create">
 					<c:if test="${not empty errorMessage}">
 						<div>

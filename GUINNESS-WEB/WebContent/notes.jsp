@@ -16,13 +16,13 @@
 <%@ include file="/commons/_topnav.jspf" %>
 <button id='create-new-button'>새 일지 작성</button>
 
-<div id='black-cover-note' style='display:none'>
-  <div id='createNote-container'>
-    <div id='createNote-header'>
-      <div id='createNote-title'>새 일지 작성</div>
-      <div id='createNote-close'><i class='fa fa-remove'></i></div>
+<div id='black-cover-note' class='modal-cover' style='display:none'>
+  <div id='createNote-container' class='modal-container'>
+    <div id='createNote-header' class='modal-header'>
+      <div id='createNote-title' class='modal-title'>새 일지 작성</div>
+      <div id='createNote-close' class='modal-close'><i class='fa fa-remove'></i></div>
     </div>
-    <div id='createNote-body'>
+    <div id='createNote-body' class='modal-body'>
 	    <form name="user" method="post" action="/note/create">
 			<table>
 				<tr>
@@ -35,11 +35,9 @@
 					<td>내용</td>
 					<!-- <td><input type="text" name="noteText" value="${noteText}"></td>-->
 					<td><textarea style="resize:none" rows="10" cols="50" name="noteText" value="${noteText}"></textarea></td>
-					
-					
 				</tr>
 			</table>
-			<input type="submit" value="작성" />
+			<input type="submit" class='btn' value="작성" />
 		</form>
     </div>
   </div>
