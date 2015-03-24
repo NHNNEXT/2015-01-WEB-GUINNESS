@@ -3,9 +3,9 @@
 
 .settings
 
-tomcat.*
+/tomcat.*
 
-/target/
+/target
 
 .project
 
@@ -15,4 +15,4 @@ tomcat.*
 
 *.jar
 
-/bin/
+/bin
