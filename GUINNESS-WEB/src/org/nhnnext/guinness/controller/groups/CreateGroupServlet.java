@@ -1,6 +1,7 @@
-package org.nhnnext.guinness.controller;
+package org.nhnnext.guinness.controller.groups;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
@@ -31,26 +32,59 @@ public class CreateGroupServlet extends HttpServlet {
 		String groupCaptainUserId = (String)session.getAttribute(SessionKey.SESSION_USERID);
 		String groupName = (String)req.getParameter("groupName");
 		
+		// 그룹 공개/비공개 여부 판단 
 		int isPublic = 0;
 		if("public".equals(req.getParameter("isPublic")))
 			isPublic = 1;
 		
-		Group group = new Group(groupName, groupCaptainUserId, isPublic);
-		Validator validator = MyValidatorFactory.createValidator();
-		Set<ConstraintViolation<Group>> constraintViolation = validator.validate(group);
-		
-		if(constraintViolation.size() > 0){
-			String errorMessage = constraintViolation.iterator().next().getMessage();
-			System.out.println(constraintViolation.iterator().next().getPropertyPath()+" : "+errorMessage);
+		// 그룹 클래스 생성 
+		Group group = null;
+		try {
+			group = new Group(groupName, groupCaptainUserId, isPublic);
+		} catch (Exception e) {
+			// 그룹 생성 실패
+			e.printStackTrace();
+			String errorMessage = "그룹 생성 실패";
+
 			req.setAttribute("errorMessage", errorMessage);
 			RequestDispatcher rd = req.getRequestDispatcher("/groups.jsp");
 			rd.forward(req, resp);
 			return;
 		}
-		GroupDAO groupDao = new GroupDAO();
-		groupDao.createGroup(group);
-		groupDao.createGroupUser(groupCaptainUserId, group.getGroupId());
 		
+		// 유효성 검사 
+		Validator validator = MyValidatorFactory.createValidator();
+		Set<ConstraintViolation<Group>> constraintViolation = validator.validate(group);
+		
+		if(constraintViolation.size() > 0){
+			String errorMessage = constraintViolation.iterator().next().getMessage();
+
+			req.setAttribute("errorMessage", errorMessage);
+			RequestDispatcher rd = req.getRequestDispatcher("/groups.jsp");
+			rd.forward(req, resp);
+			return;
+		}
+		
+		// 그룹 다오 생성 
+		GroupDAO groupDao = new GroupDAO();
+		try {
+			groupDao.createGroup(group);
+			groupDao.createGroupUser(groupCaptainUserId, group.getGroupId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			String errorMessage = "데이터베이스 접근 실패";
+			req.setAttribute("errorMessage", errorMessage);
+			RequestDispatcher rd = req.getRequestDispatcher("/groups.jsp");
+			rd.forward(req, resp);
+			return;
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			String errorMessage = "데이터베이스 연결 실패";
+			req.setAttribute("errorMessage", errorMessage);
+			RequestDispatcher rd = req.getRequestDispatcher("/groups.jsp");
+			rd.forward(req, resp);
+			return;
+		}
 		resp.sendRedirect("/groups.jsp");
 	}
 }

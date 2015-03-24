@@ -9,8 +9,9 @@ public class GroupTest {
 	public static Group TEST_GROUP = new Group("abcde", "testGroup", "test@guinness.org", 1);
 
 	@Test
-	public void testSetNewGroupId() {
+	public void testSetNewGroupId() throws Exception {
 		String newGroupId = Group.setNewGroupId();
+		System.out.println(newGroupId);
 		assertNotNull(newGroupId);
 	}
 }

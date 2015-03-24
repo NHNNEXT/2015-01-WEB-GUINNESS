@@ -1,8 +1,9 @@
 package org.nhnnext.guinness.model;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,24 +18,30 @@ public class GroupDAOTest {
 	}
 	
 	@Test
-	public void testCheckExistGroupId() {
+	public void testCheckExistGroupId() throws Exception {
 		assertEquals(groupDao.checkExistGroupId("abcde"), true);
 	}
 	
 	@Test
-	public void testCheckUnExistGroupId() {
+	public void testCheckUnExistGroupId() throws Exception {
 		assertEquals(groupDao.checkExistGroupId("11111"), false);
 	}
 	
 	@Test
-	public void crud() throws SQLException {
+	public void crud() throws SQLException, ClassNotFoundException {
 		Group group = GroupTest.TEST_GROUP;
 		
 		groupDao.removeGroup(group);
 		groupDao.createGroup(group);
 		
 		Group dbGroup = groupDao.findByGroupId(group.getGroupId());
-		
 		assertEquals(group, dbGroup);
+	}
+	
+	@Test
+	public void readGroupList() throws ClassNotFoundException, SQLException {
+		ArrayList<Group> list = groupDao.readGroupList("test@guinness.org");
+		assertNotNull(list);
+		System.out.println(list.size());
 	}
 }

@@ -29,11 +29,11 @@ public class Group {
 		this.isPublic = isPublic;
 	}
 
-	public Group(String groupName, String groupCaptainUserId, int isPublic) {
+	public Group(String groupName, String groupCaptainUserId, int isPublic) throws Exception {
 		this(setNewGroupId(), groupName, groupCaptainUserId, isPublic);
 	}
 
-	public static String setNewGroupId() {
+	public static String setNewGroupId() throws Exception {
 		String groupId = null;
 
 		while (true) {
@@ -47,10 +47,11 @@ public class Group {
 		}
 	}
 
-	private static boolean checkExistGroupId(String groupId) {
+	private static boolean checkExistGroupId(String groupId) throws Exception {
 		return new GroupDAO().checkExistGroupId(groupId);
 	}
 
+	// 그룹아이디 랜덤 생성 메소드 
 	private static String getRandomString() {
 		Random rnd = new Random();
 		StringBuffer buf = new StringBuffer();
