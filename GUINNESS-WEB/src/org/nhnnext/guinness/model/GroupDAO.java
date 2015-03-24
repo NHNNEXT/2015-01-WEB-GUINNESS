@@ -1,47 +1,12 @@
 package org.nhnnext.guinness.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class GroupDAO {
-
-	ResultSet rs = null;
-	Connection conn = null;
-	PreparedStatement pstmt = null;
-
-	public Connection getConnection() {
-
-		String url = "jdbc:mysql://localhost:3306/GUINNESS";
-		String id = "link413";
-		String pw = "link413";
-
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			return DriverManager.getConnection(url, id, pw);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-
-	}
-
-	private void terminateConnection() {
-		try {
-			if (rs != null)
-				rs.close();
-			if (pstmt != null)
-				pstmt.close();
-			if (conn != null)
-				conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+public class GroupDAO extends AbstractDAO{
 
 	public void createGroup(Group group) {
 		String sql = "insert into GROUPS values(?,?,?,DEFAULT,?)";
