@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="ko">
 <head>
   <meta charset="utf-8">
   <title>스터디의 시작, 기네스</title>
@@ -25,9 +25,9 @@
     </div>
     <div id='createNote-body' class='modal-body'>
 	    <form name="user" method="post" action="/note/create">
+			<input id="groupId" type="hidden" name="groupId" value="">
 			<table>
 				<tr>
-					<input id="groupId" type="hidden" name="groupId" value="">
 					<td>날짜</td>
 					<td><input id="datepickr" name="targetDate"></td>
 					<!-- <td><input type="text" name="targetDate" value="${targetDate}"></td>-->
@@ -35,7 +35,7 @@
 				<tr>
 					<td>내용</td>
 					<!-- <td><input type="text" name="noteText" value="${noteText}"></td>-->
-					<td><textarea style="resize:none" rows="10" cols="50" name="noteText" value="${noteText}"></textarea></td>
+					<td><textarea style="resize:none" rows="10" cols="50" name="noteText"></textarea></td>
 				</tr>
 			</table>
 			<input type="submit" class='btn' value="작성" />
