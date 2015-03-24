@@ -21,6 +21,8 @@ import com.google.gson.Gson;
 
 @WebServlet(WebServletURL.GROUP_READ)
 public class ReadGroupServlet extends HttpServlet {
+	private static final long serialVersionUID = -4587604819173641951L;
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
