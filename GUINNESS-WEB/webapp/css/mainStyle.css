@@ -177,10 +177,10 @@ input.text{
 }
 
 
-
-
 /*diary page*/
-
+#note-list-container {
+	margin-top: 100px;
+}
 .diary-list{
   margin-left:90px;
   padding-left:150px;
@@ -252,7 +252,6 @@ input.text{
     height:500px;
     top:50%;
     margin-top:-219px;
-    outline:1px solid red;
     list-style:none;
 }
 

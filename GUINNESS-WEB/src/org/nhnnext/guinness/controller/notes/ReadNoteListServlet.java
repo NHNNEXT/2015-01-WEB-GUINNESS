@@ -27,7 +27,7 @@ public class ReadNoteListServlet extends HttpServlet {
 		String groupId = req.getParameter("groupId");
 		String targetDate = req.getParameter("targetDate");
 		NoteDao noteDAO = new NoteDao();
-		List<Note> noteList = noteDAO.findByGroupId(groupId,targetDate);
+		List<Note> noteList = noteDAO.readNoteList(groupId,targetDate);
 		resp.setContentType("application/json; charset=UTF-8");
 		
 		PrintWriter out = resp.getWriter();

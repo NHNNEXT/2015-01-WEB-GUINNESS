@@ -41,15 +41,8 @@
     </div>
   </div>
 </div>
-<div id='note-list-container' class='content wrap' style='outline:1px solid red; margin-top:100px'>
-  <ul class='time-nav'>
-    <li id='to20150311' class='date-nav date-select' ><div class='date-tag'>3월 11일</div><div class='date-point'></div></li>
-    <li id='to20150310' class='date-nav'><div class='date-tag'>3월 10일</div><div class='date-point'></div></li>
-    <li id='to20150309' class='date-nav'><div class='date-tag'>3월 9일</div><div class='date-point'></div></li>
-    <li id='to20150308' class='date-nav'><div class='date-tag'>3월 8일</div><div class='date-point'></div></li>
-    <li id='to20150307' class='date-nav'><div class='date-tag'>지난 주</div><div class='date-point'></div></li>
-    <li id='to20150201' class='date-nav'><div class='date-tag'>지난 달</div><div class='date-point'></div></li>
-    <li id='to20140101' class='date-nav'><div class='date-tag'>2014년</div><div class='date-point'></div></li>
+<div id='note-list-container' class='content wrap'>
+  <ul id='to-date' class='time-nav'>
   </ul>
 </div>
 <script>
@@ -88,9 +81,38 @@
 	  	if (req.status === 200 && req.readyState === 4) {
 	  	  res =  JSON.parse(req.responseText);
 	  	  appendNoteList(res);
+	  	  appendTimeNav(res);
 	  	}
 	  };
 	  req.send();
+  }
+  function appendTimeNav(json) {
+	  var newLi = null;
+	  var dateTag = null;
+	  var datePoint = null;
+	  var obj = null;
+	  for(var i = 0; i< json.length; i++) {
+		  obj = json[i];
+		  var toDate = obj.targetDate;
+		  toDate = toDate.split(" ");
+		  toDate = toDate[0];
+		  toDate = toDate.replace(/'-'/g,'');
+		  newLi = document.getElementById("to"+toDate);
+		  if(newLi == null) {
+			  newLi = document.createElement("li");
+			  newLi.setAttribute("id", "to"+toDate);
+			  newLi.setAttribute("class", "date nav");
+			  dateTag = document.createElement("div");
+			  dateTag.setAttribute("class","date-tag");
+			  dateTag.innerHTML = toDate;
+			  datePoint = document.createElement("div");
+			  datePoint.setAttribute("class","date-point");
+			  newLi.appendChild(dateTag);
+			  newLi.appendChild(datePoint);
+		  }
+		  document.getElementById("to-date").appendChild(newLi);
+		  
+	  }
   }
   
   function appendNoteList(json) {
