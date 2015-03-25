@@ -375,6 +375,15 @@ input.text{
 	background-color:#454545;
 }
 
+.deleteGroup-btn {
+	position:relative;
+	font-size:25px;
+	cursor:pointer;
+	float:right;
+	left: 16px;
+  	top: -16px;
+  	color:white;
+
 .panel {
 	position:relative;
 	width:100%;

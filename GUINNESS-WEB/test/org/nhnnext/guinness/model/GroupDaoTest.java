@@ -31,7 +31,7 @@ public class GroupDaoTest {
 	public void crud() throws SQLException, ClassNotFoundException {
 		Group group = GroupTest.TEST_GROUP;
 		
-		groupDao.removeGroup(group);
+		groupDao.deleteGroup(group);
 		groupDao.createGroup(group);
 		
 		Group dbGroup = groupDao.findByGroupId(group.getGroupId());

@@ -36,7 +36,7 @@ Create Table GROUPS_USERS(
  userId varchar(50),
  groupId char(5),
  Foreign Key(userId) REFERENCES USERS(userId),
- Foreign Key(groupId) REFERENCES GROUPS(groupId),
+ Foreign Key(groupId) REFERENCES GROUPS(groupId) on delete cascade,
  Primary Key(userId, groupId)
 );
 

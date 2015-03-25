@@ -86,7 +86,8 @@
 				obj = json[i];
 				var newEl = document.createElement("a");
 				newEl.setAttribute("href", "/g/" + obj.groupId);
-				newEl.innerHTML = "<li>" + obj.groupName + "</li>";
+				var deleteBtn = "<a id='deleteGroup-btn' class='deleteGroup-btn' onclick='return confirmDelete()' href='/group/delete?groupId="+obj.groupId+"'><i class='fa fa-remove'></i></a>";
+				newEl.innerHTML = "<li>" + obj.groupName + deleteBtn +"<input name= groupId type='hidden' value=" + obj.groupId+" /> </li>";
 				el.appendChild(newEl);
 			}
 		}
@@ -97,6 +98,15 @@
 				blkcvr.style.display = "block";
 			} else {
 				blkcvr.style.display = "none";
+			}
+		}
+		
+		function confirmDelete() {
+			var agree=confirm("정말로 그룹을 삭제하시겠습니까?");
+			if (agree) {
+				return true;
+			} else {
+				return false;
 			}
 		}
 	</script>
