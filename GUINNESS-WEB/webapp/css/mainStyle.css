@@ -2,6 +2,7 @@ html,body{
     margin:0px;
     padding:0px;
     font-family:'Nanum Gothic';
+    color:#454545;
     height:100%;
     transition-duration:.3s;
     background-color:#e9eaed;
@@ -372,4 +373,20 @@ input.text{
 
 .drop-down ul li:hover {
 	background-color:#454545;
+}
+
+.panel {
+	position:relative;
+	width:100%;
+	border-radius:5px;
+	overflow:hidden;
+	margin-bottom:20px;
+}
+
+.panel-body {
+	position:relative;
+	width:100%;
+	min-height:10px;
+	padding:20px;
+	background-color:#ffffff;
 }
