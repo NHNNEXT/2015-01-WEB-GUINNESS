@@ -48,16 +48,6 @@
 <script>
   /* scrolling navigation */
   window.addEventListener('load',function() {
-    var dates = document.getElementsByClassName('date-nav');
-    for (var i = 0; i < dates.length; i++) {
-      dates[i].addEventListener('mouseup', function(e) {
-        var location = e.currentTarget.id.replace('to','');
-        var top = document.getElementById('day-'+location);
-        if (top != null) {
-          $('body').animate({scrollTop: top.offsetTop}, 500);
-        }
-      },false);
-    }
     var el = document.getElementById('create-new-button');
     el.addEventListener('mouseup',createNote,false);
     el = document.getElementById('createNote-close');
@@ -101,7 +91,7 @@
 		  if(newLi == null) {
 			  newLi = document.createElement("li");
 			  newLi.setAttribute("id", "to"+toDate);
-			  newLi.setAttribute("class", "date nav");
+			  newLi.setAttribute("class", "date-nav");
 			  dateTag = document.createElement("div");
 			  dateTag.setAttribute("class","date-tag");
 			  dateTag.innerHTML = toDate;
@@ -110,9 +100,19 @@
 			  newLi.appendChild(dateTag);
 			  newLi.appendChild(datePoint);
 		  }
-		  document.getElementById("to-date").appendChild(newLi);
-		  
+		  document.getElementById("to-date").appendChild(newLi);  
 	  }
+	  
+	  var dates = document.getElementsByClassName('date-nav');
+	    for (var i = 0; i < dates.length; i++) {
+	      dates[i].addEventListener('mouseup', function(e) {
+	        var location = e.currentTarget.id.replace('to','');
+	        var top = document.getElementById('day-'+location);
+	        if (top != null) {
+	          $('body').animate({scrollTop: top.offsetTop}, 500);
+	        }
+	      },false);
+	    }
   }
   
   function appendNoteList(json) {

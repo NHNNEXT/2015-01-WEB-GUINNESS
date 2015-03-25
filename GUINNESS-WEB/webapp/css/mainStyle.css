@@ -276,7 +276,7 @@ input.text{
     border-radius:4px;
     color:white;
     transition-property:opacity;
-    transition-duration:.3s;
+    transition-duration:.5s;
 }
 
 .time-nav li .date-point{
@@ -286,7 +286,7 @@ input.text{
    border-radius:10px;
    float:right;
    transition-property:background-color;
-   transition-duration:.3s;
+   transition-duration:.5s;
 }
 
 .time-nav li:hover .date-point, .time-nav li.date-select .date-point{

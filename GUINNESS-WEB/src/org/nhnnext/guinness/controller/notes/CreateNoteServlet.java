@@ -35,7 +35,7 @@ public class CreateNoteServlet extends HttpServlet {
 		String targetDate = req.getParameter("targetDate");
 		Calendar calendar = Calendar.getInstance();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-		targetDate += " " + dateFormat.format(calendar.getTime());;
+		targetDate += " " + dateFormat.format(calendar.getTime());
 		String noteText = StringEscapeUtils.escapeHtml4(req.getParameter("noteText"));
 
 		
