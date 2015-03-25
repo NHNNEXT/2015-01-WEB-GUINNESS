@@ -25,14 +25,18 @@ public class ReadNoteListServlet extends HttpServlet {
 		//TODO 사용자가 권한이 있는지 검증
 		String groupId = req.getParameter("groupId");
 		String targetDate = req.getParameter("targetDate");
-		
 		NoteDao noteDAO = new NoteDao();
 		NoteList noteList = noteDAO.findByGroupId(groupId,targetDate);
-		
-		Gson gson = new Gson();
-		String jsonData = gson.toJson(noteList.getItems());
 		resp.setContentType("application/json; charset=UTF-8");
 		PrintWriter out = resp.getWriter();
+		String jsonData;
+		if (noteList == null) {
+			jsonData = "[]";
+			out.print(jsonData);
+			return;
+		}
+		Gson gson = new Gson();
+		jsonData = gson.toJson(noteList.getItems());
 		out.print(jsonData);		
 	}
 }
