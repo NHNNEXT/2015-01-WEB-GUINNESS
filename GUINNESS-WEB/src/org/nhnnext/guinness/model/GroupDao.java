@@ -13,7 +13,7 @@ public class GroupDao extends AbstractDao {
                 group.getGroupCaptainUserId(), group.isPublic());
     }
 
-    public void removeGroup(Group group) throws SQLException, ClassNotFoundException {
+    public void deleteGroup(Group group) throws SQLException, ClassNotFoundException {
         String sql = "delete from GROUPS where groupId=?";
         queryNotForReturn(sql, group.getGroupId());
     }

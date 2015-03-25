@@ -2,6 +2,7 @@ package org.nhnnext.guinness.common;
 
 public class WebServletURL {
 	public static final String GROUP_CREATE = "/group/create";
+	public static final String GROUP_DELETE = "/group/delete";
 	public static final String GROUP_READ = "/group/read";
 	
 	public static final String NOTELIST = "/g/*";
