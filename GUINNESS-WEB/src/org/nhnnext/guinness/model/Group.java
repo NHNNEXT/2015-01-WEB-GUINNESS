@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
+import org.nhnnext.guinness.common.ParameterKey;
 
 public class Group {
 	@Size(min = 5, max = 5)
@@ -37,10 +38,7 @@ public class Group {
 		String groupId = null;
 
 		while (true) {
-			// 랜덤으로 문자열 받아오기
-			groupId = getRandomString();
-
-			// 중복 확인
+			groupId = getRandomString(ParameterKey.lengthOfGroupId);
 			if (!checkExistGroupId(groupId)) {
 				return groupId;
 			}
@@ -51,23 +49,16 @@ public class Group {
 		return new GroupDao().checkExistGroupId(groupId);
 	}
 
-	// 그룹아이디 랜덤 생성 메소드 
-	private static String getRandomString() {
-		Random rnd = new Random();
-		StringBuffer buf = new StringBuffer();
-		int randomInt = 0;
-
-		for (int i = 0; i < 5; i++) {
-			randomInt = (int) (rnd.nextInt(52)) + 65;
-
-			if (randomInt > 90)
-				randomInt += 6;
-
-			buf.append((char) randomInt);
-		}
-		return buf.toString();
-	}
-
+	private static String getRandomString(int lengthOfReturnString) {
+        String alphabet="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        Random rnd = new Random();
+        StringBuffer buf = new StringBuffer();
+        for (int i = 0; i < lengthOfReturnString; i++) {
+        	buf.append(alphabet.charAt(rnd.nextInt(alphabet.length())));
+        }
+        return buf.toString();
+    }
+	
 	public String getGroupId() {
 		return groupId;
 	}
