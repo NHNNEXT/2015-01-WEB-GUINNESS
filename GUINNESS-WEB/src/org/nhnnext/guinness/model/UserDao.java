@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDAO {
+public class UserDao {
 	public Connection getConnection() {
 		String url = "jdbc:mysql://localhost:3306/GUINNESS";
 		String id = "link413";
@@ -23,7 +23,7 @@ public class UserDAO {
 	public Boolean createUser(User user) throws SQLException {
 		String sql = "insert into USERS values(?,?,?,?,default)";
 		String userId = user.getUserId();
-		UserDAO userDao = new UserDAO();
+		UserDao userDao = new UserDao();
 		if (userDao.readUser(userId) != null) {
 			System.out.println("존재하는 userId 입니다!");
 			return false;

@@ -7,8 +7,8 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
-public class NoteDAOTest {
-	NoteDAO noteDAO = new NoteDAO();
+public class NoteDaoTest {
+	NoteDao noteDAO = new NoteDao();
 
 	@Test
 	public void testGetConnection() {

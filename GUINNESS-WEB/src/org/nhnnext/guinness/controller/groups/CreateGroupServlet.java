@@ -15,10 +15,10 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.nhnnext.guinness.common.MyValidatorFactory;
-import org.nhnnext.guinness.common.SessionKey;
+import org.nhnnext.guinness.common.ParameterKey;
 import org.nhnnext.guinness.common.WebServletURL;
 import org.nhnnext.guinness.model.Group;
-import org.nhnnext.guinness.model.GroupDAO;
+import org.nhnnext.guinness.model.GroupDao;
 
 @WebServlet(WebServletURL.GROUP_CREATE)
 public class CreateGroupServlet extends HttpServlet {
@@ -29,7 +29,7 @@ public class CreateGroupServlet extends HttpServlet {
 			throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		HttpSession session = req.getSession();
-		String groupCaptainUserId = (String)session.getAttribute(SessionKey.SESSION_USERID);
+		String groupCaptainUserId = (String)session.getAttribute(ParameterKey.SESSION_USERID);
 		String groupName = (String)req.getParameter("groupName");
 		
 		// 그룹 공개/비공개 여부 판단 
@@ -66,7 +66,7 @@ public class CreateGroupServlet extends HttpServlet {
 		}
 		
 		// 그룹 다오 생성 
-		GroupDAO groupDao = new GroupDAO();
+		GroupDao groupDao = new GroupDao();
 		try {
 			groupDao.createGroup(group);
 			groupDao.createGroupUser(groupCaptainUserId, group.getGroupId());

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.nhnnext.guinness.common.WebServletURL;
 import org.nhnnext.guinness.model.User;
-import org.nhnnext.guinness.model.UserDAO;
+import org.nhnnext.guinness.model.UserDao;
 
 @WebServlet(WebServletURL.USER_LOGIN)
 public class LoginUsersServlet extends HttpServlet{
@@ -20,7 +20,7 @@ public class LoginUsersServlet extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws javax.servlet.ServletException, java.io.IOException {
 		String userId = (String) req.getParameter("userId");
 		String userPassword = (String) req.getParameter("userPassword");
-		UserDAO userDao = new UserDAO();
+		UserDao userDao = new UserDao();
 		try {
 			User user = userDao.readUser(userId);
 			PrintWriter out = resp.getWriter();

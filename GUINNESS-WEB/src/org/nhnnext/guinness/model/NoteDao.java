@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class NoteDAO {
+public class NoteDao {
 	Connection conn = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;

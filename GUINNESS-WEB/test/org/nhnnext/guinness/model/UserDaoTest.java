@@ -7,12 +7,12 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
-public class UserDAOTest {
+public class UserDaoTest {
 
 	@Test
 	public void NotExistCreateUserTest() throws SQLException {
 		User user = new User("testUserId2", "testUserName", "testUserPassword");
-		UserDAO userDao = new UserDAO();
+		UserDao userDao = new UserDao();
 		userDao.createUser(user);
 		User dbUser = userDao.readUser(user.getUserId());
 		assertEquals(user.getUserId(), dbUser.getUserId());
@@ -22,7 +22,7 @@ public class UserDAOTest {
 	@Test
 	public void readUserTest() throws SQLException {
 		String userId = "userId1";
-		UserDAO userDao = new UserDAO();
+		UserDao userDao = new UserDao();
 		assertNotNull( userDao.readUser(userId) );
 	}
 

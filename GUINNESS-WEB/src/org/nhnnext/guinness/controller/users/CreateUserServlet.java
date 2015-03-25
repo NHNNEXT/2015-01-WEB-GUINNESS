@@ -17,7 +17,7 @@ import javax.validation.ConstraintViolation;
 import org.nhnnext.guinness.common.MyValidatorFactory;
 import org.nhnnext.guinness.common.WebServletURL;
 import org.nhnnext.guinness.model.User;
-import org.nhnnext.guinness.model.UserDAO;
+import org.nhnnext.guinness.model.UserDao;
 
 
 @WebServlet(WebServletURL.USER_CREATE)
@@ -44,7 +44,7 @@ public class CreateUserServlet extends HttpServlet{
 			forwardJSP(req, resp, signValidErrorMessage);
 			return;
 		}
-		UserDAO userDao = new UserDAO();
+		UserDao userDao = new UserDao();
 		try {
 			if (userId == null) {
 				resp.sendRedirect("/");

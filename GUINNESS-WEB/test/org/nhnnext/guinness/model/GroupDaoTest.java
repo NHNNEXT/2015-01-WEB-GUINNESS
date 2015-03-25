@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-public class GroupDAOTest {
+public class GroupDaoTest {
 
-	private GroupDAO groupDao;
+	private GroupDao groupDao;
 	
 	@Before
 	public void setup(){
-		groupDao = new GroupDAO();
+		groupDao = new GroupDao();
 	}
 	
 	@Test

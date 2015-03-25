@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractDAO {
+public abstract class AbstractDao {
 
 	Connection conn;
 	

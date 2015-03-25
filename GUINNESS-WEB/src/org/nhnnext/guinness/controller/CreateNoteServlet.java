@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.nhnnext.guinness.common.WebServletURL;
 import org.nhnnext.guinness.model.Note;
-import org.nhnnext.guinness.model.NoteDAO;
+import org.nhnnext.guinness.model.NoteDao;
 
 @WebServlet(WebServletURL.NOTE_CREATE)
 public class CreateNoteServlet extends HttpServlet {
@@ -35,7 +35,7 @@ public class CreateNoteServlet extends HttpServlet {
 		System.out.println("groupId : " + groupId + " targetDate : " + targetDate + " noteText : " + noteText);
 		Note note = new Note(noteText, targetDate, userId, groupId);
 
-		NoteDAO noteDAO = new NoteDAO();
+		NoteDao noteDAO = new NoteDao();
 		try {
 			noteDAO.createNote(note);
 			resp.sendRedirect("/g/"+groupId);

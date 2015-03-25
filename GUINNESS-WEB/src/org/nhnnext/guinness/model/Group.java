@@ -48,7 +48,7 @@ public class Group {
 	}
 
 	private static boolean checkExistGroupId(String groupId) throws Exception {
-		return new GroupDAO().checkExistGroupId(groupId);
+		return new GroupDao().checkExistGroupId(groupId);
 	}
 
 	// 그룹아이디 랜덤 생성 메소드 

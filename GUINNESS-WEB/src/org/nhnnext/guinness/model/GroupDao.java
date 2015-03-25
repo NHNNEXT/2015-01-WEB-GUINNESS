@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class GroupDAO extends AbstractDAO {
+public class GroupDao extends AbstractDao {
 
     public void createGroup(Group group) throws SQLException, ClassNotFoundException {
         String sql = "insert into GROUPS values(?,?,?,DEFAULT,?)";

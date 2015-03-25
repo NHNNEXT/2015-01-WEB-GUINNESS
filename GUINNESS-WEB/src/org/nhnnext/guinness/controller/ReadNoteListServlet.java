@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.nhnnext.guinness.model.NoteDAO;
+import org.nhnnext.guinness.model.NoteDao;
 import org.nhnnext.guinness.model.NoteList;
 
 import com.google.gson.Gson;
@@ -26,7 +26,7 @@ public class ReadNoteListServlet extends HttpServlet {
 		String groupId = req.getParameter("groupId");
 		String targetDate = req.getParameter("targetDate");
 		
-		NoteDAO noteDAO = new NoteDAO();
+		NoteDao noteDAO = new NoteDao();
 		NoteList noteList = noteDAO.findByGroupId(groupId,targetDate);
 		
 		Gson gson = new Gson();

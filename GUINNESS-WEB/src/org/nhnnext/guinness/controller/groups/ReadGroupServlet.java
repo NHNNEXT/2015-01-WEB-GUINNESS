@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.nhnnext.guinness.common.SessionKey;
+import org.nhnnext.guinness.common.ParameterKey;
 import org.nhnnext.guinness.common.WebServletURL;
 import org.nhnnext.guinness.model.Group;
-import org.nhnnext.guinness.model.GroupDAO;
+import org.nhnnext.guinness.model.GroupDao;
 
 import com.google.gson.Gson;
 
@@ -28,7 +28,7 @@ public class ReadGroupServlet extends HttpServlet {
 			throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		HttpSession session = req.getSession();
-		String userId = (String)session.getAttribute(SessionKey.SESSION_USERID);
+		String userId = (String)session.getAttribute(ParameterKey.SESSION_USERID);
 		
 		// 세션이 없을 경우 루트화면으로 이동 
 		if (userId == null) {
@@ -37,7 +37,7 @@ public class ReadGroupServlet extends HttpServlet {
 		}
 
 		// DAO를 이용해 그룹유저맵에서 유저가 속한 그룹의 아이디를 받아온다.
-		GroupDAO groupDao = new GroupDAO();
+		GroupDao groupDao = new GroupDao();
 		ArrayList<Group> groupList = null;
 		try {
 			groupList = groupDao.readGroupList(userId);

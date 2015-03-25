@@ -9,7 +9,7 @@ public class NoteListTest {
 	@Test
 	public void findBygroupId() {
 		
-		NoteDAO noteDAO = new NoteDAO();
+		NoteDao noteDAO = new NoteDao();
 		
 		NoteList noteList = noteDAO.findByGroupId("RAZc11I","2015-03-11 %");
 		assertNull(noteList);
