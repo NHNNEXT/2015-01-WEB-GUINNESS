@@ -48,7 +48,7 @@ Create Table NOTES(
  userId varchar(50),
  groupId char(5),
  Foreign Key(userId) REFERENCES USERS(userId),
- Foreign Key(groupId) REFERENCES GROUPS(groupId)
+ Foreign Key(groupId) REFERENCES GROUPS(groupId) on delete cascade
 );
 
 Create Table COMMENTS (
