@@ -1,9 +1,13 @@
+drop database GUINNESS;
+
+drop user 'link413'@'localhost';
+
 /* DB 생성 */
 
 Create DATABASE GUINNESS;
 
 /* User 생성 및 DB권한 주기 */
-// Create User link413@'localhost' identified by 'link413';
+Create User link413@'localhost' identified by 'link413';
 
 Grant all privileges on GUINNESS.* to link413@'localhost' identified by 'link413';
 
@@ -24,7 +28,7 @@ Create Table GROUPS(
  groupName varchar(50) Not Null,
  groupCaptainUserId varchar(50),
  createDate DATETIME DEFAULT CURRENT_TIMESTAMP,
- isPublic boolean default false,
+ isPublic char(1) default 'F',
  Foreign Key(groupCaptainUserId) REFERENCES USERS(userId)
 );
 
@@ -57,6 +61,3 @@ Create Table COMMENTS (
   Foreign Key(userId) REFERENCES USERS(userId),
   Foreign Key(noteId) REFERENCES NOTES(noteId)
 );
-
-
-
