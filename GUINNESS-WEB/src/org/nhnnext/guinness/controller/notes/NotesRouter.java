@@ -1,4 +1,4 @@
-package org.nhnnext.guinness.controller;
+package org.nhnnext.guinness.controller.notes;
 
 import java.io.IOException;
 
