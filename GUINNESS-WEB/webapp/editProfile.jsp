@@ -54,7 +54,7 @@
 	<div class='content wrap' style='margin-top: 80px'>
 		<h1><i class='fa fa-user'></i><span style='margin-left:10px;'>회원정보수정</span></h1>
 		<div id='profile-panel' class='panel'>
-			<table id='editProfile-panel-body' class='panel-body'>
+			<table id='editProfile-panel-body' class='panel-body' style='width:100%'>
 				<tr>
 				<td valign=top id='editProfile-photoArea' style='width:200px; text-align:center;'>
 					<img class='avatar' src="/img/avatar-default.png">

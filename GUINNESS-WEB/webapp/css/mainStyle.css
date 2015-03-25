@@ -128,7 +128,7 @@ input.text{
     border:0px;
     color:white;
     font-size:15px;
-    margin-top:15px;
+    margin:15px 5px;
     cursor:pointer;
 }
 
@@ -383,6 +383,7 @@ input.text{
 	left: 16px;
   	top: -16px;
   	color:white;
+}  	
 
 .panel {
 	position:relative;
@@ -392,10 +393,23 @@ input.text{
 	margin-bottom:20px;
 }
 
+.panel-header {
+	position:relative;
+	padding:10px 20px;
+}
+
 .panel-body {
 	position:relative;
-	width:100%;
 	min-height:10px;
 	padding:20px;
 	background-color:#ffffff;
+}
+
+.alert-window {
+	position:fixed; top:50%; margin-top:-100px; left:50%; margin-left:-150px; width:300px;
+}
+
+.warn {
+	background-color:#ff5a5a;
+	color:white;
 }

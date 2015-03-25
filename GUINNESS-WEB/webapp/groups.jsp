@@ -11,6 +11,7 @@
 	href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
 <link rel="stylesheet" href="/css/mainStyle.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
+<script src="/js/guinness.js"></script>
 </head>
 <body>
 	<%@ include file="/commons/_topnav.jspf"%>
@@ -86,7 +87,7 @@
 				obj = json[i];
 				var newEl = document.createElement("a");
 				newEl.setAttribute("href", "/g/" + obj.groupId);
-				var deleteBtn = "<a id='deleteGroup-btn' class='deleteGroup-btn' onclick='return confirmDelete()' href='/group/delete?groupId="+obj.groupId+"'><i class='fa fa-remove'></i></a>";
+				var deleteBtn = "<a id='deleteGroup-btn' class='deleteGroup-btn' onclick='confirmDelete(\""+obj.groupId+"\")'><i class='fa fa-remove'></i></a>";
 				newEl.innerHTML = "<li>" + obj.groupName + deleteBtn +"<input name= groupId type='hidden' value=" + obj.groupId+" /> </li>";
 				el.appendChild(newEl);
 			}
@@ -101,13 +102,8 @@
 			}
 		}
 		
-		function confirmDelete() {
-			var agree=confirm("정말로 그룹을 삭제하시겠습니까?");
-			if (agree) {
-				return true;
-			} else {
-				return false;
-			}
+		function confirmDelete(groupId) {
+			guinness.util.alert("스터디그룹 삭제","정말로 그룹을 삭제하시겠습니까?",function(){location.href="/group/delete?groupId="+groupId;},function(){console.log("그룹삭제안함");});
 		}
 	</script>
 </body>

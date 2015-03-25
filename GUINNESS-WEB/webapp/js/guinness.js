@@ -20,3 +20,41 @@ var guinness = {};
 	  }
 	  return today;
 	}
+	
+	//alert 메세지를 생성해준다.
+	//
+	guinness.util.alert = function(header, message, agreeFunc, disagreeFunc) {
+		var body = document.body;
+		var el = document.getElementById("guinness-alert-window");
+		if (el == null) {
+			el = document.createElement("div");
+			el.setAttribute("id","guinness-alert-window");
+			el.setAttribute("class","alert-window");
+			el.innerHTML = "";
+			if (agreeFunc == null && disagreeFunc == null) {
+				el.innerHTML += "<div class='panel'><div class='panel-header warn'>"+header+"</div><div class='panel-body'>"+message+"<br/><button class='btn' onclick='guinness.util.alert.choose()' >확인</button></div></div>";
+			} else {
+				el.innerHTML += "<div class='panel'><div class='panel-header warn'>"+header+"</div><div class='panel-body'>"+message+"<br/><button class='btn' onclick='guinness.util.alert.choose(true)' >예</button><button class='btn' onclick='guinness.util.alert.choose(false)'>아니오</button></div></div>";
+			}
+			body.appendChild(el);
+			guinness.util.alert.agree = agreeFunc;
+			guinness.util.alert.disagree = disagreeFunc;
+		}
+	}
+	guinness.util.alert.choose = function(c) {
+		var el = document.getElementById("guinness-alert-window");
+		el.outerHTML = "";
+		delete el;
+		if (c == null) {
+			return true;
+		}
+		if (c) {
+			guinness.util.alert.agree();
+			return true;
+		}
+		guinness.util.alert.disagree();
+	}
+	guinness.util.alert.agree = function(){};
+	guinness.util.alert.disagree = function(){};
+	
+	
