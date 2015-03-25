@@ -30,7 +30,6 @@
 				<tr>
 					<td>날짜</td>
 					<td><input id="datepickr" name="targetDate"></td>
-					<!-- <td><input type="text" name="targetDate" value="${targetDate}"></td>-->
 				</tr>
 				<tr>
 					<td>내용</td>
@@ -72,7 +71,7 @@
     el.addEventListener('mouseup',createNote,false);
     
     var groupId = window.location.pathname.split("/")[2];
-    var targetDate = "2015-03-11";
+    var targetDate = guinness.util.today("-");
     readNoteList(groupId,targetDate);
     attachGroupId(groupId);
   },false);

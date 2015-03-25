@@ -2,6 +2,8 @@ package org.nhnnext.guinness.controller.notes;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,8 +32,16 @@ public class CreateNoteServlet extends HttpServlet {
 		}
 		String groupId = req.getParameter("groupId");
 		String targetDate = req.getParameter("targetDate");
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+		targetDate += " " + dateFormat.format(calendar.getTime());;
 		String noteText = req.getParameter("noteText");
 
+		
+		if(noteText.equals("")) {
+			resp.sendRedirect("/g/"+groupId);
+		}
+		
 		System.out.println("groupId : " + groupId + " targetDate : " + targetDate + " noteText : " + noteText);
 		Note note = new Note(noteText, targetDate, userId, groupId);
 

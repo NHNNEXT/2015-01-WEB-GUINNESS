@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class NoteDao {
@@ -47,8 +49,9 @@ public class NoteDao {
 		}
 	}
 
-	public NoteList findByGroupId(String groupId, String targetDate) {
-		String sql = "select * from NOTES, USERS where notes.userId = users.userId AND groupId = ? AND targetDate = ?";
+	public List<Note> findByGroupId(String groupId, String targetDate) {
+		String sql = "select * from NOTES, USERS where groupId = ? "
+				+ "AND targetDate <= ? order by targetDate desc limit 10";
 
 		try {
 			conn = getConnection();
@@ -56,16 +59,19 @@ public class NoteDao {
 			pstmt.setString(1, groupId);
 			pstmt.setString(2, targetDate);
 			rs = pstmt.executeQuery();
-			NoteList noteList = new NoteList();
+			List<Note> noteList = new ArrayList<Note>();
 			
 			if (!rs.next()) {
 				return null;
 			} else {
 				rs.beforeFirst();
-				while(rs.next()) {
-					noteList.getItems().add(new Note(rs.getString("noteId"),
-							rs.getString("noteText"), rs.getString("targetDate"), 
-							rs.getString("userId"), rs.getString("groupId"), rs.getString("userName")));
+				while (rs.next()) {
+					noteList.add(new Note(rs.getString("noteId"), 
+							rs.getString("noteText"), 
+							rs.getString("targetDate"),
+							rs.getString("userId"), 
+							rs.getString("groupId"), 
+							rs.getString("userName")));
 				}
 			}
 			return noteList;

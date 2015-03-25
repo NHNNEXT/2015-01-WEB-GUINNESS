@@ -2,6 +2,7 @@ package org.nhnnext.guinness.controller.notes;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.NoteDao;
-import org.nhnnext.guinness.model.NoteList;
 
 import com.google.gson.Gson;
 
@@ -26,17 +27,14 @@ public class ReadNoteListServlet extends HttpServlet {
 		String groupId = req.getParameter("groupId");
 		String targetDate = req.getParameter("targetDate");
 		NoteDao noteDAO = new NoteDao();
-		NoteList noteList = noteDAO.findByGroupId(groupId,targetDate);
+		List<Note> noteList = noteDAO.findByGroupId(groupId,targetDate);
 		resp.setContentType("application/json; charset=UTF-8");
+		
 		PrintWriter out = resp.getWriter();
 		String jsonData;
-		if (noteList == null) {
-			jsonData = "[]";
-			out.print(jsonData);
-			return;
-		}
+
 		Gson gson = new Gson();
-		jsonData = gson.toJson(noteList.getItems());
+		jsonData = gson.toJson(noteList);
 		out.print(jsonData);		
 	}
 }

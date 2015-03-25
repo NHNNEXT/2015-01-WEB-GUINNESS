@@ -5,7 +5,7 @@
 </c:if>
 <div id="header">
   <div class='content wrap'>
-      <a href='/groups.jsp' id='brand'>
+      <a href='/' id='brand'>
           <img src='http://www.w3.org/html/logo/downloads/HTML5_1Color_White.png'>
       </a>
       <ul class='util'>
@@ -13,11 +13,11 @@
         	<img class='avatar' src='/img/avatar-default.png' style='margin-left:15px;'>
         	<div class='label'><a href="#">${sessionUserName}</a></div>
         	<ul>
-        		<li><a href="#"><span>내 프로필</span></a></li>
+        		<li><a href="/editProfile.jsp"><span>내 프로필</span></a></li>
         		<li><a href="#"><span>스터디그룹</span></a></li>
         		<li><a href="/user/logout"><span>로그아웃</span></a></li>
         	</ul>
-        </li class='menu'>
+        </li>
         <li class='menu'>
         	<div class='label'><a href="#"><i class='fa fa-bell'></i></a></div>
         </li>
