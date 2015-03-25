@@ -40,6 +40,7 @@ public class CreateNoteServlet extends HttpServlet {
 		
 		if(noteText.equals("")) {
 			resp.sendRedirect("/g/"+groupId);
+			return;
 		}
 		
 		System.out.println("groupId : " + groupId + " targetDate : " + targetDate + " noteText : " + noteText);

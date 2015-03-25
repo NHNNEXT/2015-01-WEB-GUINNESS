@@ -49,15 +49,14 @@ public class NoteDao {
 		}
 	}
 
-	public List<Note> findByGroupId(String groupId, String targetDate) {
-		String sql = "select * from NOTES, USERS where groupId = ? "
-				+ "AND targetDate <= ? order by targetDate desc limit 10";
+	public List<Note> readNoteList(String groupId, String targetDate) {
+		String sql = "select * from NOTES,USERS where NOTES.userId = USERS.userId AND groupId = ? "
+				+ "order by targetDate desc limit 10";
 
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, groupId);
-			pstmt.setString(2, targetDate);
 			rs = pstmt.executeQuery();
 			List<Note> noteList = new ArrayList<Note>();
 			
