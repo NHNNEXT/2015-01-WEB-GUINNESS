@@ -76,7 +76,7 @@ public class Group {
 		return groupCaptainUserId;
 	}
 
-	public int isPublic() {
+	public char isPublic() {
 		return isPublic;
 	}
 
