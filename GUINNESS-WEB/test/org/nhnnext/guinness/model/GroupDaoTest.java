@@ -3,6 +3,7 @@ package org.nhnnext.guinness.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class GroupDaoTest {
 	}
 	
 	@Test
-	public void crud() throws SQLException, ClassNotFoundException {
+	public void crud() throws SQLException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException {
 		Group group = GroupTest.TEST_GROUP;
 		
 		groupDao.deleteGroup(group);
@@ -40,7 +41,7 @@ public class GroupDaoTest {
 	}
 	
 	@Test
-	public void readGroupList() throws ClassNotFoundException, SQLException {
+	public void readGroupList() throws ClassNotFoundException, SQLException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException {
 		List<Group> list = groupDao.readGroupList("das@das.com");
 		for(Group group:list) {
 			System.out.println(group.getGroupName());

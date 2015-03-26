@@ -6,7 +6,7 @@ import org.junit.Test;
 
 public class GroupTest {
 	
-	public static Group TEST_GROUP = new Group("abcde", "testGroup", "test@guinness.org", 1);
+	public static Group TEST_GROUP = new Group("abcde", "testGroup", "test@guinness.org", 'F');
 
 	@Test
 	public void testSetNewGroupId() throws Exception {

@@ -1,5 +1,6 @@
 package org.nhnnext.guinness.model;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.Random;
 
@@ -21,23 +22,23 @@ public class Group {
 	private String groupCaptainUserId;
 
 	@NotNull
-	private int isPublic;
+	private char isPublic;
 
 	public Group(String groupId, String groupName, String groupCaptainUserId,
-			int isPublic) {
+			char isPublic) {
 		this.groupId = groupId;
 		this.groupName = groupName;
 		this.groupCaptainUserId = groupCaptainUserId;
 		this.isPublic = isPublic;
 	}
 
-	public Group(String groupName, String groupCaptainUserId, int isPublic)
-			throws ClassNotFoundException, SQLException {
+	public Group(String groupName, String groupCaptainUserId, char isPublic)
+			throws ClassNotFoundException, SQLException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException {
 		this(setNewGroupId(), groupName, groupCaptainUserId, isPublic);
 	}
 
 	public static String setNewGroupId() throws ClassNotFoundException,
-			SQLException {
+			SQLException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException {
 		String groupId = null;
 
 		while (true) {
@@ -49,7 +50,7 @@ public class Group {
 	}
 
 	private static boolean checkExistGroupId(String groupId)
-			throws ClassNotFoundException, SQLException {
+			throws ClassNotFoundException, SQLException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException {
 		return new GroupDao().checkExistGroupId(groupId);
 	}
 

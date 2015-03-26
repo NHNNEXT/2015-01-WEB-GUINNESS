@@ -1,6 +1,7 @@
 package org.nhnnext.guinness.controller.groups;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.Set;
 
@@ -34,9 +35,9 @@ public class CreateGroupServlet extends HttpServlet {
 		String groupName = req.getParameter("groupName");
 
 		// 그룹 공개/비공개 여부 판단
-		int isPublic = 0;
+		char isPublic = 'F';
 		if ("public".equals(req.getParameter("isPublic")))
-			isPublic = 1;
+			isPublic = 'T';
 
 		// 그룹 클래스 생성
 		Group group = null;
@@ -46,6 +47,8 @@ public class CreateGroupServlet extends HttpServlet {
 			e.printStackTrace();
 			Forwarding.ForwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
 			return;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		// 유효성 검사

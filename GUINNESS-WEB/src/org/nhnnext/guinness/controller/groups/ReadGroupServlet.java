@@ -46,6 +46,10 @@ public class ReadGroupServlet extends HttpServlet {
 			e.printStackTrace();
 			Forwarding.ForwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
 			return;
+		} catch (Exception e) {
+			e.printStackTrace();
+			Forwarding.ForwardForError(req, resp, "errorMessage", "접속이 원활하지 않습니다.", "/exception.jsp");
+			return;
 		}
 		// 받아온 그룹아이디 출력 테스트
 		createJsonFile(groupList, resp);

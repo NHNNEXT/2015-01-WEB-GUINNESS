@@ -42,6 +42,10 @@ public class DeleteGroupServlet extends HttpServlet {
 			e.printStackTrace();
 			Forwarding.ForwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
 			return;
+		} catch (Exception e) {
+			e.printStackTrace();
+			Forwarding.ForwardForError(req, resp, "errorMessage", "접속이 원활하지 않습니다.", "/exception.jsp");
+			return;
 		}
 	}
 	@Override
@@ -64,6 +68,10 @@ public class DeleteGroupServlet extends HttpServlet {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			Forwarding.ForwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
+			return;
+		} catch (Exception e) {
+			e.printStackTrace();
+			Forwarding.ForwardForError(req, resp, "errorMessage", "접속이 원활하지 않습니다.", "/exception.jsp");
 			return;
 		}
 
