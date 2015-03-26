@@ -4,7 +4,7 @@ drop user 'link413'@'localhost';
 
 /* DB 생성 */
 
-Create DATABASE GUINNESS;
+Create DATABASE GUINNESS DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 /* User 생성 및 DB권한 주기 */
 Create User link413@'localhost' identified by 'link413';
