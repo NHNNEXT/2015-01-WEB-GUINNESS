@@ -12,27 +12,8 @@ public class Note {
 	//NOT MUST
 	private String userName;
 	
-	public Note() {
-		this.noteText = null;
-		this.targetDate = null;
-		this.userId = null;
-		this.groupId = null;
-	}
-
 	public Note(String noteText, String targetDate, String userId, String groupId) {
-		this.noteText = noteText;
-		this.targetDate = targetDate;
-		this.userId = userId;
-		this.groupId = groupId;
-	}
-
-	public Note(String noteId, String noteText, String targetDate, String userId,
-			String groupId) {
-		this.noteId = noteId;
-		this.noteText = noteText;
-		this.targetDate = targetDate;
-		this.userId = userId;
-		this.groupId = groupId;
+		this(null, noteText, targetDate, userId, groupId, null);
 	}
 	
 	public Note(String noteId, String noteText, String targetDate, String userId,

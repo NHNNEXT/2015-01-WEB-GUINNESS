@@ -20,20 +20,11 @@ public class User {
 	private String userPassword;
 	private byte userImage;
 
-	public User() {
-	}
-
-	public User(String userId, String userName, String userPassword, byte userImage) {
-		this.userId = userId;
-		this.userName = userName;
-		this.userPassword = userPassword;
-		this.userImage = userImage;
-	}
-
 	public User(String userId, String userName, String userPassword) {
 		this.userId = userId;
 		this.userName = userName;
 		this.userPassword = userPassword;
+		this.userImage = (byte)0;
 	}
 
 	public String getUserId() {
