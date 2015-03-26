@@ -3,7 +3,6 @@ package org.nhnnext.guinness.controller.groups;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.nhnnext.guinness.common.Forwarding;
 import org.nhnnext.guinness.common.ParameterKey;
 import org.nhnnext.guinness.common.WebServletURL;
 import org.nhnnext.guinness.model.Group;
@@ -32,28 +32,15 @@ public class DeleteGroupServlet extends HttpServlet {
 		try {
 			group = groupDao.findByGroupId(groupId);
 			if(!group.getGroupCaptainUserId().equals(userId)){
-				String errorMessage = "삭제 권한 없음";
-				req.setAttribute("errorMessage", errorMessage);
-				RequestDispatcher rd = req.getRequestDispatcher("/groups.jsp");
-				rd.forward(req, resp);
+				Forwarding.ForwardForError(req, resp, "errorMessage", "삭제 권한 없음", "/groups.jsp");
 				return;
 			}
 			groupDao.deleteGroup(group);
 			resp.sendRedirect("/groups.jsp");
 			
-		} catch (SQLException e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-			String errorMessage = "데이터베이스 접근 실패";
-			req.setAttribute("errorMessage", errorMessage);
-			RequestDispatcher rd = req.getRequestDispatcher("/groups.jsp");
-			rd.forward(req, resp);
-			return;
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			String errorMessage = "데이터베이스 연결 실패";
-			req.setAttribute("errorMessage", errorMessage);
-			RequestDispatcher rd = req.getRequestDispatcher("/groups.jsp");
-			rd.forward(req, resp);
+			Forwarding.ForwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
 			return;
 		}
 	}
@@ -69,27 +56,14 @@ public class DeleteGroupServlet extends HttpServlet {
 		try {
 			group = groupDao.findByGroupId(groupId);
 			if(!group.getGroupCaptainUserId().equals(userId)){
-				String errorMessage = "삭제 권한 없음";
-				req.setAttribute("errorMessage", errorMessage);
-				RequestDispatcher rd = req.getRequestDispatcher("/groups.jsp");
-				rd.forward(req, resp);
+				Forwarding.ForwardForError(req, resp, "errorMessage", "삭제 권한 없음", "/groups.jsp");
 				return;
 			}
 			groupDao.deleteGroup(group);
 			
-		} catch (SQLException e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-			String errorMessage = "데이터베이스 접근 실패";
-			req.setAttribute("errorMessage", errorMessage);
-			RequestDispatcher rd = req.getRequestDispatcher("/groups.jsp");
-			rd.forward(req, resp);
-			return;
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			String errorMessage = "데이터베이스 연결 실패";
-			req.setAttribute("errorMessage", errorMessage);
-			RequestDispatcher rd = req.getRequestDispatcher("/groups.jsp");
-			rd.forward(req, resp);
+			Forwarding.ForwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
 			return;
 		}
 

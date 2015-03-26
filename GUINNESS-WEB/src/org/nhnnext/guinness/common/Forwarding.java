@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 
 public class Forwarding {
 	public static void ForwardForError(HttpServletRequest req,
-			HttpServletResponse resp, String errorMessage, String destination)
+			HttpServletResponse resp, String errorKey, String errorMessage, String destination)
 			throws ServletException, IOException {
-		req.setAttribute("errorMessage", errorMessage);
+		req.setAttribute(errorKey, errorMessage);
 		RequestDispatcher rd = req.getRequestDispatcher(destination);
 		rd.forward(req, resp);
 	}

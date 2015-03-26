@@ -44,7 +44,8 @@ public class ReadGroupServlet extends HttpServlet {
 			groupList = groupDao.readGroupList(userId);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-			Forwarding.ForwardForError(req, resp, "데이터 베이스 연결 실패", "/exception.jsp");
+			Forwarding.ForwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
+			return;
 		}
 		// 받아온 그룹아이디 출력 테스트
 		createJsonFile(groupList, resp);

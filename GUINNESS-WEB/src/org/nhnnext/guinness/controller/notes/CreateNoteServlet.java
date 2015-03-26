@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.nhnnext.guinness.common.Forwarding;
 import org.nhnnext.guinness.common.WebServletURL;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.NoteDao;
@@ -37,22 +38,21 @@ public class CreateNoteServlet extends HttpServlet {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		targetDate += " " + dateFormat.format(calendar.getTime());
 		String noteText = StringEscapeUtils.escapeHtml4(req.getParameter("noteText"));
-
 		
 		if(noteText.equals("")) {
 			resp.sendRedirect("/g/"+groupId);
 			return;
 		}
 		
-		System.out.println("groupId : " + groupId + " targetDate : " + targetDate + " noteText : " + noteText);
 		Note note = new Note(noteText, targetDate, userId, groupId);
-
 		NoteDao noteDAO = new NoteDao();
 		try {
 			noteDAO.createNote(note);
 			resp.sendRedirect("/g/"+groupId);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			Forwarding.ForwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
+			return;
 		}
 	}
 }
