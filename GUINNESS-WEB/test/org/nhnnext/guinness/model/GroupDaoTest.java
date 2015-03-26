@@ -1,9 +1,10 @@
 package org.nhnnext.guinness.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +41,7 @@ public class GroupDaoTest {
 	
 	@Test
 	public void readGroupList() throws ClassNotFoundException, SQLException {
-		ArrayList<Group> list = groupDao.readGroupList("test@guinness.org");
+		List<Group> list = groupDao.readGroupList("das@das.com");
 		assertNotNull(list);
 		System.out.println(list.size());
 	}

@@ -1,87 +1,89 @@
 package org.nhnnext.guinness.model;
 
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 public abstract class AbstractDao {
 
 	Connection conn;
-	
-	protected Connection getConnection() throws ClassNotFoundException, SQLException {
+	static Gson gson = new Gson();
+	static Type groupList = new TypeToken<List<Group>>() {
+	}.getType();
+
+	protected Connection getConnection() throws ClassNotFoundException,
+			SQLException {
 		String url = "jdbc:mysql://localhost:3306/GUINNESS";
 		String id = "link413";
 		String pw = "link413";
-		
+
 		Class.forName("com.mysql.jdbc.Driver");
 		return DriverManager.getConnection(url, id, pw);
 	}
 
-	public void queryNotForReturn(String sql, Object... objects)
+	public void queryNotForReturn(String sql, String... parameters)
 			throws SQLException, ClassNotFoundException {
-		PreparedStatement pstmt = setPreparedStatement(sql, objects);
+		PreparedStatement pstmt = setPreparedStatement(sql, parameters);
 		pstmt.executeUpdate();
 		terminateConnection(pstmt, null);
 	}
 
-	public List<Map<String, Object>> queryForReturn(String sql,
-			Object... objects) throws SQLException, ClassNotFoundException {
-		PreparedStatement pstmt = setPreparedStatement(sql, objects);
+	public String queryForReturn(String sql, String... parameters)
+			throws SQLException, ClassNotFoundException {
+		PreparedStatement pstmt = setPreparedStatement(sql, parameters);
 		ResultSet rs = pstmt.executeQuery();
-		List<Map<String, Object>> list = getResultMapRows(rs);
+		JsonArray array = getResultMapRows(rs);
 		terminateConnection(pstmt, rs);
-		return list;
+		return array.toString();
 	}
 
 	private PreparedStatement setPreparedStatement(String sql,
-			Object... objects) throws SQLException, ClassNotFoundException {
+			String... parameters) throws SQLException, ClassNotFoundException {
 		int index = 1;
 		conn = getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 
-		for (Object obj : objects) {
-			switch (obj.getClass().getSimpleName().toString()) {
-			case "String":
-				pstmt.setString(index++, (String) obj);
-				break;
-			case "Integer":
-				pstmt.setInt(index++, (int) obj);
-				break;
-			}
+		for (String parms : parameters) {
+			pstmt.setString(index++, parms);
 		}
 		return pstmt;
 	}
 
-	private List<Map<String, Object>> getResultMapRows(ResultSet rs)
-			throws SQLException {
+	private JsonArray getResultMapRows(ResultSet rs) throws SQLException {
 		ResultSetMetaData metaData = rs.getMetaData();
 		int sizeOfColumn = metaData.getColumnCount();
 
-		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-		Map<String, Object> map = null;
 		String column = null;
+		JsonArray array = new JsonArray();
+		JsonObject obj = new JsonObject();
 
 		while (rs.next()) {
-			map = new HashMap<String, Object>();
 			for (int indexOfcolumn = 0; indexOfcolumn < sizeOfColumn; indexOfcolumn++) {
 				column = metaData.getColumnName(indexOfcolumn + 1);
-				map.put(column, rs.getString(column));
+				obj.addProperty(column, rs.getString(column));
 			}
-			list.add(map);
+			array.add(obj);
 		}
-		return list;
+		return array;
 	}
-	
-	protected void terminateConnection(PreparedStatement pstmt, ResultSet rs) throws SQLException {
-		if (conn != null) conn.close();
-		if (pstmt != null) pstmt.close();
-		if (rs != null) rs.close();
+
+	protected void terminateConnection(PreparedStatement pstmt, ResultSet rs)
+			throws SQLException {
+		if (conn != null)
+			conn.close();
+		if (pstmt != null)
+			pstmt.close();
+		if (rs != null)
+			rs.close();
 	}
 }

@@ -3,7 +3,7 @@ package org.nhnnext.guinness.controller.groups;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,7 +38,7 @@ public class ReadGroupServlet extends HttpServlet {
 
 		// DAO를 이용해 그룹유저맵에서 유저가 속한 그룹의 아이디를 받아온다.
 		GroupDao groupDao = new GroupDao();
-		ArrayList<Group> groupList = null;
+		List<Group> groupList = null;
 		try {
 			groupList = groupDao.readGroupList(userId);
 		} catch (ClassNotFoundException | SQLException e) {
@@ -48,7 +48,7 @@ public class ReadGroupServlet extends HttpServlet {
 		createJsonFile(groupList, resp);
 	}
 
-	public void createJsonFile(ArrayList<Group> groupList, HttpServletResponse resp) throws IOException {
+	public void createJsonFile(List<Group> groupList, HttpServletResponse resp) throws IOException {
 		resp.setContentType("application/json; charset=UTF-8");
 		PrintWriter out = resp.getWriter();
 		StringBuffer sb = new StringBuffer();
