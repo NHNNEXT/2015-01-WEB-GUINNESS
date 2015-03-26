@@ -91,7 +91,11 @@
 		  if(newLi == null) {
 			  newLi = document.createElement("li");
 			  newLi.setAttribute("id", "to"+toDate);
-			  newLi.setAttribute("class", "date-nav");
+			  if(toDate == guinness.util.today("-")){
+				newLi.setAttribute("class","date-nav select")  
+			  } else {
+			    newLi.setAttribute("class","date-nav");
+			  }
 			  dateTag = document.createElement("div");
 			  dateTag.setAttribute("class","date-tag");
 			  dateTag.innerHTML = toDate;
@@ -103,6 +107,7 @@
 		  document.getElementById("to-date").appendChild(newLi);  
 	  }
 	  
+	  //스크롤링 이벤트 리스너를 추가하는 부분
 	  var dates = document.getElementsByClassName('date-nav');
 	    for (var i = 0; i < dates.length; i++) {
 	      dates[i].addEventListener('mouseup', function(e) {
