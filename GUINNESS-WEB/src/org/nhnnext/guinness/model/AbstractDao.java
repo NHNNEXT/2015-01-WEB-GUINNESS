@@ -15,10 +15,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 public abstract class AbstractDao {
-
-	Connection conn;
 	static Gson gson = new Gson();
-	static Type GroupList = new TypeToken<List<Group>>(){}.getType();
+	static Type GroupList = new TypeToken<List<Group>>() {
+	}.getType();
 
 	protected Connection getConnection() throws ClassNotFoundException,
 			SQLException {
@@ -32,29 +31,30 @@ public abstract class AbstractDao {
 
 	public void queryNotForReturn(String sql, String... parameters)
 			throws SQLException, ClassNotFoundException {
-		PreparedStatement pstmt = setPreparedStatement(sql, parameters);
+		Connection conn = getConnection();
+		PreparedStatement pstmt = setPreparedStatement(conn, sql, parameters);
 		pstmt.executeUpdate();
-		terminateConnection(pstmt, null);
+		terminateResources(conn, pstmt, null);
 	}
 
 	public String queryForReturn(String sql, String... parameters)
 			throws SQLException, ClassNotFoundException {
-		PreparedStatement pstmt = setPreparedStatement(sql, parameters);
+		Connection conn = getConnection();
+		PreparedStatement pstmt = setPreparedStatement(conn, sql, parameters);
 		ResultSet rs = pstmt.executeQuery();
 		JsonArray array = getResultMapRows(rs);
-		terminateConnection(pstmt, rs);
+		terminateResources(conn, pstmt, rs);
 		return array.toString();
 	}
 
-	private PreparedStatement setPreparedStatement(String sql,
+	private PreparedStatement setPreparedStatement(Connection conn, String sql,
 			String... parameters) throws SQLException, ClassNotFoundException {
 		int index = 1;
-		conn = getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 
 		for (String parms : parameters)
 			pstmt.setString(index++, parms);
-		
+
 		return pstmt;
 	}
 
@@ -77,8 +77,8 @@ public abstract class AbstractDao {
 		return array;
 	}
 
-	protected void terminateConnection(PreparedStatement pstmt, ResultSet rs)
-			throws SQLException {
+	protected void terminateResources(Connection conn, PreparedStatement pstmt,
+			ResultSet rs) throws SQLException {
 		if (conn != null)
 			conn.close();
 		if (pstmt != null)

@@ -32,11 +32,6 @@
 			</div>
 			<div id='createGroup-body' class='modal-body'>
 				<form name="user" method="post" action="/group/create">
-					<c:if test="${not empty errorMessage}">
-						<div>
-							<label>${errorMessage}</label>
-						</div>
-					</c:if>
 					<div>
 						그룹이름 <input type="text" name="groupName">
 					</div>
@@ -50,6 +45,11 @@
 			</div>
 		</div>
 	</div>
+			<c:if test="${not empty errorMessage}">
+						<script>
+							guinness.util.alert("삭제실패!","삭제 권한이 없습니다!");
+						</script>
+			</c:if>
 	<script>
 
 		window.addEventListener('load', function() {
