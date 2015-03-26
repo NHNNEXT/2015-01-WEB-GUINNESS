@@ -7,8 +7,7 @@
 <head>
 <title>스터디의 시작, 기네스</title>
 <meta charset="utf-8">
-<link rel="stylesheet"
-	href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
+<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
 <link rel="stylesheet" href="/css/mainStyle.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <script src="/js/guinness.js"></script>
