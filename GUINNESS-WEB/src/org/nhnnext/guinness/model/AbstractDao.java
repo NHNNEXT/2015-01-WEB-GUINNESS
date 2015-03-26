@@ -18,8 +18,7 @@ public abstract class AbstractDao {
 
 	Connection conn;
 	static Gson gson = new Gson();
-	static Type groupList = new TypeToken<List<Group>>() {
-	}.getType();
+	static Type GroupList = new TypeToken<List<Group>>(){}.getType();
 
 	protected Connection getConnection() throws ClassNotFoundException,
 			SQLException {
@@ -53,9 +52,9 @@ public abstract class AbstractDao {
 		conn = getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 
-		for (String parms : parameters) {
+		for (String parms : parameters)
 			pstmt.setString(index++, parms);
-		}
+		
 		return pstmt;
 	}
 
@@ -65,9 +64,10 @@ public abstract class AbstractDao {
 
 		String column = null;
 		JsonArray array = new JsonArray();
-		JsonObject obj = new JsonObject();
+		JsonObject obj = null;
 
 		while (rs.next()) {
+			obj = new JsonObject();
 			for (int indexOfcolumn = 0; indexOfcolumn < sizeOfColumn; indexOfcolumn++) {
 				column = metaData.getColumnName(indexOfcolumn + 1);
 				obj.addProperty(column, rs.getString(column));

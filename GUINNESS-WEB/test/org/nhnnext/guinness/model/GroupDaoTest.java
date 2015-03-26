@@ -42,7 +42,9 @@ public class GroupDaoTest {
 	@Test
 	public void readGroupList() throws ClassNotFoundException, SQLException {
 		List<Group> list = groupDao.readGroupList("das@das.com");
+		for(Group group:list) {
+			System.out.println(group.getGroupName());
+		}
 		assertNotNull(list);
-		System.out.println(list.size());
 	}
 }

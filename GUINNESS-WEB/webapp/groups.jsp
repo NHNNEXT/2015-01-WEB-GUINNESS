@@ -87,7 +87,7 @@
 				obj = json[i];
 				var newEl = document.createElement("a");
 				newEl.setAttribute("href", "/g/" + obj.groupId);
-				var deleteBtn = "<a id='deleteGroup-btn' class='deleteGroup-btn' onclick='confirmDelete(\""+obj.groupId+"\")'><i class='fa fa-remove'></i></a>";
+				var deleteBtn = "<a id='deleteGroup-btn' href='#' class='deleteGroup-btn' onclick='confirmDelete(\""+obj.groupId+"\")'><i class='fa fa-remove'></i></a>";
 				newEl.innerHTML = "<li>" + obj.groupName + deleteBtn +"<input name= groupId type='hidden' value=" + obj.groupId+" /> </li>";
 				el.appendChild(newEl);
 			}

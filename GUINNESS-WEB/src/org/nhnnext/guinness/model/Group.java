@@ -1,5 +1,6 @@
 package org.nhnnext.guinness.model;
 
+import java.sql.SQLException;
 import java.util.Random;
 
 import javax.validation.constraints.NotNull;
@@ -11,14 +12,14 @@ import org.nhnnext.guinness.common.ParameterKey;
 public class Group {
 	@Size(min = 5, max = 5)
 	private String groupId;
-	
+
 	@Size(min = 1, max = 50)
 	private String groupName;
-	
+
 	@Email
 	@Size(min = 1, max = 50)
 	private String groupCaptainUserId;
-	
+
 	@NotNull
 	private int isPublic;
 
@@ -30,11 +31,13 @@ public class Group {
 		this.isPublic = isPublic;
 	}
 
-	public Group(String groupName, String groupCaptainUserId, int isPublic) throws Exception {
+	public Group(String groupName, String groupCaptainUserId, int isPublic)
+			throws ClassNotFoundException, SQLException {
 		this(setNewGroupId(), groupName, groupCaptainUserId, isPublic);
 	}
 
-	public static String setNewGroupId() throws Exception {
+	public static String setNewGroupId() throws ClassNotFoundException,
+			SQLException {
 		String groupId = null;
 
 		while (true) {
@@ -45,20 +48,21 @@ public class Group {
 		}
 	}
 
-	private static boolean checkExistGroupId(String groupId) throws Exception {
+	private static boolean checkExistGroupId(String groupId)
+			throws ClassNotFoundException, SQLException {
 		return new GroupDao().checkExistGroupId(groupId);
 	}
 
 	private static String getRandomString(int lengthOfReturnString) {
-        String alphabet="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        Random rnd = new Random();
-        StringBuffer buf = new StringBuffer();
-        for (int i = 0; i < lengthOfReturnString; i++) {
-        	buf.append(alphabet.charAt(rnd.nextInt(alphabet.length())));
-        }
-        return buf.toString();
-    }
-	
+		String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		Random rnd = new Random();
+		StringBuffer buf = new StringBuffer();
+		for (int i = 0; i < lengthOfReturnString; i++) {
+			buf.append(alphabet.charAt(rnd.nextInt(alphabet.length())));
+		}
+		return buf.toString();
+	}
+
 	public String getGroupId() {
 		return groupId;
 	}

@@ -22,11 +22,11 @@ public class GroupDao extends AbstractDao {
         queryNotForReturn(sql, groupCaptainUserId, groupId);
     }
 
-    public boolean checkExistGroupId(String groupId) throws Exception {
+    public boolean checkExistGroupId(String groupId) throws ClassNotFoundException, SQLException {
     	boolean result = false;
     	String sql = "select groupId from GROUPS where groupId=?";
         String jsonResult = queryForReturn(sql, groupId);
-        List<Group> list = gson.fromJson(jsonResult, groupList);
+        List<Group> list = gson.fromJson(jsonResult, GroupList);
         if(list.size() != 0)
             result = true;
         return result;
@@ -39,9 +39,9 @@ public class GroupDao extends AbstractDao {
     }
 
     public List<Group> readGroupList(String userId) throws ClassNotFoundException, SQLException  {
-        String sql = "select A.groupId from GROUPS_USERS as A inner join USERS as B on A.userId = B.userId where A.userId =?";
+        String sql = "select * from GROUPS as G, (select groupId from GROUPS_USERS as A, USERS as B where A.userId = B.userId and B.userId = ?) as C where G.groupId = C.groupId";
         String jsonResult = queryForReturn(sql, userId);
-        return gson.fromJson(jsonResult, groupList);
+        return gson.fromJson(jsonResult, GroupList);
     }
     
     public static  class comGroupName implements Comparator<Group>{

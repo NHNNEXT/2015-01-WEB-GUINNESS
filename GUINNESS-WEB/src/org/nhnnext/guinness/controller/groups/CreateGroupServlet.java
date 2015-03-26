@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import org.nhnnext.guinness.common.Forwarding;
 import org.nhnnext.guinness.common.MyValidatorFactory;
 import org.nhnnext.guinness.common.ParameterKey;
 import org.nhnnext.guinness.common.WebServletURL;
@@ -29,62 +30,48 @@ public class CreateGroupServlet extends HttpServlet {
 			throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		HttpSession session = req.getSession();
-		String groupCaptainUserId = (String)session.getAttribute(ParameterKey.SESSION_USERID);
-		String groupName = (String)req.getParameter("groupName");
-		
-		// 그룹 공개/비공개 여부 판단 
+		String groupCaptainUserId = (String) session
+				.getAttribute(ParameterKey.SESSION_USERID);
+		String groupName = (String) req.getParameter("groupName");
+
+		// 그룹 공개/비공개 여부 판단
 		int isPublic = 0;
-		if("public".equals(req.getParameter("isPublic")))
+		if ("public".equals(req.getParameter("isPublic")))
 			isPublic = 1;
-		
-		// 그룹 클래스 생성 
+
+		// 그룹 클래스 생성
 		Group group = null;
 		try {
 			group = new Group(groupName, groupCaptainUserId, isPublic);
-		} catch (Exception e) {
-			// 그룹 생성 실패
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-			String errorMessage = "그룹 생성 실패";
-
-			req.setAttribute("errorMessage", errorMessage);
-			RequestDispatcher rd = req.getRequestDispatcher("/groups.jsp");
-			rd.forward(req, resp);
-			return;
+			Forwarding.ForwardForError(req, resp, "데이터 베이스 연결 실패", "/exception.jsp");
 		}
-		
-		// 유효성 검사 
+
+		// 유효성 검사
 		Validator validator = MyValidatorFactory.createValidator();
-		Set<ConstraintViolation<Group>> constraintViolation = validator.validate(group);
-		
-		if(constraintViolation.size() > 0){
-			String errorMessage = constraintViolation.iterator().next().getMessage();
+		Set<ConstraintViolation<Group>> constraintViolation = validator
+				.validate(group);
 
-			req.setAttribute("errorMessage", errorMessage);
-			RequestDispatcher rd = req.getRequestDispatcher("/groups.jsp");
-			rd.forward(req, resp);
+		if (constraintViolation.size() > 0) {
+			String errorMessage = constraintViolation.iterator().next()
+					.getMessage();
+
+			Forwarding.ForwardForError(req, resp, errorMessage, "/groups.jsp");
 			return;
 		}
-		
-		// 그룹 다오 생성 
+
+		// 그룹 다오 생성
 		GroupDao groupDao = new GroupDao();
 		try {
 			groupDao.createGroup(group);
 			groupDao.createGroupUser(groupCaptainUserId, group.getGroupId());
-		} catch (SQLException e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-			String errorMessage = "데이터베이스 접근 실패";
-			req.setAttribute("errorMessage", errorMessage);
-			RequestDispatcher rd = req.getRequestDispatcher("/groups.jsp");
-			rd.forward(req, resp);
-			return;
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			String errorMessage = "데이터베이스 연결 실패";
-			req.setAttribute("errorMessage", errorMessage);
-			RequestDispatcher rd = req.getRequestDispatcher("/groups.jsp");
-			rd.forward(req, resp);
-			return;
+			Forwarding.ForwardForError(req, resp, "데이터 베이스 연결 실패", "/exception.jsp");
 		}
+		
 		resp.sendRedirect("/groups.jsp");
 	}
+
 }
