@@ -26,7 +26,7 @@ public class DeleteGroupServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		HttpSession session = req.getSession();
 		String userId = (String) session.getAttribute(ParameterKey.SESSION_USERID);
-		String groupId = (String) req.getParameter("groupId");
+		String groupId = req.getParameter("groupId");
 		GroupDao groupDao = new GroupDao();
 		Group group;
 		try {
@@ -50,7 +50,7 @@ public class DeleteGroupServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		HttpSession session = req.getSession();
 		String userId = (String) session.getAttribute(ParameterKey.SESSION_USERID);
-		String groupId = (String) req.getParameter("groupId");
+		String groupId = req.getParameter("groupId");
 		GroupDao groupDao = new GroupDao();
 		Group group;
 		try {

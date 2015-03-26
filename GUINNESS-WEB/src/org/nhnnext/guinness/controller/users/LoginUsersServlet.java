@@ -18,8 +18,8 @@ public class LoginUsersServlet extends HttpServlet{
 	private static final long serialVersionUID = -7135687406875475113L;
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws javax.servlet.ServletException, java.io.IOException {
-		String userId = (String) req.getParameter("userId");
-		String userPassword = (String) req.getParameter("userPassword");
+		String userId = req.getParameter("userId");
+		String userPassword = req.getParameter("userPassword");
 		UserDao userDao = new UserDao();
 		try {
 			User user = userDao.readUser(userId);
