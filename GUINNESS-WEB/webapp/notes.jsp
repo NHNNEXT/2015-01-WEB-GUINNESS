@@ -32,7 +32,7 @@
 					<table>
 						<tr>
 							<td>날짜</td>
-							<td><input id="datepickr" name="targetDate"></td>
+							<td><input id="datepickr" name="targetDate" value=""></td>
 						</tr>
 						<tr>
 							<td>내용</td>
@@ -184,6 +184,7 @@
 			var blkcvr = document.getElementById('black-cover-note');
 			if (blkcvr.style.display == "none") {
 				blkcvr.style.display = "block";
+				document.getElementById("datepickr").setAttribute("value", guinness.util.today("-"));
 			} else {
 				blkcvr.style.display = "none";
 			}
