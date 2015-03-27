@@ -61,7 +61,7 @@
 						json = JSON.parse(req.responseText);
 						createGroup(json);
 					} else{
-						window.document.documentElement.innerHTML = req.responseText;	
+						window.location.href="/exception.jsp"
 					}
 				}
 			};
