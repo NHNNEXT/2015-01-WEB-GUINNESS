@@ -65,7 +65,7 @@ public abstract class AbstractDao {
 		Connection conn = getConnection();
 		PreparedStatement pstmt = setPreparedStatement(conn, sql, parameters);
 		ResultSet rs = pstmt.executeQuery();
-		List<?> array = getResultMapRows(cls, params, rs);
+		List<?> array = getListObject(cls, params, rs);
 		terminateResources(conn, pstmt, rs);
 		return array;
 	}
@@ -79,7 +79,7 @@ public abstract class AbstractDao {
 		return pstmt;
 	}
 
-	private List<Object> getResultMapRows(Class<?> cls, String[] paramsKey, ResultSet rs)
+	private List<Object> getListObject(Class<?> cls, String[] paramsKey, ResultSet rs)
 			throws MakingObjectListFromJdbcException {
 		int sizeOfParam = paramsKey.length;
 		List<Object> list = new ArrayList<Object>();

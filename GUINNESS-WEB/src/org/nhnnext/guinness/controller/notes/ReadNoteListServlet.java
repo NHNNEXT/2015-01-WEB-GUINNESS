@@ -15,6 +15,7 @@ import org.nhnnext.guinness.model.NoteDao;
 
 import com.google.gson.Gson;
 
+
 @WebServlet("/notelist/read")
 public class ReadNoteListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -23,9 +24,13 @@ public class ReadNoteListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO 사용자가 권한이 있는지 검증
 		String groupId = req.getParameter("groupId");
-		String targetDate = req.getParameter("targetDate");
 		NoteDao noteDAO = new NoteDao();
-		List<Note> noteList = noteDAO.readNoteList(groupId, targetDate);
+		List<Note> noteList = null;
+		try {
+			noteList = noteDAO.readNoteList(groupId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		resp.setContentType("application/json; charset=UTF-8");
 
 		PrintWriter out = resp.getWriter();
