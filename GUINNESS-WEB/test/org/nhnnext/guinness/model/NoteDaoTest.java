@@ -1,26 +1,33 @@
 package org.nhnnext.guinness.model;
 
-import static org.junit.Assert.assertNotNull;
-
-import java.sql.Connection;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.List;
 
 import org.junit.Test;
 
 public class NoteDaoTest {
-	NoteDao noteDAO = new NoteDao();
+	NoteDao noteDao = new NoteDao();
 
 	@Test
-	public void testGetConnection() {
-		Connection conn = noteDAO.getConnection();
+	public void CreateNote() throws SQLException, ClassNotFoundException {
+		Note note = new Note("test", "2015-03-19 17:56:24", "jyb0823@naver.com", "Ogsho");
 		
-		assertNotNull(conn);
+		noteDao.createNote(note);
 	}
-
+	
 	@Test
-	public void testCreateNote() throws SQLException {
-		Note note = new Note("test", "2015-03-19 17:56:24", "test@guinness.org", "abcde");
-		
-		noteDAO.createNote(note);
+	public void readNotes() {
+		List<Note> noteList = null;
+		try {
+			noteList = noteDao.readNoteList("Ogsho");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		for(Iterator<Note> i =  noteList.iterator(); i.hasNext(); ) {
+			Note note = i.next();
+			System.out.println(note.toString());
+		}
 	}
 }

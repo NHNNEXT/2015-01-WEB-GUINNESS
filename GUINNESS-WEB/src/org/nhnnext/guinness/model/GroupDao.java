@@ -44,6 +44,7 @@ public class GroupDao extends AbstractDao {
 		return (Group) list.get(0);
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Group> readGroupList(String userId) throws ClassNotFoundException, NoSuchFieldException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, SQLException {
 		String sql = "select * from GROUPS as G, (select groupId from GROUPS_USERS as A, USERS as B where A.userId = B.userId and B.userId = ?) as C where G.groupId = C.groupId";
 		String[] paramsKey= {"groupId", "groupName", "groupCaptainUserId", "isPublic"};
