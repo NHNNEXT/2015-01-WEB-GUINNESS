@@ -43,11 +43,11 @@ public class CreateGroupServlet extends HttpServlet {
 			group = new Group(groupName, groupCaptainUserId, isPublic);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-			Forwarding.ForwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
+			Forwarding.forwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
 			return;
 		} catch (MakingObjectListFromJdbcException e) {
 			e.printStackTrace();
-			Forwarding.ForwardForError(req, resp, "errorMessage", "접속이 원활하지 않습니다.", "/exception.jsp");
+			Forwarding.forwardForError(req, resp, "errorMessage", "접속이 원활하지 않습니다.", "/exception.jsp");
 			return;
 		}
 
@@ -57,7 +57,7 @@ public class CreateGroupServlet extends HttpServlet {
 
 		if (constraintViolation.size() > 0) {
 			String errorMessage = constraintViolation.iterator().next().getMessage();
-			Forwarding.ForwardForError(req, resp, "errorMessage", errorMessage, "/groups.jsp");
+			Forwarding.forwardForError(req, resp, "errorMessage", errorMessage, "/groups.jsp");
 			return;
 		}
 
@@ -68,7 +68,7 @@ public class CreateGroupServlet extends HttpServlet {
 			groupDao.createGroupUser(groupCaptainUserId, group.getGroupId());
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-			Forwarding.ForwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
+			Forwarding.forwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
 			return;
 		}
 

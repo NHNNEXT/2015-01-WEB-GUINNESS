@@ -50,7 +50,7 @@ public class CreateNoteServlet extends HttpServlet {
 			resp.sendRedirect("/g/" + groupId);
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
-			Forwarding.ForwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
+			Forwarding.forwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
 			return;
 		}
 	}

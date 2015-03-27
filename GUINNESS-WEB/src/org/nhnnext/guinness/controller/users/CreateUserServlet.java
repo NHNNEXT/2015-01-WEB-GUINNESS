@@ -39,7 +39,7 @@ public class CreateUserServlet extends HttpServlet{
 			}
 			req.setAttribute("userId", userId);
 			req.setAttribute("userName", userName);
-			Forwarding.ForwardForError(req, resp, "signValidErrorMessage", signValidErrorMessage, "/");
+			Forwarding.forwardForError(req, resp, "signValidErrorMessage", signValidErrorMessage, "/");
 			return;
 		}
 		UserDao userDao = new UserDao();
@@ -54,7 +54,7 @@ public class CreateUserServlet extends HttpServlet{
 				resp.sendRedirect("/groups.jsp");
 				return;
 			}
-			Forwarding.ForwardForError(req, resp, "message", "이미 존재하는 아이디입니다.", "/");
+			Forwarding.forwardForError(req, resp, "message", "이미 존재하는 아이디입니다.", "/");
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			resp.sendRedirect("/exception.jsp");

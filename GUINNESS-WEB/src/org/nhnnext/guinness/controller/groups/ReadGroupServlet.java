@@ -44,11 +44,11 @@ public class ReadGroupServlet extends HttpServlet {
 			groupList = groupDao.readGroupList(userId);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-			Forwarding.ForwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
+			Forwarding.forwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
 			return;
 		} catch (MakingObjectListFromJdbcException e) {
 			e.printStackTrace();
-			Forwarding.ForwardForError(req, resp, "errorMessage", "접속이 원활하지 않습니다.", "/exception.jsp");
+			Forwarding.forwardForError(req, resp, "errorMessage", "접속이 원활하지 않습니다.", "/exception.jsp");
 			return;
 		}
 		// 받아온 그룹아이디 출력 테스트

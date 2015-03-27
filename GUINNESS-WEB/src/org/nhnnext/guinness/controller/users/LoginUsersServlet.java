@@ -21,9 +21,9 @@ public class LoginUsersServlet extends HttpServlet{
 		String userId = req.getParameter("userId");
 		String userPassword = req.getParameter("userPassword");
 		UserDao userDao = new UserDao();
+		PrintWriter out = resp.getWriter();
 		try {
 			User user = userDao.readUser(userId);
-			PrintWriter out = resp.getWriter();
 			if (user == null || !user.getUserPassword().equals(userPassword)) {
 				out.print("loginFailed");
 				return;
@@ -32,9 +32,9 @@ public class LoginUsersServlet extends HttpServlet{
 			HttpSession session = req.getSession();
 			session.setAttribute("sessionUserId", userId);
 			session.setAttribute("sessionUserName", user.getUserName());
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-			resp.sendRedirect("/exception.jsp");
+		} catch (SQLException | NullPointerException e) {
+			System.out.println("login user servlet error");
+			out.print("/exception.jsp");
 		}
 	}
 }

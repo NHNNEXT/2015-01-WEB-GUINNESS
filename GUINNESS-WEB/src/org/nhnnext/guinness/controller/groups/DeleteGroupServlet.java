@@ -32,7 +32,7 @@ public class DeleteGroupServlet extends HttpServlet {
 		try {
 			group = groupDao.findByGroupId(groupId);
 			if (!group.getGroupCaptainUserId().equals(userId)) {
-				Forwarding.ForwardForError(req, resp, "errorMessage", "삭제 권한 없음", "/groups.jsp");
+				Forwarding.forwardForError(req, resp, "errorMessage", "삭제 권한 없음", "/groups.jsp");
 				return;
 			}
 			groupDao.deleteGroup(group);
@@ -40,11 +40,11 @@ public class DeleteGroupServlet extends HttpServlet {
 
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-			Forwarding.ForwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
+			Forwarding.forwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
 			return;
 		} catch (MakingObjectListFromJdbcException e) {
 			e.printStackTrace();
-			Forwarding.ForwardForError(req, resp, "errorMessage", "접속이 원활하지 않습니다.", "/exception.jsp");
+			Forwarding.forwardForError(req, resp, "errorMessage", "접속이 원활하지 않습니다.", "/exception.jsp");
 			return;
 		}
 	}
@@ -60,18 +60,18 @@ public class DeleteGroupServlet extends HttpServlet {
 		try {
 			group = groupDao.findByGroupId(groupId);
 			if (!group.getGroupCaptainUserId().equals(userId)) {
-				Forwarding.ForwardForError(req, resp, "errorMessage", "삭제 권한 없음", "/groups.jsp");
+				Forwarding.forwardForError(req, resp, "errorMessage", "삭제 권한 없음", "/groups.jsp");
 				return;
 			}
 			groupDao.deleteGroup(group);
 
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-			Forwarding.ForwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
+			Forwarding.forwardForError(req, resp, null, null, "/exception.jsp");
 			return;
 		} catch (MakingObjectListFromJdbcException e) {
 			e.printStackTrace();
-			Forwarding.ForwardForError(req, resp, "errorMessage", "접속이 원활하지 않습니다.", "/exception.jsp");
+			Forwarding.forwardForError(req, resp, null, null, "/exception.jsp");
 			return;
 		}
 
