@@ -55,7 +55,7 @@ public class CreateUserServlet extends HttpServlet{
 				return;
 			}
 			Forwarding.forwardForError(req, resp, "message", "이미 존재하는 아이디입니다.", "/");
-		} catch (SQLException e) {
+		} catch (SQLException | NullPointerException e) {
 			System.out.println(e.getMessage());
 			resp.sendRedirect("/exception.jsp");
 		}
