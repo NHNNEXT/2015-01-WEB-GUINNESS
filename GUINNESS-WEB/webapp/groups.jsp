@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE HTML>
 <html lang="ko">
 <head>
 <title>스터디의 시작, 기네스</title>
 <meta charset="utf-8">
-<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
+<link rel="stylesheet"
+	href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
 <link rel="stylesheet" href="/css/mainStyle.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <script src="/js/guinness.js"></script>
@@ -45,13 +46,12 @@
 			</div>
 		</div>
 	</div>
-			<c:if test="${not empty errorMessage}">
-						<script>
-							guinness.util.alert("삭제실패!","삭제 권한이 없습니다!");
-						</script>
-			</c:if>
+	<c:if test="${not empty errorMessage}">
+		<script>
+			guinness.util.alert("삭제실패!", "삭제 권한이 없습니다!");
+		</script>
+	</c:if>
 	<script>
-
 		window.addEventListener('load', function() {
 			var req = new XMLHttpRequest();
 			var json = null;
@@ -60,19 +60,21 @@
 					if (req.status == 200) {
 						json = JSON.parse(req.responseText);
 						createGroup(json);
+					} else{
+						window.document.documentElement.innerHTML = req.responseText;	
 					}
 				}
 			};
 			req.open('get', '/group/read', true);
 			req.send();
-			
+
 			var errorMessage = '${errorMessage}';
 
-			if(errorMessage !== '') {
+			if (errorMessage !== '') {
 				var blkcvr = document.getElementById('black-cover');
 				blkcvr.style.display = "block";
 			}
-			
+
 			var el = document.getElementById('create-new');
 			el.addEventListener('mouseup', showModal, false);
 			el = document.getElementById('createGroup-close');
@@ -86,8 +88,12 @@
 				obj = json[i];
 				var newEl = document.createElement("a");
 				newEl.setAttribute("href", "/g/" + obj.groupId);
-				var deleteBtn = "<a id='deleteGroup-btn' href='#' class='deleteGroup-btn' onclick='confirmDelete(\""+obj.groupId+"\")'><i class='fa fa-remove'></i></a>";
-				newEl.innerHTML = "<li>" + obj.groupName + deleteBtn +"<input name= groupId type='hidden' value=" + obj.groupId+" /> </li>";
+				var deleteBtn = "<a id='deleteGroup-btn' href='#' class='deleteGroup-btn' onclick='confirmDelete(\""
+						+ obj.groupId + "\")'><i class='fa fa-remove'></i></a>";
+				newEl.innerHTML = "<li>"
+						+ obj.groupName
+						+ deleteBtn
+						+ "<input name= groupId type='hidden' value=" + obj.groupId+" /> </li>";
 				el.appendChild(newEl);
 			}
 		}
@@ -100,9 +106,13 @@
 				blkcvr.style.display = "none";
 			}
 		}
-		
+
 		function confirmDelete(groupId) {
-			guinness.util.alert("스터디그룹 삭제","정말로 그룹을 삭제하시겠습니까?",function(){location.href="/group/delete?groupId="+groupId;},function(){console.log("그룹삭제안함");});
+			guinness.util.alert("스터디그룹 삭제", "정말로 그룹을 삭제하시겠습니까?", function() {
+				location.href = "/group/delete?groupId=" + groupId;
+			}, function() {
+				console.log("그룹삭제안함");
+			});
 		}
 	</script>
 </body>

@@ -24,7 +24,7 @@ public class User {
 		this.userId = userId;
 		this.userName = userName;
 		this.userPassword = userPassword;
-		this.userImage = (byte)0;
+		this.userImage = (byte) 0;
 	}
 
 	public String getUserId() {

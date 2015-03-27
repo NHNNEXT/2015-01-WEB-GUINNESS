@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.nhnnext.guinness.common.Forwarding;
 import org.nhnnext.guinness.common.ParameterKey;
 import org.nhnnext.guinness.common.WebServletURL;
+import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.GroupDao;
 
@@ -22,16 +23,15 @@ import com.google.gson.Gson;
 
 @WebServlet(WebServletURL.GROUP_READ)
 public class ReadGroupServlet extends HttpServlet {
-	private static final long serialVersionUID = -4587604819173641951L;
+	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		HttpSession session = req.getSession();
-		String userId = (String)session.getAttribute(ParameterKey.SESSION_USERID);
+		String userId = (String) session.getAttribute(ParameterKey.SESSION_USERID);
 		
-		// 세션이 없을 경우 루트화면으로 이동 
+		// 세션이 없을 경우 루트화면으로 이동
 		if (userId == null) {
 			resp.sendRedirect("/");
 			return;
@@ -46,7 +46,7 @@ public class ReadGroupServlet extends HttpServlet {
 			e.printStackTrace();
 			Forwarding.ForwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
 			return;
-		} catch (Exception e) {
+		} catch (MakingObjectListFromJdbcException e) {
 			e.printStackTrace();
 			Forwarding.ForwardForError(req, resp, "errorMessage", "접속이 원활하지 않습니다.", "/exception.jsp");
 			return;
@@ -60,7 +60,7 @@ public class ReadGroupServlet extends HttpServlet {
 		PrintWriter out = resp.getWriter();
 		StringBuffer sb = new StringBuffer();
 		Gson gson = new Gson();
-		
+
 		sb.append(gson.toJson(groupList));
 		out.write(sb.toString());
 		out.close();

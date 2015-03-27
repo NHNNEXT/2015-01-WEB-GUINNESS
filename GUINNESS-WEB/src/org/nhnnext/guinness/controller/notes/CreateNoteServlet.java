@@ -20,14 +20,13 @@ import org.nhnnext.guinness.model.NoteDao;
 
 @WebServlet(WebServletURL.NOTE_CREATE)
 public class CreateNoteServlet extends HttpServlet {
-	private static final long serialVersionUID = -4786711774618202192L;
+	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		HttpSession session = req.getSession();
-		String userId = (String)session.getAttribute("sessionUserId");
+		String userId = (String) session.getAttribute("sessionUserId");
 		if (userId == null) {
 			resp.sendRedirect("/");
 			return;
@@ -38,17 +37,17 @@ public class CreateNoteServlet extends HttpServlet {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		targetDate += " " + dateFormat.format(calendar.getTime());
 		String noteText = StringEscapeUtils.escapeHtml4(req.getParameter("noteText"));
-		
-		if(noteText.equals("")) {
-			resp.sendRedirect("/g/"+groupId);
+
+		if (noteText.equals("")) {
+			resp.sendRedirect("/g/" + groupId);
 			return;
 		}
-		
+
 		Note note = new Note(noteText, targetDate, userId, groupId);
 		NoteDao noteDAO = new NoteDao();
 		try {
 			noteDAO.createNote(note);
-			resp.sendRedirect("/g/"+groupId);
+			resp.sendRedirect("/g/" + groupId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Forwarding.ForwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");

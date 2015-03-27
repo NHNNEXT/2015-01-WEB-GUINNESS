@@ -13,6 +13,7 @@ public class Forwarding {
 			throws ServletException, IOException {
 		req.setAttribute(errorKey, errorMessage);
 		RequestDispatcher rd = req.getRequestDispatcher(destination);
+		resp.setStatus(500);
 		rd.forward(req, resp);
 	}
 }

@@ -1,6 +1,5 @@
 package org.nhnnext.guinness.model;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.Random;
 
@@ -9,6 +8,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.nhnnext.guinness.common.ParameterKey;
+import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 
 public class Group {
 	@Size(min = 5, max = 5)
@@ -24,21 +24,19 @@ public class Group {
 	@NotNull
 	private char isPublic;
 
-	public Group(String groupId, String groupName, String groupCaptainUserId,
-			char isPublic) {
+	public Group(String groupId, String groupName, String groupCaptainUserId, char isPublic) {
 		this.groupId = groupId;
 		this.groupName = groupName;
 		this.groupCaptainUserId = groupCaptainUserId;
 		this.isPublic = isPublic;
 	}
 
-	public Group(String groupName, String groupCaptainUserId, char isPublic)
-			throws ClassNotFoundException, SQLException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException {
+	public Group(String groupName, String groupCaptainUserId, char isPublic) throws ClassNotFoundException,
+			MakingObjectListFromJdbcException, SQLException {
 		this(setNewGroupId(), groupName, groupCaptainUserId, isPublic);
 	}
 
-	public static String setNewGroupId() throws ClassNotFoundException,
-			SQLException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException {
+	public static String setNewGroupId() throws ClassNotFoundException, MakingObjectListFromJdbcException, SQLException {
 		String groupId = null;
 
 		while (true) {
@@ -49,8 +47,8 @@ public class Group {
 		}
 	}
 
-	private static boolean checkExistGroupId(String groupId)
-			throws ClassNotFoundException, SQLException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException {
+	private static boolean checkExistGroupId(String groupId) throws ClassNotFoundException,
+			MakingObjectListFromJdbcException, SQLException {
 		return new GroupDao().checkExistGroupId(groupId);
 	}
 
@@ -84,13 +82,9 @@ public class Group {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime
-				* result
-				+ ((groupCaptainUserId == null) ? 0 : groupCaptainUserId
-						.hashCode());
+		result = prime * result + ((groupCaptainUserId == null) ? 0 : groupCaptainUserId.hashCode());
 		result = prime * result + ((groupId == null) ? 0 : groupId.hashCode());
-		result = prime * result
-				+ ((groupName == null) ? 0 : groupName.hashCode());
+		result = prime * result + ((groupName == null) ? 0 : groupName.hashCode());
 		result = prime * result + isPublic;
 		return result;
 	}
@@ -126,9 +120,8 @@ public class Group {
 
 	@Override
 	public String toString() {
-		return "Group [groupId=" + groupId + ", groupName=" + groupName
-				+ ", groupCaptainUserId=" + groupCaptainUserId + ", isPublic="
-				+ isPublic + "]";
+		return "Group [groupId=" + groupId + ", groupName=" + groupName + ", groupCaptainUserId=" + groupCaptainUserId
+				+ ", isPublic=" + isPublic + "]";
 	}
 
 }
