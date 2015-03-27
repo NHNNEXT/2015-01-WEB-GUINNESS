@@ -42,7 +42,7 @@ public abstract class AbstractDao {
 		Connection conn = getConnection();
 		PreparedStatement pstmt = setPreparedStatement(conn, sql, parameters);
 		pstmt.executeUpdate();
-		terminateResources(conn, pstmt, null);
+		terminateResources(conn, pstmt);
 	}
 
 	/**
@@ -111,6 +111,10 @@ public abstract class AbstractDao {
 		return list;
 	}
 
+	protected void terminateResources(Connection conn, PreparedStatement pstmt) throws SQLException {
+		terminateResources(conn, pstmt, null);
+	}
+	
 	protected void terminateResources(Connection conn, PreparedStatement pstmt, ResultSet rs) throws SQLException {
 		if (conn != null)
 			conn.close();
