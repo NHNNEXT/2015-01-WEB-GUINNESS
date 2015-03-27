@@ -75,7 +75,7 @@
 			req.onreadystatechange = function() {
 				if (req.status === 200 && req.readyState === 4) {
 					res = JSON.parse(req.responseText);
-					if (res == null) { return; }
+					if (res == "") { return; }
 					//노트가 하나이상 있다면 빈 노트 메세지를 지우고 노트와 네비게이션을 출력한다.
 					document.getElementById("empty-message").outerHTML = "";
 					appendNoteList(res);
