@@ -46,7 +46,7 @@ public class GroupDao extends AbstractDao {
 	// Group List를 받아오기 위함
 	public List<Group> readGroupList(String userId) throws ClassNotFoundException, MakingObjectListFromJdbcException,
 			SQLException {
-		String sql = "select * from GROUPS as G, (select groupId from GROUPS_USERS as A, USERS as B where A.userId = B.userId and B.userId = ?) as C where G.groupId = C.groupId";
+		String sql = "select * from GROUPS as G, (select groupId from GROUPS_USERS as A, USERS as B where A.userId = B.userId and B.userId = ?) as C where G.groupId = C.groupId ORDER BY groupName;";
 		String[] paramsKey = { "groupId", "groupName", "groupCaptainUserId", "isPublic" };
 		List<?> list = queryForReturn(Group.class, paramsKey, sql, userId);
 		return (List<Group>) list;
