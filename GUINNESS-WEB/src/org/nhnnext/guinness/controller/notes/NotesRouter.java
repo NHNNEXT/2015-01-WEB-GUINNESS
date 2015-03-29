@@ -36,6 +36,7 @@ public class NotesRouter extends HttpServlet {
 			String url = req.getRequestURI().split("/")[2];
 			if (!groupDao.checkJoinedGroup(userId, url)) {
 				Forwarding.forwardForError(req, resp, "errorMessage", "비정상적 접근시도.", "/illegal.jsp");
+				return;
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
