@@ -47,6 +47,26 @@ public abstract class AbstractDao {
 
 	/**
 	 * 
+	 * @param sql
+	 *            쿼리문
+	 * @param parameters
+	 *            sql 쿼리의 인자
+	 * @return
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	public int queryForCountReturn(String sql, String... parameters) throws SQLException, ClassNotFoundException {
+		Connection conn = getConnection();
+		PreparedStatement pstmt = setPreparedStatement(conn, sql, parameters);
+		ResultSet rs = pstmt.executeQuery();
+		rs.last();
+		int result = rs.getRow();
+		terminateResources(conn, pstmt);
+		return result;
+	}
+
+	/**
+	 * 
 	 * @param cls
 	 *            리스트 객체의 클래스 타입
 	 * @param params
@@ -114,7 +134,7 @@ public abstract class AbstractDao {
 	protected void terminateResources(Connection conn, PreparedStatement pstmt) throws SQLException {
 		terminateResources(conn, pstmt, null);
 	}
-	
+
 	protected void terminateResources(Connection conn, PreparedStatement pstmt, ResultSet rs) throws SQLException {
 		if (conn != null)
 			conn.close();

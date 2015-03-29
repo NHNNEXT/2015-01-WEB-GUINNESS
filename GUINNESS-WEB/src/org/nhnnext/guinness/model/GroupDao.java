@@ -51,4 +51,11 @@ public class GroupDao extends AbstractDao {
 		List<?> list = queryForReturn(Group.class, paramsKey, sql, userId);
 		return (List<Group>) list;
 	}
+
+	public boolean checkJoinedGroup(String userId, String groupId) throws ClassNotFoundException, SQLException {
+		String sql = "select * from GROUPS_USERS, GROUPS where GROUPS_USERS.userId = ? and GROUPS_USERS.groupID = GROUPS.groupId and GROUPS.groupId = ?";
+		if (queryForCountReturn(sql, userId, groupId) > 0)
+			return true;
+		return false;
+	}
 }
