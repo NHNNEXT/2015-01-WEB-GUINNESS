@@ -25,18 +25,21 @@ var guinness = {};
 	//
 	guinness.util.alert = function(header, message, agreeFunc, disagreeFunc) {
 		var body = document.body;
+		body.style.overflow="hidden";
 		var el = document.getElementById("guinness-alert-window");
 		if (el == null) {
 			el = document.createElement("div");
 			el.setAttribute("id","guinness-alert-window");
-			el.setAttribute("class","alert-window");
-			el.innerHTML = "";
+			el.setAttribute("class","alert-window-cover");
+			var innerEl = document.createElement("div");
+			innerEl.setAttribute("class","alert-window");
 			if (agreeFunc == null && disagreeFunc == null) {
-				el.innerHTML += "<div class='panel'><div class='panel-header warn'>"+header+"</div><div class='panel-body'>"+message+"<br/><div class='btn-group'><button class='btn' onclick='guinness.util.alert.choose()' >확인</button></div></div></div>";
+				innerEl.innerHTML += "<div class='panel'><div class='panel-header warn'>"+header+"</div><div class='panel-body'>"+message+"<br/><div class='btn-group'><button class='btn' onclick='guinness.util.alert.choose()' >확인</button></div></div></div>";
 			} else {
-				el.innerHTML += "<div class='panel'><div class='panel-header warn'>"+header+"</div><div class='panel-body'>"+message+"<br/><div class='btn-group'><button class='btn' onclick='guinness.util.alert.choose(true)' >예</button><button class='btn' onclick='guinness.util.alert.choose(false)'>아니오</button></div></div></div>";
+				innerEl.innerHTML += "<div class='panel'><div class='panel-header warn'>"+header+"</div><div class='panel-body'>"+message+"<br/><div class='btn-group'><button class='btn' onclick='guinness.util.alert.choose(true)' >예</button><button class='btn' onclick='guinness.util.alert.choose(false)'>아니오</button></div></div></div>";
 			}
 			body.appendChild(el);
+			el.appendChild(innerEl);
 			guinness.util.alert.agree = agreeFunc;
 			guinness.util.alert.disagree = disagreeFunc;
 		}
