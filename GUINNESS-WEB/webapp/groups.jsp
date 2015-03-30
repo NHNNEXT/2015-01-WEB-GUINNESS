@@ -90,9 +90,14 @@
 				newEl.setAttribute("href", "/g/" + obj.groupId);
 				var deleteBtn = "<a id='deleteGroup-btn' href='#' class='deleteGroup-btn' onclick='confirmDelete(\""
 						+ obj.groupId + "\")'><i class='fa fa-remove'></i></a>";
+				var lockImg = "<i class='fa fa-lock'></i>";
+				if(obj.isPublic === 'T') {
+					lockImg = "<i class='fa fa-unlock'></i>";
+				}
 				newEl.innerHTML = "<li>"
-						+ obj.groupName
+						+ "<span>"+obj.groupName+"</span>"
 						+ deleteBtn
+						+ lockImg
 						+ "<input name= groupId type='hidden' value=" + obj.groupId+" /> </li>";
 				el.appendChild(newEl);
 			}
