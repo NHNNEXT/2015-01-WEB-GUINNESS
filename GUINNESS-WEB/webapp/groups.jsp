@@ -83,7 +83,7 @@
 				var newEl = document.createElement("a");
 				newEl.setAttribute("href", "/g/" + obj.groupId);
 				var deleteBtn = "<a id='deleteGroup-btn' href='#' class='deleteGroup-btn' onclick='confirmDelete(\""
-						+ obj.groupId + "\")'><i class='fa fa-remove'></i></a>";
+						+ obj.groupId + "\", \"" + obj.groupName + "\")'><i class='fa fa-remove'></i></a>";
 				var lockImg = "<i class='fa fa-lock'></i>";
 				if(obj.isPublic === 'T') {
 					lockImg = "<i class='fa fa-unlock'></i>";
@@ -107,12 +107,15 @@
 		}
 
 		function confirmDelete(groupId) {
-			guinness.util.alert("스터디그룹 삭제", "정말로 그룹을 삭제하시겠습니까?", function() {
+			var message = "그룹을 삭제하시겠습니까?";
+			guinness.util.alert("스터디그룹 삭제", message, function() {
 				location.href = "/group/delete?groupId=" + groupId;
 			}, function() {
 				console.log("그룹삭제안함");
 			});
 		}
+		
+		
 	</script>
 </body>
 </html>
