@@ -42,4 +42,10 @@ public class User {
 	public byte getUserImage() {
 		return userImage;
 	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", userName=" + userName + ", userImage=" + userImage + "]";
+	}
+
 }

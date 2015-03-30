@@ -38,7 +38,7 @@ public class DeleteGroupServlet extends HttpServlet {
 			groupDao.deleteGroup(group);
 			resp.sendRedirect("/groups.jsp");
 
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			Forwarding.forwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
 			return;
@@ -65,7 +65,7 @@ public class DeleteGroupServlet extends HttpServlet {
 			}
 			groupDao.deleteGroup(group);
 
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			Forwarding.forwardForError(req, resp, null, null, "/exception.jsp");
 			return;

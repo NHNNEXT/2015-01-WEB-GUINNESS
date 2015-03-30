@@ -21,14 +21,14 @@ import org.nhnnext.guinness.model.UserDao;
 
 @WebServlet(WebServletURL.USER_CREATE)
 public class CreateUserServlet extends HttpServlet{
-	private static final long serialVersionUID = -8433534495044878880L;
+	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws javax.servlet.ServletException, java.io.IOException {
 		req.setCharacterEncoding("utf-8");
 		String userId = req.getParameter("userId");
 		String userPassword = req.getParameter("userPassword");
 		String userName =  ReplaceIntoEntitycode.intoEntitycode(req.getParameter("userName"));
-
+		
 		User user = new User(userId, userName, userPassword);
 		Set<ConstraintViolation<User>> constraintViolations = MyValidatorFactory.createValidator().validate(user);
 		if (constraintViolations.size() > 0) {
@@ -43,21 +43,19 @@ public class CreateUserServlet extends HttpServlet{
 			Forwarding.forwardForError(req, resp, "signValidErrorMessage", signValidErrorMessage, "/");
 			return;
 		}
+		
 		UserDao userDao = new UserDao();
 		try {
-			if (userId == null) {
-				resp.sendRedirect("/");
-			}
-			if (userDao.createUser(user)) {
-				HttpSession session = req.getSession();
-				session.setAttribute("sessionUserId", userId);
-				session.setAttribute("sessionUserName", userName);
-				resp.sendRedirect("/groups.jsp");
+			if (!userDao.createUser(user)) {
+				Forwarding.forwardForError(req, resp, "message", "이미 존재하는 아이디입니다.", "/");
 				return;
 			}
-			Forwarding.forwardForError(req, resp, "message", "이미 존재하는 아이디입니다.", "/");
-		} catch (SQLException | NullPointerException e) {
-			System.out.println(e.getMessage());
+			HttpSession session = req.getSession();
+			session.setAttribute("sessionUserId", userId);
+			session.setAttribute("sessionUserName", userName);
+			resp.sendRedirect("/groups.jsp");
+		} catch (SQLException e) {
+			e.printStackTrace();
 			resp.sendRedirect("/exception.jsp");
 		}
 	}

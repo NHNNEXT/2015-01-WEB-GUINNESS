@@ -1,7 +1,6 @@
 package org.nhnnext.guinness.model;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import java.sql.SQLException;
 
@@ -14,16 +13,6 @@ public class UserDaoTest {
 		User user = new User("testUserId2", "testUserName", "testUserPassword");
 		UserDao userDao = new UserDao();
 		userDao.createUser(user);
-		User dbUser = userDao.readUser(user.getUserId());
-		assertEquals(user.getUserId(), dbUser.getUserId());
-		
+		assertEquals(userDao.checkExistUserId(user.getUserId()), true);
 	}
-	
-	@Test
-	public void readUserTest() throws SQLException {
-		String userId = "userId1";
-		UserDao userDao = new UserDao();
-		assertNotNull( userDao.readUser(userId) );
-	}
-
 }

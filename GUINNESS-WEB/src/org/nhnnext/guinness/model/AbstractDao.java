@@ -1,6 +1,7 @@
 package org.nhnnext.guinness.model;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,12 +21,10 @@ public abstract class AbstractDao {
 	static Type GroupList = new TypeToken<List<Group>>() {
 	}.getType();
 
-	protected Connection getConnection() throws ClassNotFoundException, SQLException {
+	protected Connection getConnection() throws SQLException {
 		String url = "jdbc:mysql://localhost:3306/GUINNESS";
 		String id = "link413";
 		String pw = "link413";
-
-		Class.forName("com.mysql.jdbc.Driver");
 		return DriverManager.getConnection(url, id, pw);
 	}
 
@@ -38,7 +37,7 @@ public abstract class AbstractDao {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public void queryNotForReturn(String sql, String... parameters) throws SQLException, ClassNotFoundException {
+	public void queryNotForReturn(String sql, String... parameters) throws SQLException {
 		Connection conn = getConnection();
 		PreparedStatement pstmt = setPreparedStatement(conn, sql, parameters);
 		pstmt.executeUpdate();
@@ -55,7 +54,7 @@ public abstract class AbstractDao {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public int queryForCountReturn(String sql, String... parameters) throws SQLException, ClassNotFoundException {
+	public int queryForCountReturn(String sql, String... parameters) throws SQLException {
 		Connection conn = getConnection();
 		PreparedStatement pstmt = setPreparedStatement(conn, sql, parameters);
 		ResultSet rs = pstmt.executeQuery();
@@ -80,8 +79,7 @@ public abstract class AbstractDao {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public List<?> queryForReturn(Class<?> cls, String[] params, String sql, String... parameters)
-			throws MakingObjectListFromJdbcException, ClassNotFoundException, SQLException {
+	public List<?> queryForReturn(Class<?> cls, String[] params, String sql, String... parameters) throws SQLException {
 		Connection conn = getConnection();
 		PreparedStatement pstmt = setPreparedStatement(conn, sql, parameters);
 		ResultSet rs = pstmt.executeQuery();
@@ -91,7 +89,7 @@ public abstract class AbstractDao {
 	}
 
 	private PreparedStatement setPreparedStatement(Connection conn, String sql, String... parameters)
-			throws SQLException, ClassNotFoundException {
+			throws SQLException {
 		int index = 1;
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		for (String parms : parameters)
@@ -99,8 +97,7 @@ public abstract class AbstractDao {
 		return pstmt;
 	}
 
-	private List<Object> getListObject(Class<?> cls, String[] paramsKey, ResultSet rs)
-			throws MakingObjectListFromJdbcException {
+	private List<Object> getListObject(Class<?> cls, String[] paramsKey, ResultSet rs) {
 		int sizeOfParam = paramsKey.length;
 		List<Object> list = new ArrayList<Object>();
 		try {
@@ -120,12 +117,13 @@ public abstract class AbstractDao {
 						paramsValue[indexOfcolumn] = rs.getString(paramsKey[indexOfcolumn]).charAt(0);
 						break;
 					default:
-						throw new MakingObjectListFromJdbcException(new Exception("Constructor Parameters Error"));
+						throw new MakingObjectListFromJdbcException();
 					}
 				}
 				list.add(ct.newInstance(paramsValue));
 			}
-		} catch (Exception e) {
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| SQLException | NoSuchFieldException | SecurityException | NoSuchMethodException e) {
 			throw new MakingObjectListFromJdbcException(e);
 		}
 		return list;

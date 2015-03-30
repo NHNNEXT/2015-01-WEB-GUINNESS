@@ -42,7 +42,7 @@ public class ReadGroupServlet extends HttpServlet {
 		List<Group> groupList = null;
 		try {
 			groupList = groupDao.readGroupList(userId);
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			Forwarding.forwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
 			return;

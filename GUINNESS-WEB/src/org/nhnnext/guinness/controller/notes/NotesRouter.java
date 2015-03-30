@@ -38,12 +38,12 @@ public class NotesRouter extends HttpServlet {
 				Forwarding.forwardForError(req, resp, "errorMessage", "비정상적 접근시도.", "/illegal.jsp");
 				return;
 			}
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			Forwarding.forwardForError(req, resp, "errorMessage", "비정상적 접근시도.", "/exception.jsp");
 			return;
 		}
-		
+
 		RequestDispatcher rd = req.getRequestDispatcher("/notes.jsp");
 		rd.forward(req, resp);
 
