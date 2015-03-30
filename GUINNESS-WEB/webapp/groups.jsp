@@ -93,7 +93,7 @@
 						+ "<span>"+obj.groupName+"</span>"
 						+ deleteBtn
 						+ lockImg
-						+ "<input name= groupId type='hidden' value=" + obj.groupId+" /> </li>";
+						+ "<input name= groupId type='hidden' value=" + obj.groupId+" /></li>";
 				el.appendChild(newEl);
 			}
 		}
@@ -107,16 +107,15 @@
 			}
 		}
 
-		function confirmDelete(groupId) {
-			var message = "그룹을 삭제하시겠습니까?";
+		function confirmDelete(groupId, groupName) {
+			groupName = (groupName.replace(/</gi, "&lt;")).replace(/>/gi, "&gt;");
+			var message = groupName + "을 삭제하시겠습니까?";
 			guinness.util.alert("스터디그룹 삭제", message, function() {
 				location.href = "/group/delete?groupId=" + groupId;
 			}, function() {
 				console.log("그룹삭제안함");
 			});
 		}
-		
-		
 	</script>
 </body>
 </html>
