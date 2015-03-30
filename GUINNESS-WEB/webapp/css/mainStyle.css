@@ -132,6 +132,11 @@ input.text{
     cursor:pointer;
 }
 
+.btn-group {
+	display:table;
+	margin:0 auto;
+}
+
 #login-util{
   margin-top:15px;
   font-size:12px;

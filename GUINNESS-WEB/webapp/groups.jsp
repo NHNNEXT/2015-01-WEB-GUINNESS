@@ -46,11 +46,6 @@
 			</div>
 		</div>
 	</div>
-	<c:if test="${not empty errorMessage}">
-		<script>
-			guinness.util.alert("삭제실패!", "삭제 권한이 없습니다!");
-		</script>
-	</c:if>
 	<script>
 		window.addEventListener('load', function() {
 			var req = new XMLHttpRequest();
@@ -71,8 +66,7 @@
 			var errorMessage = '${errorMessage}';
 
 			if (errorMessage !== '') {
-				var blkcvr = document.getElementById('black-cover');
-				blkcvr.style.display = "block";
+				guinness.util.alert("비정상적인 접근!", errorMessage);
 			}
 
 			var el = document.getElementById('create-new');

@@ -32,9 +32,9 @@ var guinness = {};
 			el.setAttribute("class","alert-window");
 			el.innerHTML = "";
 			if (agreeFunc == null && disagreeFunc == null) {
-				el.innerHTML += "<div class='panel'><div class='panel-header warn'>"+header+"</div><div class='panel-body'>"+message+"<br/><button class='btn' onclick='guinness.util.alert.choose()' >확인</button></div></div>";
+				el.innerHTML += "<div class='panel'><div class='panel-header warn'>"+header+"</div><div class='panel-body'>"+message+"<br/><div class='btn-group'><button class='btn' onclick='guinness.util.alert.choose()' >확인</button></div></div></div>";
 			} else {
-				el.innerHTML += "<div class='panel'><div class='panel-header warn'>"+header+"</div><div class='panel-body'>"+message+"<br/><button class='btn' onclick='guinness.util.alert.choose(true)' >예</button><button class='btn' onclick='guinness.util.alert.choose(false)'>아니오</button></div></div>";
+				el.innerHTML += "<div class='panel'><div class='panel-header warn'>"+header+"</div><div class='panel-body'>"+message+"<br/><div class='btn-group'><button class='btn' onclick='guinness.util.alert.choose(true)' >예</button><button class='btn' onclick='guinness.util.alert.choose(false)'>아니오</button></div></div></div>";
 			}
 			body.appendChild(el);
 			guinness.util.alert.agree = agreeFunc;
