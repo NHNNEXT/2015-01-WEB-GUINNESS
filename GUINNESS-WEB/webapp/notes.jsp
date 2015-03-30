@@ -31,7 +31,7 @@
 					<table>
 						<tr>
 							<td>날짜</td>
-							<td><input id="datepickr" name="targetDate" value=""></td>
+							<td><input id="datepickr" name="targetDate" value="" readonly/></td>
 						</tr>
 						<tr>
 							<td>내용</td>

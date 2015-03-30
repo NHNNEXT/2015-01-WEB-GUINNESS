@@ -132,6 +132,11 @@ input.text{
     cursor:pointer;
 }
 
+.btn-group {
+	display:table;
+	margin:0 auto;
+}
+
 #login-util{
   margin-top:15px;
   font-size:12px;
@@ -171,6 +176,7 @@ input.text{
   cursor:pointer;
   background-color:#454545;
   color:white;
+  position:relative;
 }
 
 .group-list li#create-new{
@@ -178,11 +184,11 @@ input.text{
 
 }
 
-.group-list span{
-  position:relative;
-  top:40px;
-  margin-top:60px;
-  text-align:center;
+.group-list .fa-lock, .group-list .fa-unlock{
+  position: absolute;
+  left: 20px;
+  top: 100%;
+  margin-top: -25px;
 }
 
 
