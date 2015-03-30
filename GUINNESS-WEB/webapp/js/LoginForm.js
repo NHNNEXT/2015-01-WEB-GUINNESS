@@ -7,7 +7,12 @@ el.addEventListener("click", switchForm, false);
 
 /* 회원가입과 로그인 Form 을 변경시켜주는 Function */
 function switchForm() {
-	var el = document.getElementById("signup-form");
+	var el;
+	el = document.getElementsByClassName("errorMessage");
+	for (var i = 0; i < el.length; i++) {
+	  el[i].innerHTML = "";
+	}
+	el = document.getElementById("signup-form");
 	if(el.style.display === "block") {
 		Event.hideElement("signup-form");
 		Event.hideElement("label-login");
