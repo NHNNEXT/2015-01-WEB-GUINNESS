@@ -164,11 +164,12 @@ input.text {
 
 #group-name {
 	font-weight: 900;
-	font-size: 30px;
-	text-shadow: 2px 2px 4px black;
-	color: white;
+	font-size: 25px;
+	border-left: 5px solid rgb(93, 129, 128);
+	color: rgb(93, 129, 128);
 	display: block;
 	margin-bottom: 20px;
+	padding-left: 10px;
 }
 
 .group-list li {
