@@ -43,7 +43,7 @@ ul {
 	border-radius: 22px;
 	overflow: hidden;
 	margin-top: 6px;
-	background-color: #86E57F;
+	background-color: #558;
 }
 
 #header .util .menu {
@@ -238,7 +238,7 @@ input.text {
 	height: 45px;
 	border-radius: 22px;
 	overflow: hidden;
-	background-color: #86E57F;
+	background-color: #558;
 }
 
 .diary-list .msgContainer {
@@ -308,7 +308,7 @@ input.text {
 }
 
 .time-nav li:hover .date-point, .time-nav li.date-select .date-point {
-	background-color: #454545;
+	background-color: #558;
 }
 
 #black-cover, .modal-cover {
