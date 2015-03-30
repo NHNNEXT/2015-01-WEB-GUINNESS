@@ -101,8 +101,10 @@
 		function showModal(e) {
 			var blkcvr = document.getElementById('black-cover');
 			if (blkcvr.style.display == "none") {
+				document.body.style.overflow="hidden";
 				blkcvr.style.display = "block";
 			} else {
+				document.body.style.overflow="auto";
 				blkcvr.style.display = "none";
 			}
 		}
