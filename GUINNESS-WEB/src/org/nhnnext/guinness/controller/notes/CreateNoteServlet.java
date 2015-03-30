@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.nhnnext.guinness.common.Forwarding;
+import org.nhnnext.guinness.common.ReplaceIntoEntitycode;
 import org.nhnnext.guinness.common.WebServletURL;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.NoteDao;
@@ -36,7 +37,7 @@ public class CreateNoteServlet extends HttpServlet {
 		Calendar calendar = Calendar.getInstance();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		targetDate += " " + dateFormat.format(calendar.getTime());
-		String noteText = StringEscapeUtils.escapeHtml4(req.getParameter("noteText"));
+		String noteText = ReplaceIntoEntitycode.intoEntitycode(StringEscapeUtils.escapeHtml4(req.getParameter("noteText")));
 
 		if (noteText.equals("")) {
 			resp.sendRedirect("/g/" + groupId);
