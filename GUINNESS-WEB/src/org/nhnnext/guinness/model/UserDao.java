@@ -3,6 +3,9 @@ package org.nhnnext.guinness.model;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.nhnnext.guinness.common.AbstractDao;
+import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
+
 public class UserDao extends AbstractDao {
 	public Boolean createUser(User user) throws SQLException {
 		String userId = user.getUserId();
@@ -16,7 +19,7 @@ public class UserDao extends AbstractDao {
 		return true;
 	}
 
-	public boolean checkExistUserId(String userId) throws SQLException {
+	public boolean checkExistUserId(String userId) throws SQLException, MakingObjectListFromJdbcException {
 		boolean result = false;
 		String sql = "select * from USERS where userId=?";
 		String[] params = { "userId", "userName", "userPassword"};

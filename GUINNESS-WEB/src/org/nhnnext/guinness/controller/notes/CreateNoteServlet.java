@@ -49,7 +49,7 @@ public class CreateNoteServlet extends HttpServlet {
 		try {
 			noteDAO.createNote(note);
 			resp.sendRedirect("/g/" + groupId);
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			Forwarding.forwardForError(req, resp, null, null, "/exception.jsp");
 			return;

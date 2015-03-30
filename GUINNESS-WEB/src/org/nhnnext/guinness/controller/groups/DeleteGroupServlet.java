@@ -37,12 +37,7 @@ public class DeleteGroupServlet extends HttpServlet {
 			}
 			groupDao.deleteGroup(group);
 			resp.sendRedirect("/groups.jsp");
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			Forwarding.forwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
-			return;
-		} catch (MakingObjectListFromJdbcException e) {
+		} catch (SQLException | MakingObjectListFromJdbcException e) {
 			e.printStackTrace();
 			Forwarding.forwardForError(req, resp, "errorMessage", "접속이 원활하지 않습니다.", "/exception.jsp");
 			return;
@@ -65,15 +60,10 @@ public class DeleteGroupServlet extends HttpServlet {
 			}
 			groupDao.deleteGroup(group);
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			Forwarding.forwardForError(req, resp, null, null, "/exception.jsp");
-			return;
-		} catch (MakingObjectListFromJdbcException e) {
+		} catch (SQLException | MakingObjectListFromJdbcException e) {
 			e.printStackTrace();
 			Forwarding.forwardForError(req, resp, null, null, "/exception.jsp");
 			return;
 		}
-
 	}
 }

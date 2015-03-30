@@ -30,7 +30,7 @@ public class ReadGroupServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		HttpSession session = req.getSession();
 		String userId = (String) session.getAttribute(ParameterKey.SESSION_USERID);
-		
+
 		// 세션이 없을 경우 루트화면으로 이동
 		if (userId == null) {
 			resp.sendRedirect("/");
@@ -42,11 +42,7 @@ public class ReadGroupServlet extends HttpServlet {
 		List<Group> groupList = null;
 		try {
 			groupList = groupDao.readGroupList(userId);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			Forwarding.forwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
-			return;
-		} catch (MakingObjectListFromJdbcException e) {
+		} catch (SQLException | MakingObjectListFromJdbcException e) {
 			e.printStackTrace();
 			Forwarding.forwardForError(req, resp, "errorMessage", "접속이 원활하지 않습니다.", "/exception.jsp");
 			return;

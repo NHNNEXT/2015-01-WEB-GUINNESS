@@ -31,12 +31,12 @@ public class Group {
 		this.isPublic = isPublic;
 	}
 
-	public Group(String groupName, String groupCaptainUserId, char isPublic) throws ClassNotFoundException,
-			MakingObjectListFromJdbcException, SQLException {
+	public Group(String groupName, String groupCaptainUserId, char isPublic) throws MakingObjectListFromJdbcException,
+			SQLException {
 		this(setNewGroupId(), groupName, groupCaptainUserId, isPublic);
 	}
 
-	public static String setNewGroupId() throws ClassNotFoundException, MakingObjectListFromJdbcException, SQLException {
+	public static String setNewGroupId() throws MakingObjectListFromJdbcException, SQLException {
 		String groupId = null;
 
 		while (true) {
@@ -47,8 +47,7 @@ public class Group {
 		}
 	}
 
-	private static boolean checkExistGroupId(String groupId) throws ClassNotFoundException,
-			MakingObjectListFromJdbcException, SQLException {
+	private static boolean checkExistGroupId(String groupId) throws MakingObjectListFromJdbcException, SQLException {
 		return new GroupDao().checkExistGroupId(groupId);
 	}
 

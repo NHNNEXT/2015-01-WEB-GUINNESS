@@ -1,4 +1,4 @@
-package org.nhnnext.guinness.model;
+package org.nhnnext.guinness.common;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
+import org.nhnnext.guinness.model.Group;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -79,7 +80,8 @@ public abstract class AbstractDao {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public List<?> queryForReturn(Class<?> cls, String[] params, String sql, String... parameters) throws SQLException {
+	public List<?> queryForReturn(Class<?> cls, String[] params, String sql, String... parameters) throws SQLException,
+			MakingObjectListFromJdbcException {
 		Connection conn = getConnection();
 		PreparedStatement pstmt = setPreparedStatement(conn, sql, parameters);
 		ResultSet rs = pstmt.executeQuery();
@@ -97,7 +99,8 @@ public abstract class AbstractDao {
 		return pstmt;
 	}
 
-	private List<Object> getListObject(Class<?> cls, String[] paramsKey, ResultSet rs) {
+	private List<Object> getListObject(Class<?> cls, String[] paramsKey, ResultSet rs)
+			throws MakingObjectListFromJdbcException {
 		int sizeOfParam = paramsKey.length;
 		List<Object> list = new ArrayList<Object>();
 		try {

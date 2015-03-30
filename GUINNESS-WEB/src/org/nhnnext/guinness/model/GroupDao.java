@@ -3,6 +3,7 @@ package org.nhnnext.guinness.model;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.nhnnext.guinness.common.AbstractDao;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 
 public class GroupDao extends AbstractDao {

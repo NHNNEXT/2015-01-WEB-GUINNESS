@@ -42,15 +42,11 @@ public class CreateGroupServlet extends HttpServlet {
 		Group group = null;
 		try {
 			group = new Group(groupName, groupCaptainUserId, isPublic);
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-			Forwarding.forwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
-			return;
-		} catch (MakingObjectListFromJdbcException e) {
+		} catch (MakingObjectListFromJdbcException | SQLException e) {
 			e.printStackTrace();
 			Forwarding.forwardForError(req, resp, "errorMessage", "접속이 원활하지 않습니다.", "/exception.jsp");
 			return;
-		}
+		} 
 
 		// 유효성 검사
 		Validator validator = MyValidatorFactory.createValidator();
@@ -67,9 +63,9 @@ public class CreateGroupServlet extends HttpServlet {
 		try {
 			groupDao.createGroup(group);
 			groupDao.createGroupUser(groupCaptainUserId, group.getGroupId());
-		} catch (SQLException e) {
+		} catch (SQLException | MakingObjectListFromJdbcException e) {
 			e.printStackTrace();
-			Forwarding.forwardForError(req, resp, "errorMessage", "데이터 베이스 연결 실패", "/exception.jsp");
+			Forwarding.forwardForError(req, resp, "errorMessage", "접속이 원활하지 않습니다.", "/exception.jsp");
 			return;
 		}
 
