@@ -86,6 +86,7 @@
 			var obj = null;
 			for (var i = 0; i < json.length; i++) {
 				obj = json[i];
+				document.cookie = obj.groupId+"="+encodeURI(obj.groupName);
 				var newEl = document.createElement("a");
 				newEl.setAttribute("href", "/g/" + obj.groupId);
 				var deleteBtn = "<a id='deleteGroup-btn' href='#' class='deleteGroup-btn' onclick='confirmDelete(\""

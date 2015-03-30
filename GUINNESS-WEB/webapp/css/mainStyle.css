@@ -151,6 +151,15 @@ input.text{
   width:720px;
 }
 
+#group-name{
+	font-weight:900;
+	font-size:30px;
+	text-shadow:2px 2px 4px black;
+	color:white;
+	display:block;
+	margin-bottom:20px;
+}
+
 .group-list li{
   display:table;
   float:left;
@@ -182,13 +191,11 @@ input.text{
 	margin-top: 100px;
 }
 .diary-list{
-  margin-left:90px;
-  padding-left:150px;
-  padding-right:50px;
+  margin: 0 auto;
   width:650px;
+  padding:20px;
   list-style:none;
   color:#454545;
-  padding-top:20px;
   padding-bottom:30px;
   margin-bottom:10px;
   background-color:#fff;
@@ -340,9 +347,26 @@ input.text{
 }
 
 #create-new-button {
-	postion: absolute;
-	float: right;
-	top : 100px;
+	margin: 0 auto;
+	width: 684px;
+	height:100%;
+	font-size: 70px;
+	margin-bottom:10px;
+	color:#B4B4B4;
+	text-align: center;
+	background-color:#eeeff2;
+	border:3px dotted #B4B4B4;
+	border-radius:12px;
+}
+
+#create-new-button:hover {
+	color:#AEAEAE;
+	cursor:pointer;
+	background-color:#e7e8eb;
+}
+
+#create-new-button:active {
+	color:#8F8F8F;
 }
 
 .drop-down:hover ul {
