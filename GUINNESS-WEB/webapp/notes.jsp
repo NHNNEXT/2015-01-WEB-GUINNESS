@@ -17,7 +17,6 @@
 <body>
 	<%@ include file="/commons/_topnav.jspf"%>
 	<h1 id="empty-message" style="position:absolute; color:#888; top:45%; width:100%; text-align:center;">새 노트를 작성해주세요</h1>
-	<button id='create-new-button'>새 일지 작성</button>
 	<div id='black-cover-note' class='modal-cover' style='display: none'>
 		<div id='createNote-container' class='modal-container'>
 			<div id='createNote-header' class='modal-header'>
@@ -48,6 +47,8 @@
 	<div id='note-list-container' class='content wrap'>
 		<ul id='to-date' class='time-nav'>
 		</ul>
+		<span id="group-name"></span>
+		<div id='create-new-button'><i class="fa fa-plus-circle" fa-4x></i></div>
 	</div>
 	<script>
 		/* scrolling navigation */
@@ -61,7 +62,17 @@
 			var targetDate = guinness.util.today("-");
 			readNoteList(groupId, targetDate);
 			attachGroupId(groupId);
+			
+			var groupNameLabel=document.getElementById('group-name');
+			var groupName=getCookie(groupId);
+			document.title=groupName;
+			groupNameLabel.innerHTML = groupName;
 		}, false);
+		
+		function getCookie(sKey) {
+			if (!sKey) { return null; }
+		    return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*"+encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&")+"\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
+		}
 
 		function attachGroupId(data) {
 			var el = document.getElementById("groupId");
@@ -161,7 +172,7 @@
 					newEl.setAttribute("class", "diary-date");
 					newEl.innerHTML = "<span>"
 							+ targetDate
-							+ "</span><i style='float:right; cursor:pointer;' class='fa fa-pencil'></i>";
+							+ "</span>";
 					el.appendChild(newEl);
 					document.getElementById('note-list-container').appendChild(
 							el);
