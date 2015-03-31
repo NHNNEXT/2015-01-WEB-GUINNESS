@@ -15,7 +15,7 @@ public class NoteDao extends AbstractDao {
 
 	@SuppressWarnings("unchecked")
 	public List<Note> readNoteList(String groupId, String endDate, String targetDate) throws MakingObjectListFromJdbcException, SQLException {
-		String sql = "select * from NOTES,USERS where NOTES.userId = USERS.userId AND groupId = ? AND targetDate between ? and ? order by targetDate desc";
+		String sql = "select * from NOTES,USERS where NOTES.userId = USERS.userId and groupId = ? and NOTES.targetDate between ? and ? order by targetDate desc";
 		String[] params = { "noteId", "noteText", "targetDate", "userId", "groupId", "userName" };
 		List<?> noteList = queryForReturn(Note.class, params, sql, groupId, endDate, targetDate);
 		return (List<Note>) noteList;

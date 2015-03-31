@@ -29,13 +29,12 @@ public class ReadNoteListServlet extends HttpServlet {
 		String groupId = req.getParameter("groupId");
 		NoteDao noteDAO = new NoteDao();
 		List<Note> noteList = null;
-		String targetDate = req.getParameter("targetDate");
-		DateTime dt = new DateTime(targetDate);
-		dt = dt.minus(Period.days(10));
+		DateTime targetDate = new DateTime(req.getParameter("targetDate"));
+		targetDate = targetDate.plus(Period.days(1));
+		DateTime endDate = targetDate.minus(Period.days(10));
 		
 		try {
-			noteList = noteDAO.readNoteList(groupId, dt.toString(), targetDate);
-			System.out.println("groupId: "+groupId+ " targetDate: "+dt.toString()+" noteList.size(): "+noteList.size());
+			noteList = noteDAO.readNoteList(groupId, endDate.toString(), targetDate.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

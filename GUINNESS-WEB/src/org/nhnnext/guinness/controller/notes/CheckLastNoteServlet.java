@@ -23,10 +23,7 @@ public class CheckLastNoteServlet extends HttpServlet{
 		NoteDao noteDao = new NoteDao();
 		PrintWriter out = resp.getWriter();
 		try {
-			int re = noteDao.checkGroupNotesCount(groupId);
-			System.out.println("re : " +re);
-			if (noteCount < re){
-				System.out.println("k");
+			if (noteCount < noteDao.checkGroupNotesCount(groupId)){
 				out.print("true");
 			}
 		} catch (SQLException e) {
