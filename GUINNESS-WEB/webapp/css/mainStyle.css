@@ -320,6 +320,7 @@ input.text {
 	width: 100%;
 	height: 100%;
 	background-color: rgba(14, 14, 14, .6);
+	overflow: auto;
 }
 
 .modal-container {
