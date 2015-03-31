@@ -323,6 +323,16 @@ input.text {
 	overflow: auto;
 }
 
+.note-modal-cover {
+	position: fixed;
+	top: 0px;
+	z-index: 20;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(14, 14, 14, .6);
+	overflow: auto;
+}
+
 .modal-container {
 	position: relative;
 	width: 500px;

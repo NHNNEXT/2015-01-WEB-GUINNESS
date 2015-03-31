@@ -1,6 +1,7 @@
 package org.nhnnext.guinness.model;
 
 public class Note {
+	private String noteId;
 	private String noteText;
 	private String targetDate;
 	private String userId;
@@ -8,16 +9,21 @@ public class Note {
 	private String userName;
 
 	public Note(String noteText, String targetDate, String userId, String groupId) {
-		this(noteText, targetDate, userId, groupId, null);
+		this(null, noteText, targetDate, userId, groupId, null);
 	}
 
-	public Note(String noteText, String targetDate, String userId,
+	public Note(String noteId, String noteText, String targetDate, String userId,
 			String groupId, String userName) {
+		this.noteId = noteId;
 		this.noteText = noteText;
 		this.targetDate = targetDate;
 		this.userId = userId;
 		this.groupId = groupId;
 		this.userName = userName;
+	}
+	
+	public String getNoteId() {
+		return noteId;
 	}
 
 	public String getNoteText() {
@@ -41,9 +47,8 @@ public class Note {
 	}
 
 	@Override
-	public String toString() {
-		return "Note [noteText=" + noteText + ", targetDate=" + targetDate
-				+ ", userId=" + userId + ", groupId=" + groupId + ", userName="
-				+ userName + "]";
-	}
+    public String toString() {
+	    return "Note [noteId=" + noteId + ", noteText=" + noteText + ", targetDate=" + targetDate + ", userId="
+	            + userId + ", groupId=" + groupId + ", userName=" + userName + "]";
+    }
 }
