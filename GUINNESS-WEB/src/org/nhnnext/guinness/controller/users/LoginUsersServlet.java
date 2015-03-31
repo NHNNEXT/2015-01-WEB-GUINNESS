@@ -31,7 +31,7 @@ public class LoginUsersServlet extends HttpServlet{
 			}
 			HttpSession session = req.getSession();
 			session.setAttribute("sessionUserId", user.getUserId());
-			session.setAttribute("sessionUserName", user.getUserPassword());
+			session.setAttribute("sessionUserName", user.getUserName());
 			out.print("/groups.jsp");
 			
 		} catch (SQLException e) {
