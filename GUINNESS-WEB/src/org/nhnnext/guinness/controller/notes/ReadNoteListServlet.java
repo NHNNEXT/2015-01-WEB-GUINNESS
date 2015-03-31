@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.joda.time.DateTime;
+import org.joda.time.Period;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.NoteDao;
 
@@ -22,12 +24,17 @@ public class ReadNoteListServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO 사용자가 권한이 있는지 검증
+		// 사용자가 권한이 있는지 검증
 		String groupId = req.getParameter("groupId");
 		NoteDao noteDAO = new NoteDao();
 		List<Note> noteList = null;
+		String targetDate = req.getParameter("targetDate");
+		DateTime dt = new DateTime(targetDate);
+		dt = dt.minus(Period.days(10));
+		
 		try {
-			noteList = noteDAO.readNoteList(groupId);
+			noteList = noteDAO.readNoteList(groupId, dt.toString(), targetDate);
+			System.out.println("groupId: "+groupId+ " targetDate: "+dt.toString()+" noteList.size(): "+noteList.size());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 public class NoteDaoTest {
@@ -20,7 +21,7 @@ public class NoteDaoTest {
 	public void readNotes() {
 		List<Note> noteList = null;
 		try {
-			noteList = noteDao.readNoteList("Ogsho");
+			noteList = noteDao.readNoteList("Ogsho", "2015-03-21", "2015-03-31");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -29,4 +30,13 @@ public class NoteDaoTest {
 			System.out.println(note.toString());
 		}
 	}
+	
+	@Test
+	public void testName() throws Exception {
+		NoteDao noteDao = new NoteDao();
+		int tt = noteDao.checkGroupNotesCount("JFaTh");
+		System.out.println(tt);
+	}
+	
+	
 }

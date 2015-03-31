@@ -16,7 +16,9 @@
 </head>
 <body>
 	<%@ include file="/commons/_topnav.jspf"%>
-	<h1 id="empty-message" style="position:absolute; color:#888; top:45%; width:100%; text-align:center;">새 노트를 작성해주세요</h1>
+	<h1 id="empty-message"
+		style="position: absolute; color: #888; top: 45%; width: 100%; text-align: center;">새
+		노트를 작성해주세요</h1>
 	<div id='black-cover-note' class='modal-cover' style='display: none'>
 		<div id='createNote-container' class='modal-container'>
 			<div id='createNote-header' class='modal-header'>
@@ -31,7 +33,8 @@
 					<table>
 						<tr>
 							<td>날짜</td>
-							<td><input id="datepickr" name="targetDate" value="" readonly/></td>
+							<td><input id="datepickr" name="targetDate" value=""
+								readonly /></td>
 						</tr>
 						<tr>
 							<td>내용</td>
@@ -48,7 +51,9 @@
 		<ul id='to-date' class='time-nav'>
 		</ul>
 		<span id="group-name"></span>
-		<div id='create-new-button'><i class="fa fa-plus-circle"></i></div>
+		<div id='create-new-button'>
+			<i class="fa fa-plus-circle"></i>
+		</div>
 	</div>
 	<script>
 		/* scrolling navigation */
@@ -57,12 +62,12 @@
 			el.addEventListener('mouseup', showCreateNoteModal, false);
 			var closeClick = document.querySelector('.modal-cover');
 			closeClick.addEventListener('mouseup', function(e) {
-				if(e.target.className === 'modal-cover') {
+				if (e.target.className === 'modal-cover') {
 					showCreateNoteModal();
 				}
 			}, false);
 			window.addEventListener('keydown', function(e) {
-				if(e.keyCode === 27) {
+				if (e.keyCode === 27) {
 					showCreateNoteModal();
 				}
 			}, false);
@@ -73,16 +78,57 @@
 			var targetDate = guinness.util.today("-");
 			readNoteList(groupId, targetDate);
 			attachGroupId(groupId);
-			
-			var groupNameLabel=document.getElementById('group-name');
-			var groupName=getCookie(groupId);
-			document.title=groupName;
+
+			var groupNameLabel = document.getElementById('group-name');
+			var groupName = getCookie(groupId);
+			document.title = groupName;
 			groupNameLabel.innerHTML = groupName;
+			
+			window.addEventListener('scroll', function() {
+				if (document.body.scrollHeight === document.body.scrollTop + self.innerHeight) {
+					residualNotes();
+				}
+			}, false);
+			
 		}, false);
-		
+
 		function getCookie(sKey) {
-			if (!sKey) { return null; }
-		    return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*"+encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&")+"\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
+			if (!sKey) {
+				return null;
+			}
+			return decodeURIComponent(document.cookie.replace(new RegExp(
+					"(?:(?:^|.*;)\\s*"
+							+ encodeURIComponent(sKey).replace(/[\-\.\+\*]/g,
+									"\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"),
+					"$1"))
+					|| null;
+		}
+
+		function addScrollUp(groupId) {
+			// 가져온 것과 DB에 남은 것 체크
+			var emUlNum = document.querySelectorAll('#note-list-container > UL').length;
+			var targetDate = guinness.util.today("-");
+			if(emUlNum > 1) {
+				targetDate = document.querySelectorAll('#note-list-container > UL:last-child')[0].getAttribute('id').replace('day-', '');
+			}
+			readNoteList(groupId, targetDate);
+			attachGroupId(groupId);
+		}
+
+		function residualNotes() {
+			var groupId = window.location.pathname.split("/")[2].toString();
+			var req = new XMLHttpRequest();
+			var noteCount = document.querySelectorAll('#note-list-container > UL').length-1;
+			req.open("GET", "/notelist/check?groupId=" + groupId+"&noteCount="+noteCount, true);
+			req.onreadystatechange = function(e) {
+				if (req.status === 200 && req.readyState === 4) {
+					res = JSON.parse(req.responseText);
+					if (!res){ return; }
+					// 가져온 것과 DB에 남은 것 체크
+					addScrollUp(groupId);
+				}
+			};
+			req.send();
 		}
 
 		function attachGroupId(data) {
@@ -92,21 +138,23 @@
 
 		function readNoteList(groupId, targetDate) {
 			var req = new XMLHttpRequest();
-			req.open("GET", "/notelist/read?groupId=" + groupId
-					+ "&targetDate=" + targetDate, true);
+			req.open("GET", "/notelist/read?groupId=" + groupId + "&targetDate=" + targetDate, true);
 			req.onreadystatechange = function() {
 				if (req.status === 200 && req.readyState === 4) {
 					res = JSON.parse(req.responseText);
-					if (res == "") { return; }
+					if (res == "") {
+						return;
+					}
 					//노트가 하나이상 있다면 빈 노트 메세지를 지우고 노트와 네비게이션을 출력한다.
-					document.getElementById("empty-message").outerHTML = "";
+					if (document.getElementById("empty-message") != null)
+						document.getElementById("empty-message").outerHTML = "";
 					appendNoteList(res);
 					appendDateNav(res);
 				}
 			};
 			req.send();
 		}
-		
+
 		//날짜 네비게이션을 생성해준다
 		function appendDateNav(json) {
 			var newLi = null;
@@ -148,13 +196,13 @@
 				dates[i].addEventListener('mouseup', moveToDate, false);
 			}
 		}
-		
+
 		function moveToDate(e) {
 			var location = e.currentTarget.id.replace('to', '');
 			var top = document.getElementById('day-' + location);
 			var prevSelected = document.getElementsByClassName("date-select")[0];
-				prevSelected.className = 'date-nav';
-				e.currentTarget.className = 'date-nav date-select';
+			prevSelected.className = 'date-nav';
+			e.currentTarget.className = 'date-nav date-select';
 			if (top != null) {
 				$('body').animate({
 					scrollTop : top.offsetTop
@@ -181,9 +229,7 @@
 					el.setAttribute("class", "diary-list");
 					newEl = document.createElement("div");
 					newEl.setAttribute("class", "diary-date");
-					newEl.innerHTML = "<span>"
-							+ targetDate
-							+ "</span>";
+					newEl.innerHTML = "<span>" + targetDate + "</span>";
 					el.appendChild(newEl);
 					document.getElementById('note-list-container').appendChild(
 							el);
@@ -206,15 +252,18 @@
 			var blkcvr = document.getElementById('black-cover-note');
 			if (blkcvr.style.display == "none") {
 				blkcvr.style.display = "block";
-				document.body.style.overflow="hidden";
-				document.getElementById("datepickr").setAttribute("value", guinness.util.today("-"));
+				document.body.style.overflow = "hidden";
+				document.getElementById("datepickr").setAttribute("value",
+						guinness.util.today("-"));
 			} else {
-				document.body.style.overflow="auto";
+				document.body.style.overflow = "auto";
 				blkcvr.style.display = "none";
 			}
 		}
 
-		datepickr('#datepickr', {dateFormat : 'Y-m-d'});
+		datepickr('#datepickr', {
+			dateFormat : 'Y-m-d'
+		});
 	</script>
 </body>
 </html>
