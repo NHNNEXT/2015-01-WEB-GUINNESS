@@ -71,6 +71,17 @@
 
 			var el = document.getElementById('create-new');
 			el.addEventListener('mouseup', showModal, false);
+			var closeClick = document.querySelector('.modal-cover');
+			closeClick.addEventListener('mouseup', function(e) {
+				if(e.target.className === 'modal-cover') {
+					showModal();
+				}
+			}, false);
+			window.addEventListener('keydown', function(e) {
+				if(e.keyCode === 27) {
+					showModal();
+				}
+			}, false);
 			var closeBtn = document.getElementById('createGroup-close');
 			closeBtn.addEventListener('mouseup', showModal, false);
 		}, false);
@@ -80,17 +91,22 @@
 			var obj = null;
 			for (var i = 0; i < json.length; i++) {
 				obj = json[i];
-				document.cookie = obj.groupId+"="+encodeURI(obj.groupName);
+				document.cookie = obj.groupId + "=" + encodeURI(obj.groupName);
 				var newEl = document.createElement("a");
 				newEl.setAttribute("href", "/g/" + obj.groupId);
 				var deleteBtn = "<a id='deleteGroup-btn' href='#' class='deleteGroup-btn' onclick='confirmDelete(\""
-						+ obj.groupId + "\", \"" + obj.groupName + "\")'><i class='fa fa-remove'></i></a>";
+						+ obj.groupId
+						+ "\", \""
+						+ obj.groupName
+						+ "\")'><i class='fa fa-remove'></i></a>";
 				var lockImg = "<i class='fa fa-lock'></i>";
-				if(obj.isPublic === 'T') {
+				if (obj.isPublic === 'T') {
 					lockImg = "<i class='fa fa-unlock'></i>";
 				}
 				newEl.innerHTML = "<li>"
-						+ "<span>"+obj.groupName+"</span>"
+						+ "<span>"
+						+ obj.groupName
+						+ "</span>"
 						+ deleteBtn
 						+ lockImg
 						+ "<input name= groupId type='hidden' value=" + obj.groupId+" /></li>";
@@ -101,28 +117,29 @@
 		function showModal() {
 			var blkcvr = document.getElementById('black-cover');
 			if (blkcvr.style.display == "none") {
-				document.body.style.overflow="hidden";
+				document.body.style.overflow = "hidden";
 				blkcvr.style.display = "block";
 			} else {
-				document.body.style.overflow="auto";
+				document.body.style.overflow = "auto";
 				blkcvr.style.display = "none";
 			}
 		}
 
 		function confirmDelete(groupId, groupName) {
-			groupName = (groupName.replace(/</gi, "&lt;")).replace(/>/gi, "&gt;");
+			groupName = (groupName.replace(/</gi, "&lt;")).replace(/>/gi,
+					"&gt;");
 			var message = groupName + "을 삭제하시겠습니까?";
 			guinness.util.alert("스터디그룹 삭제", message, function() {
-				document.body.style.overflow="auto";
+				document.body.style.overflow = "auto";
 				location.href = "/group/delete?groupId=" + groupId;
 			}, function() {
-				document.body.style.overflow="auto";
+				document.body.style.overflow = "auto";
 				console.log("그룹삭제안함");
 			});
 		}
-		
+
 		function closeModal() {
-			
+
 		}
 	</script>
 </body>
