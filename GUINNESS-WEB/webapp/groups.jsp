@@ -71,13 +71,6 @@
 
 			var el = document.getElementById('create-new');
 			el.addEventListener('mouseup', showModal, false);
-			el = document.querySelector(".modal-cover");
-			el.onkeydown = function(e) {
-				if(e.keyCode == 27) {
-					showModal();
-				}
-			}
-			el.addEventListener('mouseup', showModal, false);
 			var closeBtn = document.getElementById('createGroup-close');
 			closeBtn.addEventListener('mouseup', showModal, false);
 		}, false);
