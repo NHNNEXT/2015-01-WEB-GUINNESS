@@ -1,12 +1,11 @@
 package org.nhnnext.guinness.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 
-import org.joda.time.DateTime;
 import org.junit.Test;
 
 public class NoteDaoTest {
