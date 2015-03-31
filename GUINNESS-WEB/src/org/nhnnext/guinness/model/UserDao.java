@@ -29,10 +29,12 @@ public class UserDao extends AbstractDao {
 		return result;
 	}
 	
-	public boolean checkLogin(String userId, String userPassword) throws SQLException {
+	public User checkLogin(String userId, String userPassword) throws SQLException {
 		String sql = "select * from USERS where userId=? and userPassword=?";
-		if (queryForCountReturn(sql, userId, userPassword) > 0)
-			return true;
-		return false;
+		String[] params = { "userId", "userName", "userPassword"};
+		List<?> list = queryForReturn(User.class, params, sql, userId, userPassword);
+		if (list.size() != 0)
+			return (User) list.get(0);
+		return null;
 	}
 }
