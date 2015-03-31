@@ -16,7 +16,9 @@
 </head>
 <body>
 	<%@ include file="/commons/_topnav.jspf"%>
-	<h1 id="empty-message" style="position:absolute; color:#888; top:45%; width:100%; text-align:center;">새 노트를 작성해주세요</h1>
+	<h1 id="empty-message"
+		style="position: absolute; color: #888; top: 45%; width: 100%; text-align: center;">새
+		노트를 작성해주세요</h1>
 	<div id='black-cover-note' class='modal-cover' style='display: none'>
 		<div id='createNote-container' class='modal-container'>
 			<div id='createNote-header' class='modal-header'>
@@ -26,21 +28,22 @@
 				</div>
 			</div>
 			<div id='createNote-body' class='modal-body'>
-				<form name="user" method="post" action="/note/create">
+				<div>
 					<input id="groupId" type="hidden" name="groupId" value="">
 					<table>
 						<tr>
 							<td>날짜</td>
-							<td><input id="datepickr" name="targetDate" value="" readonly/></td>
+							<td><input id="datepickr" name="targetDate" value=""
+								readonly /></td>
 						</tr>
 						<tr>
 							<td>내용</td>
-							<td><textarea style="resize: none" rows="10" cols="50"
-									name="noteText"></textarea></td>
+							<td><textarea id="noteText" style="resize: none" rows="10"
+									cols="50" name="noteText"></textarea></td>
 						</tr>
 					</table>
-					<input type="submit" class='btn' value="작성" />
-				</form>
+					<input type="submit" class='btn' onclick="createNote()" value="작성" />
+				</div>
 			</div>
 		</div>
 	</div>
@@ -48,7 +51,9 @@
 		<ul id='to-date' class='time-nav'>
 		</ul>
 		<span id="group-name"></span>
-		<div id='create-new-button'><i class="fa fa-plus-circle"></i></div>
+		<div id='create-new-button'>
+			<i class="fa fa-plus-circle"></i>
+		</div>
 	</div>
 	<script>
 		/* scrolling navigation */
@@ -57,12 +62,12 @@
 			el.addEventListener('mouseup', showCreateNoteModal, false);
 			var closeClick = document.querySelector('.modal-cover');
 			closeClick.addEventListener('mouseup', function(e) {
-				if(e.target.className === 'modal-cover') {
+				if (e.target.className === 'modal-cover') {
 					showCreateNoteModal();
 				}
 			}, false);
 			window.addEventListener('keydown', function(e) {
-				if(e.keyCode === 27) {
+				if (e.keyCode === 27) {
 					showCreateNoteModal();
 				}
 			}, false);
@@ -71,18 +76,25 @@
 
 			var groupId = window.location.pathname.split("/")[2];
 			var targetDate = guinness.util.today("-");
-			readNoteList(groupId, targetDate);
 			attachGroupId(groupId);
-			
-			var groupNameLabel=document.getElementById('group-name');
-			var groupName=getCookie(groupId);
-			document.title=groupName;
+			var groupNameLabel = document.getElementById('group-name');
+			var groupName = getCookie(groupId);
+			document.title = groupName;
 			groupNameLabel.innerHTML = groupName;
+
+			readNoteList(groupId, targetDate);
 		}, false);
-		
+
 		function getCookie(sKey) {
-			if (!sKey) { return null; }
-		    return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*"+encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&")+"\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
+			if (!sKey) {
+				return null;
+			}
+			return decodeURIComponent(document.cookie.replace(new RegExp(
+					"(?:(?:^|.*;)\\s*"
+							+ encodeURIComponent(sKey).replace(/[\-\.\+\*]/g,
+									"\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"),
+					"$1"))
+					|| null;
 		}
 
 		function attachGroupId(data) {
@@ -97,16 +109,20 @@
 			req.onreadystatechange = function() {
 				if (req.status === 200 && req.readyState === 4) {
 					res = JSON.parse(req.responseText);
-					if (res == "") { return; }
+					if (res == "") {
+						return;
+					}
 					//노트가 하나이상 있다면 빈 노트 메세지를 지우고 노트와 네비게이션을 출력한다.
-					document.getElementById("empty-message").outerHTML = "";
+					if (document.getElementById("empty-message") != null) {
+						document.getElementById("empty-message").outerHTML = "";
+					}
 					appendNoteList(res);
 					appendDateNav(res);
 				}
 			};
 			req.send();
 		}
-		
+
 		//날짜 네비게이션을 생성해준다
 		function appendDateNav(json) {
 			var newLi = null;
@@ -148,13 +164,13 @@
 				dates[i].addEventListener('mouseup', moveToDate, false);
 			}
 		}
-		
+
 		function moveToDate(e) {
 			var location = e.currentTarget.id.replace('to', '');
 			var top = document.getElementById('day-' + location);
 			var prevSelected = document.getElementsByClassName("date-select")[0];
-				prevSelected.className = 'date-nav';
-				e.currentTarget.className = 'date-nav date-select';
+			prevSelected.className = 'date-nav';
+			e.currentTarget.className = 'date-nav date-select';
 			if (top != null) {
 				$('body').animate({
 					scrollTop : top.offsetTop
@@ -163,8 +179,13 @@
 		}
 
 		function appendNoteList(json) {
-			//날짜별로 들어갈수 있게...
 			var el = null;
+			//리스트 초기화
+			el = document.getElementsByClassName("diary-list");
+			for (var i = 0; i < el.length; i++) {
+				el[i].outerHTML = "";
+			}
+			//날짜별로 들어갈수 있게...
 			var newEl = null;
 			var obj = null;
 			var out = "";
@@ -181,9 +202,7 @@
 					el.setAttribute("class", "diary-list");
 					newEl = document.createElement("div");
 					newEl.setAttribute("class", "diary-date");
-					newEl.innerHTML = "<span>"
-							+ targetDate
-							+ "</span>";
+					newEl.innerHTML = "<span>" + targetDate + "</span>";
 					el.appendChild(newEl);
 					document.getElementById('note-list-container').appendChild(
 							el);
@@ -206,15 +225,40 @@
 			var blkcvr = document.getElementById('black-cover-note');
 			if (blkcvr.style.display == "none") {
 				blkcvr.style.display = "block";
-				document.body.style.overflow="hidden";
-				document.getElementById("datepickr").setAttribute("value", guinness.util.today("-"));
+				document.body.style.overflow = "hidden";
+				document.getElementById("datepickr").value = guinness.util.today("-");
+				document.getElementById("noteText").value = "";
 			} else {
-				document.body.style.overflow="auto";
+				document.body.style.overflow = "auto";
 				blkcvr.style.display = "none";
 			}
 		}
 
-		datepickr('#datepickr', {dateFormat : 'Y-m-d'});
+		datepickr('#datepickr', {
+			dateFormat : 'Y-m-d'
+		});
+
+		function createNote() {
+			var req = new XMLHttpRequest();
+			var targetDate = document.getElementById('datepickr').value;
+			var groupId = document.getElementById('groupId').value;
+			var noteText = document.getElementById('noteText').value;
+			var param = "groupId=" + groupId + "&targetDate=" + targetDate
+					+ "&noteText=" + noteText;
+			var res = null;
+
+			req.open("post", "/note/create", true);
+			req.setRequestHeader("Content-type",
+					"application/x-www-form-urlencoded");
+			req.setParameter;
+			req.onreadystatechange = function() {
+				if (req.status === 200 && req.readyState === 4) {
+					showCreateNoteModal();
+					readNoteList(groupId, targetDate);
+				}
+			};
+			req.send(param);
+		}
 	</script>
 </body>
 </html>
