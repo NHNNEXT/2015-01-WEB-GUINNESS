@@ -52,7 +52,7 @@ ul {
 }
 
 #header .util .menu:hover {
-	background-color: #454545;
+	background-color: #619493;
 }
 
 #header .util a {
@@ -401,7 +401,7 @@ input.text {
 	width: 100px;
 	color: #fff;
 	cursor: pointer;
-	background-color: #8a8a8a;
+	background-color: #619493
 }
 
 .drop-down ul li a {
@@ -411,7 +411,7 @@ input.text {
 }
 
 .drop-down ul li:hover {
-	background-color: #454545;
+	background-color: #355856;
 }
 
 .deleteGroup-btn {
