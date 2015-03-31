@@ -22,10 +22,11 @@ public abstract class AbstractDao {
 	static Type GroupList = new TypeToken<List<Group>>() {
 	}.getType();
 
-	protected Connection getConnection() throws SQLException {
+	protected Connection getConnection() throws SQLException, ClassNotFoundException {
 		String url = "jdbc:mysql://localhost:3306/GUINNESS";
 		String id = "link413";
 		String pw = "link413";
+		Class.forName("com.mysql.jdbc.Driver");
 		return DriverManager.getConnection(url, id, pw);
 	}
 
@@ -39,7 +40,13 @@ public abstract class AbstractDao {
 	 * @throws ClassNotFoundException
 	 */
 	public void queryNotForReturn(String sql, String... parameters) throws SQLException {
-		Connection conn = getConnection();
+		Connection conn = null;
+		try {
+			conn = getConnection();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		PreparedStatement pstmt = setPreparedStatement(conn, sql, parameters);
 		pstmt.executeUpdate();
 		terminateResources(conn, pstmt);
@@ -56,7 +63,13 @@ public abstract class AbstractDao {
 	 * @throws ClassNotFoundException
 	 */
 	public int queryForCountReturn(String sql, String... parameters) throws SQLException {
-		Connection conn = getConnection();
+		Connection conn = null;
+		try {
+			conn = getConnection();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		PreparedStatement pstmt = setPreparedStatement(conn, sql, parameters);
 		ResultSet rs = pstmt.executeQuery();
 		rs.last();
@@ -82,7 +95,13 @@ public abstract class AbstractDao {
 	 */
 	public List<?> queryForReturn(Class<?> cls, String[] params, String sql, String... parameters) throws SQLException,
 			MakingObjectListFromJdbcException {
-		Connection conn = getConnection();
+		Connection conn = null;
+		try {
+			conn = getConnection();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		PreparedStatement pstmt = setPreparedStatement(conn, sql, parameters);
 		ResultSet rs = pstmt.executeQuery();
 		List<?> array = getListObject(cls, params, rs);
