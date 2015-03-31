@@ -23,7 +23,6 @@ public class NotesRouter extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// session을 통해 userid를 받고 해당 그룹의 권한이 있는지 확인 후 있으면 notes.jsp로 이동
-
 		req.setCharacterEncoding("utf-8");
 		HttpSession session = req.getSession();
 		String userId = (String) session.getAttribute(ParameterKey.SESSION_USERID);

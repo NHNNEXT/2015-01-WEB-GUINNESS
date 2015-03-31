@@ -28,7 +28,7 @@
 				</div>
 			</div>
 			<div id='createNote-body' class='modal-body'>
-				<form name="user" method="post" action="/note/create">
+				<div>
 					<input id="groupId" type="hidden" name="groupId" value="">
 					<table>
 						<tr>
@@ -38,12 +38,12 @@
 						</tr>
 						<tr>
 							<td>내용</td>
-							<td><textarea style="resize: none" rows="10" cols="50"
-									name="noteText"></textarea></td>
+							<td><textarea id="noteText" style="resize: none" rows="10"
+									cols="50" name="noteText"></textarea></td>
 						</tr>
 					</table>
-					<input type="submit" class='btn' value="작성" />
-				</form>
+					<input type="submit" class='btn' onclick="createNote()" value="작성" />
+				</div>
 			</div>
 		</div>
 	</div>
@@ -74,6 +74,7 @@
 			var closeBtn = document.getElementById('createNote-close');
 			closeBtn.addEventListener('mouseup', showCreateNoteModal, false);
 
+			
 			var groupId = window.location.pathname.split("/")[2];
 			var targetDate = guinness.util.today("-");
 			readNoteList(groupId, targetDate);
@@ -211,8 +212,14 @@
 		}
 
 		function appendNoteList(json) {
-			//날짜별로 들어갈수 있게...
 			var el = null;
+			//리스트 초기화
+			el = document.getElementsByClassName("diary-list");
+			var elLength = el.length;
+			for (var i = elLength-1; i >= 0; i--) {
+				el[i].outerHTML = "";
+			}
+			//날짜별로 들어갈수 있게...
 			var newEl = null;
 			var obj = null;
 			var out = "";
@@ -231,11 +238,11 @@
 					newEl.setAttribute("class", "diary-date");
 					newEl.innerHTML = "<span>" + targetDate + "</span>";
 					el.appendChild(newEl);
-					document.getElementById('note-list-container').appendChild(
-							el);
+					document.getElementById('note-list-container').appendChild(el);
 				}
 				newEl = document.createElement("a");
-				newEl.setAttribute("href", "/note/read/" + obj.noteId);
+				newEl.setAttribute("href", "#");
+				newEl.setAttribute("onclick", "readNoteContents(" + obj.noteId +" )");
 				out = "";
 				out += "<li><img class='avatar' class='avatar' src='/img/avatar-default.png'>";
 				out += "<div class='msgContainer'>";
@@ -255,15 +262,114 @@
 				document.body.style.overflow = "hidden";
 				document.getElementById("datepickr").setAttribute("value",
 						guinness.util.today("-"));
+				document.getElementById("noteText").value = "";
 			} else {
 				document.body.style.overflow = "auto";
 				blkcvr.style.display = "none";
 			}
+			
+			var closeBtn = document.getElementById('createNote-close');
+			closeBtn.addEventListener('mouseup', showCreateNoteModal, false);
+			
+			document.body.addEventListener('keydown', function(e) {
+				if(e.keyCode === 27) {
+					showCreateNoteModal();
+				}
+			});
 		}
 
 		datepickr('#datepickr', {
 			dateFormat : 'Y-m-d'
 		});
+		
+		function readNoteContents(noteId){
+			console.log(noteId);
+			var req = new XMLHttpRequest();
+			var json = null;
+			req.onreadystatechange = function() {
+				if(req.readyState === 4) {
+					if(req.status === 200) {
+						json = JSON.parse(req.responseText);
+						showNoteModal(json);
+					} else {
+						window.location.href="/exception.jsp";
+					}
+				}
+			}
+			req.open('get', '/note/read?noteId=' + noteId, true);
+			req.send();
+		}
+		
+		function showNoteModal(json){
+			document.body.style.overflow="hidden";
+			var obj = json[0];
+			var el = document.createElement("div");
+			el.setAttribute("id", "contents-window");
+			el.setAttribute("class", "note-modal-cover");
+			var innerContainer = document.createElement("div");
+			innerContainer.setAttribute("class", "modal-container");
+			var innerHeader = document.createElement("div");
+			innerHeader.setAttribute("class", "modal-header");
+			innerHeader.innerHTML +="<div class='modal-title'>" +obj.targetDate + " | " + obj.userName  + "</div><div id='contents-close' class='modal-close'><i class='fa fa-remove'></i></div>";
+			var innerBody = document.createElement("div");
+			innerBody.setAttribute("class", "modal-body");
+			innerBody.innerHTML += obj.noteText;
+			
+			el.appendChild(innerContainer);
+			innerContainer.appendChild(innerHeader);
+			innerContainer.appendChild(innerBody);
+			document.body.appendChild(el);
+			
+			var closeBtn = document.getElementById('contents-close');
+			closeBtn.addEventListener('mouseup', function(e) {
+				document.body.style.overflow ="auto";
+				var el = document.getElementById("contents-window");
+				el.outerHTML = "";
+				delete el;
+			},false);
+			
+			var closeClick = document.getElementById('contents-window');
+			closeClick.addEventListener('mouseup', function(e) {
+				if(e.target.className === 'note-modal-cover') {
+					var el = document.getElementById("contents-window");
+					el.outerHTML = "";
+					delete el;
+				}
+			}, false);
+			
+			document.body.addEventListener('keydown', function(e) {
+				if(e.keyCode === 27) {
+					var el = document.getElementById("contents-window");
+					el.outerHTML = "";
+					delete el;
+				}
+			});
+		}
+
+		datepickr('#datepickr', {
+			dateFormat : 'Y-m-d'
+		});
+		function createNote() {
+			var req = new XMLHttpRequest();
+			var targetDate = document.getElementById('datepickr').value;
+			var groupId = document.getElementById('groupId').value;
+			var noteText = document.getElementById('noteText').value;
+			var param = "groupId=" + groupId + "&targetDate=" + targetDate
+					+ "&noteText=" + noteText;
+			var res = null;
+
+			req.open("post", "/note/create", true);
+			req.setRequestHeader("Content-type",
+					"application/x-www-form-urlencoded");
+			req.setParameter;
+			req.onreadystatechange = function() {
+				if (req.status === 200 && req.readyState === 4) {
+					showCreateNoteModal();
+					readNoteList(groupId, targetDate);
+				}
+			};
+			req.send(param);
+		}
 	</script>
 </body>
 </html>

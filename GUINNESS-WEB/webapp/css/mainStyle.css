@@ -52,7 +52,7 @@ ul {
 }
 
 #header .util .menu:hover {
-	background-color: #454545;
+	background-color: #619493;
 }
 
 #header .util a {
@@ -323,6 +323,16 @@ input.text {
 	overflow: auto;
 }
 
+.note-modal-cover {
+	position: fixed;
+	top: 0px;
+	z-index: 20;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(14, 14, 14, .6);
+	overflow: auto;
+}
+
 .modal-container {
 	position: relative;
 	width: 500px;
@@ -401,7 +411,7 @@ input.text {
 	width: 100px;
 	color: #fff;
 	cursor: pointer;
-	background-color: #8a8a8a;
+	background-color: #619493
 }
 
 .drop-down ul li a {
@@ -411,7 +421,7 @@ input.text {
 }
 
 .drop-down ul li:hover {
-	background-color: #454545;
+	background-color: #355856;
 }
 
 .deleteGroup-btn {

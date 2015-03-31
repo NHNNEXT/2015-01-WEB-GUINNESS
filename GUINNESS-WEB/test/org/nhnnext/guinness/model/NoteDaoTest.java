@@ -1,5 +1,7 @@
 package org.nhnnext.guinness.model;
 
+import static org.junit.Assert.*;
+
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
@@ -32,6 +34,7 @@ public class NoteDaoTest {
 	}
 	
 	@Test
+
 	public void testName() throws Exception {
 		NoteDao noteDao = new NoteDao();
 		int tt = noteDao.checkGroupNotesCount("JFaTh");
@@ -39,4 +42,11 @@ public class NoteDaoTest {
 	}
 	
 	
+    public void readSingleNote() throws Exception {
+	    List<Note> note = null;
+	    
+	    note = noteDao.readNote("3");
+	    
+	    assertNotNull(note);
+    }
 }

@@ -12,7 +12,7 @@ public class NoteDao extends AbstractDao {
 		String query = "insert into NOTES (noteText, targetDate, userId, groupId) values(?, ?, ?, ?)";
 		queryNotForReturn(query, note.getNoteText(), note.getTargetDate(), note.getUserId(), note.getGroupId());
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Note> readNoteList(String groupId, String endDate, String targetDate) throws MakingObjectListFromJdbcException, SQLException {
 		String sql = "select * from NOTES,USERS where NOTES.userId = USERS.userId AND groupId = ? AND targetDate between ? and ? order by targetDate desc";
