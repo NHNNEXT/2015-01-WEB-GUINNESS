@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.nhnnext.guinness.common.Forwarding;
 import org.nhnnext.guinness.common.MyValidatorFactory;
-import org.nhnnext.guinness.common.ReplaceIntoEntitycode;
 import org.nhnnext.guinness.common.WebServletURL;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.model.UserDao;
@@ -27,7 +27,7 @@ public class CreateUserServlet extends HttpServlet{
 		req.setCharacterEncoding("utf-8");
 		String userId = req.getParameter("userId");
 		String userPassword = req.getParameter("userPassword");
-		String userName =  ReplaceIntoEntitycode.intoEntitycode(req.getParameter("userName"));
+		String userName =  StringEscapeUtils.escapeHtml4(req.getParameter("userName"));
 		
 		User user = new User(userId, userName, userPassword);
 		Set<ConstraintViolation<User>> constraintViolations = MyValidatorFactory.createValidator().validate(user);

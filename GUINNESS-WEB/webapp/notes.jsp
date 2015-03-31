@@ -67,7 +67,9 @@
 			var groupName=getCookie(groupId);
 			document.title=groupName;
 			groupNameLabel.innerHTML = groupName;
+			
 		}, false);
+			
 		
 		function getCookie(sKey) {
 			if (!sKey) { return null; }
@@ -178,7 +180,8 @@
 							el);
 				}
 				newEl = document.createElement("a");
-				newEl.setAttribute("href", "/note/read/" + obj.noteId);
+				newEl.setAttribute("href", "#");
+				newEl.setAttribute("onclick", "readNoteContents(" + obj.noteId +" )");
 				out = "";
 				out += "<li><img class='avatar' class='avatar' src='/img/avatar-default.png'>";
 				out += "<div class='msgContainer'>";
@@ -202,7 +205,50 @@
 				blkcvr.style.display = "none";
 			}
 		}
-
+		
+		function readNoteContents(noteId){
+			console.log(noteId);
+			var req = new XMLHttpRequest();
+			var json = null;
+			req.onreadystatechange = function() {
+				if(req.readyState === 4) {
+					if(req.status === 200) {
+						json = JSON.parse(req.responseText);
+						showNoteModal(json);
+					} else {
+						window.location.href="/exception.jsp";
+					}
+				}
+			}
+			req.open('get', '/note/read?noteId=' + noteId, true);
+			req.send();
+		}
+		
+		function showNoteModal(json){
+			var el = document.createElement("div");
+			el.setAttribute("id", "contents-window");
+			el.setAttribute("class", "note-modal-cover");
+			var innerContainer = document.createElement("div");
+			innerContainer.setAttribute("class", "modal-container");
+			var innerHeader = document.createElement("div");
+			innerHeader.setAttribute("class", "modal-header");
+			innerHeader.innerHTML +="<div class='modal-title'>노트</div><div id='contents-close' class='modal-close'><i class='fa fa-remove'></i></div>";
+			var innerBody = document.createElement("div");
+			innerBody.setAttribute("class", "modal-body");
+			var obj = json[0];
+			innerBody.innerHTML += obj.noteText;
+			el.appendChild(innerContainer);
+			innerContainer.appendChild(innerHeader);
+			innerContainer.appendChild(innerBody);
+			document.body.appendChild(el);
+			var closeContents = document.getElementById('contents-close');
+			closeContents.addEventListener('mouseup', function(e) {
+				var el = document.getElementById("contents-window");
+				el.outerHTML = "";
+				delete el;
+			},false);
+		}
+		
 		datepickr('#datepickr', {dateFormat : 'Y-m-d'});
 	</script>
 </body>
