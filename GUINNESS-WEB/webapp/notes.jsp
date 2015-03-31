@@ -66,14 +66,7 @@
 					showCreateNoteModal();
 				}
 			}, false);
-			window.addEventListener('keydown', function(e) {
-				if (e.keyCode === 27) {
-					showCreateNoteModal();
-				}
-			}, false);
-			var closeBtn = document.getElementById('createNote-close');
-			closeBtn.addEventListener('mouseup', showCreateNoteModal, false);
-
+			
 			var groupId = window.location.pathname.split("/")[2];
 			var targetDate = guinness.util.today("-");
 			attachGroupId(groupId);
@@ -205,8 +198,7 @@
 					newEl.setAttribute("class", "diary-date");
 					newEl.innerHTML = "<span>" + targetDate + "</span>";
 					el.appendChild(newEl);
-					document.getElementById('note-list-container').appendChild(
-							el);
+					document.getElementById('note-list-container').appendChild(el);
 				}
 				newEl = document.createElement("a");
 				newEl.setAttribute("href", "#");
@@ -235,6 +227,15 @@
 				document.body.style.overflow = "auto";
 				blkcvr.style.display = "none";
 			}
+			
+			var closeBtn = document.getElementById('createNote-close');
+			closeBtn.addEventListener('mouseup', showCreateNoteModal, false);
+			
+			document.body.addEventListener('keydown', function(e) {
+				if(e.keyCode === 27) {
+					showCreateNoteModal();
+				}
+			});
 		}
 
 		datepickr('#datepickr', {
@@ -260,6 +261,7 @@
 		}
 		
 		function showNoteModal(json){
+			document.body.style.overflow="hidden";
 			var obj = json[0];
 			var el = document.createElement("div");
 			el.setAttribute("id", "contents-window");
@@ -280,6 +282,7 @@
 			
 			var closeBtn = document.getElementById('contents-close');
 			closeBtn.addEventListener('mouseup', function(e) {
+				document.body.style.overflow ="auto";
 				var el = document.getElementById("contents-window");
 				el.outerHTML = "";
 				delete el;
@@ -293,6 +296,14 @@
 					delete el;
 				}
 			}, false);
+			
+			document.body.addEventListener('keydown', function(e) {
+				if(e.keyCode === 27) {
+					var el = document.getElementById("contents-window");
+					el.outerHTML = "";
+					delete el;
+				}
+			});
 		}
 
 		function createNote() {

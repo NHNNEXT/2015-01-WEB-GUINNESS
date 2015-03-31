@@ -77,13 +77,7 @@
 					showModal();
 				}
 			}, false);
-			window.addEventListener('keydown', function(e) {
-				if(e.keyCode === 27) {
-					showModal();
-				}
-			}, false);
-			var closeBtn = document.getElementById('createGroup-close');
-			closeBtn.addEventListener('mouseup', showModal, false);
+			
 		}, false);
 
 		function createGroup(json) {
@@ -123,6 +117,15 @@
 				document.body.style.overflow = "auto";
 				blkcvr.style.display = "none";
 			}
+			
+			var closeBtn = document.getElementById('createGroup-close');
+			closeBtn.addEventListener('mouseup', showModal, false);
+			
+			document.body.addEventListener('keydown', function(e) {
+				if(e.keyCode === 27) {
+					showModal();
+				}
+			}, false);
 		}
 
 		function confirmDelete(groupId, groupName) {
