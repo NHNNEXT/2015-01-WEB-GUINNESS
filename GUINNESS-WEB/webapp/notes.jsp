@@ -182,7 +182,8 @@
 			var el = null;
 			//리스트 초기화
 			el = document.getElementsByClassName("diary-list");
-			for (var i = 0; i < el.length; i++) {
+			var elLength = el.length;
+			for (var i = elLength-1; i >= 0; i--) {
 				el[i].outerHTML = "";
 			}
 			//날짜별로 들어갈수 있게...
@@ -226,7 +227,8 @@
 			if (blkcvr.style.display == "none") {
 				blkcvr.style.display = "block";
 				document.body.style.overflow = "hidden";
-				document.getElementById("datepickr").value = guinness.util.today("-");
+				document.getElementById("datepickr").value = guinness.util
+						.today("-");
 				document.getElementById("noteText").value = "";
 			} else {
 				document.body.style.overflow = "auto";
