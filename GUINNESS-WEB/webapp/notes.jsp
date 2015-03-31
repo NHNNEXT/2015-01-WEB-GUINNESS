@@ -55,8 +55,19 @@
 		window.addEventListener('load', function() {
 			var el = document.getElementById('create-new-button');
 			el.addEventListener('mouseup', showCreateNoteModal, false);
-			el = document.getElementById('createNote-close');
-			el.addEventListener('mouseup', showCreateNoteModal, false);
+			var closeClick = document.querySelector('.modal-cover');
+			closeClick.addEventListener('mouseup', function(e) {
+				if(e.target.className === 'modal-cover') {
+					showCreateNoteModal();
+				}
+			}, false);
+			window.addEventListener('keydown', function(e) {
+				if(e.keyCode === 27) {
+					showCreateNoteModal();
+				}
+			}, false);
+			var closeBtn = document.getElementById('createNote-close');
+			closeBtn.addEventListener('mouseup', showCreateNoteModal, false);
 
 			var groupId = window.location.pathname.split("/")[2];
 			var targetDate = guinness.util.today("-");
@@ -191,7 +202,7 @@
 			}
 		}
 
-		function showCreateNoteModal(e) {
+		function showCreateNoteModal() {
 			var blkcvr = document.getElementById('black-cover-note');
 			if (blkcvr.style.display == "none") {
 				blkcvr.style.display = "block";
