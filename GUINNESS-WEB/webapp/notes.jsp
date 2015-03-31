@@ -48,7 +48,7 @@
 		<ul id='to-date' class='time-nav'>
 		</ul>
 		<span id="group-name"></span>
-		<div id='create-new-button'><i class="fa fa-plus-circle" fa-4x></i></div>
+		<div id='create-new-button'><i class="fa fa-plus-circle"></i></div>
 	</div>
 	<script>
 		/* scrolling navigation */
@@ -195,8 +195,10 @@
 			var blkcvr = document.getElementById('black-cover-note');
 			if (blkcvr.style.display == "none") {
 				blkcvr.style.display = "block";
+				document.body.style.overflow="hidden";
 				document.getElementById("datepickr").setAttribute("value", guinness.util.today("-"));
 			} else {
+				document.body.style.overflow="auto";
 				blkcvr.style.display = "none";
 			}
 		}

@@ -71,8 +71,8 @@
 
 			var el = document.getElementById('create-new');
 			el.addEventListener('mouseup', showModal, false);
-			el = document.getElementById('createGroup-close');
-			el.addEventListener('mouseup', showModal, false);
+			var closeBtn = document.getElementById('createGroup-close');
+			closeBtn.addEventListener('mouseup', showModal, false);
 		}, false);
 
 		function createGroup(json) {
@@ -98,11 +98,13 @@
 			}
 		}
 
-		function showModal(e) {
+		function showModal() {
 			var blkcvr = document.getElementById('black-cover');
 			if (blkcvr.style.display == "none") {
+				document.body.style.overflow="hidden";
 				blkcvr.style.display = "block";
 			} else {
+				document.body.style.overflow="auto";
 				blkcvr.style.display = "none";
 			}
 		}
@@ -111,10 +113,16 @@
 			groupName = (groupName.replace(/</gi, "&lt;")).replace(/>/gi, "&gt;");
 			var message = groupName + "을 삭제하시겠습니까?";
 			guinness.util.alert("스터디그룹 삭제", message, function() {
+				document.body.style.overflow="auto";
 				location.href = "/group/delete?groupId=" + groupId;
 			}, function() {
+				document.body.style.overflow="auto";
 				console.log("그룹삭제안함");
 			});
+		}
+		
+		function closeModal() {
+			
 		}
 	</script>
 </body>
