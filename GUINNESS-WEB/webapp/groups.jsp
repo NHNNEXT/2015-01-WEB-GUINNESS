@@ -5,7 +5,7 @@
 <!DOCTYPE HTML>
 <html lang="ko">
 <head>
-<title>스터디의 시작, 기네스</title>
+<title>스터디의 시작, 페이퍼민트</title>
 <meta charset="utf-8">
 <link rel="stylesheet"
 	href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
@@ -37,11 +37,13 @@
 						그룹이름 <input type="text" name="groupName">
 					</div>
 					<div>
-						<input type="radio" name="isPublic" value="private" checked>비공개
-						<input type="radio" name="isPublic" value="public">공개
+						<input type="radio" name="isPublic" value="private" checked>
+						<label>비공개</label>
+						<input type="radio" name="isPublic" value="public">
+						<label>공개</label>
 					</div>
 					<br />
-					<button id='createGroup-submit' class='btn'>생성</button>
+					<button id='createGroup-submit' class='btn btn-pm'>생성</button>
 				</form>
 			</div>
 		</div>

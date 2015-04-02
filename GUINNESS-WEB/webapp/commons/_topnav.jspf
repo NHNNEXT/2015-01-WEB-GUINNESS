@@ -6,7 +6,7 @@
 <div id="header">
   <div class='content wrap'>
       <a href='/' id='brand'>
-          <img src='http://www.w3.org/html/logo/downloads/HTML5_1Color_White.png'>
+          <img src='/img/pm_logotype_white.png'>
       </a>
       <ul class='util'>
         <li class='menu drop-down'>

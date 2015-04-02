@@ -4,7 +4,7 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<title>스터디의 시작, 기네스</title>
+<title>스터디의 시작, 페이퍼민트</title>
 <link rel="stylesheet"
 	href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
 <link rel="stylesheet" href="/css/mainStyle.css">
@@ -42,7 +42,7 @@
 									cols="50" name="noteText"></textarea></td>
 						</tr>
 					</table>
-					<input type="submit" class='btn' onclick="createNote()" value="작성" />
+					<input type="submit" class='btn btn-pm' onclick="createNote()" value="작성" />
 				</div>
 			</div>
 		</div>

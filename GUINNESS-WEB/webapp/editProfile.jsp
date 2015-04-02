@@ -5,7 +5,7 @@
 <!DOCTYPE HTML>
 <html lang="ko">
 <head>
-<title>스터디의 시작, 기네스</title>
+<title>스터디의 시작, 페이퍼민트</title>
 <meta charset="utf-8">
 <link rel="stylesheet"
 	href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
@@ -58,7 +58,7 @@
 				<tr>
 				<td valign=top id='editProfile-photoArea' style='width:200px; text-align:center;'>
 					<img class='avatar' src="/img/avatar-default.png">
-					<button class='btn'>이미지 수정</button>
+					<button class='btn btn-pm'>이미지 수정</button>
 				</td>
 				<td valign=top id='editProfile-profileArea' style='padding-left:25px;'>
 					<form id='editProfile-form'>
@@ -88,7 +88,7 @@
 							<input name="userPassword" type="password" placeholder=''></input>
 							<span class="info"><strong>[required]</strong>Input your password for submit this form.</span>
 						</p>
-						<button type="submit" class="btn">Edit</button>
+						<button type="submit" class="btn btn-pm">Edit</button>
 					</form>
 				</td>
 				</tr>
