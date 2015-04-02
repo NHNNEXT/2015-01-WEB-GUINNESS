@@ -13,7 +13,7 @@ var guinness = {};
 	  if (month < 10) {
 		month = '0'+month;  
 	  }
-	  if (explode != null) {
+	  if (explode != undefined) {
 		today = year+explode+month+explode+day;	
 	  } else {
 		today = year+"년"+month+"월"+day+"일";  
@@ -27,7 +27,7 @@ var guinness = {};
 		var body = document.body;
 		body.style.overflow="hidden";
 		var el = document.getElementById("guinness-alert-window");
-		if (el == null) {
+		if (el == undefined) {
 			el = document.createElement("div");
 			el.setAttribute("id","guinness-alert-window");
 			el.setAttribute("class","alert-window-cover");
@@ -46,14 +46,14 @@ var guinness = {};
 	}
 	guinness.util.alert.choose = function(c) {
 		var el = document.getElementById("guinness-alert-window");
-		el.outerHTML = "";
-		delete el;
-		if (c == null) {
-			return true;
+		el.parentElement.removeChild(el);
+		//el.outerHTML = "";
+		if (c == undefined) { 
+		  return; 
 		}
 		if (c) {
-			guinness.util.alert.agree();
-			return true;
+		  guinness.util.alert.agree();
+		  return;
 		}
 		guinness.util.alert.disagree();
 	}

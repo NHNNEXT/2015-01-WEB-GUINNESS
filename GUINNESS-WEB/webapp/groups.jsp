@@ -48,6 +48,16 @@
 			</div>
 		</div>
 	</div>
+	<template id='group-card-template'>
+		<a class='group-card' href='#'>
+			<li>
+				<span class='group-name'></span>
+				<div class='deleteGroup-btn'><i class='fa fa-remove'></i></div>
+				<i class='fa fa-lock'></i>
+				<input name= groupId type='hidden' />
+			</li>
+		</a>
+	</template>
 	<script>
 		window.addEventListener('load', function() {
 			var req = new XMLHttpRequest();
@@ -72,11 +82,11 @@
 			}
 
 			var el = document.getElementById('create-new');
-			el.addEventListener('mouseup', showModal, false);
+			el.addEventListener('mouseup', toggleModal, false);
 			var closeClick = document.querySelector('.modal-cover');
 			closeClick.addEventListener('mouseup', function(e) {
 				if(e.target.className === 'modal-cover') {
-					showModal();
+					toggleModal();
 				}
 			}, false);
 			
@@ -85,32 +95,29 @@
 		function createGroup(json) {
 			var el = document.getElementById('group-container');
 			var obj = null;
+			var template = document.querySelector("#group-card-template").content;
+			var newEl;
 			for (var i = 0; i < json.length; i++) {
 				obj = json[i];
 				document.cookie = obj.groupId + "=" + encodeURI(obj.groupName);
-				var newEl = document.createElement("a");
-				newEl.setAttribute("href", "/g/" + obj.groupId);
-				var deleteBtn = "<a id='deleteGroup-btn' href='#' class='deleteGroup-btn' onclick='confirmDelete(\""
-						+ obj.groupId
-						+ "\", \""
-						+ obj.groupName
-						+ "\")'><i class='fa fa-remove'></i></a>";
-				var lockImg = "<i class='fa fa-lock'></i>";
+				newEl = document.importNode(template, true);
+				newEl.querySelector(".group-card").addEventListener("click",function(e){
+					e.preventDefault();
+					window.location.href="/g/"+obj.groupId;	
+				},false);
+				newEl.querySelector(".group-name").innerHTML = obj.groupName;
+				newEl.querySelector('.deleteGroup-btn').addEventListener("mousedown",function(){
+					confirmDelete(obj.groupId,obj.groupName);
+				},false);
 				if (obj.isPublic === 'T') {
-					lockImg = "<i class='fa fa-unlock'></i>";
+					newEl.querySelector('.fa-lock').setAttribute('class','fa fa-unlock');
 				}
-				newEl.innerHTML = "<li>"
-						+ "<span>"
-						+ obj.groupName
-						+ "</span>"
-						+ deleteBtn
-						+ lockImg
-						+ "<input name= groupId type='hidden' value=" + obj.groupId+" /></li>";
+				newEl.querySelector('input').setAttribute("value",obj.groupId);
 				el.appendChild(newEl);
 			}
 		}
 
-		function showModal() {
+		function toggleModal() {
 			var blkcvr = document.getElementById('black-cover');
 			if (blkcvr.style.display == "none") {
 				document.body.style.overflow = "hidden";
@@ -121,11 +128,11 @@
 			}
 			
 			var closeBtn = document.getElementById('createGroup-close');
-			closeBtn.addEventListener('mouseup', showModal, false);
+			closeBtn.addEventListener('mouseup', toggleModal, false);
 			
 			document.body.addEventListener('keydown', function(e) {
 				if(e.keyCode === 27) {
-					showModal();
+					toggleModal();
 				}
 			}, false);
 		}
@@ -141,10 +148,6 @@
 				document.body.style.overflow = "auto";
 				console.log("그룹삭제안함");
 			});
-		}
-
-		function closeModal() {
-
 		}
 	</script>
 </body>
