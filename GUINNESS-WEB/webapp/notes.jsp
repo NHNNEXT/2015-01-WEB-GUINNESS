@@ -42,7 +42,7 @@
 									cols="50" name="noteText"></textarea></td>
 						</tr>
 					</table>
-					<input type="submit" class='btn btn-pm' value="작성" />
+					<input type="submit" class="btn btn-pm" onclick="createNote();" value="작성" />
 				</div>
 			</div>
 		</div>
