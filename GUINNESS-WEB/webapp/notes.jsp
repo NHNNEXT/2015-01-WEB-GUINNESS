@@ -42,7 +42,8 @@
 									cols="50" name="noteText"></textarea></td>
 						</tr>
 					</table>
-					<input type="submit" class='btn btn-pm' onclick="createNote()" value="작성" />
+					<input type="submit" class='btn btn-pm' onclick="createNote()"
+						value="작성" />
 				</div>
 			</div>
 		</div>
@@ -83,13 +84,14 @@
 			var groupName = getCookie(groupId);
 			document.title = groupName;
 			groupNameLabel.innerHTML = groupName;
-			
+
+			//scrolling event
 			window.addEventListener('scroll', function() {
-				if (document.body.scrollHeight === document.body.scrollTop + self.innerHeight) {
+				if (document.body.scrollHeight === document.body.scrollTop+self.innerHeight) {
 					residualNotes();
 				}
 			}, false);
-			
+
 		}, false);
 
 		function getCookie(sKey) {
@@ -104,14 +106,9 @@
 					|| null;
 		}
 
-		function addScrollUp(groupId) {
-			// 가져온 것과 DB에 남은 것 체크
-			var emUlNum = document.querySelectorAll('#note-list-container > UL').length;
-			var targetDate = guinness.util.today("-");
-			if(emUlNum > 1) {
-				targetDate = document.querySelectorAll('#note-list-container > UL:last-child')[0].getAttribute('id').replace('day-', '');
-			}
-			readNoteList(groupId, targetDate);
+		function addScrollUp(groupId, residualNotesCount) {
+			var targetDate = document.querySelectorAll('#note-list-container > UL:last-child')[0].getAttribute('id').replace('day-', '');
+			readResidualNoteList(groupId, targetDate, residualNotesCount);
 			attachGroupId(groupId);
 		}
 
@@ -119,13 +116,15 @@
 			var groupId = window.location.pathname.split("/")[2].toString();
 			var req = new XMLHttpRequest();
 			var noteCount = document.querySelectorAll('#note-list-container > UL').length-1;
-			req.open("GET", "/notelist/check?groupId=" + groupId+"&noteCount="+noteCount, true);
-			req.onreadystatechange = function(e) {
+			req.open("GET", "/notelist/check?groupId="+groupId+"&noteCount="+noteCount, true);
+			req.onreadystatechange = function() {
 				if (req.status === 200 && req.readyState === 4) {
-					res = JSON.parse(req.responseText);
-					if (!res){ return; }
-					// 가져온 것과 DB에 남은 것 체크
-					addScrollUp(groupId);
+					residualNotesCount = Number(JSON.parse(req.responseText));
+					if (residualNotesCount<=0) {
+						guinness.util.alert("알림", "가져올 노트가 없습니다.");
+						return;
+					}
+					addScrollUp(groupId, residualNotesCount);
 				}
 			};
 			req.send();
@@ -138,7 +137,7 @@
 
 		function readNoteList(groupId, targetDate) {
 			var req = new XMLHttpRequest();
-			req.open("GET", "/notelist/read?groupId=" + groupId + "&targetDate=" + targetDate, true);
+			req.open("GET", "/notelist/read?groupId="+groupId+"&targetDate="+targetDate, true);
 			req.onreadystatechange = function() {
 				if (req.status === 200 && req.readyState === 4) {
 					res = JSON.parse(req.responseText);
@@ -148,6 +147,22 @@
 					//노트가 하나이상 있다면 빈 노트 메세지를 지우고 노트와 네비게이션을 출력한다.
 					if (document.getElementById("empty-message") != null)
 						document.getElementById("empty-message").outerHTML = "";
+					appendNoteList(res);
+					appendDateNav(res);
+				}
+			};
+			req.send();
+		}
+		
+		function readResidualNoteList(groupId, targetDate, residualNotesCount) {
+			var req = new XMLHttpRequest();
+			req.open("GET", "/notelist/read?groupId="+groupId+"&targetDate="+targetDate+"&residualNotesCount="+residualNotesCount, true);
+			req.onreadystatechange = function() {
+				if (req.status === 200 && req.readyState === 4) {
+					res = JSON.parse(req.responseText);
+					if (res == "") {
+						return;
+					}
 					appendNoteList(res);
 					appendDateNav(res);
 				}
@@ -212,12 +227,12 @@
 
 		function appendNoteList(json) {
 			var el = null;
-/* 			//리스트 초기화
-			el = document.getElementsByClassName("diary-list");
-			var elLength = el.length;
-			for (var i = elLength-1; i >= 0; i--) {
-				el[i].outerHTML = "";
-			} */
+			/* 			//리스트 초기화
+			 el = document.getElementsByClassName("diary-list");
+			 var elLength = el.length;
+			 for (var i = elLength-1; i >= 0; i--) {
+			 el[i].outerHTML = "";
+			 } */
 			//날짜별로 들어갈수 있게...
 			var newEl = null;
 			var obj = null;
@@ -237,11 +252,13 @@
 					newEl.setAttribute("class", "diary-date");
 					newEl.innerHTML = "<span>" + targetDate + "</span>";
 					el.appendChild(newEl);
-					document.getElementById('note-list-container').appendChild(el);
+					document.getElementById('note-list-container').appendChild(
+							el);
 				}
 				newEl = document.createElement("a");
 				newEl.setAttribute("href", "#");
-				newEl.setAttribute("onclick", "readNoteContents(" + obj.noteId +" )");
+				newEl.setAttribute("onclick", "readNoteContents(" + obj.noteId
+						+ " )");
 				out = "";
 				out += "<li><img class='avatar' class='avatar' src='/img/avatar-default.png'>";
 				out += "<div class='msgContainer'>";
@@ -266,12 +283,12 @@
 				document.body.style.overflow = "auto";
 				blkcvr.style.display = "none";
 			}
-			
+
 			var closeBtn = document.getElementById('createNote-close');
 			closeBtn.addEventListener('mouseup', showCreateNoteModal, false);
-			
+
 			document.body.addEventListener('keydown', function(e) {
-				if(e.keyCode === 27) {
+				if (e.keyCode === 27) {
 					showCreateNoteModal();
 				}
 			});
@@ -280,27 +297,27 @@
 		datepickr('#datepickr', {
 			dateFormat : 'Y-m-d'
 		});
-		
-		function readNoteContents(noteId){
+
+		function readNoteContents(noteId) {
 			console.log(noteId);
 			var req = new XMLHttpRequest();
 			var json = null;
 			req.onreadystatechange = function() {
-				if(req.readyState === 4) {
-					if(req.status === 200) {
+				if (req.readyState === 4) {
+					if (req.status === 200) {
 						json = JSON.parse(req.responseText);
 						showNoteModal(json);
 					} else {
-						window.location.href="/exception.jsp";
+						window.location.href = "/exception.jsp";
 					}
 				}
 			}
 			req.open('get', '/note/read?noteId=' + noteId, true);
 			req.send();
 		}
-		
-		function showNoteModal(json){
-			document.body.style.overflow="hidden";
+
+		function showNoteModal(json) {
+			document.body.style.overflow = "hidden";
 			var obj = json[0];
 			var el = document.createElement("div");
 			el.setAttribute("id", "contents-window");
@@ -309,35 +326,39 @@
 			innerContainer.setAttribute("class", "modal-container");
 			var innerHeader = document.createElement("div");
 			innerHeader.setAttribute("class", "modal-header");
-			innerHeader.innerHTML +="<div class='modal-title'>" +obj.targetDate + " | " + obj.userName  + "</div><div id='contents-close' class='modal-close'><i class='fa fa-remove'></i></div>";
+			innerHeader.innerHTML += "<div class='modal-title'>"
+					+ obj.targetDate
+					+ " | "
+					+ obj.userName
+					+ "</div><div id='contents-close' class='modal-close'><i class='fa fa-remove'></i></div>";
 			var innerBody = document.createElement("div");
 			innerBody.setAttribute("class", "modal-body");
 			innerBody.innerHTML += obj.noteText;
-			
+
 			el.appendChild(innerContainer);
 			innerContainer.appendChild(innerHeader);
 			innerContainer.appendChild(innerBody);
 			document.body.appendChild(el);
-			
+
 			var closeBtn = document.getElementById('contents-close');
 			closeBtn.addEventListener('mouseup', function(e) {
-				document.body.style.overflow ="auto";
+				document.body.style.overflow = "auto";
 				var el = document.getElementById("contents-window");
 				el.outerHTML = "";
 				delete el;
-			},false);
-			
+			}, false);
+
 			var closeClick = document.getElementById('contents-window');
 			closeClick.addEventListener('mouseup', function(e) {
-				if(e.target.className === 'note-modal-cover') {
+				if (e.target.className === 'note-modal-cover') {
 					var el = document.getElementById("contents-window");
 					el.outerHTML = "";
 					delete el;
 				}
 			}, false);
-			
+
 			document.body.addEventListener('keydown', function(e) {
-				if(e.keyCode === 27) {
+				if (e.keyCode === 27) {
 					var el = document.getElementById("contents-window");
 					el.outerHTML = "";
 					delete el;

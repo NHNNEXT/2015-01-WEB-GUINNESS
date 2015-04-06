@@ -44,7 +44,6 @@ public abstract class AbstractDao {
 		try {
 			conn = getConnection();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		PreparedStatement pstmt = setPreparedStatement(conn, sql, parameters);
@@ -67,7 +66,6 @@ public abstract class AbstractDao {
 		try {
 			conn = getConnection();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		PreparedStatement pstmt = setPreparedStatement(conn, sql, parameters);
@@ -99,7 +97,6 @@ public abstract class AbstractDao {
 		try {
 			conn = getConnection();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		PreparedStatement pstmt = setPreparedStatement(conn, sql, parameters);

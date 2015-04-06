@@ -11,24 +11,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.nhnnext.guinness.model.NoteDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @WebServlet("/notelist/check")
-public class CheckLastNoteServlet extends HttpServlet{
+public class CheckLastNoteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LoggerFactory.getLogger(CheckLastNoteServlet.class);
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		int noteCount = Integer.parseInt(req.getParameter("noteCount"));
-		String groupId = req.getParameter("groupId");
-		NoteDao noteDao = new NoteDao();
 		PrintWriter out = resp.getWriter();
+		String noteCount = req.getParameter("noteCount");
+		String groupId = req.getParameter("groupId");
+		if (noteCount == null || groupId == null) {
+			logger.error("CheckLastNote Parameter NULL!!");
+			out.print("/exception.jsp");
+		}
+		NoteDao noteDao = new NoteDao();
 		try {
-			if (noteCount < noteDao.checkGroupNotesCount(groupId)){
-				out.print("true");
-			}
+			int residualNotes = noteDao.checkGroupNotesCount(groupId)-Integer.parseInt(noteCount);
+			out.print(residualNotes);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			out.print("/exception.jsp");
+			
 		}
 	}
 }
