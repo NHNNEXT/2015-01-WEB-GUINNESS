@@ -112,7 +112,7 @@
 			var groupId = window.location.pathname.split("/")[2].toString();
 			var residualNotesCount=0;
 			var req = new XMLHttpRequest();
-			var noteCount = document.querySelectorAll('#note-list-container > UL').length-1;
+			var noteCount = document.querySelectorAll('#note-list-container > UL LI .userName').length;
 			req.open("GET", "/notelist/check?groupId="+groupId+"&noteCount="+noteCount, true);
 			req.onreadystatechange = function() {
 				if (req.status === 200 && req.readyState === 4) {
@@ -200,8 +200,6 @@
 				}
 				document.getElementById("to-date").appendChild(newLi);
 			}
-
-			//스크롤링 이벤트 리스너를 추가하는 부분
 			//모든 date-nav 클래스를 가진 개체에 이벤트를 부여한다.
 			var dates = document.getElementsByClassName('date-nav');
 			for (var i = 0; i < dates.length; i++) {
@@ -288,10 +286,6 @@
 				}
 			});
 		}
-
-		datepickr('#datepickr', {
-			dateFormat : 'Y-m-d'
-		});
 
 		function readNoteContents(noteId) {
 			console.log(noteId);
