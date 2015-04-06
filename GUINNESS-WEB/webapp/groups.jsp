@@ -101,13 +101,13 @@
 				obj = json[i];
 				document.cookie = obj.groupId + "=" + encodeURI(obj.groupName);
 				newEl = document.importNode(template, true);
-				newEl.querySelector(".group-card").addEventListener("click",function(e){
-					e.preventDefault();
-					window.location.href="/g/"+obj.groupId;	
-				},false);
+				newEl.querySelector(".group-card").setAttribute("href", "/g/"+obj.groupId);
 				newEl.querySelector(".group-name").innerHTML = obj.groupName;
-				newEl.querySelector('.deleteGroup-btn').addEventListener("mousedown",function(){
-					confirmDelete(obj.groupId,obj.groupName);
+				newEl.querySelector('.deleteGroup-btn').addEventListener("mousedown",function(e){
+					e.preventDefault();
+					var groupId = e.currentTarget.parentElement.parentElement.getAttribute("href").split("/")[2];
+					var groupName = e.currentTarget.parentElement.querySelector(".group-name").innerHTML;
+					confirmDelete(groupId, groupName);
 				},false);
 				if (obj.isPublic === 'T') {
 					newEl.querySelector('.fa-lock').setAttribute('class','fa fa-unlock');
