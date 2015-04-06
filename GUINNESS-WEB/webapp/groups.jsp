@@ -89,10 +89,11 @@
 			var newEl;
 			for (var i = 0; i < json.length; i++) {
 				obj = json[i];
-				document.cookie = obj.groupId + "=" + encodeURI(obj.groupName);
+				var groupName = (obj.groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;")
+				document.cookie = obj.groupId + "=" + encodeURI(groupName);
 				newEl = document.importNode(template, true);
 				newEl.querySelector(".group-card").setAttribute("href", "/g/"+obj.groupId);
-				newEl.querySelector(".group-name").innerHTML = obj.groupName;
+				newEl.querySelector(".group-name").innerHTML = groupName;
 				newEl.querySelector('.deleteGroup-btn').addEventListener("mousedown",function(e){
 					e.preventDefault();
 					var groupId = e.currentTarget.parentElement.parentElement.getAttribute("href").split("/")[2];
