@@ -23,41 +23,37 @@
 	</div>
 
 	<!-- 그룹생성을 위한 Modal -->
-	<div id='black-cover' class='modal-cover' style="display: none;">
-		<div id='createGroup-container' class='modal-container'>
-			<div id='createGroup-header' class='modal-header'>
-				<div id='createGroup-title' class='modal-title'>새 스터디 그룹 생성</div>
-				<div id='createGroup-close' class='modal-close'>
+	<div class='modal-cover' style="display: none;">
+		<div class='modal-container'>
+			<div class='modal-header'>
+				<div class='modal-title'>새 스터디 그룹 생성</div>
+				<div  class='modal-close-btn'>
 					<i class='fa fa-remove'></i>
 				</div>
 			</div>
-			<div id='createGroup-body' class='modal-body'>
+			<div class='modal-body'>
 				<form name="user" method="post" action="/group/create">
 					<div>
 						그룹이름 <input type="text" name="groupName">
 					</div>
 					<div>
 						<input type="radio" name="isPublic" value="private" checked>
-						<label>비공개</label>
-						<input type="radio" name="isPublic" value="public">
-						<label>공개</label>
+						<label>비공개</label> <input type="radio" name="isPublic"
+							value="public"> <label>공개</label>
 					</div>
 					<br />
-					<button id='createGroup-submit' class='btn btn-pm'>생성</button>
+					<button class='btn btn-pm'>생성</button>
 				</form>
 			</div>
 		</div>
 	</div>
-	<template id='group-card-template'>
-		<a class='group-card' href='#'>
-			<li>
-				<span class='group-name'></span>
-				<div class='deleteGroup-btn'><i class='fa fa-remove'></i></div>
-				<i class='fa fa-lock'></i>
-				<input name= groupId type='hidden' />
-			</li>
-		</a>
-	</template>
+	<template id='group-card-template'> <a class='group-card'
+		href='#'>
+		<li><span class='group-name'></span>
+			<div class='deleteGroup-btn'>
+				<i class='fa fa-remove'></i>
+			</div> <i class='fa fa-lock'></i> <input name=groupId type='hidden' /></li>
+	</a> </template>
 	<script>
 		window.addEventListener('load', function() {
 			var req = new XMLHttpRequest();
@@ -67,8 +63,8 @@
 					if (req.status == 200) {
 						json = JSON.parse(req.responseText);
 						createGroup(json);
-					} else{
-						window.location.href="/exception.jsp"
+					} else {
+						window.location.href = "/exception.jsp"
 					}
 				}
 			};
@@ -82,14 +78,8 @@
 			}
 
 			var el = document.getElementById('create-new');
-			el.addEventListener('mouseup', toggleModal, false);
-			var closeClick = document.querySelector('.modal-cover');
-			closeClick.addEventListener('mouseup', function(e) {
-				if(e.target.className === 'modal-cover') {
-					toggleModal();
-				}
-			}, false);
-			
+			el.addEventListener('mouseup', guinness.util.showModal, false);
+
 		}, false);
 
 		function createGroup(json) {
@@ -99,43 +89,22 @@
 			var newEl;
 			for (var i = 0; i < json.length; i++) {
 				obj = json[i];
-				var groupName = (obj.groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 				document.cookie = obj.groupId + "=" + encodeURI(obj.groupName);
 				newEl = document.importNode(template, true);
-				newEl.querySelector(".group-card").addEventListener("click",function(e){
+				newEl.querySelector(".group-card").addEventListener("click", function(e) {
 					e.preventDefault();
-					window.location.href="/g/"+obj.groupId;	
-				},false);
+					window.location.href = "/g/" + obj.groupId;
+				}, false);
 				newEl.querySelector(".group-name").innerHTML = groupName;
-				newEl.querySelector('.deleteGroup-btn').addEventListener("mousedown",function(){
-					confirmDelete(obj.groupId,obj.groupName);
-				},false);
+				newEl.querySelector('.deleteGroup-btn').addEventListener("mousedown", function() {
+					confirmDelete(obj.groupId, obj.groupName);
+				}, false);
 				if (obj.isPublic === 'T') {
-					newEl.querySelector('.fa-lock').setAttribute('class','fa fa-unlock');
+					newEl.querySelector('.fa-lock').setAttribute('class', 'fa fa-unlock');
 				}
-				newEl.querySelector('input').setAttribute("value",obj.groupId);
+				newEl.querySelector('input').setAttribute("value", obj.groupId);
 				el.appendChild(newEl);
 			}
-		}
-
-		function toggleModal() {
-			var blkcvr = document.getElementById('black-cover');
-			if (blkcvr.style.display == "none") {
-				document.body.style.overflow = "hidden";
-				blkcvr.style.display = "block";
-			} else {
-				document.body.style.overflow = "auto";
-				blkcvr.style.display = "none";
-			}
-			
-			var closeBtn = document.getElementById('createGroup-close');
-			closeBtn.addEventListener('mouseup', toggleModal, false);
-			
-			document.body.addEventListener('keydown', function(e) {
-				if(e.keyCode === 27) {
-					toggleModal();
-				}
-			}, false);
 		}
 
 		function confirmDelete(groupId, groupName) {
