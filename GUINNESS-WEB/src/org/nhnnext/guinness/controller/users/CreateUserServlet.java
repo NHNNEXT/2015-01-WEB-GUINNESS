@@ -27,7 +27,7 @@ public class CreateUserServlet extends HttpServlet{
 		req.setCharacterEncoding("utf-8");
 		String userId = req.getParameter("userId");
 		String userPassword = req.getParameter("userPassword");
-		String userName =  StringEscapeUtils.escapeHtml4(req.getParameter("userName"));
+		String userName =  req.getParameter("userName");
 		
 		User user = new User(userId, userName, userPassword);
 		Set<ConstraintViolation<User>> constraintViolations = MyValidatorFactory.createValidator().validate(user);

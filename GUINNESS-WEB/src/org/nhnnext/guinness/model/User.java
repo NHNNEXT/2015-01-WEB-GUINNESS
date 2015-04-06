@@ -12,6 +12,7 @@ public class User {
 	@Size(max = 50, message = "이메일은 50 글자 이하만 사용 가능합니다.")
 	private String userId;
 	@NotNull
+	@Pattern(regexp = "([a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣].*)", message = "이름은 한글, 영문, 숫자만 가능합니다.")
 	@Size(max = 50, message = "이름은 25 글자 이하만 사용 가능합니다.")
 	private String userName;
 	@NotNull

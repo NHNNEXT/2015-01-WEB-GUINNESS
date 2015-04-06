@@ -82,7 +82,7 @@
 			var groupNameLabel = document.getElementById('group-name');
 			var groupName = getCookie(groupId);
 			document.title = groupName;
-			groupNameLabel.innerHTML = groupName;
+			groupNameLabel.innerHTML = (groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 			
 			window.addEventListener('scroll', function() {
 				if (document.body.scrollHeight === document.body.scrollTop + self.innerHeight) {

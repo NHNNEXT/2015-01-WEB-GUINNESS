@@ -99,13 +99,14 @@
 			var newEl;
 			for (var i = 0; i < json.length; i++) {
 				obj = json[i];
+				var groupName = (obj.groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 				document.cookie = obj.groupId + "=" + encodeURI(obj.groupName);
 				newEl = document.importNode(template, true);
 				newEl.querySelector(".group-card").addEventListener("click",function(e){
 					e.preventDefault();
 					window.location.href="/g/"+obj.groupId;	
 				},false);
-				newEl.querySelector(".group-name").innerHTML = obj.groupName;
+				newEl.querySelector(".group-name").innerHTML = groupName;
 				newEl.querySelector('.deleteGroup-btn').addEventListener("mousedown",function(){
 					confirmDelete(obj.groupId,obj.groupName);
 				},false);
@@ -138,10 +139,9 @@
 		}
 
 		function confirmDelete(groupId, groupName) {
-			groupName = (groupName.replace(/</gi, "&lt;")).replace(/>/gi,
-					"&gt;");
-			var message = groupName + "을 삭제하시겠습니까?";
-			guinness.util.alert("스터디그룹 삭제", message, function() {
+			groupName = (groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
+			var message = "그룹을 삭제하시겠습니까?";
+			guinness.util.alert(groupName , message, function() {
 				document.body.style.overflow = "auto";
 				location.href = "/group/delete?groupId=" + groupId;
 			}, function() {

@@ -36,7 +36,7 @@ public class CreateNoteServlet extends HttpServlet {
 		Calendar calendar = Calendar.getInstance();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		targetDate += " " + dateFormat.format(calendar.getTime());
-		String noteText = StringEscapeUtils.escapeHtml4(req.getParameter("noteText"));
+		String noteText = req.getParameter("noteText");
 
 		if (noteText.equals("")) {
 			resp.sendRedirect("/g/" + groupId);
