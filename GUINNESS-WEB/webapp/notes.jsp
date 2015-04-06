@@ -114,6 +114,7 @@
 
 		function residualNotes() {
 			var groupId = window.location.pathname.split("/")[2].toString();
+			var residualNotesCount=0;
 			var req = new XMLHttpRequest();
 			var noteCount = document.querySelectorAll('#note-list-container > UL').length-1;
 			req.open("GET", "/notelist/check?groupId="+groupId+"&noteCount="+noteCount, true);
@@ -154,9 +155,9 @@
 			req.send();
 		}
 		
-		function readResidualNoteList(groupId, targetDate, residualNotesCount) {
+		function readResidualNoteList(groupId, targetDate, residualNotes) {
 			var req = new XMLHttpRequest();
-			req.open("GET", "/notelist/read?groupId="+groupId+"&targetDate="+targetDate+"&residualNotesCount="+residualNotesCount, true);
+			req.open("GET", "/notelist/update?groupId="+groupId+"&targetDate="+targetDate+"&residualNotes="+residualNotes, true);
 			req.onreadystatechange = function() {
 				if (req.status === 200 && req.readyState === 4) {
 					res = JSON.parse(req.responseText);
