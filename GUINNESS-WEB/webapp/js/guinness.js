@@ -48,7 +48,7 @@ guinness.util.showModal = function() {
 	}, false);
 }
 
-guinness.util.closeModal = function(e) {
+guinness.util.closeModal = function() {
 	var modalCover = document.getElementsByClassName('modal-cover')[0];
 	if (modalCover.style.display === "block") {
 		modalCover.style.display = "none";

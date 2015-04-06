@@ -42,7 +42,7 @@
 									cols="50" name="noteText"></textarea></td>
 						</tr>
 					</table>
-					<input type="submit" class="btn btn-pm" onclick="createNote();" value="작성" />
+					<button id="create-note" class="btn btn-pm">작성</button>
 				</div>
 			</div>
 		</div>
@@ -58,11 +58,12 @@
 	<script>
 		/* scrolling navigation */
 		window.addEventListener('load', function() {
-			var createNote = document.getElementById('create-new-button');
-			createNote.addEventListener('mouseup', function() {
+			var noteModal = document.getElementById('create-new-button');
+			noteModal.addEventListener('mouseup', function() {
 				guinness.util.showModal();
 				setNoteModal();
 			}, false);
+			document.getElementById('create-note').addEventListener('mouseup', createNote, false);
 
 			var groupId = window.location.pathname.split("/")[2];
 			var targetDate = guinness.util.today("-");
@@ -73,6 +74,7 @@
 			var groupName = getCookie(groupId);
 			document.title = groupName;
 			groupNameLabel.innerHTML = groupName;
+			
 
 			window.addEventListener('scroll', function() {
 				if (document.body.scrollHeight === document.body.scrollTop + self.innerHeight) {
@@ -334,7 +336,7 @@
 			req.setParameter;
 			req.onreadystatechange = function() {
 				if (req.status === 200 && req.readyState === 4) {
-					showCreateNoteModal();
+					guinness.util.closeModal();
 					readNoteList(groupId, targetDate);
 				}
 			};
