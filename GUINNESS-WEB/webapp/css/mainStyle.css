@@ -200,7 +200,9 @@ input.text {
 	margin-top: -25px;
 }
 
-/*diary page*/
+/*
+ * diary page
+ */
 #note-list-container {
 	margin-top: 100px;
 }
@@ -223,7 +225,7 @@ input.text {
 	color: #454545;
 }
 
-.diary-list .diary-date {
+.diary-list .note-date {
 	font-size: 12px;
 }
 
@@ -315,7 +317,10 @@ input.text {
 	background-color: #558;
 }
 
-#black-cover, .modal-cover {
+/*
+ * modal style
+ */
+.modal-cover {
 	position: fixed;
 	top: 0px;
 	z-index: 20;
@@ -361,7 +366,7 @@ input.text {
 	padding: 15px;
 }
 
-.modal-close {
+.modal-close-btn {
 	position: relative;
 	padding: 10px;
 	font-size: 25px;
