@@ -73,7 +73,7 @@
 			var groupNameLabel = document.getElementById('group-name');
 			var groupName = getCookie(groupId);
 			document.title = groupName;
-			groupNameLabel.innerHTML = (groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
+			groupNameLabel.innerHTML = groupName;
 			
 
 			window.addEventListener('scroll', function() {
