@@ -9,9 +9,9 @@
 	href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
 <link rel="stylesheet" href="/css/mainStyle.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
-<link rel="stylesheet" href="/css/datepickr.min.css">
+<link rel="stylesheet" href="/css/datepickr.css">
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-<script src="/js/datepickr.min.js"></script>
+<script src="/js/datepickr.js"></script>
 <script src="/js/guinness.js"></script>
 </head>
 <body>
@@ -33,8 +33,7 @@
 					<table>
 						<tr>
 							<td>날짜</td>
-							<td><input id="datepickr" name="targetDate" value=""
-								readonly /></td>
+							<td><input id="targetDate" name="targetDate" value="" readonly /><i id="datepickr" class="fa fa-calendar"></i></td>
 						</tr>
 						<tr>
 							<td>내용</td>
@@ -85,10 +84,15 @@
 		}, false);
 
 		function setNoteModal() {
-			document.getElementById("datepickr").setAttribute("value", guinness.util.today("-"));
+			document.getElementById("targetDate").value = guinness.util.today("-");
 			document.getElementById("noteText").value = "";
 		}
-
+		
+		datepickr('.fa-calendar', {
+			dateFormat: 'Y-m-d',
+			altInput: document.getElementById('targetDate')
+		});
+		
 		function getCookie(sKey) {
 			if (!sKey) {
 				return null;
@@ -251,10 +255,6 @@
 			}
 		}
 
-		datepickr('#datepickr', {
-			dateFormat : 'Y-m-d'
-		});
-
 		function readNoteContents(noteId) {
 			console.log(noteId);
 			var req = new XMLHttpRequest();
@@ -320,12 +320,9 @@
 			});
 		}
 
-		datepickr('#datepickr', {
-			dateFormat : 'Y-m-d'
-		});
 		function createNote() {
 			var req = new XMLHttpRequest();
-			var targetDate = document.getElementById('datepickr').value;
+			var targetDate = document.getElementById('targetDate').value;
 			var groupId = document.getElementById('groupId').value;
 			var noteText = document.getElementById('noteText').value;
 			var param = "groupId=" + groupId + "&targetDate=" + targetDate + "&noteText=" + noteText;
