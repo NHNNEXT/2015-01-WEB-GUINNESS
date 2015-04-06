@@ -9,9 +9,9 @@
 	href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
 <link rel="stylesheet" href="/css/mainStyle.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
-<link rel="stylesheet" href="/css/datepickr.min.css">
+<link rel="stylesheet" href="/css/datepickr.css">
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-<script src="/js/datepickr.min.js"></script>
+<script src="/js/datepickr.js"></script>
 <script src="/js/guinness.js"></script>
 </head>
 <body>
@@ -19,22 +19,21 @@
 	<h1 id="empty-message"
 		style="position: absolute; color: #888; top: 45%; width: 100%; text-align: center;">새
 		노트를 작성해주세요</h1>
-	<div id='black-cover-note' class='modal-cover' style='display: none'>
-		<div id='createNote-container' class='modal-container'>
-			<div id='createNote-header' class='modal-header'>
-				<div id='createNote-title' class='modal-title'>새 일지 작성</div>
-				<div id='createNote-close' class='modal-close'>
+	<div class='modal-cover' style='display: none'>
+		<div class='modal-container'>
+			<div class='modal-header'>
+				<div class='modal-title'>새 일지 작성</div>
+				<div class='modal-close-btn'>
 					<i class='fa fa-remove'></i>
 				</div>
 			</div>
-			<div id='createNote-body' class='modal-body'>
+			<div class='modal-body'>
 				<div>
 					<input id="groupId" type="hidden" name="groupId" value="">
 					<table>
 						<tr>
 							<td>날짜</td>
-							<td><input id="datepickr" name="targetDate" value=""
-								readonly /></td>
+							<td><input id="targetDate" name="targetDate" value="" readonly /><i id="datepickr" class="fa fa-calendar"></i></td>
 						</tr>
 						<tr>
 							<td>내용</td>
@@ -42,8 +41,7 @@
 									cols="50" name="noteText"></textarea></td>
 						</tr>
 					</table>
-					<input type="submit" class='btn btn-pm' onclick="createNote()"
-						value="작성" />
+					<button id="create-note" class="btn btn-pm">작성</button>
 				</div>
 			</div>
 		</div>
@@ -59,21 +57,12 @@
 	<script>
 		/* scrolling navigation */
 		window.addEventListener('load', function() {
-			var el = document.getElementById('create-new-button');
-			el.addEventListener('mouseup', showCreateNoteModal, false);
-			var closeClick = document.querySelector('.modal-cover');
-			closeClick.addEventListener('mouseup', function(e) {
-				if (e.target.className === 'modal-cover') {
-					showCreateNoteModal();
-				}
+			var noteModal = document.getElementById('create-new-button');
+			noteModal.addEventListener('mouseup', function() {
+				guinness.util.showModal();
+				setNoteModal();
 			}, false);
-			window.addEventListener('keydown', function(e) {
-				if (e.keyCode === 27) {
-					showCreateNoteModal();
-				}
-			}, false);
-			var closeBtn = document.getElementById('createNote-close');
-			closeBtn.addEventListener('mouseup', showCreateNoteModal, false);
+			document.getElementById('create-note').addEventListener('mouseup', createNote, false);
 
 			var groupId = window.location.pathname.split("/")[2];
 			var targetDate = guinness.util.today("-");
@@ -94,15 +83,22 @@
 
 		}, false);
 
+		function setNoteModal() {
+			document.getElementById("targetDate").value = guinness.util.today("-");
+			document.getElementById("noteText").value = "";
+		}
+		
+		datepickr('.fa-calendar', {
+			dateFormat: 'Y-m-d',
+			altInput: document.getElementById('targetDate')
+		});
+		
 		function getCookie(sKey) {
 			if (!sKey) {
 				return null;
 			}
-			return decodeURIComponent(document.cookie.replace(new RegExp(
-					"(?:(?:^|.*;)\\s*"
-							+ encodeURIComponent(sKey).replace(/[\-\.\+\*]/g,
-									"\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"),
-					"$1"))
+			return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*"
+					+ encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1"))
 					|| null;
 		}
 
@@ -253,13 +249,11 @@
 					newEl.setAttribute("class", "diary-date");
 					newEl.innerHTML = "<span>" + targetDate + "</span>";
 					el.appendChild(newEl);
-					document.getElementById('note-list-container').appendChild(
-							el);
+					document.getElementById('note-list-container').appendChild(el);
 				}
 				newEl = document.createElement("a");
 				newEl.setAttribute("href", "#");
-				newEl.setAttribute("onclick", "readNoteContents(" + obj.noteId
-						+ " )");
+				newEl.setAttribute("onclick", "readNoteContents(" + obj.noteId + " )");
 				out = "";
 				out += "<li><img class='avatar' class='avatar' src='/img/avatar-default.png'>";
 				out += "<div class='msgContainer'>";
@@ -327,11 +321,8 @@
 			innerContainer.setAttribute("class", "modal-container");
 			var innerHeader = document.createElement("div");
 			innerHeader.setAttribute("class", "modal-header");
-			innerHeader.innerHTML += "<div class='modal-title'>"
-					+ obj.targetDate
-					+ " | "
-					+ obj.userName
-					+ "</div><div id='contents-close' class='modal-close'><i class='fa fa-remove'></i></div>";
+			innerHeader.innerHTML += "<div class='modal-title'>" + obj.targetDate + " | " + obj.userName
+					+ "</div><div id='contents-close' class='modal-close-btn'><i class='fa fa-remove'></i></div>";
 			var innerBody = document.createElement("div");
 			innerBody.setAttribute("class", "modal-body");
 			innerBody.innerHTML += obj.noteText;
@@ -367,25 +358,20 @@
 			});
 		}
 
-		datepickr('#datepickr', {
-			dateFormat : 'Y-m-d'
-		});
 		function createNote() {
 			var req = new XMLHttpRequest();
-			var targetDate = document.getElementById('datepickr').value;
+			var targetDate = document.getElementById('targetDate').value;
 			var groupId = document.getElementById('groupId').value;
 			var noteText = document.getElementById('noteText').value;
-			var param = "groupId=" + groupId + "&targetDate=" + targetDate
-					+ "&noteText=" + noteText;
+			var param = "groupId=" + groupId + "&targetDate=" + targetDate + "&noteText=" + noteText;
 			var res = null;
 
 			req.open("post", "/note/create", true);
-			req.setRequestHeader("Content-type",
-					"application/x-www-form-urlencoded");
+			req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			req.setParameter;
 			req.onreadystatechange = function() {
 				if (req.status === 200 && req.readyState === 4) {
-					showCreateNoteModal();
+					guinness.util.closeModal();
 					readNoteList(groupId, targetDate);
 				}
 			};

@@ -31,16 +31,14 @@ public class ReadNoteListServlet extends HttpServlet {
 		PrintWriter out = resp.getWriter();
 		List<Note> noteList = null;
 		String groupId = req.getParameter("groupId");
-		DateTime targetDate = new DateTime(req.getParameter("targetDate")).plusHours(23).plusMinutes(59).plusSeconds(59);
+		DateTime targetDate = new DateTime(req.getParameter("targetDate")).plusDays(1).minusSeconds(1);
 		DateTime endDate = targetDate.minus(Period.days(10));
 		logger.debug("start endDate={} targetDate={}", endDate, targetDate);
-
 		try {
 			noteList = noteDAO.readNoteList(groupId, endDate.toString(), targetDate.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		resp.setContentType("application/json; charset=UTF-8");
 		String jsonData = gson.toJson(noteList);
 		out.print(jsonData);
