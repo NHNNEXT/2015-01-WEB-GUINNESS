@@ -24,10 +24,9 @@ public class CreateUserServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws javax.servlet.ServletException, java.io.IOException {
-		req.setCharacterEncoding("utf-8");
 		String userId = req.getParameter("userId");
 		String userPassword = req.getParameter("userPassword");
-		String userName =  StringEscapeUtils.escapeHtml4(req.getParameter("userName"));
+		String userName =  req.getParameter("userName");
 		
 		User user = new User(userId, userName, userPassword);
 		Set<ConstraintViolation<User>> constraintViolations = MyValidatorFactory.createValidator().validate(user);

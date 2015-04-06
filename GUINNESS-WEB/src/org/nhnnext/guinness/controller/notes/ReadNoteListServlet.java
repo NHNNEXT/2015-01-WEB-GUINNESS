@@ -25,7 +25,6 @@ public class ReadNoteListServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 사용자가 권한이 있는지 검증
-		req.setCharacterEncoding("utf-8");
 		String groupId = req.getParameter("groupId");
 		NoteDao noteDAO = new NoteDao();
 		List<Note> noteList = null;

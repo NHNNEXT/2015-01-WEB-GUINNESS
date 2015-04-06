@@ -24,7 +24,6 @@ public class CreateNoteServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setCharacterEncoding("utf-8");
 		HttpSession session = req.getSession();
 		String userId = (String) session.getAttribute("sessionUserId");
 		if (userId == null) {
@@ -36,7 +35,7 @@ public class CreateNoteServlet extends HttpServlet {
 		Calendar calendar = Calendar.getInstance();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		targetDate += " " + dateFormat.format(calendar.getTime());
-		String noteText = StringEscapeUtils.escapeHtml4(req.getParameter("noteText"));
+		String noteText = req.getParameter("noteText");
 
 		if (noteText.equals("")) {
 			resp.sendRedirect("/g/" + groupId);
