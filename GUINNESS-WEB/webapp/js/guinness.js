@@ -54,6 +54,7 @@ guinness.util.closeModal = function() {
 		modalCover.style.display = "none";
 		document.body.style.overflow = "";
 	}
+	selectedInitVal = "init";
 }
 
 /* 

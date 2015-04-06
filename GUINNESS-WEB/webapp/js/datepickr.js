@@ -11,6 +11,8 @@
     http://www.wtfpl.net/ for more details.
 */
 
+var selectedInitVal = "init";
+
 var datepickr = function (selector, config) {
     'use strict';
     var elements,
@@ -383,6 +385,11 @@ datepickr.init = function (element, instanceConfig) {
     open = function () {
         self.addEventListener(document, 'click', documentClick, false);
         self.addClass(wrapperElement, 'open');
+        if(selectedInitVal === "init"){
+	        self.selectedDate = null;
+	        buildDays();
+	        selectedInitVal = "none";
+        }
     };
 
     close = function () {
