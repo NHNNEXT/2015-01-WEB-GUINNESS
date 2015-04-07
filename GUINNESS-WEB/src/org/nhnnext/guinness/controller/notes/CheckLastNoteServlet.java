@@ -30,7 +30,8 @@ public class CheckLastNoteServlet extends HttpServlet {
 		}
 		NoteDao noteDao = new NoteDao();
 		try {
-			int residualNotes = noteDao.checkGroupNotesCount(groupId)-Integer.parseInt(noteCount);
+			int residualNotes =0;
+			residualNotes = noteDao.checkGroupNotesCount(groupId)-Integer.parseInt(noteCount);
 			out.print(residualNotes);
 		} catch (SQLException e) {
 			e.printStackTrace();

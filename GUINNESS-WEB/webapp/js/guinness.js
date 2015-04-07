@@ -62,7 +62,6 @@ guinness.util.closeModal = function() {
  */
 guinness.util.alert = function(header, message, agreeFunc, disagreeFunc) {
 	var body = document.body;
-	body.style.overflow = "hidden";
 	var el = document.getElementById("guinness-alert-window");
 	if (el == undefined) {
 		el = document.createElement("div");
@@ -92,7 +91,6 @@ guinness.util.alert = function(header, message, agreeFunc, disagreeFunc) {
 guinness.util.alert.choose = function(c) {
 	var el = document.getElementById("guinness-alert-window");
 	el.parentElement.removeChild(el);
-	// el.outerHTML = "";
 	if (c == undefined) {
 		return;
 	}
