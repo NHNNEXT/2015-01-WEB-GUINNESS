@@ -409,8 +409,11 @@ input.text {
 .drop-down ul {
 	display: none;
 	position: absolute;
-	top: 59px;
+	top: 58px;
+	padding-top:15px;
 	list-style: none;
+	background-image:url("/img/menuPointer.png");
+	background-repeat:no-repeat;
 }
 
 .drop-down ul li {
@@ -419,7 +422,7 @@ input.text {
 	width: 100px;
 	color: #fff;
 	cursor: pointer;
-	background-color: #619493
+	background-color: #619493;
 }
 
 .drop-down ul li a {
