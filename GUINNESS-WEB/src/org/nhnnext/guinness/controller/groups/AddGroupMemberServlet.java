@@ -3,7 +3,6 @@ package org.nhnnext.guinness.controller.groups;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +15,6 @@ import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.controller.notes.ReadNoteListServlet;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.GroupDao;
-import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.model.UserDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,15 +30,11 @@ public class AddGroupMemberServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		UserDao userDao = new UserDao();
 		GroupDao groupDao = new GroupDao();
-		String userId = (String) req.getParameter("userId");
-		String groupId = (String) req.getParameter("groupId");
-
+		String userId = req.getParameter("userId");
+		String groupId = req.getParameter("groupId");
 		Gson gson = new Gson();
 		PrintWriter out = resp.getWriter();
-		List<User> userList = null;
-
 		logger.debug("userId={}, groupId={}", userId, groupId);
-
 		try {
 			if (!userDao.checkExistUserId(userId)) {
 				logger.debug("등록되지 않은 사용자 입니다");
@@ -52,18 +46,11 @@ public class AddGroupMemberServlet extends HttpServlet {
 				Forwarding.forwardForError(req, resp, "errorMessage", "이미 가입된 사용자 입니다.", "/exception.jsp");
 				return;
 			}
-
 			groupDao.createGroupUser(userId, groupId);
-			try {
-				userList = groupDao.readUserListByGroupId(groupId);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			String jsonData = gson.toJson(userList);
-			out.print(jsonData);
+			out.print(gson.toJson(groupDao.readUserListByGroupId(groupId)));
 		} catch (MakingObjectListFromJdbcException | SQLException e) {
-			e.printStackTrace();
+			Forwarding.forwardForError(req, resp, "errorMessage", "데이터 베이스 접근이 잘못되었습니다.", "/exception.jsp");
+			return;
 		}
 	}
 }
