@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.nhnnext.guinness.common.WebServletUrl;
 
 @WebServlet(WebServletUrl.USER_LOGOUT)
-public class LogoutUserServlet extends HttpServlet{
+public class LogoutUserServlet extends HttpServlet {
 	private static final long serialVersionUID = -6472067457011797683L;
 
 	@Override

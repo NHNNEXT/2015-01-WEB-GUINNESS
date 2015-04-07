@@ -3,7 +3,6 @@ package org.nhnnext.guinness.controller.notes;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,10 +27,9 @@ public class NotesRouter extends HttpServlet {
 			resp.sendRedirect("/");
 			return;
 		}
-		GroupDao groupDao = new GroupDao();
 		try {
 			String url = req.getRequestURI().split("/")[2];
-			if (!groupDao.checkJoinedGroup(userId, url)) {
+			if (!new GroupDao().checkJoinedGroup(userId, url)) {
 				Forwarding.forwardForError(req, resp, "errorMessage", "비정상적 접근시도.", "/illegal.jsp");
 				return;
 			}
@@ -40,9 +38,6 @@ public class NotesRouter extends HttpServlet {
 			Forwarding.forwardForError(req, resp, "errorMessage", "비정상적 접근시도.", "/exception.jsp");
 			return;
 		}
-
-		RequestDispatcher rd = req.getRequestDispatcher("/notes.jsp");
-		rd.forward(req, resp);
-
+		Forwarding.forwardForError(req, resp, null, null, "/notes.jsp");
 	}
 }

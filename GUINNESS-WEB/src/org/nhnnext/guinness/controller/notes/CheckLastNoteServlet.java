@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.nhnnext.guinness.model.NoteDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.nhnnext.guinness.common.Forwarding;
 import org.nhnnext.guinness.common.WebServletUrl;
 
 @WebServlet(WebServletUrl.NOTELIST_CHECK)
@@ -32,12 +32,13 @@ public class CheckLastNoteServlet extends HttpServlet {
 		}
 		NoteDao noteDao = new NoteDao();
 		try {
-			int residualNotes =0;
-			residualNotes = noteDao.checkGroupNotesCount(groupId)-Integer.parseInt(noteCount);
+			int residualNotes = 0;
+			residualNotes = noteDao.checkGroupNotesCount(groupId) - Integer.parseInt(noteCount);
 			out.print(residualNotes);
+			out.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			
+			Forwarding.forwardForError(req, resp, "errorMessage", "데이터베이스 접근이 잘못되었습니다.", "/exception.jsp");
 		}
 	}
 }

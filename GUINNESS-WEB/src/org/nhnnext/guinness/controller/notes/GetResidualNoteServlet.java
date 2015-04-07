@@ -34,10 +34,9 @@ public class GetResidualNoteServlet extends HttpServlet {
 		String groupId = req.getParameter("groupId");
 		DateTime targetDate = new DateTime(req.getParameter("targetDate")).minusSeconds(1);
 		int residualNotes = Integer.parseInt(req.getParameter("residualNotes"));
-		Gson gson = new Gson();
 		PrintWriter out = resp.getWriter();
-		resp.setContentType("application/json; charset=UTF-8");
-		out.print(gson.toJson(miningResidualNote(groupId, targetDate, residualNotes)));
+		out.print(new Gson().toJson(miningResidualNote(groupId, targetDate, residualNotes)));
+		out.close();
 	}
 	
 	private List<Note> miningResidualNote(String groupId, DateTime targetDate, int residualNotes) {

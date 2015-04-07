@@ -11,7 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 
 @WebFilter("/*")
-public class ControllerFIlter implements Filter{
+public class ControllerFIlter implements Filter {
 	private final String DEFAULT_ENCODING = "UTF-8";
 
 	@Override

@@ -31,20 +31,17 @@ public class CreateNoteServlet extends HttpServlet {
 		}
 		String groupId = req.getParameter("groupId");
 		String targetDate = req.getParameter("targetDate");
-		Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-		targetDate += " " + dateFormat.format(calendar.getTime());
 		String noteText = req.getParameter("noteText");
-
+		Calendar calendar = Calendar.getInstance();
+		targetDate += " " + new SimpleDateFormat("HH:mm:ss").format(calendar.getTime());
+		
 		if (noteText.equals("")) {
 			resp.sendRedirect("/g/" + groupId);
 			return;
 		}
 
-		Note note = new Note(noteText, targetDate, userId, groupId);
-		NoteDao noteDAO = new NoteDao();
 		try {
-			noteDAO.createNote(note);
+			new NoteDao().createNote(new Note(noteText, targetDate, userId, groupId));
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Forwarding.forwardForError(req, resp, null, null, "/exception.jsp");

@@ -26,8 +26,8 @@ public class CreateUserServlet extends HttpServlet{
 		String userId = req.getParameter("userId");
 		String userPassword = req.getParameter("userPassword");
 		String userName =  req.getParameter("userName");
-		
 		User user = new User(userId, userName, userPassword);
+		
 		Set<ConstraintViolation<User>> constraintViolations = MyValidatorFactory.createValidator().validate(user);
 		if (constraintViolations.size() > 0) {
 			String signValidErrorMessage = "";
@@ -42,9 +42,8 @@ public class CreateUserServlet extends HttpServlet{
 			return;
 		}
 		
-		UserDao userDao = new UserDao();
 		try {
-			if (!userDao.createUser(user)) {
+			if (!new UserDao().createUser(user)) {
 				Forwarding.forwardForError(req, resp, "message", "이미 존재하는 아이디입니다.", "/");
 				return;
 			}

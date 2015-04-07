@@ -48,6 +48,7 @@ public class AddGroupMemberServlet extends HttpServlet {
 			}
 			groupDao.createGroupUser(userId, groupId);
 			out.print(gson.toJson(groupDao.readUserListByGroupId(groupId)));
+			out.close();
 		} catch (MakingObjectListFromJdbcException | SQLException e) {
 			Forwarding.forwardForError(req, resp, "errorMessage", "데이터 베이스 접근이 잘못되었습니다.", "/exception.jsp");
 			return;
