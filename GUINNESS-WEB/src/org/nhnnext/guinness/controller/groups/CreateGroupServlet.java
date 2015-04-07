@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.nhnnext.guinness.common.Forwarding;
 import org.nhnnext.guinness.common.MyValidatorFactory;
 import org.nhnnext.guinness.common.ParameterKey;
