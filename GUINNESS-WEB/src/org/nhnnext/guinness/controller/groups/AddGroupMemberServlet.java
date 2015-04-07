@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.nhnnext.guinness.common.Forwarding;
-import org.nhnnext.guinness.common.WebServletURL;
+import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.controller.notes.ReadNoteListServlet;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.GroupDao;
@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 
-@WebServlet(WebServletURL.GROUP_ADD_MEMBER)
+@WebServlet(WebServletUrl.GROUP_ADD_MEMBER)
 public class AddGroupMemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListServlet.class);

@@ -14,14 +14,14 @@ import javax.servlet.http.HttpSession;
 
 import org.nhnnext.guinness.common.Forwarding;
 import org.nhnnext.guinness.common.ParameterKey;
-import org.nhnnext.guinness.common.WebServletURL;
+import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.GroupDao;
 
 import com.google.gson.Gson;
 
-@WebServlet(WebServletURL.GROUP_READ)
+@WebServlet(WebServletUrl.GROUP_READ)
 public class ReadGroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

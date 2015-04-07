@@ -12,12 +12,12 @@ import javax.servlet.http.HttpSession;
 
 import org.nhnnext.guinness.common.Forwarding;
 import org.nhnnext.guinness.common.ParameterKey;
-import org.nhnnext.guinness.common.WebServletURL;
+import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.GroupDao;
 
-@WebServlet(WebServletURL.GROUP_DELETE)
+@WebServlet(WebServletUrl.GROUP_DELETE)
 public class DeleteGroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

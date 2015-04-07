@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.nhnnext.guinness.common.Forwarding;
-import org.nhnnext.guinness.common.WebServletURL;
+import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.model.Comment;
 import org.nhnnext.guinness.model.CommentDao;
 
-@WebServlet(WebServletURL.COMMENT_CREATE)
+@WebServlet(WebServletUrl.COMMENT_CREATE)
 public class CreateCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

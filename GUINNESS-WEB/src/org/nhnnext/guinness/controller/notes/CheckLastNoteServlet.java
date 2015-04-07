@@ -14,7 +14,9 @@ import org.nhnnext.guinness.model.NoteDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@WebServlet("/notelist/check")
+import org.nhnnext.guinness.common.WebServletUrl;
+
+@WebServlet(WebServletUrl.NOTELIST_CHECK)
 public class CheckLastNoteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(CheckLastNoteServlet.class);

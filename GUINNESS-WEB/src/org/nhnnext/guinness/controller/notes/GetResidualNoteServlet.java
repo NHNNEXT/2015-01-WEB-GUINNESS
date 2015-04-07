@@ -17,12 +17,14 @@ import org.joda.time.Period;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.NoteDao;
+import org.nhnnext.guinness.common.WebServletUrl;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 
-@WebServlet("/notelist/update")
+@WebServlet(WebServletUrl.NOTELIST_UPDATE)
 public class GetResidualNoteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(GetResidualNoteServlet.class);

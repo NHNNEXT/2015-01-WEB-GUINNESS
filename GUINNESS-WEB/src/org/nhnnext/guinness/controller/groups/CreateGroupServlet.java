@@ -16,12 +16,12 @@ import javax.validation.Validator;
 import org.nhnnext.guinness.common.Forwarding;
 import org.nhnnext.guinness.common.MyValidatorFactory;
 import org.nhnnext.guinness.common.ParameterKey;
-import org.nhnnext.guinness.common.WebServletURL;
+import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.GroupDao;
 
-@WebServlet(WebServletURL.GROUP_CREATE)
+@WebServlet(WebServletUrl.GROUP_CREATE)
 public class CreateGroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

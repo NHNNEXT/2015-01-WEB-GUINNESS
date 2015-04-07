@@ -11,14 +11,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.nhnnext.guinness.common.WebServletURL;
+import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.NoteDao;
 
 import com.google.gson.Gson;
 
-@WebServlet(WebServletURL.NOTE_READ)
+@WebServlet(WebServletUrl.NOTE_READ)
 public class DetailNoteRouter extends HttpServlet {
 	private static final long serialVersionUID = 1810055739085682471L;
 

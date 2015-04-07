@@ -13,11 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.nhnnext.guinness.common.Forwarding;
-import org.nhnnext.guinness.common.WebServletURL;
+import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.NoteDao;
 
-@WebServlet(WebServletURL.NOTE_CREATE)
+@WebServlet(WebServletUrl.NOTE_CREATE)
 public class CreateNoteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
