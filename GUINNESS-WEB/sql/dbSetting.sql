@@ -53,8 +53,8 @@ Create Table NOTES(
 
 Create Table COMMENTS (
   commentId bigint PRIMARY KEY AUTO_INCREMENT,
-  comentText text Not Null,
-  comentType char(1) Not Null,
+  commentText text Not Null,
+  commentType char(1) Not Null,
   createDate DATETIME DEFAULT CURRENT_TIMESTAMP,
   userId varchar(50),
   noteId bigint,
