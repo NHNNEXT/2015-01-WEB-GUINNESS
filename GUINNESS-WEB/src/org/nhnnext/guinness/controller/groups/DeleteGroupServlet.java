@@ -26,9 +26,8 @@ public class DeleteGroupServlet extends HttpServlet {
 		String userId = (String) session.getAttribute("sessionUserId");
 		String groupId = req.getParameter("groupId");
 		GroupDao groupDao = new GroupDao();
-		Group group;
 		try {
-			group = groupDao.findByGroupId(groupId);
+			Group group = groupDao.findByGroupId(groupId);
 			if (!group.getGroupCaptainUserId().equals(userId)) {
 				Forwarding.forwardForError(req, resp, "errorMessage", "삭제 권한 없음", "/groups.jsp");
 				return;
@@ -38,29 +37,6 @@ public class DeleteGroupServlet extends HttpServlet {
 		} catch (SQLException | MakingObjectListFromJdbcException e) {
 			e.printStackTrace();
 			Forwarding.forwardForError(req, resp, "errorMessage", "접속이 원활하지 않습니다.", "/exception.jsp");
-			return;
-		}
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setCharacterEncoding("utf-8");
-		HttpSession session = req.getSession();
-		String userId = (String) session.getAttribute("sessionUserId");
-		String groupId = req.getParameter("groupId");
-		GroupDao groupDao = new GroupDao();
-		Group group;
-		try {
-			group = groupDao.findByGroupId(groupId);
-			if (!group.getGroupCaptainUserId().equals(userId)) {
-				Forwarding.forwardForError(req, resp, "errorMessage", "삭제 권한 없음", "/groups.jsp");
-				return;
-			}
-			groupDao.deleteGroup(group);
-
-		} catch (SQLException | MakingObjectListFromJdbcException e) {
-			e.printStackTrace();
-			Forwarding.forwardForError(req, resp, null, null, "/exception.jsp");
 			return;
 		}
 	}
