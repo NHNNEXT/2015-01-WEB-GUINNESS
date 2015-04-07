@@ -5,7 +5,19 @@
 var el = document.getElementById("switchForm");
 el.addEventListener("click", switchForm, false);
 
-/* 회원가입과 로그인 Form 을 변경시켜주는 Function */
+document.querySelector("#login-form").addEventListener("submit",function(e){
+	e.preventDefault();
+	loginCheck();
+},false);
+
+Object.prototype.show = function(){
+	this.style.display = "block";
+}
+
+Object.prototype.hide = function(){
+	this.style.display = "none";
+}
+
 function switchForm() {
 	var el;
 	el = document.getElementsByClassName("errorMessage");
@@ -14,15 +26,15 @@ function switchForm() {
 	}
 	el = document.getElementById("signup-form");
 	if(el.style.display === "block") {
-		Event.hideElement("signup-form");
-		Event.hideElement("label-login");
-		Event.showElement("login-form");
-		Event.showElement("label-signUp");
+		document.querySelector("#signup-form").hide();
+		document.querySelector("#label-login").hide();
+		document.querySelector("#login-form").show();
+		document.querySelector("#label-signUp").show();
 	} else {
-		Event.showElement("signup-form");
-		Event.showElement("label-login");
-		Event.hideElement("login-form");
-		Event.hideElement("label-signUp");
+		document.querySelector("#signup-form").show();
+		document.querySelector("#label-login").show();
+		document.querySelector("#login-form").hide();
+		document.querySelector("#label-signUp").hide();
 	}
 }
 
@@ -46,19 +58,4 @@ function loginCheck() {
   		}
   	};
   	req.send(param);
-}
-
-//ToDo 나중에 자주쓰는 Event를 위해 별도 js 로 분류
-var Event = {};
-
-/* element의 id를 인자로 받아 해당 element를 display = "block" 시켜준다 */
-Event.showElement = function(elementId) {
-	var el = document.getElementById(elementId);
-	el.style.display = "block";
-}
-
-/* element의 id를 인자로 받아 해당 element를 display = "none" 시켜준다 */
-Event.hideElement = function(elementId) {
-	var el = document.getElementById(elementId);
-	el.style.display = "none";
 }

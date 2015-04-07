@@ -13,4 +13,6 @@ public class WebServletURL {
 	public static final String USER_CREATE = "/user/create";
 	public static final String USER_LOGIN = "/user/login";
 	public static final String USER_LOGOUT = "/user/logout";
+	
+	public static final String COMMENT_CREATE = "/comment/create";
 }
