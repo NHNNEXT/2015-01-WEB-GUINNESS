@@ -2,7 +2,6 @@ package org.nhnnext.guinness.common;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,30 +12,27 @@ import java.util.List;
 
 import org.nhnnext.guinness.controller.notes.ReadNoteListServlet;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
-import org.nhnnext.guinness.model.Group;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 public abstract class AbstractDao {
 	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListServlet.class);
-	
+
 	static Gson gson = new Gson();
-	static Type GroupList = new TypeToken<List<Group>>() {
-	}.getType();
 
 	protected Connection getConnection() throws SQLException, ClassNotFoundException {
 		String url = "jdbc:mysql://localhost:3306/GUINNESS";
 		String id = "link413";
 		String pw = "link413";
 		Class.forName("com.mysql.jdbc.Driver");
+		logger.debug("getConnection");
 		return DriverManager.getConnection(url, id, pw);
 	}
 
 	/**
-	 * 
+	 * 리턴 없는 쿼리 실행 시
 	 * @param sql
 	 *            쿼리문
 	 * @param parameters
@@ -57,7 +53,7 @@ public abstract class AbstractDao {
 	}
 
 	/**
-	 * 
+	 * 갯수 리턴이 필요한 쿼리 실행 시
 	 * @param sql
 	 *            쿼리문
 	 * @param parameters
@@ -82,7 +78,7 @@ public abstract class AbstractDao {
 	}
 
 	/**
-	 * 
+	 * 객체 리턴이 필요한 쿼리 실행 시
 	 * @param cls
 	 *            리스트 객체의 클래스 타입
 	 * @param params
@@ -156,10 +152,6 @@ public abstract class AbstractDao {
 		return list;
 	}
 
-	protected void terminateResources(Connection conn, PreparedStatement pstmt) throws SQLException {
-		terminateResources(conn, pstmt, null);
-	}
-
 	protected void terminateResources(Connection conn, PreparedStatement pstmt, ResultSet rs) throws SQLException {
 		if (conn != null)
 			conn.close();
@@ -167,5 +159,10 @@ public abstract class AbstractDao {
 			pstmt.close();
 		if (rs != null)
 			rs.close();
+		logger.debug("terminateResources");
+	}
+	
+	protected void terminateResources(Connection conn, PreparedStatement pstmt) throws SQLException {
+		terminateResources(conn, pstmt, null);
 	}
 }

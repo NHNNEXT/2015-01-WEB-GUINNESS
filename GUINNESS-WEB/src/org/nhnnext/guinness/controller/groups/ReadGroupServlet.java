@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.nhnnext.guinness.common.Forwarding;
-import org.nhnnext.guinness.common.ParameterKey;
 import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Group;
@@ -28,7 +27,7 @@ public class ReadGroupServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession();
-		String userId = (String) session.getAttribute(ParameterKey.SESSION_USERID);
+		String userId = (String) session.getAttribute("sessionUserId");
 
 		// 세션이 없을 경우 루트화면으로 이동
 		if (userId == null) {

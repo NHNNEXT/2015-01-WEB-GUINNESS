@@ -15,7 +15,6 @@ import javax.validation.Validator;
 
 import org.nhnnext.guinness.common.Forwarding;
 import org.nhnnext.guinness.common.MyValidatorFactory;
-import org.nhnnext.guinness.common.ParameterKey;
 import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Group;
@@ -27,7 +26,7 @@ public class CreateGroupServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession();
-		String groupCaptainUserId = (String) session.getAttribute(ParameterKey.SESSION_USERID);
+		String groupCaptainUserId = (String) session.getAttribute("sessionUserId");
 		String groupName = req.getParameter("groupName");
 
 		// 그룹 공개/비공개 여부 판단

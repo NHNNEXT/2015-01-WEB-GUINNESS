@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.nhnnext.guinness.common.Forwarding;
-import org.nhnnext.guinness.common.ParameterKey;
 import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Group;
@@ -24,7 +23,7 @@ public class DeleteGroupServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession();
-		String userId = (String) session.getAttribute(ParameterKey.SESSION_USERID);
+		String userId = (String) session.getAttribute("sessionUserId");
 		String groupId = req.getParameter("groupId");
 		GroupDao groupDao = new GroupDao();
 		Group group;
@@ -47,7 +46,7 @@ public class DeleteGroupServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		HttpSession session = req.getSession();
-		String userId = (String) session.getAttribute(ParameterKey.SESSION_USERID);
+		String userId = (String) session.getAttribute("sessionUserId");
 		String groupId = req.getParameter("groupId");
 		GroupDao groupDao = new GroupDao();
 		Group group;

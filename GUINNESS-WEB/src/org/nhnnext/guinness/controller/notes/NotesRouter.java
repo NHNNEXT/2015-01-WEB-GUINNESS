@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.nhnnext.guinness.common.Forwarding;
-import org.nhnnext.guinness.common.ParameterKey;
 import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.model.GroupDao;
 
@@ -24,7 +23,7 @@ public class NotesRouter extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// session을 통해 userid를 받고 해당 그룹의 권한이 있는지 확인 후 있으면 notes.jsp로 이동
 		HttpSession session = req.getSession();
-		String userId = (String) session.getAttribute(ParameterKey.SESSION_USERID);
+		String userId = (String) session.getAttribute("sessionUserId");
 		if (userId == null) {
 			resp.sendRedirect("/");
 			return;
