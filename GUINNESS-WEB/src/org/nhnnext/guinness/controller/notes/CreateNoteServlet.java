@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.nhnnext.guinness.common.Forwarding;
 import org.nhnnext.guinness.common.WebServletURL;
 import org.nhnnext.guinness.model.Note;
