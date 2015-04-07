@@ -19,9 +19,9 @@ public class GroupDao extends AbstractDao {
 		queryNotForReturn(sql, group.getGroupId());
 	}
 
-	public void createGroupUser(String groupCaptainUserId, String groupId) throws SQLException {
+	public void createGroupUser(String userId, String groupId) throws SQLException {
 		String sql = "insert into GROUPS_USERS values(?,?)";
-		queryNotForReturn(sql, groupCaptainUserId, groupId);
+		queryNotForReturn(sql, userId, groupId);
 	}
 
 	public boolean checkExistGroupId(String groupId) throws MakingObjectListFromJdbcException, SQLException {
@@ -55,5 +55,14 @@ public class GroupDao extends AbstractDao {
 		if (queryForCountReturn(sql, userId, groupId) > 0)
 			return true;
 		return false;
+	}
+	
+	@SuppressWarnings("unchecked")
+	// GroupId를 이용하여 User List를 받아오기 위함
+	public List<User> readUserListByGroupId(String groupId) throws MakingObjectListFromJdbcException, SQLException {
+		String sql = "select * from USERS,GROUPS_USERS where GROUPS_USERS.groupId = ? and GROUPS_USERS.userId = USERS.userId;";
+		String[] paramsKey = { "userId", "userName", "userPassword", "userImage" };
+		List<?> list = queryForReturn(User.class, paramsKey, sql, groupId);
+		return (List<User>) list;
 	}
 }

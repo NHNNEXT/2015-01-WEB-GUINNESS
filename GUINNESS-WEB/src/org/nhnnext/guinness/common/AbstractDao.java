@@ -11,13 +11,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.nhnnext.guinness.controller.notes.ReadNoteListServlet;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Group;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public abstract class AbstractDao {
+	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListServlet.class);
+	
 	static Gson gson = new Gson();
 	static Type GroupList = new TypeToken<List<Group>>() {
 	}.getType();
@@ -134,6 +139,9 @@ public abstract class AbstractDao {
 						break;
 					case "char":
 						paramsValue[indexOfcolumn] = rs.getString(paramsKey[indexOfcolumn]).charAt(0);
+						break;
+					case "byte":
+						paramsValue[indexOfcolumn] = rs.getByte(paramsKey[indexOfcolumn]);
 						break;
 					default:
 						throw new MakingObjectListFromJdbcException();

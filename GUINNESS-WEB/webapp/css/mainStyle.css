@@ -200,11 +200,26 @@ input.text {
 	margin-top: -25px;
 }
 
+
+#group-members {
+	top:100px;
+	position : fixed;
+	left:100%;
+	margin-left:-220px;
+	padding-left : 5px;
+	padding-right:5px;
+    background-color : white;
+    width : 200px;
+    height : 300px;
+}
+
+
 /*
  * diary page
  */
 #note-list-container {
 	margin-top: 100px;
+	float : none;
 }
 
 .diary-list {

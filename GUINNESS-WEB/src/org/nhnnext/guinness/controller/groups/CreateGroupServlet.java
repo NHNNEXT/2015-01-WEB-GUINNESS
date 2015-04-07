@@ -26,7 +26,6 @@ import org.nhnnext.guinness.model.GroupDao;
 public class CreateGroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession();
 		String groupCaptainUserId = (String) session.getAttribute(ParameterKey.SESSION_USERID);

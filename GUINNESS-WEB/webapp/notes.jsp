@@ -53,7 +53,15 @@
 		<div id='create-new-button'>
 			<i class="fa fa-plus-circle"></i>
 		</div>
+		<ul id='group-members' class='member-nav'>
+			<form action="/group/add/member" method="post">
+				<input type="hidden" class="groupId" name="groupId">
+				<input type="text" name="userId">
+				<input type="submit" value="추가">
+			</form>
+		</ul>
 	</div>
+	
 	<script>
 		/* scrolling navigation */
 		window.addEventListener('load', function() {
@@ -80,7 +88,6 @@
 					residualNotes();
 				}
 			}, false);
-
 		}, false);
 
 		function setNoteModal() {
@@ -130,6 +137,9 @@
 		function attachGroupId(data) {
 			var el = document.getElementById("groupId");
 			el.setAttribute("value", data);
+			
+			var ele = document.querySelector(".groupId");
+			ele.setAttribute("value", data);
 		}
 
 		function readNoteList(groupId, targetDate) {
