@@ -320,11 +320,19 @@
 			var innerBody = document.createElement("div");
 			innerBody.setAttribute("class", "modal-body");
 			innerBody.innerHTML += obj.noteText;
+			
+			var commentArea = viewComment();
+			
 
 			el.appendChild(innerContainer);
 			innerContainer.appendChild(innerHeader);
 			innerContainer.appendChild(innerBody);
+			innerContainer.appendChild(commentArea);
 			document.body.appendChild(el);
+			
+			document.getElementById('submitComment').addEventListener('mouseup', function() {
+				createComment(obj);
+			}, false);
 
 			var closeBtn = document.getElementById('contents-close');
 			closeBtn.addEventListener('mouseup', function(e) {
@@ -350,6 +358,34 @@
 					delete el;
 				}
 			});
+		}
+		
+		function viewComment() {
+			var el = document.createElement("div");
+			el.innerHTML += "<textarea id='commentText' name='commentText' rows='5' cols='50'></textarea><br>";
+			el.innerHTML += "<button id='submitComment' class='btn btn-pm' name='submitComment'>답변</button>";
+			
+			return el;
+		}
+		
+		function createComment(obj) {
+			var req = new XMLHttpRequest();
+			var commentText = document.getElementById('commentText').value;
+			var userId = obj.userId;
+			var noteId = obj.noteId;
+			var param = "commentText=" + commentText + "&commentType=A" + "&userId=" + userId + "&noteId=" + noteId;
+			
+			req.open("post", "/comment/create", true);
+			req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			req.setParameter;
+			req.onreadystatechange = function() {
+				if (req.status === 200 && req.readyState === 4) {
+					document.getElementById('commentText').value = "";
+					guinness.util.alert("답변달기","성공적");
+					//TODO 자동 댓글 리스트 불러오기 구현 위
+				}
+			};
+			req.send(param);
 		}
 
 		function createNote() {
