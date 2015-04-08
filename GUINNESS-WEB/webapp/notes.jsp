@@ -18,7 +18,7 @@
 <body>
 	<%@ include file="/commons/_topnav.jspf"%>
 	<h1 id="empty-message"
-		style="position: absolute; color: #888; top: 25%; width: 100%; text-align: center;">새
+		style="position: absolute; color: #888; top: 300px; width: 100%; text-align: center;">새
 		노트를 작성해주세요</h1>
 	<div class='modal-cover' style='display: none'>
 		<div class='modal-container'>
@@ -170,29 +170,6 @@
 				newEl.innerHTML = out;
 				el.appendChild(newEl);
 			}
-		}
-
-		function showCreateNoteModal() {
-			var blkcvr = document.getElementById('black-cover-note');
-			if (blkcvr.style.display == "none") {
-				blkcvr.style.display = "block";
-				document.body.style.overflow = "hidden";
-				document.getElementById("datepickr").setAttribute("value",
-						guinness.util.today("-"));
-				document.getElementById("noteText").value = "";
-			} else {
-				document.body.style.overflow = "auto";
-				blkcvr.style.display = "none";
-			}
-
-			var closeBtn = document.getElementById('createNote-close');
-			closeBtn.addEventListener('mouseup', showCreateNoteModal, false);
-
-			document.body.addEventListener('keydown', function(e) {
-				if (e.keyCode === 27) {
-					showCreateNoteModal();
-				}
-			});
 		}
 
 		function readNoteContents(noteId) {

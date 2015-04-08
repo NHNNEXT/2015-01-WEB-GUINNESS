@@ -35,11 +35,21 @@ guinness.util.showModal = function() {
 	}
 
 	modalCover.addEventListener('mouseup', function(e) {
+		if (document.getElementById("noteText").value!=="" && (e.target.className==="modal-cover")) {
+			console.log(e);
+			guinness.util.alert('경고', '텍스트 작성 중입니다! 정말 삭제하시겠습니까?', function(){closeModalFunction(e)}, function(){});
+		} else {
+			closeModalFunction(e);
+		}
+	}, false);
+	
+	function closeModalFunction(e) {
 		if (e.target.className === 'modal-cover' || e.target.parentElement.className === 'modal-close-btn') {
 			guinness.util.closeModal();
 			this.removeEventListener('mouseup', guinness.util.closeModal, false);
 		}
-	}, false);
+	}
+	
 	document.body.addEventListener('keydown', function(e) {
 		if (e.keyCode === 27) {
 			guinness.util.closeModal();
