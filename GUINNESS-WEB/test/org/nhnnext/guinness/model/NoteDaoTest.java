@@ -42,7 +42,7 @@ public class NoteDaoTest {
 	
 	
     public void readSingleNote() throws Exception {
-	    List<Note> note = null;
+	    Note note = null;
 	    
 	    note = noteDao.readNote("3");
 	    

@@ -1,4 +1,4 @@
-package org.nhnnext.guinness.controller.notes;
+package org.nhnnext.guinness.controller.comments;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,33 +10,43 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.nhnnext.guinness.common.Forwarding;
 import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
-import org.nhnnext.guinness.model.Note;
-import org.nhnnext.guinness.model.NoteDao;
+import org.nhnnext.guinness.model.Comment;
+import org.nhnnext.guinness.model.CommentDao;
 
 import com.google.gson.Gson;
 
-@WebServlet(WebServletUrl.NOTE_READ)
-public class DetailNoteRouter extends HttpServlet {
-	private static final long serialVersionUID = 1810055739085682471L;
+@WebServlet(WebServletUrl.COMMENT_READ)
+public class ReadCommentServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		String userId = (String) session.getAttribute("sessionUserId");
 		String noteId = req.getParameter("noteId");
-		List<Note> note = null;
+
+		if (userId == null) {
+			resp.sendRedirect("/");
+			return;
+		}
+
+		CommentDao commentDao = new CommentDao();
+		List<Comment> commentList = null;
 		try {
-			note = new NoteDao().readNote(noteId);
-		} catch (MakingObjectListFromJdbcException | SQLException e) {
+			commentList = commentDao.readCommentListByNoteId(noteId);
+		} catch (SQLException | MakingObjectListFromJdbcException e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);
+			return;
 		}
+		resp.setContentType("application/json; charset=UTF-8");
 		PrintWriter out = resp.getWriter();
-		StringBuffer sb = new StringBuffer();
-		sb.append(new Gson().toJson(note));
-		out.write(sb.toString());
+		out.write(new Gson().toJson(commentList));
 		out.close();
 	}
 }

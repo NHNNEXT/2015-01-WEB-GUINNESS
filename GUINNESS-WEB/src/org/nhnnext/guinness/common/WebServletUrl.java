@@ -8,7 +8,6 @@ public class WebServletUrl {
 
 	public static final String NOTELIST = "/g/*";
 	public static final String NOTELIST_READ = "/notelist/read";
-	public static final String NOTELIST_CHECK = "/notelist/check";
 	public static final String NOTELIST_UPDATE = "/notelist/update";
 	public static final String NOTE_CREATE = "/note/create";
 	public static final String NOTE_READ = "/note/read";
@@ -18,4 +17,5 @@ public class WebServletUrl {
 	public static final String USER_LOGOUT = "/user/logout";
 
 	public static final String COMMENT_CREATE = "/comment/create";
+	public static final String COMMENT_READ = "/comment/read";
 }

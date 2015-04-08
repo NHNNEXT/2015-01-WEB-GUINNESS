@@ -32,11 +32,10 @@ public class AddGroupMemberServlet extends HttpServlet {
 		GroupDao groupDao = new GroupDao();
 		String userId = req.getParameter("userId");
 		String groupId = req.getParameter("groupId");
-		Gson gson = new Gson();
 		PrintWriter out = resp.getWriter();
 		logger.debug("userId={}, groupId={}", userId, groupId);
 		try {
-			if (!userDao.checkExistUserId(userId)) {
+			if (userDao.readUser(userId) == null) {
 				logger.debug("등록되지 않은 사용자 입니다");
 				Forwarding.forwardForException(req, resp);
 				return;
@@ -47,7 +46,7 @@ public class AddGroupMemberServlet extends HttpServlet {
 				return;
 			}
 			groupDao.createGroupUser(userId, groupId);
-			out.print(gson.toJson(groupDao.readUserListByGroupId(groupId)));
+			out.print(new Gson().toJson(groupDao.readUserListByGroupId(groupId)));
 			out.close();
 		} catch (MakingObjectListFromJdbcException | SQLException e) {
 			Forwarding.forwardForException(req, resp);

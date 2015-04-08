@@ -7,7 +7,6 @@ import org.nhnnext.guinness.common.AbstractDao;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 
 public class GroupDao extends AbstractDao {
-
 	public void createGroup(Group group) throws SQLException {
 		String sql = "insert into GROUPS values(?,?,?,DEFAULT,?)";
 		queryNotForReturn(sql, group.getGroupId(), group.getGroupName(), group.getGroupCaptainUserId(),
@@ -24,21 +23,13 @@ public class GroupDao extends AbstractDao {
 		queryNotForReturn(sql, userId, groupId);
 	}
 
-	public boolean checkExistGroupId(String groupId) throws MakingObjectListFromJdbcException, SQLException {
-		boolean result = false;
+	public Group readGroup(String groupId) throws MakingObjectListFromJdbcException, SQLException {
 		String sql = "select groupId from GROUPS where groupId=?";
 		String[] params = { "groupId", "groupName", "groupCaptainUserId", "isPublic" };
 		List<?> list = queryForReturn(Group.class, params, sql, groupId);
 		if (list.size() != 0)
-			result = true;
-		return result;
-	}
-
-	public Group findByGroupId(String groupId) throws MakingObjectListFromJdbcException, SQLException {
-		String sql = "select * from GROUPS where groupId = ?";
-		String[] paramsKey = { "groupId", "groupName", "groupCaptainUserId", "isPublic" };
-		List<?> list = queryForReturn(Group.class, paramsKey, sql, groupId);
-		return (Group) list.get(0);
+			return (Group) list.get(0);
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -56,7 +47,7 @@ public class GroupDao extends AbstractDao {
 			return true;
 		return false;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	// GroupId를 이용하여 User List를 받아오기 위함
 	public List<User> readUserListByGroupId(String groupId) throws MakingObjectListFromJdbcException, SQLException {

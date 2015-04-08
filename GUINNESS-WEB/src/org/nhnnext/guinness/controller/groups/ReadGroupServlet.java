@@ -29,13 +29,11 @@ public class ReadGroupServlet extends HttpServlet {
 		HttpSession session = req.getSession();
 		String userId = (String) session.getAttribute("sessionUserId");
 
-		// 세션이 없을 경우 루트화면으로 이동
 		if (userId == null) {
 			resp.sendRedirect("/");
 			return;
 		}
 
-		// DAO를 이용해 그룹유저맵에서 유저가 속한 그룹의 아이디를 받아온다.
 		GroupDao groupDao = new GroupDao();
 		List<Group> groupList = null;
 		try {
@@ -45,18 +43,9 @@ public class ReadGroupServlet extends HttpServlet {
 			Forwarding.forwardForException(req, resp);
 			return;
 		}
-		// 받아온 그룹아이디 출력 테스트
-		createJsonFile(groupList, resp);
-	}
-
-	public void createJsonFile(List<Group> groupList, HttpServletResponse resp) throws IOException {
 		resp.setContentType("application/json; charset=UTF-8");
 		PrintWriter out = resp.getWriter();
-		StringBuffer sb = new StringBuffer();
-		Gson gson = new Gson();
-
-		sb.append(gson.toJson(groupList));
-		out.write(sb.toString());
+		out.write(new Gson().toJson(groupList));
 		out.close();
 	}
 }

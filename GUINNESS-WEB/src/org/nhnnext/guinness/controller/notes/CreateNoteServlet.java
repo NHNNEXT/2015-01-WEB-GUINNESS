@@ -23,18 +23,16 @@ public class CreateNoteServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session = req.getSession();
+		HttpSession session = req.getSession(); 
+		String groupId = req.getParameter("groupId");
+		String noteText = req.getParameter("noteText");
 		String userId = (String) session.getAttribute("sessionUserId");
+		String targetDate = req.getParameter("targetDate") + " " + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
+		
 		if (userId == null) {
 			resp.sendRedirect("/");
 			return;
 		}
-		String groupId = req.getParameter("groupId");
-		String targetDate = req.getParameter("targetDate");
-		String noteText = req.getParameter("noteText");
-		Calendar calendar = Calendar.getInstance();
-		targetDate += " " + new SimpleDateFormat("HH:mm:ss").format(calendar.getTime());
-		
 		if (noteText.equals("")) {
 			resp.sendRedirect("/g/" + groupId);
 			return;

@@ -7,10 +7,9 @@ import org.nhnnext.guinness.common.AbstractDao;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 
 public class NoteDao extends AbstractDao {
-
 	public void createNote(Note note) throws SQLException {
-		String query = "insert into NOTES (noteText, targetDate, userId, groupId) values(?, ?, ?, ?)";
-		queryNotForReturn(query, note.getNoteText(), note.getTargetDate(), note.getUserId(), note.getGroupId());
+		String sql = "insert into NOTES (noteText, targetDate, userId, groupId) values(?, ?, ?, ?)";
+		queryNotForReturn(sql, note.getNoteText(), note.getTargetDate(), note.getUserId(), note.getGroupId());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -26,12 +25,10 @@ public class NoteDao extends AbstractDao {
 		return queryForCountReturn(sql, groupId); 
 	}
 	
-	@SuppressWarnings("unchecked")
-    public List<Note> readNote(String noteId) throws MakingObjectListFromJdbcException, SQLException {
+	public Note readNote(String noteId) throws MakingObjectListFromJdbcException, SQLException {
 		String sql = "select *from NOTES,USERS where noteId = ? AND NOTES.userId = USERS.userId";
 		String[] params = { "noteId", "noteText", "targetDate", "userId", "groupId", "userName" };
 		List<?> note = queryForReturn(Note.class, params, sql, noteId);
-		return (List<Note>)note;
+		return (Note) note.get(0);
     }
-
 }

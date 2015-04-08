@@ -18,7 +18,7 @@
 <body>
 	<%@ include file="/commons/_topnav.jspf"%>
 	<h1 id="empty-message"
-		style="position: absolute; color: #888; top: 25%; width: 100%; text-align: center;">새
+		style="position: absolute; color: #888; top: 300px; width: 100%; text-align: center;">새
 		노트를 작성해주세요</h1>
 	<div class='modal-cover' style='display: none'>
 		<div class='modal-container'>
@@ -62,7 +62,7 @@
 			</form>
 		</ul>
 	</div>
-	
+
 	<script>
 		window.addEventListener('load', function() {
 			var groupId = window.location.pathname.split("/")[2];
@@ -76,6 +76,12 @@
 			}, false);
 			document.getElementById('create-note').addEventListener('mouseup', createNote, false);
 
+			var groupId = window.location.pathname.split("/")[2];
+			var targetDate = guinness.util.today("-");
+			readNoteList(groupId, targetDate);
+			attachGroupId(groupId);
+
+			var groupNameLabel = document.getElementById('group-name');
 			var groupName = getCookie(groupId);
 			document.title = groupName;
 			document.querySelector('#group-name').innerHTML = groupName;
@@ -85,12 +91,12 @@
 			document.getElementById("targetDate").value = guinness.util.today("-");
 			document.getElementById("noteText").value = "";
 		}
-		
+
 		datepickr('.fa-calendar', {
-			dateFormat: 'Y-m-d',
-			altInput: document.getElementById('targetDate')
+			dateFormat : 'Y-m-d',
+			altInput : document.getElementById('targetDate')
 		});
-		
+
 		function getCookie(sKey) {
 			if (!sKey) {
 				return undefined;
@@ -103,7 +109,7 @@
 		function attachGroupId(data) {
 			var el = document.querySelector("#groupId");
 			el.setAttribute("value", data);
-			
+
 			var ele = document.querySelector(".groupId");
 			ele.setAttribute("value", data);
 		}
@@ -167,25 +173,18 @@
 		}
 
 		function readNoteContents(noteId) {
-			var req = new XMLHttpRequest();
-			var json = undefined;
-			req.onreadystatechange = function() {
-				if (req.readyState === 4) {
-					if (req.status === 200) {
-						json = JSON.parse(req.responseText);
-						showNoteModal(json);
-					} else {
-						window.location.href = "/exception.jsp";
-					}
+			guinness.ajax({
+				method: 'get',
+				url: '/note/read?noteId=' + noteId,
+				success: function(req) {
+					var json = JSON.parse(req.responseText);
+					showNoteModal(json);
 				}
-			}
-			req.open('get', '/note/read?noteId=' + noteId, true);
-			req.send();
+			});
 		}
 
-		function showNoteModal(json) {
+		function showNoteModal(obj) {
 			document.body.style.overflow = "hidden";
-			var obj = json[0];
 			var el = document.createElement("div");
 			el.setAttribute("id", "contents-window");
 			el.setAttribute("class", "note-modal-cover");
@@ -199,18 +198,27 @@
 			innerBody.setAttribute("class", "modal-body");
 			innerBody.innerHTML += obj.noteText;
 			
-			var commentArea = viewComment();
 			
+			var noteId = obj.noteId;
+			var userName = obj.userName;
+			var commentList = document.createElement("ul");
+			commentList.setAttribute("id","commentListUl");
+
+			var commentArea = writeComment();
 
 			el.appendChild(innerContainer);
 			innerContainer.appendChild(innerHeader);
 			innerContainer.appendChild(innerBody);
+			
+			innerContainer.appendChild(commentList);
 			innerContainer.appendChild(commentArea);
 			document.body.appendChild(el);
-			
-			document.getElementById('submitComment').addEventListener('mouseup', function() {
-				createComment(obj);
-			}, false);
+			readComments(noteId, userName);
+
+			document.getElementById('submitComment').addEventListener(
+					'mouseup', function() {
+						createComment(obj, userName);
+					}, false);
 
 			var closeBtn = document.getElementById('contents-close');
 			closeBtn.addEventListener('mouseup', function(e) {
@@ -237,16 +245,42 @@
 				}
 			});
 		}
-		
-		function viewComment() {
+
+		function readComments(noteId, userName) {
+			var req = new XMLHttpRequest();
+			var json = null;
+			var el = document.querySelector('#commentListUl');
+			while(el.hasChildNodes()){
+				el.removeChild(el.firstChild);
+			}
+			var out = "";
+			var obj = null;
+			req.open('get', '/comment/read?noteId=' + noteId, true);
+			req.onreadystatechange = function() {
+				if (req.readyState === 4) {
+					if (req.status === 200) {
+						json = JSON.parse(req.responseText);
+						for (var i = 0; i < json.length; i++) {
+							obj = json[i];
+							el.innerHTML += "<li>" + obj.commentText + "    "+ obj.createDate +" "+ userName + "</li>";
+						}
+					} else {
+						window.location.href = "/exception.jsp";
+					}
+				}
+			}
+			req.send();
+		}
+
+		function writeComment() {
 			var el = document.createElement("div");
 			el.innerHTML += "<textarea id='commentText' name='commentText' rows='5' cols='50'></textarea><br>";
 			el.innerHTML += "<button id='submitComment' class='btn btn-pm' name='submitComment'>답변</button>";
-			
+
 			return el;
 		}
-		
-		function createComment(obj) {
+
+		function createComment(obj, userName) {
 			var req = new XMLHttpRequest();
 			var commentText = document.getElementById('commentText').value;
 			var userId = obj.userId;
@@ -259,8 +293,7 @@
 			req.onreadystatechange = function() {
 				if (req.status === 200 && req.readyState === 4) {
 					document.getElementById('commentText').value = "";
-					guinness.util.alert("답변달기","성공적");
-					//TODO 자동 댓글 리스트 불러오기 구현 위
+					readComments(noteId, userName);
 				}
 			};
 			req.send(param);
