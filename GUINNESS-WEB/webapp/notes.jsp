@@ -18,7 +18,7 @@
 <body>
 	<%@ include file="/commons/_topnav.jspf"%>
 	<h1 id="empty-message"
-		style="position: absolute; color: #888; top: 45%; width: 100%; text-align: center;">새
+		style="position: absolute; color: #888; top: 25%; width: 100%; text-align: center;">새
 		노트를 작성해주세요</h1>
 	<div class='modal-cover' style='display: none'>
 		<div class='modal-container'>
@@ -93,11 +93,11 @@
 		
 		function getCookie(sKey) {
 			if (!sKey) {
-				return null;
+				return undefined;
 			}
 			return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*"
 					+ encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1"))
-					|| null;
+					|| undefined;
 		}
 
 		function attachGroupId(data) {
@@ -123,11 +123,7 @@
 		}
 
 		function appendNoteList(json) {
-			var el = document.querySelector("#empty-message");
-			if (el !== undefined) {
-				el.parentNode.removeChild(el);
-			}
-			var el = null;
+			var el = undefined;
 			//리스트 초기화
 			 el = document.getElementsByClassName("diary-list");
 			 var elLength = el.length;
@@ -135,8 +131,8 @@
 			 el[i].outerHTML = "";
 			 }
 			//날짜별로 들어갈수 있게...
-			var newEl = null;
-			var obj = null;
+			var newEl = undefined;
+			var obj = undefined;
 			var out = "";
 			for (var i = 0; i < json.length; i++) {
 				obj = json[i];
@@ -145,7 +141,7 @@
 				targetDate = targetDate[0];
 				targetDate = targetDate.replace(/'-'/g, '');
 				el = document.getElementById("day-" + targetDate);
-				if (el == null) {
+				if (el == undefined) {
 					el = document.createElement("ul");
 					el.setAttribute("id", "day-" + targetDate);
 					el.setAttribute("class", "diary-list");
@@ -195,7 +191,7 @@
 
 		function readNoteContents(noteId) {
 			var req = new XMLHttpRequest();
-			var json = null;
+			var json = undefined;
 			req.onreadystatechange = function() {
 				if (req.readyState === 4) {
 					if (req.status === 200) {
@@ -299,7 +295,7 @@
 			var groupId = document.getElementById('groupId').value;
 			var noteText = document.getElementById('noteText').value;
 			var param = "groupId=" + groupId + "&targetDate=" + targetDate + "&noteText=" + noteText;
-			var res = null;
+			var res = undefined;
 
 			req.open("post", "/note/create", true);
 			req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
