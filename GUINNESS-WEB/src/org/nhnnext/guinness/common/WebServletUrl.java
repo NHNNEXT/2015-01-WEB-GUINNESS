@@ -17,4 +17,5 @@ public class WebServletUrl {
 	public static final String USER_LOGOUT = "/user/logout";
 
 	public static final String COMMENT_CREATE = "/comment/create";
+	public static final String COMMENT_READ = "/comment/read";
 }
