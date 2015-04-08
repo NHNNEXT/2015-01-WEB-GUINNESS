@@ -166,29 +166,6 @@
 			}
 		}
 
-		function showCreateNoteModal() {
-			var blkcvr = document.getElementById('black-cover-note');
-			if (blkcvr.style.display == "none") {
-				blkcvr.style.display = "block";
-				document.body.style.overflow = "hidden";
-				document.getElementById("datepickr").setAttribute("value",
-						guinness.util.today("-"));
-				document.getElementById("noteText").value = "";
-			} else {
-				document.body.style.overflow = "auto";
-				blkcvr.style.display = "none";
-			}
-
-			var closeBtn = document.getElementById('createNote-close');
-			closeBtn.addEventListener('mouseup', showCreateNoteModal, false);
-
-			document.body.addEventListener('keydown', function(e) {
-				if (e.keyCode === 27) {
-					showCreateNoteModal();
-				}
-			});
-		}
-
 		function readNoteContents(noteId) {
 			var req = new XMLHttpRequest();
 			var json = undefined;
