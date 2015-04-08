@@ -222,19 +222,6 @@ input.text {
 	float : none;
 }
 
-.diary-list {
-	margin: 0 auto;
-	width: 650px;
-	padding: 20px;
-	list-style: none;
-	color: #454545;
-	padding-bottom: 30px;
-	margin-bottom: 10px;
-	background-color: #fff;
-	border-bottom: 1px soild #e5e6e9;
-	border-radius: 5px;
-}
-
 .diary-list a {
 	text-decoration: none;
 	color: #454545;
@@ -248,8 +235,13 @@ input.text {
 	position: relative;
 	display: table;
 	width: 650px;
-	padding: 15px 0px;
-	border-bottom: 1px solid #ddd;
+	margin: 0 auto;
+	padding: 20px;
+	list-style: none;
+	color: #454545;
+	margin-bottom: 10px;
+	background-color: #fff;
+	border-radius: 5px;
 }
 
 .diary-list img.avatar {
