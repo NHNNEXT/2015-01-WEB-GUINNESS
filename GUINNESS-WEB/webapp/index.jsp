@@ -47,6 +47,7 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript" src="/js/guinness.js"></script>
 	<script type="text/javascript" src="/js/LoginForm.js"></script>
 </body>
 </html>

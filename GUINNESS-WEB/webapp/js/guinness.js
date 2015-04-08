@@ -106,21 +106,24 @@ guinness.util.alert.disagree = function() {
 };
 
 guinness.ajax = function(o) {
-	if(o.method === undefined || o.url === undefined || o.success === undefined){
-	  console.log("ajax Exception");
+  if(o.method === undefined || o.url === undefined || o.success === undefined) {
+	console.log("ajax Exception");
+  }
+  var req = new XMLHttpRequest();
+  req.onreadystatechange = function() {
+	if (req.readyState == 4) {
+	  if (req.status == 200) {
+		o.success(req);
+		} else {
+		  window.location.href = "/exception.jsp"
+      }
 	}
-	var req = new XMLHttpRequest();
-	req.onreadystatechange = function() {
-		if (req.readyState == 4) {
-			if (req.status == 200) {
-				o.success(JSON.parse(req.responseText));
-			} else {
-				window.location.href = "/exception.jsp"
-			}
-		}
-	};
-	req.open(o.method, o.url, true);
-	req.send(o.param);
+  };
+  req.open(o.method, o.url, true);
+  if (o.method == "post") {
+	req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");	
+  }
+  req.send(o.param);
 }
 
 
