@@ -185,12 +185,12 @@
 
 		function appendNoteList(json) {
 			var el = null;
-			/* 			//리스트 초기화
+			//리스트 초기화
 			 el = document.getElementsByClassName("diary-list");
 			 var elLength = el.length;
 			 for (var i = elLength-1; i >= 0; i--) {
 			 el[i].outerHTML = "";
-			 } */
+			 }
 			//날짜별로 들어갈수 있게...
 			var newEl = null;
 			var obj = null;
