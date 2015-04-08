@@ -7,6 +7,11 @@ import org.nhnnext.guinness.common.AbstractDao;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 
 public class GroupDao extends AbstractDao {
+	private static GroupDao groupDao = new GroupDao();
+	
+	public static GroupDao getInstance() {
+		return groupDao;
+	}
 	public void createGroup(Group group) throws SQLException {
 		String sql = "insert into GROUPS values(?,?,?,DEFAULT,?)";
 		queryNotForReturn(sql, group.getGroupId(), group.getGroupName(), group.getGroupCaptainUserId(),

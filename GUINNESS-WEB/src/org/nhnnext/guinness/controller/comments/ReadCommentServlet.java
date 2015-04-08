@@ -23,7 +23,7 @@ import com.google.gson.Gson;
 @WebServlet(WebServletUrl.COMMENT_READ)
 public class ReadCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession();
@@ -35,10 +35,9 @@ public class ReadCommentServlet extends HttpServlet {
 			return;
 		}
 
-		CommentDao commentDao = new CommentDao();
 		List<Comment> commentList = null;
 		try {
-			commentList = commentDao.readCommentListByNoteId(noteId);
+			commentList = CommentDao.getInstance().readCommentListByNoteId(noteId);
 		} catch (SQLException | MakingObjectListFromJdbcException e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);

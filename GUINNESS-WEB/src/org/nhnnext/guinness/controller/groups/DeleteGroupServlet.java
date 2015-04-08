@@ -19,13 +19,14 @@ import org.nhnnext.guinness.model.GroupDao;
 @WebServlet(WebServletUrl.GROUP_DELETE)
 public class DeleteGroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private GroupDao groupDao = GroupDao.getInstance();
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession();
 		String userId = (String) session.getAttribute("sessionUserId");
 		String groupId = req.getParameter("groupId");
-		GroupDao groupDao = new GroupDao();
+		
 		try {
 			Group group = groupDao.readGroup(groupId);
 			if (!group.getGroupCaptainUserId().equals(userId)) {

@@ -37,9 +37,8 @@ public class CreateCommentServlet extends HttpServlet {
 		}
 
 		Comment comment = new Comment(commentText, commentType, userId, noteId);
-		CommentDao commentDAO = new CommentDao();
 		try {
-			commentDAO.createcomment(comment);
+			CommentDao.getInstance().createcomment(comment);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);

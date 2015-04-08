@@ -21,13 +21,13 @@ import com.google.gson.Gson;
 @WebServlet(WebServletUrl.NOTE_READ)
 public class ReadNoteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1810055739085682471L;
-
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String noteId = req.getParameter("noteId");
 		Note note = null;
 		try {
-			note = new NoteDao().readNote(noteId);
+			note = NoteDao.getInstance().readNote(noteId);
 		} catch (MakingObjectListFromJdbcException | SQLException e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);

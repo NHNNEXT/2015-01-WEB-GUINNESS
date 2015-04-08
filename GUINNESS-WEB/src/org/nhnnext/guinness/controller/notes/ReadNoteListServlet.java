@@ -25,7 +25,7 @@ import com.google.gson.Gson;
 public class ReadNoteListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListServlet.class);
-
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String groupId = req.getParameter("groupId");
@@ -35,7 +35,7 @@ public class ReadNoteListServlet extends HttpServlet {
 		List<Note> noteList = null;
 		logger.debug("start endDate={} targetDate={}", endDate, targetDate);
 		try {
-			noteList = new NoteDao().readNoteList(groupId, endDate.toString(), targetDate.toString());
+			noteList = NoteDao.getInstance().readNoteList(groupId, endDate.toString(), targetDate.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);

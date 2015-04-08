@@ -20,7 +20,7 @@ import org.nhnnext.guinness.model.UserDao;
 @WebServlet(WebServletUrl.USER_CREATE)
 public class CreateUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws javax.servlet.ServletException,
 			java.io.IOException {
 		String userId = req.getParameter("userId");
@@ -43,7 +43,7 @@ public class CreateUserServlet extends HttpServlet {
 		}
 
 		try {
-			if (!new UserDao().createUser(user)) {
+			if (!UserDao.getInstance().createUser(user)) {
 				Forwarding.doForward(req, resp, "message", "이미 존재하는 아이디입니다.", "/");
 				return;
 			}

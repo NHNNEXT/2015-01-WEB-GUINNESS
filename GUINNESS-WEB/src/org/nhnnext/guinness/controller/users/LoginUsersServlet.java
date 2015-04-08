@@ -23,7 +23,7 @@ public class LoginUsersServlet extends HttpServlet {
 		String userPassword = req.getParameter("userPassword");
 		PrintWriter out = resp.getWriter();
 		try {
-			User user = new UserDao().readUser(userId);
+			User user = UserDao.getInstance().readUser(userId);
 			if (user == null || !user.getUserPassword().equals(userPassword)) {
 				out.print("loginFailed");
 				out.close();
