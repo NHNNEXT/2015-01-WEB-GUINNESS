@@ -23,18 +23,17 @@ import org.nhnnext.guinness.model.GroupDao;
 @WebServlet(WebServletUrl.GROUP_CREATE)
 public class CreateGroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	private GroupDao groupDao = GroupDao.getInstance();
+	
+		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession();
 		String groupCaptainUserId = (String) session.getAttribute("sessionUserId");
 		String groupName = req.getParameter("groupName");
 
-		// 그룹 공개/비공개 여부 판단
 		char isPublic = 'F';
 		if ("public".equals(req.getParameter("isPublic")))
 			isPublic = 'T';
 
-		// 그룹 클래스 생성
 		Group group = null;
 		try {
 			group = new Group(groupName, groupCaptainUserId, isPublic);
@@ -44,7 +43,6 @@ public class CreateGroupServlet extends HttpServlet {
 			return;
 		}
 
-		// 유효성 검사
 		Validator validator = MyValidatorFactory.createValidator();
 		Set<ConstraintViolation<Group>> constraintViolation = validator.validate(group);
 
@@ -54,8 +52,6 @@ public class CreateGroupServlet extends HttpServlet {
 			return;
 		}
 
-		// 그룹 다오 생성
-		GroupDao groupDao = new GroupDao();
 		try {
 			groupDao.createGroup(group);
 			groupDao.createGroupUser(groupCaptainUserId, group.getGroupId());
@@ -67,5 +63,4 @@ public class CreateGroupServlet extends HttpServlet {
 
 		resp.sendRedirect("/groups.jsp");
 	}
-
 }

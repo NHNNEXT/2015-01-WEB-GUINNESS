@@ -23,7 +23,7 @@ import com.google.gson.Gson;
 @WebServlet(WebServletUrl.GROUP_READ)
 public class ReadGroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession();
@@ -34,10 +34,9 @@ public class ReadGroupServlet extends HttpServlet {
 			return;
 		}
 
-		GroupDao groupDao = new GroupDao();
 		List<Group> groupList = null;
 		try {
-			groupList = groupDao.readGroupList(userId);
+			groupList = GroupDao.getInstance().readGroupList(userId);
 		} catch (SQLException | MakingObjectListFromJdbcException e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);

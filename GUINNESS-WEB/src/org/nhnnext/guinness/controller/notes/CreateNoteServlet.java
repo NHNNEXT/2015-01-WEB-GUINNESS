@@ -20,7 +20,7 @@ import org.nhnnext.guinness.model.NoteDao;
 @WebServlet(WebServletUrl.NOTE_CREATE)
 public class CreateNoteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession(); 
@@ -39,7 +39,7 @@ public class CreateNoteServlet extends HttpServlet {
 		}
 
 		try {
-			new NoteDao().createNote(new Note(noteText, targetDate, userId, groupId));
+			NoteDao.getInstance().createNote(new Note(noteText, targetDate, userId, groupId));
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);

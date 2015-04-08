@@ -7,6 +7,11 @@ import org.nhnnext.guinness.common.AbstractDao;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 
 public class GroupDao extends AbstractDao {
+	private static GroupDao groupDao = new GroupDao();
+	
+	public static GroupDao getInstance() {
+		return groupDao;
+	}
 	public void createGroup(Group group) throws SQLException {
 		String sql = "insert into GROUPS values(?,?,?,DEFAULT,?)";
 		queryNotForReturn(sql, group.getGroupId(), group.getGroupName(), group.getGroupCaptainUserId(),
@@ -24,7 +29,7 @@ public class GroupDao extends AbstractDao {
 	}
 
 	public Group readGroup(String groupId) throws MakingObjectListFromJdbcException, SQLException {
-		String sql = "select groupId from GROUPS where groupId=?";
+		String sql = "select * from GROUPS where groupId=?";
 		String[] params = { "groupId", "groupName", "groupCaptainUserId", "isPublic" };
 		List<?> list = queryForReturn(Group.class, params, sql, groupId);
 		if (list.size() != 0)
