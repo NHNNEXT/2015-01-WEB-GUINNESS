@@ -64,8 +64,11 @@
 	</div>
 	
 	<script>
-		/* scrolling navigation */
 		window.addEventListener('load', function() {
+			var groupId = window.location.pathname.split("/")[2];
+			readNoteList(groupId, guinness.util.today("-"));
+			attachGroupId(groupId);
+			
 			var noteModal = document.getElementById('create-new-button');
 			noteModal.addEventListener('mouseup', function() {
 				guinness.util.showModal();
@@ -73,15 +76,9 @@
 			}, false);
 			document.getElementById('create-note').addEventListener('mouseup', createNote, false);
 
-			var groupId = window.location.pathname.split("/")[2];
-			var targetDate = guinness.util.today("-");
-			readNoteList(groupId, targetDate);
-			attachGroupId(groupId);
-
-			var groupNameLabel = document.getElementById('group-name');
 			var groupName = getCookie(groupId);
 			document.title = groupName;
-			groupNameLabel.innerHTML = groupName;
+			document.querySelector('#group-name').innerHTML = groupName;
 		}, false);
 
 		function setNoteModal() {
@@ -104,7 +101,7 @@
 		}
 
 		function attachGroupId(data) {
-			var el = document.getElementById("groupId");
+			var el = document.querySelector("#groupId");
 			el.setAttribute("value", data);
 			
 			var ele = document.querySelector(".groupId");
@@ -112,78 +109,24 @@
 		}
 
 		function readNoteList(groupId, targetDate) {
-			var req = new XMLHttpRequest();
-			req.open("GET", "/notelist/read?groupId="+groupId+"&targetDate="+targetDate, true);
-			req.onreadystatechange = function() {
-				if (req.status === 200 && req.readyState === 4) {
-					res = JSON.parse(req.responseText);
-					if (res == "") {
-						return;
-					}
-					//노트가 하나이상 있다면 빈 노트 메세지를 지우고 노트와 네비게이션을 출력한다.
-					if (document.getElementById("empty-message") != null)
-						document.getElementById("empty-message").outerHTML = "";
-					appendNoteList(res);
-					appendDateNav(res);
-				}
-			};
-			req.send();
-		}
-		
-		//날짜 네비게이션을 생성해준다
-		function appendDateNav(json) {
-			var newLi = null;
-			var dateTag = null;
-			var datePoint = null;
-			var obj = null;
-			for (var i = 0; i < json.length; i++) {
-				obj = json[i];
-				var toDate = obj.targetDate;
-				toDate = toDate.split(" ");
-				toDate = toDate[0];
-				toDate = toDate.replace(/'-'/g, '');
-				newLi = document.getElementById("to" + toDate);
-				if (newLi == null) {
-					newLi = document.createElement("li");
-					newLi.setAttribute("id", "to" + toDate);
-					//오늘 날짜에 포커스 되도록 초기화
-					var today = guinness.util.today("-");
-					if (toDate == today) {
-						newLi.setAttribute("class", "date-nav date-select");
-					} else {
-						newLi.setAttribute("class", "date-nav");
-					}
-					dateTag = document.createElement("div");
-					dateTag.setAttribute("class", "date-tag");
-					dateTag.innerHTML = toDate;
-					datePoint = document.createElement("div");
-					datePoint.setAttribute("class", "date-point");
-					newLi.appendChild(dateTag);
-					newLi.appendChild(datePoint);
-				}
-				document.getElementById("to-date").appendChild(newLi);
-			}
-			//모든 date-nav 클래스를 가진 개체에 이벤트를 부여한다.
-			var dates = document.getElementsByClassName('date-nav');
-			for (var i = 0; i < dates.length; i++) {
-				dates[i].addEventListener('mouseup', moveToDate, false);
-			}
-		}
-
-		function moveToDate(e) {
-			var location = e.currentTarget.id.replace('to', '');
-			var top = document.getElementById('day-' + location);
-			var prevSelected = document.getElementsByClassName("date-select")[0];
-			prevSelected.className = 'date-nav';
-			e.currentTarget.className = 'date-nav date-select';
-			if (top != null) {
-				$('body').animate({
-					scrollTop : top.offsetTop
-				}, 500);
-			}
+		  guinness.ajax({ 
+			  method: "get", 
+			  url: "/notelist/read?groupId="+groupId+"&targetDate="+targetDate, 
+			  success: 
+				function(req) {
+				  var json = JSON.parse(req.responseText);
+				  if (json !== "" || json !== undefined) {
+					  appendNoteList(json);
+				  }
+				}  
+		  });
 		}
 
 		function appendNoteList(json) {
+			var el = document.querySelector("#empty-message");
+			if (el !== undefined) {
+				el.parentNode.removeChild(el);
+			}
 			var el = null;
 			//리스트 초기화
 			 el = document.getElementsByClassName("diary-list");
@@ -251,7 +194,6 @@
 		}
 
 		function readNoteContents(noteId) {
-			console.log(noteId);
 			var req = new XMLHttpRequest();
 			var json = null;
 			req.onreadystatechange = function() {

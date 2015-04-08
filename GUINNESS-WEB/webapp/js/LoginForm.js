@@ -2,13 +2,10 @@
  * Login 및 회원가입을 위한 script
  */
 
-var el = document.getElementById("switchForm");
+var el = document.querySelector("#switchForm");
 el.addEventListener("click", switchForm, false);
 
-document.querySelector("#login-form").addEventListener("submit",function(e){
-	e.preventDefault();
-	loginCheck();
-},false);
+document.querySelector("#login-form").addEventListener("submit", function(e) { e.preventDefault(); loginCheck(); }, false);
 
 Object.prototype.show = function(){
 	this.style.display = "block";
@@ -20,11 +17,11 @@ Object.prototype.hide = function(){
 
 function switchForm() {
 	var el;
-	el = document.getElementsByClassName("errorMessage");
+	el = document.querySelector(".errorMessage");
 	for (var i = 0; i < el.length; i++) {
 	  el[i].innerHTML = "";
 	}
-	el = document.getElementById("signup-form");
+	el = document.querySelector("#signup-form");
 	if(el.style.display === "block") {
 		document.querySelector("#signup-form").hide();
 		document.querySelector("#label-login").hide();
@@ -38,24 +35,16 @@ function switchForm() {
 	}
 }
 
-/* ajax로 로그인 성공 여부를 받아와 컨트롤 */
 function loginCheck() {
-  	var req = new XMLHttpRequest();
-  	var userId = document.getElementById('login-userId').value;
-  	var password = document.getElementById('login-userPassword').value;
-  	var param = "userId="+userId+"&userPassword="+password;
-  	var res = null;
-  	var el = document.getElementById("login-error-message");
-  	el.innerHTML = "";
-  	req.open("post", "/user/login", true);
-  	req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  	req.setParameter;
-  	req.onreadystatechange = function() {
-  		if (req.status === 200 && req.readyState === 4) {
-  			res = req.responseText;
-  			if (res === "loginFailed") { el.innerHTML = "로그인 실패!"; }
-  			else { window.location.href=res; }
-  		}
-  	};
-  	req.send(param);
+  	var param = "userId="+document.getElementById('login-userId').value+"&userPassword="+document.getElementById('login-userPassword').value;
+  	guinness.ajax({
+  		method: "post", 
+  		url: "/user/login", 
+  		param: param, 
+  		success: function(req) {
+  				   var res = req.responseText;
+  				   if(res == "loginFailed") { document.querySelector("#login-error-message").innerHTML = "로그인 실패!"; }
+  				   else { window.location.href=res; }
+  				 }
+  	});
 }

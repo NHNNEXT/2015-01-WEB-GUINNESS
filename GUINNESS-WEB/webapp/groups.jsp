@@ -59,7 +59,7 @@
 		  guinness.ajax({
 		    method:"get", 
 			url:"/group/read", 
-			success:function(json) {appendGroups(json);}
+			success:function(req) {appendGroups(JSON.parse(req.responseText));}
 		  });
 		  var errorMessage = '${errorMessage}';
 		  if (errorMessage !== '') {
