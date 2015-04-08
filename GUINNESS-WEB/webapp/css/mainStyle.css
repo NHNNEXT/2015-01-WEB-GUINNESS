@@ -18,8 +18,9 @@ a {
 }
 
 ul {
-	margin: 0px;
+	margin: 0 auto;
 	padding: 0px;
+	display:table;
 }
 
 #header {
@@ -221,6 +222,16 @@ input.text {
 	margin-top: 100px;
 	float : none;
 }
+.diary-date {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.diary-list{
+	display:table;
+	width:650px;
+	
+}
 
 .diary-list a {
 	text-decoration: none;
@@ -234,14 +245,14 @@ input.text {
 .diary-list li {
 	position: relative;
 	display: table;
-	width: 650px;
+	width: 610px;
 	margin: 0 auto;
 	padding: 20px;
 	list-style: none;
 	color: #454545;
 	margin-bottom: 10px;
 	background-color: #fff;
-	border-radius: 5px;
+	border-radius: 10px;
 }
 
 .diary-list img.avatar {
@@ -388,7 +399,7 @@ input.text {
 
 #create-new-button {
 	margin: 0 auto;
-	width: 684px;
+	width: 644px;
 	height: 100%;
 	font-size: 70px;
 	margin-bottom: 10px;
