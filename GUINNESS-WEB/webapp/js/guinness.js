@@ -35,7 +35,8 @@ guinness.util.showModal = function() {
 	}
 
 	modalCover.addEventListener('mouseup', function(e) {
-		if (document.getElementById("noteText").value!=="" && (e.target.className==="modal-cover")) {
+		var noteText = document.getElementById("noteText");
+		if (e.target.className==="modal-cover" && noteText!==null && noteText.value!=="") {
 			console.log(e);
 			guinness.util.alert('경고', '텍스트 작성 중입니다! 정말 삭제하시겠습니까?', function(){closeModalFunction(e)}, function(){});
 		} else {
