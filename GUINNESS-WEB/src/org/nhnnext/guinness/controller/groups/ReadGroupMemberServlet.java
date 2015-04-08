@@ -16,6 +16,7 @@ import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.GroupDao;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @WebServlet(WebServletUrl.GROUP_READ_MEMBER)
 public class ReadGroupMemberServlet extends HttpServlet {
@@ -27,7 +28,7 @@ public class ReadGroupMemberServlet extends HttpServlet {
 		String groupId = req.getParameter("groupId");
 		PrintWriter out = resp.getWriter();
 		try {
-			out.print(new Gson().toJson(groupDao.readGroupMember(groupId)));
+			out.print(new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(groupDao.readGroupMember(groupId)));
 			out.close();
 		} catch (MakingObjectListFromJdbcException | SQLException e) {
 			Forwarding.forwardForException(req, resp);
