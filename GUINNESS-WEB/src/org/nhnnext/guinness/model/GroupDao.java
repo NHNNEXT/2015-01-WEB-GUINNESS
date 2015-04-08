@@ -29,7 +29,7 @@ public class GroupDao extends AbstractDao {
 	}
 
 	public Group readGroup(String groupId) throws MakingObjectListFromJdbcException, SQLException {
-		String sql = "select groupId from GROUPS where groupId=?";
+		String sql = "select * from GROUPS where groupId=?";
 		String[] params = { "groupId", "groupName", "groupCaptainUserId", "isPublic" };
 		List<?> list = queryForReturn(Group.class, params, sql, groupId);
 		if (list.size() != 0)
