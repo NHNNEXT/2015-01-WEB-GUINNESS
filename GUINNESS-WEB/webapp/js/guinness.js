@@ -111,13 +111,13 @@ guinness.ajax = function(o) {
 	}
 	var req = new XMLHttpRequest();
 	req.onreadystatechange = function() {
-		if (req.readyState == 4) {
-			if (req.status == 200) {
-				o.success(JSON.parse(req.responseText));
-			} else {
-				window.location.href = "/exception.jsp"
-			}
+	  if (req.readyState == 4) {
+	    if (req.status == 200) {
+		  o.success(JSON.parse(req.responseText));
+		  } else {
+		    window.location.href = "/exception.jsp"
 		}
+	  }
 	};
 	req.open(o.method, o.url, true);
 	req.send(o.param);
