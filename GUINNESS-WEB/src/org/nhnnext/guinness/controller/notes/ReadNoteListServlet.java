@@ -40,8 +40,7 @@ public class ReadNoteListServlet extends HttpServlet {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);
 		}
-		String jsonData = new Gson().toJson(noteList);
-		out.print(jsonData);
+		out.print(new Gson().toJson(noteList));
 		out.close();
 	}
 }

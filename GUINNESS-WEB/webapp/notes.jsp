@@ -204,9 +204,8 @@
 			});
 		}
 
-		function showNoteModal(json) {
+		function showNoteModal(obj) {
 			document.body.style.overflow = "hidden";
-			var obj = json[0];
 			var el = document.createElement("div");
 			el.setAttribute("id", "contents-window");
 			el.setAttribute("class", "note-modal-cover");
@@ -221,7 +220,6 @@
 			innerBody.innerHTML += obj.noteText;
 			
 			var commentArea = viewComment();
-			
 
 			el.appendChild(innerContainer);
 			innerContainer.appendChild(innerHeader);

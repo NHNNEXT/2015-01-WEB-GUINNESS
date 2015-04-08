@@ -3,7 +3,6 @@ package org.nhnnext.guinness.controller.notes;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,13 +19,13 @@ import org.nhnnext.guinness.model.NoteDao;
 import com.google.gson.Gson;
 
 @WebServlet(WebServletUrl.NOTE_READ)
-public class DetailNoteRouter extends HttpServlet {
+public class ReadNoteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1810055739085682471L;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String noteId = req.getParameter("noteId");
-		List<Note> note = null;
+		Note note = null;
 		try {
 			note = new NoteDao().readNote(noteId);
 		} catch (MakingObjectListFromJdbcException | SQLException e) {
@@ -34,9 +33,7 @@ public class DetailNoteRouter extends HttpServlet {
 			Forwarding.forwardForException(req, resp);
 		}
 		PrintWriter out = resp.getWriter();
-		StringBuffer sb = new StringBuffer();
-		sb.append(new Gson().toJson(note));
-		out.write(sb.toString());
+		out.write(new Gson().toJson(note));
 		out.close();
 	}
 }
