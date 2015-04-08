@@ -29,14 +29,14 @@ public class DeleteGroupServlet extends HttpServlet {
 		try {
 			Group group = groupDao.findByGroupId(groupId);
 			if (!group.getGroupCaptainUserId().equals(userId)) {
-				Forwarding.forwardForError(req, resp, "errorMessage", "삭제 권한 없음", "/groups.jsp");
+				Forwarding.doForward(req, resp, "errorMessage", "삭제 권한 없음", "/groups.jsp");
 				return;
 			}
 			groupDao.deleteGroup(group);
 			resp.sendRedirect("/groups.jsp");
 		} catch (SQLException | MakingObjectListFromJdbcException e) {
 			e.printStackTrace();
-			Forwarding.forwardForError(req, resp, "errorMessage", "접속이 원활하지 않습니다.", "/exception.jsp");
+			Forwarding.forwardForException(req, resp);
 			return;
 		}
 	}

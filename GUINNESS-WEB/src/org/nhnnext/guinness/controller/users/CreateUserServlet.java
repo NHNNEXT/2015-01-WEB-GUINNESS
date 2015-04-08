@@ -17,17 +17,17 @@ import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.model.UserDao;
 
-
 @WebServlet(WebServletUrl.USER_CREATE)
-public class CreateUserServlet extends HttpServlet{
+public class CreateUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws javax.servlet.ServletException, java.io.IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws javax.servlet.ServletException,
+			java.io.IOException {
 		String userId = req.getParameter("userId");
 		String userPassword = req.getParameter("userPassword");
-		String userName =  req.getParameter("userName");
+		String userName = req.getParameter("userName");
 		User user = new User(userId, userName, userPassword);
-		
+
 		Set<ConstraintViolation<User>> constraintViolations = MyValidatorFactory.createValidator().validate(user);
 		if (constraintViolations.size() > 0) {
 			String signValidErrorMessage = "";
@@ -38,13 +38,13 @@ public class CreateUserServlet extends HttpServlet{
 			}
 			req.setAttribute("userId", userId);
 			req.setAttribute("userName", userName);
-			Forwarding.forwardForError(req, resp, "signValidErrorMessage", signValidErrorMessage, "/");
+			Forwarding.doForward(req, resp, "signValidErrorMessage", signValidErrorMessage, "/");
 			return;
 		}
-		
+
 		try {
 			if (!new UserDao().createUser(user)) {
-				Forwarding.forwardForError(req, resp, "message", "이미 존재하는 아이디입니다.", "/");
+				Forwarding.doForward(req, resp, "message", "이미 존재하는 아이디입니다.", "/");
 				return;
 			}
 			HttpSession session = req.getSession();

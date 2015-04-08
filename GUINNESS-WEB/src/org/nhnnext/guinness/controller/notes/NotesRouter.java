@@ -30,14 +30,14 @@ public class NotesRouter extends HttpServlet {
 		try {
 			String url = req.getRequestURI().split("/")[2];
 			if (!new GroupDao().checkJoinedGroup(userId, url)) {
-				Forwarding.forwardForError(req, resp, "errorMessage", "비정상적 접근시도.", "/illegal.jsp");
+				Forwarding.doForward(req, resp, "errorMessage", "비정상적 접근시도.", "/illegal.jsp");
 				return;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			Forwarding.forwardForError(req, resp, "errorMessage", "비정상적 접근시도.", "/exception.jsp");
+			Forwarding.forwardForException(req, resp);
 			return;
 		}
-		Forwarding.forwardForError(req, resp, null, null, "/notes.jsp");
+		Forwarding.doForward(req, resp, "/notes.jsp");
 	}
 }

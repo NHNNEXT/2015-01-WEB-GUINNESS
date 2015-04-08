@@ -44,7 +44,7 @@ public class CreateNoteServlet extends HttpServlet {
 			new NoteDao().createNote(new Note(noteText, targetDate, userId, groupId));
 		} catch (SQLException e) {
 			e.printStackTrace();
-			Forwarding.forwardForError(req, resp, null, null, "/exception.jsp");
+			Forwarding.forwardForException(req, resp);
 			return;
 		}
 	}

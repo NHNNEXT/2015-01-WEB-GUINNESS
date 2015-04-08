@@ -31,7 +31,7 @@ public class DetailNoteRouter extends HttpServlet {
 			note = new NoteDao().readNote(noteId);
 		} catch (MakingObjectListFromJdbcException | SQLException e) {
 			e.printStackTrace();
-			Forwarding.forwardForError(req, resp, "errorMessage", "데이터베이스 접근이 잘못되었습니다.", "/exception.jsp");
+			Forwarding.forwardForException(req, resp);
 		}
 		PrintWriter out = resp.getWriter();
 		StringBuffer sb = new StringBuffer();

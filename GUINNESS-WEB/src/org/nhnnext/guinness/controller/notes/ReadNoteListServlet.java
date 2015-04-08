@@ -12,9 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.joda.time.DateTime;
 import org.joda.time.Period;
+import org.nhnnext.guinness.common.Forwarding;
+import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.NoteDao;
-import org.nhnnext.guinness.common.WebServletUrl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +38,7 @@ public class ReadNoteListServlet extends HttpServlet {
 			noteList = new NoteDao().readNoteList(groupId, endDate.toString(), targetDate.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
+			Forwarding.forwardForException(req, resp);
 		}
 		String jsonData = new Gson().toJson(noteList);
 		out.print(jsonData);

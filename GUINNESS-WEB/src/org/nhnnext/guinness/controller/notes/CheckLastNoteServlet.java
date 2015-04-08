@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.nhnnext.guinness.common.Forwarding;
+import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.model.NoteDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.nhnnext.guinness.common.Forwarding;
-import org.nhnnext.guinness.common.WebServletUrl;
 
 @WebServlet(WebServletUrl.NOTELIST_CHECK)
 public class CheckLastNoteServlet extends HttpServlet {
@@ -38,7 +38,7 @@ public class CheckLastNoteServlet extends HttpServlet {
 			out.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			Forwarding.forwardForError(req, resp, "errorMessage", "데이터베이스 접근이 잘못되었습니다.", "/exception.jsp");
+			Forwarding.forwardForException(req, resp);
 		}
 	}
 }

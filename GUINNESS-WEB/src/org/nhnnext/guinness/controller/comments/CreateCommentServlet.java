@@ -41,7 +41,7 @@ public class CreateCommentServlet extends HttpServlet {
 			commentDAO.createcomment(comment);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			Forwarding.forwardForError(req, resp, null, null, "/exception.jsp");
+			Forwarding.forwardForException(req, resp);
 			return;
 		}
 	}

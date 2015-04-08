@@ -40,9 +40,9 @@ public class CreateGroupServlet extends HttpServlet {
 			group = new Group(groupName, groupCaptainUserId, isPublic);
 		} catch (MakingObjectListFromJdbcException | SQLException e) {
 			e.printStackTrace();
-			Forwarding.forwardForError(req, resp, "errorMessage", "접속이 원활하지 않습니다.", "/exception.jsp");
+			Forwarding.forwardForException(req, resp);
 			return;
-		} 
+		}
 
 		// 유효성 검사
 		Validator validator = MyValidatorFactory.createValidator();
@@ -50,7 +50,7 @@ public class CreateGroupServlet extends HttpServlet {
 
 		if (constraintViolation.size() > 0) {
 			String errorMessage = constraintViolation.iterator().next().getMessage();
-			Forwarding.forwardForError(req, resp, "errorMessage", errorMessage, "/groups.jsp");
+			Forwarding.doForward(req, resp, "errorMessage", errorMessage, "/groups.jsp");
 			return;
 		}
 
@@ -61,7 +61,7 @@ public class CreateGroupServlet extends HttpServlet {
 			groupDao.createGroupUser(groupCaptainUserId, group.getGroupId());
 		} catch (SQLException | MakingObjectListFromJdbcException e) {
 			e.printStackTrace();
-			Forwarding.forwardForError(req, resp, "errorMessage", "접속이 원활하지 않습니다.", "/exception.jsp");
+			Forwarding.forwardForException(req, resp);
 			return;
 		}
 

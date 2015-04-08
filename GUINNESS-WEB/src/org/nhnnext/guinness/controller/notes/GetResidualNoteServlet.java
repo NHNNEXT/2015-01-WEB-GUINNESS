@@ -14,11 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.joda.time.DateTime;
 import org.joda.time.Period;
+import org.nhnnext.guinness.common.Forwarding;
+import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.NoteDao;
-import org.nhnnext.guinness.common.WebServletUrl;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,11 +35,11 @@ public class GetResidualNoteServlet extends HttpServlet {
 		DateTime targetDate = new DateTime(req.getParameter("targetDate")).minusSeconds(1);
 		int residualNotes = Integer.parseInt(req.getParameter("residualNotes"));
 		PrintWriter out = resp.getWriter();
-		out.print(new Gson().toJson(miningResidualNote(groupId, targetDate, residualNotes)));
+		out.print(new Gson().toJson(miningResidualNote(req, resp, groupId, targetDate, residualNotes)));
 		out.close();
 	}
 	
-	private List<Note> miningResidualNote(String groupId, DateTime targetDate, int residualNotes) {
+	private List<Note> miningResidualNote(HttpServletRequest req, HttpServletResponse resp, String groupId, DateTime targetDate, int residualNotes) throws ServletException, IOException {
 		NoteDao noteDAO = new NoteDao();
 		List<Note> addNotes = new ArrayList<Note>();
 		List<Note> noteList = new ArrayList<Note>();
@@ -58,6 +58,7 @@ public class GetResidualNoteServlet extends HttpServlet {
 				}
 			} catch (MakingObjectListFromJdbcException | SQLException e) {
 				e.printStackTrace();
+				Forwarding.forwardForException(req, resp);
 			}
 			targetDate = endDate;
 			endDate = targetDate.minus(Period.days(10));

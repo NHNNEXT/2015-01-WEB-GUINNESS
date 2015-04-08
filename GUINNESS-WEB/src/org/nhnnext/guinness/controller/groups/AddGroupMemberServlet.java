@@ -38,19 +38,19 @@ public class AddGroupMemberServlet extends HttpServlet {
 		try {
 			if (!userDao.checkExistUserId(userId)) {
 				logger.debug("등록되지 않은 사용자 입니다");
-				Forwarding.forwardForError(req, resp, "errorMessage", "등록되지 않은 사용자 입니다", "/exception.jsp");
+				Forwarding.forwardForException(req, resp);
 				return;
 			}
 			if (groupDao.checkJoinedGroup(userId, groupId)) {
 				logger.debug("이미 가입된 사용자 입니다.");
-				Forwarding.forwardForError(req, resp, "errorMessage", "이미 가입된 사용자 입니다.", "/exception.jsp");
+				Forwarding.forwardForException(req, resp);
 				return;
 			}
 			groupDao.createGroupUser(userId, groupId);
 			out.print(gson.toJson(groupDao.readUserListByGroupId(groupId)));
 			out.close();
 		} catch (MakingObjectListFromJdbcException | SQLException e) {
-			Forwarding.forwardForError(req, resp, "errorMessage", "데이터 베이스 접근이 잘못되었습니다.", "/exception.jsp");
+			Forwarding.forwardForException(req, resp);
 			return;
 		}
 	}
