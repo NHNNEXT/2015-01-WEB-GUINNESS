@@ -8,6 +8,53 @@ html, body {
 	background-color: #e9eaed;
 }
 
+#group-member-container {
+	top: 100px;
+	position: fixed;
+	left: 100%;
+	margin-left: -250px;
+	padding-left: 5px;
+	padding-right: 5px;
+	background-color: white;
+	width: 200px;
+	height: 300px;
+	border: 1px solid #B4B4B4;
+	border-radius: 8px;
+	overflow:hidden;
+}
+
+#group-member-container li {
+	list-style: none;
+	position:relative;
+	left: -5px;
+	font-size: 16px;
+	height:20px;
+	width:212px;
+	border-bottom:1px solid #E5E5E5;
+	padding:5px 5px 12px 5px;
+}
+
+#group-member-container .inputText {
+	width: 140px;
+	height: 17px;
+	margin-left: 8px;
+}
+
+#group-member-container .inputBtn {
+	color: white;
+	background-color: #558;
+	border-radius: 3px;
+	width: 44px;
+}
+
+#addMemberForm {
+	background-color: #74AFAD;
+	position: relative;
+	left: -5px;
+	width: 210px;
+	padding-bottom: 10px;
+}
+
 a {
 	text-decoration: none;
 }
@@ -20,7 +67,7 @@ a {
 ul {
 	margin: 0 auto;
 	padding: 0px;
-	display:table;
+	display: table;
 }
 
 #header {
@@ -137,7 +184,7 @@ input.text {
 }
 
 .btn-pm {
-	background-color:#74afad
+	background-color: #74afad
 }
 
 .btn-group {
@@ -201,36 +248,22 @@ input.text {
 	margin-top: -25px;
 }
 
-
-#group-member-container {
-	top:100px;
-	position : fixed;
-	left:100%;
-	margin-left:-220px;
-	padding-left : 5px;
-	padding-right:5px;
-    background-color : white;
-    width : 200px;
-    height : 300px;
-}
-
-
 /*
  * diary page
  */
 #note-list-container {
 	margin-top: 100px;
-	float : none;
-}
-.diary-date {
-  margin-bottom: 10px;
-  margin-top: 10px;
+	float: none;
 }
 
-.diary-list{
-	display:table;
-	width:650px;
-	
+.diary-date {
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+.diary-list {
+	display: table;
+	width: 650px;
 }
 
 .diary-list a {
@@ -376,7 +409,7 @@ input.text {
 	width: 100%;
 	display: table;
 	color: white;
-	background-color:rgb(93, 129, 128);
+	background-color: rgb(93, 129, 128);
 }
 
 .modal-title {
@@ -428,10 +461,10 @@ input.text {
 	display: none;
 	position: absolute;
 	top: 58px;
-	padding-top:15px;
+	padding-top: 15px;
 	list-style: none;
-	background-image:url("/img/menuPointer.png");
-	background-repeat:no-repeat;
+	background-image: url("/img/menuPointer.png");
+	background-repeat: no-repeat;
 }
 
 .drop-down ul li {
@@ -488,7 +521,7 @@ input.text {
 	top: 0px;
 	width: 100%;
 	height: 100%;
-	z-index: 20;	
+	z-index: 20;
 }
 
 .alert-window {

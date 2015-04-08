@@ -57,8 +57,8 @@
 		<div id='group-member-container'>
 			<form id="addMemberForm" action="/group/add/member" method="post">
 				<input type="hidden" class="groupId" name="groupId">
-				<input type="text" name="userId">
-				<input type="submit" value="추가">
+				<input class="inputText" type="text" name="userId">
+				<input class="inputBtn" type="submit" value="추가">
 			</form>
 			<ul id='group-member'>
 			</ul>
@@ -357,9 +357,9 @@
 			var el = document.querySelector("#group-member");
 			el.innerHTML = "";
 			for (var i = 0; i < json.length; i++) {
-				var newEl = document.createElement("li");
-				newEl.innerHTML = json[i].userName;
-				el.appendChild(newEl);
+				var newLi = document.createElement("li");
+				newLi.innerHTML = "<input type='checkbox' checked=true>"+json[i].userName;
+				el.appendChild(newLi);
 			}
 		}
 	</script>
