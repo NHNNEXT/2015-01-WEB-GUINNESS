@@ -124,7 +124,7 @@
 
 		function appendNoteList(json) {
 			var el = document.querySelector("#empty-message");
-			if (el !== undefined) {
+			if (el !== null) {
 				el.parentNode.removeChild(el);
 			}
 			var el = null;
@@ -194,20 +194,14 @@
 		}
 
 		function readNoteContents(noteId) {
-			var req = new XMLHttpRequest();
-			var json = null;
-			req.onreadystatechange = function() {
-				if (req.readyState === 4) {
-					if (req.status === 200) {
-						json = JSON.parse(req.responseText);
-						showNoteModal(json);
-					} else {
-						window.location.href = "/exception.jsp";
-					}
+			guinness.ajax({
+				method: 'get',
+				url: '/note/read?noteId=' + noteId,
+				success: function(req) {
+					var json = JSON.parse(req.responseText);
+					showNoteModal(json);
 				}
-			}
-			req.open('get', '/note/read?noteId=' + noteId, true);
-			req.send();
+			});
 		}
 
 		function showNoteModal(json) {
