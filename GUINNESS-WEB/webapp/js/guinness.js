@@ -104,3 +104,24 @@ guinness.util.alert.agree = function() {
 };
 guinness.util.alert.disagree = function() {
 };
+
+guinness.ajax = function(o) {
+	if(o.method === undefined || o.url === undefined || o.success === undefined){
+	  console.log("ajax Exception");
+	}
+	var req = new XMLHttpRequest();
+	req.onreadystatechange = function() {
+		if (req.readyState == 4) {
+			if (req.status == 200) {
+				o.success(JSON.parse(req.responseText));
+			} else {
+				window.location.href = "/exception.jsp"
+			}
+		}
+	};
+	req.open(o.method, o.url, true);
+	req.send(o.param);
+}
+
+
+
