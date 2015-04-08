@@ -18,7 +18,7 @@
 <body>
 	<%@ include file="/commons/_topnav.jspf"%>
 	<h1 id="empty-message"
-		style="position: absolute; color: #888; top: 25%; width: 100%; text-align: center;">새
+		style="position: absolute; color: #888; top: 300px; width: 100%; text-align: center;">새
 		노트를 작성해주세요</h1>
 	<div class='modal-cover' style='display: none'>
 		<div class='modal-container'>
