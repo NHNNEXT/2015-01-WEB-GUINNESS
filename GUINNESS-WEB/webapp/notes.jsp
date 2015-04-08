@@ -308,6 +308,7 @@
 			var targetDate = document.getElementById('targetDate').value;
 			var groupId = document.getElementById('groupId').value;
 			var noteText = document.getElementById('noteText').value;
+			noteText = noteText.replace(/\n/g,"<br>");
 			var param = "groupId=" + groupId + "&targetDate=" + targetDate + "&noteText=" + noteText;
 			var res = undefined;
 
