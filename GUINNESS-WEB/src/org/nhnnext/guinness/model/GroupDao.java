@@ -49,8 +49,7 @@ public class GroupDao extends AbstractDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	// GroupId를 이용하여 User List를 받아오기 위함
-	public List<User> readUserListByGroupId(String groupId) throws MakingObjectListFromJdbcException, SQLException {
+	public List<User> readGroupMember(String groupId) throws MakingObjectListFromJdbcException, SQLException {
 		String sql = "select * from USERS,GROUPS_USERS where GROUPS_USERS.groupId = ? and GROUPS_USERS.userId = USERS.userId;";
 		String[] paramsKey = { "userId", "userName", "userPassword", "userImage" };
 		List<?> list = queryForReturn(User.class, paramsKey, sql, groupId);

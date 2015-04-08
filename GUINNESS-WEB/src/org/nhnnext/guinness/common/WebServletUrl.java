@@ -5,6 +5,7 @@ public class WebServletUrl {
 	public static final String GROUP_DELETE = "/group/delete";
 	public static final String GROUP_READ = "/group/read";
 	public static final String GROUP_ADD_MEMBER = "/group/add/member";
+	public static final String GROUP_READ_MEMBER = "/group/read/member";
 
 	public static final String NOTELIST = "/g/*";
 	public static final String NOTELIST_READ = "/notelist/read";
