@@ -17,10 +17,9 @@ import org.nhnnext.guinness.model.GroupDao;
 @WebServlet(WebServletUrl.NOTELIST)
 public class NotesRouter extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// session을 통해 userid를 받고 해당 그룹의 권한이 있는지 확인 후 있으면 notes.jsp로 이동
 		HttpSession session = req.getSession();
 		String userId = (String) session.getAttribute("sessionUserId");
 		if (userId == null) {
@@ -29,7 +28,7 @@ public class NotesRouter extends HttpServlet {
 		}
 		try {
 			String url = req.getRequestURI().split("/")[2];
-			if (!new GroupDao().checkJoinedGroup(userId, url)) {
+			if (!GroupDao.getInstance().checkJoinedGroup(userId, url)) {
 				Forwarding.doForward(req, resp, "errorMessage", "비정상적 접근시도.", "/illegal.jsp");
 				return;
 			}

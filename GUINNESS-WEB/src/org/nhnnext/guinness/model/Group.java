@@ -40,7 +40,7 @@ public class Group {
 		//TODO CodeReview : while vs 재귀
 		while (true) {
 			String groupId = getRandomId(ParameterKey.lengthOfGroupId);
-			if (new GroupDao().readGroup(groupId) == null) {
+			if (GroupDao.getInstance().readGroup(groupId) == null) {
 				return groupId;
 			}
 		}

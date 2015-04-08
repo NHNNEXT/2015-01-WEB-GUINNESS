@@ -25,17 +25,16 @@ import com.google.gson.Gson;
 public class AddGroupMemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListServlet.class);
-
+	private GroupDao groupDao = GroupDao.getInstance();
+	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		UserDao userDao = new UserDao();
-		GroupDao groupDao = new GroupDao();
 		String userId = req.getParameter("userId");
 		String groupId = req.getParameter("groupId");
 		PrintWriter out = resp.getWriter();
 		logger.debug("userId={}, groupId={}", userId, groupId);
 		try {
-			if (userDao.readUser(userId) == null) {
+			if (UserDao.getInstance().readUser(userId) == null) {
 				logger.debug("등록되지 않은 사용자 입니다");
 				Forwarding.forwardForException(req, resp);
 				return;
@@ -46,7 +45,7 @@ public class AddGroupMemberServlet extends HttpServlet {
 				return;
 			}
 			groupDao.createGroupUser(userId, groupId);
-			out.print(new Gson().toJson(groupDao.readUserListByGroupId(groupId)));
+			out.print(new Gson().toJson(groupDao.readGroupMember(groupId)));
 			out.close();
 		} catch (MakingObjectListFromJdbcException | SQLException e) {
 			Forwarding.forwardForException(req, resp);

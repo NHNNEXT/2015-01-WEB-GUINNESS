@@ -7,6 +7,11 @@ import org.nhnnext.guinness.common.AbstractDao;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 
 public class CommentDao extends AbstractDao {
+	private static CommentDao commentDao = new CommentDao();
+	
+	public static CommentDao getInstance() {
+		return commentDao;
+	}
 
 	public void createcomment(Comment comment) throws SQLException {
 		String query = "insert into COMMENTS (commentText, commentType, userId, noteId) values(?, ?, ?, ?)";
