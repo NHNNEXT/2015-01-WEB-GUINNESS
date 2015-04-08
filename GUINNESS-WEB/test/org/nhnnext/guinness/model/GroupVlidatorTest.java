@@ -12,8 +12,12 @@ import javax.validation.ValidatorFactory;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.nhnnext.guinness.controller.notes.ReadNoteListServlet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GroupVlidatorTest {
+	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListServlet.class);
 	private static Validator validator;
 
 	@BeforeClass
@@ -31,7 +35,7 @@ public class GroupVlidatorTest {
 		Iterator<ConstraintViolation<Group>> violations = constraintViolations.iterator();
 		while(violations.hasNext()){
 			ConstraintViolation<Group> each = violations.next();
-			System.out.println(each.getMessage());
+			logger.debug(each.getMessage());
 		}
 		
 		

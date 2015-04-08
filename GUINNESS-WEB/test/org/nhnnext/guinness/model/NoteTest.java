@@ -5,9 +5,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.Test;
+import org.nhnnext.guinness.controller.notes.ReadNoteListServlet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NoteTest {
-
+	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListServlet.class);
 	@Test
 	public void noteButtonClick() {
 		Date date = new Date();
@@ -15,7 +18,7 @@ public class NoteTest {
 		cal.setTime(date);
 
 		String targetDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime());
-		System.out.println(targetDate);
+		logger.debug(targetDate);
 	}
 
 }

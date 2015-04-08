@@ -3,8 +3,13 @@ package org.nhnnext.guinness;
 import java.io.File;
 
 import org.apache.catalina.startup.Tomcat;
+import org.nhnnext.guinness.controller.notes.ReadNoteListServlet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WebServerLauncher {
+	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListServlet.class);
+	
 	public static void main(String[] args) throws Exception {
 		String webappDirLocation = "webapp/";
 		Tomcat tomcat = new Tomcat();
@@ -14,7 +19,7 @@ public class WebServerLauncher {
 		}
 		tomcat.setPort(Integer.valueOf(webPort));
 		tomcat.addWebapp("/", new File(webappDirLocation).getAbsolutePath());
-		System.out.println("configuring app with basedir: " + new File("./" + webappDirLocation).getAbsolutePath());
+		logger.debug("configuring app with basedir: " + new File("./" + webappDirLocation).getAbsolutePath()); 
 		tomcat.start();
 		tomcat.getServer().await();
 	}

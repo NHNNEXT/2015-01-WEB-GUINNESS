@@ -7,8 +7,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Test;
+import org.nhnnext.guinness.controller.notes.ReadNoteListServlet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NoteDaoTest {
+	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListServlet.class);
 	NoteDao noteDao = new NoteDao();
 
 	@Test
@@ -24,11 +28,11 @@ public class NoteDaoTest {
 		try {
 			noteList = noteDao.readNoteList("Ogsho", "2015-03-21", "2015-03-31");
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			logger.debug(e.getMessage());
 		}
 		for(Iterator<Note> i =  noteList.iterator(); i.hasNext(); ) {
 			Note note = i.next();
-			System.out.println(note.toString());
+			logger.debug(note.toString());
 		}
 	}
 	
@@ -37,7 +41,7 @@ public class NoteDaoTest {
 	public void testName() throws Exception {
 		NoteDao noteDao = new NoteDao();
 		int tt = noteDao.checkGroupNotesCount("JFaTh");
-		System.out.println(tt);
+		logger.debug(Integer.toString(tt));
 	}
 	
 	
