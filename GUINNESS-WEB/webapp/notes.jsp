@@ -82,13 +82,6 @@
 			var groupName = getCookie(groupId);
 			document.title = groupName;
 			groupNameLabel.innerHTML = groupName;
-
-			//scrolling event
-			window.addEventListener('scroll', function() {
-				if (document.body.scrollHeight === document.body.scrollTop+self.innerHeight) {
-					residualNotes();
-				}
-			}, false);
 		}, false);
 
 		function setNoteModal() {
@@ -108,31 +101,6 @@
 			return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*"
 					+ encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1"))
 					|| null;
-		}
-
-		function addScrollUp(groupId, residualNotesCount) {
-			var targetDate = document.querySelectorAll('#note-list-container > UL:last-child')[0].getAttribute('id').replace('day-', '');
-			readResidualNoteList(groupId, targetDate, residualNotesCount);
-			attachGroupId(groupId);
-		}
-
-		function residualNotes() {
-			var groupId = window.location.pathname.split("/")[2].toString();
-			var residualNotesCount=0;
-			var req = new XMLHttpRequest();
-			var noteCount = document.querySelectorAll('#note-list-container > UL LI .userName').length;
-			req.open("GET", "/notelist/check?groupId="+groupId+"&noteCount="+noteCount, true);
-			req.onreadystatechange = function() {
-				if (req.status === 200 && req.readyState === 4) {
-					residualNotesCount = Number(JSON.parse(req.responseText));
-					if (residualNotesCount<=0) {
-						guinness.util.alert("알림", "가져올 노트가 없습니다.");
-						return;
-					}
-					addScrollUp(groupId, residualNotesCount);
-				}
-			};
-			req.send();
 		}
 
 		function attachGroupId(data) {
@@ -162,22 +130,6 @@
 			req.send();
 		}
 		
-		function readResidualNoteList(groupId, targetDate, residualNotes) {
-			var req = new XMLHttpRequest();
-			req.open("GET", "/notelist/update?groupId="+groupId+"&targetDate="+targetDate+"&residualNotes="+residualNotes, true);
-			req.onreadystatechange = function() {
-				if (req.status === 200 && req.readyState === 4) {
-					res = JSON.parse(req.responseText);
-					if (res == "") {
-						return;
-					}
-					appendNoteList(res);
-					appendDateNav(res);
-				}
-			};
-			req.send();
-		}
-
 		//날짜 네비게이션을 생성해준다
 		function appendDateNav(json) {
 			var newLi = null;
