@@ -115,7 +115,6 @@
 		}
 
 		function readNoteList(groupId, targetDate) {
-
 		  guinness.ajax({ 
 			  method: "get", 
 			  url: "/notelist/read?groupId="+groupId+"&targetDate="+targetDate, 

@@ -30,7 +30,6 @@ public class ReadCommentServlet extends HttpServlet {
 		String userId = (String) session.getAttribute("sessionUserId");
 		String noteId = req.getParameter("noteId");
 
-		// 세션이 없을 경우 루트화면으로 이동
 		if (userId == null) {
 			resp.sendRedirect("/");
 			return;
@@ -45,17 +44,9 @@ public class ReadCommentServlet extends HttpServlet {
 			Forwarding.forwardForException(req, resp);
 			return;
 		}
-		createJsonFile(commentList, resp);
-	}
-
-	public void createJsonFile(List<Comment> commentList, HttpServletResponse resp) throws IOException {
 		resp.setContentType("application/json; charset=UTF-8");
 		PrintWriter out = resp.getWriter();
-		StringBuffer sb = new StringBuffer();
-		Gson gson = new Gson();
-
-		sb.append(gson.toJson(commentList));
-		out.write(sb.toString());
+		out.write(new Gson().toJson(commentList));
 		out.close();
 	}
 }

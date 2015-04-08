@@ -32,8 +32,9 @@ public class CreateCommentServlet extends HttpServlet {
 		String commentType = req.getParameter("commentType");
 		String noteId = req.getParameter("noteId");
 
-		//TODO 비어있으면 json 빈문자
-		//
+		if (commentText.equals("")) {
+			return;
+		}
 
 		Comment comment = new Comment(commentText, commentType, userId, noteId);
 		CommentDao commentDAO = new CommentDao();
