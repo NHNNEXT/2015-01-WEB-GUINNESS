@@ -54,19 +54,22 @@
 		<div id='create-new-button'>
 			<i class="fa fa-plus-circle"></i>
 		</div>
-		<ul id='group-members' class='member-nav'>
-			<form action="/group/add/member" method="post">
+		<div id='group-member-container'>
+			<form id="addMemberForm" action="/group/add/member" method="post">
 				<input type="hidden" class="groupId" name="groupId">
 				<input type="text" name="userId">
 				<input type="submit" value="추가">
 			</form>
-		</ul>
+			<ul id='group-member'>
+			</ul>
+		</div>
 	</div>
 
 	<script>
 		window.addEventListener('load', function() {
 			var groupId = window.location.pathname.split("/")[2];
 			readNoteList(groupId, guinness.util.today("-"));
+			readMember(groupId);
 			attachGroupId(groupId);
 			
 			var noteModal = document.getElementById('create-new-button');
@@ -74,12 +77,9 @@
 				guinness.util.showModal();
 				setNoteModal();
 			}, false);
-			document.getElementById('create-note').addEventListener('mouseup', createNote, false);
+			document.querySelector('#create-note').addEventListener('mouseup', createNote, false);
+			document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
 
-			var groupId = window.location.pathname.split("/")[2];
-			var targetDate = guinness.util.today("-");
-			readNoteList(groupId, targetDate);
-			attachGroupId(groupId);
 
 			var groupNameLabel = document.getElementById('group-name');
 			var groupName = getCookie(groupId);
@@ -129,13 +129,17 @@
 		}
 
 		function appendNoteList(json) {
-			var el = undefined;
+			//"새 노트를 작성해주세요" 삭제
+			var el = document.querySelector("#empty-message");
+			if (el != undefined) {
+				el.parentNode.removeChild(el);
+			}
 			//리스트 초기화
-			 el = document.getElementsByClassName("diary-list");
-			 var elLength = el.length;
-			 for (var i = elLength-1; i >= 0; i--) {
-			 el[i].outerHTML = "";
-			 }
+			el = document.getElementsByClassName("diary-list");
+			var elLength = el.length;
+			for (var i = elLength-1; i >= 0; i--) {
+			 	el[i].outerHTML = "";
+			}
 			//날짜별로 들어갈수 있게...
 			var newEl = undefined;
 			var obj = undefined;
@@ -317,6 +321,46 @@
 				}
 			};
 			req.send(param);
+		}
+		
+		function addMember(userId, groupId) {
+			var userId = document.querySelector('#addMemberForm input[name="userId"]').value;
+			var groupId = document.querySelector('#addMemberForm input[name="groupId"]').value;
+			guinness.ajax({
+				method:"post",
+				url:"/group/add/member",
+				param:"userId="+userId+"&groupId="+groupId,
+				success:
+				  function(req) {
+					if(req.responseText === "unknownUser") guinness.util.alert("멤버추가 실패","사용자를 찾을 수 없습니다!");
+					if(req.responseText === "joinedUser") guinness.util.alert("멤버추가 실패","사용자가 이미 가입되어있습니다!");
+					else {
+						appendMember(JSON.parse(req.responseText));
+					}
+			      }	
+			});
+		}
+		
+		
+		function readMember(groupId) {
+			guinness.ajax({ 
+				method:"get", 
+				url:"/group/read/member?groupId="+groupId, 
+				success: 
+				  function(req) {
+					appendMember(JSON.parse(req.responseText));
+				  } 
+			});
+		}
+		
+		function appendMember(json) {
+			var el = document.querySelector("#group-member");
+			el.innerHTML = "";
+			for (var i = 0; i < json.length; i++) {
+				var newEl = document.createElement("li");
+				newEl.innerHTML = json[i].userName;
+				el.appendChild(newEl);
+			}
 		}
 	</script>
 </body>

@@ -202,7 +202,7 @@ input.text {
 }
 
 
-#group-members {
+#group-member-container {
 	top:100px;
 	position : fixed;
 	left:100%;

@@ -47,13 +47,16 @@
 			</div>
 		</div>
 	</div>
-	<template id='group-card-template'> <a class='group-card' href='#'>
-	  <li><span class='group-name'></span>
-		<div class='deleteGroup-btn'>
-		  <i class='fa fa-remove'></i>
-		</div><i class='fa fa-lock'></i><input name=groupId type='hidden' />
-	  </li>
-	</a></template>
+	<template id='group-card-template'> 
+	  <a class='group-card' href='#'>
+	    <li><span class='group-name'></span>
+	      <div class='deleteGroup-btn'>
+		    <i class='fa fa-remove'></i>
+		  </div>
+		  <i class='fa fa-lock'></i><input name=groupId type='hidden' />
+	    </li>
+	  </a>
+	</template>
 	<script>
 		window.addEventListener('load', function() {
 		  guinness.ajax({

@@ -15,7 +15,6 @@ import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.GroupDao;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 @WebServlet(WebServletUrl.GROUP_READ_MEMBER)

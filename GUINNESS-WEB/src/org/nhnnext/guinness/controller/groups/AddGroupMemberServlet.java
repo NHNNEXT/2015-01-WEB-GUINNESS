@@ -36,12 +36,14 @@ public class AddGroupMemberServlet extends HttpServlet {
 		try {
 			if (UserDao.getInstance().readUser(userId) == null) {
 				logger.debug("등록되지 않은 사용자 입니다");
-				Forwarding.forwardForException(req, resp);
+				out.print("unknownUser");
+				out.close();
 				return;
 			}
 			if (groupDao.checkJoinedGroup(userId, groupId)) {
 				logger.debug("이미 가입된 사용자 입니다.");
-				Forwarding.forwardForException(req, resp);
+				out.print("joinedUser");
+				out.close();
 				return;
 			}
 			groupDao.createGroupUser(userId, groupId);
