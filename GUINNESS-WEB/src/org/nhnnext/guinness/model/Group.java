@@ -37,21 +37,16 @@ public class Group {
 	}
 
 	public static String setNewGroupId() throws MakingObjectListFromJdbcException, SQLException {
-		String groupId = null;
-
+		//TODO CodeReview : while vs 재귀
 		while (true) {
-			groupId = getRandomString(ParameterKey.lengthOfGroupId);
-			if (!checkExistGroupId(groupId)) {
+			String groupId = getRandomId(ParameterKey.lengthOfGroupId);
+			if (new GroupDao().readGroup(groupId) != null) {
 				return groupId;
 			}
 		}
 	}
 
-	private static boolean checkExistGroupId(String groupId) throws MakingObjectListFromJdbcException, SQLException {
-		return new GroupDao().checkExistGroupId(groupId);
-	}
-
-	private static String getRandomString(int lengthOfReturnString) {
+	private static String getRandomId(int lengthOfReturnString) {
 		String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		Random rnd = new Random();
 		StringBuffer buf = new StringBuffer();
@@ -122,5 +117,4 @@ public class Group {
 		return "Group [groupId=" + groupId + ", groupName=" + groupName + ", groupCaptainUserId=" + groupCaptainUserId
 				+ ", isPublic=" + isPublic + "]";
 	}
-
 }

@@ -36,7 +36,7 @@ public class AddGroupMemberServlet extends HttpServlet {
 		PrintWriter out = resp.getWriter();
 		logger.debug("userId={}, groupId={}", userId, groupId);
 		try {
-			if (!userDao.checkExistUserId(userId)) {
+			if (userDao.readUser(userId) == null) {
 				logger.debug("등록되지 않은 사용자 입니다");
 				Forwarding.forwardForException(req, resp);
 				return;

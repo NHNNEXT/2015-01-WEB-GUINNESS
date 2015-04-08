@@ -27,7 +27,7 @@ public class DeleteGroupServlet extends HttpServlet {
 		String groupId = req.getParameter("groupId");
 		GroupDao groupDao = new GroupDao();
 		try {
-			Group group = groupDao.findByGroupId(groupId);
+			Group group = groupDao.readGroup(groupId);
 			if (!group.getGroupCaptainUserId().equals(userId)) {
 				Forwarding.doForward(req, resp, "errorMessage", "삭제 권한 없음", "/groups.jsp");
 				return;

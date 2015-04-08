@@ -4,13 +4,17 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.nhnnext.guinness.common.AbstractDao;
+import org.nhnnext.guinness.controller.notes.ReadNoteListServlet;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UserDao extends AbstractDao {
+	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListServlet.class);
+	
 	public Boolean createUser(User user) throws SQLException {
-		String userId = user.getUserId();
-		if (checkExistUserId(userId)) {
-			System.out.println("존재하는 userId 입니다!");
+		if (readUser(user.getUserId()) != null) {
+			logger.debug("존재하는 userId 입니다!");
 			return false;
 		}
 
@@ -19,22 +23,13 @@ public class UserDao extends AbstractDao {
 		return true;
 	}
 
-	public boolean checkExistUserId(String userId) throws SQLException, MakingObjectListFromJdbcException {
-		boolean result = false;
+	public User readUser(String userId) throws SQLException, MakingObjectListFromJdbcException {
 		String sql = "select * from USERS where userId=?";
 		String[] params = { "userId", "userName", "userPassword"};
 		List<?> list = queryForReturn(User.class, params, sql, userId);
-		if (list.size() != 0)
-			result = true;
-		return result;
-	}
-	
-	public User checkLogin(String userId, String userPassword) throws SQLException {
-		String sql = "select * from USERS where userId=? and userPassword=?";
-		String[] params = { "userId", "userName", "userPassword"};
-		List<?> list = queryForReturn(User.class, params, sql, userId, userPassword);
-		if (list.size() != 0)
+		if (list.size() != 0) {
 			return (User) list.get(0);
+		}
 		return null;
 	}
 }
