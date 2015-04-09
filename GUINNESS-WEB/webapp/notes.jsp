@@ -219,11 +219,11 @@
 			innerContainer.appendChild(commentList);
 			innerContainer.appendChild(commentArea);
 			document.body.appendChild(el);
-			readComments(noteId, userName);
+			readComments(noteId);
 
 			document.querySelector('#submitComment').addEventListener(
 					'mouseup', function() {
-						createComment(obj, userName);
+						createComment(obj);
 					}, false);
 
 			var closeBtn = document.querySelector('#contents-close');
@@ -249,7 +249,7 @@
 			});
 		}
 
-		function readComments(noteId, userName) {
+		function readComments(noteId) {
 			var req = new XMLHttpRequest();
 			var json = null;
 			var el = document.querySelector('#commentListUl');
@@ -265,7 +265,7 @@
 						json = JSON.parse(req.responseText);
 						for (var i = 0; i < json.length; i++) {
 							obj = json[i];
-							el.innerHTML += "<li>" + obj.commentText + "    "+ obj.createDate +" "+ userName + "</li>";
+							el.innerHTML += "<li>" + obj.commentText + "    "+ obj.createDate +" "+ obj.userName + "</li>";
 						}
 					} else {
 						window.location.href = "/exception.jsp";
@@ -283,7 +283,7 @@
 			return el;
 		}
 
-		function createComment(obj, userName) {
+		function createComment(obj) {
 			var req = new XMLHttpRequest();
 			var commentText = document.querySelector('#commentText').value;
 			var userId = obj.userId;
@@ -296,7 +296,7 @@
 			req.onreadystatechange = function() {
 				if (req.status === 200 && req.readyState === 4) {
 					document.querySelector('#commentText').value = "";
-					readComments(noteId, userName);
+					readComments(noteId);
 				}
 			};
 			req.send(param);

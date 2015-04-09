@@ -1,13 +1,12 @@
 package org.nhnnext.guinness.model;
 
 import java.sql.SQLException;
-import java.util.Random;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
-import org.nhnnext.guinness.common.ParameterKey;
+import org.nhnnext.guinness.common.GetRandom;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 
 public class Group {
@@ -36,24 +35,13 @@ public class Group {
 		this(setNewGroupId(), groupName, groupCaptainUserId, isPublic);
 	}
 
-	public static String setNewGroupId() throws MakingObjectListFromJdbcException, SQLException, ClassNotFoundException {
-		//TODO CodeReview : while vs 재귀
+	private static String setNewGroupId() throws MakingObjectListFromJdbcException, SQLException, ClassNotFoundException {
 		while (true) {
-			String groupId = getRandomId(ParameterKey.lengthOfGroupId);
+			String groupId = GetRandom.getRandomId(5);
 			if (GroupDao.getInstance().readGroup(groupId) == null) {
 				return groupId;
 			}
 		}
-	}
-
-	private static String getRandomId(int lengthOfReturnString) {
-		String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		Random rnd = new Random();
-		StringBuffer buf = new StringBuffer();
-		for (int i = 0; i < lengthOfReturnString; i++) {
-			buf.append(alphabet.charAt(rnd.nextInt(alphabet.length())));
-		}
-		return buf.toString();
 	}
 
 	public String getGroupId() {
