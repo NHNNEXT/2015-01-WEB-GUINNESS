@@ -92,7 +92,7 @@ public abstract class AbstractDao {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public List<?> queryForReturn(Class<?> cls, String[] params, String sql, String... parameters) throws SQLException,
+	public List<?> queryForObjectsReturn(Class<?> cls, String[] params, String sql, String... parameters) throws SQLException,
 			MakingObjectListFromJdbcException {
 		Connection conn = null;
 		try {

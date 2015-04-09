@@ -21,7 +21,7 @@ public class NoteDao extends AbstractDao {
 	public List<Note> readNoteList(String groupId, String endDate, String targetDate) throws MakingObjectListFromJdbcException, SQLException {
 		String sql = "select * from NOTES,USERS where NOTES.userId = USERS.userId and groupId = ? and NOTES.targetDate between ? and ? order by targetDate desc";
 		String[] params = { "noteId", "noteText", "targetDate", "userId", "groupId", "userName" };
-		List<?> noteList = queryForReturn(Note.class, params, sql, groupId, endDate, targetDate);
+		List<?> noteList = queryForObjectsReturn(Note.class, params, sql, groupId, endDate, targetDate);
 		return (List<Note>) noteList;
 	}
 	
@@ -33,7 +33,7 @@ public class NoteDao extends AbstractDao {
 	public Note readNote(String noteId) throws MakingObjectListFromJdbcException, SQLException {
 		String sql = "select *from NOTES,USERS where noteId = ? AND NOTES.userId = USERS.userId";
 		String[] params = { "noteId", "noteText", "targetDate", "userId", "groupId", "userName" };
-		List<?> note = queryForReturn(Note.class, params, sql, noteId);
+		List<?> note = queryForObjectsReturn(Note.class, params, sql, noteId);
 		return (Note) note.get(0);
     }
 }
