@@ -30,7 +30,7 @@ public class ReadGroupMemberServlet extends HttpServlet {
 			out.print(new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(groupDao.readGroupMember(groupId)));
 			out.close();
 		} catch (MakingObjectListFromJdbcException | SQLException | ClassNotFoundException e) {
-			Forwarding.forwardForException(req, resp);
+			Forwarding.doforwardException(req, resp);
 			return;
 		}
 	}

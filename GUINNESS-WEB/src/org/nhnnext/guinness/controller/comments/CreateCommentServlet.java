@@ -40,7 +40,7 @@ public class CreateCommentServlet extends HttpServlet {
 			CommentDao.getInstance().createcomment(comment);
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
-			Forwarding.forwardForException(req, resp);
+			Forwarding.doforwardException(req, resp);
 			return;
 		}
 	}

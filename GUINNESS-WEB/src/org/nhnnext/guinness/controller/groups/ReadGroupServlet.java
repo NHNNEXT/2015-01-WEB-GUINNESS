@@ -39,7 +39,7 @@ public class ReadGroupServlet extends HttpServlet {
 			groupList = GroupDao.getInstance().readGroupList(userId);
 		} catch (SQLException | ClassNotFoundException | MakingObjectListFromJdbcException e) {
 			e.printStackTrace();
-			Forwarding.forwardForException(req, resp);
+			Forwarding.doforwardException(req, resp);
 			return;
 		}
 		resp.setContentType("application/json; charset=UTF-8");

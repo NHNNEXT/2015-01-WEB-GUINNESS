@@ -37,7 +37,7 @@ public class DeleteGroupServlet extends HttpServlet {
 			resp.sendRedirect("/groups.jsp");
 		} catch (SQLException | ClassNotFoundException | MakingObjectListFromJdbcException e) {
 			e.printStackTrace();
-			Forwarding.forwardForException(req, resp);
+			Forwarding.doforwardException(req, resp);
 			return;
 		}
 	}

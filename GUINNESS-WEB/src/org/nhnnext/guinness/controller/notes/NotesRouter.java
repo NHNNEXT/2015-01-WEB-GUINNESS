@@ -34,7 +34,7 @@ public class NotesRouter extends HttpServlet {
 			}
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
-			Forwarding.forwardForException(req, resp);
+			Forwarding.doforwardException(req, resp);
 			return;
 		}
 		Forwarding.doForward(req, resp, "/notes.jsp");

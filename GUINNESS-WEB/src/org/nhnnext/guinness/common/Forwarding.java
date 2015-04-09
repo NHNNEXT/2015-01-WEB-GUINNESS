@@ -21,7 +21,7 @@ public class Forwarding {
 		doForward(req, resp, "", "", destination);
 	}
 
-	public static void forwardForException(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
+	public static void doforwardException(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
 			IOException {
 		doForward(req, resp, "", "", "/exception.jsp");
 	}
