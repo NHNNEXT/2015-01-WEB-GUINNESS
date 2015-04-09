@@ -22,7 +22,7 @@ import com.google.gson.GsonBuilder;
 @WebServlet(WebServletUrl.GROUP_READ_MEMBER)
 public class ReadGroupMemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	GroupDao groupDao = new GroupDao();
+	private GroupDao groupDao = GroupDao.getInstance();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

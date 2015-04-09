@@ -13,6 +13,10 @@ public class UserDao extends AbstractDao {
 	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListServlet.class);
 	private static UserDao userDao = new UserDao();
 	
+	private UserDao() {
+		
+	}
+	
 	public static UserDao getInstance() {
 		return userDao;
 	}

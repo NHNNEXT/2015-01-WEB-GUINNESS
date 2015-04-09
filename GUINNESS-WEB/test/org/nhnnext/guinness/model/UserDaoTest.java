@@ -10,7 +10,7 @@ public class UserDaoTest {
 
 	@Test
 	public void NotExistCreateUserTest() throws SQLException, ClassNotFoundException {
-		UserDao userDao = new UserDao();
+		UserDao userDao = UserDao.getInstance();
 		assertNotNull(userDao.readUser("test@naver.com"));
 	}
 }

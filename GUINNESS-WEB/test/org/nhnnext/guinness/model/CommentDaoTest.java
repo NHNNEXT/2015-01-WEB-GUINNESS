@@ -16,13 +16,13 @@ public class CommentDaoTest {
 	
 	@Test
 	public void createComment() throws SQLException, ClassNotFoundException {
-		CommentDao commentDao = new CommentDao();
+		CommentDao commentDao = CommentDao.getInstance();
 		commentDao.createcomment(COMMENT);
 	}
 	
 	@Test
 	public void readCommentListByNoteId() throws MakingObjectListFromJdbcException, SQLException , ClassNotFoundException {
-		CommentDao commentDao = new CommentDao();
+		CommentDao commentDao = CommentDao.getInstance();
 		List<Comment> comments = commentDao.readCommentListByNoteId("2");
 		for(Iterator<Comment> i =  comments.iterator(); i.hasNext(); ) {
 			Comment comment = i.next();
