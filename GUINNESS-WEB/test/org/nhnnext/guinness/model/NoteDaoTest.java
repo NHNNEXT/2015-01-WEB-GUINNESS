@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 public class NoteDaoTest {
 	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListServlet.class);
-	NoteDao noteDao = new NoteDao();
+	NoteDao noteDao = NoteDao.getInstance();
 
 	@Test
 	public void CreateNote() throws SQLException, ClassNotFoundException {
@@ -39,7 +39,7 @@ public class NoteDaoTest {
 	@Test
 
 	public void testName() throws Exception {
-		NoteDao noteDao = new NoteDao();
+		NoteDao noteDao = NoteDao.getInstance();
 		int tt = noteDao.checkGroupNotesCount("JFaTh");
 		logger.debug(Integer.toString(tt));
 	}

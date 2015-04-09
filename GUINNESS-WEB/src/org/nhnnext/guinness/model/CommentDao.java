@@ -9,6 +9,10 @@ import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 public class CommentDao extends AbstractDao {
 	private static CommentDao commentDao = new CommentDao();
 	
+	private CommentDao() {
+		
+	}
+	
 	public static CommentDao getInstance() {
 		return commentDao;
 	}

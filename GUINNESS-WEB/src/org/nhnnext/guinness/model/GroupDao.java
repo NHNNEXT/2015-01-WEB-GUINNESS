@@ -9,6 +9,10 @@ import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 public class GroupDao extends AbstractDao {
 	private static GroupDao groupDao = new GroupDao();
 	
+	private GroupDao() {
+		
+	}
+	
 	public static GroupDao getInstance() {
 		return groupDao;
 	}
