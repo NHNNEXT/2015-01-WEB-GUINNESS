@@ -51,7 +51,7 @@ public class CreateUserServlet extends HttpServlet {
 			session.setAttribute("sessionUserId", userId);
 			session.setAttribute("sessionUserName", userName);
 			resp.sendRedirect("/groups.jsp");
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 			resp.sendRedirect("/exception.jsp");
 		}

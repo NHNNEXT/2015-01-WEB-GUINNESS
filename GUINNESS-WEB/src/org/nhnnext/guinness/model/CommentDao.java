@@ -13,13 +13,13 @@ public class CommentDao extends AbstractDao {
 		return commentDao;
 	}
 
-	public void createcomment(Comment comment) throws SQLException {
+	public void createcomment(Comment comment) throws SQLException, ClassNotFoundException {
 		String query = "insert into COMMENTS (commentText, commentType, userId, noteId) values(?, ?, ?, ?)";
 		queryNotForReturn(query, comment.getCommentText(), comment.getCommentType(), comment.getUserId(), comment.getNoteId());
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Comment> readCommentListByNoteId(String noteId) throws MakingObjectListFromJdbcException, SQLException {
+	public List<Comment> readCommentListByNoteId(String noteId) throws MakingObjectListFromJdbcException, SQLException, ClassNotFoundException {
 		String sql = "select * from COMMENTS where noteId = ?;";
 		String[] paramsKey = { "commentText", "commentType", "createDate", "userId", "noteId"};
 		List<?> list = queryForObjectsReturn(Comment.class, paramsKey, sql, noteId);

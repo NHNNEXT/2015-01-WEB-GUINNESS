@@ -33,7 +33,7 @@ public class LoginUsersServlet extends HttpServlet {
 			session.setAttribute("sessionUserId", user.getUserId());
 			session.setAttribute("sessionUserName", user.getUserName());
 			out.print("/groups.jsp");
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			out.print("/exception.jsp");
 		}
 		out.close();

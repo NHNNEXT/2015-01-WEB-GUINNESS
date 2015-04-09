@@ -35,7 +35,7 @@ public class DeleteGroupServlet extends HttpServlet {
 			}
 			groupDao.deleteGroup(group);
 			resp.sendRedirect("/groups.jsp");
-		} catch (SQLException | MakingObjectListFromJdbcException e) {
+		} catch (SQLException | ClassNotFoundException | MakingObjectListFromJdbcException e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);
 			return;

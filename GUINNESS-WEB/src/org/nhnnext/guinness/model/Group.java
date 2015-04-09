@@ -32,11 +32,11 @@ public class Group {
 	}
 
 	public Group(String groupName, String groupCaptainUserId, char isPublic) throws MakingObjectListFromJdbcException,
-			SQLException {
+			SQLException, ClassNotFoundException {
 		this(setNewGroupId(), groupName, groupCaptainUserId, isPublic);
 	}
 
-	public static String setNewGroupId() throws MakingObjectListFromJdbcException, SQLException {
+	public static String setNewGroupId() throws MakingObjectListFromJdbcException, SQLException, ClassNotFoundException {
 		//TODO CodeReview : while vs 재귀
 		while (true) {
 			String groupId = getRandomId(ParameterKey.lengthOfGroupId);

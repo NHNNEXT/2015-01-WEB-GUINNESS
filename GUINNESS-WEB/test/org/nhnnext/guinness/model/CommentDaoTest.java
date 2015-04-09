@@ -15,13 +15,13 @@ public class CommentDaoTest {
 	private static final Comment COMMENT = new Comment("test comment text", "A", "admin@guinness.com", "12");
 	
 	@Test
-	public void createComment() throws SQLException {
+	public void createComment() throws SQLException, ClassNotFoundException {
 		CommentDao commentDao = new CommentDao();
 		commentDao.createcomment(COMMENT);
 	}
 	
 	@Test
-	public void readCommentListByNoteId() throws MakingObjectListFromJdbcException, SQLException {
+	public void readCommentListByNoteId() throws MakingObjectListFromJdbcException, SQLException , ClassNotFoundException {
 		CommentDao commentDao = new CommentDao();
 		List<Comment> comments = commentDao.readCommentListByNoteId("2");
 		for(Iterator<Comment> i =  comments.iterator(); i.hasNext(); ) {

@@ -20,8 +20,7 @@ public class CreateCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession();
 		String userId = (String) session.getAttribute("sessionUserId");
 		if (userId == null) {
@@ -39,7 +38,7 @@ public class CreateCommentServlet extends HttpServlet {
 		Comment comment = new Comment(commentText, commentType, userId, noteId);
 		try {
 			CommentDao.getInstance().createcomment(comment);
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);
 			return;

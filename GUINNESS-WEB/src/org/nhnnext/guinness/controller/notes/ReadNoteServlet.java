@@ -28,7 +28,7 @@ public class ReadNoteServlet extends HttpServlet {
 		Note note = null;
 		try {
 			note = NoteDao.getInstance().readNote(noteId);
-		} catch (MakingObjectListFromJdbcException | SQLException e) {
+		} catch (MakingObjectListFromJdbcException | SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);
 		}

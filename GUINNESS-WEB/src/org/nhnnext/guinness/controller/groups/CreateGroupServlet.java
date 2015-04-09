@@ -37,7 +37,7 @@ public class CreateGroupServlet extends HttpServlet {
 		Group group = null;
 		try {
 			group = new Group(groupName, groupCaptainUserId, isPublic);
-		} catch (MakingObjectListFromJdbcException | SQLException e) {
+		} catch (MakingObjectListFromJdbcException | SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);
 			return;
@@ -55,7 +55,7 @@ public class CreateGroupServlet extends HttpServlet {
 		try {
 			groupDao.createGroup(group);
 			groupDao.createGroupUser(groupCaptainUserId, group.getGroupId());
-		} catch (SQLException | MakingObjectListFromJdbcException e) {
+		} catch (SQLException | ClassNotFoundException | MakingObjectListFromJdbcException e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);
 			return;

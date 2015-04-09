@@ -17,7 +17,7 @@ public class UserDao extends AbstractDao {
 		return userDao;
 	}
 	
-	public Boolean createUser(User user) throws SQLException {
+	public Boolean createUser(User user) throws SQLException, ClassNotFoundException {
 		if (readUser(user.getUserId()) != null) {
 			logger.debug("존재하는 userId 입니다!");
 			return false;
@@ -28,7 +28,7 @@ public class UserDao extends AbstractDao {
 		return true;
 	}
 
-	public User readUser(String userId) throws SQLException, MakingObjectListFromJdbcException {
+	public User readUser(String userId) throws SQLException, MakingObjectListFromJdbcException, ClassNotFoundException {
 		String sql = "select * from USERS where userId=?";
 		String[] params = { "userId", "userName", "userPassword"};
 		List<?> list = queryForObjectsReturn(User.class, params, sql, userId);

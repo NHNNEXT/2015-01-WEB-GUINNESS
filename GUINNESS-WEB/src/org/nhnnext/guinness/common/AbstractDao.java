@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nhnnext.guinness.controller.notes.ReadNoteListServlet;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,21 +17,19 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.Gson;
 
 public abstract class AbstractDao {
-	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListServlet.class);
+	private static final Logger logger = LoggerFactory.getLogger(AbstractDao.class);
 
 	static Gson gson = new Gson();
 
 	protected Connection getConnection() throws SQLException, ClassNotFoundException {
-		String url = "jdbc:mysql://localhost:3306/GUINNESS";
-		String id = "link413";
-		String pw = "link413";
 		Class.forName("com.mysql.jdbc.Driver");
 		logger.debug("getConnection");
-		return DriverManager.getConnection(url, id, pw);
+		return DriverManager.getConnection("jdbc:mysql://localhost:3306/GUINNESS", "link413", "link413");
 	}
 
 	/**
 	 * 리턴 없는 쿼리 실행 시
+	 * 
 	 * @param sql
 	 *            쿼리문
 	 * @param parameters
@@ -40,13 +37,9 @@ public abstract class AbstractDao {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public void queryNotForReturn(String sql, String... parameters) throws SQLException {
+	public void queryNotForReturn(String sql, String... parameters) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
-		try {
-			conn = getConnection();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+		conn = getConnection();
 		PreparedStatement pstmt = setPreparedStatement(conn, sql, parameters);
 		pstmt.executeUpdate();
 		terminateResources(conn, pstmt);
@@ -54,6 +47,7 @@ public abstract class AbstractDao {
 
 	/**
 	 * 갯수 리턴이 필요한 쿼리 실행 시
+	 * 
 	 * @param sql
 	 *            쿼리문
 	 * @param parameters
@@ -62,13 +56,8 @@ public abstract class AbstractDao {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public int queryForCountReturn(String sql, String... parameters) throws SQLException {
-		Connection conn = null;
-		try {
-			conn = getConnection();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+	public int queryForCountReturn(String sql, String... parameters) throws SQLException, ClassNotFoundException {
+		Connection conn = getConnection();
 		PreparedStatement pstmt = setPreparedStatement(conn, sql, parameters);
 		ResultSet rs = pstmt.executeQuery();
 		rs.last();
@@ -79,6 +68,7 @@ public abstract class AbstractDao {
 
 	/**
 	 * 객체 리턴이 필요한 쿼리 실행 시
+	 * 
 	 * @param cls
 	 *            리스트 객체의 클래스 타입
 	 * @param params
@@ -92,14 +82,9 @@ public abstract class AbstractDao {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public List<?> queryForObjectsReturn(Class<?> cls, String[] params, String sql, String... parameters) throws SQLException,
-			MakingObjectListFromJdbcException {
-		Connection conn = null;
-		try {
-			conn = getConnection();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+	public List<?> queryForObjectsReturn(Class<?> cls, String[] params, String sql, String... parameters)
+			throws SQLException, MakingObjectListFromJdbcException, ClassNotFoundException {
+		Connection conn = getConnection();
 		PreparedStatement pstmt = setPreparedStatement(conn, sql, parameters);
 		ResultSet rs = pstmt.executeQuery();
 		List<?> array = getListObject(cls, params, rs);
@@ -161,7 +146,7 @@ public abstract class AbstractDao {
 			rs.close();
 		logger.debug("terminateResources");
 	}
-	
+
 	protected void terminateResources(Connection conn, PreparedStatement pstmt) throws SQLException {
 		terminateResources(conn, pstmt, null);
 	}

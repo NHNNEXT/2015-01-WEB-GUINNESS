@@ -38,7 +38,7 @@ public class ReadCommentServlet extends HttpServlet {
 		List<Comment> commentList = null;
 		try {
 			commentList = CommentDao.getInstance().readCommentListByNoteId(noteId);
-		} catch (SQLException | MakingObjectListFromJdbcException e) {
+		} catch (SQLException | MakingObjectListFromJdbcException | ClassNotFoundException e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);
 			return;
