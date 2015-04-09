@@ -1,6 +1,5 @@
 var guinness = {};
 guinness.util = {};
-
 /* 
  * 현재 날짜를 반환하는 Function
  * 문자열형태의 explode를 인자로 넣으면 해당 문자열을 구분자로 반환
@@ -22,6 +21,17 @@ guinness.util.today = function(explode) {
 		today = year + "년" + month + "월" + day + "일";
 	}
 	return today;
+}
+
+Element.prototype.remove = function() {
+    this.parentElement.removeChild(this);
+}
+NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
+    for(var i = 0, len = this.length; i < len; i++) {
+        if(this[i] && this[i].parentElement) {
+            this[i].parentElement.removeChild(this[i]);
+        }
+    }
 }
 
 /*
@@ -84,37 +94,30 @@ guinness.util.alert = function(header, message, agreeFunc, disagreeFunc) {
 					+ header
 					+ "</div><div class='panel-body'>"
 					+ message
-					+ "<br/><div class='btn-group'><button class='btn' onclick='guinness.util.alert.choose()' >확인</button></div></div></div>";
+					+ "<br/><div class='btn-group'><button class='btn'>확인</button></div></div></div>";
+			el.appendChild(innerEl);
+			body.appendChild(el);
+			document.querySelector("#guinness-alert-window .btn:first-child").addEventListener("click", function(){guinness.util.alert.choose()}, false);
 		} else {
 			innerEl.innerHTML += "<div class='panel'><div class='panel-header warn'>"
 					+ header
 					+ "</div><div class='panel-body'>"
 					+ message
-					+ "<br/><div class='btn-group'><button class='btn' onclick='guinness.util.alert.choose(true)' >예</button><button class='btn' onclick='guinness.util.alert.choose(false)'>아니오</button></div></div></div>";
+					+ "<br/><div class='btn-group'><button class='btn'>예</button><button class='btn'>아니오</button></div></div></div>";
+			el.appendChild(innerEl);
+			body.appendChild(el);
+			document.querySelector("#guinness-alert-window .btn:first-child").addEventListener("click", function(){guinness.util.alert.choose(agreeFunc);}, false);
+			document.querySelector("#guinness-alert-window .btn:last-child").addEventListener("click", function(){guinness.util.alert.choose(disagreeFunc);}, false);
 		}
-		el.appendChild(innerEl);
-		body.appendChild(el);
-		guinness.util.alert.agree = agreeFunc;
-		guinness.util.alert.disagree = disagreeFunc;
 	}
 }
 guinness.util.alert.choose = function(c) {
-	var el = document.querySelector("#guinness-alert-window");
-	el.parentElement.removeChild(el);
+	document.querySelector("#guinness-alert-window").remove();
 	if (c == undefined) {
 		return;
 	}
-	if (c) {
-		guinness.util.alert.agree();
-		return;
-	}
-	guinness.util.alert.disagree();
+	c();
 }
-
-guinness.util.alert.agree = function() {
-};
-guinness.util.alert.disagree = function() {
-};
 
 guinness.ajax = function(o) {
   if(o.method === undefined || o.url === undefined || o.success === undefined) {

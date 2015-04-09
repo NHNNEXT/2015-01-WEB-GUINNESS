@@ -137,8 +137,10 @@
 			//리스트 초기화
 			el = document.querySelectorAll(".diary-list");
 			var elLength = el.length;
-			for (var i = elLength-1; i >= 0; i--) {
-			 	el[i].outerHTML = "";
+			if(el != undefined) {
+				for (var i = elLength-1; i >= 0; i--) {
+			 		el[i].outerHTML = "";
+				}
 			}
 			//날짜별로 들어갈수 있게...
 			var newEl = undefined;
