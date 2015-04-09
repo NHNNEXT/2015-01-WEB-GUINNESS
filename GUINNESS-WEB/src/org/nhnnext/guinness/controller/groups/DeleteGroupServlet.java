@@ -2,15 +2,16 @@ package org.nhnnext.guinness.controller.groups;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.nhnnext.guinness.common.Forwarding;
+import org.nhnnext.guinness.common.ServletRequestUtil;
 import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Group;
@@ -23,13 +24,12 @@ public class DeleteGroupServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session = req.getSession();
-		String userId = (String) session.getAttribute("sessionUserId");
-		String groupId = req.getParameter("groupId");
+		String sessionUserId = ServletRequestUtil.checkSessionAttribute(req, resp);
+		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "groupId");
 		
 		try {
-			Group group = groupDao.readGroup(groupId);
-			if (!group.getGroupCaptainUserId().equals(userId)) {
+			Group group = groupDao.readGroup(paramsList.get("groupId"));
+			if (!group.getGroupCaptainUserId().equals(sessionUserId)) {
 				Forwarding.doForward(req, resp, "errorMessage", "삭제 권한 없음", "/groups.jsp");
 				return;
 			}

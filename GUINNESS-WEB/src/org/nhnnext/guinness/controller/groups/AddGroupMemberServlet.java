@@ -3,6 +3,7 @@ package org.nhnnext.guinness.controller.groups;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.nhnnext.guinness.common.Forwarding;
+import org.nhnnext.guinness.common.ServletRequestUtil;
 import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.controller.notes.ReadNoteListServlet;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
@@ -29,25 +31,26 @@ public class AddGroupMemberServlet extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String userId = req.getParameter("userId");
-		String groupId = req.getParameter("groupId");
+		String sessionUserId = ServletRequestUtil.checkSessionAttribute(req, resp);
+		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "userId", "groupId");
+		
 		PrintWriter out = resp.getWriter();
-		logger.debug("userId={}, groupId={}", userId, groupId);
+		logger.debug("userId={}, groupId={}", paramsList.get("userId"), paramsList.get("groupId"));
 		try {
-			if (UserDao.getInstance().readUser(userId) == null) {
+			if (UserDao.getInstance().readUser(paramsList.get("userId")) == null) {
 				logger.debug("등록되지 않은 사용자 입니다");
 				out.print("unknownUser");
 				out.close();
 				return;
 			}
-			if (groupDao.checkJoinedGroup(userId, groupId)) {
+			if (groupDao.checkJoinedGroup(paramsList.get("userId"), paramsList.get("groupId"))) {
 				logger.debug("이미 가입된 사용자 입니다.");
 				out.print("joinedUser");
 				out.close();
 				return;
 			}
-			groupDao.createGroupUser(userId, groupId);
-			out.print(new Gson().toJson(groupDao.readGroupMember(groupId)));
+			groupDao.createGroupUser(paramsList.get("userId"), paramsList.get("groupId"));
+			out.print(new Gson().toJson(groupDao.readGroupMember(paramsList.get("groupId"))));
 			out.close();
 		} catch (MakingObjectListFromJdbcException | SQLException | ClassNotFoundException e) {
 			Forwarding.forwardForException(req, resp);

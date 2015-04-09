@@ -2,6 +2,7 @@ package org.nhnnext.guinness.controller.groups;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -9,12 +10,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.nhnnext.guinness.common.Forwarding;
 import org.nhnnext.guinness.common.MyValidatorFactory;
+import org.nhnnext.guinness.common.ServletRequestUtil;
 import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Group;
@@ -24,19 +25,18 @@ import org.nhnnext.guinness.model.GroupDao;
 public class CreateGroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private GroupDao groupDao = GroupDao.getInstance();
-	
-		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session = req.getSession();
-		String groupCaptainUserId = (String) session.getAttribute("sessionUserId");
-		String groupName = req.getParameter("groupName");
+
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String groupCaptainUserId = ServletRequestUtil.checkSessionAttribute(req, resp);
+		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "groupName","isPublic");
 
 		char isPublic = 'F';
-		if ("public".equals(req.getParameter("isPublic")))
+		if ("public".equals(paramsList.get("isPublic")))
 			isPublic = 'T';
 
 		Group group = null;
 		try {
-			group = new Group(groupName, groupCaptainUserId, isPublic);
+			group = new Group(paramsList.get("groupName"), groupCaptainUserId, isPublic);
 		} catch (MakingObjectListFromJdbcException | SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);

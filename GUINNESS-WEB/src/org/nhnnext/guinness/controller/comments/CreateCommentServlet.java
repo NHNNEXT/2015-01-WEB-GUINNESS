@@ -2,15 +2,16 @@ package org.nhnnext.guinness.controller.comments;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.nhnnext.guinness.common.Forwarding;
+import org.nhnnext.guinness.common.ServletRequestUtil;
 import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.model.Comment;
 import org.nhnnext.guinness.model.CommentDao;
@@ -21,21 +22,14 @@ public class CreateCommentServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session = req.getSession();
-		String userId = (String) session.getAttribute("sessionUserId");
-		if (userId == null) {
-			resp.sendRedirect("/");
-			return;
-		}
-		String commentText = req.getParameter("commentText");
-		String commentType = req.getParameter("commentType");
-		String noteId = req.getParameter("noteId");
+		String sessionUserId = ServletRequestUtil.checkSessionAttribute(req, resp);
+		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "commentText", "commentType", "noteId");
 
-		if (commentText.equals("")) {
+		if (paramsList.get("commentText").equals("")) {
 			return;
 		}
 
-		Comment comment = new Comment(commentText, commentType, userId, noteId);
+		Comment comment = new Comment(paramsList.get("commentText"), paramsList.get("commentType"), sessionUserId, paramsList.get("noteId"));
 		try {
 			CommentDao.getInstance().createcomment(comment);
 		} catch (SQLException | ClassNotFoundException e) {

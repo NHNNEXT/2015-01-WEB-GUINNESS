@@ -8,9 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.nhnnext.guinness.common.Forwarding;
+import org.nhnnext.guinness.common.ServletRequestUtil;
 import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.model.GroupDao;
 
@@ -20,15 +20,11 @@ public class NotesRouter extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session = req.getSession();
-		String userId = (String) session.getAttribute("sessionUserId");
-		if (userId == null) {
-			resp.sendRedirect("/");
-			return;
-		}
+		String sessionUserId = ServletRequestUtil.checkSessionAttribute(req, resp);
+		
 		try {
 			String url = req.getRequestURI().split("/")[2];
-			if (!GroupDao.getInstance().checkJoinedGroup(userId, url)) {
+			if (!GroupDao.getInstance().checkJoinedGroup(sessionUserId, url)) {
 				Forwarding.doForward(req, resp, "errorMessage", "비정상적 접근시도.", "/illegal.jsp");
 				return;
 			}

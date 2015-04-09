@@ -4,15 +4,16 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.nhnnext.guinness.common.Forwarding;
+import org.nhnnext.guinness.common.ServletRequestUtil;
 import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Comment;
@@ -26,18 +27,11 @@ public class ReadCommentServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session = req.getSession();
-		String userId = (String) session.getAttribute("sessionUserId");
-		String noteId = req.getParameter("noteId");
-
-		if (userId == null) {
-			resp.sendRedirect("/");
-			return;
-		}
+		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "noteId");
 
 		List<Comment> commentList = null;
 		try {
-			commentList = CommentDao.getInstance().readCommentListByNoteId(noteId);
+			commentList = CommentDao.getInstance().readCommentListByNoteId(paramsList.get("noteId"));
 		} catch (SQLException | MakingObjectListFromJdbcException | ClassNotFoundException e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);
