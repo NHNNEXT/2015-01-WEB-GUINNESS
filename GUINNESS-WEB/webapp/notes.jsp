@@ -135,11 +135,11 @@
 				el.parentNode.removeChild(el);
 			}
 			//리스트 초기화
-			el = document.getElementsByClassName("diary-list");
+			el = document.querySelectorAll(".diary-list");
+			var elLength = el.length;
 			if(el != undefined) {
-				var elLength = el.length;
 				for (var i = elLength-1; i >= 0; i--) {
-				 	el[i].outerHTML = "";
+			 		el[i].outerHTML = "";
 				}
 			}
 			//날짜별로 들어갈수 있게...
@@ -279,6 +279,8 @@
 			var el = document.createElement("div");
 			el.innerHTML += "<textarea id='commentText' name='commentText' rows='5' cols='50'></textarea><br>";
 			el.innerHTML += "<button id='submitComment' class='btn btn-pm' name='submitComment'>답변</button>";
+			
+			return el;
 		}
 
 		function createComment(obj, userName) {

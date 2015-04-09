@@ -58,6 +58,6 @@ Create Table COMMENTS (
   createDate DATETIME DEFAULT CURRENT_TIMESTAMP,
   userId varchar(50),
   noteId bigint,
-  Foreign Key(userId) REFERENCES USERS(userId),
-  Foreign Key(noteId) REFERENCES NOTES(noteId)
+  Foreign Key(userId) REFERENCES USERS(userId)  on delete cascade,
+  Foreign Key(noteId) REFERENCES NOTES(noteId)  on delete cascade
 );
