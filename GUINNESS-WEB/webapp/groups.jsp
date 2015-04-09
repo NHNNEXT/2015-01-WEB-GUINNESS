@@ -68,12 +68,12 @@
 		  if (errorMessage !== '') {
 			guinness.util.alert("비정상적인 접근!", errorMessage);
 		  }
-		  var el = document.getElementById('create-new');
+		  var el = document.querySelector('#create-new');
 		  el.addEventListener('mouseup', guinness.util.showModal, false);
 		}, false);
 
 		function appendGroups(json) {
-		  var el = document.getElementById('group-container');
+		  var el = document.querySelector('#group-container');
 		  var obj = null;
 		  var template = document.querySelector("#group-card-template").content;
 		  var newEl;

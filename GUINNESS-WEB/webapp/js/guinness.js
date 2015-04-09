@@ -28,21 +28,21 @@ guinness.util.today = function(explode) {
  * modal에 사용하는 Function
  */
 guinness.util.showModal = function() {
-	var modalCover = document.getElementsByClassName('modal-cover')[0];
+	var modalCover = document.querySelector('.modal-cover')[0];
 	if (modalCover.style.display === "none") {
 		modalCover.style.display = "block";
 		document.body.style.overflow = "hidden";
 	}
 
 	modalCover.addEventListener('mouseup', function(e) {
-		var noteText = document.getElementById("noteText");
+		var noteText = document.querySelector("#noteText");
 		if ((e.target.className==="modal-cover" || e.target.className==='modal-close-btn') && noteText!==null && noteText.value!=="") {
 			guinness.util.alert('경고', '텍스트 작성 중입니다! 정말 삭제하시겠습니까?', function(){closeModalFunction(e)}, function(){});
 		} else { closeModalFunction(e); }
 	}, false);
 		
 	document.body.addEventListener('keydown', function(e) {
-		var noteText = document.getElementById("noteText");
+		var noteText = document.querySelector("#noteText");
 		if (e.keyCode === 27) {
 			if (noteText!==null && noteText.value!=="") {
 				guinness.util.alert('경고', '텍스트 작성 중입니다! 정말 삭제하시겠습니까?', function(){closeModalFunction(e)}, function(){});
@@ -59,7 +59,7 @@ guinness.util.showModal = function() {
 }
 
 guinness.util.closeModal = function() {
-	var modalCover = document.getElementsByClassName('modal-cover')[0];
+	var modalCover = document.querySelector('.modal-cover')[0];
 	if (modalCover.style.display === "block") {
 		modalCover.style.display = "none";
 		document.body.style.overflow = "";
@@ -72,7 +72,7 @@ guinness.util.closeModal = function() {
  */
 guinness.util.alert = function(header, message, agreeFunc, disagreeFunc) {
 	var body = document.body;
-	var el = document.getElementById("guinness-alert-window");
+	var el = document.querySelector("#guinness-alert-window");
 	if (el == undefined) {
 		el = document.createElement("div");
 		el.setAttribute("id", "guinness-alert-window");
@@ -92,14 +92,14 @@ guinness.util.alert = function(header, message, agreeFunc, disagreeFunc) {
 					+ message
 					+ "<br/><div class='btn-group'><button class='btn' onclick='guinness.util.alert.choose(true)' >예</button><button class='btn' onclick='guinness.util.alert.choose(false)'>아니오</button></div></div></div>";
 		}
-		body.appendChild(el);
 		el.appendChild(innerEl);
+		body.appendChild(el);
 		guinness.util.alert.agree = agreeFunc;
 		guinness.util.alert.disagree = disagreeFunc;
 	}
 }
 guinness.util.alert.choose = function(c) {
-	var el = document.getElementById("guinness-alert-window");
+	var el = document.querySelector("#guinness-alert-window");
 	el.parentElement.removeChild(el);
 	if (c == undefined) {
 		return;
@@ -110,6 +110,7 @@ guinness.util.alert.choose = function(c) {
 	}
 	guinness.util.alert.disagree();
 }
+
 guinness.util.alert.agree = function() {
 };
 guinness.util.alert.disagree = function() {

@@ -72,7 +72,7 @@
 			readMember(groupId);
 			attachGroupId(groupId);
 			
-			var noteModal = document.getElementById('create-new-button');
+			var noteModal = document.querySelector('#create-new-button');
 			noteModal.addEventListener('mouseup', function() {
 				guinness.util.showModal();
 				setNoteModal();
@@ -81,20 +81,20 @@
 			document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
 
 
-			var groupNameLabel = document.getElementById('group-name');
+			var groupNameLabel = document.querySelector('#group-name');
 			var groupName = getCookie(groupId);
 			document.title = groupName;
 			document.querySelector('#group-name').innerHTML = groupName;
 		}, false);
 
 		function setNoteModal() {
-			document.getElementById("targetDate").value = guinness.util.today("-");
-			document.getElementById("noteText").value = "";
+			document.querySelector("#targetDate").value = guinness.util.today("-");
+			document.querySelector("#noteText").value = "";
 		}
 
 		datepickr('.fa-calendar', {
 			dateFormat : 'Y-m-d',
-			altInput : document.getElementById('targetDate')
+			altInput : document.querySelector('#targetDate')
 		});
 
 		function getCookie(sKey) {
@@ -135,7 +135,7 @@
 				el.parentNode.removeChild(el);
 			}
 			//리스트 초기화
-			el = document.getElementsByClassName("diary-list");
+			el = document.querySelector(".diary-list");
 			var elLength = el.length;
 			for (var i = elLength-1; i >= 0; i--) {
 			 	el[i].outerHTML = "";
@@ -150,7 +150,7 @@
 				targetDate = targetDate.split(" ");
 				targetDate = targetDate[0];
 				targetDate = targetDate.replace(/'-'/g, '');
-				el = document.getElementById("day-" + targetDate);
+				el = document.querySelector("#day-" + targetDate);
 				if (el == undefined) {
 					el = document.createElement("ul");
 					el.setAttribute("id", "day-" + targetDate);
@@ -159,7 +159,7 @@
 					newEl.setAttribute("class", "diary-date");
 					newEl.innerHTML = "<span>" + targetDate + "</span>";
 					el.appendChild(newEl);
-					document.getElementById('note-list-container').appendChild(el);
+					document.querySelector('#note-list-container').appendChild(el);
 				}
 				newEl = document.createElement("a");
 				newEl.setAttribute("href", "#");
@@ -219,33 +219,30 @@
 			document.body.appendChild(el);
 			readComments(noteId, userName);
 
-			document.getElementById('submitComment').addEventListener(
+			document.querySelector('#submitComment').addEventListener(
 					'mouseup', function() {
 						createComment(obj, userName);
 					}, false);
 
-			var closeBtn = document.getElementById('contents-close');
+			var closeBtn = document.querySelector('#contents-close');
 			closeBtn.addEventListener('mouseup', function(e) {
 				document.body.style.overflow = "auto";
-				var el = document.getElementById("contents-window");
+				var el = document.querySelector("#contents-window");
 				el.outerHTML = "";
-				delete el;
 			}, false);
 
-			var closeClick = document.getElementById('contents-window');
+			var closeClick = document.querySelector('#contents-window');
 			closeClick.addEventListener('mouseup', function(e) {
 				if (e.target.className === 'note-modal-cover') {
-					var el = document.getElementById("contents-window");
+					var el = document.querySelector("#contents-window");
 					el.outerHTML = "";
-					delete el;
 				}
 			}, false);
 
 			document.body.addEventListener('keydown', function(e) {
 				if (e.keyCode === 27) {
-					var el = document.getElementById("contents-window");
+					var el = document.querySelector("#contents-window");
 					el.outerHTML = "";
-					delete el;
 				}
 			});
 		}
@@ -280,13 +277,11 @@
 			var el = document.createElement("div");
 			el.innerHTML += "<textarea id='commentText' name='commentText' rows='5' cols='50'></textarea><br>";
 			el.innerHTML += "<button id='submitComment' class='btn btn-pm' name='submitComment'>답변</button>";
-
-			return el;
 		}
 
 		function createComment(obj, userName) {
 			var req = new XMLHttpRequest();
-			var commentText = document.getElementById('commentText').value;
+			var commentText = document.querySelector('#commentText').value;
 			var userId = obj.userId;
 			var noteId = obj.noteId;
 			var param = "commentText=" + commentText + "&commentType=A" + "&userId=" + userId + "&noteId=" + noteId;
@@ -296,7 +291,7 @@
 			req.setParameter;
 			req.onreadystatechange = function() {
 				if (req.status === 200 && req.readyState === 4) {
-					document.getElementById('commentText').value = "";
+					document.querySelector('#commentText').value = "";
 					readComments(noteId, userName);
 				}
 			};
@@ -305,9 +300,9 @@
 
 		function createNote() {
 			var req = new XMLHttpRequest();
-			var targetDate = document.getElementById('targetDate').value;
-			var groupId = document.getElementById('groupId').value;
-			var noteText = document.getElementById('noteText').value;
+			var targetDate = document.querySelector('#targetDate').value;
+			var groupId = document.querySelector('#groupId').value;
+			var noteText = document.querySelector('#noteText').value;
 			noteText = noteText.replace(/\n/g,"<br>");
 			var param = "groupId=" + groupId + "&targetDate=" + targetDate + "&noteText=" + noteText;
 			var res = undefined;

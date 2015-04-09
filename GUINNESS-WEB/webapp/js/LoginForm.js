@@ -36,7 +36,7 @@ function switchForm() {
 }
 
 function loginCheck() {
-  	var param = "userId="+document.getElementById('login-userId').value+"&userPassword="+document.getElementById('login-userPassword').value;
+  	var param = "userId="+document.querySelector('#login-userId').value+"&userPassword="+document.querySelector('#login-userPassword').value;
   	guinness.ajax({
   		method: "post", 
   		url: "/user/login", 
