@@ -31,7 +31,7 @@ public class GroupDao extends AbstractDao {
 	public Group readGroup(String groupId) throws MakingObjectListFromJdbcException, SQLException {
 		String sql = "select * from GROUPS where groupId=?";
 		String[] params = { "groupId", "groupName", "groupCaptainUserId", "isPublic" };
-		List<?> list = queryForReturn(Group.class, params, sql, groupId);
+		List<?> list = queryForObjectsReturn(Group.class, params, sql, groupId);
 		if (list.size() != 0)
 			return (Group) list.get(0);
 		return null;
@@ -42,7 +42,7 @@ public class GroupDao extends AbstractDao {
 	public List<Group> readGroupList(String userId) throws MakingObjectListFromJdbcException, SQLException {
 		String sql = "select * from GROUPS as G, (select groupId from GROUPS_USERS as A, USERS as B where A.userId = B.userId and B.userId = ?) as C where G.groupId = C.groupId ORDER BY groupName;";
 		String[] paramsKey = { "groupId", "groupName", "groupCaptainUserId", "isPublic" };
-		List<?> list = queryForReturn(Group.class, paramsKey, sql, userId);
+		List<?> list = queryForObjectsReturn(Group.class, paramsKey, sql, userId);
 		return (List<Group>) list;
 	}
 
@@ -57,7 +57,7 @@ public class GroupDao extends AbstractDao {
 	public List<User> readGroupMember(String groupId) throws MakingObjectListFromJdbcException, SQLException {
 		String sql = "select * from USERS,GROUPS_USERS where GROUPS_USERS.groupId = ? and GROUPS_USERS.userId = USERS.userId;";
 		String[] paramsKey = { "userId", "userName", "userPassword", "userImage" };
-		List<?> list = queryForReturn(User.class, paramsKey, sql, groupId);
+		List<?> list = queryForObjectsReturn(User.class, paramsKey, sql, groupId);
 		return (List<User>) list;
 	}
 }

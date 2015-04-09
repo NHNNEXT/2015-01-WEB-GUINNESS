@@ -31,7 +31,7 @@ public class UserDao extends AbstractDao {
 	public User readUser(String userId) throws SQLException, MakingObjectListFromJdbcException {
 		String sql = "select * from USERS where userId=?";
 		String[] params = { "userId", "userName", "userPassword"};
-		List<?> list = queryForReturn(User.class, params, sql, userId);
+		List<?> list = queryForObjectsReturn(User.class, params, sql, userId);
 		if (list.size() != 0) {
 			return (User) list.get(0);
 		}

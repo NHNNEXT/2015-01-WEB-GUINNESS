@@ -22,7 +22,7 @@ public class CommentDao extends AbstractDao {
 	public List<Comment> readCommentListByNoteId(String noteId) throws MakingObjectListFromJdbcException, SQLException {
 		String sql = "select * from COMMENTS where noteId = ?;";
 		String[] paramsKey = { "commentText", "commentType", "createDate", "userId", "noteId"};
-		List<?> list = queryForReturn(Comment.class, paramsKey, sql, noteId);
+		List<?> list = queryForObjectsReturn(Comment.class, paramsKey, sql, noteId);
 		return (List<Comment>) list;
 	}
 	
