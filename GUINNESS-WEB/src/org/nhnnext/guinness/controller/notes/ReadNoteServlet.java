@@ -30,7 +30,7 @@ public class ReadNoteServlet extends HttpServlet {
 			note = NoteDao.getInstance().readNote(noteId);
 		} catch (MakingObjectListFromJdbcException | SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
-			Forwarding.forwardForException(req, resp);
+			Forwarding.doforwardException(req, resp);
 		}
 		PrintWriter out = resp.getWriter();
 		out.write(new Gson().toJson(note));

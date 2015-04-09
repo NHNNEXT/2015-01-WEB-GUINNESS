@@ -40,7 +40,7 @@ public class ReadCommentServlet extends HttpServlet {
 			commentList = CommentDao.getInstance().readCommentListByNoteId(noteId);
 		} catch (SQLException | MakingObjectListFromJdbcException | ClassNotFoundException e) {
 			e.printStackTrace();
-			Forwarding.forwardForException(req, resp);
+			Forwarding.doforwardException(req, resp);
 			return;
 		}
 		resp.setContentType("application/json; charset=UTF-8");

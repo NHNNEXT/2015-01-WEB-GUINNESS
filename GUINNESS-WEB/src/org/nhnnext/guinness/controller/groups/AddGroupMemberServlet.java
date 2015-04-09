@@ -50,7 +50,7 @@ public class AddGroupMemberServlet extends HttpServlet {
 			out.print(new Gson().toJson(groupDao.readGroupMember(groupId)));
 			out.close();
 		} catch (MakingObjectListFromJdbcException | SQLException | ClassNotFoundException e) {
-			Forwarding.forwardForException(req, resp);
+			Forwarding.doforwardException(req, resp);
 			return;
 		}
 	}

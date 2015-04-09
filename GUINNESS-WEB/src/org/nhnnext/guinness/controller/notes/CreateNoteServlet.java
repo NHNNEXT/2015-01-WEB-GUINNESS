@@ -42,7 +42,7 @@ public class CreateNoteServlet extends HttpServlet {
 			NoteDao.getInstance().createNote(new Note(noteText, targetDate, userId, groupId));
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
-			Forwarding.forwardForException(req, resp);
+			Forwarding.doforwardException(req, resp);
 			return;
 		}
 	}
