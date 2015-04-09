@@ -20,10 +20,10 @@ import com.google.gson.GsonBuilder;
 @WebServlet(WebServletUrl.GROUP_READ_MEMBER)
 public class ReadGroupMemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private GroupDao groupDao = GroupDao.getInstance();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		GroupDao groupDao = new GroupDao();
 		String groupId = req.getParameter("groupId");
 		PrintWriter out = resp.getWriter();
 		try {
