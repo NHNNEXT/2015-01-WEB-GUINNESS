@@ -82,7 +82,8 @@
 
 
 			var groupNameLabel = document.querySelector('#group-name');
-			var groupName = getCookie(groupId);
+			var groupName = (getCookie(groupId).replace(/</g, "&lt;")).replace(/>/g, "&gt;");
+			
 			document.title = groupName;
 			document.querySelector('#group-name').innerHTML = groupName;
 		}, false);

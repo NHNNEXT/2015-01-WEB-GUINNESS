@@ -112,8 +112,8 @@
 			for (var i = 0; i < json.length; i++) {
 				obj = json[i];
 				var groupName = (obj.groupName.replace(/</g, "&lt;")).replace(
-						/>/g, "&gt;")
-				document.cookie = obj.groupId + "=" + encodeURI(groupName);
+						/>/g, "&gt;");
+				document.cookie = obj.groupId + "=" + encodeURI(obj.groupName);
 				newEl = document.importNode(template, true);
 				newEl.querySelector(".group-card").setAttribute("href",
 						"/g/" + obj.groupId);
