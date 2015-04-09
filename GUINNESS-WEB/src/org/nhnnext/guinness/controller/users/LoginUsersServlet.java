@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.nhnnext.guinness.common.ServletRequestUtil;
-import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.model.UserDao;
+import org.nhnnext.guinness.util.ServletRequestUtil;
+import org.nhnnext.guinness.util.WebServletUrl;
 
 @WebServlet(WebServletUrl.USER_LOGIN)
 public class LoginUsersServlet extends HttpServlet {

@@ -12,12 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.nhnnext.guinness.common.Forwarding;
-import org.nhnnext.guinness.common.ServletRequestUtil;
-import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.exception.SessionUserIdNotFoundException;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.NoteDao;
+import org.nhnnext.guinness.util.Forwarding;
+import org.nhnnext.guinness.util.ServletRequestUtil;
+import org.nhnnext.guinness.util.WebServletUrl;
 
 @WebServlet(WebServletUrl.NOTE_CREATE)
 public class CreateNoteServlet extends HttpServlet {

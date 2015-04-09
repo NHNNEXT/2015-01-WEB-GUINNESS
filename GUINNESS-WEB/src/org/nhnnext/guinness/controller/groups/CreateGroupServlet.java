@@ -13,14 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
-import org.nhnnext.guinness.common.Forwarding;
-import org.nhnnext.guinness.common.MyValidatorFactory;
-import org.nhnnext.guinness.common.ServletRequestUtil;
-import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.exception.SessionUserIdNotFoundException;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.GroupDao;
+import org.nhnnext.guinness.util.Forwarding;
+import org.nhnnext.guinness.util.MyValidatorFactory;
+import org.nhnnext.guinness.util.ServletRequestUtil;
+import org.nhnnext.guinness.util.WebServletUrl;
 
 @WebServlet(WebServletUrl.GROUP_CREATE)
 public class CreateGroupServlet extends HttpServlet {

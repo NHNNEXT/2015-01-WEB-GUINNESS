@@ -11,13 +11,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.nhnnext.guinness.common.Forwarding;
-import org.nhnnext.guinness.common.ServletRequestUtil;
-import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.exception.SessionUserIdNotFoundException;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.GroupDao;
+import org.nhnnext.guinness.util.Forwarding;
+import org.nhnnext.guinness.util.ServletRequestUtil;
+import org.nhnnext.guinness.util.WebServletUrl;
 
 import com.google.gson.Gson;
 

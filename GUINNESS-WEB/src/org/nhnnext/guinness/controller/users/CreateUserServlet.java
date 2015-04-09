@@ -12,12 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 
-import org.nhnnext.guinness.common.Forwarding;
-import org.nhnnext.guinness.common.MyValidatorFactory;
-import org.nhnnext.guinness.common.ServletRequestUtil;
-import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.model.UserDao;
+import org.nhnnext.guinness.util.Forwarding;
+import org.nhnnext.guinness.util.MyValidatorFactory;
+import org.nhnnext.guinness.util.ServletRequestUtil;
+import org.nhnnext.guinness.util.WebServletUrl;
 
 @WebServlet(WebServletUrl.USER_CREATE)
 public class CreateUserServlet extends HttpServlet {

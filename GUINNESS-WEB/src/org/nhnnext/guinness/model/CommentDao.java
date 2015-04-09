@@ -3,8 +3,8 @@ package org.nhnnext.guinness.model;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.nhnnext.guinness.common.AbstractDao;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
+import org.nhnnext.guinness.util.AbstractDao;
 
 public class CommentDao extends AbstractDao {
 	private static CommentDao commentDao = new CommentDao();

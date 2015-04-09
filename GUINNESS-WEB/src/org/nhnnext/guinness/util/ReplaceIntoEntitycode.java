@@ -1,4 +1,4 @@
-package org.nhnnext.guinness.common;
+package org.nhnnext.guinness.util;
 
 public class ReplaceIntoEntitycode {
 	private ReplaceIntoEntitycode() {

@@ -3,6 +3,7 @@ package org.nhnnext.guinness.common;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.nhnnext.guinness.util.ReplaceIntoEntitycode;
 
 public class ReplaceIntoEntitycodeTest {
 

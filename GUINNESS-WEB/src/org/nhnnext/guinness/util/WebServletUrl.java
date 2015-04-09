@@ -1,4 +1,4 @@
-package org.nhnnext.guinness.common;
+package org.nhnnext.guinness.util;
 
 public class WebServletUrl {
 	public static final String GROUP_CREATE = "/group/create";

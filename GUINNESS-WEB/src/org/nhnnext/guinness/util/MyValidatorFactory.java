@@ -1,4 +1,4 @@
-package org.nhnnext.guinness.common;
+package org.nhnnext.guinness.util;
 
 import javax.validation.Validation;
 import javax.validation.Validator;

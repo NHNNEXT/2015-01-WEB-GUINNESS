@@ -1,4 +1,4 @@
-package org.nhnnext.guinness.common;
+package org.nhnnext.guinness.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

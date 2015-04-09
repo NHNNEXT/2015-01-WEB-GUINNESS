@@ -3,9 +3,9 @@ package org.nhnnext.guinness.model;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.nhnnext.guinness.common.AbstractDao;
 import org.nhnnext.guinness.controller.notes.ReadNoteListServlet;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
+import org.nhnnext.guinness.util.AbstractDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

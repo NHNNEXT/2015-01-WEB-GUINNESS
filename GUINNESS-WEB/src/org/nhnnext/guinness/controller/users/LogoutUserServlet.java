@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.nhnnext.guinness.common.WebServletUrl;
+import org.nhnnext.guinness.util.WebServletUrl;
 
 @WebServlet(WebServletUrl.USER_LOGOUT)
 public class LogoutUserServlet extends HttpServlet {
