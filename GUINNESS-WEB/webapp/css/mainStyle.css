@@ -9,50 +9,51 @@ html, body {
 }
 
 #group-member-container {
-	top: 100px;
+	top: 147px;
 	position: fixed;
 	left: 100%;
 	margin-left: -250px;
-	padding-left: 5px;
-	padding-right: 5px;
 	background-color: white;
 	width: 200px;
-	height: 300px;
-	border: 1px solid #B4B4B4;
-	border-radius: 8px;
-	overflow-y: scroll;
+	height: 420px;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+	border-bottom-left-radius: 8px;
+}
+
+#group-member-container ul {
 	overflow-x: hidden;
+	overflow-y: scroll;
+	height: 377px;
+	display: block;
 }
 
 #group-member-container li {
 	list-style: none;
 	position: relative;
-	left: -5px;
 	font-size: 16px;
-	height: 20px;
-	width: 212px;
+	width: 194px;
 	border-bottom: 1px solid #E5E5E5;
 	padding: 5px 5px 12px 5px;
 }
 
-#group-member-container .inputText {
-	width: 140px;
-	height: 17px;
+#addMemberForm .inputText {
+	width: 136px;
+	height: 15px;
 	margin-left: 8px;
 }
 
-#group-member-container .inputBtn {
+#addMemberForm .inputBtn {
 	color: white;
 	background-color: #558;
 	border-radius: 3px;
-	width: 44px;
+	width: 38px;
 }
 
 #addMemberForm {
 	background-color: #74AFAD;
 	position: relative;
-	left: -5px;
-	width: 210px;
+	width: 200px;
 	padding-bottom: 10px;
 	border-top-left-radius: 8px;
 	border-top-right-radius: 8px;
