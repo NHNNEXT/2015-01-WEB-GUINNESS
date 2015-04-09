@@ -20,7 +20,8 @@ html, body {
 	height: 300px;
 	border: 1px solid #B4B4B4;
 	border-radius: 8px;
-	overflow: scroll;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
 #group-member-container li {
