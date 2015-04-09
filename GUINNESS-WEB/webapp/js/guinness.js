@@ -37,6 +37,31 @@ NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
 /*
  * modal에 사용하는 Function
  */
+guinness.util.modal = function(o) {
+	var modalCover = document.createElement("div");
+	modalCover.setAttribute("class","modal-cover");
+	var modalContainer = document.createElement("div");
+	modalContainer.setAttribute("class","modal-container");
+	var modalHeader = document.createElement("div");
+	modalHeader.setAttribute("class","modal-header");
+	modalHeader.innerHTML = "<div class='modal-title'>"+o.header+"</div>";
+	var modalCloseBtn = document.createElement("div")
+	modalCloseBtn.setAttribute("class","modal-close-btn");
+	modalCloseBtn.innerHTML = "<i class='fa fa-remove'></i>";
+	if (o.defaultCloseEvent || o.defaultCloseEvent === undefined) {
+		modalCloseBtn.addEventListener('click',function(){document.querySelector(".modal-cover").remove();},false);
+		modalCover.addEventListener('click',function(e){if(e.target.className==="modal-cover"){document.querySelector(".modal-cover").remove();}},false);
+	}
+	var modalBody = document.createElement("div");
+	modalBody.setAttribute("class","modal-body");
+	modalBody.appendChild(o.body);
+	modalHeader.appendChild(modalCloseBtn);
+	modalContainer.appendChild(modalHeader);
+	modalContainer.appendChild(modalBody);
+	modalCover.appendChild(modalContainer);
+	document.body.appendChild(modalCover);
+}
+
 guinness.util.showModal = function() {
 	var modalCover = document.querySelector('.modal-cover');
 	if (modalCover.style.display === "none") {
