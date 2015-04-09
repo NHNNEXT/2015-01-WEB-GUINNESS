@@ -20,8 +20,8 @@ public class CommentDao extends AbstractDao {
 	
 	@SuppressWarnings("unchecked")
 	public List<Comment> readCommentListByNoteId(String noteId) throws MakingObjectListFromJdbcException, SQLException, ClassNotFoundException {
-		String sql = "select * from COMMENTS where noteId = ?;";
-		String[] paramsKey = { "commentText", "commentType", "createDate", "userId", "noteId"};
+		String sql = "select * from COMMENTS, USERS where COMMENTS.userId = USERS.userId AND noteId = ?;";
+		String[] paramsKey = { "commentText", "commentType", "createDate", "userId", "noteId", "userName"};
 		List<?> list = queryForObjectsReturn(Comment.class, paramsKey, sql, noteId);
 		return (List<Comment>) list;
 	}
