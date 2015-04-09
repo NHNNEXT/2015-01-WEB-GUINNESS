@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.nhnnext.guinness.common.Forwarding;
 import org.nhnnext.guinness.common.ServletRequestUtil;
 import org.nhnnext.guinness.common.WebServletUrl;
+import org.nhnnext.guinness.exception.SessionUserIdNotFoundException;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.NoteDao;
 
@@ -24,9 +25,7 @@ public class CreateNoteServlet extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String sessionUserId = ServletRequestUtil.checkSessionAttribute(req, resp);
 		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "groupId", "noteText", "targetDate");
-		
 		String targetDate = paramsList.get("targetDate") + " " + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
 		
 		if (paramsList.get("noteText").equals("")) {
@@ -35,10 +34,13 @@ public class CreateNoteServlet extends HttpServlet {
 		}
 
 		try {
+			String sessionUserId = ServletRequestUtil.checkSessionAttribute(req, resp);
 			NoteDao.getInstance().createNote(new Note(paramsList.get("noteText"), targetDate, sessionUserId, paramsList.get("groupId")));
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);
+			return;
+		} catch (SessionUserIdNotFoundException e) {
 			return;
 		}
 	}

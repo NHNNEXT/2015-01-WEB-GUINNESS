@@ -16,6 +16,7 @@ import org.nhnnext.guinness.common.ServletRequestUtil;
 import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.controller.notes.ReadNoteListServlet;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
+import org.nhnnext.guinness.exception.SessionUserIdNotFoundException;
 import org.nhnnext.guinness.model.GroupDao;
 import org.nhnnext.guinness.model.UserDao;
 import org.slf4j.Logger;
@@ -31,12 +32,12 @@ public class AddGroupMemberServlet extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String sessionUserId = ServletRequestUtil.checkSessionAttribute(req, resp);
 		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "userId", "groupId");
 		
 		PrintWriter out = resp.getWriter();
 		logger.debug("userId={}, groupId={}", paramsList.get("userId"), paramsList.get("groupId"));
 		try {
+			String sessionUserId = ServletRequestUtil.checkSessionAttribute(req, resp);
 			if (UserDao.getInstance().readUser(paramsList.get("userId")) == null) {
 				logger.debug("등록되지 않은 사용자 입니다");
 				out.print("unknownUser");
@@ -54,6 +55,8 @@ public class AddGroupMemberServlet extends HttpServlet {
 			out.close();
 		} catch (MakingObjectListFromJdbcException | SQLException | ClassNotFoundException e) {
 			Forwarding.forwardForException(req, resp);
+			return;
+		} catch (SessionUserIdNotFoundException e) {
 			return;
 		}
 	}

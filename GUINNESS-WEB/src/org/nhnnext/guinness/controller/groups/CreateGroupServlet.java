@@ -18,6 +18,7 @@ import org.nhnnext.guinness.common.MyValidatorFactory;
 import org.nhnnext.guinness.common.ServletRequestUtil;
 import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
+import org.nhnnext.guinness.exception.SessionUserIdNotFoundException;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.GroupDao;
 
@@ -27,7 +28,7 @@ public class CreateGroupServlet extends HttpServlet {
 	private GroupDao groupDao = GroupDao.getInstance();
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String groupCaptainUserId = ServletRequestUtil.checkSessionAttribute(req, resp);
+		String groupCaptainUserId = null;
 		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "groupName","isPublic");
 
 		char isPublic = 'F';
@@ -36,10 +37,13 @@ public class CreateGroupServlet extends HttpServlet {
 
 		Group group = null;
 		try {
+			groupCaptainUserId = ServletRequestUtil.checkSessionAttribute(req, resp);
 			group = new Group(paramsList.get("groupName"), groupCaptainUserId, isPublic);
 		} catch (MakingObjectListFromJdbcException | SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);
+			return;
+		} catch (SessionUserIdNotFoundException e) {
 			return;
 		}
 

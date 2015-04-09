@@ -14,6 +14,7 @@ import org.nhnnext.guinness.common.Forwarding;
 import org.nhnnext.guinness.common.ServletRequestUtil;
 import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
+import org.nhnnext.guinness.exception.SessionUserIdNotFoundException;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.GroupDao;
 
@@ -24,10 +25,10 @@ public class DeleteGroupServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String sessionUserId = ServletRequestUtil.checkSessionAttribute(req, resp);
 		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "groupId");
 		
 		try {
+			String sessionUserId = ServletRequestUtil.checkSessionAttribute(req, resp);
 			Group group = groupDao.readGroup(paramsList.get("groupId"));
 			if (!group.getGroupCaptainUserId().equals(sessionUserId)) {
 				Forwarding.doForward(req, resp, "errorMessage", "삭제 권한 없음", "/groups.jsp");
@@ -38,6 +39,8 @@ public class DeleteGroupServlet extends HttpServlet {
 		} catch (SQLException | ClassNotFoundException | MakingObjectListFromJdbcException e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);
+			return;
+		} catch (SessionUserIdNotFoundException e) {
 			return;
 		}
 	}

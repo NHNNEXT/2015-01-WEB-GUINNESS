@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.nhnnext.guinness.common.Forwarding;
 import org.nhnnext.guinness.common.ServletRequestUtil;
 import org.nhnnext.guinness.common.WebServletUrl;
+import org.nhnnext.guinness.exception.SessionUserIdNotFoundException;
 import org.nhnnext.guinness.model.GroupDao;
 
 @WebServlet(WebServletUrl.NOTELIST)
@@ -20,19 +21,20 @@ public class NotesRouter extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String sessionUserId = ServletRequestUtil.checkSessionAttribute(req, resp);
-		
 		try {
+			String sessionUserId = ServletRequestUtil.checkSessionAttribute(req, resp);
 			String url = req.getRequestURI().split("/")[2];
 			if (!GroupDao.getInstance().checkJoinedGroup(sessionUserId, url)) {
 				Forwarding.doForward(req, resp, "errorMessage", "비정상적 접근시도.", "/illegal.jsp");
 				return;
 			}
+			Forwarding.doForward(req, resp, "/notes.jsp");
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);
 			return;
+		} catch (SessionUserIdNotFoundException e) {
+			return;
 		}
-		Forwarding.doForward(req, resp, "/notes.jsp");
 	}
 }

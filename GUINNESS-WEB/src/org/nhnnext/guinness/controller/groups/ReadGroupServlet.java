@@ -15,6 +15,7 @@ import org.nhnnext.guinness.common.Forwarding;
 import org.nhnnext.guinness.common.ServletRequestUtil;
 import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
+import org.nhnnext.guinness.exception.SessionUserIdNotFoundException;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.GroupDao;
 
@@ -26,13 +27,15 @@ public class ReadGroupServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String sessionUserId = ServletRequestUtil.checkSessionAttribute(req, resp);
 		List<Group> groupList = null;
 		try {
+			String sessionUserId = ServletRequestUtil.checkSessionAttribute(req, resp);
 			groupList = GroupDao.getInstance().readGroupList(sessionUserId);
 		} catch (SQLException | ClassNotFoundException | MakingObjectListFromJdbcException e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);
+			return;
+		} catch (SessionUserIdNotFoundException e) {
 			return;
 		}
 		resp.setContentType("application/json; charset=UTF-8");
