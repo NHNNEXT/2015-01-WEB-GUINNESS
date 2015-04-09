@@ -11,11 +11,14 @@ import javax.servlet.http.HttpSession;
 import org.nhnnext.guinness.exception.SessionUserIdNotFoundException;
 
 public class ServletRequestUtil {
+	private ServletRequestUtil() {
+	}
 
-	public static String checkSessionAttribute(HttpServletRequest req, HttpServletResponse resp) throws IOException, SessionUserIdNotFoundException {
+	public static String checkSessionAttribute(HttpServletRequest req, HttpServletResponse resp) throws IOException,
+			SessionUserIdNotFoundException {
 		HttpSession session = req.getSession();
-		String userId = (String)session.getAttribute("sessionUserId");
-		if(userId == null){
+		String userId = (String) session.getAttribute("sessionUserId");
+		if (userId == null) {
 			resp.sendRedirect("/");
 			throw new SessionUserIdNotFoundException();
 		}

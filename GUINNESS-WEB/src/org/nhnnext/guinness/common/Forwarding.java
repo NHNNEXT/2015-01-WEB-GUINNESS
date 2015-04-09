@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class Forwarding {
+	private Forwarding() {
+	}
+
 	public static void doForward(HttpServletRequest req, HttpServletResponse resp, String errorKey,
 			String errorMessage, String destination) throws ServletException, IOException {
 		req.setAttribute(errorKey, errorMessage);

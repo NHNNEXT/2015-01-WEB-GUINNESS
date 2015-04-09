@@ -3,6 +3,9 @@ package org.nhnnext.guinness.common;
 import java.util.Random;
 
 public class GetRandom {
+	private GetRandom() {
+	}
+
 	public static String getRandomId(int lengthOfReturnString) {
 		String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		Random rnd = new Random();
