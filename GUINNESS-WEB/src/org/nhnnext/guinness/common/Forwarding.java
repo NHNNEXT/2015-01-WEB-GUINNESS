@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+// TODO http://www.slipp.net/questions/360 글 참고해 수정
 public class Forwarding {
 	public static void doForward(HttpServletRequest req, HttpServletResponse resp, String errorKey,
 			String errorMessage, String destination) throws ServletException, IOException {

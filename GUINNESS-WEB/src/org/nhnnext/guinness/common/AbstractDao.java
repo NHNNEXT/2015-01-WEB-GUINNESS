@@ -45,6 +45,7 @@ public abstract class AbstractDao {
 		try {
 			conn = getConnection();
 		} catch (ClassNotFoundException e) {
+			// TODO log로 에러를 남기거나 rethrow 처리한다. http://www.slipp.net/questions/350 문서 참고해 수정
 			e.printStackTrace();
 		}
 		PreparedStatement pstmt = setPreparedStatement(conn, sql, parameters);
@@ -67,6 +68,7 @@ public abstract class AbstractDao {
 		try {
 			conn = getConnection();
 		} catch (ClassNotFoundException e) {
+			// TODO log로 에러를 남기거나 rethrow 처리한다. http://www.slipp.net/questions/350 문서 참고해 수정
 			e.printStackTrace();
 		}
 		PreparedStatement pstmt = setPreparedStatement(conn, sql, parameters);
@@ -98,6 +100,7 @@ public abstract class AbstractDao {
 		try {
 			conn = getConnection();
 		} catch (ClassNotFoundException e) {
+			// TODO log로 에러를 남기거나 rethrow 처리한다. http://www.slipp.net/questions/350 문서 참고해 수정
 			e.printStackTrace();
 		}
 		PreparedStatement pstmt = setPreparedStatement(conn, sql, parameters);
@@ -116,6 +119,7 @@ public abstract class AbstractDao {
 		return pstmt;
 	}
 
+	// TODO while/for/switch의 사용으로 코드를 읽기 너무 어렵다. 리팩토링 진행한다.
 	private List<Object> getListObject(Class<?> cls, String[] paramsKey, ResultSet rs)
 			throws MakingObjectListFromJdbcException {
 		int sizeOfParam = paramsKey.length;

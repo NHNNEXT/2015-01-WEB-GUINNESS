@@ -1,5 +1,7 @@
 package org.nhnnext.guinness.common;
 
+// TODO http://www.slipp.net/questions/360 글 참고해 수정
+// TODO http://www.slipp.net/questions/358 글도 참고
 public class WebServletUrl {
 	public static final String GROUP_CREATE = "/group/create";
 	public static final String GROUP_DELETE = "/group/delete";

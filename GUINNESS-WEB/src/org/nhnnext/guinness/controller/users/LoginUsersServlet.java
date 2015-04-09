@@ -34,6 +34,7 @@ public class LoginUsersServlet extends HttpServlet {
 			session.setAttribute("sessionUserName", user.getUserName());
 			out.print("/groups.jsp");
 		} catch (SQLException e) {
+			// TODO log로 에러를 남기거나 rethrow 처리한다. http://www.slipp.net/questions/350 문서 참고해 수정
 			out.print("/exception.jsp");
 		}
 		out.close();

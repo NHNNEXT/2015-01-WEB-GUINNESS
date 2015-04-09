@@ -38,6 +38,7 @@ public class ReadGroupServlet extends HttpServlet {
 		try {
 			groupList = GroupDao.getInstance().readGroupList(userId);
 		} catch (SQLException | MakingObjectListFromJdbcException e) {
+			// TODO log로 에러를 남기거나 rethrow 처리한다. http://www.slipp.net/questions/350 문서 참고해 수정
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);
 			return;

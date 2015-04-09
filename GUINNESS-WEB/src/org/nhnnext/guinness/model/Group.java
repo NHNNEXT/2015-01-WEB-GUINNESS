@@ -49,6 +49,7 @@ public class Group {
 	private static String getRandomId(int lengthOfReturnString) {
 		String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		Random rnd = new Random();
+		// TODO http://www.slipp.net/questions/361 문서 참고
 		StringBuffer buf = new StringBuffer();
 		for (int i = 0; i < lengthOfReturnString; i++) {
 			buf.append(alphabet.charAt(rnd.nextInt(alphabet.length())));

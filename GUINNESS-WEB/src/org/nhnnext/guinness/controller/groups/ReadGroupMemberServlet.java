@@ -30,6 +30,7 @@ public class ReadGroupMemberServlet extends HttpServlet {
 			out.print(new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(groupDao.readGroupMember(groupId)));
 			out.close();
 		} catch (MakingObjectListFromJdbcException | SQLException e) {
+			// TODO log로 에러를 남기거나 rethrow 처리한다. http://www.slipp.net/questions/350 문서 참고해 수정
 			Forwarding.forwardForException(req, resp);
 			return;
 		}

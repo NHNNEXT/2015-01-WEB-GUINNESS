@@ -32,6 +32,7 @@ public class UserDao extends AbstractDao {
 		String sql = "select * from USERS where userId=?";
 		String[] params = { "userId", "userName", "userPassword"};
 		List<?> list = queryForReturn(User.class, params, sql, userId);
+		// TODO list.isEmpty() 메서드 활용
 		if (list.size() != 0) {
 			return (User) list.get(0);
 		}
