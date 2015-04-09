@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.joda.time.DateTime;
-import org.joda.time.Period;
 import org.nhnnext.guinness.common.Forwarding;
 import org.nhnnext.guinness.common.WebServletUrl;
 import org.nhnnext.guinness.model.Note;
@@ -30,12 +29,17 @@ public class ReadNoteListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String groupId = req.getParameter("groupId");
 		DateTime targetDate = new DateTime(req.getParameter("targetDate")).plusDays(1).minusSeconds(1);
-		DateTime endDate = targetDate.minus(Period.days(10));
+		// 임시 : 캘린더가 만들어지기 전까지 임시로 20년 범위로 가져오기.
+		// 추후에는 targetDate에 해당하는 하루치 일지만 불러올 것.
+		DateTime endDate = targetDate.minusYears(10);
+		targetDate=targetDate.plusYears(10);
+		// 임시 : 여기까지.
 		PrintWriter out = resp.getWriter();
 		List<Note> noteList = null;
 		logger.debug("start endDate={} targetDate={}", endDate, targetDate);
 		try {
 			noteList = NoteDao.getInstance().readNoteList(groupId, endDate.toString(), targetDate.toString());
+			logger.debug(noteList.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);
