@@ -20,18 +20,18 @@ html, body {
 	height: 300px;
 	border: 1px solid #B4B4B4;
 	border-radius: 8px;
-	overflow:hidden;
+	overflow: scroll;
 }
 
 #group-member-container li {
 	list-style: none;
-	position:relative;
+	position: relative;
 	left: -5px;
 	font-size: 16px;
-	height:20px;
-	width:212px;
-	border-bottom:1px solid #E5E5E5;
-	padding:5px 5px 12px 5px;
+	height: 20px;
+	width: 212px;
+	border-bottom: 1px solid #E5E5E5;
+	padding: 5px 5px 12px 5px;
 }
 
 #group-member-container .inputText {
@@ -53,6 +53,8 @@ html, body {
 	left: -5px;
 	width: 210px;
 	padding-bottom: 10px;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
 }
 
 a {
