@@ -28,7 +28,7 @@ guinness.util.today = function(explode) {
  * modal에 사용하는 Function
  */
 guinness.util.showModal = function() {
-	var modalCover = document.querySelector('.modal-cover')[0];
+	var modalCover = document.querySelector('.modal-cover');
 	if (modalCover.style.display === "none") {
 		modalCover.style.display = "block";
 		document.body.style.overflow = "hidden";
@@ -59,7 +59,7 @@ guinness.util.showModal = function() {
 }
 
 guinness.util.closeModal = function() {
-	var modalCover = document.querySelector('.modal-cover')[0];
+	var modalCover = document.querySelector('.modal-cover');
 	if (modalCover.style.display === "block") {
 		modalCover.style.display = "none";
 		document.body.style.overflow = "";
