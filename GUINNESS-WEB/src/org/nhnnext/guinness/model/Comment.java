@@ -6,13 +6,19 @@ public class Comment {
 	private String createDate;
 	private String userId;
 	private String noteId;
+	private String userName;
 	
-	public Comment(String commentText, String commentType, String createDate, String userId, String noteId) {
+	public Comment(String commentText, String commentType, String createDate, String userId, String noteId, String userName) {
 		this.commentText = commentText;
 		this.commentType = commentType;
 		this.createDate = createDate;
 		this.userId = userId;
 		this.noteId = noteId;
+		this.userName = userName;
+	}
+	
+	public Comment(String commentText, String commentType, String createDate, String userId, String noteId) {
+		this(commentText, commentType, createDate, userId, noteId, null);
 	}
 	public Comment(String commentText, String commentType, String userId, String noteId) {
 		this(commentText, commentType, null, userId, noteId);
@@ -36,6 +42,10 @@ public class Comment {
 	
 	public String getCreateDate() {
 		return createDate;
+	}
+	
+	public String getUserName() {
+		return userName;
 	}
 	
 	@Override
