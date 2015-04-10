@@ -37,7 +37,7 @@ public class ReadGroupServlet extends HttpServlet {
 		try {
 			groupList = GroupDao.getInstance().readGroupList(sessionUserId);
 		} catch (SQLException | ClassNotFoundException | MakingObjectListFromJdbcException e) {
-			logger.error(e.getClass().getSimpleName() + "에서 exception 발생", e);
+			logger.error("Exception", e);
 			Forwarding.forwardForException(req, resp);
 			return;
 		}

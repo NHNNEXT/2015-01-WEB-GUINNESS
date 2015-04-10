@@ -38,7 +38,7 @@ public class LoginUsersServlet extends HttpServlet {
 			session.setAttribute("sessionUserName", user.getUserName());
 			out.print("/groups.jsp");
 		} catch (SQLException | ClassNotFoundException e) {
-			logger.error(e.getClass().getSimpleName() + "에서 exception 발생", e);
+			logger.error("Exception", e);
 			out.print("/exception.jsp");
 		}
 		out.close();

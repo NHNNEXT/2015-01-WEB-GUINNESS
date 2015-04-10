@@ -44,7 +44,7 @@ public class CreateNoteServlet extends HttpServlet {
 		try {
 			NoteDao.getInstance().createNote(new Note(paramsList.get("noteText"), targetDate, sessionUserId, paramsList.get("groupId")));
 		} catch (SQLException | ClassNotFoundException e) {
-			logger.error(e.getClass().getSimpleName() + "에서 exception 발생", e);
+			logger.error("Exception", e);
 			Forwarding.forwardForException(req, resp);
 			return;
 		}

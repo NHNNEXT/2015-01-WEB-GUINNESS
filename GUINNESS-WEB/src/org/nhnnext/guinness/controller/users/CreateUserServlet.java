@@ -52,10 +52,10 @@ public class CreateUserServlet extends HttpServlet {
 			session.setAttribute("sessionUserName", paramsList.get("userName"));
 			resp.sendRedirect("/groups.jsp");
 		} catch (SQLException | ClassNotFoundException e) {
-			logger.error(e.getClass().getSimpleName() + "에서 exception 발생", e);
+			logger.error("Exception", e);
 			resp.sendRedirect("/exception.jsp");
 		} catch (AlreadyExistedUserIdException e) {
-			logger.info(e.getClass().getName() + "에서 exception 발생");
+			logger.error("Exception", e);
 			Forwarding.doForward(req, resp, "message", "이미 존재하는 아이디입니다.", "/");
 		}
 	}
