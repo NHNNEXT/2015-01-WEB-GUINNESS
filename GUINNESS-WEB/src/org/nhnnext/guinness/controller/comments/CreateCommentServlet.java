@@ -14,9 +14,8 @@ import org.nhnnext.guinness.model.Comment;
 import org.nhnnext.guinness.model.CommentDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.ServletRequestUtil;
-import org.nhnnext.guinness.util.WebServletUrl;
 
-@WebServlet(WebServletUrl.COMMENT_CREATE)
+@WebServlet("/comment/create")
 public class CreateCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

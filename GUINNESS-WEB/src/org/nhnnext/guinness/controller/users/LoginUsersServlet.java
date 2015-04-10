@@ -13,9 +13,8 @@ import javax.servlet.http.HttpSession;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.model.UserDao;
 import org.nhnnext.guinness.util.ServletRequestUtil;
-import org.nhnnext.guinness.util.WebServletUrl;
 
-@WebServlet(WebServletUrl.USER_LOGIN)
+@WebServlet("/user/login")
 public class LoginUsersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

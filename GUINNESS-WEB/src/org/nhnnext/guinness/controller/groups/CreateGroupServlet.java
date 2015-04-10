@@ -19,9 +19,8 @@ import org.nhnnext.guinness.model.GroupDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.MyValidatorFactory;
 import org.nhnnext.guinness.util.ServletRequestUtil;
-import org.nhnnext.guinness.util.WebServletUrl;
 
-@WebServlet(WebServletUrl.GROUP_CREATE)
+@WebServlet("/group/create")
 public class CreateGroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private GroupDao groupDao = GroupDao.getInstance();

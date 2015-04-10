@@ -9,9 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.nhnnext.guinness.util.WebServletUrl;
-
-@WebServlet(WebServletUrl.USER_LOGOUT)
+@WebServlet("/user/logout")
 public class LogoutUserServlet extends HttpServlet {
 	private static final long serialVersionUID = -6472067457011797683L;
 

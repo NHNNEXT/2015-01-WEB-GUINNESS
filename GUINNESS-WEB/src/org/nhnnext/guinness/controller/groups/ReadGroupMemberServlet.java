@@ -15,11 +15,10 @@ import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.GroupDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.ServletRequestUtil;
-import org.nhnnext.guinness.util.WebServletUrl;
 
 import com.google.gson.GsonBuilder;
 
-@WebServlet(WebServletUrl.GROUP_READ_MEMBER)
+@WebServlet("/group/read/member")
 public class ReadGroupMemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private GroupDao groupDao = GroupDao.getInstance();

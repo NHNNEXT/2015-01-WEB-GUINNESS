@@ -16,11 +16,10 @@ import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.GroupDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.ServletRequestUtil;
-import org.nhnnext.guinness.util.WebServletUrl;
 
 import com.google.gson.Gson;
 
-@WebServlet(WebServletUrl.GROUP_READ)
+@WebServlet("/group/read")
 public class ReadGroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

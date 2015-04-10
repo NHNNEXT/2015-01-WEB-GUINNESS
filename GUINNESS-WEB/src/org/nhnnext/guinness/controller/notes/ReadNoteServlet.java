@@ -16,11 +16,10 @@ import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.NoteDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.ServletRequestUtil;
-import org.nhnnext.guinness.util.WebServletUrl;
 
 import com.google.gson.Gson;
 
-@WebServlet(WebServletUrl.NOTE_READ)
+@WebServlet("/note/read")
 public class ReadNoteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1810055739085682471L;
 	

@@ -15,9 +15,8 @@ import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.GroupDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.ServletRequestUtil;
-import org.nhnnext.guinness.util.WebServletUrl;
 
-@WebServlet(WebServletUrl.GROUP_DELETE)
+@WebServlet("/group/delete")
 public class DeleteGroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private GroupDao groupDao = GroupDao.getInstance();

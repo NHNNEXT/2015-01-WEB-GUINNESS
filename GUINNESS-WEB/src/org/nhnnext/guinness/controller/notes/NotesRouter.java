@@ -12,9 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.nhnnext.guinness.model.GroupDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.ServletRequestUtil;
-import org.nhnnext.guinness.util.WebServletUrl;
 
-@WebServlet(WebServletUrl.NOTELIST)
+@WebServlet("/g/*")
 public class NotesRouter extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

@@ -16,9 +16,8 @@ import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.NoteDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.ServletRequestUtil;
-import org.nhnnext.guinness.util.WebServletUrl;
 
-@WebServlet(WebServletUrl.NOTE_CREATE)
+@WebServlet("/note/create")
 public class CreateNoteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

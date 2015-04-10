@@ -17,11 +17,10 @@ import org.nhnnext.guinness.model.Comment;
 import org.nhnnext.guinness.model.CommentDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.ServletRequestUtil;
-import org.nhnnext.guinness.util.WebServletUrl;
 
 import com.google.gson.Gson;
 
-@WebServlet(WebServletUrl.COMMENT_READ)
+@WebServlet("/comment/read")
 public class ReadCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

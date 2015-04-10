@@ -17,9 +17,8 @@ import org.nhnnext.guinness.model.UserDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.MyValidatorFactory;
 import org.nhnnext.guinness.util.ServletRequestUtil;
-import org.nhnnext.guinness.util.WebServletUrl;
 
-@WebServlet(WebServletUrl.USER_CREATE)
+@WebServlet("/user/create")
 public class CreateUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
