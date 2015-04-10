@@ -62,46 +62,6 @@ guinness.util.modal = function(o) {
 	document.body.appendChild(modalCover);
 }
 
-guinness.util.showModal = function() {
-	var modalCover = document.querySelector('.modal-cover');
-	if (modalCover.style.display === "none") {
-		modalCover.style.display = "block";
-		document.body.style.overflow = "hidden";
-	}
-
-	modalCover.addEventListener('mouseup', function(e) {
-		var noteText = document.querySelector("#noteText");
-		if ((e.target.className==="modal-cover" || e.target.className==='modal-close-btn') && noteText!==null && noteText.value!=="") {
-			guinness.util.alert('경고', '텍스트 작성 중입니다! 정말 삭제하시겠습니까?', function(){closeModalFunction(e)}, function(){});
-		} else { closeModalFunction(e); }
-	}, false);
-		
-	document.body.addEventListener('keydown', function(e) {
-		var noteText = document.querySelector("#noteText");
-		if (e.keyCode === 27) {
-			if (noteText!==null && noteText.value!=="") {
-				guinness.util.alert('경고', '텍스트 작성 중입니다! 정말 삭제하시겠습니까?', function(){closeModalFunction(e)}, function(){});
-			} else { closeModalFunction(e); }
-		}
-	}, false);
-	
-	function closeModalFunction(e) {
-		if (e.target.className === 'modal-cover' || e.target.parentElement.className === 'modal-close-btn' || e.keyCode === 27) {
-			guinness.util.closeModal();
-			this.removeEventListener('mouseup', guinness.util.closeModal, false);
-		}
-	}
-}
-
-guinness.util.closeModal = function() {
-	var modalCover = document.querySelector('.modal-cover');
-	if (modalCover.style.display === "block") {
-		modalCover.style.display = "none";
-		document.body.style.overflow = "";
-	}
-	selectedInitVal = "init";
-}
-
 /* 
  * alert 메세지를 생성해준다.
  */
