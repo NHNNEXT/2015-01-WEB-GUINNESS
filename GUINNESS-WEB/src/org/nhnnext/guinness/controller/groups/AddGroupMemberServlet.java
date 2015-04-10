@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.nhnnext.guinness.controller.notes.ReadNoteListServlet;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.GroupDao;
 import org.nhnnext.guinness.model.UserDao;
@@ -25,7 +24,7 @@ import com.google.gson.Gson;
 @WebServlet("/group/add/member")
 public class AddGroupMemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListServlet.class);
+	private static final Logger logger = LoggerFactory.getLogger(AddGroupMemberServlet.class);
 	private GroupDao groupDao = GroupDao.getInstance();
 
 	@Override

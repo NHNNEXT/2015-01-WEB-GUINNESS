@@ -53,6 +53,17 @@
 			<button id="create-note" class="btn btn-pm">작성</button>
 		</div>
 	</template>
+	<template id="view-note-template">
+		<div class="note-content">
+		</div>
+		<div id="commentListUl">
+			
+		</div>
+		<form id="commentForm" method="post" >
+			<textarea id='commentText' name='commentText' rows='5' cols='50'></textarea><br>
+			<button id='submitComment' class='btn btn-pm'>답변</button>
+		</form>	
+	</template>
 	<script>
 		window.addEventListener('load', function() {
 			var groupId = window.location.pathname.split("/")[2];
@@ -196,62 +207,25 @@
 		}
 
 		function showNoteModal(obj) {
-			document.body.style.overflow = "hidden";
-			var el = document.createElement("div");
-			el.setAttribute("id", "contents-window");
-			el.setAttribute("class", "note-modal-cover");
-			var innerContainer = document.createElement("div");
-			innerContainer.setAttribute("class", "modal-container");
-			var innerHeader = document.createElement("div");
-			innerHeader.setAttribute("class", "modal-header");
-			innerHeader.innerHTML += "<div class='modal-title'>" + obj.targetDate + " | " + obj.userName
-					+ "</div><div id='contents-close' class='modal-close-btn'><i class='fa fa-remove'></i></div>";
-			var innerBody = document.createElement("div");
-			innerBody.setAttribute("class", "modal-body");
-			innerBody.innerHTML += obj.noteText;
-			
-			
-			var noteId = obj.noteId;
-			var userName = obj.userName;
-			var commentList = document.createElement("ul");
-			commentList.setAttribute("id","commentListUl");
+			var bodyTemplate = document.querySelector("#view-note-template").content;
+			bodyTemplate = document.importNode(bodyTemplate, true);
+			guinness.util.modal({
+				header: obj.targetDate + " | " + obj.userName,
+				body: bodyTemplate,
+				defaultCloseEvent:true
+			});
+			document.querySelector('.modal-body').setAttribute('class','modal-body note-modal');
+			document.querySelector('.note-content').innerHTML = obj.noteText;			
+			document.querySelector('#commentForm').addEventListener('submit', function(e) { e.preventDefault(); createComment(obj); }, false);
 
-			var commentArea = writeComment();
+			readComments(obj.noteId);
 
-			el.appendChild(innerContainer);
-			innerContainer.appendChild(innerHeader);
-			innerContainer.appendChild(innerBody);
-			
-			innerContainer.appendChild(commentList);
-			innerContainer.appendChild(commentArea);
-			document.body.appendChild(el);
-			readComments(noteId);
-
-			document.querySelector('#submitComment').addEventListener(
-					'click', function() {
-						createComment(obj);
-					}, false);
-
-			var closeBtn = document.querySelector('#contents-close');
-			closeBtn.addEventListener('click', function(e) {
-				document.body.style.overflow = "auto";
-				var el = document.querySelector("#contents-window");
-				el.outerHTML = "";
-			}, false);
-
-			var closeClick = document.querySelector('#contents-window');
-			closeClick.addEventListener('click', function(e) {
-				if (e.target.className === 'note-modal-cover') {
-					var el = document.querySelector("#contents-window");
-					el.outerHTML = "";
-				}
-			}, false);
-
+			/* 노트 상세보기 할때마다 이벤트 리스너가 생성되므로 주석처리함
 			document.body.addEventListener('keydown', function(e) {
 				if (e.keyCode === 27) {
 					document.querySelector("#contents-window").remove();
 				}
-			});
+			});*/
 		}
 
 		function readComments(noteId) {
@@ -270,14 +244,6 @@
 					}
 				}		
 			});
-		}
-
-		function writeComment() {
-			var el = document.createElement("div");
-			el.innerHTML += "<textarea id='commentText' name='commentText' rows='5' cols='50'></textarea><br>";
-			el.innerHTML += "<button id='submitComment' class='btn btn-pm' name='submitComment'>답변</button>";
-			
-			return el;
 		}
 
 		function createComment(obj) {
@@ -330,7 +296,6 @@
 			      }	
 			});
 		}
-		
 		
 		function readMember(groupId) {
 			guinness.ajax({ 

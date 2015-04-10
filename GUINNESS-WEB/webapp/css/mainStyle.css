@@ -390,16 +390,6 @@ input.text {
 	overflow: auto;
 }
 
-.note-modal-cover {
-	position: fixed;
-	top: 0px;
-	z-index: 20;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(14, 14, 14, .6);
-	overflow: auto;
-}
-
 .modal-container {
 	position: relative;
 	display:table;
@@ -435,6 +425,10 @@ input.text {
 .modal-body {
 	position: relative;
 	padding: 15px;
+}
+
+.modal-body.note-modal {
+	width:960px;
 }
 
 #create-new-button {
@@ -546,5 +540,6 @@ input.text {
 }
 
 #commentListUl {
-	margin: 0;
+	margin:25px;
+	list-style:none;
 }

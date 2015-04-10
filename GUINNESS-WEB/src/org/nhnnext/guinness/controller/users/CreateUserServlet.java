@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 
+import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.model.UserDao;
 import org.nhnnext.guinness.util.Forwarding;
@@ -45,10 +46,7 @@ public class CreateUserServlet extends HttpServlet {
 		}
 
 		try {
-			if (!UserDao.getInstance().createUser(user)) {
-				Forwarding.doForward(req, resp, "message", "이미 존재하는 아이디입니다.", "/");
-				return;
-			}
+			UserDao.getInstance().createUser(user);
 			HttpSession session = req.getSession();
 			session.setAttribute("sessionUserId", paramsList.get("userId"));
 			session.setAttribute("sessionUserName", paramsList.get("userName"));
@@ -56,6 +54,9 @@ public class CreateUserServlet extends HttpServlet {
 		} catch (SQLException | ClassNotFoundException e) {
 			logger.error(e.getClass().getSimpleName() + "에서 exception 발생", e);
 			resp.sendRedirect("/exception.jsp");
+		} catch (AlreadyExistedUserIdException e) {
+			logger.info(e.getClass().getName() + "에서 exception 발생");
+			Forwarding.doForward(req, resp, "message", "이미 존재하는 아이디입니다.", "/");
 		}
 	}
 }
