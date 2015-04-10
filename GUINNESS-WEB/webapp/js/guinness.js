@@ -68,16 +68,24 @@ guinness.util.modal = function(o) {
 /* 
  * alert 메세지를 생성해준다.
  */
+window.addEventListener("keyup",function(e){
+	if(e.keyCode === 13){
+		if(document.querySelector("#guinness-alert-window.isAlert") != undefined){
+			document.querySelector("#guinness-alert-window").remove();
+		}
+	}
+},false);
+
 guinness.util.alert = function(header, message, agreeFunc, disagreeFunc) {
 	var body = document.body;
 	var el = document.querySelector("#guinness-alert-window");
 	if (el == undefined) {
 		el = document.createElement("div");
 		el.setAttribute("id", "guinness-alert-window");
-		el.setAttribute("class", "alert-window-cover");
 		var innerEl = document.createElement("div");
 		innerEl.setAttribute("class", "alert-window");
 		if (agreeFunc == null && disagreeFunc == null) {
+			el.setAttribute("class", "alert-window-cover isAlert");
 			innerEl.innerHTML += "<div class='panel'><div class='panel-header warn'>"
 					+ header
 					+ "</div><div class='panel-body'>"
@@ -87,6 +95,7 @@ guinness.util.alert = function(header, message, agreeFunc, disagreeFunc) {
 			body.appendChild(el);
 			document.querySelector("#guinness-alert-window .btn:first-child").addEventListener("click", function(){guinness.util.alert.choose()}, false);
 		} else {
+			el.setAttribute("class", "alert-window-cover");
 			innerEl.innerHTML += "<div class='panel'><div class='panel-header warn'>"
 					+ header
 					+ "</div><div class='panel-body'>"
