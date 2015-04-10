@@ -16,6 +16,8 @@ import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.NoteDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.ServletRequestUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 

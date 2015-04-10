@@ -15,6 +15,8 @@ import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.GroupDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.ServletRequestUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @WebServlet("/group/delete")
 public class DeleteGroupServlet extends HttpServlet {

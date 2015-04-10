@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.nhnnext.guinness.model.GroupDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.ServletRequestUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @WebServlet("/g/*")
 public class NotesRouter extends HttpServlet {

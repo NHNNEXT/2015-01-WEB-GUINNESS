@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSession;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.model.UserDao;
 import org.nhnnext.guinness.util.ServletRequestUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @WebServlet("/user/login")
 public class LoginUsersServlet extends HttpServlet {
