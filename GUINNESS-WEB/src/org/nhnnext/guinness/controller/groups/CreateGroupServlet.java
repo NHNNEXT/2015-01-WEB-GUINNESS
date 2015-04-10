@@ -53,7 +53,7 @@ public class CreateGroupServlet extends HttpServlet {
 		Validator validator = MyValidatorFactory.createValidator();
 		Set<ConstraintViolation<Group>> constraintViolation = validator.validate(group);
 
-		if (constraintViolation.size() > 0) {
+		if (!constraintViolation.isEmpty()) {
 			String errorMessage = constraintViolation.iterator().next().getMessage();
 			Forwarding.doForward(req, resp, "errorMessage", errorMessage, "/groups.jsp");
 			return;

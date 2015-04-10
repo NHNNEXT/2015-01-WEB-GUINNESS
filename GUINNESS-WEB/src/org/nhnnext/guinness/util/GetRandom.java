@@ -9,7 +9,7 @@ public class GetRandom {
 	public static String getRandomId(int lengthOfReturnString) {
 		String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		Random rnd = new Random();
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 		for (int i = 0; i < lengthOfReturnString; i++) {
 			buf.append(alphabet.charAt(rnd.nextInt(alphabet.length())));
 		}

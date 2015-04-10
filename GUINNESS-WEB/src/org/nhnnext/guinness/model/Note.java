@@ -1,7 +1,6 @@
 package org.nhnnext.guinness.model;
 
 public class Note {
-	//TODO 유효성 검사
 	private String noteId;
 	private String noteText;
 	private String targetDate;

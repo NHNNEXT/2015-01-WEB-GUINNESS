@@ -14,12 +14,8 @@ import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.Gson;
-
 public abstract class AbstractDao {
 	private static final Logger logger = LoggerFactory.getLogger(AbstractDao.class);
-
-	static Gson gson = new Gson();
 
 	protected Connection getConnection() throws SQLException, ClassNotFoundException {
 		Class.forName("com.mysql.jdbc.Driver");
