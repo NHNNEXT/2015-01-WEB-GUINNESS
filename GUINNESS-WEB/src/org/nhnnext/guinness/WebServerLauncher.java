@@ -19,6 +19,7 @@ public class WebServerLauncher {
 		tomcat.setPort(Integer.valueOf(webPort));
 		tomcat.addWebapp("/", new File(webappDirLocation).getAbsolutePath());
 		logger.debug("configuring app with basedir: " + new File("./" + webappDirLocation).getAbsolutePath()); 
+		logger.debug("test");
 		tomcat.start();
 		tomcat.getServer().await();
 	}
