@@ -280,6 +280,10 @@
 			var groupId = document.querySelector('#createNoteForm input[name="groupId"]').value;
 			var noteText = document.querySelector('#noteText').value;
 			noteText = noteText.replace(/\n/g,"<br>");
+			if(noteText === ""){
+				guinness.util.alert("빈 노트","일지를 작성하지 않았습니다.");
+				return;
+			}
 			var param = "groupId=" + groupId + "&targetDate=" + targetDate + "&noteText=" + noteText;
 			guinness.ajax({
 				method:"post",
