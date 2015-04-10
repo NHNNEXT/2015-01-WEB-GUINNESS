@@ -138,7 +138,7 @@
 			  success: 
 				function(req) {
 				  var json = JSON.parse(req.responseText);
-				  if (json !== "" || json !== undefined) {
+				  if (json.length != 0) {
 					  appendNoteList(json);
 				  }
 				}  
@@ -240,7 +240,7 @@
 					var json = JSON.parse(req.responseText);
 					for (var i = 0; i < json.length; i++) {
 						obj = json[i];
-						document.querySelector('#commentListUl').innerHTML += "<li>" + obj.commentText + "    "+ obj.createDate +" "+ obj.userName + "</li>";
+						document.querySelector('#commentListUl').innerHTML += "<li comment-id='"+obj.commentId+"'>" + obj.commentText + "    "+ obj.createDate +" "+ obj.userName + "</li>";
 					}
 				}		
 			});
