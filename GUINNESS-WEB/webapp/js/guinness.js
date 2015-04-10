@@ -68,7 +68,7 @@ guinness.util.modal = function(o) {
 /* 
  * alert 메세지를 생성해준다.
  */
-window.addEventListener("keyup",function(e){
+window.addEventListener("keydown",function(e){
 	if(e.keyCode === 13){
 		if(document.querySelector("#guinness-alert-window.isAlert") != undefined){
 			document.querySelector("#guinness-alert-window").remove();
