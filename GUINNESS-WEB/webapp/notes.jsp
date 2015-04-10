@@ -47,7 +47,7 @@
 				</tr>
 				<tr>
 					<td>내용</td>
-					<td><textarea id="noteText" style="resize: none" rows="10" cols="50" name="noteText"></textarea></td>
+					<td><textarea id="noteText" style="resize: none" rows="10" cols="145" name="noteText"></textarea></td>
 				</tr>
 			</table>
 			<button id="create-note" class="btn btn-pm">작성</button>
@@ -81,6 +81,7 @@
 					defaultCloseEvent:false
 				});
 				setNoteModal(groupId);
+				document.querySelector('.modal-body').setAttribute('class','modal-body note-modal');
 				document.querySelector('.modal-close-btn').addEventListener('click', function(e){
 					cancelNoteCreate();
 				}, false);
@@ -108,6 +109,10 @@
 		function setNoteModal(groupId) {
 			document.querySelector("#targetDate").value = guinness.util.today("-");
 			document.querySelector("#createNoteForm input[name='groupId']").value = groupId;
+			datepickr('.fa-calendar', {
+				dateFormat : 'Y-m-d',
+				altInput : document.querySelector('#targetDate')
+			});
 		}
 		
 		function cancelNoteCreate(e) {
@@ -117,11 +122,6 @@
 			}
 			document.querySelector('.modal-cover').remove();
 		}
-
-		datepickr('.fa-calendar', {
-			dateFormat : 'Y-m-d',
-			altInput : document.querySelector('#targetDate')
-		});
 
 		function getCookie(sKey) {
 			if (!sKey) {
