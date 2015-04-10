@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.nhnnext.guinness.exception.SessionUserIdNotFoundException;
 import org.nhnnext.guinness.model.GroupDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.ServletRequestUtil;
@@ -25,8 +24,12 @@ public class NotesRouter extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		if (!ServletRequestUtil.existedUserIdFromSession(req, resp)) {
+			resp.sendRedirect("/");
+			return;
+		}
+		String sessionUserId = ServletRequestUtil.getUserIdFromSession(req, resp);
 		try {
-			String sessionUserId = ServletRequestUtil.checkSessionAttribute(req, resp);
 			String url = req.getRequestURI().split("/")[2];
 			if (!GroupDao.getInstance().checkJoinedGroup(sessionUserId, url)) {
 				Forwarding.doForward(req, resp, "errorMessage", "비정상적 접근시도.", "/illegal.jsp");
@@ -36,8 +39,6 @@ public class NotesRouter extends HttpServlet {
 		} catch (SQLException | ClassNotFoundException e) {
 			logger.error(e.getClass().getSimpleName() + "에서 exception 발생", e);
 			Forwarding.forwardForException(req, resp);
-			return;
-		} catch (SessionUserIdNotFoundException e) {
 			return;
 		}
 	}

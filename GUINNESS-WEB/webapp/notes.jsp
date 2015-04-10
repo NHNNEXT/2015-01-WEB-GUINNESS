@@ -310,18 +310,15 @@
 			var noteText = document.querySelector('#noteText').value;
 			noteText = noteText.replace(/\n/g,"<br>");
 			var param = "groupId=" + groupId + "&targetDate=" + targetDate + "&noteText=" + noteText;
-			var res = undefined;
-
-			req.open("post", "/note/create", true);
-			req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			req.setParameter;
-			req.onreadystatechange = function() {
-				if (req.status === 200 && req.readyState === 4) {
+			guinness.ajax({
+				method:"post",
+				url:"/note/create",
+				param: param,
+				success: function(req) {
 					guinness.util.closeModal();
 					readNoteList(groupId, targetDate);
 				}
-			};
-			req.send(param);
+			});
 		}
 		
 		function addMember(userId, groupId) {

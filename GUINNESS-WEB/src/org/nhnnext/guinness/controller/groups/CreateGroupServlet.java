@@ -14,7 +14,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
-import org.nhnnext.guinness.exception.SessionUserIdNotFoundException;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.GroupDao;
 import org.nhnnext.guinness.util.Forwarding;
@@ -32,8 +31,12 @@ public class CreateGroupServlet extends HttpServlet {
 	private GroupDao groupDao = GroupDao.getInstance();
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String groupCaptainUserId = null;
-		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "groupName","isPublic");
+		if (!ServletRequestUtil.existedUserIdFromSession(req, resp)) {
+			resp.sendRedirect("/");
+			return;
+		}
+		String groupCaptainUserId = ServletRequestUtil.getUserIdFromSession(req, resp);
+		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "groupName", "isPublic");
 
 		char isPublic = 'F';
 		if ("public".equals(paramsList.get("isPublic")))
@@ -41,13 +44,10 @@ public class CreateGroupServlet extends HttpServlet {
 
 		Group group = null;
 		try {
-			groupCaptainUserId = ServletRequestUtil.checkSessionAttribute(req, resp);
 			group = new Group(paramsList.get("groupName"), groupCaptainUserId, isPublic);
 		} catch (MakingObjectListFromJdbcException | SQLException | ClassNotFoundException e) {
 			logger.error(e.getClass().getName() + "에서 exception 발생", e);
 			Forwarding.forwardForException(req, resp);
-			return;
-		} catch (SessionUserIdNotFoundException e) {
 			return;
 		}
 
