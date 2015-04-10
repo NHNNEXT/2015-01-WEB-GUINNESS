@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.nhnnext.guinness.exception.SessionUserIdNotFoundException;
 import org.nhnnext.guinness.model.Comment;
 import org.nhnnext.guinness.model.CommentDao;
 import org.nhnnext.guinness.util.Forwarding;
@@ -23,20 +22,24 @@ public class CreateCommentServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "commentText", "commentType", "noteId");
+		if (!ServletRequestUtil.existedUserIdFromSession(req, resp)) {
+			resp.sendRedirect("/");
+			return;
+		}
+		String sessionUserId = ServletRequestUtil.getUserIdFromSession(req, resp);
+		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "commentText", "commentType",
+				"noteId");
 		if (paramsList.get("commentText").equals("")) {
 			return;
 		}
 
 		try {
-			String sessionUserId = ServletRequestUtil.checkSessionAttribute(req, resp);
-			Comment comment = new Comment(paramsList.get("commentText"), paramsList.get("commentType"), sessionUserId, paramsList.get("noteId"));
+			Comment comment = new Comment(paramsList.get("commentText"), paramsList.get("commentType"), sessionUserId,
+					paramsList.get("noteId"));
 			CommentDao.getInstance().createcomment(comment);
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);
-			return;
-		} catch (SessionUserIdNotFoundException e) {
 			return;
 		}
 	}

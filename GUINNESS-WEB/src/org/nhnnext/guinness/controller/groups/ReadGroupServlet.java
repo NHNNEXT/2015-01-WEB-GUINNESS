@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
-import org.nhnnext.guinness.exception.SessionUserIdNotFoundException;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.GroupDao;
 import org.nhnnext.guinness.util.Forwarding;
@@ -24,18 +23,20 @@ import com.google.gson.Gson;
 @WebServlet(WebServletUrl.GROUP_READ)
 public class ReadGroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		if (!ServletRequestUtil.existedUserIdFromSession(req, resp)) {
+			resp.sendRedirect("/");
+			return;
+		}
+		String sessionUserId = ServletRequestUtil.getUserIdFromSession(req, resp);
 		List<Group> groupList = null;
 		try {
-			String sessionUserId = ServletRequestUtil.checkSessionAttribute(req, resp);
 			groupList = GroupDao.getInstance().readGroupList(sessionUserId);
 		} catch (SQLException | ClassNotFoundException | MakingObjectListFromJdbcException e) {
 			e.printStackTrace();
 			Forwarding.forwardForException(req, resp);
-			return;
-		} catch (SessionUserIdNotFoundException e) {
 			return;
 		}
 		resp.setContentType("application/json; charset=UTF-8");

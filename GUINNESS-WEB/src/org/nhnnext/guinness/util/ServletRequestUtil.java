@@ -8,21 +8,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.nhnnext.guinness.exception.SessionUserIdNotFoundException;
-
 public class ServletRequestUtil {
 	private ServletRequestUtil() {
 	}
 
-	public static String checkSessionAttribute(HttpServletRequest req, HttpServletResponse resp) throws IOException,
-			SessionUserIdNotFoundException {
+	public static boolean existedUserIdFromSession(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		HttpSession session = req.getSession();
-		String userId = (String) session.getAttribute("sessionUserId");
-		if (userId == null) {
-			resp.sendRedirect("/");
-			throw new SessionUserIdNotFoundException();
+		if (session.getAttribute("sessionUserId") == null) {
+			return Boolean.FALSE;
 		}
-		return userId;
+		return Boolean.TRUE;
+	}
+
+	public static String getUserIdFromSession(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		if(!existedUserIdFromSession(req, resp)){
+			return null;
+		}
+		HttpSession session = req.getSession();
+		return (String) session.getAttribute("sessionUserId");
 	}
 
 	public static Map<String, String> getRequestParameters(HttpServletRequest req, String... parameters) {
