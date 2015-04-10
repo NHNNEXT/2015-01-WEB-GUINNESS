@@ -36,7 +36,7 @@ public class GroupDao extends AbstractDao {
 		String sql = "select * from GROUPS where groupId=?";
 		String[] params = { "groupId", "groupName", "groupCaptainUserId", "isPublic" };
 		List<?> list = queryForObjectsReturn(Group.class, params, sql, groupId);
-		if (list.size() != 0)
+		if (!list.isEmpty())
 			return (Group) list.get(0);
 		return null;
 	}
