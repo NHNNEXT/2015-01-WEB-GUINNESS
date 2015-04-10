@@ -205,13 +205,16 @@
 			}
 		}
 
+		var currScrollTop;
 		function readNoteContents(noteId) {
+			currScrollTop = document.body.scrollTop;
 			guinness.ajax({
 				method: 'get',
 				url: '/note/read?noteId=' + noteId,
 				success: function(req) {
 					var json = JSON.parse(req.responseText);
 					showNoteModal(json);
+					document.body.scrollTop = currScrollTop;
 				}
 			});
 		}

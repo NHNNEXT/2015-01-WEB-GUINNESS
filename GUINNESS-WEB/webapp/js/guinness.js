@@ -60,6 +60,7 @@ guinness.util.modal = function(o) {
 	modalContainer.appendChild(modalHeader);
 	modalContainer.appendChild(modalBody);
 	modalCover.appendChild(modalContainer);
+	var currentScrollTop = document.body.scrollTop;
 	document.body.appendChild(modalCover);
 	document.querySelector('.modal-cover').focus();
 }
