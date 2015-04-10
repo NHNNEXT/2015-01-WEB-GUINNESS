@@ -23,6 +23,8 @@ import org.nhnnext.guinness.util.ServletRequestUtil;
 @WebServlet("/group/create")
 public class CreateGroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LoggerFactory.getLogger(CreateGroupServlet.class);
+
 	private GroupDao groupDao = GroupDao.getInstance();
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -41,7 +43,7 @@ public class CreateGroupServlet extends HttpServlet {
 		try {
 			group = new Group(paramsList.get("groupName"), groupCaptainUserId, isPublic);
 		} catch (MakingObjectListFromJdbcException | SQLException | ClassNotFoundException e) {
-			e.printStackTrace();
+			logger.error(e.getClass().getName() + "에서 exception 발생", e);
 			Forwarding.forwardForException(req, resp);
 			return;
 		}
@@ -59,7 +61,7 @@ public class CreateGroupServlet extends HttpServlet {
 			groupDao.createGroup(group);
 			groupDao.createGroupUser(groupCaptainUserId, group.getGroupId());
 		} catch (SQLException | ClassNotFoundException | MakingObjectListFromJdbcException e) {
-			e.printStackTrace();
+			logger.error(e.getClass().getName() + "에서 exception 발생", e);
 			Forwarding.forwardForException(req, resp);
 			return;
 		}

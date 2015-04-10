@@ -19,6 +19,7 @@ import org.nhnnext.guinness.util.ServletRequestUtil;
 @WebServlet("/group/delete")
 public class DeleteGroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LoggerFactory.getLogger(DeleteGroupServlet.class);
 	private GroupDao groupDao = GroupDao.getInstance();
 
 	@Override
@@ -39,7 +40,7 @@ public class DeleteGroupServlet extends HttpServlet {
 			groupDao.deleteGroup(group);
 			resp.sendRedirect("/groups.jsp");
 		} catch (SQLException | ClassNotFoundException | MakingObjectListFromJdbcException e) {
-			e.printStackTrace();
+			logger.error(e.getClass().getName() + "에서 exception 발생", e);
 			Forwarding.forwardForException(req, resp);
 			return;
 		}

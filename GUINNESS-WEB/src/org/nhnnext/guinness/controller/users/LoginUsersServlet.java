@@ -17,6 +17,8 @@ import org.nhnnext.guinness.util.ServletRequestUtil;
 @WebServlet("/user/login")
 public class LoginUsersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LoggerFactory.getLogger(LoginUsersServlet.class);
+	
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws javax.servlet.ServletException,
 			java.io.IOException {
@@ -34,6 +36,7 @@ public class LoginUsersServlet extends HttpServlet {
 			session.setAttribute("sessionUserName", user.getUserName());
 			out.print("/groups.jsp");
 		} catch (SQLException | ClassNotFoundException e) {
+			logger.error(e.getClass().getSimpleName() + "에서 exception 발생", e);
 			out.print("/exception.jsp");
 		}
 		out.close();

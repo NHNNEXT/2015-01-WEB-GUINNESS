@@ -21,6 +21,7 @@ import com.google.gson.GsonBuilder;
 @WebServlet("/group/read/member")
 public class ReadGroupMemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LoggerFactory.getLogger(ReadGroupMemberServlet.class);
 	private GroupDao groupDao = GroupDao.getInstance();
 
 	@Override
@@ -31,6 +32,7 @@ public class ReadGroupMemberServlet extends HttpServlet {
 			out.print(new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(groupDao.readGroupMember(paramsList.get("groupId"))));
 			out.close();
 		} catch (MakingObjectListFromJdbcException | SQLException | ClassNotFoundException e) {
+			logger.error(e.getClass().getSimpleName() + "에서 exception 발생", e);
 			Forwarding.forwardForException(req, resp);
 			return;
 		}

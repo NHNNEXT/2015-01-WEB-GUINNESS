@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 @WebServlet("/comment/read")
 public class ReadCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LoggerFactory.getLogger(ReadCommentServlet.class);
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,7 +33,7 @@ public class ReadCommentServlet extends HttpServlet {
 		try {
 			commentList = CommentDao.getInstance().readCommentListByNoteId(paramsList.get("noteId"));
 		} catch (SQLException | MakingObjectListFromJdbcException | ClassNotFoundException e) {
-			e.printStackTrace();
+			logger.error(e.getClass().getSimpleName() + "에서 exception 발생", e);
 			Forwarding.forwardForException(req, resp);
 			return;
 		}
