@@ -17,13 +17,12 @@ import org.nhnnext.guinness.model.GroupDao;
 import org.nhnnext.guinness.model.UserDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.ServletRequestUtil;
-import org.nhnnext.guinness.util.WebServletUrl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 
-@WebServlet(WebServletUrl.GROUP_ADD_MEMBER)
+@WebServlet("/group/add/member")
 public class AddGroupMemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListServlet.class);

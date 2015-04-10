@@ -16,14 +16,16 @@ import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.NoteDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.ServletRequestUtil;
-import org.nhnnext.guinness.util.WebServletUrl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 
-@WebServlet(WebServletUrl.NOTE_READ)
+@WebServlet("/note/read")
 public class ReadNoteServlet extends HttpServlet {
-	private static final long serialVersionUID = 1810055739085682471L;
-	
+	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LoggerFactory.getLogger(ReadNoteServlet.class);
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "noteId");
@@ -31,7 +33,7 @@ public class ReadNoteServlet extends HttpServlet {
 		try {
 			note = NoteDao.getInstance().readNote(paramsList.get("noteId"));
 		} catch (MakingObjectListFromJdbcException | SQLException | ClassNotFoundException e) {
-			e.printStackTrace();
+			logger.error(e.getClass().getSimpleName() + "에서 exception 발생", e);
 			Forwarding.forwardForException(req, resp);
 		}
 		PrintWriter out = resp.getWriter();

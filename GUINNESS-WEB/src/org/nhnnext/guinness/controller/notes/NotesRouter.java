@@ -12,11 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.nhnnext.guinness.model.GroupDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.ServletRequestUtil;
-import org.nhnnext.guinness.util.WebServletUrl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@WebServlet(WebServletUrl.NOTELIST)
+@WebServlet("/g/*")
 public class NotesRouter extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LoggerFactory.getLogger(NotesRouter.class);
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,7 +35,7 @@ public class NotesRouter extends HttpServlet {
 			}
 			Forwarding.doForward(req, resp, "/notes.jsp");
 		} catch (SQLException | ClassNotFoundException e) {
-			e.printStackTrace();
+			logger.error(e.getClass().getSimpleName() + "에서 exception 발생", e);
 			Forwarding.forwardForException(req, resp);
 			return;
 		}

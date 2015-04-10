@@ -17,11 +17,13 @@ import org.nhnnext.guinness.model.UserDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.MyValidatorFactory;
 import org.nhnnext.guinness.util.ServletRequestUtil;
-import org.nhnnext.guinness.util.WebServletUrl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@WebServlet(WebServletUrl.USER_CREATE)
+@WebServlet("/user/create")
 public class CreateUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LoggerFactory.getLogger(CreateUserServlet.class);
 	
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws javax.servlet.ServletException,
 			java.io.IOException {
@@ -52,7 +54,7 @@ public class CreateUserServlet extends HttpServlet {
 			session.setAttribute("sessionUserName", paramsList.get("userName"));
 			resp.sendRedirect("/groups.jsp");
 		} catch (SQLException | ClassNotFoundException e) {
-			e.printStackTrace();
+			logger.error(e.getClass().getSimpleName() + "에서 exception 발생", e);
 			resp.sendRedirect("/exception.jsp");
 		}
 	}
