@@ -31,7 +31,7 @@ public class CreateUserServlet extends HttpServlet {
 		User user = new User(paramsList.get("userId"), paramsList.get("userName"), paramsList.get("userPassword"));
 
 		Set<ConstraintViolation<User>> constraintViolations = MyValidatorFactory.createValidator().validate(user);
-		if (constraintViolations.size() > 0) {
+		if (!constraintViolations.isEmpty()) {
 			String signValidErrorMessage = "";
 			Iterator<ConstraintViolation<User>> violations = constraintViolations.iterator();
 			while (violations.hasNext()) {
