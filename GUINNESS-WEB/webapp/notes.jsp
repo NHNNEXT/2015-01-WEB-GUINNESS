@@ -99,8 +99,9 @@
 			}, false);
 			document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
 
-			var groupName = (getCookie(groupId).replace(/</g, "&lt;")).replace(/>/g, "&gt;");
+			var groupName = getCookie(groupId);
 			document.title = groupName;
+			groupName = (groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 			document.querySelector('#group-name').innerHTML = groupName;
 		}, false);
 
@@ -130,7 +131,6 @@
 					+ encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1"))
 					|| undefined;
 		}
-		
 		function readNoteList(groupId, targetDate) {
 		  guinness.ajax({ 
 			  method: "get", 
