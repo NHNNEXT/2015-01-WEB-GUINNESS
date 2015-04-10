@@ -36,7 +36,7 @@ public class UserDao extends AbstractDao {
 		String sql = "select * from USERS where userId=?";
 		String[] params = { "userId", "userName", "userPassword"};
 		List<?> list = queryForObjectsReturn(User.class, params, sql, userId);
-		if (list.size() != 0) {
+		if (!list.isEmpty()) {
 			return (User) list.get(0);
 		}
 		return null;
