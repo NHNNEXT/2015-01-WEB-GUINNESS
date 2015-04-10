@@ -97,41 +97,56 @@ public abstract class AbstractDao {
 		return pstmt;
 	}
 
-	private List<Object> getListObject(Class<?> cls, String[] paramsKey, ResultSet rs)
-			throws MakingObjectListFromJdbcException {
-		int sizeOfParam = paramsKey.length;
-		List<Object> list = new ArrayList<Object>();
-		try {
-			Class<?>[] fields = new Class[sizeOfParam];
-			for (int i = 0; i < sizeOfParam; i++)
-				fields[i] = cls.getDeclaredField(paramsKey[i]).getType();
-			Constructor<?> ct = cls.getConstructor(fields);
-			Object[] paramsValue = new Object[sizeOfParam];
+    private List<Object> getListObject(Class<?> cls, String[] paramsKey, ResultSet rs)
+            throws MakingObjectListFromJdbcException {
+        List<Object> list = new ArrayList<Object>();
+        try {
+            Class<?>[] fields = extractClassFieldType(cls, paramsKey);
+            Constructor<?> ct = cls.getConstructor(fields);
+            while (rs.next()) {
+                list.add(ct.newInstance(setParameterValuesOfConstructor(fields, rs, paramsKey)));
+            }
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | SQLException | NoSuchFieldException | SecurityException | NoSuchMethodException e) {
+            throw new MakingObjectListFromJdbcException(e);
+        }
+        return list;
+    }
 
-			while (rs.next()) {
-				for (int indexOfcolumn = 0; indexOfcolumn < sizeOfParam; indexOfcolumn++) {
-					switch (fields[indexOfcolumn].getSimpleName().toString()) {
-					case "String":
-						paramsValue[indexOfcolumn] = rs.getString(paramsKey[indexOfcolumn]);
-						break;
-					case "char":
-						paramsValue[indexOfcolumn] = rs.getString(paramsKey[indexOfcolumn]).charAt(0);
-						break;
-					case "byte":
-						paramsValue[indexOfcolumn] = rs.getByte(paramsKey[indexOfcolumn]);
-						break;
-					default:
-						throw new MakingObjectListFromJdbcException();
-					}
-				}
-				list.add(ct.newInstance(paramsValue));
-			}
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-				| SQLException | NoSuchFieldException | SecurityException | NoSuchMethodException e) {
-			throw new MakingObjectListFromJdbcException(e);
-		}
-		return list;
-	}
+    private Object[] setParameterValuesOfConstructor(Class<?>[] fields, ResultSet rs, String[] paramsKey)
+            throws SQLException {
+        int sizeOfParam = paramsKey.length;
+        Object[] paramsValue = new Object[sizeOfParam];
+        for (int indexOfcolumn = 0; indexOfcolumn < sizeOfParam; indexOfcolumn++) {
+            paramsValue[indexOfcolumn] = getParameterValue(fields[indexOfcolumn].getSimpleName().toString(), rs,
+                    paramsKey[indexOfcolumn]);
+        }
+        return paramsValue;
+    }
+
+    private Object getParameterValue(String fieldType, ResultSet rs, String paramsKey) throws NumberFormatException,
+            SQLException {
+        switch (fieldType) {
+        case "String":
+            return rs.getString(paramsKey);
+        case "char":
+            return rs.getString(paramsKey).charAt(0);
+        case "byte":
+            return rs.getByte(paramsKey);
+        default:
+            throw new MakingObjectListFromJdbcException();
+        }
+    }
+
+    private Class<?>[] extractClassFieldType(Class<?> cls, String[] paramsKey) throws NoSuchFieldException {
+        int sizeOfParam = paramsKey.length;
+        Class<?>[] fields = new Class[sizeOfParam];
+        for (int i = 0; i < sizeOfParam; i++)
+            fields[i] = cls.getDeclaredField(paramsKey[i]).getType();
+        if (fields.length == 0)
+            throw new NoSuchFieldException();
+        return fields;
+    }
 
 	protected void terminateResources(Connection conn, PreparedStatement pstmt, ResultSet rs) throws SQLException {
 		if (conn != null)
