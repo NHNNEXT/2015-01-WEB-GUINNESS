@@ -55,7 +55,7 @@ public class CreateUserServlet extends HttpServlet {
 			logger.error(e.getClass().getSimpleName() + "에서 exception 발생", e);
 			resp.sendRedirect("/exception.jsp");
 		} catch (AlreadyExistedUserIdException e) {
-			logger.error(e.getClass().getName() + "에서 exception 발생", e);
+			logger.info(e.getClass().getName() + "에서 exception 발생");
 			Forwarding.doForward(req, resp, "message", "이미 존재하는 아이디입니다.", "/");
 		}
 	}
