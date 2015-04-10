@@ -38,6 +38,7 @@ NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
  * modal에 사용하는 Function
  */
 guinness.util.modal = function(o) {
+	if(document.querySelector('.modal-cover') != undefined) return false;
 	var modalCover = document.createElement("div");
 	modalCover.setAttribute("class","modal-cover");
 	var modalContainer = document.createElement("div");
@@ -60,6 +61,7 @@ guinness.util.modal = function(o) {
 	modalContainer.appendChild(modalBody);
 	modalCover.appendChild(modalContainer);
 	document.body.appendChild(modalCover);
+	document.querySelector('.modal-cover').focus();
 }
 
 /* 

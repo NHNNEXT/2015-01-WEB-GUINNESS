@@ -296,7 +296,7 @@ input.text {
 	background-color:#fdf5ce;
 }
 
-.diary-list img.avatar {
+.diary-list img.avatar, #commentListUl img.avatar{
 	display: block;
 	float: left;
 	width: 45px;
@@ -540,6 +540,12 @@ input.text {
 }
 
 #commentListUl {
-	margin:25px;
+	padding-top:25px;
+	padding-bottom:25px;
 	list-style:none;
+}
+
+#commentListUl li{
+	padding-top:15px;
+	padding-bottom:15px;
 }

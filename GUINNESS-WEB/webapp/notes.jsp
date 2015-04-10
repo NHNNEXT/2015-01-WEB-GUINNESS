@@ -64,6 +64,15 @@
 			<button id='submitComment' class='btn btn-pm'>답변</button>
 		</form>	
 	</template>
+	<template id="comment-template">
+		<li>
+			<img class='avatar' class='avatar' src='/img/avatar-default.png'>
+			<div class='comment-container'>
+				<div><span class='comment-user'></span></div>
+				<div class='comment'></div>
+			</div>
+		</li>
+	</template>
 	<script>
 		window.addEventListener('load', function() {
 			var groupId = window.location.pathname.split("/")[2];
@@ -94,8 +103,9 @@
 				document.querySelector('.modal-cover').addEventListener('keydown',function(e){
 					if(e.keyCode === 27){
 						console.log('key');
-					cancelNoteCreate();
-				}},false);
+						cancelNoteCreate();
+					}
+				},false);
 				document.querySelector('#create-note').addEventListener('click', createNote, false);
 			}, false);
 			document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
@@ -240,7 +250,7 @@
 					var json = JSON.parse(req.responseText);
 					for (var i = 0; i < json.length; i++) {
 						obj = json[i];
-						document.querySelector('#commentListUl').innerHTML += "<li comment-id='"+obj.commentId+"'>" + obj.commentText + "    "+ obj.createDate +" "+ obj.userName + "</li>";
+						document.querySelector('#commentListUl').innerHTML += "<li comment-id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>" + obj.commentText + "    "+ obj.createDate +" "+ obj.userName + "</li>";
 					}
 				}		
 			});
