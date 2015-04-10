@@ -292,6 +292,10 @@ input.text {
 	border-radius: 10px;
 }
 
+.diary-list li:hover {
+	background-color:#fdf5ce;
+}
+
 .diary-list img.avatar {
 	display: block;
 	float: left;
