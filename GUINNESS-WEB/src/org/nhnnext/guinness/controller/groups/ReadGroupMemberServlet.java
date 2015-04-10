@@ -16,12 +16,15 @@ import org.nhnnext.guinness.model.GroupDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.nhnnext.guinness.util.WebServletUrl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.GsonBuilder;
 
 @WebServlet(WebServletUrl.GROUP_READ_MEMBER)
 public class ReadGroupMemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LoggerFactory.getLogger(ReadGroupMemberServlet.class);
 	private GroupDao groupDao = GroupDao.getInstance();
 
 	@Override
@@ -32,6 +35,7 @@ public class ReadGroupMemberServlet extends HttpServlet {
 			out.print(new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(groupDao.readGroupMember(paramsList.get("groupId"))));
 			out.close();
 		} catch (MakingObjectListFromJdbcException | SQLException | ClassNotFoundException e) {
+			logger.error(e.getClass().getSimpleName() + "에서 exception 발생", e);
 			Forwarding.forwardForException(req, resp);
 			return;
 		}
