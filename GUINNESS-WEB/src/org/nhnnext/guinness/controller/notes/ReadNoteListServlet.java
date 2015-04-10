@@ -43,7 +43,7 @@ public class ReadNoteListServlet extends HttpServlet {
 			noteList = NoteDao.getInstance().readNoteList(paramsList.get("groupId"), endDate.toString(), targetDate.toString());
 			logger.debug(noteList.toString());
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Exception", e);
 			Forwarding.forwardForException(req, resp);
 		}
 		out.print(new Gson().toJson(noteList));

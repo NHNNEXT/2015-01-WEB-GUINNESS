@@ -42,7 +42,7 @@ public class DeleteGroupServlet extends HttpServlet {
 			groupDao.deleteGroup(group);
 			resp.sendRedirect("/groups.jsp");
 		} catch (SQLException | ClassNotFoundException | MakingObjectListFromJdbcException e) {
-			logger.error(e.getClass().getName() + "에서 exception 발생", e);
+			logger.error("Exception", e);
 			Forwarding.forwardForException(req, resp);
 			return;
 		}

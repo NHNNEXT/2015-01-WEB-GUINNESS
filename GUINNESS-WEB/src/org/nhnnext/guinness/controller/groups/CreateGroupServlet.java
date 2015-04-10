@@ -45,7 +45,7 @@ public class CreateGroupServlet extends HttpServlet {
 		try {
 			group = new Group(paramsList.get("groupName"), groupCaptainUserId, isPublic);
 		} catch (MakingObjectListFromJdbcException | SQLException | ClassNotFoundException e) {
-			logger.error(e.getClass().getName() + "에서 exception 발생", e);
+			logger.error("Exception", e);
 			Forwarding.forwardForException(req, resp);
 			return;
 		}
@@ -63,7 +63,7 @@ public class CreateGroupServlet extends HttpServlet {
 			groupDao.createGroup(group);
 			groupDao.createGroupUser(groupCaptainUserId, group.getGroupId());
 		} catch (SQLException | ClassNotFoundException | MakingObjectListFromJdbcException e) {
-			logger.error(e.getClass().getName() + "에서 exception 발생", e);
+			logger.error("Exception", e);
 			Forwarding.forwardForException(req, resp);
 			return;
 		}

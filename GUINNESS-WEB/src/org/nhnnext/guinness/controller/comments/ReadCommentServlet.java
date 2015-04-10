@@ -35,7 +35,7 @@ public class ReadCommentServlet extends HttpServlet {
 		try {
 			commentList = CommentDao.getInstance().readCommentListByNoteId(paramsList.get("noteId"));
 		} catch (SQLException | MakingObjectListFromJdbcException | ClassNotFoundException e) {
-			logger.error(e.getClass().getSimpleName() + "에서 exception 발생", e);
+			logger.error("Exception", e);
 			Forwarding.forwardForException(req, resp);
 			return;
 		}

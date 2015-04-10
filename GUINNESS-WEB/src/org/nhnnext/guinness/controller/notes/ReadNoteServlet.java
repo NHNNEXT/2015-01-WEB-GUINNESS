@@ -33,7 +33,7 @@ public class ReadNoteServlet extends HttpServlet {
 		try {
 			note = NoteDao.getInstance().readNote(paramsList.get("noteId"));
 		} catch (MakingObjectListFromJdbcException | SQLException | ClassNotFoundException e) {
-			logger.error(e.getClass().getSimpleName() + "에서 exception 발생", e);
+			logger.error("Exception", e);
 			Forwarding.forwardForException(req, resp);
 		}
 		PrintWriter out = resp.getWriter();
