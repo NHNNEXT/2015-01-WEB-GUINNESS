@@ -71,6 +71,7 @@ guinness.util.modal = function(o) {
 window.addEventListener("keydown",function(e){
 	if(e.keyCode === 13){
 		if(document.querySelector("#guinness-alert-window.isAlert") != undefined){
+			e.preventDefault();
 			document.querySelector("#guinness-alert-window").remove();
 		}
 	}
