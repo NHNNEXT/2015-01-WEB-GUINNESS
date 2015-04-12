@@ -2,7 +2,6 @@ package org.nhnnext.guinness.controller.groups;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -31,9 +30,10 @@ public class ReadGroupMemberServlet extends HttpServlet {
 		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "groupId");
 		PrintWriter out = resp.getWriter();
 		try {
-			out.print(new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(groupDao.readGroupMember(paramsList.get("groupId"))));
+			out.print(new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()
+					.toJson(groupDao.readGroupMember(paramsList.get("groupId"))));
 			out.close();
-		} catch (MakingObjectListFromJdbcException | SQLException | ClassNotFoundException e) {
+		} catch (MakingObjectListFromJdbcException | ClassNotFoundException e) {
 			logger.error("Exception", e);
 			Forwarding.forwardForException(req, resp);
 			return;

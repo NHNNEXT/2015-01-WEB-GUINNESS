@@ -1,7 +1,6 @@
 package org.nhnnext.guinness.controller.comments;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -21,7 +20,7 @@ import org.slf4j.LoggerFactory;
 public class CreateCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(CreateCommentServlet.class);
-	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		if (!ServletRequestUtil.existedUserIdFromSession(req, resp)) {
@@ -39,7 +38,7 @@ public class CreateCommentServlet extends HttpServlet {
 			Comment comment = new Comment(paramsList.get("commentText"), paramsList.get("commentType"), sessionUserId,
 					paramsList.get("noteId"));
 			CommentDao.getInstance().createcomment(comment);
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {
 			logger.error("Exception", e);
 			Forwarding.forwardForException(req, resp);
 			return;

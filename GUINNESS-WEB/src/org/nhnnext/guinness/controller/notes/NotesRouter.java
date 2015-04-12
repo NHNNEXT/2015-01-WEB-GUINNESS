@@ -1,7 +1,6 @@
 package org.nhnnext.guinness.controller.notes;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,7 +33,7 @@ public class NotesRouter extends HttpServlet {
 				return;
 			}
 			Forwarding.doForward(req, resp, "/notes.jsp");
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {
 			logger.error("Exception", e);
 			Forwarding.forwardForException(req, resp);
 			return;

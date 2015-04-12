@@ -1,6 +1,5 @@
 package org.nhnnext.guinness.model;
 
-import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,18 +12,18 @@ import org.slf4j.LoggerFactory;
 public class CommentDaoTest {
 	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListServlet.class);
 	private static final Comment COMMENT = new Comment("test comment text", "A", "admin@guinness.com", "12");
-	
+
 	@Test
-	public void createComment() throws SQLException, ClassNotFoundException {
+	public void createComment() throws ClassNotFoundException {
 		CommentDao commentDao = CommentDao.getInstance();
 		commentDao.createcomment(COMMENT);
 	}
-	
+
 	@Test
-	public void readCommentListByNoteId() throws MakingObjectListFromJdbcException, SQLException , ClassNotFoundException {
+	public void readCommentListByNoteId() throws MakingObjectListFromJdbcException, ClassNotFoundException {
 		CommentDao commentDao = CommentDao.getInstance();
 		List<Comment> comments = commentDao.readCommentListByNoteId("2");
-		for(Iterator<Comment> i =  comments.iterator(); i.hasNext(); ) {
+		for (Iterator<Comment> i = comments.iterator(); i.hasNext();) {
 			Comment comment = i.next();
 			logger.debug(comment.toString());
 		}

@@ -2,7 +2,6 @@ package org.nhnnext.guinness.controller.comments;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +25,7 @@ import com.google.gson.Gson;
 public class ReadCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(ReadCommentServlet.class);
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "noteId");
@@ -34,7 +33,7 @@ public class ReadCommentServlet extends HttpServlet {
 		List<Comment> commentList = null;
 		try {
 			commentList = CommentDao.getInstance().readCommentListByNoteId(paramsList.get("noteId"));
-		} catch (SQLException | MakingObjectListFromJdbcException | ClassNotFoundException e) {
+		} catch (MakingObjectListFromJdbcException | ClassNotFoundException e) {
 			logger.error("Exception", e);
 			Forwarding.forwardForException(req, resp);
 			return;

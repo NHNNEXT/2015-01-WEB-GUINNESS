@@ -1,7 +1,5 @@
 package org.nhnnext.guinness.model;
 
-import java.sql.SQLException;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -31,11 +29,11 @@ public class Group {
 	}
 
 	public Group(String groupName, String groupCaptainUserId, char isPublic) throws MakingObjectListFromJdbcException,
-			SQLException, ClassNotFoundException {
+			ClassNotFoundException {
 		this(setNewGroupId(), groupName, groupCaptainUserId, isPublic);
 	}
 
-	private static String setNewGroupId() throws MakingObjectListFromJdbcException, SQLException, ClassNotFoundException {
+	private static String setNewGroupId() throws MakingObjectListFromJdbcException, ClassNotFoundException {
 		while (true) {
 			String groupId = GetRandom.getRandomId(5);
 			if (GroupDao.getInstance().readGroup(groupId) == null) {

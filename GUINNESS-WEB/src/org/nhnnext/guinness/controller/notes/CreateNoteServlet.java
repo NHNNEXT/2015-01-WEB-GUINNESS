@@ -1,7 +1,6 @@
 package org.nhnnext.guinness.controller.notes;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Map;
@@ -23,7 +22,7 @@ import org.slf4j.LoggerFactory;
 public class CreateNoteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(CreateNoteServlet.class);
-	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		if (!ServletRequestUtil.existedUserIdFromSession(req, resp)) {
@@ -42,8 +41,9 @@ public class CreateNoteServlet extends HttpServlet {
 		}
 
 		try {
-			NoteDao.getInstance().createNote(new Note(paramsList.get("noteText"), targetDate, sessionUserId, paramsList.get("groupId")));
-		} catch (SQLException | ClassNotFoundException e) {
+			NoteDao.getInstance().createNote(
+					new Note(paramsList.get("noteText"), targetDate, sessionUserId, paramsList.get("groupId")));
+		} catch (ClassNotFoundException e) {
 			logger.error("Exception", e);
 			Forwarding.forwardForException(req, resp);
 			return;

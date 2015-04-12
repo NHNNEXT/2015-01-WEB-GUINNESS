@@ -1,6 +1,5 @@
 package org.nhnnext.guinness.controller.users;
 
-import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -25,10 +24,11 @@ import org.slf4j.LoggerFactory;
 public class CreateUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(CreateUserServlet.class);
-	
+
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws javax.servlet.ServletException,
 			java.io.IOException {
-		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "userId", "userPassword", "userName");
+		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "userId", "userPassword",
+				"userName");
 		User user = new User(paramsList.get("userId"), paramsList.get("userName"), paramsList.get("userPassword"));
 
 		Set<ConstraintViolation<User>> constraintViolations = MyValidatorFactory.createValidator().validate(user);
@@ -51,7 +51,7 @@ public class CreateUserServlet extends HttpServlet {
 			session.setAttribute("sessionUserId", paramsList.get("userId"));
 			session.setAttribute("sessionUserName", paramsList.get("userName"));
 			resp.sendRedirect("/groups.jsp");
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {
 			logger.error("Exception", e);
 			resp.sendRedirect("/exception.jsp");
 		} catch (AlreadyExistedUserIdException e) {

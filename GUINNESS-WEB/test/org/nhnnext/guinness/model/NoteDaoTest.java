@@ -2,7 +2,6 @@ package org.nhnnext.guinness.model;
 
 import static org.junit.Assert.assertNotNull;
 
-import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,12 +15,12 @@ public class NoteDaoTest {
 	NoteDao noteDao = NoteDao.getInstance();
 
 	@Test
-	public void CreateNote() throws SQLException, ClassNotFoundException {
+	public void CreateNote() throws ClassNotFoundException {
 		Note note = new Note("test", "2015-03-19 17:56:24", "jyb0823@naver.com", "Ogsho");
-		
+
 		noteDao.createNote(note);
 	}
-	
+
 	@Test
 	public void readNotes() {
 		List<Note> noteList = null;
@@ -30,26 +29,24 @@ public class NoteDaoTest {
 		} catch (Exception e) {
 			logger.debug(e.getMessage());
 		}
-		for(Iterator<Note> i =  noteList.iterator(); i.hasNext(); ) {
+		for (Iterator<Note> i = noteList.iterator(); i.hasNext();) {
 			Note note = i.next();
 			logger.debug(note.toString());
 		}
 	}
-	
-	@Test
 
+	@Test
 	public void testName() throws Exception {
 		NoteDao noteDao = NoteDao.getInstance();
 		int tt = noteDao.checkGroupNotesCount("JFaTh");
 		logger.debug(Integer.toString(tt));
 	}
-	
-	
-    public void readSingleNote() throws Exception {
-	    Note note = null;
-	    
-	    note = noteDao.readNote("3");
-	    
-	    assertNotNull(note);
-    }
+
+	public void readSingleNote() throws Exception {
+		Note note = null;
+
+		note = noteDao.readNote("3");
+
+		assertNotNull(note);
+	}
 }

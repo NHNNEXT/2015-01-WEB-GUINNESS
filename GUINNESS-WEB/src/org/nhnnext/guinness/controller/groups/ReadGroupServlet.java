@@ -2,7 +2,6 @@ package org.nhnnext.guinness.controller.groups;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -25,7 +24,7 @@ import com.google.gson.Gson;
 public class ReadGroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(ReadGroupServlet.class);
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		if (!ServletRequestUtil.existedUserIdFromSession(req, resp)) {
@@ -36,7 +35,7 @@ public class ReadGroupServlet extends HttpServlet {
 		List<Group> groupList = null;
 		try {
 			groupList = GroupDao.getInstance().readGroupList(sessionUserId);
-		} catch (SQLException | ClassNotFoundException | MakingObjectListFromJdbcException e) {
+		} catch (ClassNotFoundException | MakingObjectListFromJdbcException e) {
 			logger.error("Exception", e);
 			Forwarding.forwardForException(req, resp);
 			return;

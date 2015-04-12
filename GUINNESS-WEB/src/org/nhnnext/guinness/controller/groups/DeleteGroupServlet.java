@@ -1,7 +1,6 @@
 package org.nhnnext.guinness.controller.groups;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -41,7 +40,7 @@ public class DeleteGroupServlet extends HttpServlet {
 			}
 			groupDao.deleteGroup(group);
 			resp.sendRedirect("/groups.jsp");
-		} catch (SQLException | ClassNotFoundException | MakingObjectListFromJdbcException e) {
+		} catch (ClassNotFoundException | MakingObjectListFromJdbcException e) {
 			logger.error("Exception", e);
 			Forwarding.forwardForException(req, resp);
 			return;

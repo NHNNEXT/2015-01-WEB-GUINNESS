@@ -2,7 +2,6 @@ package org.nhnnext.guinness.controller.notes;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -32,7 +31,7 @@ public class ReadNoteServlet extends HttpServlet {
 		Note note = null;
 		try {
 			note = NoteDao.getInstance().readNote(paramsList.get("noteId"));
-		} catch (MakingObjectListFromJdbcException | SQLException | ClassNotFoundException e) {
+		} catch (MakingObjectListFromJdbcException | ClassNotFoundException e) {
 			logger.error("Exception", e);
 			Forwarding.forwardForException(req, resp);
 		}

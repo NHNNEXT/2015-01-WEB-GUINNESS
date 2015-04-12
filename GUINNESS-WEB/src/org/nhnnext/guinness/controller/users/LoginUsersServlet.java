@@ -1,7 +1,6 @@
 package org.nhnnext.guinness.controller.users;
 
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.Map;
 
 import javax.servlet.annotation.WebServlet;
@@ -20,7 +19,6 @@ import org.slf4j.LoggerFactory;
 public class LoginUsersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(LoginUsersServlet.class);
-	
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws javax.servlet.ServletException,
 			java.io.IOException {
@@ -37,7 +35,7 @@ public class LoginUsersServlet extends HttpServlet {
 			session.setAttribute("sessionUserId", user.getUserId());
 			session.setAttribute("sessionUserName", user.getUserName());
 			out.print("/groups.jsp");
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {
 			logger.error("Exception", e);
 			out.print("/exception.jsp");
 		}

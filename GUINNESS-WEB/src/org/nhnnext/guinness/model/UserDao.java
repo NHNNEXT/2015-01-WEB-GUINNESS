@@ -1,6 +1,5 @@
 package org.nhnnext.guinness.model;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
@@ -21,7 +20,7 @@ public class UserDao extends AbstractDao {
 		return userDao;
 	}
 
-	public void createUser(User user) throws SQLException, ClassNotFoundException, AlreadyExistedUserIdException {
+	public void createUser(User user) throws ClassNotFoundException, AlreadyExistedUserIdException {
 		if (readUser(user.getUserId()) != null) {
 			logger.debug("존재하는 userId 입니다!");
 			throw new AlreadyExistedUserIdException();
@@ -30,7 +29,7 @@ public class UserDao extends AbstractDao {
 		queryNotForReturn(sql, user.getUserId(), user.getUserName(), user.getUserPassword(), null);
 	}
 
-	public User readUser(String userId) throws SQLException, MakingObjectListFromJdbcException, ClassNotFoundException {
+	public User readUser(String userId) throws MakingObjectListFromJdbcException, ClassNotFoundException {
 		String sql = "select * from USERS where userId=?";
 		String[] params = { "userId", "userName", "userPassword" };
 		List<?> list = queryForObjectsReturn(User.class, params, sql, userId);
