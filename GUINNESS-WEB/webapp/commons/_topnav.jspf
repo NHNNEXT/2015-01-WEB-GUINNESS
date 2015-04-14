@@ -6,7 +6,7 @@
 <div id="header">
   <div class='content wrap'>
       <a href='/' id='brand'>
-          <img src='/img/pm_logotype_white.png'>
+          <img src='/img/pm_white.png'>
       </a>
       <ul class='util'>
         <li class='menu drop-down'>
