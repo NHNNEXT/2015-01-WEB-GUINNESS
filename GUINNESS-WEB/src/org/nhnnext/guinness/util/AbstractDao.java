@@ -102,6 +102,34 @@ public abstract class AbstractDao {
 		}
 	}
 
+	/**
+	 * 객체 리턴이 필요한 쿼리 실행 시
+	 * 
+	 * @param cls
+	 *            리스트 객체의 클래스 타입
+	 * @param params
+	 *            cls의 생성
+	 * @param sql
+	 *            쿼리문
+	 * @param parameters
+	 *            sql 쿼리의 인자
+	 * @return cls형 리스트 객체
+	 * @throws MakingObjectListFromJdbcException
+	 * @throws ClassNotFoundException
+	 */
+	public List<?> queryForObjectsReturn(ObjectMapper<?> om, String sql, String... parameters) throws DataAccessException, ClassNotFoundException {
+		Connection conn = getConnection();
+		PreparedStatement pstmt = setPreparedStatement(conn, sql, parameters);
+		try {
+			ResultSet rs = pstmt.executeQuery();
+			List<?> array = getListObject(om, rs);
+			terminateResources(conn, pstmt, rs);
+			return array;
+		} catch (SQLException e) {
+			throw new DataAccessException();
+		}
+	}
+
 	private PreparedStatement setPreparedStatement(Connection conn, String sql, String... parameters)
 			throws DataAccessException {
 		int index = 1;
@@ -113,6 +141,18 @@ public abstract class AbstractDao {
 		} catch (SQLException e) {
 			throw new DataAccessException();
 		}
+	}
+
+	private List<Object> getListObject(ObjectMapper<?> om, ResultSet rs) {
+		List<Object> list = new ArrayList<Object>();
+		try {
+			while (rs.next()) {
+				list.add(om.returnObject(rs));
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException();
+		}
+		return list;
 	}
 
 	private List<Object> getListObject(Class<?> cls, String[] paramsKey, ResultSet rs)

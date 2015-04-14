@@ -1,9 +1,12 @@
 package org.nhnnext.guinness.model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.util.AbstractDao;
+import org.nhnnext.guinness.util.ObjectMapper;
 
 public class NoteDao extends AbstractDao {
 	private static NoteDao noteDao = new NoteDao();
@@ -25,8 +28,14 @@ public class NoteDao extends AbstractDao {
 	public List<Note> readNoteList(String groupId, String endDate, String targetDate)
 			throws MakingObjectListFromJdbcException, ClassNotFoundException {
 		String sql = "select * from NOTES,USERS where NOTES.userId = USERS.userId and groupId = ? and NOTES.targetDate between ? and ? order by targetDate desc";
-		String[] params = { "noteId", "noteText", "targetDate", "userId", "groupId", "userName" };
-		List<?> noteList = queryForObjectsReturn(Note.class, params, sql, groupId, endDate, targetDate);
+		ObjectMapper<Note> om = new ObjectMapper<Note>() {
+			@Override
+			public Note returnObject(ResultSet rs) throws SQLException {
+				return new Note(rs.getString("noteId"), rs.getString("noteText"), rs.getString("targetDate"),
+						rs.getString("userId"), rs.getString("groupId"), rs.getString("userName"));
+			}
+		};
+		List<?> noteList = queryForObjectsReturn(om, sql, groupId, endDate, targetDate);
 		return (List<Note>) noteList;
 	}
 
@@ -37,8 +46,14 @@ public class NoteDao extends AbstractDao {
 
 	public Note readNote(String noteId) throws MakingObjectListFromJdbcException, ClassNotFoundException {
 		String sql = "select *from NOTES,USERS where noteId = ? AND NOTES.userId = USERS.userId";
-		String[] params = { "noteId", "noteText", "targetDate", "userId", "groupId", "userName" };
-		List<?> note = queryForObjectsReturn(Note.class, params, sql, noteId);
+		ObjectMapper<Note> om = new ObjectMapper<Note>() {
+			@Override
+			public Note returnObject(ResultSet rs) throws SQLException {
+				return new Note(rs.getString("noteId"), rs.getString("noteText"), rs.getString("targetDate"),
+						rs.getString("userId"), rs.getString("groupId"), rs.getString("userName"));
+			}
+		};
+		List<?> note = queryForObjectsReturn(om, sql, noteId);
 		return (Note) note.get(0);
 	}
 }
