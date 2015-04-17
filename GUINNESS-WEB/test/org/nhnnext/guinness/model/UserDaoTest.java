@@ -1,6 +1,6 @@
 package org.nhnnext.guinness.model;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,8 +17,7 @@ public class UserDaoTest {
     private UserDao userDao;
 	
 	@Test
-	public void NotExistCreateUserTest() throws ClassNotFoundException {
-		System.out.println(userDao.readUser("test@guinness.org").toString());
-		assertNotNull(userDao.readUser("test@guinness.org"));
+	public void ExistCreateUserTest() throws ClassNotFoundException {
+		assertEquals(null, userDao.readUser("h@s.com"));
 	}
 }
