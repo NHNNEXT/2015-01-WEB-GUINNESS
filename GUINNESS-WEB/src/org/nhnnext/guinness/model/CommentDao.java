@@ -5,40 +5,25 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
-import org.nhnnext.guinness.util.AbstractDao;
-import org.nhnnext.guinness.util.ObjectMapper;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
-public class CommentDao extends AbstractDao {
-	private static CommentDao commentDao = new CommentDao();
-
-	private CommentDao() {
-
-	}
-
-	public static CommentDao getInstance() {
-		return commentDao;
-	}
-
-	public void createcomment(Comment comment) throws ClassNotFoundException {
-		String query = "insert into COMMENTS (commentText, commentType, userId, noteId) values(?, ?, ?, ?)";
-		queryNotForReturn(query, comment.getCommentText(), comment.getCommentType(), comment.getUserId(),
+public class CommentDao extends JdbcDaoSupport {
+	public void createComment(Comment comment) throws ClassNotFoundException {
+		String sql = "insert into COMMENTS (commentText, commentType, userId, noteId) values(?, ?, ?, ?)";
+		getJdbcTemplate().update(sql, comment.getCommentText(), comment.getCommentType(), comment.getUserId(),
 				comment.getNoteId());
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Comment> readCommentListByNoteId(String noteId) throws MakingObjectListFromJdbcException,
 			ClassNotFoundException {
-		String sql = "select * from COMMENTS, USERS where COMMENTS.userId = USERS.userId AND noteId = ?;";
-		ObjectMapper<Comment> om = new ObjectMapper<Comment>() {
-			@Override
-			public Comment returnObject(ResultSet rs) throws SQLException {
+		String sql = "select * from COMMENTS, USERS where COMMENTS.userId = USERS.userId AND noteId = ?";
+		return getJdbcTemplate().query(sql, new RowMapper<Comment>() {
+			public Comment mapRow(ResultSet rs, int rowNum) throws SQLException {
 				return new Comment(rs.getString("commentText"), rs.getString("commentType"),
-						rs.getString("createDate"), rs.getString("userId"), rs.getString("noteId"),
-						rs.getString("userName"));
+						rs.getString("createDate"), rs.getString("userId"), rs.getString("noteId"), rs
+								.getString("userName"));
 			}
-		};
-		List<?> list = queryForObjectsReturn(om, sql, noteId);
-		return (List<Comment>) list;
+		}, noteId);
 	}
-
 }
