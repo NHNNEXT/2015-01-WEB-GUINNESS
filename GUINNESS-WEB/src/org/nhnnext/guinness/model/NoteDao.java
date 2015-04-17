@@ -4,14 +4,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 public class NoteDao extends JdbcDaoSupport {
-	private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
 
 	public void createNote(Note note) {
 		String sql = "insert into NOTES (noteText, targetDate, userId, groupId) values(?, ?, ?, ?)";
@@ -45,7 +42,7 @@ public class NoteDao extends JdbcDaoSupport {
 	}
 
 	public Note readNote(String noteId) {
-		String sql = "select *from NOTES,USERS where noteId = ? AND NOTES.userId = USERS.userId";
+		String sql = "select * from NOTES,USERS where noteId = ? AND NOTES.userId = USERS.userId";
 		RowMapper<Note> rowMapper = new RowMapper<Note>() {
 			@Override
 			public Note mapRow(ResultSet rs, int rowNum) throws SQLException {
