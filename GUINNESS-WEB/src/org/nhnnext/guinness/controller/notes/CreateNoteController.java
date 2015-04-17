@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.nhnnext.guinness.model.Note;
-import org.nhnnext.guinness.model.NoteDao;
+import org.nhnnext.guinness.model.dao.NoteDao;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

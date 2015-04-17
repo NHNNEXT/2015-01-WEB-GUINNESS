@@ -13,7 +13,7 @@ import javax.validation.ConstraintViolation;
 
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
 import org.nhnnext.guinness.model.User;
-import org.nhnnext.guinness.model.UserDao;
+import org.nhnnext.guinness.model.dao.UserDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.MyValidatorFactory;
 import org.nhnnext.guinness.util.ServletRequestUtil;

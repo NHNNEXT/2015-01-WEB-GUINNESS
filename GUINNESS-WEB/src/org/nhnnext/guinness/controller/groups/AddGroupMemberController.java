@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
-import org.nhnnext.guinness.model.GroupDao;
-import org.nhnnext.guinness.model.UserDao;
+import org.nhnnext.guinness.model.dao.GroupDao;
+import org.nhnnext.guinness.model.dao.UserDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;

@@ -12,7 +12,7 @@ import javax.validation.Validator;
 
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Group;
-import org.nhnnext.guinness.model.GroupDao;
+import org.nhnnext.guinness.model.dao.GroupDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.MyValidatorFactory;
 import org.nhnnext.guinness.util.RandomString;
