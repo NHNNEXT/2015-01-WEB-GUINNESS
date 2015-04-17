@@ -6,12 +6,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Test;
-import org.nhnnext.guinness.controller.notes.ReadNoteListServlet;
+import org.nhnnext.guinness.controller.notes.ReadNoteListController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class NoteDaoTest {
-	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListServlet.class);
+	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListController.class);
 	NoteDao noteDao = NoteDao.getInstance();
 
 	@Test
