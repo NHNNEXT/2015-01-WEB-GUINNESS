@@ -16,6 +16,10 @@
 <bean id="UserDao" class="org.nhnnext.guinness.model.UserDao"
 	p:dataSource-ref="dataSource"
 />
+<bean id="CommentDao" class="org.nhnnext.guinness.model.CommentDao"
+	p:dataSource-ref="dataSource"
+/>
+
 <bean id="GroupDao" class="org.nhnnext.guinness.model.GroupDao"
 	p:dataSource-ref="dataSource"
 />
