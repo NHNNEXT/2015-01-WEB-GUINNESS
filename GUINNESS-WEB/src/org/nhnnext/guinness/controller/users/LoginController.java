@@ -1,31 +1,36 @@
 package org.nhnnext.guinness.controller.users;
 
-import java.io.PrintWriter;
 import java.util.Map;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.model.UserDao;
 import org.nhnnext.guinness.util.ServletRequestUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-@WebServlet("/user/login")
-public class LoginUsersServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private static final Logger logger = LoggerFactory.getLogger(LoginUsersServlet.class);
+@Controller
+public class LoginController {
+	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws javax.servlet.ServletException,
-			java.io.IOException {
+	@Autowired
+	private UserDao userDao;
+
+	@RequestMapping(value="/user/login", method=RequestMethod.POST)
+	protected void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "userId", "userPassword");
 		PrintWriter out = resp.getWriter();
 		try {
-			User user = UserDao.getInstance().readUser(paramsList.get("userId"));
+			User user = userDao.readUser(paramsList.get("userId"));
 			if (user == null || !user.getUserPassword().equals(paramsList.get("userPassword"))) {
 				out.print("loginFailed");
 				out.close();

@@ -7,7 +7,6 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 <context:property-placeholder location="classpath*:application-properties.xml" />
 
-<!-- <context:annotation-config /> -->
 <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" 
 	p:driverClassName="${database.driverClassName}"
 	p:url="${database.url}"
@@ -17,5 +16,4 @@
 <bean id="UserDao" class="org.nhnnext.guinness.model.UserDao"
 	p:dataSource-ref="dataSource"
 />
-
 </beans>
