@@ -1,9 +1,10 @@
-package org.nhnnext.guinness.model;
+package org.nhnnext.guinness.model.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.nhnnext.guinness.model.Note;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;

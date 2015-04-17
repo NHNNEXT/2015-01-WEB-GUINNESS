@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.nhnnext.guinness.model.Comment;
-import org.nhnnext.guinness.model.CommentDao;
+import org.nhnnext.guinness.model.dao.CommentDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;

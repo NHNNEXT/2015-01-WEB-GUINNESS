@@ -1,4 +1,4 @@
-package org.nhnnext.guinness.model;
+package org.nhnnext.guinness.model.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
+import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.AbstractDao;
 import org.nhnnext.guinness.util.ObjectMapper;
 import org.slf4j.Logger;

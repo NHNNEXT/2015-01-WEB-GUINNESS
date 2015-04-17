@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.nhnnext.guinness.controller.notes.ReadNoteListController;
+import org.nhnnext.guinness.model.dao.NoteDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
