@@ -5,7 +5,7 @@
 <html lang="ko">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<%@ include file="/commons/_favicon.jspf"%>
+<%@ include file="./commons/_favicon.jspf"%>
 <title>Error!!!</title>
 </head>
 <body>

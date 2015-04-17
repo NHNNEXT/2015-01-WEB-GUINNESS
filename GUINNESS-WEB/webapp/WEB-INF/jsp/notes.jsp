@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8">
 <title>스터디의 시작, 페이퍼민트</title>
-<%@ include file="/commons/_favicon.jspf"%>
+<%@ include file="./commons/_favicon.jspf"%>
 <link rel="stylesheet"
 	href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
 <link rel="stylesheet" href="/css/mainStyle.css">
@@ -16,7 +16,7 @@
 <script src="/js/guinness.js"></script>
 </head>
 <body>
-	<%@ include file="/commons/_topnav.jspf"%>
+	<%@ include file="./commons/_topnav.jspf"%>
 	<h1 id="empty-message"
 		style="position: absolute; color: #888; top: 300px; width: 100%; text-align: center;">새
 		노트를 작성해주세요</h1>

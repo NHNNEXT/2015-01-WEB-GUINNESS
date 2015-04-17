@@ -8,7 +8,7 @@
 </c:if>
 <title>스터디의 시작, 페이퍼민트</title>
 <meta charset="utf-8">
-<%@ include file="/commons/_favicon.jspf"%>
+<%@ include file="./commons/_favicon.jspf"%>
 <link rel="stylesheet"
 	href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
 <link rel="stylesheet" href="/css/mainStyle.css">
