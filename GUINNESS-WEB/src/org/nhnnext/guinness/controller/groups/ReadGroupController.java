@@ -1,11 +1,10 @@
 package org.nhnnext.guinness.controller.groups;
 
 import java.io.IOException;
-import java.util.Map;
+import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,34 +15,37 @@ import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-@WebServlet("/group/delete")
-public class DeleteGroupServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private static final Logger logger = LoggerFactory.getLogger(DeleteGroupServlet.class);
-	private GroupDao groupDao = GroupDao.getInstance();
+import com.google.gson.Gson;
 
-	@Override
+@Controller
+public class ReadGroupController {
+	private static final Logger logger = LoggerFactory.getLogger(ReadGroupController.class);
+
+	@Autowired
+	private GroupDao groupDao;
+	
+	@RequestMapping("/group/read")
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		if (!ServletRequestUtil.existedUserIdFromSession(req, resp)) {
 			resp.sendRedirect("/");
 			return;
 		}
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(req, resp);
-		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "groupId");
-
+		List<Group> groupList = null;
 		try {
-			Group group = groupDao.readGroup(paramsList.get("groupId"));
-			if (!group.getGroupCaptainUserId().equals(sessionUserId)) {
-				Forwarding.doForward(req, resp, "errorMessage", "삭제 권한 없음", "/groups.jsp");
-				return;
-			}
-			groupDao.deleteGroup(group);
-			resp.sendRedirect("/groups.jsp");
-		} catch (ClassNotFoundException | MakingObjectListFromJdbcException e) {
+			groupList = groupDao.readGroupList(sessionUserId);
+		} catch (Exception e) {
 			logger.error("Exception", e);
 			Forwarding.forwardForException(req, resp);
 			return;
 		}
+		resp.setContentType("application/json; charset=UTF-8");
+		PrintWriter out = resp.getWriter();
+		out.write(new Gson().toJson(groupList));
+		out.close();
 	}
 }

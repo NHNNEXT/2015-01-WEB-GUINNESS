@@ -2,8 +2,8 @@ package org.nhnnext.guinness.util;
 
 import java.util.Random;
 
-public class GetRandom {
-	private GetRandom() {
+public class RandomString {
+	private RandomString() {
 	}
 
 	public static String getRandomId(int lengthOfReturnString) {

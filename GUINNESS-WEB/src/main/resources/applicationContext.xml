@@ -20,4 +20,7 @@
 	p:dataSource-ref="dataSource"
 />
 
+<bean id="GroupDao" class="org.nhnnext.guinness.model.GroupDao"
+	p:dataSource-ref="dataSource"
+/>
 </beans>

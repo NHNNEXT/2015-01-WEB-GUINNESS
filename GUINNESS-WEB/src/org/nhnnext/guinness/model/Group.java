@@ -5,7 +5,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
-import org.nhnnext.guinness.util.GetRandom;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class Group {
 	@Size(min = 5, max = 5)
@@ -20,6 +20,9 @@ public class Group {
 
 	@NotNull
 	private char isPublic;
+	
+	@Autowired
+	private static GroupDao groupDao;
 
 	public Group(String groupId, String groupName, String groupCaptainUserId, char isPublic) {
 		this.groupId = groupId;
@@ -30,16 +33,11 @@ public class Group {
 
 	public Group(String groupName, String groupCaptainUserId, char isPublic) throws MakingObjectListFromJdbcException,
 			ClassNotFoundException {
-		this(setNewGroupId(), groupName, groupCaptainUserId, isPublic);
+		this(null, groupName, groupCaptainUserId, isPublic);
 	}
 
-	private static String setNewGroupId() throws MakingObjectListFromJdbcException, ClassNotFoundException {
-		while (true) {
-			String groupId = GetRandom.getRandomId(5);
-			if (GroupDao.getInstance().readGroup(groupId) == null) {
-				return groupId;
-			}
-		}
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
 	}
 
 	public String getGroupId() {
