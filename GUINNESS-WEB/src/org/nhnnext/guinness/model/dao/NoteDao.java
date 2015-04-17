@@ -2,6 +2,7 @@ package org.nhnnext.guinness.model.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.nhnnext.guinness.model.Note;
@@ -32,11 +33,12 @@ public class NoteDao extends JdbcDaoSupport {
 						rs.getString("userName"));
 			}
 		};
+		
 		try {
 			return getJdbcTemplate().query(sql, rowMapper, groupId, endDate,
 					targetDate);
 		} catch (EmptyResultDataAccessException e) {
-			return null;
+			return new ArrayList<Note>();
 		}
 	}
 

@@ -29,6 +29,7 @@ public class CreateNoteController {
 			return;
 		}
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(req, resp);
+		
 		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "groupId", "noteText",
 				"targetDate");
 		String targetDate = paramsList.get("targetDate") + " "

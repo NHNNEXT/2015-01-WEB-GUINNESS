@@ -32,7 +32,7 @@ public class ReadGroupMemberController {
 		PrintWriter out = resp.getWriter();
 		try {
 			out.print(new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()
-					.toJson(groupDao.readGroupMember(paramsList.get("groupId"))));
+					.toJson(groupDao.readGroupMember(req.getParameter("groupId"))));
 			out.close();
 		} catch (Exception e) {
 			logger.error("Exception", e);

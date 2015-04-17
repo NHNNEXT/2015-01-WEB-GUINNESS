@@ -59,13 +59,12 @@ public class GroupDao extends JdbcDaoSupport {
 								"isPublic").charAt(0));
 			}
 		};
-		return getJdbcTemplate().query(sql, rowMapper);
+		return getJdbcTemplate().query(sql, rowMapper, userId);
 	}
 
 	public boolean checkJoinedGroup(String userId, String groupId) {
 		String sql = "select count(*) from GROUPS_USERS, GROUPS where GROUPS_USERS.userId = ? and GROUPS_USERS.groupID = GROUPS.groupId and GROUPS.groupId = ?";
-		if (getJdbcTemplate().queryForObject(sql, new Object[] { 10 },
-				Integer.class) > 0)
+		if ( getJdbcTemplate().queryForObject(sql, Integer.class, new Object[] { userId, groupId }) > 0)
 			return true;
 		return false;
 	}
@@ -79,6 +78,6 @@ public class GroupDao extends JdbcDaoSupport {
 						rs.getString("userName"), rs.getString("userPassword"));
 			}
 		};
-		return getJdbcTemplate().query(sql, rowMapper);
+		return getJdbcTemplate().query(sql, rowMapper, groupId);
 	}
 }
