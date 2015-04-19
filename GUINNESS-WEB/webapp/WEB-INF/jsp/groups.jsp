@@ -147,7 +147,7 @@
 				location.href = "/group/delete?groupId=" + groupId;
 			}, function() {
 				document.body.style.overflow = "auto";
-				console.log("그룹삭제안함");
+                return;
 			});
 		}
 	</script>
