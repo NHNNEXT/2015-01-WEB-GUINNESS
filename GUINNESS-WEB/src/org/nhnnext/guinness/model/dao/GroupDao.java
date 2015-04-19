@@ -33,13 +33,9 @@ public class GroupDao extends JdbcDaoSupport {
 		RowMapper<Group> rowMapper = new RowMapper<Group>() {
 			@Override
 			public Group mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return new Group(rs.getString("groupId"),
-						rs.getString("groupName"),
-						rs.getString("groupCaptainUserId"), rs.getString(
-								"isPublic").charAt(0));
+				return new Group(rs.getString("groupId"), rs.getString("groupName"), rs.getString("groupCaptainUserId"), rs.getString("isPublic").charAt(0));
 			}
 		};
-
 		try {
 			return getJdbcTemplate().queryForObject(sql, rowMapper, groupId);
 		} catch (EmptyResultDataAccessException e) {

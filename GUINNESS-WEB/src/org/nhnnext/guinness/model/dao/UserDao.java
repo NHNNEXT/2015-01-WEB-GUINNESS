@@ -17,7 +17,7 @@ public class UserDao extends JdbcDaoSupport {
 
 	public void createUser(User user) throws ClassNotFoundException, AlreadyExistedUserIdException {
 		if (readUser(user.getUserId()) != null) {
-			logger.debug("존재하는 userId 입니다!");
+			logger.debug("UserDao: userId already exist!");
 			throw new AlreadyExistedUserIdException();
 		}
 		String sql = "insert into USERS values(?,?,?,?,default)";

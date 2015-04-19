@@ -10,10 +10,10 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 public class CommentDao extends JdbcDaoSupport {
+	
 	public void createComment(Comment comment) throws ClassNotFoundException {
 		String sql = "insert into COMMENTS (commentText, commentType, userId, noteId) values(?, ?, ?, ?)";
-		getJdbcTemplate().update(sql, comment.getCommentText(), comment.getCommentType(), comment.getUserId(),
-				comment.getNoteId());
+		getJdbcTemplate().update(sql, comment.getCommentText(), comment.getCommentType(), comment.getUserId(), comment.getNoteId());
 	}
 
 	public List<Comment> readCommentListByNoteId(String noteId) throws MakingObjectListFromJdbcException,
@@ -21,9 +21,7 @@ public class CommentDao extends JdbcDaoSupport {
 		String sql = "select * from COMMENTS, USERS where COMMENTS.userId = USERS.userId AND noteId = ?";
 		return getJdbcTemplate().query(sql, new RowMapper<Comment>() {
 			public Comment mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return new Comment(rs.getString("commentText"), rs.getString("commentType"),
-						rs.getString("createDate"), rs.getString("userId"), rs.getString("noteId"), rs
-								.getString("userName"));
+				return new Comment(rs.getString("commentText"), rs.getString("commentType"), rs.getString("createDate"), rs.getString("userId"), rs.getString("noteId"), rs.getString("userName"));
 			}
 		}, noteId);
 	}
