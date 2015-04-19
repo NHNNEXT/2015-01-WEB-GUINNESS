@@ -36,11 +36,11 @@ public class DeleteGroupController {
 		try {
 			Group group = groupDao.readGroup(paramsList.get("groupId"));
 			if (!group.getGroupCaptainUserId().equals(sessionUserId)) {
-				Forwarding.doForward(req, resp, "errorMessage", "삭제 권한 없음", "/groups.jsp");
+				Forwarding.doForward(req, resp, "errorMessage", "삭제 권한 없음", "/groups");
 				return;
 			}
 			groupDao.deleteGroup(group);
-			resp.sendRedirect("/groups.jsp");
+			resp.sendRedirect("/groups");
 		} catch (Exception e) {
 			logger.error("Exception", e);
 			Forwarding.forwardForException(req, resp);
