@@ -6,30 +6,30 @@ import java.util.Calendar;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.nhnnext.guinness.model.Note;
-import org.nhnnext.guinness.model.NoteDao;
-import org.nhnnext.guinness.util.Forwarding;
+import org.nhnnext.guinness.model.dao.NoteDao;
 import org.nhnnext.guinness.util.ServletRequestUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-@WebServlet("/note/create")
-public class CreateNoteServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private static final Logger logger = LoggerFactory.getLogger(CreateNoteServlet.class);
+@Controller
+public class CreateNoteController {
+	@Autowired
+	private NoteDao noteDao;
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	@RequestMapping(value = "/note/create", method = RequestMethod.POST)
+	protected void excute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		if (!ServletRequestUtil.existedUserIdFromSession(req, resp)) {
 			resp.sendRedirect("/");
 			return;
 		}
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(req, resp);
+		
 		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "groupId", "noteText",
 				"targetDate");
 		String targetDate = paramsList.get("targetDate") + " "
@@ -40,13 +40,6 @@ public class CreateNoteServlet extends HttpServlet {
 			return;
 		}
 
-		try {
-			NoteDao.getInstance().createNote(
-					new Note(paramsList.get("noteText"), targetDate, sessionUserId, paramsList.get("groupId")));
-		} catch (ClassNotFoundException e) {
-			logger.error("Exception", e);
-			Forwarding.forwardForException(req, resp);
-			return;
-		}
+		noteDao.createNote(new Note(paramsList.get("noteText"), targetDate, sessionUserId, paramsList.get("groupId")));
 	}
 }

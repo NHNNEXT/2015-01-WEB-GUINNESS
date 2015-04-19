@@ -1,12 +1,14 @@
-package org.nhnnext.guinness.model;
+package org.nhnnext.guinness.model.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
+import org.nhnnext.guinness.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
@@ -18,7 +20,6 @@ public class UserDao extends JdbcDaoSupport {
 			logger.debug("존재하는 userId 입니다!");
 			throw new AlreadyExistedUserIdException();
 		}
-		
 		String sql = "insert into USERS values(?,?,?,?,default)";
 		getJdbcTemplate().update(sql, user.getUserId(), user.getUserName(), user.getUserPassword(), null);
 	}
@@ -31,9 +32,11 @@ public class UserDao extends JdbcDaoSupport {
 			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 				return new User(rs.getString("userId"), rs.getString("userName"), rs.getString("userPassword"));
 			}
-			
 		};
-		
-		return getJdbcTemplate().queryForObject(sql, rowMapper, userId);
+		try {
+			return getJdbcTemplate().queryForObject(sql, rowMapper, userId);
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 }

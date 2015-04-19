@@ -1,10 +1,14 @@
 package org.nhnnext.guinness.model;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+<<<<<<< HEAD
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
+=======
+import org.nhnnext.guinness.model.dao.UserDao;
+>>>>>>> 41ada4c9c66dc4186ab8ee44766aece4d297bfa6
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -18,9 +22,8 @@ public class UserDaoTest {
     private UserDao userDao;
 	
 	@Test
-	public void NotExistCreateUserTest() throws ClassNotFoundException {
-		System.out.println(userDao.readUser("test@guinness.org").toString());
-		assertNotNull(userDao.readUser("test@guinness.org"));
+	public void ExistCreateUserTest() throws ClassNotFoundException {
+		assertEquals(null, userDao.readUser("h@s.com"));
 	}
 	
 	@Test

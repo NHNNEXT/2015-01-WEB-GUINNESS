@@ -5,8 +5,6 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
@@ -14,20 +12,26 @@ import javax.validation.Validator;
 
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Group;
-import org.nhnnext.guinness.model.GroupDao;
+import org.nhnnext.guinness.model.dao.GroupDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.MyValidatorFactory;
+import org.nhnnext.guinness.util.RandomString;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-@WebServlet("/group/create")
-public class CreateGroupServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private static final Logger logger = LoggerFactory.getLogger(CreateGroupServlet.class);
+@Controller
+public class CreateGroupController {
+	private static final Logger logger = LoggerFactory.getLogger(CreateGroupController.class);
 
-	private GroupDao groupDao = GroupDao.getInstance();
+	@Autowired
+	private GroupDao groupDao;
 
+	@RequestMapping(value="/group/create", method=RequestMethod.POST)
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		if (!ServletRequestUtil.existedUserIdFromSession(req, resp)) {
 			resp.sendRedirect("/");
@@ -43,6 +47,13 @@ public class CreateGroupServlet extends HttpServlet {
 		Group group = null;
 		try {
 			group = new Group(paramsList.get("groupName"), groupCaptainUserId, isPublic);
+			while (true) {
+				String groupId = RandomString.getRandomId(5);
+				if (groupDao.readGroup(groupId) == null) {
+					group.setGroupId(groupId);
+					break;
+				}
+			}
 		} catch (MakingObjectListFromJdbcException | ClassNotFoundException e) {
 			logger.error("Exception", e);
 			Forwarding.forwardForException(req, resp);
@@ -61,7 +72,7 @@ public class CreateGroupServlet extends HttpServlet {
 		try {
 			groupDao.createGroup(group);
 			groupDao.createGroupUser(groupCaptainUserId, group.getGroupId());
-		} catch (ClassNotFoundException | MakingObjectListFromJdbcException e) {
+		} catch (Exception e) {
 			logger.error("Exception", e);
 			Forwarding.forwardForException(req, resp);
 			return;

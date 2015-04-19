@@ -6,28 +6,30 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.joda.time.DateTime;
 import org.nhnnext.guinness.model.Note;
-import org.nhnnext.guinness.model.NoteDao;
+import org.nhnnext.guinness.model.dao.NoteDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.gson.Gson;
 
-@WebServlet("/notelist/read")
-public class ReadNoteListServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListServlet.class);
+@Controller
+public class ReadNoteListController{
+	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListController.class);
+	@Autowired
+	private NoteDao noteDao;
 	
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	@RequestMapping("/notelist/read")
+	protected void excute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "groupId", "targetDate");
 
 		DateTime targetDate = new DateTime(paramsList.get("targetDate")).plusDays(1).minusSeconds(1);
@@ -40,7 +42,7 @@ public class ReadNoteListServlet extends HttpServlet {
 		List<Note> noteList = null;
 		logger.debug("start endDate={} targetDate={}", endDate, targetDate);
 		try {
-			noteList = NoteDao.getInstance().readNoteList(paramsList.get("groupId"), endDate.toString(), targetDate.toString());
+			noteList = noteDao.readNoteList(paramsList.get("groupId"), endDate.toString(), targetDate.toString());
 			logger.debug(noteList.toString());
 		} catch (Exception e) {
 			logger.error("Exception", e);

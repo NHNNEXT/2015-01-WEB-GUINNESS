@@ -5,28 +5,33 @@ import java.io.PrintWriter;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
-import org.nhnnext.guinness.model.GroupDao;
-import org.nhnnext.guinness.model.UserDao;
+import org.nhnnext.guinness.model.dao.GroupDao;
+import org.nhnnext.guinness.model.dao.UserDao;
 import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.google.gson.Gson;
 
-@WebServlet("/group/add/member")
-public class AddGroupMemberServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private static final Logger logger = LoggerFactory.getLogger(AddGroupMemberServlet.class);
-	private GroupDao groupDao = GroupDao.getInstance();
+@Controller
+public class AddGroupMemberController {
+	private static final Logger logger = LoggerFactory.getLogger(AddGroupMemberController.class);
+	
+	@Autowired
+	private GroupDao groupDao;
+	@Autowired
+	private UserDao userDao;
 
-	@Override
+	@RequestMapping(value="/group/add/member", method=RequestMethod.POST)
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		if (!ServletRequestUtil.existedUserIdFromSession(req, resp)) {
 			resp.sendRedirect("/");
@@ -37,7 +42,7 @@ public class AddGroupMemberServlet extends HttpServlet {
 		PrintWriter out = resp.getWriter();
 		logger.debug("userId={}, groupId={}", paramsList.get("userId"), paramsList.get("groupId"));
 		try {
-			if (UserDao.getInstance().readUser(paramsList.get("userId")) == null) {
+			if (userDao.readUser(paramsList.get("userId")) == null) {
 				logger.debug("등록되지 않은 사용자 입니다");
 				out.print("unknownUser");
 				out.close();
