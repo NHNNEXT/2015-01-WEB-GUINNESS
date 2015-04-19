@@ -6,8 +6,7 @@
 <meta charset="utf-8">
 <title>스터디의 시작, 페이퍼민트</title>
 <%@ include file="./commons/_favicon.jspf"%>
-<link rel="stylesheet"
-	href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
+<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
 <link rel="stylesheet" href="/css/mainStyle.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/datepickr.css">
@@ -21,8 +20,6 @@
 		style="position: absolute; color: #888; top: 300px; width: 100%; text-align: center;">새
 		노트를 작성해주세요</h1>
 	<div id='note-list-container' class='content wrap'>
-		<ul id='to-date' class='time-nav'>
-		</ul>
 		<span id="group-name"></span>
 		<div id='create-new-button'>
 			<i class="fa fa-plus-circle"></i>
@@ -31,7 +28,7 @@
 			<form id="addMemberForm" action="/group/add/member" method="post">
 				<input type="hidden" name="groupId">
 				<input class="inputText" type="text" name="userId">
-				<input class="inputBtn" type="submit" value="추가">
+				<input class="inputBtn" type="submit" value="초대">
 			</form>
 			<ul id='group-member'>
 			</ul>
@@ -61,7 +58,7 @@
 		</div>
 		<form id="commentForm" method="post" >
 			<textarea id='commentText' name='commentText' rows='5' cols='50'></textarea><br>
-			<button id='submitComment' class='btn btn-pm'>답변</button>
+			<button id='submitComment' class='btn btn-pm'>확인</button>
 		</form>	
 	</template>
 	<template id="comment-template">
@@ -85,7 +82,7 @@
 				var bodyTemplate = document.querySelector("#create-note-template").content;
 				bodyTemplate = document.importNode(bodyTemplate, true);
 				guinness.util.modal({
-					header: "새 일지 작성",
+					header: "새 노트 작성",
 					body: bodyTemplate,
 					defaultCloseEvent:false
 				});
@@ -126,8 +123,8 @@
 		}
 		
 		function cancelNoteCreate(e) {
-			if(document.querySelector(".modal-cover #noteText").value != ""){
-				guinness.util.alert("취소","작성중인 일지 기록을 취소하시겠습니까?",function(){ document.querySelector('.modal-cover').remove(); }, function(){});
+			if (document.querySelector(".modal-cover #noteText").value != "") {
+				guinness.util.alert("취소","작성중인 노트 기록을 취소하시겠습니까?",function() { document.querySelector('.modal-cover').remove(); }, function() {});
 				return;
 			}
 			document.querySelector('.modal-cover').remove();
@@ -141,6 +138,7 @@
 					+ encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1"))
 					|| undefined;
 		}
+		
 		function readNoteList(groupId, targetDate) {
 		  guinness.ajax({ 
 			  method: "get", 
@@ -164,7 +162,7 @@
 			//리스트 초기화
 			el = document.querySelectorAll(".diary-list");
 			var elLength = el.length;
-			if(el != undefined) {
+			if (el != undefined) {
 				for (var i = elLength-1; i >= 0; i--) {
 			 		el[i].outerHTML = "";
 				}
@@ -223,9 +221,9 @@
 			var bodyTemplate = document.querySelector("#view-note-template").content;
 			bodyTemplate = document.importNode(bodyTemplate, true);
 			guinness.util.modal({
-				header: obj.targetDate + " | " + obj.userName,
+				header: obj.userName,
 				body: bodyTemplate,
-				defaultCloseEvent:true
+				defaultCloseEvent: true
 			});
 			document.querySelector('.modal-body').setAttribute('class','modal-body note-modal');
 			document.querySelector('.note-content').innerHTML = obj.noteText;			
@@ -243,7 +241,7 @@
 
 		function readComments(noteId) {
 			var el = document.querySelector('#commentListUl');
-			while(el.hasChildNodes()){
+			while (el.hasChildNodes()) {
 				el.removeChild(el.firstChild);
 			}
 			guinness.ajax({
@@ -268,7 +266,7 @@
 				method:"post",
 				url:"/comment/create",
 				param:param,
-				success: function(){
+				success: function() {
 					document.querySelector("#commentText").value="";
 					readComments(noteId);
 				}
@@ -279,9 +277,9 @@
 			var targetDate = document.querySelector('#targetDate').value;
 			var groupId = document.querySelector('#createNoteForm input[name="groupId"]').value;
 			var noteText = document.querySelector('#noteText').value;
-			noteText = noteText.replace(/\n/g,"<br>");
-			if(noteText === ""){
-				guinness.util.alert("빈 노트","일지를 작성하지 않았습니다.");
+			noteText = noteText.replace(/\n/g,"<br/>");
+			if (noteText === "") {
+				guinness.util.alert("빈 노트","노트를 작성하지 않았습니다.");
 				return;
 			}
 			var param = "groupId=" + groupId + "&targetDate=" + targetDate + "&noteText=" + noteText;

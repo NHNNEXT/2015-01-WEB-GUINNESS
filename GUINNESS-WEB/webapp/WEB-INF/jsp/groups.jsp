@@ -18,7 +18,7 @@
 	<%@ include file="./commons/_topnav.jspf"%>
 	<div class='content wrap' style='margin-top: 100px'>
 		<ul id='group-container' class='group-list'>
-			<li id='create-new'>새 스터디 그룹 생성...</li>
+			<li id='create-new' style=' text-align:center;'><i class='fa fa-plus-circle' style='font-size:60px; margin-top:25px;'></i></li>
 		</ul>
 	</div>
 	<template id='group-card-template'> <a class='group-card'
@@ -39,7 +39,7 @@
 				<label>공개</label>
 			</div>
 			<br />
-			<button class='btn btn-pm'>생성</button>
+			<button class='btn btn-pm'>만들기</button>
 		</form>
 	</template>
 	<script>
@@ -64,7 +64,7 @@
 			var bodyTemplate = document.querySelector("#create-group-template").content;
 			bodyTemplate = document.importNode(bodyTemplate, true);
 			guinness.util.modal({
-				header : "새 그룹 생성",
+				header : "새 그룹 만들기",
 				body: bodyTemplate,
 				defaultCloseEvent: false
 			});
@@ -98,7 +98,7 @@
 		
 		function cancelGroupCreate() {
 			if(document.querySelector(".modal-cover input[name='groupName']").value != ""){
-				guinness.util.alert("취소","그룹 생성을 취소하시겠습니까?",function(){ document.querySelector('.modal-cover').remove(); }, function(){});
+				guinness.util.alert("취소","그룹 만들기를 취소하시겠습니까?",function(){ document.querySelector('.modal-cover').remove(); }, function(){});
 				return;
 			}
 			document.querySelector('.modal-cover').remove();

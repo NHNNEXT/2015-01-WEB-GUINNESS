@@ -330,52 +330,6 @@ input.text {
 	text-decoration: underline;
 }
 
-.time-nav {
-	position: fixed;
-	width: 100px;
-	height: 500px;
-	top: 10%;
-	margin-top: 150px;
-	list-style: none;
-}
-
-.time-nav li {
-	width: 100%;
-	display: table;
-	margin-bottom: 5px;
-	cursor: pointer;
-}
-
-.time-nav li:hover .date-tag, .time-nav li.date-select .date-tag {
-	opacity: 1;
-}
-
-.time-nav li .date-tag {
-	opacity: 0;
-	padding: 3px;
-	float: left;
-	font-size: 12px;
-	background-color: #454545;
-	border-radius: 4px;
-	color: white;
-	transition-property: opacity;
-	transition-duration: .5s;
-}
-
-.time-nav li .date-point {
-	width: 20px;
-	height: 20px;
-	background-color: #ddd;
-	border-radius: 10px;
-	float: right;
-	transition-property: background-color;
-	transition-duration: .5s;
-}
-
-.time-nav li:hover .date-point, .time-nav li.date-select .date-point {
-	background-color: #558;
-}
-
 /*
  * modal style
  */
