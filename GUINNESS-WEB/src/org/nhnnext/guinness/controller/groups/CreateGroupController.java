@@ -65,7 +65,7 @@ public class CreateGroupController {
 
 		if (!constraintViolation.isEmpty()) {
 			String errorMessage = constraintViolation.iterator().next().getMessage();
-			Forwarding.doForward(req, resp, "errorMessage", errorMessage, "/groups.jsp");
+			Forwarding.doForward(req, resp, "errorMessage", errorMessage, "/groups");
 			return;
 		}
 
@@ -78,6 +78,6 @@ public class CreateGroupController {
 			return;
 		}
 
-		resp.sendRedirect("/groups.jsp");
+		resp.sendRedirect("/groups");
 	}
 }
