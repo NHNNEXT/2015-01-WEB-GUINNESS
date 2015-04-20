@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="http://java.sun.com/xml/ns/javaee"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-    id="WebApp_ID" version="3.0">
-    <display-name>GUINNESS-WEB</display-name>
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+	<display-name>GUINNESS-WEB</display-name>
 
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
 
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
         classpath:/applicationContext.xml
         </param-value>
-    </context-param>
+	</context-param>
 
-    <servlet>
-        <servlet-name>guinness</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    </servlet>
+	<servlet>
+		<servlet-name>guinness</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	</servlet>
 
-    <servlet-mapping>
-        <servlet-name>guinness</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>guinness</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>/WEB-INF/jsp/index.jsp</welcome-file>
+	</welcome-file-list>
 </web-app>
