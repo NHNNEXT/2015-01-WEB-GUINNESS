@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
@@ -26,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -41,35 +43,32 @@ public class GroupController {
 	private UserDao userDao;
 
 	@RequestMapping(value="/add/member", method=RequestMethod.POST)
-	protected void addGroupMember(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if (!ServletRequestUtil.existedUserIdFromSession(req, resp)) {
-			resp.sendRedirect("/");
-			return;
+	protected ModelAndView addGroupMember(HttpServletRequest req, HttpServletResponse resp,HttpSession session) throws ServletException, IOException {
+		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
+			return new ModelAndView("redirect:/");
 		}
 		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "userId", "groupId");
-
-		PrintWriter out = resp.getWriter();
 		logger.debug("userId={}, groupId={}", paramsList.get("userId"), paramsList.get("groupId"));
 		try {
 			if (userDao.readUser(paramsList.get("userId")) == null) {
 				logger.debug("등록되지 않은 사용자 입니다");
-				out.print("unknownUser");
-				out.close();
-				return;
+				ModelAndView mav = new ModelAndView("jsonView");
+				mav.addObject("jsonData", "unknownUser");
+				return mav;
 			}
 			if (groupDao.checkJoinedGroup(paramsList.get("userId"), paramsList.get("groupId"))) {
 				logger.debug("이미 가입된 사용자 입니다.");
-				out.print("joinedUser");
-				out.close();
-				return;
+				ModelAndView mav = new ModelAndView("jsonView");
+				mav.addObject("jsonData", "joinedUser");
+				return mav;
 			}
 			groupDao.createGroupUser(paramsList.get("userId"), paramsList.get("groupId"));
-			out.print(new Gson().toJson(groupDao.readGroupMember(paramsList.get("groupId"))));
-			out.close();
+			ModelAndView mav = new ModelAndView("jsonView");
+			mav.addObject("jsonData", groupDao.readGroupMember(paramsList.get("groupId")));
+			return mav;
 		} catch (MakingObjectListFromJdbcException | ClassNotFoundException e) {
 			logger.error("Exception", e);
-			Forwarding.forwardForException(req, resp);
-			return;
+			return new ModelAndView("/WEB-INF/jsp/exception.jsp");
 		}
 	}
 	

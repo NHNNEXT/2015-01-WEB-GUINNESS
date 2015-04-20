@@ -53,7 +53,6 @@ public class CommentController {
 	@RequestMapping("")
 	protected ModelAndView list(HttpServletRequest req) {
 		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "noteId");
-
 		List<Comment> commentList = null;
 		try {
 			commentList = commentDao.readCommentListByNoteId(paramsList.get("noteId"));

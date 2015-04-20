@@ -280,15 +280,6 @@
 						obj = json[i];
 						document.querySelector('#commentListUl').innerHTML += "<li comment-id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>" + obj.commentText + "    "+ obj.createDate +" "+ obj.userName + "</li>";
 					}
-					
-					
-					/* var json = JSON.parse(req.responseText);
-					console.log(json);
-					for (var i = 0; i < json.length; i++) {
-						obj = json[i];
-						document.querySelector('#commentListUl').innerHTML += "<li comment-id='"+json[i].commentId+"'><img class='avatar' src='/img/avatar-default.png'>" + json[i].commentText + "    "+ json[i].createDate +" "+ json[i].userName + "</li>";
-					} */
-					/* readComments(noteId); */
 				}
 			});
 		}
@@ -323,11 +314,13 @@
 				param:"userId="+userId+"&groupId="+groupId,
 				success:
 				  function(req) {
-					if(req.responseText === "unknownUser") guinness.util.alert("멤버추가 실패","사용자를 찾을 수 없습니다!");
-					if(req.responseText === "joinedUser") guinness.util.alert("멤버추가 실패","사용자가 이미 가입되어있습니다!");
+					var json = JSON.parse(req.responseText)
+					if(json === "unknownUser") guinness.util.alert("멤버추가 실패","사용자를 찾을 수 없습니다!");
+					else if(json === "joinedUser") guinness.util.alert("멤버추가 실패","사용자가 이미 가입되어있습니다!");
 					else {
-						appendMember(JSON.parse(req.responseText));
+						appendMember(json);
 					}
+					document.querySelector('.inputText').value = "";
 			      }	
 			});
 		}

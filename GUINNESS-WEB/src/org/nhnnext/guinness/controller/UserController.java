@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/user")
@@ -92,14 +93,13 @@ public class UserController {
 	}
 	
 	@RequestMapping("/logout")
-	protected void logout(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		HttpSession session = req.getSession();
+	protected ModelAndView logout(HttpSession session) {
 		session.invalidate();
-		resp.sendRedirect("/");
+		return new ModelAndView("redirect:/");
 	}
 	
 	@RequestMapping(value="/update")
-	protected String updateForm(HttpServletRequest req, HttpServletResponse resp) {
+	protected String updateForm() {
 		return "updateUser";
 	}
 }
