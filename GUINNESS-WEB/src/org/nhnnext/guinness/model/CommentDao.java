@@ -1,11 +1,10 @@
-package org.nhnnext.guinness.model.dao;
+package org.nhnnext.guinness.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
-import org.nhnnext.guinness.model.Comment;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 

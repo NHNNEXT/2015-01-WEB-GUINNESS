@@ -13,7 +13,7 @@
         	<img class='avatar' src='/img/avatar-default.png' style='margin-left:15px;'>
         	<div class='label'><a href="#">${sessionUserName}</a></div>
         	<ul>
-        		<li><a href="/user/update"><span>내 정보</span></a></li>
+        		<li><a href="/user/form"><span>내 정보</span></a></li>
         		<li><a href="/user/logout"><span>로그아웃</span></a></li>
         	</ul>
         </li>

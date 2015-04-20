@@ -9,12 +9,12 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		p:driverClassName="${database.driverClassName}" p:url="${database.url}"
 		p:username="${database.username}" p:password="${database.password}" />
-	<bean id="UserDao" class="org.nhnnext.guinness.model.dao.UserDao"
+	<bean id="UserDao" class="org.nhnnext.guinness.model.UserDao"
 		p:dataSource-ref="dataSource" />
-	<bean id="CommentDao" class="org.nhnnext.guinness.model.dao.CommentDao"
+	<bean id="CommentDao" class="org.nhnnext.guinness.model.CommentDao"
 		p:dataSource-ref="dataSource" />
-	<bean id="GroupDao" class="org.nhnnext.guinness.model.dao.GroupDao"
+	<bean id="GroupDao" class="org.nhnnext.guinness.model.GroupDao"
 		p:dataSource-ref="dataSource" />
-	<bean id="NoteDao" class="org.nhnnext.guinness.model.dao.NoteDao"
+	<bean id="NoteDao" class="org.nhnnext.guinness.model.NoteDao"
 		p:dataSource-ref="dataSource" />
 </beans>

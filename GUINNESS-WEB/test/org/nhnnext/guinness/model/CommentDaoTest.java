@@ -1,14 +1,13 @@
 package org.nhnnext.guinness.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.nhnnext.guinness.controller.notes.ReadNoteListController;
-import org.nhnnext.guinness.model.dao.CommentDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/applicationContext.xml")
 public class CommentDaoTest {
-	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListController.class);
-	private static final Comment COMMENT = new Comment("test comment text", "A", "admin@guinness.com", "12");
+	private static final Logger logger = LoggerFactory.getLogger(CommentDaoTest.class);
 	private static final String NOTEID = "7";
 	
 	@Autowired

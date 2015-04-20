@@ -1,11 +1,9 @@
-package org.nhnnext.guinness.model.dao;
+package org.nhnnext.guinness.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.nhnnext.guinness.model.Group;
-import org.nhnnext.guinness.model.User;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;

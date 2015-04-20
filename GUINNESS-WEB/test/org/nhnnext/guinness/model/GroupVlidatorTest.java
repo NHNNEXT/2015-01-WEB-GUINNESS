@@ -12,12 +12,11 @@ import javax.validation.ValidatorFactory;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.nhnnext.guinness.controller.notes.ReadNoteListController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class GroupVlidatorTest {
-	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListController.class);
+	private static final Logger logger = LoggerFactory.getLogger(GroupVlidatorTest.class);
 	private static Validator validator;
 
 	@BeforeClass

@@ -5,7 +5,6 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
-import org.nhnnext.guinness.model.dao.GroupDao;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class Group {

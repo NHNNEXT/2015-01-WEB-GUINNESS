@@ -1,10 +1,10 @@
-package org.nhnnext.guinness.controller.notes;
+package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
 
 import javax.servlet.http.HttpSession;
 
-import org.nhnnext.guinness.model.dao.GroupDao;
+import org.nhnnext.guinness.model.GroupDao;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

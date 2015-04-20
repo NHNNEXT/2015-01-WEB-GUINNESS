@@ -5,12 +5,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.Test;
-import org.nhnnext.guinness.controller.notes.ReadNoteListController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class NoteTest {
-	private static final Logger logger = LoggerFactory.getLogger(ReadNoteListController.class);
+	private static final Logger logger = LoggerFactory.getLogger(NoteTest.class);
 	@Test
 	public void noteButtonClick() {
 		Date date = new Date();

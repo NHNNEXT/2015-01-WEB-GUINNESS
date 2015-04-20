@@ -1,4 +1,4 @@
-package org.nhnnext.guinness.controller.groups;
+package org.nhnnext.guinness.controller;
 
 import org.nhnnext.guinness.model.Group;
 import org.springframework.stereotype.Controller;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/groups")
-public class GroupsController {
+public class TempGroupsController {
 	@RequestMapping(value={"", "/"})
 	public String list(){
 		return "groups";
