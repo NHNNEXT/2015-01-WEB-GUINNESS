@@ -246,9 +246,10 @@
 			}
 			guinness.ajax({
 				method:"get",
-				url:"/comment/read?noteId="+noteId,
+				url:"/comment?noteId="+noteId,
 				success: function(req) {
 					var json = JSON.parse(req.responseText);
+					console.log(json);
 					for (var i = 0; i < json.length; i++) {
 						obj = json[i];
 						document.querySelector('#commentListUl').innerHTML += "<li comment-id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>" + obj.commentText + "    "+ obj.createDate +" "+ obj.userName + "</li>";
@@ -266,9 +267,28 @@
 				method:"post",
 				url:"/comment/create",
 				param:param,
-				success: function() {
+				success: function(req) {
 					document.querySelector("#commentText").value="";
-					readComments(noteId);
+					
+					var el = document.querySelector('#commentListUl');
+					while (el.hasChildNodes()) {
+						el.removeChild(el.firstChild);
+					}
+					var json = JSON.parse(req.responseText);
+					console.log(json);
+					for (var i = 0; i < json.length; i++) {
+						obj = json[i];
+						document.querySelector('#commentListUl').innerHTML += "<li comment-id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>" + obj.commentText + "    "+ obj.createDate +" "+ obj.userName + "</li>";
+					}
+					
+					
+					/* var json = JSON.parse(req.responseText);
+					console.log(json);
+					for (var i = 0; i < json.length; i++) {
+						obj = json[i];
+						document.querySelector('#commentListUl').innerHTML += "<li comment-id='"+json[i].commentId+"'><img class='avatar' src='/img/avatar-default.png'>" + json[i].commentText + "    "+ json[i].createDate +" "+ json[i].userName + "</li>";
+					} */
+					/* readComments(noteId); */
 				}
 			});
 		}

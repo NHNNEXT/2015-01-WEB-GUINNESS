@@ -1,18 +1,14 @@
 package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Comment;
 import org.nhnnext.guinness.model.CommentDao;
-import org.nhnnext.guinness.util.Forwarding;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import com.google.gson.Gson;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/comment")
@@ -30,46 +25,44 @@ public class CommentController {
 
 	@Autowired
 	private CommentDao commentDao;
-	
-	@RequestMapping(value="/create", method=RequestMethod.POST)
-	protected void create(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-		if (!ServletRequestUtil.existedUserIdFromSession(req, resp)) {
-			resp.sendRedirect("/");
-			return;
+
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	protected ModelAndView create(HttpServletRequest req, HttpSession session) throws IOException {
+		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
+			return new ModelAndView("redirect:/");
 		}
-		String sessionUserId = ServletRequestUtil.getUserIdFromSession(req, resp);
+		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "commentText", "commentType",
 				"noteId");
-		if (paramsList.get("commentText").equals("")) {
-			return;
-		}
-
 		try {
-			Comment comment = new Comment(paramsList.get("commentText"), paramsList.get("commentType"), sessionUserId,
-					paramsList.get("noteId"));
-			commentDao.createComment(comment);
+			if (!paramsList.get("commentText").equals("")) {
+				Comment comment = new Comment(paramsList.get("commentText"), paramsList.get("commentType"),
+						sessionUserId, paramsList.get("noteId"));
+				commentDao.createComment(comment);
+			}
+			List<Comment> commentList = commentDao.readCommentListByNoteId(paramsList.get("noteId"));
+			ModelAndView mav = new ModelAndView("jsonView");
+			mav.addObject("jsonData", commentList);
+			return mav;
 		} catch (ClassNotFoundException e) {
 			logger.error("Exception", e);
-			Forwarding.forwardForException(req, resp);
-			return;
+			return new ModelAndView("/WEB-INF/jsp/exception.jsp");
 		}
 	}
-	
-	@RequestMapping(value="/read")
-	protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+	@RequestMapping("")
+	protected ModelAndView list(HttpServletRequest req) {
 		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "noteId");
 
 		List<Comment> commentList = null;
 		try {
 			commentList = commentDao.readCommentListByNoteId(paramsList.get("noteId"));
-		} catch (MakingObjectListFromJdbcException | ClassNotFoundException e) {
+			ModelAndView mav = new ModelAndView("jsonView");
+			mav.addObject("jsonData", commentList);
+			return mav;
+		} catch (ClassNotFoundException e) {
 			logger.error("Exception", e);
-			Forwarding.forwardForException(req, resp);
-			return;
+			return new ModelAndView("/WEB-INF/jsp/exception.jsp");
 		}
-		resp.setContentType("application/json; charset=UTF-8");
-		PrintWriter out = resp.getWriter();
-		out.write(new Gson().toJson(commentList));
-		out.close();
 	}
 }
