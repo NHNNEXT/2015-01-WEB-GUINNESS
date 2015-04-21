@@ -14,7 +14,9 @@
 	<mvc:resources location="/fonts/" mapping="/fonts/**" />
 	<mvc:resources location="/js/" mapping="/js/**" />
 	<mvc:resources location="/css/" mapping="/css/**" />
-
+	<mvc:interceptors>
+		<bean class="org.nhnnext.guinness.intercepter.Interceptor" />
+	</mvc:interceptors>
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" />
@@ -25,9 +27,7 @@
 
 	<bean id="jsonView"
 		class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
-		<!-- 참고. spring 4 부턴 불필요
-		<property name="contentType" value="application/json;charset=UTF-8"/>
-		 -->
+		<!-- 참고. spring 4 부턴 불필요 <property name="contentType" value="application/json;charset=UTF-8"/> -->
 		<property name="contentType" value="text/html;charset=UTF-8" />
 		<property name="modelKey" value="jsonData" />
 		<property name="extractValueFromSingleKeyModel" value="true" />
