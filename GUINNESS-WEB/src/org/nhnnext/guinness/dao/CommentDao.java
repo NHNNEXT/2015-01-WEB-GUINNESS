@@ -1,8 +1,9 @@
-package org.nhnnext.guinness.model;
+package org.nhnnext.guinness.dao;
 
 import java.util.List;
 
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
+import org.nhnnext.guinness.model.Comment;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 public class CommentDao extends JdbcDaoSupport {

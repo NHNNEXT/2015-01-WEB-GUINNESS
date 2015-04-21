@@ -1,10 +1,11 @@
-package org.nhnnext.guinness.model;
+package org.nhnnext.guinness.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
+import org.nhnnext.guinness.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;

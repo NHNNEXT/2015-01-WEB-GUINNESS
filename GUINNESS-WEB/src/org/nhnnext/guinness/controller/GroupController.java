@@ -9,16 +9,14 @@ import javax.validation.ConstraintViolation;
 import javax.servlet.http.HttpServletResponse;
 
 import org.nhnnext.guinness.model.Group;
-import org.nhnnext.guinness.model.UserDao;
-import org.nhnnext.guinness.model.GroupDao;
 import org.nhnnext.guinness.util.RandomString;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.nhnnext.guinness.util.MyValidatorFactory;
+import org.nhnnext.guinness.dao.GroupDao;
+import org.nhnnext.guinness.dao.UserDao;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.context.request.WebRequest;

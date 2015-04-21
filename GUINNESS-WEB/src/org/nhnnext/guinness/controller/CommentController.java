@@ -7,8 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.nhnnext.guinness.dao.CommentDao;
 import org.nhnnext.guinness.model.Comment;
-import org.nhnnext.guinness.model.CommentDao;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

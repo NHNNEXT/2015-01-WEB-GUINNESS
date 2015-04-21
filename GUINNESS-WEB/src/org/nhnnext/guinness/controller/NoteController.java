@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.joda.time.DateTime;
+import org.nhnnext.guinness.dao.GroupDao;
+import org.nhnnext.guinness.dao.NoteDao;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
-import org.nhnnext.guinness.model.GroupDao;
 import org.nhnnext.guinness.model.Note;
-import org.nhnnext.guinness.model.NoteDao;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

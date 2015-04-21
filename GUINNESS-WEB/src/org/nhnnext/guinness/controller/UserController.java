@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 
+import org.nhnnext.guinness.dao.UserDao;
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
 import org.nhnnext.guinness.model.User;
-import org.nhnnext.guinness.model.UserDao;
 import org.nhnnext.guinness.util.MyValidatorFactory;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
