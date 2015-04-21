@@ -1,6 +1,6 @@
 package org.nhnnext.guinness.model;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.util.Iterator;
 import java.util.List;
@@ -46,14 +46,17 @@ public class NoteDaoTest {
 	}
 
 	@Test
-	public void testName() throws Exception {
-		int tt = noteDao.checkGroupNotesCount("JFaTh");
-		logger.debug(Integer.toString(tt));
-	}
-
 	public void readSingleNote() throws Exception {
-		Note note = null;
-		note = noteDao.readNote("3");
-		assertNotNull(note);
+		assertNotNull(noteDao.readNote("3"));
+	}
+	
+	@Test
+	public void checkGroupNotesCount_노트가없을때() throws Exception {
+		assertEquals(0, noteDao.checkGroupNotesCount("oQLZi"));
+	}
+	
+	@Test
+	public void checkGroupNotesCount_노트가있을때() throws Exception {
+		assertNotEquals(0, noteDao.checkGroupNotesCount("WZDaW"));
 	}
 }

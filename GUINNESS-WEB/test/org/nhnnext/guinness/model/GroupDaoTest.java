@@ -1,6 +1,7 @@
 package org.nhnnext.guinness.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,14 +34,12 @@ public class GroupDaoTest {
 
 	@Test
 	public void readExistedGroup() {
-		Group getGroup = groupDao.readGroup("ygNDa");
-		assertNotNull(getGroup);
+		assertNotNull(groupDao.readGroup("eNoQv"));
 	}
 
 	@Test
 	public void readNotExistedGroup() {
-		Group getGroup = groupDao.readGroup("aaaaa");
-		assertNull(getGroup);
+		assertNull(groupDao.readGroup("aaaaa"));
 	}
 	
 	@Test
