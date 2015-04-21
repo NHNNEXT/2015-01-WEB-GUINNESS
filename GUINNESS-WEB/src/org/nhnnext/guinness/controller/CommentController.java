@@ -2,9 +2,7 @@ package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.nhnnext.guinness.dao.CommentDao;
@@ -16,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -27,20 +26,22 @@ public class CommentController {
 	private CommentDao commentDao;
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	protected ModelAndView create(HttpServletRequest req, HttpSession session) throws IOException {
+	protected ModelAndView create(WebRequest req, HttpSession session) throws IOException {
 		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
 			return new ModelAndView("redirect:/");
 		}
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
-		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "commentText", "commentType",
-				"noteId");
+		String commentText = req.getParameter("commentText");
+		String commentType = req.getParameter("commentType");
+		String noteId = req.getParameter("noteId");
+		
 		try {
-			if (!paramsList.get("commentText").equals("")) {
-				Comment comment = new Comment(paramsList.get("commentText"), paramsList.get("commentType"),
-						sessionUserId, paramsList.get("noteId"));
+			if (!commentText.equals("")) {
+				Comment comment = new Comment(commentText, commentType,
+						sessionUserId, noteId);
 				commentDao.createComment(comment);
 			}
-			List<Comment> commentList = commentDao.readCommentListByNoteId(paramsList.get("noteId"));
+			List<Comment> commentList = commentDao.readCommentListByNoteId(noteId);
 			ModelAndView mav = new ModelAndView("jsonView");
 			mav.addObject("jsonData", commentList);
 			return mav;
@@ -51,11 +52,11 @@ public class CommentController {
 	}
 
 	@RequestMapping("")
-	protected ModelAndView list(HttpServletRequest req) {
-		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "noteId");
+	protected ModelAndView list(WebRequest req) {
+		String noteId = req.getParameter("noteId");
 		List<Comment> commentList = null;
 		try {
-			commentList = commentDao.readCommentListByNoteId(paramsList.get("noteId"));
+			commentList = commentDao.readCommentListByNoteId(noteId);
 			ModelAndView mav = new ModelAndView("jsonView");
 			mav.addObject("jsonData", commentList);
 			return mav;

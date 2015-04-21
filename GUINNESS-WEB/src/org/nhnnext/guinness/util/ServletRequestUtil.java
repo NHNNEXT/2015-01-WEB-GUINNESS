@@ -1,14 +1,10 @@
 package org.nhnnext.guinness.util;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.springframework.web.context.request.WebRequest;
 
 public class ServletRequestUtil {
 	private ServletRequestUtil() {
@@ -42,13 +38,5 @@ public class ServletRequestUtil {
 		}
 		HttpSession session = req.getSession();
 		return (String) session.getAttribute("sessionUserId");
-	}
-
-	public static Map<String, String> getRequestParameters(HttpServletRequest req, String... parameters) {
-		Map<String, String> map = new HashMap<String, String>();
-		for (String param : parameters) {
-			map.put(param, req.getParameter(param));
-		}
-		return map;
 	}
 }

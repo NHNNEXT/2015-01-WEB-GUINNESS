@@ -3,27 +3,26 @@ package org.nhnnext.guinness.controller;
 import java.io.IOException;
 import java.util.Set;
 
-import javax.validation.Validator;
 import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
-import javax.servlet.http.HttpServletResponse;
+import javax.validation.Validator;
 
-import org.nhnnext.guinness.model.Group;
-import org.nhnnext.guinness.util.RandomString;
-import org.nhnnext.guinness.util.ServletRequestUtil;
-import org.nhnnext.guinness.util.MyValidatorFactory;
 import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.UserDao;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
+import org.nhnnext.guinness.model.Group;
+import org.nhnnext.guinness.util.MyValidatorFactory;
+import org.nhnnext.guinness.util.RandomString;
+import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/group")
@@ -36,7 +35,7 @@ public class GroupController {
 	private UserDao userDao;
 
 	@RequestMapping(value="/add/member", method=RequestMethod.POST)
-	protected ModelAndView addGroupMember(WebRequest req, HttpServletResponse resp, HttpSession session) throws IOException {
+	protected ModelAndView addGroupMember(WebRequest req, HttpSession session) throws IOException {
 		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
 			return new ModelAndView("redirect:/");
 		}
