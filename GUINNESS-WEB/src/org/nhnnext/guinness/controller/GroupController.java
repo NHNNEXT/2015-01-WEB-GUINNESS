@@ -1,36 +1,31 @@
 package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.validation.Validator;
 import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
+import javax.servlet.http.HttpServletResponse;
 
-import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Group;
-import org.nhnnext.guinness.model.GroupDao;
 import org.nhnnext.guinness.model.UserDao;
-import org.nhnnext.guinness.util.Forwarding;
-import org.nhnnext.guinness.util.MyValidatorFactory;
+import org.nhnnext.guinness.model.GroupDao;
 import org.nhnnext.guinness.util.RandomString;
 import org.nhnnext.guinness.util.ServletRequestUtil;
+import org.nhnnext.guinness.util.MyValidatorFactory;
+import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
 @RequestMapping("/group")
@@ -43,110 +38,94 @@ public class GroupController {
 	private UserDao userDao;
 
 	@RequestMapping(value="/add/member", method=RequestMethod.POST)
-	protected ModelAndView addGroupMember(HttpServletRequest req, HttpServletResponse resp,HttpSession session) throws ServletException, IOException {
+	protected ModelAndView addGroupMember(WebRequest req, HttpServletResponse resp, HttpSession session) throws IOException {
 		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
 			return new ModelAndView("redirect:/");
 		}
-		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "userId", "groupId");
-		logger.debug("userId={}, groupId={}", paramsList.get("userId"), paramsList.get("groupId"));
+		
+		String userId = req.getParameter("userId");
+		String groupId = req.getParameter("groupId");
 		try {
-			if (userDao.readUser(paramsList.get("userId")) == null) {
-				logger.debug("등록되지 않은 사용자 입니다");
-				ModelAndView mav = new ModelAndView("jsonView");
-				mav.addObject("jsonData", "unknownUser");
-				return mav;
+			if (userDao.readUser(userId) == null) {
+				return new ModelAndView("jsonView", "jsonData", "unknownUser");
 			}
-			if (groupDao.checkJoinedGroup(paramsList.get("userId"), paramsList.get("groupId"))) {
-				logger.debug("이미 가입된 사용자 입니다.");
-				ModelAndView mav = new ModelAndView("jsonView");
-				mav.addObject("jsonData", "joinedUser");
-				return mav;
+			if (groupDao.checkJoinedGroup(userId, groupId)) {
+				return new ModelAndView("jsonView", "jsonData", "joinedUser");
 			}
-			groupDao.createGroupUser(paramsList.get("userId"), paramsList.get("groupId"));
-			ModelAndView mav = new ModelAndView("jsonView");
-			mav.addObject("jsonData", groupDao.readGroupMember(paramsList.get("groupId")));
-			return mav;
+			groupDao.createGroupUser(userId, groupId);
+			return new ModelAndView("jsonView", "jsonData", groupDao.readGroupMember(groupId));
 		} catch (MakingObjectListFromJdbcException | ClassNotFoundException e) {
 			logger.error("Exception", e);
-			return new ModelAndView("/WEB-INF/jsp/exception.jsp");
+			return new ModelAndView("/exception");
 		}
 	}
 	
-	@RequestMapping("/read/member")
-	protected void memberList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		PrintWriter out = resp.getWriter();
+	@RequestMapping("/read/member/{groupId}")
+	protected ModelAndView memberList(@PathVariable String groupId, HttpSession session) throws IOException {
+		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
+			return new ModelAndView("redirect:/");
+		}
+
 		try {
-			out.print(new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()
-					.toJson(groupDao.readGroupMember(req.getParameter("groupId"))));
-			out.close();
+			return new ModelAndView("jsonView", "jsonData", groupDao.readGroupMember(groupId));
 		} catch (Exception e) {
 			logger.error("Exception", e);
-			Forwarding.forwardForException(req, resp);
-			return;
+			return new ModelAndView("/exception");
 		}
 	}
 	
 	@RequestMapping("/read")
-	protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if (!ServletRequestUtil.existedUserIdFromSession(req, resp)) {
-			resp.sendRedirect("/");
-			return;
+	protected ModelAndView list(HttpSession session) throws IOException {
+		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
+			return new ModelAndView("redirect:/");
 		}
-		String sessionUserId = ServletRequestUtil.getUserIdFromSession(req, resp);
-		List<Group> groupList = null;
+		
+		String userId = ServletRequestUtil.getUserIdFromSession(session);
 		try {
-			groupList = groupDao.readGroupList(sessionUserId);
+			logger.debug(groupDao.readGroupList(userId).toString());
+			return new ModelAndView("jsonView", "jsonData", groupDao.readGroupList(userId));
 		} catch (Exception e) {
 			logger.error("Exception", e);
-			Forwarding.forwardForException(req, resp);
-			return;
+			return new ModelAndView("/exception");
 		}
-		resp.setContentType("application/json; charset=UTF-8");
-		PrintWriter out = resp.getWriter();
-		out.write(new Gson().toJson(groupList));
-		out.close();
 	}
 	
 	@RequestMapping("/delete")
-	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if (!ServletRequestUtil.existedUserIdFromSession(req, resp)) {
-			resp.sendRedirect("/");
-			return;
+	protected ModelAndView delete(WebRequest req, HttpSession session) throws IOException {
+		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
+			return new ModelAndView("redirect:/");
 		}
-		String sessionUserId = ServletRequestUtil.getUserIdFromSession(req, resp);
-		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "groupId");
-
+		
+		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		try {
-			Group group = groupDao.readGroup(paramsList.get("groupId"));
+			Group group = groupDao.readGroup(req.getParameter("groupId"));
 			if (!group.getGroupCaptainUserId().equals(sessionUserId)) {
-				Forwarding.doForward(req, resp, "errorMessage", "삭제 권한 없음", "/groups");
-				return;
+				ModelAndView mav = new ModelAndView("groups");
+				mav.addObject("errorMessage", "삭제 권한 없음");
+				return mav;
 			}
 			groupDao.deleteGroup(group);
-			resp.sendRedirect("/groups");
+			return new ModelAndView("redirect:/");
 		} catch (Exception e) {
 			logger.error("Exception", e);
-			Forwarding.forwardForException(req, resp);
-			return;
+			return new ModelAndView("/exception");
 		}
 	}
 	
 	@RequestMapping(value="/create", method=RequestMethod.POST)
-	protected void create(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if (!ServletRequestUtil.existedUserIdFromSession(req, resp)) {
-			resp.sendRedirect("/");
-			return;
+	protected ModelAndView create(WebRequest req, HttpSession session) throws IOException, ClassNotFoundException {
+		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
+			return new ModelAndView("redirect:/");
 		}
-		String groupCaptainUserId = ServletRequestUtil.getUserIdFromSession(req, resp);
-		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "groupName", "isPublic");
-
+		
+		String groupCaptainUserId = ServletRequestUtil.getUserIdFromSession(session);
 		char isPublic = 'F';
-		if ("public".equals(paramsList.get("isPublic")))
+		if ("public".equals(req.getParameter("isPublic")))
 			isPublic = 'T';
 
 		Group group = null;
 		try {
-			group = new Group(paramsList.get("groupName"), groupCaptainUserId, isPublic);
+			group = new Group(req.getParameter("groupName"), groupCaptainUserId, isPublic);
 			while (true) {
 				String groupId = RandomString.getRandomId(5);
 				if (groupDao.readGroup(groupId) == null) {
@@ -154,19 +133,16 @@ public class GroupController {
 					break;
 				}
 			}
-		} catch (MakingObjectListFromJdbcException | ClassNotFoundException e) {
+		} catch (MakingObjectListFromJdbcException e) {
 			logger.error("Exception", e);
-			Forwarding.forwardForException(req, resp);
-			return;
+			return new ModelAndView("/exception");
 		}
 
 		Validator validator = MyValidatorFactory.createValidator();
 		Set<ConstraintViolation<Group>> constraintViolation = validator.validate(group);
-
 		if (!constraintViolation.isEmpty()) {
 			String errorMessage = constraintViolation.iterator().next().getMessage();
-			Forwarding.doForward(req, resp, "errorMessage", errorMessage, "/groups");
-			return;
+			return new ModelAndView("groups", "errorMessage", errorMessage);
 		}
 
 		try {
@@ -174,10 +150,8 @@ public class GroupController {
 			groupDao.createGroupUser(groupCaptainUserId, group.getGroupId());
 		} catch (Exception e) {
 			logger.error("Exception", e);
-			Forwarding.forwardForException(req, resp);
-			return;
+			return new ModelAndView("/exception");
 		}
-
-		resp.sendRedirect("/groups");
+		return new ModelAndView("redirect:/");
 	}
 }
