@@ -37,8 +37,8 @@ function loginCheck() {
   		url: "/user/login",
   		param: param,
   		success: function(req) {
-  				   if (req.responseText === "loginFailed") { document.querySelector("#login-error-message").innerHTML = "로그인 실패!"; }
-  				   else { window.location.href = req.responseText; }
+  				   if (JSON.parse(req.responseText).view === "loginFailed") { document.querySelector("#login-error-message").innerHTML = "로그인 실패!"; }
+  				   else { window.location.href = "/groups"}
   				 }
   	});
 }
