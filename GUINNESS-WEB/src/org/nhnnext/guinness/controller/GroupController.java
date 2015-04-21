@@ -82,7 +82,6 @@ public class GroupController {
 		
 		String userId = ServletRequestUtil.getUserIdFromSession(session);
 		try {
-			logger.debug(groupDao.readGroupList(userId).toString());
 			return new ModelAndView("jsonView", "jsonData", groupDao.readGroupList(userId));
 		} catch (Exception e) {
 			logger.error("Exception", e);

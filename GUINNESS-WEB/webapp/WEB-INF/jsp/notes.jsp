@@ -328,7 +328,7 @@
 		function readMember(groupId) {
 			guinness.ajax({ 
 				method:"get", 
-				url:"/group/read/member?groupId="+groupId, 
+				url:"/group/read/member/"+groupId, 
 				success: 
 				  function(req) {
 					appendMember(JSON.parse(req.responseText));
