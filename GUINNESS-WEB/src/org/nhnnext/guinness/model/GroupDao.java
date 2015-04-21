@@ -49,8 +49,7 @@ public class GroupDao extends JdbcDaoSupport {
 			public Group mapRow(ResultSet rs, int rowNum) throws SQLException {
 				return new Group(rs.getString("groupId"),
 						rs.getString("groupName"),
-						rs.getString("groupCaptainUserId"), rs.getString(
-								"isPublic").charAt(0));
+						rs.getString("groupCaptainUserId"), rs.getString("isPublic").charAt(0));
 			}
 		};
 		return getJdbcTemplate().query(sql, rowMapper, userId);
