@@ -8,7 +8,6 @@ import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.joda.time.DateTime;
@@ -69,7 +68,7 @@ public class NoteController {
 	}
 	
 	@RequestMapping("/note/read")
-	protected ModelAndView show(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+	protected ModelAndView show(HttpServletRequest req) throws IOException {
 		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "noteId");
 		Note note = null;
 		try {
