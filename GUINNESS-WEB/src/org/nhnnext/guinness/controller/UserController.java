@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 
@@ -14,7 +13,6 @@ import org.nhnnext.guinness.dao.UserDao;
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.MyValidatorFactory;
-import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -33,10 +32,11 @@ public class UserController {
 	private UserDao userDao;
 
 	@RequestMapping(value="/create", method=RequestMethod.POST)
-	protected String create(HttpServletRequest req, HttpSession session, Model model) throws IOException  {
-		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "userId", "userPassword",
-				"userName");
-		User user = new User(paramsList.get("userId"), paramsList.get("userName"), paramsList.get("userPassword"));
+	protected String create(WebRequest req, HttpSession session, Model model) throws IOException  {
+		String userId = req.getParameter("userId");
+		String userPassword = req.getParameter("userPassword");
+		String userName = req.getParameter("userName");
+		User user = new User(userId, userName, userPassword);
 		
 		Set<ConstraintViolation<User>> constraintViolations = MyValidatorFactory.createValidator().validate(user);
 		if (!constraintViolations.isEmpty()) {
@@ -46,17 +46,16 @@ public class UserController {
 				ConstraintViolation<User> each = violations.next();
 				signValidErrorMessage = signValidErrorMessage + "<br />" + each.getMessage();
 			}
-			req.setAttribute("userId", paramsList.get("userId"));
-			req.setAttribute("userName", paramsList.get("userName"));
-			
+//			req.setAttribute("userId", userId);
+//			req.setAttribute("userName", userName);
 			model.addAttribute("signValidErrorMessage", signValidErrorMessage);
 			return "index";
 		}
 
 		try {
 			userDao.createUser(user);
-			session.setAttribute("sessionUserId", paramsList.get("userId"));
-			session.setAttribute("sessionUserName", paramsList.get("userName"));
+			session.setAttribute("sessionUserId", userId);
+			session.setAttribute("sessionUserName", userName);
 			return "groups";
 		} catch (ClassNotFoundException e) {
 			logger.error("Exception", e);
@@ -69,13 +68,15 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	protected ModelAndView login(HttpServletRequest req, HttpSession session) throws IOException {
-		Map<String, String> paramsList = ServletRequestUtil.getRequestParameters(req, "userId", "userPassword");
+	protected ModelAndView login(WebRequest req, HttpSession session) throws IOException {
+		String userId = req.getParameter("userId");
+		String userPassword = req.getParameter("userPassword");
+		
 		Map<String, String> viewMap = new HashMap<String, String>();
 		
 		try {
-			User user = userDao.readUser(paramsList.get("userId"));
-			if (user == null || !user.getUserPassword().equals(paramsList.get("userPassword"))) {
+			User user = userDao.readUser(userId);
+			if (user == null || !user.getUserPassword().equals(userPassword)) {
 				viewMap.put("view", "loginFailed");
 				return new ModelAndView("jsonView").addObject("jsonData", viewMap);
 			}
