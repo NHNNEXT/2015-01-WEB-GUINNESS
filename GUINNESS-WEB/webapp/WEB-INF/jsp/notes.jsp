@@ -232,7 +232,8 @@
 				defaultCloseEvent: true
 			});
 			document.querySelector('.modal-body').setAttribute('class','modal-body note-modal');
-			document.querySelector('.note-content').innerHTML = new markdownToHtml(obj.noteText).getHtmlText();		
+			document.querySelector('.note-content').innerHTML = new markdownToHtml(obj.noteText).getHtmlText();
+			console.log(new markdownToHtml(obj.noteText).getHtmlText());
 			document.querySelector('#commentForm').addEventListener('submit', function(e) { e.preventDefault(); createComment(obj); }, false);
 
 			readComments(obj);
@@ -317,7 +318,6 @@
 			var targetDate = document.querySelector('#targetDate').value;
 			var groupId = document.querySelector('#createNoteForm input[name="groupId"]').value;
 			var noteText = document.querySelector('#noteText').value;
-			noteText = noteText.replace(/\n/g,"<br/>");
 			if (noteText === "") {
 				guinness.util.alert("빈 노트","노트를 작성하지 않았습니다.");
 				return;
