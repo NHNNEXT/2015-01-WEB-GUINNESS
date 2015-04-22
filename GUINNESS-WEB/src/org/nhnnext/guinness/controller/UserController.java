@@ -46,8 +46,6 @@ public class UserController {
 				ConstraintViolation<User> each = violations.next();
 				signValidErrorMessage = signValidErrorMessage + "<br />" + each.getMessage();
 			}
-//			req.setAttribute("userId", userId);
-//			req.setAttribute("userName", userName);
 			model.addAttribute("signValidErrorMessage", signValidErrorMessage);
 			return "index";
 		}
