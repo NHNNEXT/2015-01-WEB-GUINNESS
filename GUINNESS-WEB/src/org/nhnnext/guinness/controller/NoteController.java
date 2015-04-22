@@ -34,7 +34,13 @@ public class NoteController {
 	private GroupDao groupDao;
 
 	@RequestMapping(value = "/g/{url}")
-	protected String notesRouter(@PathVariable String url, HttpSession session, Model model) throws IOException {
+	protected String notesRouter(@PathVariable String url, WebRequest req, HttpSession session, Model model) throws IOException {		
+		String groupId = req.getParameter("groupId");
+		DateTime targetDate = new DateTime().plusDays(1).minusSeconds(1);
+		DateTime endDate = targetDate.minusYears(10);
+		targetDate = targetDate.plusYears(10);
+		List<Note> noteList = null;
+		
 		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
 			return "redirect:/";
 		}
@@ -43,7 +49,15 @@ public class NoteController {
 			model.addAttribute("errorMessage", "비정상적 접근시도.");
 			return "illegal";
 		}
-		return "notes";
+		
+		try{
+			noteList = noteDao.readNoteList(groupId, endDate.toString(), targetDate.toString());
+			model.addAttribute("noteList", noteList);
+			return "notes";
+		} catch(Exception e){
+			logger.error("Exception", e);
+			return "illegal";
+		}
 	}
 
 	@RequestMapping("/notelist/read")
@@ -64,6 +78,7 @@ public class NoteController {
 		}
 		return new ModelAndView("jsonView").addObject("jsonData", noteList);
 	}
+	
 
 	@RequestMapping("/note/read")
 	protected ModelAndView show(WebRequest req) throws IOException {

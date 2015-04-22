@@ -30,6 +30,11 @@
 				<input class="inputText" type="text" name="userId">
 				<input class="inputBtn" type="submit" value="초대">
 			</form>
+			<form id="refreshNoteList" action="" method="post">
+				<input type="hidden" name="groupId">
+				<input class="memberAllClick" type="checkbox" checked=true onclick="allCheckMember()"/>전체선택
+				<input class="inputBtn" type="submit" value="확인">
+			</form>
 			<ul id='group-member'>
 			</ul>
 		</div>
@@ -341,8 +346,36 @@
 			el.innerHTML = "";
 			for (var i = 0; i < json.length; i++) {
 				var newLi = document.createElement("li");
-				newLi.innerHTML = "<input type='checkbox' checked=true>"+json[i].userName;
+				newLi.innerHTML = "<input type='checkbox' class='memberChk' checked=true onclick='OnOffMemberAllClickBtn()'>"+json[i].userName+"<br/>"+"("+json[i].userId+")";
 				el.appendChild(newLi);
+			}
+		}
+		
+		function allCheckMember(){
+			
+			var objs = document.querySelectorAll(".memberChk");
+			var allchk = document.querySelector(".memberAllClick");
+			
+			for(var i=0; i<objs.length; i++){
+				objs[i].checked=allchk.checked;
+			}
+		}
+		function OnOffMemberAllClickBtn(){
+			var objs = document.querySelectorAll(".memberChk");
+			var allchk = document.querySelector(".memberAllClick");
+			var existUnchecked=false;
+			
+			for(var i=0; i<objs.length; i++){
+				if(objs[i].checked === false){
+					existUnchecked=true;
+					break;
+				}
+			}
+			if(existUnchecked=== false){
+				allchk.checked=true;
+			}
+			else{
+				allchk.checked=false;
 			}
 		}
 	</script>
