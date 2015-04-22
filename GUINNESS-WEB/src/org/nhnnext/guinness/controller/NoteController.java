@@ -33,14 +33,14 @@ public class NoteController {
 	private static final Logger logger = LoggerFactory.getLogger(NoteController.class);
 	@Autowired
 	private GroupDao groupDao;
-	
+
 	@Autowired
 	private NoteDao noteDao;
-	
+
 	public void setGroupDao(GroupDao groupDao) {
 		this.groupDao = groupDao;
 	}
-	
+
 	public void setNoteDao(NoteDao noteDao) {
 		this.noteDao = noteDao;
 	}
@@ -50,16 +50,16 @@ public class NoteController {
 		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
 			return new ModelAndView("redirect:/");
 		}
-		
+
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		if (!groupDao.checkJoinedGroup(sessionUserId, url)) {
 			model.addAttribute("errorMessage", "비정상적 접근시도.");
 			return new ModelAndView("illegal");
 		}
-		
+
 		DateTime now = new DateTime();
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-		
+
 		DateTime targetDate = new DateTime(formatter.print(now)).plusDays(1).minusSeconds(1);
 
 		List<Note> noteList = extractNoteListByMemberId(url, targetDate);
@@ -98,21 +98,20 @@ public class NoteController {
 		return new ModelAndView("jsonView").addObject("jsonData", note);
 	}
 
-	@RequestMapping(value = "/note/create", method = RequestMethod.POST)
-	protected String create(WebRequest req, HttpSession session) throws IOException {
+	@RequestMapping(value = "/note/create/{groupId}/{targetDate}/{noteText}", method = RequestMethod.PUT)
+	protected ModelAndView create(@PathVariable String groupId, @PathVariable String targetDate,
+			@PathVariable String noteText, HttpSession session) throws IOException {
 		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
-			return "redirect:/";
+			//TODO 사실상 동작하지 않음 exception 에러남 ModelAndView return type 시 REDIRECT 동작 구 
+			return new ModelAndView("redirect:/");
 		}
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
-		String groupId = req.getParameter("groupId");
-		String noteText = req.getParameter("noteText");
-		String targetDate = req.getParameter("targetDate") + " "
-				+ new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
+		targetDate = targetDate + " " + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
 		;
 		if (noteText.equals("")) {
-			return "redirect:/g/" + groupId;
+			return new ModelAndView("jsonView","jsonData","create note fail");
 		}
 		noteDao.createNote(new Note(noteText, targetDate, sessionUserId, groupId));
-		return "redirect:/g/" + groupId;
+		return new ModelAndView("jsonView","jsonData","create note success");
 	}
 }
