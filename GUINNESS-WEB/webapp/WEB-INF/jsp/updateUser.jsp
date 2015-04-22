@@ -1,6 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-	
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE HTML>
 <html lang="ko">
@@ -17,7 +15,7 @@
 #editProfile-photoArea img.avatar{
   width:200px;
   height:200px;
-  background-color:#86E57F;
+  background-color:#558;
   border-radius:5px;
   overflow:hidden;
   margin-bottom:10px;
@@ -62,34 +60,27 @@
 					<button class='btn btn-pm'>이미지 수정</button>
 				</td>
 				<td valign=top id='editProfile-profileArea' style='padding-left:25px;'>
-					<form id='editProfile-form'>
+					<form id='editProfile-form' method='post' action='/user/update'>
 						<p>
 							<label for="userName">First & Last Name</label>
-							<input name="userName" type="text" placeholder="Your Name" required></input>
-							<span class="info"><strong>[required]</strong>Entering your name helps your studymates recognize you.</span>
+							<input name="userName" type="text" placeholder="Your Name" required value="${sessionUserName}"></input>
+							<span class="info"><strong>[필수사항]</strong>스터디메이트들과의 소통을 위한 이름을 입력하세요.</span>
 						</p>
 						<p>
-							<label for="userJob">What I Do</label>
-							<input name="userJob" type="text" placeholder="Your Job"></input>
-							<span class="info">Let others on your study group know what you do.</span>
-						</p>
-						<p>
-							<label for="userPhoneNumber">Phone Number</label>
-							<input name="userPhoneNumber" type="text" placeholder='e.g) 02-201-4441'></input>
-							<span class="info">This will be displayed on your profile.</span>
-						</p>
-						<p>
-							<label for="userPhoneNumber">Change Password</label>
-							<input name="userPassword" type="password" placeholder=''></input>
-							<span class="info">Input your new password if you want to change the password.</span>
+							<label for="userNewPassword">Change Password</label>
+							<input name="userNewPassword" type="password" placeholder=''></input>
+							<span class="info">비밀번호를 변경하시려면 새로운 비밀번호를 입력하세요.</span>
 						</p>
 						<hr/>
 						<p>
-							<label for="userPhoneNumber">Password</label>
+							<label for="userPassword">Password</label>
 							<input name="userPassword" type="password" placeholder=''></input>
-							<span class="info"><strong>[required]</strong>Input your password for submit this form.</span>
+							<span class="info"><strong>[필수사항]</strong>정보변경을 완료하기 위해 비밀번호를 입력해주세요.</span>
 						</p>
-						<button type="submit" class="btn btn-pm">Edit</button>
+						<c:if test="${not empty message}">
+							<span class="errorMessage"> ${message} <br /></span>
+						</c:if>
+						<button type="submit" class="btn btn-pm">수정</button>
 					</form>
 				</td>
 				</tr>

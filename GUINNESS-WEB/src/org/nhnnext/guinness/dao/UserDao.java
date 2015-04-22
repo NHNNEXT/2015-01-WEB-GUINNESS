@@ -33,4 +33,9 @@ public class UserDao extends JdbcDaoSupport {
 			return null;
 		}
 	}
+	
+	public void updateUser(User user) throws ClassNotFoundException {
+		String sql = "update USERS set userName = ?, userPassword = ?, userImage = ? where userId = ?";
+		getJdbcTemplate().update(sql, user.getUserName(), user.getUserPassword(), null, user.getUserId());
+	}
 }
