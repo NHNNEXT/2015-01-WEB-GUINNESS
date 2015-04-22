@@ -9,6 +9,7 @@ import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class Group {
+
 	@Size(min = 5, max = 5)
 	private String groupId;
 
@@ -53,10 +54,14 @@ public class Group {
 		return groupCaptainUserId;
 	}
 
-	public char isPublic() {
+	public char getIsPublic() {
 		return isPublic;
 	}
 
+	public char isPublic() {
+		return isPublic;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
