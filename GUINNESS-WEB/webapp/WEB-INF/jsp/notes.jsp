@@ -13,6 +13,7 @@
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="/js/datepickr.js"></script>
 <script src="/js/guinness.js"></script>
+<script src="/js/markdown.js"></script>
 </head>
 <body>
 	<%@ include file="./commons/_topnav.jspf"%>
@@ -234,7 +235,7 @@
 				defaultCloseEvent: true
 			});
 			document.querySelector('.modal-body').setAttribute('class','modal-body note-modal');
-			document.querySelector('.note-content').innerHTML = obj.noteText;			
+			document.querySelector('.note-content').innerHTML = new markdownToHtml(obj.noteText).getHtmlText();		
 			document.querySelector('#commentForm').addEventListener('submit', function(e) { e.preventDefault(); createComment(obj); }, false);
 
 			readComments(obj);
