@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
@@ -65,4 +66,12 @@ public class CommentController {
 			return new ModelAndView("/WEB-INF/jsp/exception.jsp");
 		}
 	}
+//	
+//	@RequestMapping("/{noteId}/delete")
+//	protected ModelAndView delete(@PathVariable String noteId,WebRequest req){
+//		String commentId = req.getParameter("commentId");
+//		commentDao.deleteComment(commentId);
+//		List<Comment> commentList = commentDao.readCommentListByNoteId(noteId);
+//		return new ModelAndView("jsonView", "jsonData", commentList);
+//	}
 }
