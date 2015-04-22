@@ -59,40 +59,31 @@ public class NoteController {
 		
 		DateTime now = new DateTime();
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+		
 		DateTime targetDate = new DateTime(formatter.print(now)).plusDays(1).minusSeconds(1);
-		DateTime endDate = targetDate.minusYears(10);
-		targetDate = targetDate.plusYears(10);
 
-		List<Note> noteList = null;
-		try {
-			noteList = noteDao.readNoteList(url, endDate.toString(), targetDate.toString());
-		} catch (Exception e) {
-			logger.error("Exception", e);
-			return new ModelAndView("exception");
-		}
+		List<Note> noteList = extractNoteListByMemberId(url, targetDate);
 		model.addAttribute("noteList", new Gson().toJson(noteList));
 		return new ModelAndView("notes");
 	}
 
 	@RequestMapping("/notelist/read")
 	protected ModelAndView readNoteList(WebRequest req) throws IOException {
+		String userIds = req.getParameter("checkedUserId");
 		String groupId = req.getParameter("groupId");
 		DateTime targetDate = new DateTime(req.getParameter("targetDate")).plusDays(1).minusSeconds(1);
-		// 임시 : 캘린더가 만들어지기 전까지 임시로 20년 범위로 가져오기.
-		// TODO 추후에는 targetDate에 해당하는 하루치 노트들만 불러올 것.
 		DateTime endDate = targetDate.minusYears(10);
 		targetDate = targetDate.plusYears(10);
-		// 임시 : 여기까지.
-		List<Note> noteList = null;
-		try {
-			noteList = noteDao.readNoteList(groupId, endDate.toString(), targetDate.toString());
-		} catch (Exception e) {
-			logger.error("Exception", e);
-			return new ModelAndView("exception");
-		}
+		List<Note> noteList = noteDao.readNoteList(groupId, endDate.toString(), targetDate.toString(), userIds);
 		return new ModelAndView("jsonView").addObject("jsonData", noteList);
 	}
-	
+
+	private List<Note> extractNoteListByMemberId(String groupId, DateTime targetDate) {
+		DateTime endDate = targetDate.minusYears(10);
+		targetDate = targetDate.plusYears(10);
+		List<Note> noteList = noteDao.readNoteList(groupId, endDate.toString(), targetDate.toString());
+		return noteList;
+	}
 
 	@RequestMapping("/note/read")
 	protected ModelAndView show(WebRequest req) throws IOException {

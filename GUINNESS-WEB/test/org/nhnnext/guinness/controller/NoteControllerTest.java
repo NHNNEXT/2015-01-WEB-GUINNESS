@@ -43,13 +43,11 @@ public class NoteControllerTest {
 
 	@Test
 	public void notesRouter() throws Exception {
-//		String url = "ygNDa?id=das@das.com&id=q@q.com";
 		String url = "ygNDa";
 		Model model = new BindingAwareModelMap();
 
 		when(session.getAttribute("sessionUserId")).thenReturn("das@das.com");
 		when(groupDao.checkJoinedGroup("das@das.com", url)).thenReturn(true);
-//		noteList.add(new Note("aaaaa","noteText","2015-04-22 12:12:12","das@das.com","ygNDa","다스"));
 		ModelAndView mav = notecontroller.notesRouter(url, session, model);
 		
 		logger.debug(model.toString());

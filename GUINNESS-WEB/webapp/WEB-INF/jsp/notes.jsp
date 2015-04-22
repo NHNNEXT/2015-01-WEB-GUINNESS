@@ -410,13 +410,12 @@
 
 			for(var i=0; i<objs.length; i++){
 				if(objs[i].checked === true)
-					array.push(objs[i].value);
+					array.push("'"+objs[i].value+"'");
 			}
-			
 			guinness.ajax({ 
 				method:"post", 
 				url:"/notelist/read",
-				params:'groupId=groupId&targetDate=targetDate&checkedUserId=array',
+				param:'groupId='+groupId+'&targetDate='+targetDate+'&checkedUserId='+array,
 				success: 
 				  function(req) {
 					appendNoteList(JSON.parse(req.responseText));
