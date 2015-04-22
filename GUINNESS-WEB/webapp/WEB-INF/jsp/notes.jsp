@@ -259,21 +259,21 @@
 									document.querySelector('#commentListUl').innerHTML += "<li id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>"
 											+ "<p>"
 											+ obj.userName
-											+ "</p><p>"
+											+ "</p><div><p>"
 											+ obj.commentText
 											+ "</p>"
 											+ obj.createDate
-											+ "<span class='comment-update-sending'><a href='#' class='comment-edit-action' onclick=showEditInputBox("+obj.commentText+"," + obj.commentId+")> 수정</a><a href='#' class='comment-delete-action'> 삭제</a></span>"
+											+ "<span class='comment-update-sending'><a href='#' class='comment-edit-action' onclick='showEditInputBox(&quot;"+ obj.commentText + "&quot; , &quot;"+ obj.commentId + "&quot;)'> 수정</a><a href='#' class='comment-delete-action'> 삭제</a></span></div>"
 											+ "</li>";
 											/* document.getElementById(obj.commentId).setAttribute('onclick',"showEditInputBox(\''+address+'\',\''+title+'\');"); */
 								} else {
 									document.querySelector('#commentListUl').innerHTML += "<li id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>"
 											+ "<p>"
 											+ obj.userName
-											+ "</p><p>"
+											+ "</p><div><p>"
 											+ obj.commentText
 											+ "</p><p> "
-											+ obj.createDate + "</p></li>";
+											+ obj.createDate + "</p></div></li>";
 								}
 
 							}
@@ -282,12 +282,24 @@
 		}
 
 		function showEditInputBox(commentText, commentId) {
-			console.out(commentText);
-			console.out(commentId);
+			var el = document.getElementById(commentId).getElementsByTagName('div')[0];
+			el.parentNode.removeChild(el);
+			var newEl = document.getElementById(commentId).getElementsByTagName('p')[0];
+			newEl.innerHTML += "<div><input type='hidden' value=" + commentId + "/><textarea id='update-commentText'>" + commentText + "</textarea><button id='comment-update' class='btn btn-pm'>저장</button></div>";
 			
-			/* var el = document.getElementById(commentId);
-			el.parentNode.removeChild(el); */
+			document.querySelector('#comment-update').addEventListener("click", function(e) {
+				var commentText = document.getElementById('update-commentText').value;
+				guinness.ajax({
+					method:"put",
+					url:"/comment/" + commentId + "/" + commentText,
+					success: function(req) {
+						//TODO readComments
+					}
+				});
+			}, false);
+
 		}
+
 		function createComment(obj) {
 			var commentText = document.querySelector('#commentText').value;
 			var userId = obj.userId;
