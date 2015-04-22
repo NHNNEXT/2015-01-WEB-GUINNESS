@@ -88,6 +88,7 @@ public class NoteController {
 		}
 		return new ModelAndView("jsonView").addObject("jsonData", noteList);
 	}
+	
 
 	@RequestMapping("/note/read")
 	protected ModelAndView show(WebRequest req) throws IOException {
