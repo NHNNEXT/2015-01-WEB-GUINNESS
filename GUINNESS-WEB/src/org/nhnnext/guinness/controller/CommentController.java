@@ -69,12 +69,12 @@ public class CommentController {
 	@RequestMapping("/{commentId}/delete")
 	protected ModelAndView delete(@PathVariable String commentId) {
 		commentDao.deleteComment(commentId);
-		return new ModelAndView();
+		return new ModelAndView("jsonView", "jsonData", "delete success");
 	}
 
 	@RequestMapping(value = "/{commentId}/{commentText}", method = RequestMethod.PUT)
 	protected ModelAndView update(@PathVariable String commentId, @PathVariable String commentText) {
 		commentDao.updateComment(commentId, commentText);
-		return new ModelAndView();
+		return new ModelAndView("jsonView", "jsonData", commentDao.readCommentByCommentId(commentId));
 	}
 }

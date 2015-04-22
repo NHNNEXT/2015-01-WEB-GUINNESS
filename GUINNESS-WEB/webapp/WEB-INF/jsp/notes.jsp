@@ -293,7 +293,15 @@
 					method:"put",
 					url:"/comment/" + commentId + "/" + commentText,
 					success: function(req) {
-						//TODO readComments
+						var json = JSON.parse(req.responseText);
+						var el = document.getElementById(json.commentId).getElementsByTagName('div')[0];
+						el.parentNode.removeChild(el);
+						var newEl = document.getElementById(commentId).getElementsByTagName('p')[0];
+						newEl.innerHTML += "<div><p>"
+											+ json.commentText
+											+ "</p>"
+											+ json.createDate
+											+ "<span class='comment-update-sending'><a href='#' class='comment-edit-action' onclick='showEditInputBox(&quot;"+ json.commentText + "&quot; , &quot;"+ json.commentId + "&quot;)'> 수정</a><a href='#' class='comment-delete-action'> 삭제</a></span></div>";
 					}
 				});
 			}, false);
