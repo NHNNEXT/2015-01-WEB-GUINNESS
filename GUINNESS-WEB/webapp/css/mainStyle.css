@@ -515,3 +515,9 @@ span.bold {
 span.tag {
 	color : gray;
 }
+
+.note-content img {
+	width:95%;
+	display:block;
+	margin: 0 auto;
+}

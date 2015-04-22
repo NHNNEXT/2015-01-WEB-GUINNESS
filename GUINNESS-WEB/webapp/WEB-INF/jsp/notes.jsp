@@ -233,7 +233,6 @@
 			});
 			document.querySelector('.modal-body').setAttribute('class','modal-body note-modal');
 			document.querySelector('.note-content').innerHTML = new markdownToHtml(obj.noteText).getHtmlText();
-			console.log(new markdownToHtml(obj.noteText).getHtmlText());
 			document.querySelector('#commentForm').addEventListener('submit', function(e) { e.preventDefault(); createComment(obj); }, false);
 
 			readComments(obj);

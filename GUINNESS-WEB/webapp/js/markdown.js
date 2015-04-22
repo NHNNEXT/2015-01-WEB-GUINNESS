@@ -65,6 +65,17 @@ markdownToHtml.prototype.tag = function() {
 	return this;
 }
 
+markdownToHtml.prototype.newline = function() {
+	this.text = this.text.replace(/^/, '<p>');
+	var array = this.text.match(/\n{2,}|\s{2,}\n/g);
+	for(var i in array) {
+		var htmlText = array[i].replace(/\n{2,}|\s{2,}\n/g, '</p>\n<p>');
+		this.text = this.text.replace(array[i], htmlText);
+	}
+	this.text = this.text+'</p>';
+	return this;
+}
+
 markdownToHtml.prototype.getHtmlText = function() {
-	return this.bold().italic().image().link().header().tag().text;
+	return this.bold().italic().image().link().header().tag().newline().text;
 }
