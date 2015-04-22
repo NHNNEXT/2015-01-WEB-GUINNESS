@@ -237,18 +237,7 @@
 			document.querySelector('.note-content').innerHTML = obj.noteText;
 			document.querySelector('#commentForm').addEventListener('submit', function(e) { e.preventDefault(); createComment(obj); }, false);
 
-<<<<<<< HEAD
-			readComments(obj.noteId);
-=======
 			readComments(obj);
-
-			/* 노트 상세보기 할때마다 이벤트 리스너가 생성되므로 주석처리함
-			document.body.addEventListener('keydown', function(e) {
-				if (e.keyCode === 27) {
-					document.querySelector("#contents-window").remove();
-				}
-			});*/
->>>>>>> ca4ed28a7a13fdf5ca097fe24aa818447ac69b51
 		}
 
 		function readComments(obj) {
