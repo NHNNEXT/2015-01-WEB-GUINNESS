@@ -503,3 +503,21 @@ input.text {
 	padding-top:15px;
 	padding-bottom:15px;
 }
+
+span.italic {
+	font-style: italic;
+}
+
+span.bold {
+	font-weight: bold;
+}
+
+span.tag {
+	color : gray;
+}
+
+.note-content img {
+	width:95%;
+	display:block;
+	margin: 0 auto;
+}

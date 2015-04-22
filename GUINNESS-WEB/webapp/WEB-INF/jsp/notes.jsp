@@ -13,6 +13,7 @@
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="/js/datepickr.js"></script>
 <script src="/js/guinness.js"></script>
+<script src="/js/markdown.js"></script>
 </head>
 <body>
 	<%@ include file="./commons/_topnav.jspf"%>
@@ -231,7 +232,7 @@
 				defaultCloseEvent: true
 			});
 			document.querySelector('.modal-body').setAttribute('class','modal-body note-modal');
-			document.querySelector('.note-content').innerHTML = obj.noteText;
+			document.querySelector('.note-content').innerHTML = new markdownToHtml(obj.noteText).getHtmlText();
 			document.querySelector('#commentForm').addEventListener('submit', function(e) { e.preventDefault(); createComment(obj); }, false);
 
 			readComments(obj);
@@ -257,21 +258,21 @@
 									document.querySelector('#commentListUl').innerHTML += "<li id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>"
 											+ "<p>"
 											+ obj.userName
-											+ "</p><p>"
+											+ "</p><div><p>"
 											+ obj.commentText
 											+ "</p>"
 											+ obj.createDate
-											+ "<span class='comment-update-sending'><a href='#' class='comment-edit-action' onclick=showEditInputBox("+obj.commentText+"," + obj.commentId+")> 수정</a><a href='#' class='comment-delete-action'> 삭제</a></span>"
+											+ "<span class='comment-update-sending'><a href='#' class='comment-edit-action' onclick='showEditInputBox(&quot;"+ obj.commentText + "&quot; , &quot;"+ obj.commentId + "&quot;)'> 수정</a><a href='#' class='comment-delete-action'> 삭제</a></span></div>"
 											+ "</li>";
 											/* document.getElementById(obj.commentId).setAttribute('onclick',"showEditInputBox(\''+address+'\',\''+title+'\');"); */
 								} else {
 									document.querySelector('#commentListUl').innerHTML += "<li id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>"
 											+ "<p>"
 											+ obj.userName
-											+ "</p><p>"
+											+ "</p><div><p>"
 											+ obj.commentText
 											+ "</p><p> "
-											+ obj.createDate + "</p></li>";
+											+ obj.createDate + "</p></div></li>";
 								}
 
 							}
@@ -280,12 +281,32 @@
 		}
 
 		function showEditInputBox(commentText, commentId) {
-			console.out(commentText);
-			console.out(commentId);
+			var el = document.getElementById(commentId).getElementsByTagName('div')[0];
+			el.parentNode.removeChild(el);
+			var newEl = document.getElementById(commentId).getElementsByTagName('p')[0];
+			newEl.innerHTML += "<div><input type='hidden' value=" + commentId + "/><textarea id='update-commentText'>" + commentText + "</textarea><button id='comment-update' class='btn btn-pm'>저장</button></div>";
 			
-			/* var el = document.getElementById(commentId);
-			el.parentNode.removeChild(el); */
+			document.querySelector('#comment-update').addEventListener("click", function(e) {
+				var commentText = document.getElementById('update-commentText').value;
+				guinness.ajax({
+					method:"put",
+					url:"/comment/" + commentId + "/" + commentText,
+					success: function(req) {
+						var json = JSON.parse(req.responseText);
+						var el = document.getElementById(json.commentId).getElementsByTagName('div')[0];
+						el.parentNode.removeChild(el);
+						var newEl = document.getElementById(commentId).getElementsByTagName('p')[0];
+						newEl.innerHTML += "<div><p>"
+											+ json.commentText
+											+ "</p>"
+											+ json.createDate
+											+ "<span class='comment-update-sending'><a href='#' class='comment-edit-action' onclick='showEditInputBox(&quot;"+ json.commentText + "&quot; , &quot;"+ json.commentId + "&quot;)'> 수정</a><a href='#' class='comment-delete-action'> 삭제</a></span></div>";
+					}
+				});
+			}, false);
+
 		}
+
 		function createComment(obj) {
 			var commentText = document.querySelector('#commentText').value;
 			var userId = obj.userId;
@@ -316,7 +337,6 @@
 			var targetDate = document.querySelector('#targetDate').value;
 			var groupId = document.querySelector('#createNoteForm input[name="groupId"]').value;
 			var noteText = document.querySelector('#noteText').value;
-			noteText = noteText.replace(/\n/g,"<br/>");
 			if (noteText === "") {
 				guinness.util.alert("빈 노트","노트를 작성하지 않았습니다.");
 				return;
