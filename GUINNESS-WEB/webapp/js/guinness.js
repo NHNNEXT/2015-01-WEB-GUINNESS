@@ -36,6 +36,7 @@ Element.prototype.hide = function() {
   this.style.display = "none";
 };
 
+
 NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
   for (var i = 0, len = this.length; i < len; i++) {
     this[i].remove();
