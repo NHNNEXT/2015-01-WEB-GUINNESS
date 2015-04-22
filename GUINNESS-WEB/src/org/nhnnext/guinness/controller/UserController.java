@@ -11,11 +11,13 @@ import javax.validation.ConstraintViolation;
 
 import org.nhnnext.guinness.dao.UserDao;
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
+import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.MyValidatorFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -100,4 +102,37 @@ public class UserController {
 		return "updateUser";
 	}
 	
+	@RequestMapping(value="/update", method=RequestMethod.POST)
+	protected String updateUser(WebRequest req, HttpSession session, Model model) throws MakingObjectListFromJdbcException, ClassNotFoundException {
+		String userId = (String) session.getAttribute("sessionUserId");
+		String userName = req.getParameter("userName");
+		String userNewPassword = req.getParameter("userNewPassword");
+		String userPassword = req.getParameter("userPassword");
+		if (userNewPassword.equals("")) {
+			userNewPassword = userPassword;
+		}
+		User user = new User(userId, userName, userNewPassword );
+		Set<ConstraintViolation<User>> constraintViolations = MyValidatorFactory.createValidator().validate(user);
+		if (!constraintViolations.isEmpty()) {
+			String message = "";
+			Iterator<ConstraintViolation<User>> violations = constraintViolations.iterator();
+			while (violations.hasNext()) {
+				ConstraintViolation<User> each = violations.next();
+				message = message + "<br />" + each.getMessage();
+			}
+			model.addAttribute("message", message);
+			return "updateUser";
+		}
+		if (!userDao.readUser(userId).getUserPassword().equals(userPassword)) {
+			model.addAttribute("message", "비밀번호가 일치하지 않습니다.");
+			return "updateUser";
+		}
+		try {
+			userDao.updateUser(user);
+		} catch (DataIntegrityViolationException e) {
+			model.addAttribute("message", "잘못된 형식입니다.");
+		}
+		session.setAttribute("sessionUserName", userName);
+		return "groups";
+	}
 }

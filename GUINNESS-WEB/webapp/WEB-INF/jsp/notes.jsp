@@ -13,6 +13,7 @@
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="/js/datepickr.js"></script>
 <script src="/js/guinness.js"></script>
+<script src="/js/markdown.js"></script>
 </head>
 <body>
 	<%@ include file="./commons/_topnav.jspf"%>
@@ -32,11 +33,9 @@
 				<input class="inputText" type="text" name="userId">
 				<input class="inputBtn" type="submit" value="초대">
 			</form>
-			<form id="refreshNoteList" action="" method="post">
-				<input type="hidden" name="groupId">
-				<input class="memberAllClick" type="checkbox" checked=true onclick="allCheckMember()"/>전체선택
-				<input class="inputBtn" type="submit" value="확인">
-			</form>
+			<input class="memberAllClick" type="checkbox" checked=true onclick="allCheckMember()"/>전체선택
+			<input class="inputBtn" type="submit" value="확인" onclick="reloadNoteList()"/>
+
 			<ul id='group-member'>
 			</ul>
 		</div>
@@ -81,7 +80,6 @@
 		window.addEventListener('load', function() {
 			var groupId = window.location.pathname.split("/")[2];
 			document.querySelector("#addMemberForm input[name='groupId']").value = groupId;
-			readNoteList(groupId, guinness.util.today("-"));
 			readMember(groupId);
 			
 			var noteModal = document.querySelector('#create-new-button');
@@ -118,6 +116,7 @@
 			document.title = groupName;
 			groupName = (groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 			document.querySelector('#group-name').innerHTML = groupName;
+			appendNoteList(${noteList});
 		}, false);
 
 		function setNoteModal(groupId) {
@@ -233,17 +232,10 @@
 				defaultCloseEvent: true
 			});
 			document.querySelector('.modal-body').setAttribute('class','modal-body note-modal');
-			document.querySelector('.note-content').innerHTML = obj.noteText;			
+			document.querySelector('.note-content').innerHTML = new markdownToHtml(obj.noteText).getHtmlText();		
 			document.querySelector('#commentForm').addEventListener('submit', function(e) { e.preventDefault(); createComment(obj); }, false);
 
 			readComments(obj);
-
-			/* 노트 상세보기 할때마다 이벤트 리스너가 생성되므로 주석처리함
-			document.body.addEventListener('keydown', function(e) {
-				if (e.keyCode === 27) {
-					document.querySelector("#contents-window").remove();
-				}
-			});*/
 		}
 
 		function readComments(obj) {
@@ -378,7 +370,7 @@
 			el.innerHTML = "";
 			for (var i = 0; i < json.length; i++) {
 				var newLi = document.createElement("li");
-				newLi.innerHTML = "<input type='checkbox' class='memberChk' checked=true onclick='OnOffMemberAllClickBtn()'>"+json[i].userName+"<br/>"+"("+json[i].userId+")";
+				newLi.innerHTML = "<input type='checkbox' class='memberChk' checked=true value="+json[i].userId+" onclick='OnOffMemberAllClickBtn()'>"+json[i].userName+"<br/>"+"("+json[i].userId+")";
 				el.appendChild(newLi);
 			}
 		}
@@ -410,6 +402,29 @@
 				allchk.checked=false;
 			}
 		}
+		
+		function reloadNoteList(){
+			var groupId = window.location.pathname.split("/")[2];
+			var targetDate = guinness.util.today("-");
+			var objs = document.querySelectorAll(".memberChk");
+			var array=new Array();
+
+			for(var i=0; i<objs.length; i++){
+				if(objs[i].checked === true)
+					array.push(objs[i].value);
+			}
+			
+			guinness.ajax({ 
+				method:"post", 
+				url:"/notelist/read",
+				params:'groupId=groupId&targetDate=targetDate&checkedUserId=array',
+				success: 
+				  function(req) {
+					appendNoteList(JSON.parse(req.responseText));
+				  } 
+			});
+		}
+		
 	</script>
 </body>
 </html>
