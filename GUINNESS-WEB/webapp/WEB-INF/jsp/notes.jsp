@@ -16,6 +16,8 @@
 </head>
 <body>
 	<%@ include file="./commons/_topnav.jspf"%>
+	<input type="hidden" id="sessionUserId" name="sessionUserId"
+		value="${sessionUserId}">
 	<h1 id="empty-message"
 		style="position: absolute; color: #888; top: 300px; width: 100%; text-align: center;">새
 		노트를 작성해주세요</h1>
@@ -235,7 +237,7 @@
 			document.querySelector('.note-content').innerHTML = obj.noteText;			
 			document.querySelector('#commentForm').addEventListener('submit', function(e) { e.preventDefault(); createComment(obj); }, false);
 
-			readComments(obj.noteId);
+			readComments(obj);
 
 			/* 노트 상세보기 할때마다 이벤트 리스너가 생성되므로 주석처리함
 			document.body.addEventListener('keydown', function(e) {
@@ -245,25 +247,55 @@
 			});*/
 		}
 
-		function readComments(noteId) {
+		function readComments(obj) {
 			var el = document.querySelector('#commentListUl');
+			var userId = document.getElementById("sessionUserId").value;
+			var noteId = obj.noteId;
 			while (el.hasChildNodes()) {
 				el.removeChild(el.firstChild);
 			}
-			guinness.ajax({
-				method:"get",
-				url:"/comment?noteId="+noteId,
-				success: function(req) {
-					var json = JSON.parse(req.responseText);
-					console.log(json);
-					for (var i = 0; i < json.length; i++) {
-						obj = json[i];
-						document.querySelector('#commentListUl').innerHTML += "<li comment-id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>" + obj.commentText + "    "+ obj.createDate +" "+ obj.userName + "</li>";
-					}
-				}		
-			});
+			guinness
+					.ajax({
+						method : "get",
+						url : "/comment?noteId=" + noteId,
+						success : function(req) {
+							var json = JSON.parse(req.responseText);
+							console.log(json);
+							for (var i = 0; i < json.length; i++) {
+								obj = json[i];
+								if (userId === obj.userId) {
+									document.querySelector('#commentListUl').innerHTML += "<li id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>"
+											+ "<p>"
+											+ obj.userName
+											+ "</p><p>"
+											+ obj.commentText
+											+ "</p>"
+											+ obj.createDate
+											+ "<span class='comment-update-sending'><a href='#' class='comment-edit-action' onclick=showEditInputBox("+obj.commentText+"," + obj.commentId+")> 수정</a><a href='#' class='comment-delete-action'> 삭제</a></span>"
+											+ "</li>";
+											/* document.getElementById(obj.commentId).setAttribute('onclick',"showEditInputBox(\''+address+'\',\''+title+'\');"); */
+								} else {
+									document.querySelector('#commentListUl').innerHTML += "<li id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>"
+											+ "<p>"
+											+ obj.userName
+											+ "</p><p>"
+											+ obj.commentText
+											+ "</p><p> "
+											+ obj.createDate + "</p></li>";
+								}
+
+							}
+						}
+					});
 		}
 
+		function showEditInputBox(commentText, commentId) {
+			console.out(commentText);
+			console.out(commentId);
+			
+			/* var el = document.getElementById(commentId);
+			el.parentNode.removeChild(el); */
+		}
 		function createComment(obj) {
 			var commentText = document.querySelector('#commentText').value;
 			var userId = obj.userId;
@@ -341,7 +373,7 @@
 				  } 
 			});
 		}
-		
+
 		function appendMember(json) {
 			var el = document.querySelector("#group-member");
 			el.innerHTML = "";
