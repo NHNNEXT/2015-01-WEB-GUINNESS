@@ -116,6 +116,7 @@
 			document.title = groupName;
 			groupName = (groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 			document.querySelector('#group-name').innerHTML = groupName;
+			appendNoteList(JSON.parse(${noteList}));
 		}, false);
 
 		function setNoteModal(groupId) {

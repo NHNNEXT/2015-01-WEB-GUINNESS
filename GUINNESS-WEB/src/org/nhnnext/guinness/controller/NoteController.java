@@ -8,6 +8,8 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.NoteDao;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
@@ -24,49 +26,51 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+
 @Controller
 public class NoteController {
 	private static final Logger logger = LoggerFactory.getLogger(NoteController.class);
+	@Autowired
+	private GroupDao groupDao;
 	
 	@Autowired
 	private NoteDao noteDao;
-
-	@Autowired
-	private GroupDao groupDao;
 	
 	public void setGroupDao(GroupDao groupDao) {
 		this.groupDao = groupDao;
 	}
+	
+	public void setNoteDao(NoteDao noteDao) {
+		this.noteDao = noteDao;
+	}
 
 	@RequestMapping(value = "/g/{url}")
 	protected ModelAndView notesRouter(@PathVariable String url, HttpSession session, Model model) throws IOException {
-		String groupId = url.split("&")[0];
-		String members = url.split("&")[1];
-		
 		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
 			return new ModelAndView("redirect:/");
 		}
 		
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
-		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
+		if (!groupDao.checkJoinedGroup(sessionUserId, url)) {
 			model.addAttribute("errorMessage", "비정상적 접근시도.");
 			return new ModelAndView("illegal");
 		}
 		
-		DateTime targetDate = new DateTime().plusDays(1).minusSeconds(1);
+		DateTime now = new DateTime();
+		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+		DateTime targetDate = new DateTime(formatter.print(now)).plusDays(1).minusSeconds(1);
 		DateTime endDate = targetDate.minusYears(10);
 		targetDate = targetDate.plusYears(10);
 
 		List<Note> noteList = null;
 		try {
-			noteList = noteDao.readNoteList(groupId, endDate.toString(), targetDate.toString());
+			noteList = noteDao.readNoteList(url, endDate.toString(), targetDate.toString());
 		} catch (Exception e) {
 			logger.error("Exception", e);
 			return new ModelAndView("exception");
 		}
-//		return new ModelAndView("jsonView").addObject("jsonData", noteList);
-		
-		
+		model.addAttribute("noteList", new Gson().toJson(noteList));
 		return new ModelAndView("notes");
 	}
 
