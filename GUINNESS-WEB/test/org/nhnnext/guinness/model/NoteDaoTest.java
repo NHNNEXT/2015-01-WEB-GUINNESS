@@ -30,7 +30,12 @@ public class NoteDaoTest {
 		Note newNote = noteDao.readNote(note.getNoteId());
 		assertNotNull(newNote);
 	}
-
+	
+	@Test
+	public void readNoteList() throws Exception {
+//		noteDao.readNoteList("ygNDa", endDate, targetDate)
+	}
+	
 	@Test
 	public void readExistedNotes() {
 		List<Note> noteList = null;

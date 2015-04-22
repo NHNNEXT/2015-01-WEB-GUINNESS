@@ -16,6 +16,8 @@
 </head>
 <body>
 	<%@ include file="./commons/_topnav.jspf"%>
+	<input type="hidden" id="sessionUserId" name="sessionUserId"
+		value="${sessionUserId}">
 	<h1 id="empty-message"
 		style="position: absolute; color: #888; top: 300px; width: 100%; text-align: center;">새
 		노트를 작성해주세요</h1>
@@ -29,6 +31,11 @@
 				<input type="hidden" name="groupId">
 				<input class="inputText" type="text" name="userId">
 				<input class="inputBtn" type="submit" value="초대">
+			</form>
+			<form id="refreshNoteList" action="" method="post">
+				<input type="hidden" name="groupId">
+				<input class="memberAllClick" type="checkbox" checked=true onclick="allCheckMember()"/>전체선택
+				<input class="inputBtn" type="submit" value="확인">
 			</form>
 			<ul id='group-member'>
 			</ul>
@@ -111,6 +118,7 @@
 			document.title = groupName;
 			groupName = (groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 			document.querySelector('#group-name').innerHTML = groupName;
+			appendNoteList(JSON.parse(${noteList}));
 		}, false);
 
 		function setNoteModal(groupId) {
@@ -229,28 +237,69 @@
 			document.querySelector('.note-content').innerHTML = obj.noteText;
 			document.querySelector('#commentForm').addEventListener('submit', function(e) { e.preventDefault(); createComment(obj); }, false);
 
+<<<<<<< HEAD
 			readComments(obj.noteId);
+=======
+			readComments(obj);
+
+			/* 노트 상세보기 할때마다 이벤트 리스너가 생성되므로 주석처리함
+			document.body.addEventListener('keydown', function(e) {
+				if (e.keyCode === 27) {
+					document.querySelector("#contents-window").remove();
+				}
+			});*/
+>>>>>>> ca4ed28a7a13fdf5ca097fe24aa818447ac69b51
 		}
 
-		function readComments(noteId) {
+		function readComments(obj) {
 			var el = document.querySelector('#commentListUl');
+			var userId = document.getElementById("sessionUserId").value;
+			var noteId = obj.noteId;
 			while (el.hasChildNodes()) {
 				el.removeChild(el.firstChild);
 			}
-			guinness.ajax({
-				method:"get",
-				url:"/comment?noteId="+noteId,
-				success: function(req) {
-					var json = JSON.parse(req.responseText);
-					console.log(json);
-					for (var i = 0; i < json.length; i++) {
-						obj = json[i];
-						document.querySelector('#commentListUl').innerHTML += "<li comment-id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>" + obj.commentText + "    "+ obj.createDate +" "+ obj.userName + "</li>";
-					}
-				}		
-			});
+			guinness
+					.ajax({
+						method : "get",
+						url : "/comment?noteId=" + noteId,
+						success : function(req) {
+							var json = JSON.parse(req.responseText);
+							console.log(json);
+							for (var i = 0; i < json.length; i++) {
+								obj = json[i];
+								if (userId === obj.userId) {
+									document.querySelector('#commentListUl').innerHTML += "<li id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>"
+											+ "<p>"
+											+ obj.userName
+											+ "</p><p>"
+											+ obj.commentText
+											+ "</p>"
+											+ obj.createDate
+											+ "<span class='comment-update-sending'><a href='#' class='comment-edit-action' onclick=showEditInputBox("+obj.commentText+"," + obj.commentId+")> 수정</a><a href='#' class='comment-delete-action'> 삭제</a></span>"
+											+ "</li>";
+											/* document.getElementById(obj.commentId).setAttribute('onclick',"showEditInputBox(\''+address+'\',\''+title+'\');"); */
+								} else {
+									document.querySelector('#commentListUl').innerHTML += "<li id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>"
+											+ "<p>"
+											+ obj.userName
+											+ "</p><p>"
+											+ obj.commentText
+											+ "</p><p> "
+											+ obj.createDate + "</p></li>";
+								}
+
+							}
+						}
+					});
 		}
 
+		function showEditInputBox(commentText, commentId) {
+			console.out(commentText);
+			console.out(commentId);
+			
+			/* var el = document.getElementById(commentId);
+			el.parentNode.removeChild(el); */
+		}
 		function createComment(obj) {
 			var commentText = document.querySelector('#commentText').value;
 			var userId = obj.userId;
@@ -328,14 +377,42 @@
 				  } 
 			});
 		}
-		
+
 		function appendMember(json) {
 			var el = document.querySelector("#group-member");
 			el.innerHTML = "";
 			for (var i = 0; i < json.length; i++) {
 				var newLi = document.createElement("li");
-				newLi.innerHTML = "<input type='checkbox' checked=true>"+json[i].userName;
+				newLi.innerHTML = "<input type='checkbox' class='memberChk' checked=true onclick='OnOffMemberAllClickBtn()'>"+json[i].userName+"<br/>"+"("+json[i].userId+")";
 				el.appendChild(newLi);
+			}
+		}
+		
+		function allCheckMember(){
+			
+			var objs = document.querySelectorAll(".memberChk");
+			var allchk = document.querySelector(".memberAllClick");
+			
+			for(var i=0; i<objs.length; i++){
+				objs[i].checked=allchk.checked;
+			}
+		}
+		function OnOffMemberAllClickBtn(){
+			var objs = document.querySelectorAll(".memberChk");
+			var allchk = document.querySelector(".memberAllClick");
+			var existUnchecked=false;
+			
+			for(var i=0; i<objs.length; i++){
+				if(objs[i].checked === false){
+					existUnchecked=true;
+					break;
+				}
+			}
+			if(existUnchecked=== false){
+				allchk.checked=true;
+			}
+			else{
+				allchk.checked=false;
 			}
 		}
 	</script>
