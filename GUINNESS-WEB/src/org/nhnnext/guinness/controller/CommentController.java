@@ -35,11 +35,10 @@ public class CommentController {
 		String commentText = req.getParameter("commentText");
 		String commentType = req.getParameter("commentType");
 		String noteId = req.getParameter("noteId");
-		
+
 		try {
 			if (!commentText.equals("")) {
-				Comment comment = new Comment(commentText, commentType,
-						sessionUserId, noteId);
+				Comment comment = new Comment(commentText, commentType, sessionUserId, noteId);
 				commentDao.createComment(comment);
 			}
 			List<Comment> commentList = commentDao.readCommentListByNoteId(noteId);
@@ -66,12 +65,16 @@ public class CommentController {
 			return new ModelAndView("/WEB-INF/jsp/exception.jsp");
 		}
 	}
-//	
-//	@RequestMapping("/{noteId}/delete")
-//	protected ModelAndView delete(@PathVariable String noteId,WebRequest req){
-//		String commentId = req.getParameter("commentId");
-//		commentDao.deleteComment(commentId);
-//		List<Comment> commentList = commentDao.readCommentListByNoteId(noteId);
-//		return new ModelAndView("jsonView", "jsonData", commentList);
-//	}
+
+	@RequestMapping("/{commentId}/delete")
+	protected ModelAndView delete(@PathVariable String commentId) {
+		commentDao.deleteComment(commentId);
+		return new ModelAndView();
+	}
+
+	@RequestMapping(value = "/{commentId}/{commentText}", method = RequestMethod.PUT)
+	protected ModelAndView update(@PathVariable String commentId, @PathVariable String commentText) {
+		commentDao.updateComment(commentId, commentText);
+		return new ModelAndView();
+	}
 }
