@@ -27,23 +27,47 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class NoteController {
 	private static final Logger logger = LoggerFactory.getLogger(NoteController.class);
+	
 	@Autowired
 	private NoteDao noteDao;
 
 	@Autowired
 	private GroupDao groupDao;
+	
+	public void setGroupDao(GroupDao groupDao) {
+		this.groupDao = groupDao;
+	}
 
 	@RequestMapping(value = "/g/{url}")
-	protected String notesRouter(@PathVariable String url, HttpSession session, Model model) throws IOException {
+	protected ModelAndView notesRouter(@PathVariable String url, HttpSession session, Model model) throws IOException {
+		String groupId = url.split("&")[0];
+		String members = url.split("&")[1];
+		
 		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
-			return "redirect:/";
+			return new ModelAndView("redirect:/");
 		}
+		
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
-		if (!groupDao.checkJoinedGroup(sessionUserId, url)) {
+		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
 			model.addAttribute("errorMessage", "비정상적 접근시도.");
-			return "illegal";
+			return new ModelAndView("illegal");
 		}
-		return "notes";
+		
+		DateTime targetDate = new DateTime().plusDays(1).minusSeconds(1);
+		DateTime endDate = targetDate.minusYears(10);
+		targetDate = targetDate.plusYears(10);
+
+		List<Note> noteList = null;
+		try {
+			noteList = noteDao.readNoteList(groupId, endDate.toString(), targetDate.toString());
+		} catch (Exception e) {
+			logger.error("Exception", e);
+			return new ModelAndView("exception");
+		}
+//		return new ModelAndView("jsonView").addObject("jsonData", noteList);
+		
+		
+		return new ModelAndView("notes");
 	}
 
 	@RequestMapping("/notelist/read")
