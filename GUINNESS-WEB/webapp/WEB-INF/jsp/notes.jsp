@@ -226,17 +226,10 @@
 				defaultCloseEvent: true
 			});
 			document.querySelector('.modal-body').setAttribute('class','modal-body note-modal');
-			document.querySelector('.note-content').innerHTML = obj.noteText;			
+			document.querySelector('.note-content').innerHTML = obj.noteText;
 			document.querySelector('#commentForm').addEventListener('submit', function(e) { e.preventDefault(); createComment(obj); }, false);
 
 			readComments(obj.noteId);
-
-			/* 노트 상세보기 할때마다 이벤트 리스너가 생성되므로 주석처리함
-			document.body.addEventListener('keydown', function(e) {
-				if (e.keyCode === 27) {
-					document.querySelector("#contents-window").remove();
-				}
-			});*/
 		}
 
 		function readComments(noteId) {
