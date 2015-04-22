@@ -6,7 +6,8 @@
 <meta charset="utf-8">
 <title>스터디의 시작, 페이퍼민트</title>
 <%@ include file="./commons/_favicon.jspf"%>
-<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
+<link rel="stylesheet"
+	href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
 <link rel="stylesheet" href="/css/mainStyle.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/datepickr.css">
@@ -29,52 +30,54 @@
 		</div>
 		<div id='group-member-container'>
 			<form id="addMemberForm" action="/group/add/member" method="post">
-				<input type="hidden" name="groupId">
-				<input class="inputText" type="text" name="userId">
-				<input class="inputBtn" type="submit" value="초대">
+				<input type="hidden" name="groupId"> <input
+					class="inputText" type="text" name="userId"> <input
+					class="inputBtn" type="submit" value="초대">
 			</form>
-			<input class="memberAllClick" type="checkbox" checked=true onclick="allCheckMember()"/>전체선택
-			<input class="inputBtn" type="submit" value="확인" onclick="reloadNoteList()"/>
+			<input class="memberAllClick" type="checkbox" checked=true
+				onclick="allCheckMember()" />전체선택 <input class="inputBtn"
+				type="submit" value="확인" onclick="reloadNoteList()" />
 
 			<ul id='group-member'>
 			</ul>
 		</div>
 	</div>
 	<template id="create-note-template">
-		<div id="createNoteForm">
-			<input type="hidden" name="groupId" value="">
-			<table>
-				<tr>
-					<td>날짜</td>
-					<td><input id="targetDate" name="targetDate" value="" readonly /><i id="datepickr" class="fa fa-calendar"></i></td>
-				</tr>
-				<tr>
-					<td>내용</td>
-					<td><textarea id="noteText" style="resize: none" rows="10" cols="145" name="noteText"></textarea></td>
-				</tr>
-			</table>
-			<button id="create-note" class="btn btn-pm">작성</button>
-		</div>
+	<div id="createNoteForm">
+		<input type="hidden" name="groupId" value="">
+		<table>
+			<tr>
+				<td>날짜</td>
+				<td><input id="targetDate" name="targetDate" value="" readonly /><i
+					id="datepickr" class="fa fa-calendar"></i></td>
+			</tr>
+			<tr>
+				<td>내용</td>
+				<td><textarea id="noteText" style="resize: none" rows="10"
+						cols="145" name="noteText"></textarea></td>
+			</tr>
+		</table>
+		<button id="create-note" class="btn btn-pm">작성</button>
+	</div>
 	</template>
 	<template id="view-note-template">
-		<div class="note-content">
-		</div>
-		<div id="commentListUl">
-			
-		</div>
-		<form id="commentForm" method="post" >
-			<textarea id='commentText' name='commentText' rows='5' cols='50'></textarea><br>
-			<button id='submitComment' class='btn btn-pm'>확인</button>
-		</form>	
+	<div class="note-content"></div>
+	<div id="commentListUl"></div>
+	<form id="commentForm" method="post">
+		<textarea id='commentText' name='commentText' rows='5' cols='50'></textarea>
+		<br>
+		<button id='submitComment' class='btn btn-pm'>확인</button>
+	</form>
 	</template>
 	<template id="comment-template">
-		<li>
-			<img class='avatar' class='avatar' src='/img/avatar-default.png'>
-			<div class='comment-container'>
-				<div><span class='comment-user'></span></div>
-				<div class='comment'></div>
+	<li><img class='avatar' class='avatar'
+		src='/img/avatar-default.png'>
+		<div class='comment-container'>
+			<div>
+				<span class='comment-user'></span>
 			</div>
-		</li>
+			<div class='comment'></div>
+		</div></li>
 	</template>
 	<script>
 		window.addEventListener('load', function() {
@@ -104,7 +107,6 @@
 				document.querySelector('.modal-cover').setAttribute('tabindex',0);
 				document.querySelector('.modal-cover').addEventListener('keydown',function(e){
 					if(e.keyCode === 27){
-						console.log('key');
 						cancelNoteCreate();
 					}
 				},false);
@@ -251,7 +253,6 @@
 						url : "/comment?noteId=" + noteId,
 						success : function(req) {
 							var json = JSON.parse(req.responseText);
-							console.log(json);
 							for (var i = 0; i < json.length; i++) {
 								obj = json[i];
 								if (userId === obj.userId) {
@@ -262,9 +263,8 @@
 											+ obj.commentText
 											+ "</p>"
 											+ obj.createDate
-											+ "<span class='comment-update-sending'><a href='#' class='comment-edit-action' onclick='showEditInputBox(&quot;"+ obj.commentText + "&quot; , &quot;"+ obj.commentId + "&quot;)'> 수정</a><a href='#' class='comment-delete-action'> 삭제</a></span></div>"
+											+ "<span class='comment-update-sending'><a href='#' class='comment-edit-action' onclick='showEditInputBox(&quot;"+ obj.commentText + "&quot; , &quot;"+ obj.commentId + "&quot;)'> 수정</a><a href='#' class='comment-delete-action' onclick='deleteComment(&quot;" + obj.commentId + "&quot;)'> 삭제</a></span></div>"
 											+ "</li>";
-											/* document.getElementById(obj.commentId).setAttribute('onclick',"showEditInputBox(\''+address+'\',\''+title+'\');"); */
 								} else {
 									document.querySelector('#commentListUl').innerHTML += "<li id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>"
 											+ "<p>"
@@ -279,7 +279,17 @@
 						}
 					});
 		}
-
+		
+		function deleteComment(commentId){
+			guinness.ajax({
+				method:"get",
+				url:"/comment/" + commentId + "/delete",
+				success: function(req) {
+					var el = document.getElementById(commentId);
+					el.parentNode.removeChild(el);
+				}
+			});
+		}
 		function showEditInputBox(commentText, commentId) {
 			var el = document.getElementById(commentId).getElementsByTagName('div')[0];
 			el.parentNode.removeChild(el);
@@ -300,16 +310,15 @@
 											+ json.commentText
 											+ "</p>"
 											+ json.createDate
-											+ "<span class='comment-update-sending'><a href='#' class='comment-edit-action' onclick='showEditInputBox(&quot;"+ json.commentText + "&quot; , &quot;"+ json.commentId + "&quot;)'> 수정</a><a href='#' class='comment-delete-action'> 삭제</a></span></div>";
+											+ "<span class='comment-update-sending'><a href='#' class='comment-edit-action' onclick='showEditInputBox(&quot;"+ json.commentText + "&quot; , &quot;"+ json.commentId + "&quot;)'> 수정</a><a href='#' class='comment-delete-action' onclick='deleteComment(&quot;" + json.commentId + "&quot;)'> 삭제</a></span></div>";
 					}
 				});
 			}, false);
-
 		}
 
 		function createComment(obj) {
 			var commentText = document.querySelector('#commentText').value;
-			var userId = obj.userId;
+			var userId = document.getElementById("sessionUserId").value;
 			var noteId = obj.noteId;
 			var param = "commentText=" + commentText + "&commentType=A" + "&userId=" + userId + "&noteId=" + noteId;
 			guinness.ajax({
@@ -324,10 +333,27 @@
 						el.removeChild(el.firstChild);
 					}
 					var json = JSON.parse(req.responseText);
-					console.log(json);
 					for (var i = 0; i < json.length; i++) {
 						obj = json[i];
-						document.querySelector('#commentListUl').innerHTML += "<li comment-id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>" + obj.commentText + "    "+ obj.createDate +" "+ obj.userName + "</li>";
+						if (userId === obj.userId) {
+							document.querySelector('#commentListUl').innerHTML += "<li id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>"
+									+ "<p>"
+									+ obj.userName
+									+ "</p><div><p>"
+									+ obj.commentText
+									+ "</p>"
+									+ obj.createDate
+									+ "<span class='comment-update-sending'><a href='#' class='comment-edit-action' onclick='showEditInputBox(&quot;"+ obj.commentText + "&quot; , &quot;"+ obj.commentId + "&quot;)'> 수정</a><a href='#' class='comment-delete-action' onclick='deleteComment(&quot;" + obj.commentId + "&quot;)'> 삭제</a></span></div>"
+									+ "</li>";
+						} else {
+							document.querySelector('#commentListUl').innerHTML += "<li id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>"
+									+ "<p>"
+									+ obj.userName
+									+ "</p><div><p>"
+									+ obj.commentText
+									+ "</p><p> "
+									+ obj.createDate + "</p></div></li>";
+						}
 					}
 				}
 			});
