@@ -24,7 +24,7 @@ html, body {
 #group-member-container ul {
 	overflow-x: hidden;
 	overflow-y: scroll;
-	height: 377px;
+	height: 349px;
 	display: block;
 }
 
@@ -137,7 +137,7 @@ ul {
 #jumbotron {
 	position: relative;
 	float: right;
-	width: 400px;
+	width: 360px;
 	padding: 25px;
 	background-color: rgba(45, 45, 45, .6);
 	border-radius: 5px;
@@ -176,6 +176,14 @@ input.text {
 	height: 25px;
 }
 
+#jumbotron > form > input{
+	width: 350px;
+	height: 26px;
+	margin-bottom:6px;
+	font-size:14px;
+	border-radius: 4px;
+}
+
 .btn {
 	position: relative;
 	width: 120px;
@@ -188,7 +196,15 @@ input.text {
 }
 
 .btn-pm {
-	background-color: #74afad
+  background-color: #74afad;
+  float:right;
+}
+
+textarea#commentText {
+  width: 99%;
+  height: 150px;
+  resize: none;
+  position: relative;
 }
 
 .btn-group {
@@ -241,9 +257,18 @@ input.text {
 	position: relative;
 }
 
+.group-list li:hover {
+	background-color: #a54215;
+}
+
 .group-list li#create-new {
 	background-color: rgb(180, 180, 180);
 }
+
+.group-list li#create-new:hover {
+	background-color: rgb(200, 200, 180);
+}
+
 
 .group-list .fa-lock, .group-list .fa-unlock {
 	position: absolute;
@@ -517,7 +542,7 @@ span.tag {
 }
 
 .note-content img {
-	width:95%;
+	max-width:95%;
 	display:block;
 	margin: 0 auto;
 }
