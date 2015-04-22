@@ -348,7 +348,7 @@
 				param: param,
 				success: function(req) {
 					document.querySelector(".modal-cover").remove();
-					readNoteList(groupId, targetDate);
+					reloadNoteList();
 				}
 			});
 		}
