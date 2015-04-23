@@ -78,6 +78,11 @@ guinness.util.modal = function(o) {
 		modalCloseBtn.addEventListener('click',function(){document.querySelector(".modal-cover").remove();},false);
 		modalCover.addEventListener('click',function(e){if(e.target.className==="modal-cover"){document.querySelector(".modal-cover").remove();}},false);
 	}
+	if(o.defaultCloseEvent === false && o.whenCloseEvent !== undefined){
+		modalCloseBtn.addEventListener('click',function(){document.querySelector(".modal-cover").remove();o.whenCloseEvent();},false);
+		modalCover.addEventListener('click',function(e){if(e.target.className==="modal-cover"){document.querySelector(".modal-cover").remove();o.whenCloseEvent();}},false);
+		
+	}
 	var modalBody = guinness.createElement({
     name: "div",
     attrs: {

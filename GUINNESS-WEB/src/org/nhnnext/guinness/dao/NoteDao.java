@@ -26,8 +26,6 @@ public class NoteDao extends JdbcDaoSupport {
 		}
 		sql += "order by targetDate desc";
 
-		logger.debug(sql);
-
 		try {
 			return getJdbcTemplate().query(
 					sql,
@@ -64,8 +62,8 @@ public class NoteDao extends JdbcDaoSupport {
 		getJdbcTemplate().update(sql, noteId);
 	}
 
-	public void decreaseCommentCount(String noteId) {
-		String sql = "update NOTES set commentCount = commentCount - 1 where noteId = ?";
-		getJdbcTemplate().update(sql, noteId);
+	public void decreaseCommentCount(String commentId) {
+		String sql = "UPDATE NOTES SET commentCount = commentCount -1 where noteId = (select noteId from COMMENTS where commentId = ?)";
+		getJdbcTemplate().update(sql, commentId);
 	}
 }

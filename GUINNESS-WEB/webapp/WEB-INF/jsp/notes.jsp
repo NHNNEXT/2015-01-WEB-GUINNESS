@@ -233,8 +233,12 @@
 			guinness.util.modal({
 				header: obj.userName,
 				body: bodyTemplate,
-				defaultCloseEvent: true
+				defaultCloseEvent: false,
+				whenCloseEvent: function(){
+					reloadNoteList();
+				}
 			});
+			
 			document.querySelector('.modal-body').setAttribute('class','modal-body note-modal');
 			document.querySelector('.note-content').innerHTML = new markdownToHtml(obj.noteText).getHtmlText();
 			document.querySelector('#commentForm').addEventListener('submit', function(e) { e.preventDefault(); createComment(obj); }, false);
@@ -346,6 +350,7 @@
 				url:"/comment/create/" + commentText + "/" + commentType + "/" + noteId,
 				success: function(req) {
 					appendComment(JSON.parse(req.responseText));
+					document.querySelector('#commentText').value ="";
 				}
 			});
 		}
