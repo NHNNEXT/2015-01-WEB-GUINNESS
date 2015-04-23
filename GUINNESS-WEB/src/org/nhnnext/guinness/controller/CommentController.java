@@ -68,10 +68,10 @@ public class CommentController {
 		}
 	}
 
-	@RequestMapping("/{commentId}/{noteId}/delete")
-	protected ModelAndView delete(@PathVariable String commentId, @PathVariable String noteId) {
+	@RequestMapping("/{commentId}/delete")
+	protected ModelAndView delete(@PathVariable String commentId) {
+		noteDao.decreaseCommentCount(commentId);
 		commentDao.deleteComment(commentId);
-		noteDao.decreaseCommentCount(noteId);
 		return new ModelAndView("jsonView", "jsonData", "delete success");
 	}
 
