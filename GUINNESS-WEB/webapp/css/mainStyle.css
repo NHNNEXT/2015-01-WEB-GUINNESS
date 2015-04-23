@@ -11,7 +11,7 @@ html, body {
 #noteTextBox {
   margin: 0 auto;
   padding: 15px;
-  height: 450px;
+  height: 90%;
   width: 90%;
   resize:none;
   font-size:14px;
@@ -46,6 +46,34 @@ textarea#noteTextBox:focus {
   width: 874px;
   padding: 2px;
   background-color: gray;
+  text-align:left;
+  margin: 0 auto;
+}
+
+div#preview-btn:before {
+  content: "";
+  position: absolute;
+  right: 100%;
+  top: 0px;
+  height: 4px;
+  border-top: 13px solid transparent;
+  border-right: 26px solid #555588;
+  border-bottom: 13px solid transparent;
+}
+
+#preview-btn {
+  position: absolute;
+  right: 4%;
+  top: 0.4em;
+  width: 61px;
+  height: 20px;
+  padding: 5px;
+  background-color: #555588;
+  color: white;
+}
+
+#preview-btn:hover {
+	font-size:20px;
 }
 
 #group-member-container ul {
@@ -177,6 +205,27 @@ ul {
 	margin: 0px;
 }
 
+input#targetDate {
+  width: 90px;
+  font-size: 13px;
+  padding-left: 18px;
+}
+
+#note-edit-container {
+  margin-top: 100px;
+  float: none;
+  text-align:center;
+  height: 80%;
+}
+form#noteForm {
+  height: 100%;
+}
+
+div#calendar {
+  color: white;
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
 #jumbotron .subscribe {
 	padding-top: 15px;
 	padding-bottom: 15px;

@@ -20,19 +20,24 @@
 	<%@ include file="./commons/_topnav.jspf"%>
 	<input type="hidden" id="sessionUserId" name="sessionUserId"
 		value="${sessionUserId}">
-	<div id='note-list-container' class='content wrap'>
+	<div id='note-edit-container' class='content wrap'>
 		<form id="noteForm" action="/note/create" method="post">
 			<input type="hidden" name="groupId" value="${groupId}">
 			<div id="editorTools">
 				<div id="calendar">
-					<input id="targetDate" name="targetDate" value="" readonly>
 					<i id="datepickr" class="fa fa-calendar"></i>
+					<input id="targetDate" name="targetDate" value="" readonly>
+				</div>
+				<div id="preview-btn">
+					preview
 				</div>
 			</div>
 			<textarea id="noteTextBox" name="noteText" form="noteForm"></textarea>
 			<button type="submit" id="create-note" class="btn btn-pm">작성</button>
 		</form>
-
+		<template id="view-preview-template">
+			<textarea></textarea>
+		</template>
 	</div>
 	<script>
 		document.querySelector("#targetDate").value = guinness.util.today("-");
@@ -40,6 +45,13 @@
 			dateFormat : 'Y-m-d',
 			altInput : document.querySelector('#targetDate')
 		});
+		
+		var preview = document.querySelector('#preview-btn');
+		preview.addEventListener('click', function() {
+			console.log('e');
+			var previewTemplate = document.querySelector("#view-preview-template").content;
+			previewTemplate = document.importNode(previewTemplate, true);
+		}, false);
 	</script>
 </body>
 </html>
