@@ -461,6 +461,7 @@
 				param:'groupId='+groupId+'&targetDate='+targetDate+'&checkedUserId='+array,
 				success: 
 				  function(req) {
+					console.log(JSON.parse(req.responseText));
 					appendNoteList(JSON.parse(req.responseText));
 				  } 
 			});
