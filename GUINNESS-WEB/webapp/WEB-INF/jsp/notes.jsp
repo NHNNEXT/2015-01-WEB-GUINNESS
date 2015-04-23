@@ -300,7 +300,7 @@
 		function deleteComment(commentId){
 			guinness.ajax({
 				method:"get",
-				url:"/comment/" + commentId + "/" + noteId + "/delete",
+				url:"/comment/" + commentId + "/delete",
 				success: function(req) {
 					document.querySelector('#cmt-'+commentId).remove();
 				}
