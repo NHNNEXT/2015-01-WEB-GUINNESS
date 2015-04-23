@@ -16,9 +16,8 @@ public class EditorController {
 	
 	@RequestMapping(value="/notes/editor", method=RequestMethod.POST)
 	private String Editor (WebRequest req, HttpSession session, Model model)  {
-		logger.debug("들어옴?");
-		//String userId = (String) session.getAttribute("sessionUserId");
 		String groupId = req.getParameter("groupId");
+		logger.debug("groupId = {}", groupId);
 		model.addAttribute("groupId", groupId);
 		return "editor";
 	}

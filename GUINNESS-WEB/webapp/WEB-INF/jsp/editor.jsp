@@ -20,9 +20,9 @@
 	<%@ include file="./commons/_topnav.jspf"%>
 	<input type="hidden" id="sessionUserId" name="sessionUserId"
 		value="${sessionUserId}">
-	<input type="hidden" name="groupId" value="${groupId}">
 	<div id='note-list-container' class='content wrap'>
 		<form id="noteForm" action="/note/create" method="post">
+			<input type="hidden" name="groupId" value="${groupId}">
 			<div id="editorTools">
 				<div id="calendar">
 					<input id="targetDate" name="targetDate" value="" readonly>
