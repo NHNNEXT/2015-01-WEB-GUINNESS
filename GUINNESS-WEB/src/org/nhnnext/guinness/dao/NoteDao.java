@@ -67,8 +67,10 @@ public class NoteDao extends JdbcDaoSupport {
 		getJdbcTemplate().update(sql, commentId);
 	}
 
-	public void deleteNote(String noteId) {
-		String sql = "delete from Notes where noteId = ?";
-		getJdbcTemplate().update(sql, noteId);
+	public int deleteNote(String noteId, String userId) {
+		String sql = "delete from NOTES where noteId = ? and userId = ?";
+		logger.debug("userId : " + userId +" noteId : " + noteId);
+		return getJdbcTemplate().update(sql, noteId, userId);
+		
 	}
 }
