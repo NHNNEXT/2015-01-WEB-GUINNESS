@@ -350,6 +350,7 @@
 				url:"/comment/create/" + commentText + "/" + commentType + "/" + noteId,
 				success: function(req) {
 					appendComment(JSON.parse(req.responseText));
+					document.querySelector('#commentText').value ="";
 				}
 			});
 		}
