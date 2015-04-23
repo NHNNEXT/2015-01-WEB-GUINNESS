@@ -74,10 +74,12 @@
 	<li><img class='avatar' class='avatar'
 		src='/img/avatar-default.png'>
 		<div class='comment-container'>
-			<div>
+			<div class='comment-info'>
 				<span class='comment-user'></span>
+				<span class='comment-date'></span>
 			</div>
 			<div class='comment'></div>
+			<div class='comment-util'></div>
 		</div></li>
 	</template>
 	<script>
@@ -255,26 +257,18 @@
 							var json = JSON.parse(req.responseText);
 							for (var i = 0; i < json.length; i++) {
 								obj = json[i];
+								var commentTemplate = document.querySelector("#comment-template").content;
+								commentTemplate = document.importNode(commentTemplate, true);
+								var commentList = document.querySelector('#commentListUl');
+								commentList.appendChild(commentTemplate);
+								var commentEl = commentList.querySelector('li:last-child');
+								commentEl.setAttribute('id', 'cmt-'+obj.commentId);
+								commentEl.querySelector('.comment-user').innerHTML = obj.userName;
+								commentEl.querySelector('.comment-date').innerHTML = obj.createDate;
+								commentEl.querySelector('.comment').innerHTML = obj.commentText;
 								if (userId === obj.userId) {
-									document.querySelector('#commentListUl').innerHTML += "<li id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>"
-											+ "<p>"
-											+ obj.userName
-											+ "</p><div><p>"
-											+ obj.commentText
-											+ "</p>"
-											+ obj.createDate
-											+ "<span class='comment-update-sending'><a href='#' class='comment-edit-action' onclick='showEditInputBox(&quot;"+ obj.commentText + "&quot; , &quot;"+ obj.commentId + "&quot;)'> 수정</a><a href='#' class='comment-delete-action' onclick='deleteComment(&quot;" + obj.commentId + "&quot;)'> 삭제</a></span></div>"
-											+ "</li>";
-								} else {
-									document.querySelector('#commentListUl').innerHTML += "<li id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>"
-											+ "<p>"
-											+ obj.userName
-											+ "</p><div><p>"
-											+ obj.commentText
-											+ "</p><p> "
-											+ obj.createDate + "</p></div></li>";
+									commentEl.querySelector('.comment-util').innerHTML = "<div class='default-utils'><a onclick='showEditInputBox(&quot;"+ obj.commentText + "&quot; , &quot;"+ obj.commentId + "&quot;)'>수정</a><a href='#' onclick='deleteComment(&quot;" + obj.commentId + "&quot;)'>삭제</a></div>"
 								}
-
 							}
 						}
 					});
@@ -291,12 +285,24 @@
 			});
 		}
 		function showEditInputBox(commentText, commentId) {
-			var el = document.getElementById(commentId).getElementsByTagName('div')[0];
-			el.parentNode.removeChild(el);
-			var newEl = document.getElementById(commentId).getElementsByTagName('p')[0];
-			newEl.innerHTML += "<div><input type='hidden' value=" + commentId + "/><textarea id='update-commentText'>" + commentText + "</textarea><button id='comment-update' class='btn btn-pm'>저장</button></div>";
-			
-			document.querySelector('#comment-update').addEventListener("click", function(e) {
+			var el = document.querySelector('#cmt-'+commentId);
+			el.querySelector('.default-utils').hide();
+			el.querySelector('.comment').setAttribute('contentEditable',true);
+			var updateButton = guinness.createElement({
+				name: "a",
+				attrs: {
+					'class': "comment-update"
+				},
+				content:"확인"
+			});
+			var cancelButton = guinness.createElement({
+				name: "a",
+				attrs: {
+					'class': "comment-update"
+				},
+				content:"취소"
+			});
+			updateButton.addEventListener('click', function(){
 				var commentText = document.getElementById('update-commentText').value;
 				guinness.ajax({
 					method:"put",
@@ -313,7 +319,16 @@
 											+ "<span class='comment-update-sending'><a href='#' class='comment-edit-action' onclick='showEditInputBox(&quot;"+ json.commentText + "&quot; , &quot;"+ json.commentId + "&quot;)'> 수정</a><a href='#' class='comment-delete-action' onclick='deleteComment(&quot;" + json.commentId + "&quot;)'> 삭제</a></span></div>";
 					}
 				});
-			}, false);
+			},false);
+			cancelButton.addEventListener('click', function(){
+				var el = document.querySelector('#cmt-'+commentId);
+				el.querySelector('.comment').setAttribute('contentEditable',false);
+				el.querySelector('.comment').innerHTML = commentText;
+				el.querySelectorAll('.comment-update').remove();
+				el.querySelector('.default-utils').show();
+			},false);
+			el.querySelector('.comment-util').appendChild(updateButton);
+			el.querySelector('.comment-util').appendChild(cancelButton);
 		}
 
 		function createComment(obj) {
