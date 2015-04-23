@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.nhnnext.guinness.dao.CommentDao;
+import org.nhnnext.guinness.dao.NoteDao;
 import org.nhnnext.guinness.model.Comment;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
@@ -25,6 +26,8 @@ public class CommentController {
 
 	@Autowired
 	private CommentDao commentDao;
+	@Autowired
+	private NoteDao noteDao;
 
 	@RequestMapping(value = "/create/{commentText}/{commentType}/{noteId}", method = RequestMethod.PUT)
 	protected ModelAndView create(@PathVariable String commentText, @PathVariable String commentType,
@@ -38,6 +41,7 @@ public class CommentController {
 			if (!commentText.equals("")) {
 				Comment comment = new Comment(commentText, commentType, sessionUserId, noteId);
 				commentDao.createComment(comment);
+				noteDao.increaseCommentCount(noteId);
 			}
 			List<Comment> commentList = commentDao.readCommentListByNoteId(noteId);
 			ModelAndView mav = new ModelAndView("jsonView");
@@ -66,6 +70,7 @@ public class CommentController {
 
 	@RequestMapping("/{commentId}/delete")
 	protected ModelAndView delete(@PathVariable String commentId) {
+		noteDao.decreaseCommentCount(commentId);
 		commentDao.deleteComment(commentId);
 		return new ModelAndView("jsonView", "jsonData", "delete success");
 	}

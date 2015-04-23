@@ -2,6 +2,7 @@ package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -45,43 +47,47 @@ public class NoteController {
 		this.noteDao = noteDao;
 	}
 
-	@RequestMapping(value = "/g/{url}")
-	protected ModelAndView notesRouter(@PathVariable String url, HttpSession session, Model model) throws IOException {
+	@RequestMapping(value = "/g/{groupId}")
+	protected ModelAndView initReadNoteList(@PathVariable String groupId, HttpSession session, Model model) throws IOException {
 		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
 			return new ModelAndView("redirect:/");
 		}
 
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
-		if (!groupDao.checkJoinedGroup(sessionUserId, url)) {
+		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
 			model.addAttribute("errorMessage", "비정상적 접근시도.");
 			return new ModelAndView("illegal");
 		}
 
+		List<Note> noteList = getNoteListFromDao(getFormattedCurrentDate(), groupId, null);
+		model.addAttribute("noteList", new Gson().toJson(noteList));
+		return new ModelAndView("notes");
+	}
+	
+	@RequestMapping("/notelist/read")
+	protected @ResponseBody List<Note> reloadNoteList(WebRequest req) throws IOException {
+		String userIds = req.getParameter("checkedUserId");
+		String groupId = req.getParameter("groupId");
+		List<Note> noteList = getNoteListFromDao(req.getParameter("targetDate"), groupId, userIds);
+		return noteList;
+	}
+
+	private String getFormattedCurrentDate() {
 		DateTime now = new DateTime();
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
 
 		DateTime targetDate = new DateTime(formatter.print(now)).plusDays(1).minusSeconds(1);
-
-		List<Note> noteList = extractNoteListByMemberId(url, targetDate);
-		model.addAttribute("noteList", new Gson().toJson(noteList));
-		return new ModelAndView("notes");
+		return targetDate.toString();
 	}
 
-	@RequestMapping("/notelist/read")
-	protected ModelAndView readNoteList(WebRequest req) throws IOException {
-		String userIds = req.getParameter("checkedUserId");
-		String groupId = req.getParameter("groupId");
-		DateTime targetDate = new DateTime(req.getParameter("targetDate")).plusDays(1).minusSeconds(1);
+	private List<Note> getNoteListFromDao(String date, String groupId, String userIds) {
+		if(userIds == "")
+			return new ArrayList<Note>();
+		
+		DateTime targetDate = new DateTime(date).plusDays(1).minusSeconds(1);
 		DateTime endDate = targetDate.minusYears(10);
 		targetDate = targetDate.plusYears(10);
 		List<Note> noteList = noteDao.readNoteList(groupId, endDate.toString(), targetDate.toString(), userIds);
-		return new ModelAndView("jsonView").addObject("jsonData", noteList);
-	}
-
-	private List<Note> extractNoteListByMemberId(String groupId, DateTime targetDate) {
-		DateTime endDate = targetDate.minusYears(10);
-		targetDate = targetDate.plusYears(10);
-		List<Note> noteList = noteDao.readNoteList(groupId, endDate.toString(), targetDate.toString());
 		return noteList;
 	}
 

@@ -451,7 +451,7 @@ textarea#commentText {
 }
 
 #create-new-button:hover {
-	color: #AEAEAE;
+	color: #aeaeae;
 	cursor: pointer;
 	background-color: #e7e8eb;
 }
@@ -546,14 +546,54 @@ textarea#commentText {
 }
 
 #commentListUl {
+	margin-top:10px;
 	padding-top:25px;
 	padding-bottom:25px;
 	list-style:none;
+	border-top:2px solid #f8f8f8;
+	font-size:13px;
 }
 
 #commentListUl li{
 	padding-top:15px;
 	padding-bottom:15px;
+}
+
+#commentListUl .comment-container {
+	position:relative;
+	padding-left:50px;
+}
+
+#commentListUl .comment-info{
+	display:block;
+	font-weight:bold;
+}
+
+#commentListUl .comment-date{
+	display:block;
+	font-size:12px;
+	padding-top:5px;
+	color:#9a9f9b;
+}
+
+#commentListUl .comment {
+	margin-top:5px;
+	padding:15px 0;
+	font-size:15px;
+	outline:2px solid #ffffff;
+	transition-property:outline;
+	transition-duration:.5s;
+}
+
+#commentListUl .comment[contenteditable=true] {
+	outline:2px solid #dcd5d6;
+}
+
+#commentListUl .comment-util a{
+	display:inline-block;
+	cursor:pointer;
+	padding:5px;
+	
 }
 
 span.italic {

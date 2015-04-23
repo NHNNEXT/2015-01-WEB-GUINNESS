@@ -1,6 +1,8 @@
 package org.nhnnext.guinness.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.Iterator;
 import java.util.List;
@@ -40,7 +42,7 @@ public class NoteDaoTest {
 	public void readExistedNotes() {
 		List<Note> noteList = null;
 		try {
-			noteList = noteDao.readNoteList("Ogsho", "2015-03-21", "2015-03-31");
+			noteList = noteDao.readNoteList("Ogsho", "2015-03-21", "2015-03-31", null);
 		} catch (Exception e) {
 			logger.debug(e.getMessage());
 		}

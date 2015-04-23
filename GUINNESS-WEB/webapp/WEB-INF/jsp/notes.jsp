@@ -58,10 +58,12 @@
 	<li><img class='avatar' class='avatar'
 		src='/img/avatar-default.png'>
 		<div class='comment-container'>
-			<div>
+			<div class='comment-info'>
 				<span class='comment-user'></span>
+				<span class='comment-date'></span>
 			</div>
 			<div class='comment'></div>
+			<div class='comment-util'></div>
 		</div></li>
 	</template>
 	<script>
@@ -144,10 +146,8 @@
 				out = "";
 				out += "<li><img class='avatar' class='avatar' src='/img/avatar-default.png'>";
 				out += "<div class='msgContainer'>";
-				out += "<span class='userName'>" + obj.userName + "</span>";
-				out += "<div class='qhsans'>";
-				out += obj.noteText;
-				out += "</div></div></li>";
+				out += "<div><span class='userName'>" + obj.userName + "</span></div>";
+				out += "<div><i class='fa fa-comments'> " + obj.commentCount + "</i></div></div></li>";
 				newEl.innerHTML = out;
 				el.appendChild(newEl);
 			}
@@ -173,7 +173,10 @@
 			guinness.util.modal({
 				header: obj.userName,
 				body: bodyTemplate,
-				defaultCloseEvent: true
+				defaultCloseEvent: false,
+				whenCloseEvent: function(){
+					reloadNoteList();
+				}
 			});
 			document.querySelector('.modal-body').setAttribute('class','modal-body note-modal');
 			document.querySelector('.note-content').innerHTML = new markdownToHtml(obj.noteText).getHtmlText();
@@ -183,43 +186,54 @@
 		}
 
 		function readComments(obj) {
-			var el = document.querySelector('#commentListUl');
 			var userId = document.getElementById("sessionUserId").value;
 			var noteId = obj.noteId;
+			guinness.ajax({
+			  method : "get",
+			  url : "/comment?noteId=" + noteId,
+			  success : function(req) {
+			    appendComment(JSON.parse(req.responseText));
+			  }
+			});
+		}
+		
+		function appendComment(json) {
+			var el = document.querySelector('#commentListUl');
+			var userId = document.getElementById("sessionUserId").value;
 			while (el.hasChildNodes()) {
 				el.removeChild(el.firstChild);
 			}
-			guinness
-					.ajax({
-						method : "get",
-						url : "/comment?noteId=" + noteId,
-						success : function(req) {
-							var json = JSON.parse(req.responseText);
-							for (var i = 0; i < json.length; i++) {
-								obj = json[i];
-								if (userId === obj.userId) {
-									document.querySelector('#commentListUl').innerHTML += "<li id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>"
-											+ "<p>"
-											+ obj.userName
-											+ "</p><div><p>"
-											+ obj.commentText
-											+ "</p>"
-											+ obj.createDate
-											+ "<span class='comment-update-sending'><a href='#' class='comment-edit-action' onclick='showEditInputBox(&quot;"+ obj.commentText + "&quot; , &quot;"+ obj.commentId + "&quot;)'> 수정</a><a href='#' class='comment-delete-action' onclick='deleteComment(&quot;" + obj.commentId + "&quot;)'> 삭제</a></span></div>"
-											+ "</li>";
-								} else {
-									document.querySelector('#commentListUl').innerHTML += "<li id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>"
-											+ "<p>"
-											+ obj.userName
-											+ "</p><div><p>"
-											+ obj.commentText
-											+ "</p><p> "
-											+ obj.createDate + "</p></div></li>";
-								}
-
-							}
-						}
-					});
+			for (var i = 0; i < json.length; i++) {
+				obj = json[i];
+				var commentTemplate = document.querySelector("#comment-template").content;
+				commentTemplate = document.importNode(commentTemplate, true);
+				var commentList = document.querySelector('#commentListUl');
+				commentList.appendChild(commentTemplate);
+				var commentEl = commentList.querySelector('li:last-child');
+				commentEl.setAttribute('id', 'cmt-'+obj.commentId);
+				commentEl.querySelector('.comment-user').innerHTML = obj.userName;
+				commentEl.querySelector('.comment-date').innerHTML = obj.createDate;
+				commentEl.querySelector('.comment').innerHTML = obj.commentText;
+				if (userId === obj.userId) {
+					commentEl.querySelector('.comment-util').innerHTML = "<div class='default-utils'><a onclick='showEditInputBox(&quot;"+ obj.commentText + "&quot; , &quot;"+ obj.commentId + "&quot;)'>수정</a><a href='#' onclick='deleteComment(&quot;" + obj.commentId + "&quot;)'>삭제</a></div>"
+				}
+			}
+		}
+		
+		function updateComment(commentId, commentText){
+			guinness.ajax({
+				method:"put",
+				url:"/comment/" + commentId + "/" + commentText,
+				success: function(req) {
+					var json = JSON.parse(req.responseText);
+					var el = document.querySelector("#cmt-"+commentId);
+					el.querySelector('.comment').innerHTML = json.commentText;
+					el.querySelector('.comment-date').innerHTML = json.createDate;
+					el.querySelector('.comment').setAttribute('contentEditable',false);
+					el.querySelectorAll('.comment-update').remove();
+					el.querySelector('.default-utils').show();
+				}
+			});
 		}
 		
 		function deleteComment(commentId){
@@ -227,35 +241,42 @@
 				method:"get",
 				url:"/comment/" + commentId + "/delete",
 				success: function(req) {
-					var el = document.getElementById(commentId);
-					el.parentNode.removeChild(el);
+					document.querySelector('#cmt-'+commentId).remove();
 				}
 			});
 		}
 		function showEditInputBox(commentText, commentId) {
-			var el = document.getElementById(commentId).getElementsByTagName('div')[0];
-			el.parentNode.removeChild(el);
-			var newEl = document.getElementById(commentId).getElementsByTagName('p')[0];
-			newEl.innerHTML += "<div><input type='hidden' value=" + commentId + "/><textarea id='update-commentText'>" + commentText + "</textarea><button id='comment-update' class='btn btn-pm'>저장</button></div>";
-			
-			document.querySelector('#comment-update').addEventListener("click", function(e) {
-				var commentText = document.getElementById('update-commentText').value;
-				guinness.ajax({
-					method:"put",
-					url:"/comment/" + commentId + "/" + commentText,
-					success: function(req) {
-						var json = JSON.parse(req.responseText);
-						var el = document.getElementById(json.commentId).getElementsByTagName('div')[0];
-						el.parentNode.removeChild(el);
-						var newEl = document.getElementById(commentId).getElementsByTagName('p')[0];
-						newEl.innerHTML += "<div><p>"
-											+ json.commentText
-											+ "</p>"
-											+ json.createDate
-											+ "<span class='comment-update-sending'><a href='#' class='comment-edit-action' onclick='showEditInputBox(&quot;"+ json.commentText + "&quot; , &quot;"+ json.commentId + "&quot;)'> 수정</a><a href='#' class='comment-delete-action' onclick='deleteComment(&quot;" + json.commentId + "&quot;)'> 삭제</a></span></div>";
-					}
-				});
-			}, false);
+			var el = document.querySelector('#cmt-'+commentId);
+			el.querySelector('.default-utils').hide();
+			el.querySelector('.comment').setAttribute('contentEditable',true);
+			var updateButton = guinness.createElement({
+				name: "a",
+				attrs: {
+					'class': "comment-update"
+				},
+				content:"확인"
+			});
+			var cancelButton = guinness.createElement({
+				name: "a",
+				attrs: {
+					'class': "comment-update"
+				},
+				content:"취소"
+			});
+			updateButton.addEventListener('click', function(){
+				var el = document.querySelector('#cmt-'+commentId);
+				var commentText = el.querySelector('.comment').textContent;
+				updateComment(commentId, commentText);
+			},false);
+			cancelButton.addEventListener('click', function(){
+				var el = document.querySelector('#cmt-'+commentId);
+				el.querySelector('.comment').setAttribute('contentEditable',false);
+				el.querySelector('.comment').innerHTML = commentText;
+				el.querySelectorAll('.comment-update').remove();
+				el.querySelector('.default-utils').show();
+			},false);
+			el.querySelector('.comment-util').appendChild(updateButton);
+			el.querySelector('.comment-util').appendChild(cancelButton);
 		}
 
 		function createComment(obj) {
@@ -267,35 +288,8 @@
 				method:"put",
 				url:"/comment/create/" + commentText + "/" + commentType + "/" + noteId,
 				success: function(req) {
-					document.querySelector("#commentText").value="";
-					
-					var el = document.querySelector('#commentListUl');
-					while (el.hasChildNodes()) {
-						el.removeChild(el.firstChild);
-					}
-					var json = JSON.parse(req.responseText);
-					for (var i = 0; i < json.length; i++) {
-						obj = json[i];
-						if (userId === obj.userId) {
-							document.querySelector('#commentListUl').innerHTML += "<li id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>"
-									+ "<p>"
-									+ obj.userName
-									+ "</p><div><p>"
-									+ obj.commentText
-									+ "</p>"
-									+ obj.createDate
-									+ "<span class='comment-update-sending'><a href='#' class='comment-edit-action' onclick='showEditInputBox(&quot;"+ obj.commentText + "&quot; , &quot;"+ obj.commentId + "&quot;)'> 수정</a><a href='#' class='comment-delete-action' onclick='deleteComment(&quot;" + obj.commentId + "&quot;)'> 삭제</a></span></div>"
-									+ "</li>";
-						} else {
-							document.querySelector('#commentListUl').innerHTML += "<li id='"+obj.commentId+"'><img class='avatar' src='/img/avatar-default.png'>"
-									+ "<p>"
-									+ obj.userName
-									+ "</p><div><p>"
-									+ obj.commentText
-									+ "</p><p> "
-									+ obj.createDate + "</p></div></li>";
-						}
-					}
+					appendComment(JSON.parse(req.responseText));
+					document.querySelector('#commentText').value ="";
 				}
 			});
 		}
