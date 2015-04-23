@@ -25,9 +25,12 @@
 		노트를 작성해주세요</h1>
 	<div id='note-list-container' class='content wrap'>
 		<span id="group-name"></span>
-		<div id='create-new-button'>
-			<i class="fa fa-plus-circle"></i>
-		</div>
+		<form id="notes-create-form" action="/notes/editor" method="post">
+			<input id="groupInfo" type="hidden" name="groupId" value="">
+			<button id='create-new-button' type="submit">
+				<i class="fa fa-plus-circle"></i>
+			</button>
+		</form>
 		<div id='group-member-container'>
 			<form id="addMemberForm" action="/group/add/member" method="post">
 				<input type="hidden" name="groupId"> <input
@@ -42,24 +45,6 @@
 			</ul>
 		</div>
 	</div>
-	<template id="create-note-template">
-	<div id="createNoteForm">
-		<input type="hidden" name="groupId" value="">
-		<table>
-			<tr>
-				<td>날짜</td>
-				<td><input id="targetDate" name="targetDate" value="" readonly /><i
-					id="datepickr" class="fa fa-calendar"></i></td>
-			</tr>
-			<tr>
-				<td>내용</td>
-				<td><textarea id="noteText" style="resize: none" rows="10"
-						cols="145" name="noteText"></textarea></td>
-			</tr>
-		</table>
-		<button id="create-note" class="btn btn-pm">작성</button>
-	</div>
-	</template>
 	<template id="view-note-template">
 	<div class="note-content"></div>
 	<div id="commentListUl"></div>
@@ -83,35 +68,9 @@
 		window.addEventListener('load', function() {
 			var groupId = window.location.pathname.split("/")[2];
 			document.querySelector("#addMemberForm input[name='groupId']").value = groupId;
+			document.querySelector("#groupInfo").value = groupId;
 			readMember(groupId);
 			
-			var noteModal = document.querySelector('#create-new-button');
-			noteModal.addEventListener('click', function() {
-				var bodyTemplate = document.querySelector("#create-note-template").content;
-				bodyTemplate = document.importNode(bodyTemplate, true);
-				guinness.util.modal({
-					header: "새 노트 작성",
-					body: bodyTemplate,
-					defaultCloseEvent:false
-				});
-				setNoteModal(groupId);
-				document.querySelector('.modal-body').setAttribute('class','modal-body note-modal');
-				document.querySelector('.modal-close-btn').addEventListener('click', function(e){
-					cancelNoteCreate();
-				}, false);
-				document.querySelector('.modal-cover').addEventListener('click', function(e){
-					if (e.target.className==='modal-cover') {
-						cancelNoteCreate();
-					}
-				}, false);
-				document.querySelector('.modal-cover').setAttribute('tabindex',0);
-				document.querySelector('.modal-cover').addEventListener('keydown',function(e){
-					if(e.keyCode === 27){
-						cancelNoteCreate();
-					}
-				},false);
-				document.querySelector('#create-note').addEventListener('click', createNote, false);
-			}, false);
 			document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
 
 			var groupName = getCookie(groupId);
@@ -120,24 +79,7 @@
 			document.querySelector('#group-name').innerHTML = groupName;
 			appendNoteList(${noteList});
 		}, false);
-
-		function setNoteModal(groupId) {
-			document.querySelector("#targetDate").value = guinness.util.today("-");
-			document.querySelector("#createNoteForm input[name='groupId']").value = groupId;
-			datepickr('.fa-calendar', {
-				dateFormat : 'Y-m-d',
-				altInput : document.querySelector('#targetDate')
-			});
-		}
 		
-		function cancelNoteCreate(e) {
-			if (document.querySelector(".modal-cover #noteText").value != "") {
-				guinness.util.alert("취소","작성중인 노트 기록을 취소하시겠습니까?",function() { document.querySelector('.modal-cover').remove(); }, function() {});
-				return;
-			}
-			document.querySelector('.modal-cover').remove();
-		}
-
 		function getCookie(sKey) {
 			if (!sKey) {
 				return undefined;
@@ -354,24 +296,6 @@
 									+ obj.createDate + "</p></div></li>";
 						}
 					}
-				}
-			});
-		}
-
-		function createNote() {
-			var targetDate = document.querySelector('#targetDate').value;
-			var groupId = document.querySelector('#createNoteForm input[name="groupId"]').value;
-			var noteText = document.querySelector('#noteText').value;
-			if (noteText === "") {
-				guinness.util.alert("빈 노트","노트를 작성하지 않았습니다.");
-				return;
-			}
-			guinness.ajax({
-				method:"put",
-				url:"/note/create/" + groupId + "/" + targetDate + "/" + noteText,
-				success: function(req) {
-					document.querySelector(".modal-cover").remove();
-					reloadNoteList();
 				}
 			});
 		}

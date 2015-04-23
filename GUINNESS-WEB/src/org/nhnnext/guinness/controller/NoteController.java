@@ -98,20 +98,22 @@ public class NoteController {
 		return new ModelAndView("jsonView").addObject("jsonData", note);
 	}
 
-	@RequestMapping(value = "/note/create/{groupId}/{targetDate}/{noteText}", method = RequestMethod.PUT)
-	protected ModelAndView create(@PathVariable String groupId, @PathVariable String targetDate,
-			@PathVariable String noteText, HttpSession session) throws IOException {
+	@RequestMapping(value = "/note/create", method = RequestMethod.POST)
+	protected ModelAndView create(WebRequest req, HttpSession session) throws IOException {
 		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
-			//TODO 사실상 동작하지 않음 exception 에러남 ModelAndView return type 시 REDIRECT 동작 구 
 			return new ModelAndView("redirect:/");
 		}
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
-		targetDate = targetDate + " " + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
-		;
+		String groupId = req.getParameter("groupId");
+		String noteText = req.getParameter("noteText");
+		String targetDate = req.getParameter("targetDate") + " "
+				+ new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
+		logger.debug("\ntargetDate={}\ngroupId={}\nnoteText={}", targetDate, groupId, noteText);
+		
 		if (noteText.equals("")) {
-			return new ModelAndView("jsonView","jsonData","create note fail");
+			return new ModelAndView("redirect:/notes/editor");
 		}
 		noteDao.createNote(new Note(noteText, targetDate, sessionUserId, groupId));
-		return new ModelAndView("jsonView","jsonData","create note success");
+		return new ModelAndView("redirect:/g/"+groupId);
 	}
 }

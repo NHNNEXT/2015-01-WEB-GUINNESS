@@ -8,6 +8,15 @@ html, body {
 	background-color: #e9eaed;
 }
 
+#noteTextBox {
+  margin: 0 auto;
+  padding: 15px;
+  height: 450px;
+  width: 90%;
+  resize:none;
+  font-size:14px;
+}
+
 #group-member-container {
 	top: 147px;
 	position: fixed;
@@ -19,6 +28,24 @@ html, body {
 	border-top-left-radius: 8px;
 	border-top-right-radius: 8px;
 	border-bottom-left-radius: 8px;
+}
+
+form#notes-create-form {
+  text-align: center;
+}
+
+#create-new-button:focus {
+	outline:none;
+}
+
+textarea#noteTextBox:focus {
+  outline: none;
+}
+
+#editorTools {
+  width: 874px;
+  padding: 2px;
+  background-color: gray;
 }
 
 #group-member-container ul {
