@@ -47,6 +47,7 @@ Create Table NOTES(
  targetDate DATETIME Not Null,
  userId varchar(50),
  groupId char(5),
+ commentCount int,
  Foreign Key(userId) REFERENCES USERS(userId),
  Foreign Key(groupId) REFERENCES GROUPS(groupId) on delete cascade
 );

@@ -184,6 +184,7 @@
 			var out = "";
 			for (var i = 0; i < json.length; i++) {
 				obj = json[i];
+				console.log(obj.commentCount);
 				var targetDate = obj.targetDate;
 				targetDate = targetDate.split(" ");
 				targetDate = targetDate[0];
@@ -205,10 +206,8 @@
 				out = "";
 				out += "<li><img class='avatar' class='avatar' src='/img/avatar-default.png'>";
 				out += "<div class='msgContainer'>";
-				out += "<span class='userName'>" + obj.userName + "</span>";
-				out += "<div class='qhsans'>";
-				out += obj.noteText;
-				out += "</div></div></li>";
+				out += "<div><span class='userName'>" + obj.userName + "</span></div>";
+				out += "<div><i class='fa fa-comments'> " + obj.commentCount + "</i></div></div></li>";
 				newEl.innerHTML = out;
 				el.appendChild(newEl);
 			}
