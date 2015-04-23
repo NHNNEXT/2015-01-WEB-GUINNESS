@@ -320,11 +320,10 @@
 			var commentText = document.querySelector('#commentText').value;
 			var userId = document.getElementById("sessionUserId").value;
 			var noteId = obj.noteId;
-			var param = "commentText=" + commentText + "&commentType=A" + "&userId=" + userId + "&noteId=" + noteId;
+			var commentType = "A";
 			guinness.ajax({
-				method:"post",
-				url:"/comment/create",
-				param:param,
+				method:"put",
+				url:"/comment/create/" + commentText + "/" + commentType + "/" + noteId,
 				success: function(req) {
 					document.querySelector("#commentText").value="";
 					
@@ -367,11 +366,9 @@
 				guinness.util.alert("빈 노트","노트를 작성하지 않았습니다.");
 				return;
 			}
-			var param = "groupId=" + groupId + "&targetDate=" + targetDate + "&noteText=" + noteText;
 			guinness.ajax({
-				method:"post",
-				url:"/note/create",
-				param: param,
+				method:"put",
+				url:"/note/create/" + groupId + "/" + targetDate + "/" + noteText,
 				success: function(req) {
 					document.querySelector(".modal-cover").remove();
 					reloadNoteList();

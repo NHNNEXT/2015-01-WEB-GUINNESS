@@ -26,15 +26,13 @@ public class CommentController {
 	@Autowired
 	private CommentDao commentDao;
 
-	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	protected ModelAndView create(WebRequest req, HttpSession session) throws IOException {
+	@RequestMapping(value = "/create/{commentText}/{commentType}/{noteId}", method = RequestMethod.PUT)
+	protected ModelAndView create(@PathVariable String commentText, @PathVariable String commentType,
+			@PathVariable String noteId, HttpSession session) throws IOException {
 		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
 			return new ModelAndView("redirect:/");
 		}
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
-		String commentText = req.getParameter("commentText");
-		String commentType = req.getParameter("commentType");
-		String noteId = req.getParameter("noteId");
 
 		try {
 			if (!commentText.equals("")) {
