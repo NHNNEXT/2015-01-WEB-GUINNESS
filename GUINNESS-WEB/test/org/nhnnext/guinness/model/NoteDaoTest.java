@@ -40,7 +40,7 @@ public class NoteDaoTest {
 	public void readExistedNotes() {
 		List<Note> noteList = null;
 		try {
-			noteList = noteDao.readNoteList("Ogsho", "2015-03-21", "2015-03-31");
+			noteList = noteDao.readNoteList("Ogsho", "2015-03-21", "2015-03-31", null);
 		} catch (Exception e) {
 			logger.debug(e.getMessage());
 		}
