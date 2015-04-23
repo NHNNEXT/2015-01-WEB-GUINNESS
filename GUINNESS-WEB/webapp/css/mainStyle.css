@@ -417,11 +417,13 @@ textarea#commentText {
 	background-color: #558;
 }
 
-.diary-list .msgContainer {
+.diary-list i.fa.fa-trash {
 	display: block;
-	float: left;
-	margin-left: 10px;
-	width: 90%;
+	float: right;
+}
+
+.diary-list i:hover {
+	color: gray;
 }
 
 .diary-list .userName {
