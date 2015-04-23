@@ -58,6 +58,7 @@
 			</tr>
 		</table>
 		<button id="create-note" class="btn btn-pm">작성</button>
+		<div>${noteList}</div>
 	</div>
 	</template>
 	<template id="view-note-template">
@@ -247,8 +248,7 @@
 			while (el.hasChildNodes()) {
 				el.removeChild(el.firstChild);
 			}
-			guinness
-					.ajax({
+			guinness.ajax({
 						method : "get",
 						url : "/comment?noteId=" + noteId,
 						success : function(req) {
