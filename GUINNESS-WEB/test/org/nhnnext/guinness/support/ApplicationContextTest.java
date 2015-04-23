@@ -1,6 +1,6 @@
 package org.nhnnext.guinness.support;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import javax.sql.DataSource;
 

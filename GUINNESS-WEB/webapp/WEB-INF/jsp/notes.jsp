@@ -58,7 +58,6 @@
 			</tr>
 		</table>
 		<button id="create-note" class="btn btn-pm">작성</button>
-		<div>${noteList}</div>
 	</div>
 	</template>
 	<template id="view-note-template">
@@ -184,7 +183,6 @@
 			var out = "";
 			for (var i = 0; i < json.length; i++) {
 				obj = json[i];
-				console.log(obj.commentCount);
 				var targetDate = obj.targetDate;
 				targetDate = targetDate.split(" ");
 				targetDate = targetDate[0];
@@ -458,7 +456,6 @@
 				param:'groupId='+groupId+'&targetDate='+targetDate+'&checkedUserId='+array,
 				success: 
 				  function(req) {
-					console.log(JSON.parse(req.responseText));
 					appendNoteList(JSON.parse(req.responseText));
 				  } 
 			});
