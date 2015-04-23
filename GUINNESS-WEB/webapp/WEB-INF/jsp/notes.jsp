@@ -59,8 +59,7 @@
 		src='/img/avatar-default.png'>
 		<div class='comment-container'>
 			<div class='comment-info'>
-				<span class='comment-user'></span>
-				<span class='comment-date'></span>
+				<span class='comment-user'></span> <span class='comment-date'></span>
 			</div>
 			<div class='comment'></div>
 			<div class='comment-util'></div>
@@ -281,17 +280,19 @@
 
 		function createComment(obj) {
 			var commentText = document.querySelector('#commentText').value;
-			var userId = document.getElementById("sessionUserId").value;
-			var noteId = obj.noteId;
-			var commentType = "A";
-			guinness.ajax({
-				method:"put",
-				url:"/comment/create/" + commentText + "/" + commentType + "/" + noteId,
-				success: function(req) {
-					appendComment(JSON.parse(req.responseText));
-					document.querySelector('#commentText').value ="";
-				}
-			});
+			if(commentText !== ""){
+				var userId = document.getElementById("sessionUserId").value;
+				var noteId = obj.noteId;
+				var commentType = "A";
+				guinness.ajax({
+					method:"put",
+					url:"/comment/create/" + commentText + "/" + commentType + "/" + noteId,
+					success: function(req) {
+						appendComment(JSON.parse(req.responseText));
+						document.querySelector('#commentText').value ="";
+					}
+				});
+			}
 		}
 		
 		function addMember(userId, groupId) {
