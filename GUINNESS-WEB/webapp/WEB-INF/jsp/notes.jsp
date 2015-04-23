@@ -298,8 +298,7 @@
 				method:"get",
 				url:"/comment/" + commentId + "/delete",
 				success: function(req) {
-					var el = document.getElementById(commentId);
-					el.parentNode.removeChild(el);
+					document.querySelector('#cmt-'+commentId).remove();
 				}
 			});
 		}
