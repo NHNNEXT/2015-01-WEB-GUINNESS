@@ -140,6 +140,9 @@
 					el.appendChild(newEl);
 					document.querySelector('#note-list-container').appendChild(el);
 				}
+				var noteText=new markdownToHtml(obj.noteText).getHtmlText();
+				var attention = noteText.match(/<span class="attention">.{1,}<\/span>/g).join('<br />');;
+				var question = noteText.match(/<span class="question">.{1,}<\/span>/g).join('<br />');;
 				newEl = document.createElement("a");
 				newEl.setAttribute("href", "#");
 				newEl.setAttribute("onclick", "readNoteContents(" + obj.noteId + " )");
@@ -147,6 +150,7 @@
 				out += "<li><img class='avatar' class='avatar' src='/img/avatar-default.png'>";
 				out += "<div class='msgContainer'>";
 				out += "<div><span class='userName'>" + obj.userName + "</span></div>";
+				out += attention+'<br />'+question;
 				out += "<div><i class='fa fa-comments'> " + obj.commentCount + "</i></div></div></li>";
 				newEl.innerHTML = out;
 				el.appendChild(newEl);

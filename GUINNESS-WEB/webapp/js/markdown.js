@@ -66,7 +66,7 @@ markdownToHtml.prototype.tag = function() {
 }
 
 markdownToHtml.prototype.attention = function() {
-	var array = this.text.match(/!{3,}[^!{3,}\n\s]{1,}!{3,}/g);
+	var array = this.text.match(/!{3,}[^!{3,}\n]{1,}!{3,}/g);
 	for(var i in array) {
 		var htmlText = array[i].replace(/^!{3,}/, '<span class="attention">');
 		htmlText = htmlText.replace(/!{3,}$/, '!</span>');
@@ -76,7 +76,7 @@ markdownToHtml.prototype.attention = function() {
 }
 
 markdownToHtml.prototype.question = function() {
-	var array = this.text.match(/\?{3,}[^\?{3,}\n\s]{1,}\?{3,}/g);
+	var array = this.text.match(/\?{3,}[^\?{3,}\n]{1,}\?{3,}/g);
 	for(var i in array) {
 		var htmlText = array[i].replace(/^\?{3,}/, '<span class="question">');
 		htmlText = htmlText.replace(/\?{3,}$/, '\?</span>');
