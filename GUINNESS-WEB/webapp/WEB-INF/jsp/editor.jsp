@@ -33,7 +33,7 @@
 				</div>
 			</div>
 			<textarea id="noteTextBox" name="noteText" form="noteForm"></textarea>
-			<button type="submit" id="create-note" class="btn btn-pm">작성</button>
+			<button type="button" id="create-note" class="btn btn-pm" onclick="createNote()">작성</button>
 		</form>
 		<template id="view-preview-template">
 			<textarea></textarea>
@@ -52,6 +52,12 @@
 			var previewTemplate = document.querySelector("#view-preview-template").content;
 			previewTemplate = document.importNode(previewTemplate, true);
 		}, false);
+		
+		function createNote(e) {
+			if(document.querySelector("#noteTextBox").value !== ""){
+				document.querySelector("#noteForm").submit();
+			}
+		}
 	</script>
 </body>
 </html>
