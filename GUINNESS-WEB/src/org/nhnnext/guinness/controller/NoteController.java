@@ -115,4 +115,14 @@ public class NoteController {
 		noteDao.createNote(new Note(noteText, targetDate, sessionUserId, groupId));
 		return "redirect:/g/" + groupId;
 	}
+	
+	@RequestMapping(value = "/note/delete/{noteId}")
+	protected ModelAndView delete(@PathVariable String noteId) {
+		logger.debug(" noteId : " + noteId);
+		if(noteDao.deleteNote(noteId) == 1) {
+			return new ModelAndView("jsonView", "jsonData", "success");
+		}
+		
+		return new ModelAndView("jsonView", "jsonData", "fail");
+	}
 }
