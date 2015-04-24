@@ -57,7 +57,7 @@ markdownToHtml.prototype.header = function() {
 }
 
 markdownToHtml.prototype.tag = function() {
-	var array = this.text.match(/#[^#\n]{1,}/g);
+	var array = this.text.match(/#[^#\n\s]{1,}(\n|\s)/g);
 	for(var i in array) {
 		var htmlText = array[i].replace('#', '<span class="tag">')+'</span>';
 		this.text = this.text.replace(array[i], htmlText);
