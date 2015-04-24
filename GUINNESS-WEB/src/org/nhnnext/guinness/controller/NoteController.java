@@ -61,7 +61,7 @@ public class NoteController {
 		return "notes";
 	}
 	
-	@RequestMapping("/notelist/read")
+	@RequestMapping("/note/list")
 	protected @ResponseBody List<Note> reloadNoteList(WebRequest req) throws IOException {
 		String userIds = req.getParameter("checkedUserId");
 		String groupId = req.getParameter("groupId");
