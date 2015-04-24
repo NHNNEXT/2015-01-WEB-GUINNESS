@@ -48,19 +48,19 @@ public class NoteController {
 	}
 
 	@RequestMapping(value = "/g/{groupId}")
-	protected ModelAndView initReadNoteList(@PathVariable String groupId, HttpSession session, Model model) throws IOException {
+	protected ModelAndView initReadNoteList(@PathVariable String groupId, WebRequest req, HttpSession session, Model model) throws IOException {
 		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
 			return new ModelAndView("redirect:/");
 		}
-
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
 			model.addAttribute("errorMessage", "비정상적 접근시도.");
 			return new ModelAndView("illegal");
 		}
-
+		String groupName = req.getParameter("groupName");
 		List<Note> noteList = getNoteListFromDao(getFormattedCurrentDate(), groupId, null);
 		model.addAttribute("noteList", new Gson().toJson(noteList));
+		model.addAttribute("groupName", new Gson().toJson(groupName));
 		return new ModelAndView("notes");
 	}
 	
@@ -114,7 +114,6 @@ public class NoteController {
 		String noteText = req.getParameter("noteText");
 		String targetDate = req.getParameter("targetDate") + " "
 				+ new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
-		logger.debug("\ntargetDate={}\ngroupId={}\nnoteText={}", targetDate, groupId, noteText);
 		noteDao.createNote(new Note(noteText, targetDate, sessionUserId, groupId));
 		return new ModelAndView("redirect:/g/"+groupId);
 	}

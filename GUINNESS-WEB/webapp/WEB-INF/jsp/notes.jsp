@@ -74,21 +74,12 @@
 			
 			document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
 
-			var groupName = getCookie(groupId);
-			document.title = groupName;
-			groupName = (groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
+			document.title = ${groupName};
+			var groupName = (${groupName}.replace(/</g, "&lt;")).replace(
+					/>/g, "&gt;");
 			document.querySelector('#group-name').innerHTML = groupName;
 			appendNoteList(${noteList});
 		}, false);
-		
-		function getCookie(sKey) {
-			if (!sKey) {
-				return undefined;
-			}
-			return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*"
-					+ encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1"))
-					|| undefined;
-		}
 		
 		function cancelNoteCreate(e) {
 			if (document.querySelector(".modal-cover #noteText").value != "") {

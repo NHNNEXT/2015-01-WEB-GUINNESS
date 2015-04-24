@@ -48,7 +48,7 @@ public class NoteControllerTest {
 
 		when(session.getAttribute("sessionUserId")).thenReturn("das@das.com");
 		when(groupDao.checkJoinedGroup("das@das.com", url)).thenReturn(true);
-		ModelAndView mav = notecontroller.initReadNoteList(url, session, model);
+		ModelAndView mav = notecontroller.initReadNoteList(url, null, session, model);
 		
 		logger.debug(model.toString());
 		logger.debug(mav.toString());
