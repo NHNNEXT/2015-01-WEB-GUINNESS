@@ -1,4 +1,4 @@
-package org.nhnnext.guinness.model;
+package org.nhnnext.guinness.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -9,8 +9,10 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.nhnnext.guinness.dao.CommentDao;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
+import org.nhnnext.guinness.model.Comment;
+import org.nhnnext.guinness.model.Group;
+import org.nhnnext.guinness.model.Note;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

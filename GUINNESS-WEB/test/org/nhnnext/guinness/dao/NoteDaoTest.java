@@ -1,8 +1,6 @@
-package org.nhnnext.guinness.model;
+package org.nhnnext.guinness.dao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.util.Iterator;
 import java.util.List;
@@ -10,9 +8,11 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nhnnext.guinness.dao.NoteDao;
+import org.nhnnext.guinness.model.Note;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -42,7 +42,7 @@ public class NoteDaoTest {
 	public void readExistedNotes() {
 		List<Note> noteList = null;
 		try {
-			noteList = noteDao.readNoteList("Ogsho", "2015-03-21", "2015-03-31", null);
+			noteList = noteDao.readNoteList("Ogsho", "2015-03-21", "2015-03-31", "test@naver.com");
 		} catch (Exception e) {
 			logger.debug(e.getMessage());
 		}
@@ -65,5 +65,12 @@ public class NoteDaoTest {
 	@Test
 	public void checkGroupNotesCount_노트가있을때() throws Exception {
 		assertNotEquals(0, noteDao.checkGroupNotesCount("WZDaW"));
+	}
+	
+	@Test
+	public void deleteNote() throws Exception {
+		String noteId = "18";
+		noteDao.deleteNote(noteId);
+		assertNull(noteDao.readNote(noteId));
 	}
 }
