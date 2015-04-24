@@ -27,7 +27,6 @@
 		<span id="group-name"></span>
 		<form id="notes-create-form" action="/notes/editor" method="get">
 			<input id="groupId" type="hidden" name="groupId" value="">
-			<input id="groupName" type="hidden" name="groupName" value="">
 			<button id='create-new-button' type="submit">
 				<i class="fa fa-plus-circle"></i>
 			</button>
@@ -71,7 +70,6 @@
 			var groupId = window.location.pathname.split("/")[2];
 			document.querySelector("#addMemberForm input[name='groupId']").value = groupId;
 			document.querySelector("#groupId").value = groupId;
-			document.querySelector("#groupName").value = ${groupName};
 			readMember(groupId);
 			
 			document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);

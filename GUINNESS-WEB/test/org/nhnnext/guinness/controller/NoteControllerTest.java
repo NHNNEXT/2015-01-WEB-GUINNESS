@@ -25,14 +25,12 @@ public class NoteControllerTest {
 	private static final Logger logger = LoggerFactory.getLogger(NoteControllerTest.class);
 	
 	private NoteController notecontroller;
-	private WebRequest request;
 	private HttpSession session;
 	private GroupDao groupDao;
 	private NoteDao noteDao;
 
 	@Before
 	public void setUp() {
-		request = mock(WebRequest.class);
 		session = mock(HttpSession.class);
 		groupDao = mock(GroupDao.class);
 		noteDao = mock(NoteDao.class);
@@ -50,7 +48,7 @@ public class NoteControllerTest {
 
 		when(session.getAttribute("sessionUserId")).thenReturn("das@das.com");
 		when(groupDao.checkJoinedGroup("das@das.com", url)).thenReturn(true);
-		String result = notecontroller.initReadNoteList(url, request, session, model);
+		String result = notecontroller.initReadNoteList(url, session, model);
 		
 		logger.debug(model.toString());
 		logger.debug(result.toString());
