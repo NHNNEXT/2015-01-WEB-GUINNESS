@@ -24,11 +24,7 @@
 		style="position: absolute; color: #888; top: 300px; width: 100%; text-align: center;">새
 		노트를 작성해주세요</h1>
 	<div id='note-list-container' class='content wrap'>
-<<<<<<< HEAD
 		<a href="/g/${groupId}"><span id="group-name"></span></a>
-=======
-		<span id="group-name"></span>
->>>>>>> branch 'master' of https://github.com/NHNNEXT/2015-01-WEB-GUINNESS.git
 		<form id="notes-create-form" action="/note/editor" method="get">
 			<input id="groupId" type="hidden" name="groupId" value="">
 			<button id='create-new-button' type="submit">

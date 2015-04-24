@@ -55,7 +55,6 @@ public class NoteController {
 			return "illegal";
 		}
 		String groupName = groupDao.readGroup(groupId).getGroupName();
-		logger.debug("groupName = {}, groupId = {}", groupName, groupId);
 		List<Note> noteList = getNoteListFromDao(getFormattedCurrentDate(), groupId, null);
 		model.addAttribute("noteList", new Gson().toJson(noteList));
 		model.addAttribute("groupName", new Gson().toJson(groupName));
