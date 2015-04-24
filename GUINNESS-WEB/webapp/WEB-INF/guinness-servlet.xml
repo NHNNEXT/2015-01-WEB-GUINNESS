@@ -15,7 +15,17 @@
 	<mvc:resources location="/js/" mapping="/js/**" />
 	<mvc:resources location="/css/" mapping="/css/**" />
 	<mvc:interceptors>
-		<bean class="org.nhnnext.guinness.intercepter.Interceptor" />
+		<bean class="org.nhnnext.guinness.intercepter.CharacterSetInterceptor" />
+		<mvc:interceptor>
+			<mvc:mapping path="/comment/**" />
+			<mvc:mapping path="/note/**" />
+			<mvc:mapping path="/noteList/**" />
+			<mvc:mapping path="/notes/**" />
+			<mvc:mapping path="/group/**" />
+			<mvc:mapping path="/groups/**" />
+			<mvc:mapping path="/g/**" />
+			<bean class="org.nhnnext.guinness.intercepter.SessionCheckInterceptor" />
+		</mvc:interceptor>
 	</mvc:interceptors>
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"

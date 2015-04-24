@@ -49,9 +49,6 @@ public class NoteController {
 
 	@RequestMapping(value = "/g/{groupId}")
 	protected String initReadNoteList(@PathVariable String groupId, WebRequest req, HttpSession session, Model model) throws IOException {
-		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
-			return "redirect:/";
-		}
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
 			model.addAttribute("errorMessage", "비정상적 접근시도.");
@@ -106,9 +103,6 @@ public class NoteController {
 
 	@RequestMapping(value = "/note/create", method = RequestMethod.POST)
 	protected String create(WebRequest req, HttpSession session, Model model) throws IOException {
-		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
-			return "redirect:/";
-		}
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		String groupId = req.getParameter("groupId");
 		String noteText = req.getParameter("noteText");
