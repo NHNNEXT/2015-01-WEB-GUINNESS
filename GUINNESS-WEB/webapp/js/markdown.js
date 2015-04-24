@@ -46,7 +46,7 @@ markdownToHtml.prototype.link = function() {
 }
 
 markdownToHtml.prototype.header = function() {
-	var array = this.text.match(/#{1,}\s[^\n]{1,}\n/g);
+	var array = this.text.match(/#{1,}\s[^\n]{1,}\n|#{1,}\s[^\n]{1,}$/g);
 	for(var i in array) {
 		var shop = array[i].split(' ')[0];
 		var shopCount = shop.length;
