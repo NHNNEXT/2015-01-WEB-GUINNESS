@@ -33,6 +33,7 @@
 			<div id="view-preview-template">
 				<div id="previewBox"></div>
 			</div>
+			<a id="escape-note" class="btn btn-pm" href="/g/${groupId}">취소</a>
 			<button type="button" id="create-note" class="btn btn-pm" onclick="createNote()">작성</button>
 		</form>
 	</div>
@@ -44,7 +45,7 @@
 		});
 
 		var textBox=document.querySelector("#noteTextBox");
-		textBox.addEventListener('keydown', function(e) {
+		textBox.addEventListener('keyup', function(e) {
 			var previewBox = document.querySelector('#previewBox');
 			previewBox.innerHTML=new markdownToHtml(e.target.value).getHtmlText();
 		}, false);

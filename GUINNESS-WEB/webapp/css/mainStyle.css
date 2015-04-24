@@ -8,6 +8,13 @@ html, body {
 	background-color: #e9eaed;
 }
 
+a#escape-note {
+  margin-right: 31px;
+  width: 99px;
+  height: 19px;
+  background: gray;
+}
+
 div#view-preview-template {
   outline: 1px solid #808080;
   width: 37.7%;
