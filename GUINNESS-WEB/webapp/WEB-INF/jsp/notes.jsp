@@ -25,7 +25,7 @@
 		노트를 작성해주세요</h1>
 	<div id='note-list-container' class='content wrap'>
 		<span id="group-name"></span>
-		<form id="notes-create-form" action="/notes/editor" method="get">
+		<form id="notes-create-form" action="/note/editor" method="get">
 			<input id="groupId" type="hidden" name="groupId" value="">
 			<button id='create-new-button' type="submit">
 				<i class="fa fa-plus-circle"></i>
@@ -139,8 +139,18 @@
 					document.querySelector('#note-list-container').appendChild(el);
 				}
 				var noteText=new markdownToHtml(obj.noteText).getHtmlText();
-				var attention = noteText.match(/<span class="attention">.{1,}<\/span>/g).join('<br />');;
-				var question = noteText.match(/<span class="question">.{1,}<\/span>/g).join('<br />');;
+				var attention = noteText.match(/<span class="attention">.{1,}<\/span>/g);
+				if (attention!==null) {
+					attention = attention.join('<br />');
+				}
+				var question = noteText.match(/<span class="question">.{1,}<\/span>/g);
+				if (question!==null){
+					question = question.join('<br />');	
+				}
+				var tag = noteText.match(/<span class="tag">.{1,}<\/span>/g);
+				if (tag!==null) {
+					tag = tag.join(' ');
+				}
 				newEl = document.createElement("a");
 				newEl.setAttribute("href", "#");
 				newEl.setAttribute("onclick", "readNoteContents(" + obj.noteId + " )");
@@ -148,7 +158,9 @@
 				out += "<li><img class='avatar' class='avatar' src='/img/avatar-default.png'>";
 				out += "<div class='msgContainer'>";
 				out += "<div><span class='userName'>" + obj.userName + "</span></div>";
-				out += attention+'<br />'+question;
+				if (attention!==null) {out += attention+'<br />'}
+				if (question!==null) {out += question+'<br />'}
+				if (tag!==null) {out += tag+'<br />'}
 				out += "<div><i class='fa fa-comments'> " + obj.commentCount + "</i></div></div></li>";
 				newEl.innerHTML = out;
 				el.appendChild(newEl);
