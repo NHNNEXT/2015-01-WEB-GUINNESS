@@ -92,9 +92,9 @@ public class UserController {
 	}
 	
 	@RequestMapping("/logout")
-	protected ModelAndView logout(HttpSession session) {
+	protected String logout(HttpSession session) {
 		session.invalidate();
-		return new ModelAndView("redirect:/");
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value="/update")

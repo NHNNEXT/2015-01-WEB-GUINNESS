@@ -14,7 +14,7 @@ import org.springframework.web.context.request.WebRequest;
 public class EditorController {
 	private static final Logger logger = LoggerFactory.getLogger(EditorController.class);
 	
-	@RequestMapping(value="/notes/editor", method=RequestMethod.POST)
+	@RequestMapping(value="/notes/editor", method=RequestMethod.GET)
 	private String Editor (WebRequest req, HttpSession session, Model model)  {
 		String groupId = req.getParameter("groupId");
 		logger.debug("groupId = {}", groupId);

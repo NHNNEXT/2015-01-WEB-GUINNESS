@@ -17,7 +17,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.ui.Model;
 import org.springframework.validation.support.BindingAwareModelMap;
-import org.springframework.web.servlet.ModelAndView;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/applicationContext.xml")
@@ -48,11 +47,11 @@ public class NoteControllerTest {
 
 		when(session.getAttribute("sessionUserId")).thenReturn("das@das.com");
 		when(groupDao.checkJoinedGroup("das@das.com", url)).thenReturn(true);
-		ModelAndView mav = notecontroller.initReadNoteList(url, session, model);
+		String result = notecontroller.initReadNoteList(url, session, model);
 		
 		logger.debug(model.toString());
-		logger.debug(mav.toString());
-		assertNotNull(mav);
+		logger.debug(result.toString());
+		assertNotNull(result);
 	}
 	
 }
