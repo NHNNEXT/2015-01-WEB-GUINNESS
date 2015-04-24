@@ -22,7 +22,7 @@
 		value="${sessionUserId}">
 	<div id='note-edit-container' class='content wrap'>
 	<div id='note-edit-group-name' >
-	<span id="group-name"></span> </div>
+		<a href="/g/${groupId}"><span id="group-name"></span></a></div>
 		<form id="noteForm" action="/note/create" method="post">
 			<input type="hidden" id="hiddenGroupId" name="groupId" value="${groupId}">
 			<div id="editorTools">

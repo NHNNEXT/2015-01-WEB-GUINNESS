@@ -24,8 +24,8 @@
 		style="position: absolute; color: #888; top: 300px; width: 100%; text-align: center;">새
 		노트를 작성해주세요</h1>
 	<div id='note-list-container' class='content wrap'>
-		<span id="group-name"></span>
-		<form id="notes-create-form" action="/notes/editor" method="get">
+		<a href="/g/${groupId}"><span id="group-name"></span></a>
+		<form id="notes-create-form" action="/note/editor" method="get">
 			<input id="groupId" type="hidden" name="groupId" value="">
 			<button id='create-new-button' type="submit">
 				<i class="fa fa-plus-circle"></i>
