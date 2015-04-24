@@ -107,7 +107,6 @@ public class NoteController {
 
 	@RequestMapping(value = "/note/create", method = RequestMethod.POST)
 	protected String create(WebRequest req, HttpSession session, Model model) throws IOException {
-		System.out.println("null");
 		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
 			return "redirect:/";
 		}
