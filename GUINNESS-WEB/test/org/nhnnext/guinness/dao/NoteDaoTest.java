@@ -1,10 +1,8 @@
 package org.nhnnext.guinness.dao;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import java.util.Iterator;
 import java.util.List;
@@ -68,15 +66,7 @@ public class NoteDaoTest {
 	public void deleteNote_권한이있을때() throws Exception {
 		
 		String noteId = "21";
-		String userId = "y@y.y";
 		
-		assertEquals(1, noteDao.deleteNote(noteId, userId));
-	}
-	
-	@Test
-	public void deleteNote_권한이없을때() throws Exception {
-		String noteId = "17";
-		String userId = "test@naver.com";
-		assertEquals(0, noteDao.deleteNote(noteId, userId));
+		assertEquals(1, noteDao.deleteNote(noteId));
 	}
 }

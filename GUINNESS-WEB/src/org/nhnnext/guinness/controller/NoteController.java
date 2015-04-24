@@ -116,10 +116,10 @@ public class NoteController {
 		return "redirect:/g/" + groupId;
 	}
 	
-	@RequestMapping(value = "/note/delete/{noteId}/{userId}")
-	protected ModelAndView delete(@PathVariable String noteId, @PathVariable String userId) {
-		logger.debug("userId : " + userId + " noteId : " + noteId);
-		if(noteDao.deleteNote(noteId, userId) == 1) {
+	@RequestMapping(value = "/note/delete/{noteId}")
+	protected ModelAndView delete(@PathVariable String noteId) {
+		logger.debug(" noteId : " + noteId);
+		if(noteDao.deleteNote(noteId) == 1) {
 			return new ModelAndView("jsonView", "jsonData", "success");
 		}
 		

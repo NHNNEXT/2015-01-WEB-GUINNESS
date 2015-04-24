@@ -152,14 +152,14 @@
 					tag = tag.join(' ');
 				}
 				newEl = document.createElement("a");
+				newEl.setAttribute("id", obj.noteId);
 				newEl.setAttribute("href", "#");
-				newEl.setAttribute("onclick", "readNoteContents(" + obj.noteId + " )");
 				out = "";
 				out += "<li><img class='avatar' class='avatar' src='/img/avatar-default.png'>";
 
 				var userId = document.getElementById("sessionUserId").value;
 				if(userId === obj.userId) {
-					out += "<i class='fa fa-trash' onclick='confirmDeleteNote(&quot;" + obj.noteId + "&quot;, &quot;" + obj.userId + "&quot;)'></i>";
+					out += "<i class='fa fa-trash'></i>";
 				}				
 				out += "<div class='msgContainer'>";
 				out += "<div><span class='userName'>" + obj.userName + "</span></div>";
@@ -169,27 +169,39 @@
 				out += "<div><i class='fa fa-comments'> " + obj.commentCount + "</i></div></div></li>";
 				newEl.innerHTML = out;
 				el.appendChild(newEl);
+				document.getElementById(obj.noteId).addEventListener("click", function(e) {
+					if(e.target.tagName === "I") {
+						confirmDeleteNote(obj.noteId)
+					} else {
+						readNoteContents(obj.noteId);
+					}
+					
+				})
 			}
 		}
 
-		function confirmDeleteNote(noteId, userId) {
+		function confirmDeleteNote(noteId) {
 			var message = "노트를 삭제하시겠습니까?";
 				guinness.util.alert("노트 삭제", message, function() {
 					document.body.style.overflow = "auto";
-					deleteNote(noteId, userId);
+					deleteNote(noteId);
 				}, function() {
 					document.body.style.overflow = "auto";
                 	return;
 			});
 		}
 
-		function deleteNote(noteId, userId) {
+		function deleteNote(noteId) {
 			guinness.ajax({
-				method: 'get',
-				url: '/note/delete/' + noteId + '/' + userId,
+				method: "get",
+				url: "/note/delete/" + noteId,
 				success: function(req) {
 					var json = JSON.parse(req.responseText);
-					console.log(json);
+					if(json === "success") {
+						// TODO reload방식 말고 removeChild를 이용해서 삭제할 것
+						// 날짜에 노트가 1개 있을 경우 날짜도 같이 지워져야 한다
+						document.location.reload(true);
+					}
 				}
 			});
 		}
