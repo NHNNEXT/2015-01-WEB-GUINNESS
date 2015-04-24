@@ -78,7 +78,7 @@ markdownToHtml.prototype.attention = function() {
 markdownToHtml.prototype.question = function() {
 	var array = this.text.match(/\?{3,}[^\?{3,}\n\s]{1,}\?{3,}/g);
 	for(var i in array) {
-		var htmlText = array[i].replace(/^\?{3,}/, '<span class="attention">');
+		var htmlText = array[i].replace(/^\?{3,}/, '<span class="question">');
 		htmlText = htmlText.replace(/\?{3,}$/, '\?</span>');
 		this.text = this.text.replace(array[i], htmlText);
 	}
