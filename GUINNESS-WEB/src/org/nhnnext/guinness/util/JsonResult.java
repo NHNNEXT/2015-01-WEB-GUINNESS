@@ -1,4 +1,4 @@
-package org.nhnnext.guinness.controller;
+package org.nhnnext.guinness.util;
 
 import java.util.HashMap;
 import java.util.List;

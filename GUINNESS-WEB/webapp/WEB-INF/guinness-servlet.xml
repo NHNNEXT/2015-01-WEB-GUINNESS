@@ -20,7 +20,6 @@
 			<mvc:mapping path="/comment/**" />
 			<mvc:mapping path="/note/**" />
 			<mvc:mapping path="/noteList/**" />
-			<mvc:mapping path="/notes/**" />
 			<mvc:mapping path="/group/**" />
 			<mvc:mapping path="/groups/**" />
 			<mvc:mapping path="/g/**" />

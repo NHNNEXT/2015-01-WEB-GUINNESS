@@ -12,6 +12,7 @@ import org.nhnnext.guinness.dao.UserDao;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.User;
+import org.nhnnext.guinness.util.JsonResult;
 import org.nhnnext.guinness.util.MyValidatorFactory;
 import org.nhnnext.guinness.util.RandomString;
 import org.nhnnext.guinness.util.ServletRequestUtil;
