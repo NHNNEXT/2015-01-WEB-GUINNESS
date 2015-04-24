@@ -8,6 +8,13 @@ html, body {
 	background-color: #e9eaed;
 }
 
+a#escape-note {
+  margin-right: 31px;
+  width: 99px;
+  height: 19px;
+  background: gray;
+}
+
 div#view-preview-template {
   outline: 1px solid #808080;
   width: 37.7%;
@@ -19,6 +26,14 @@ div#view-preview-template {
   text-align: left;
   padding: 15px;
   margin-top: 1px;
+}
+
+.attention {
+	color:red;
+}
+
+.question {
+	color:#D69014;
 }
 
 #noteTextBox {
@@ -206,6 +221,12 @@ input#targetDate {
   text-align:center;
   height: 80%;
 }
+
+#note-edit-group-name {
+  text-align:left;
+}
+
+
 form#noteForm {
   height: 100%;
 }

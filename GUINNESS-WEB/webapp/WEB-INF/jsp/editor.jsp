@@ -21,33 +21,51 @@
 	<input type="hidden" id="sessionUserId" name="sessionUserId"
 		value="${sessionUserId}">
 	<div id='note-edit-container' class='content wrap'>
+	<div id='note-edit-group-name' >
+	<span id="group-name"></span> </div>
 		<form id="noteForm" action="/note/create" method="post">
 			<input type="hidden" name="groupId" value="${groupId}">
 			<div id="editorTools">
 				<div id="calendar">
-					<i id="datepickr" class="fa fa-calendar"></i>
-					<input id="targetDate" name="targetDate" value="" readonly>
+					<i id="datepickr" class="fa fa-calendar"></i> <input
+						id="targetDate" name="targetDate" value="" readonly>
 				</div>
 			</div>
 			<textarea id="noteTextBox" name="noteText" form="noteForm"></textarea>
 			<div id="view-preview-template">
 				<div id="previewBox"></div>
 			</div>
-			<button type="button" id="create-note" class="btn btn-pm" onclick="createNote()">작성</button>
+			<a id="escape-note" class="btn btn-pm" href="/g/${groupId}">취소</a>
+			<button type="button" id="create-note" class="btn btn-pm"
+				onclick="createNote()">작성</button>
 		</form>
 	</div>
 	<script>
-		document.querySelector("#targetDate").value = guinness.util.today("-");
-		datepickr('#calendar', {
-			dateFormat : 'Y-m-d',
-			altInput : document.querySelector('#targetDate')
-		});
-
-		var textBox=document.querySelector("#noteTextBox");
-		textBox.addEventListener('keydown', function(e) {
-			var previewBox = document.querySelector('#previewBox');
-			previewBox.innerHTML=new markdownToHtml(e.target.value).getHtmlText();
+	
+	 	window.addEventListener('load', function() {
+			document.title = ${groupName};
+			var groupName = (${groupName}.replace(/</g, "&lt;")).replace(
+					/>/g, "&gt;");
+			document.querySelector('#group-name').innerHTML = groupName;
+			
+			console.log(groupName);
+			
+			loadDate();
 		}, false);
+	 
+		
+			document.querySelector("#targetDate").value = guinness.util.today("-");
+			datepickr('#calendar', {
+				dateFormat : 'Y-m-d',
+				altInput : document.querySelector('#targetDate')
+			});
+	
+			var textBox=document.querySelector("#noteTextBox");
+			textBox.addEventListener('keyup', function(e) {
+				var previewBox = document.querySelector('#previewBox');
+				previewBox.innerHTML=new markdownToHtml(e.target.value).getHtmlText();
+			}, false);
+
 		
 		function createNote(e) {
 			if(document.querySelector("#noteTextBox").value !== ""){

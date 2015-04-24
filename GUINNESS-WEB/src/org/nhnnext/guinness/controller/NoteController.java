@@ -48,23 +48,19 @@ public class NoteController {
 	}
 
 	@RequestMapping(value = "/g/{groupId}")
-	protected String initReadNoteList(@PathVariable String groupId, HttpSession session, Model model)
-			throws IOException {
-		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
-			return "redirect:/";
-		}
-
+	protected String initReadNoteList(@PathVariable String groupId, WebRequest req, HttpSession session, Model model) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
 			model.addAttribute("errorMessage", "비정상적 접근시도.");
 			return "illegal";
 		}
-
+		String groupName = req.getParameter("groupName");
 		List<Note> noteList = getNoteListFromDao(getFormattedCurrentDate(), groupId, null);
 		model.addAttribute("noteList", new Gson().toJson(noteList));
+		model.addAttribute("groupName", new Gson().toJson(groupName));
 		return "notes";
 	}
-
+	
 	@RequestMapping("/notelist/read")
 	protected @ResponseBody List<Note> reloadNoteList(WebRequest req) throws IOException {
 		String userIds = req.getParameter("checkedUserId");
@@ -84,7 +80,7 @@ public class NoteController {
 	private List<Note> getNoteListFromDao(String date, String groupId, String userIds) {
 		if (userIds == "")
 			return new ArrayList<Note>();
-
+		
 		DateTime targetDate = new DateTime(date).plusDays(1).minusSeconds(1);
 		DateTime endDate = targetDate.minusYears(10);
 		targetDate = targetDate.plusYears(10);
@@ -107,14 +103,12 @@ public class NoteController {
 
 	@RequestMapping(value = "/note/create", method = RequestMethod.POST)
 	protected String create(WebRequest req, HttpSession session, Model model) throws IOException {
-		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
-			return "redirect:/";
-		}
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		String groupId = req.getParameter("groupId");
 		String noteText = req.getParameter("noteText");
 		String targetDate = req.getParameter("targetDate") + " "
 				+ new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
+
 
 		if (noteText.equals("")) {
 			return "redirect:/notes/editor?groupId=" + groupId;
