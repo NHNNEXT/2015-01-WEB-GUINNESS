@@ -31,7 +31,7 @@
 						id="targetDate" name="targetDate" value="" readonly>
 				</div>
 			</div>
-			<textarea id="noteTextBox" name="noteText" form="noteForm"></textarea>
+			<textarea id="noteTextBox" rows="28" cols="28" name="noteText" form="noteForm"></textarea>
 			<div id="view-preview-template">
 				<div id="previewBox"></div>
 			</div>

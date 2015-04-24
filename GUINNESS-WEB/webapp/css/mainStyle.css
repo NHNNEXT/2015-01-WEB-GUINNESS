@@ -19,13 +19,14 @@ div#view-preview-template {
   outline: 1px solid #808080;
   width: 37.7%;
   margin: 0 auto;
-  height: 90%;
+  height: 30em;
   background: #F6F6F6;
   display: block;
   margin-right: 32px;
   text-align: left;
   padding: 15px;
   margin-top: 1px;
+  overflow:auto;
 }
 
 .attention {
@@ -39,7 +40,7 @@ div#view-preview-template {
 #noteTextBox {
   margin: 0 auto;
   padding: 15px;
-  height: 90%;
+  height: 34.3em;
   width: 49%;
   resize: none;
   font-size: 14px;
