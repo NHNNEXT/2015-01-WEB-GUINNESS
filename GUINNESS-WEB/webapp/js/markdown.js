@@ -13,7 +13,7 @@ markdownToHtml.prototype.bold = function () {
 }
 
 markdownToHtml.prototype.italic = function() {
-	var array = this.text.match(/\*[^\*\n\s]{1,}\*|\_[^\_\n\s]{1,}\_/g);
+	var array = this.text.match(/\*[^\*\n]{1,}\*|\_[^\_\n]{1,}\_/g);
 	for(var i in array) {
 		var htmlText = array[i].replace(/^\*|^\_/, '<span class="italic">').replace(/\*$|\_/, '</span>');
 		this.text = this.text.replace(array[i], htmlText);
@@ -66,7 +66,7 @@ markdownToHtml.prototype.tag = function() {
 }
 
 markdownToHtml.prototype.attention = function() {
-	var array = this.text.match(/!{3,}[^!{3,}\n]{1,}!{3,}/g);
+	var array = this.text.match(/!{3,}[^\n]{1,}!{3,}/g);
 	for(var i in array) {
 		var htmlText = array[i].replace(/^!{3,}/, '<span class="attention">');
 		htmlText = htmlText.replace(/!{3,}$/, '!</span>');
@@ -76,7 +76,7 @@ markdownToHtml.prototype.attention = function() {
 }
 
 markdownToHtml.prototype.question = function() {
-	var array = this.text.match(/\?{3,}[^\?{3,}\n]{1,}\?{3,}/g);
+	var array = this.text.match(/\?{3,}[^\n]{1,}\?{3,}/g);
 	for(var i in array) {
 		var htmlText = array[i].replace(/^\?{3,}/, '<span class="question">');
 		htmlText = htmlText.replace(/\?{3,}$/, '\?</span>');
