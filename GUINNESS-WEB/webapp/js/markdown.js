@@ -46,7 +46,7 @@ markdownToHtml.prototype.link = function() {
 }
 
 markdownToHtml.prototype.header = function() {
-	var array = this.text.match(/#{1,}\s[^\n]{1,}\n|#{1,}\s[^\n]{1,}$/g);
+	var array = this.text.match(/#{1,}\s[^\n]{1,}(\n|$)/g);
 	for(var i in array) {
 		var shop = array[i].split(' ')[0];
 		var shopCount = shop.length;
@@ -57,9 +57,29 @@ markdownToHtml.prototype.header = function() {
 }
 
 markdownToHtml.prototype.tag = function() {
-	var array = this.text.match(/#[^#\n\s]{1,}(\n|\s)/g);
+	var array = this.text.match(/#{1,}[^#\n\s]{1,}(\n|\s|$)/g);
 	for(var i in array) {
-		var htmlText = array[i].replace('#', '<span class="tag">')+'</span>';
+		var htmlText = array[i].replace('#', '<span class="tag">#')+'</span>';
+		this.text = this.text.replace(array[i], htmlText);
+	}
+	return this;
+}
+
+markdownToHtml.prototype.attention = function() {
+	var array = this.text.match(/!{3,}[^!{3,}\n\s]{1,}!{3,}/g);
+	for(var i in array) {
+		var htmlText = array[i].replace(/^!{3,}/, '<span class="attention">');
+		htmlText = htmlText.replace(/!{3,}$/, '!</span>');
+		this.text = this.text.replace(array[i], htmlText);
+	}
+	return this;
+}
+
+markdownToHtml.prototype.question = function() {
+	var array = this.text.match(/\?{3,}[^\?{3,}\n\s]{1,}\?{3,}/g);
+	for(var i in array) {
+		var htmlText = array[i].replace(/^\?{3,}/, '<span class="question">');
+		htmlText = htmlText.replace(/\?{3,}$/, '\?</span>');
 		this.text = this.text.replace(array[i], htmlText);
 	}
 	return this;
@@ -77,5 +97,5 @@ markdownToHtml.prototype.newline = function() {
 }
 
 markdownToHtml.prototype.getHtmlText = function() {
-	return this.bold().italic().image().link().header().tag().newline().text;
+	return this.bold().italic().image().link().header().tag().attention().question().newline().text;
 }

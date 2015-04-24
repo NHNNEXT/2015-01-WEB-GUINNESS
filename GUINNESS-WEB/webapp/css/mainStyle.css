@@ -28,6 +28,14 @@ div#view-preview-template {
   margin-top: 1px;
 }
 
+.attention {
+	color:red;
+}
+
+.question {
+	color:#D69014;
+}
+
 #noteTextBox {
   margin: 0 auto;
   padding: 15px;
@@ -213,6 +221,12 @@ input#targetDate {
   text-align:center;
   height: 80%;
 }
+
+#note-edit-group-name {
+  text-align:left;
+}
+
+
 form#noteForm {
   height: 100%;
 }
