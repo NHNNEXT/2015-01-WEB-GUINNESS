@@ -24,7 +24,7 @@
 	<div id='note-edit-group-name' >
 	<span id="group-name"></span> </div>
 		<form id="noteForm" action="/note/create" method="post">
-			<input type="hidden" name="groupId" value="${groupId}">
+			<input type="hidden" id="hiddenGroupId" name="groupId" value="${groupId}">
 			<div id="editorTools">
 				<div id="calendar">
 					<i id="datepickr" class="fa fa-calendar"></i> <input
@@ -47,13 +47,8 @@
 			var groupName = (${groupName}.replace(/</g, "&lt;")).replace(
 					/>/g, "&gt;");
 			document.querySelector('#group-name').innerHTML = groupName;
-			
-			console.log(groupName);
-			
-			loadDate();
 		}, false);
 	 
-		
 			document.querySelector("#targetDate").value = guinness.util.today("-");
 			datepickr('#calendar', {
 				dateFormat : 'Y-m-d',

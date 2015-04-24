@@ -21,18 +21,15 @@
 			<li id='create-new' style=' text-align:center;'><i class='fa fa-plus-circle' style='font-size:60px; margin-top:25px;'></i></li>
 		</ul>
 	</div>
-	<template id='group-card-template'>
-		<form id='group-card-form' action='' method='post'> 
-			<input type="hidden" id="hiddenGroupName" name="groupName" />
-			<a href='javascript:;' onclick='parentNode.submit()'>
+	<template id='group-card-template'> <a class='group-card'
+		href='#'>
 		<li><span class='group-name'></span>
 			<div class='deleteGroup-btn'>
 				<i class='fa fa-remove'></i>
 			</div> <i class='fa fa-lock'></i><input name=groupId type='hidden' /></li>
-	</a> 
-	</form></template>
+	</a> </template>
 	<template id='create-group-template'>
-		<form id='create-group-form' action='' method="post">
+		<form id='create-group-form' method="post">
 			<div>
 				그룹이름 <input type="text" name="groupName">
 			</div>
@@ -116,10 +113,10 @@
 				obj = json[i];
 				var groupName = (obj.groupName.replace(/</g, "&lt;")).replace(
 						/>/g, "&gt;");
+				document.cookie = obj.groupId + "=" + encodeURI(obj.groupName);
 				newEl = document.importNode(template, true);
-				
-				newEl.querySelector("#group-card-form").setAttribute("action", "/g/"+obj.groupId);
-				newEl.querySelector("#hiddenGroupName").value = obj.groupName;
+				newEl.querySelector(".group-card").setAttribute("href",
+						"/g/" + obj.groupId);
 				newEl.querySelector(".group-name").innerHTML = groupName;
 				newEl
 						.querySelector('.deleteGroup-btn')
@@ -137,6 +134,7 @@
 					newEl.querySelector('.fa-lock').setAttribute('class',
 							'fa fa-unlock');
 				}
+				newEl.querySelector('input').setAttribute("value", obj.groupId);
 				el.appendChild(newEl);
 			}
 		}

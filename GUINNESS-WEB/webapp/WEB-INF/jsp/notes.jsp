@@ -27,7 +27,6 @@
 		<span id="group-name"></span>
 		<form id="notes-create-form" action="/notes/editor" method="get">
 			<input id="groupId" type="hidden" name="groupId" value="">
-			<input id="groupName" type="hidden" name="groupName" value="">
 			<button id='create-new-button' type="submit">
 				<i class="fa fa-plus-circle"></i>
 			</button>
@@ -71,7 +70,6 @@
 			var groupId = window.location.pathname.split("/")[2];
 			document.querySelector("#addMemberForm input[name='groupId']").value = groupId;
 			document.querySelector("#groupId").value = groupId;
-			document.querySelector("#groupName").value = ${groupName};
 			readMember(groupId);
 			
 			document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
@@ -94,7 +92,7 @@
 		function readNoteList(groupId, targetDate) {
 		  guinness.ajax({ 
 			  method: "get", 
-			  url: "/notelist/read?groupId="+groupId+"&targetDate="+targetDate, 
+			  url: "/note/list?groupId="+groupId+"&targetDate="+targetDate, 
 			  success: 
 				function(req) {
 				  var json = JSON.parse(req.responseText);
@@ -326,7 +324,11 @@
 				url:"/group/read/member/"+groupId, 
 				success: 
 				  function(req) {
-					appendMember(JSON.parse(req.responseText));
+					if(JSON.parse(req.responseText).success){
+						appendMember(JSON.parse(req.responseText).listValues);
+					}else{
+						 window.location.href = JSON.parse(req.responseText).locationWhenFail;
+					}
 				  } 
 			});
 		}
@@ -381,7 +383,7 @@
 			}
 			guinness.ajax({ 
 				method:"post", 
-				url:"/notelist/read",
+				url:"/note/list",
 				param:'groupId='+groupId+'&targetDate='+targetDate+'&checkedUserId='+array,
 				success: 
 				  function(req) {
