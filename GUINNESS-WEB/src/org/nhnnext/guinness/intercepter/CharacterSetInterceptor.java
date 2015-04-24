@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-public class Interceptor extends HandlerInterceptorAdapter {
+public class CharacterSetInterceptor extends HandlerInterceptorAdapter {
 	private final String DEFAULT_ENCODING = "UTF-8";
 
 	@Override

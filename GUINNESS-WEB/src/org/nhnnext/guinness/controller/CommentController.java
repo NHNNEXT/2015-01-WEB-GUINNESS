@@ -32,11 +32,7 @@ public class CommentController {
 	@RequestMapping(value = "/create/{commentText}/{commentType}/{noteId}", method = RequestMethod.PUT)
 	protected ModelAndView create(@PathVariable String commentText, @PathVariable String commentType,
 			@PathVariable String noteId, HttpSession session) throws IOException {
-		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
-			return new ModelAndView("redirect:/");
-		}
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
-
 		try {
 			if (!commentText.equals("")) {
 				Comment comment = new Comment(commentText, commentType, sessionUserId, noteId);

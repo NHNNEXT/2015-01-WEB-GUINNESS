@@ -92,7 +92,7 @@
 		function readNoteList(groupId, targetDate) {
 		  guinness.ajax({ 
 			  method: "get", 
-			  url: "/notelist/read?groupId="+groupId+"&targetDate="+targetDate, 
+			  url: "/note/list?groupId="+groupId+"&targetDate="+targetDate, 
 			  success: 
 				function(req) {
 				  var json = JSON.parse(req.responseText);
@@ -375,7 +375,7 @@
 			}
 			guinness.ajax({ 
 				method:"post", 
-				url:"/notelist/read",
+				url:"/note/list",
 				param:'groupId='+groupId+'&targetDate='+targetDate+'&checkedUserId='+array,
 				success: 
 				  function(req) {

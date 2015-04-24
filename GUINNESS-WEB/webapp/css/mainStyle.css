@@ -28,6 +28,14 @@ div#view-preview-template {
   margin-top: 1px;
 }
 
+.attention {
+	color:red;
+}
+
+.question {
+	color:#D69014;
+}
+
 #noteTextBox {
   margin: 0 auto;
   padding: 15px;

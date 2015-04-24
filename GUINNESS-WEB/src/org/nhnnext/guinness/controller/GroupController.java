@@ -37,10 +37,6 @@ public class GroupController {
 
 	@RequestMapping(value="/add/member", method=RequestMethod.POST)
 	protected ModelAndView addGroupMember(WebRequest req, HttpSession session) throws IOException {
-		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
-			return new ModelAndView("redirect:/");
-		}
-		
 		String userId = req.getParameter("userId");
 		String groupId = req.getParameter("groupId");
 		try {
@@ -60,10 +56,6 @@ public class GroupController {
 	
 	@RequestMapping("/read/member/{groupId}")
 	protected ModelAndView memberList(@PathVariable String groupId, HttpSession session) throws IOException {
-		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
-			return new ModelAndView("redirect:/");
-		}
-
 		try {
 			return new ModelAndView("jsonView", "jsonData", groupDao.readGroupMember(groupId));
 		} catch (Exception e) {
@@ -74,10 +66,6 @@ public class GroupController {
 	
 	@RequestMapping("/read")
 	protected ModelAndView list(HttpSession session) throws IOException {
-		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
-			return new ModelAndView("redirect:/");
-		}
-		
 		String userId = ServletRequestUtil.getUserIdFromSession(session);
 		try {
 			return new ModelAndView("jsonView", "jsonData", groupDao.readGroupList(userId));
@@ -89,10 +77,6 @@ public class GroupController {
 	
 	@RequestMapping("/delete")
 	protected String delete(WebRequest req, HttpSession session, Model model) throws IOException {
-		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
-			return "redirect:/";
-		}
-		
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		try {
 			Group group = groupDao.readGroup(req.getParameter("groupId"));
@@ -110,10 +94,6 @@ public class GroupController {
 	
 	@RequestMapping(value="/create", method=RequestMethod.POST)
 	protected String create(WebRequest req, HttpSession session, Model model) throws IOException, ClassNotFoundException {
-		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
-			return "redirect:/";
-		}
-		
 		String groupCaptainUserId = ServletRequestUtil.getUserIdFromSession(session);
 		char isPublic = 'F';
 		if ("public".equals(req.getParameter("isPublic")))

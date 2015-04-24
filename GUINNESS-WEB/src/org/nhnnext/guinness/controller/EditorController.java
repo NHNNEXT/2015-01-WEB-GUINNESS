@@ -21,7 +21,7 @@ public class EditorController {
 	@Autowired
 	private GroupDao groupDao;
 	
-	@RequestMapping(value="/notes/editor", method=RequestMethod.GET)
+	@RequestMapping(value="/note/editor", method=RequestMethod.GET)
 	private String Editor (WebRequest req, HttpSession session, Model model)  {
 		String groupId = req.getParameter("groupId");
 		String groupName = groupDao.readGroup(groupId).getGroupName();
