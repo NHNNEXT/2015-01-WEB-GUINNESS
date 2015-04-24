@@ -320,7 +320,11 @@
 				url:"/group/read/member/"+groupId, 
 				success: 
 				  function(req) {
-					appendMember(JSON.parse(req.responseText));
+					if(JSON.parse(req.responseText).success){
+						appendMember(JSON.parse(req.responseText).listValues);
+					}else{
+						 window.location.href = JSON.parse(req.responseText).locationWhenFail;
+					}
 				  } 
 			});
 		}

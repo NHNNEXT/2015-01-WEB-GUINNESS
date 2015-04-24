@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class JsonResult<T> {
 	private boolean success;
-	private String errorMessage;
+	private String locationWhenFail;
 	private Map<String, Object> mapValues = new HashMap<String, Object>();
 	private List<T> listValues;
 
@@ -22,21 +22,21 @@ public class JsonResult<T> {
 		this(success, null, listValues);
 	}
 
-	public JsonResult(boolean success, String errorMessage) {
-		this(success, errorMessage, null, null);
+	public JsonResult(boolean success, String locationWhenFail) {
+		this(success, locationWhenFail, null, null);
 	}
 
-	public JsonResult(boolean success, String errorMessage, Map<String, Object> mapValues) {
-		this(success, errorMessage, mapValues, null);
+	public JsonResult(boolean success, String locationWhenFail, Map<String, Object> mapValues) {
+		this(success, locationWhenFail, mapValues, null);
 	}
 
-	public JsonResult(boolean success, String errorMessage, List<T> listValues) {
-		this(success, errorMessage, null, listValues);
+	public JsonResult(boolean success, String locationWhenFail, List<T> listValues) {
+		this(success, locationWhenFail, null, listValues);
 	}
 
-	public JsonResult(boolean success, String errorMessage, Map<String, Object> mapValues, List<T> listValues) {
+	public JsonResult(boolean success, String locationWhenFail, Map<String, Object> mapValues, List<T> listValues) {
 		this.success = success;
-		this.errorMessage = errorMessage;
+		this.locationWhenFail = locationWhenFail;
 		this.mapValues = mapValues;
 		this.listValues = listValues;
 	}
@@ -53,8 +53,8 @@ public class JsonResult<T> {
 		return success;
 	}
 
-	public String getErrorMessage() {
-		return errorMessage;
+	public String getLocationWhenFail() {
+		return locationWhenFail;
 	}
 
 	public Map<String, Object> getValues() {
