@@ -28,16 +28,13 @@
 					<i id="datepickr" class="fa fa-calendar"></i>
 					<input id="targetDate" name="targetDate" value="" readonly>
 				</div>
-				<div id="preview-btn">
-					preview
-				</div>
 			</div>
 			<textarea id="noteTextBox" name="noteText" form="noteForm"></textarea>
+			<div id="view-preview-template">
+				<div id="previewBox"></div>
+			</div>
 			<button type="button" id="create-note" class="btn btn-pm" onclick="createNote()">작성</button>
 		</form>
-		<template id="view-preview-template">
-			<textarea></textarea>
-		</template>
 	</div>
 	<script>
 		document.querySelector("#targetDate").value = guinness.util.today("-");
@@ -45,12 +42,11 @@
 			dateFormat : 'Y-m-d',
 			altInput : document.querySelector('#targetDate')
 		});
-		
-		var preview = document.querySelector('#preview-btn');
-		preview.addEventListener('click', function() {
-			console.log('e');
-			var previewTemplate = document.querySelector("#view-preview-template").content;
-			previewTemplate = document.importNode(previewTemplate, true);
+
+		var textBox=document.querySelector("#noteTextBox");
+		textBox.addEventListener('keydown', function(e) {
+			var previewBox = document.querySelector('#previewBox');
+			previewBox.innerHTML=new markdownToHtml(e.target.value).getHtmlText();
 		}, false);
 		
 		function createNote(e) {

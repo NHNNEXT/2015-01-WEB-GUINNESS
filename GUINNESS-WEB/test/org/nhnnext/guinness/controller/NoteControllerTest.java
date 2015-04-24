@@ -17,7 +17,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.ui.Model;
 import org.springframework.validation.support.BindingAwareModelMap;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.context.request.WebRequest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/applicationContext.xml")
@@ -25,12 +25,14 @@ public class NoteControllerTest {
 	private static final Logger logger = LoggerFactory.getLogger(NoteControllerTest.class);
 	
 	private NoteController notecontroller;
+	private WebRequest request;
 	private HttpSession session;
 	private GroupDao groupDao;
 	private NoteDao noteDao;
 
 	@Before
 	public void setUp() {
+		request = mock(WebRequest.class);
 		session = mock(HttpSession.class);
 		groupDao = mock(GroupDao.class);
 		noteDao = mock(NoteDao.class);
@@ -48,11 +50,11 @@ public class NoteControllerTest {
 
 		when(session.getAttribute("sessionUserId")).thenReturn("das@das.com");
 		when(groupDao.checkJoinedGroup("das@das.com", url)).thenReturn(true);
-		ModelAndView mav = notecontroller.initReadNoteList(url, null, session, model);
+		String result = notecontroller.initReadNoteList(url, request, session, model);
 		
 		logger.debug(model.toString());
-		logger.debug(mav.toString());
-		assertNotNull(mav);
+		logger.debug(result.toString());
+		assertNotNull(result);
 	}
 	
 }

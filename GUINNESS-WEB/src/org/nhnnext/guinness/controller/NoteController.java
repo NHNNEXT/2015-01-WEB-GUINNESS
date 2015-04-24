@@ -48,20 +48,20 @@ public class NoteController {
 	}
 
 	@RequestMapping(value = "/g/{groupId}")
-	protected ModelAndView initReadNoteList(@PathVariable String groupId, WebRequest req, HttpSession session, Model model) throws IOException {
+	protected String initReadNoteList(@PathVariable String groupId, WebRequest req, HttpSession session, Model model) throws IOException {
 		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
-			return new ModelAndView("redirect:/");
+			return "redirect:/";
 		}
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
 			model.addAttribute("errorMessage", "비정상적 접근시도.");
-			return new ModelAndView("illegal");
+			return "illegal";
 		}
 		String groupName = req.getParameter("groupName");
 		List<Note> noteList = getNoteListFromDao(getFormattedCurrentDate(), groupId, null);
 		model.addAttribute("noteList", new Gson().toJson(noteList));
 		model.addAttribute("groupName", new Gson().toJson(groupName));
-		return new ModelAndView("notes");
+		return "notes";
 	}
 	
 	@RequestMapping("/notelist/read")
@@ -81,7 +81,7 @@ public class NoteController {
 	}
 
 	private List<Note> getNoteListFromDao(String date, String groupId, String userIds) {
-		if(userIds == "")
+		if (userIds == "")
 			return new ArrayList<Note>();
 		
 		DateTime targetDate = new DateTime(date).plusDays(1).minusSeconds(1);
@@ -105,16 +105,21 @@ public class NoteController {
 	}
 
 	@RequestMapping(value = "/note/create", method = RequestMethod.POST)
-	protected ModelAndView create(WebRequest req, HttpSession session) throws IOException {
+	protected String create(WebRequest req, HttpSession session, Model model) throws IOException {
 		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
-			return new ModelAndView("redirect:/");
+			return "redirect:/";
 		}
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		String groupId = req.getParameter("groupId");
 		String noteText = req.getParameter("noteText");
 		String targetDate = req.getParameter("targetDate") + " "
 				+ new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
+
+
+		if (noteText.equals("")) {
+			return "redirect:/notes/editor?groupId=" + groupId;
+		}
 		noteDao.createNote(new Note(noteText, targetDate, sessionUserId, groupId));
-		return new ModelAndView("redirect:/g/"+groupId);
+		return "redirect:/g/" + groupId;
 	}
 }
