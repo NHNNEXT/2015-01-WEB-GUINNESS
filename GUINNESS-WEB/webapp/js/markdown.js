@@ -97,5 +97,5 @@ markdownToHtml.prototype.newline = function() {
 }
 
 markdownToHtml.prototype.getHtmlText = function() {
-	return this.bold().italic().image().link().header().tag().attention().question().newline().text;
+	return this.tag().bold().italic().image().link().header().attention().question().newline().text;
 }

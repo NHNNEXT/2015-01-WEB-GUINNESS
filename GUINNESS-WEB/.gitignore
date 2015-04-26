@@ -16,3 +16,5 @@
 *.jar
 
 /bin
+
+.DS_store
