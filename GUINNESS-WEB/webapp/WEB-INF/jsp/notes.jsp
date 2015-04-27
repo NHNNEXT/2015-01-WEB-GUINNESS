@@ -1,25 +1,21 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="utf-8">
 <title>스터디의 시작, 페이퍼민트</title>
 <%@ include file="./commons/_favicon.jspf"%>
-<link rel="stylesheet"
-	href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
+<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
 <link rel="stylesheet" href="/css/mainStyle.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/datepickr.css">
-<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="/js/datepickr.js"></script>
 <script src="/js/guinness.js"></script>
 <script src="/js/markdown.js"></script>
 </head>
 <body>
 	<%@ include file="./commons/_topnav.jspf"%>
-	<input type="hidden" id="sessionUserId" name="sessionUserId"
-		value="${sessionUserId}">
+	<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUserId}">
 	<h1 id="empty-message"
 		style="position: absolute; color: #888; top: 300px; width: 100%; text-align: center;">새
 		노트를 작성해주세요</h1>
@@ -302,6 +298,7 @@
 				}
 			});
 		}
+		
 		function showEditInputBox(commentText, commentId) {
 			var el = document.querySelector('#cmt-'+commentId);
 			el.querySelector('.default-utils').hide();
@@ -446,7 +443,6 @@
 				  } 
 			});
 		}
-		
 	</script>
 </body>
 </html>

@@ -26,6 +26,10 @@
 			<bean class="org.nhnnext.guinness.intercepter.SessionCheckInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
+	
+	<bean class="org.nhnnext.guinness.intercepter.CharacterSetInterceptor"/>
+	<bean class="org.nhnnext.guinness.intercepter.CharacterSetInterceptor"/>
+	
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" />

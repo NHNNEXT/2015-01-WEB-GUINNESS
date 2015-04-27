@@ -18,7 +18,7 @@
 			<div id="jumbotron">
 				<h1>스터디의 시작, 페이퍼민트</h1>
 				<div class='subscribe'>페이퍼민트에서 나만의 학습 노트를 작성하고, 스터디 멤버들과 함께 그룹을 생성하여 학습 노트를 공유하거나 언제 어디에서나 피드백을 받으세요!</div>
-				<form id="signup-form" method="post" action="/user/create" class='form-group' style='margin: 0 auto; display: none;'>
+				<form id="signup-form" method="post" action="/user" class='form-group' style='margin: 0 auto; display: none;'>
 					<c:if test="${not empty signValidErrorMessage}">
 						<span class="errorMessage"> ${signValidErrorMessage } <br />
 						</span>

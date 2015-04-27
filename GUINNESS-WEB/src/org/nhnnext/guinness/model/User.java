@@ -29,6 +29,9 @@ public class User {
 	
 	@Expose
 	private byte userImage;
+	
+	 public User() {
+	}
 
 	public User(String userId, String userName, String userPassword, byte userImage) {
 		this.userId = userId;
