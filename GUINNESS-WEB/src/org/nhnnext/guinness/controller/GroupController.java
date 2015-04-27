@@ -55,7 +55,7 @@ public class GroupController {
 			}
 			groupDao.createGroupUser(userId, groupId);
 			return new ModelAndView("jsonView", "jsonData", groupDao.readGroupMember(groupId));
-		} catch (MakingObjectListFromJdbcException | ClassNotFoundException e) {
+		} catch (MakingObjectListFromJdbcException e) {
 			logger.error("Exception", e);
 			return new ModelAndView("exception");
 		}

@@ -60,6 +60,64 @@ public class User {
 		return userImage;
 	}
 
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
+	}
+
+	public void setUserImage(byte userImage) {
+		this.userImage = userImage;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		result = prime * result + userImage;
+		result = prime * result
+				+ ((userName == null) ? 0 : userName.hashCode());
+		result = prime * result
+				+ ((userPassword == null) ? 0 : userPassword.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
+			return false;
+		if (userImage != other.userImage)
+			return false;
+		if (userName == null) {
+			if (other.userName != null)
+				return false;
+		} else if (!userName.equals(other.userName))
+			return false;
+		if (userPassword == null) {
+			if (other.userPassword != null)
+				return false;
+		} else if (!userPassword.equals(other.userPassword))
+			return false;
+		return true;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", userName=" + userName + ", userImage=" + userImage + "]";

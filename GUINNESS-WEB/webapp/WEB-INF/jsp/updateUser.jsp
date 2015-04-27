@@ -62,9 +62,10 @@
 				</td>
 				<td valign=top id='editProfile-profileArea' style='padding-left:25px;'>
 					<form:form modelAttribute="user" id='editProfile-form' method='put' action='/user'>
+						<form:hidden path="userId" value="${sessionUserId}" />
 						<p>
 							<label for="userName">First & Last Name</label>
-							<input name="userName" type="text" placeholder="Your Name" required value="${sessionUserName}"></input>
+							<form:input path="userName" placeholder="Your Name" required="required" value="${sessionUserName}" />
 							<span class="info"><strong>[필수사항]</strong>스터디메이트들과의 소통을 위한 이름을 입력하세요.</span>
 						</p>
 						<p>
@@ -78,8 +79,8 @@
 							<input name="userPassword" type="password" placeholder=''></input>
 							<span class="info"><strong>[필수사항]</strong>정보변경을 완료하기 위해 비밀번호를 입력해주세요.</span>
 						</p>
-						<c:if test="${not empty message}">
-							<span class="errorMessage"> ${message} <br /></span>
+						<c:if test="${not empty signValidErrorMessage}">
+							<span class="errorMessage"> ${signValidErrorMessage} <br /></span>
 						</c:if>
 						<button type="submit" class="btn btn-pm">수정</button>
 					</form:form>
