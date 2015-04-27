@@ -68,8 +68,8 @@ markdownToHtml.prototype.tag = function() {
 markdownToHtml.prototype.attention = function() {
 	var array = this.text.match(/!{3,}[^\n]{1,}!{3,}/g);
 	for(var i in array) {
-		var htmlText = array[i].replace(/^!{3,}/, '<span class="attention">');
-		htmlText = htmlText.replace(/!{3,}$/, '!</span>');
+		var htmlText = array[i].replace(/^!{3}/, '<span class="attention"><i class="fa fa-exclamation-circle"></i>');
+		htmlText = htmlText.replace(/!{3}$/, '</span>');
 		this.text = this.text.replace(array[i], htmlText);
 	}
 	return this;
@@ -78,8 +78,8 @@ markdownToHtml.prototype.attention = function() {
 markdownToHtml.prototype.question = function() {
 	var array = this.text.match(/\?{3,}[^\n]{1,}\?{3,}/g);
 	for(var i in array) {
-		var htmlText = array[i].replace(/^\?{3,}/, '<span class="question">');
-		htmlText = htmlText.replace(/\?{3,}$/, '\?</span>');
+		var htmlText = array[i].replace(/^\?{3}/, '<span class="question"><i class="fa fa-question-circle"></i>');
+		htmlText = htmlText.replace(/\?{3}$/, '\</span>');
 		this.text = this.text.replace(array[i], htmlText);
 	}
 	return this;
