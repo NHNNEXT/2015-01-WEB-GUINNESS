@@ -1,6 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE HTML>
 <html lang="ko">
@@ -8,8 +6,7 @@
 <title>스터디의 시작, 페이퍼민트</title>
 <meta charset="utf-8">
 <%@ include file="./commons/_favicon.jspf"%>
-<link rel="stylesheet"
-	href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
+<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
 <link rel="stylesheet" href="/css/mainStyle.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <script src="/js/guinness.js"></script>
@@ -27,8 +24,7 @@
 			<li id='create-new' style=' text-align:center;'><i class='fa fa-plus-circle' style='font-size:60px; margin-top:25px;'></i></li>
 		</ul>
 	</div>
-	<template id='group-card-template'> <a class='group-card'
-		href='#'>
+	<template id='group-card-template'> <a class='group-card' href='#'>
 		<li><span class='group-name'></span>
 			<div class='deleteGroup-btn'>
 				<i class='fa fa-remove'></i>
