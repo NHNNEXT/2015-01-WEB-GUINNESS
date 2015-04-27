@@ -26,27 +26,31 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/user")
 public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-	
+
 	@Autowired
 	private UserDao userDao;
 
-	@RequestMapping(value="/create", method=RequestMethod.POST)
-	protected String create(WebRequest req, HttpSession session, Model model) throws IOException  {
+	@RequestMapping(value = "/user", method = RequestMethod.POST)
+	protected String create(WebRequest req, HttpSession session, Model model)
+			throws IOException {
+		logger.debug("여기");
 		String userId = req.getParameter("userId");
 		String userPassword = req.getParameter("userPassword");
 		String userName = req.getParameter("userName");
 		User user = new User(userId, userName, userPassword);
-		
-		Set<ConstraintViolation<User>> constraintViolations = MyValidatorFactory.createValidator().validate(user);
+
+		Set<ConstraintViolation<User>> constraintViolations = MyValidatorFactory
+				.createValidator().validate(user);
 		if (!constraintViolations.isEmpty()) {
 			String signValidErrorMessage = "";
-			Iterator<ConstraintViolation<User>> violations = constraintViolations.iterator();
+			Iterator<ConstraintViolation<User>> violations = constraintViolations
+					.iterator();
 			while (violations.hasNext()) {
 				ConstraintViolation<User> each = violations.next();
-				signValidErrorMessage = signValidErrorMessage + "<br />" + each.getMessage();
+				signValidErrorMessage = signValidErrorMessage + "<br />"
+						+ each.getMessage();
 			}
 			model.addAttribute("signValidErrorMessage", signValidErrorMessage);
 			return "index";
@@ -66,19 +70,64 @@ public class UserController {
 			return "index";
 		}
 	}
-	
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	protected ModelAndView login(WebRequest req, HttpSession session) throws IOException {
+
+	@RequestMapping(value = "/user")
+	protected String updateForm() {
+		return "updateUser";
+	}
+
+	@RequestMapping(value = "/user", method = RequestMethod.PUT)
+	protected String updateUser(WebRequest req, HttpSession session, Model model)
+			throws MakingObjectListFromJdbcException, ClassNotFoundException {
+		String userId = (String) session.getAttribute("sessionUserId");
+		String userName = req.getParameter("userName");
+		String userNewPassword = req.getParameter("userNewPassword");
+		String userPassword = req.getParameter("userPassword");
+		if (userNewPassword.equals("")) {
+			userNewPassword = userPassword;
+		}
+
+		User user = new User(userId, userName, userNewPassword);
+		Set<ConstraintViolation<User>> constraintViolations = MyValidatorFactory
+				.createValidator().validate(user);
+		if (!constraintViolations.isEmpty()) {
+			String message = "";
+			Iterator<ConstraintViolation<User>> violations = constraintViolations
+					.iterator();
+			while (violations.hasNext()) {
+				ConstraintViolation<User> each = violations.next();
+				message = message + "<br />" + each.getMessage();
+			}
+			model.addAttribute("message", message);
+			return "redirect:/updateUser";
+		}
+		if (!userDao.readUser(userId).getUserPassword().equals(userPassword)) {
+			model.addAttribute("message", "비밀번호가 일치하지 않습니다.");
+			return "redirect:/updateUser";
+		}
+		try {
+			userDao.updateUser(user);
+		} catch (DataIntegrityViolationException e) {
+			model.addAttribute("message", "잘못된 형식입니다.");
+		}
+		session.setAttribute("sessionUserName", userName);
+		return "redirect:/groups";
+	}
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	protected ModelAndView login(WebRequest req, HttpSession session)
+			throws IOException {
 		String userId = req.getParameter("userId");
 		String userPassword = req.getParameter("userPassword");
-		
+
 		Map<String, String> viewMap = new HashMap<String, String>();
-		
+
 		try {
 			User user = userDao.readUser(userId);
 			if (user == null || !user.getUserPassword().equals(userPassword)) {
 				viewMap.put("view", "loginFailed");
-				return new ModelAndView("jsonView").addObject("jsonData", viewMap);
+				return new ModelAndView("jsonView").addObject("jsonData",
+						viewMap);
 			}
 			session.setAttribute("sessionUserId", user.getUserId());
 			session.setAttribute("sessionUserName", user.getUserName());
@@ -90,49 +139,11 @@ public class UserController {
 			return new ModelAndView("jsonView").addObject("jsonData", viewMap);
 		}
 	}
-	
+
 	@RequestMapping("/logout")
 	protected String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/";
 	}
-	
-	@RequestMapping(value="/update")
-	protected String updateForm() {
-		return "updateUser";
-	}
-	
-	@RequestMapping(value="/update", method=RequestMethod.POST)
-	protected String updateUser(WebRequest req, HttpSession session, Model model) throws MakingObjectListFromJdbcException, ClassNotFoundException {
-		String userId = (String) session.getAttribute("sessionUserId");
-		String userName = req.getParameter("userName");
-		String userNewPassword = req.getParameter("userNewPassword");
-		String userPassword = req.getParameter("userPassword");
-		if (userNewPassword.equals("")) {
-			userNewPassword = userPassword;
-		}
-		User user = new User(userId, userName, userNewPassword );
-		Set<ConstraintViolation<User>> constraintViolations = MyValidatorFactory.createValidator().validate(user);
-		if (!constraintViolations.isEmpty()) {
-			String message = "";
-			Iterator<ConstraintViolation<User>> violations = constraintViolations.iterator();
-			while (violations.hasNext()) {
-				ConstraintViolation<User> each = violations.next();
-				message = message + "<br />" + each.getMessage();
-			}
-			model.addAttribute("message", message);
-			return "updateUser";
-		}
-		if (!userDao.readUser(userId).getUserPassword().equals(userPassword)) {
-			model.addAttribute("message", "비밀번호가 일치하지 않습니다.");
-			return "updateUser";
-		}
-		try {
-			userDao.updateUser(user);
-		} catch (DataIntegrityViolationException e) {
-			model.addAttribute("message", "잘못된 형식입니다.");
-		}
-		session.setAttribute("sessionUserName", userName);
-		return "groups";
-	}
+
 }

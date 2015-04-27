@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE HTML>
 <html lang="ko">
 <head>
@@ -60,7 +61,7 @@
 					<button class='btn btn-pm'>이미지 수정</button>
 				</td>
 				<td valign=top id='editProfile-profileArea' style='padding-left:25px;'>
-					<form id='editProfile-form' method='post' action='/user/update'>
+					<form:form modelAttribute="user" id='editProfile-form' method='put' action='/user'>
 						<p>
 							<label for="userName">First & Last Name</label>
 							<input name="userName" type="text" placeholder="Your Name" required value="${sessionUserName}"></input>
@@ -81,7 +82,7 @@
 							<span class="errorMessage"> ${message} <br /></span>
 						</c:if>
 						<button type="submit" class="btn btn-pm">수정</button>
-					</form>
+					</form:form>
 				</td>
 				</tr>
 			</table>

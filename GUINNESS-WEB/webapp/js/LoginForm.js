@@ -34,7 +34,7 @@ function loginCheck() {
   	var param = "userId="+userId+"&userPassword="+userPassword;
   	guinness.ajax({
   		method: "post",
-  		url: "/user/login",
+  		url: "/login",
   		param: param,
   		success: function(req) {
   				   if (JSON.parse(req.responseText).view === "loginFailed") { document.querySelector("#login-error-message").innerHTML = "로그인 실패!"; }
