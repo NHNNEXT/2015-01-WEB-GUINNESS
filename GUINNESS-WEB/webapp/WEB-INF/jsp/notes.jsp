@@ -170,13 +170,17 @@
 				newEl.innerHTML = out;
 				el.appendChild(newEl);
 				document.getElementById(obj.noteId).addEventListener("click", function(e) {
-					if(e.target.tagName === "I") {
+					if(e.target.className === "fa fa-trash") {
 						confirmDeleteNote(obj.noteId)
 					} else {
-						readNoteContents(obj.noteId);
+						var el = e.target.parentNode;
+						while(el.tagName !== "A") {
+							el = el.parentNode;
+						}
+						readNoteContents(el.id);
 					}
 					
-				})
+				}, false);
 			}
 		}
 
