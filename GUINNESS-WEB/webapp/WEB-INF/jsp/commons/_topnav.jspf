@@ -1,25 +1,57 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:if test="${empty sessionUserId}">
 	<c:redirect url="/" />
 </c:if>
 <div id="header">
-  <div class='content wrap'>
-      <a href='/' id='brand'>
-          <img src='/img/pm_white.png'>
-      </a>
-      <ul class='util'>
-        <li class='menu drop-down'>
-        	<img class='avatar' src='/img/avatar-default.png' style='margin-left:15px;'>
-        	<div class='label'><a href="#">${sessionUserName}</a></div>
-        	<ul>
-        		<li><a href="/user"><span>내 정보</span></a></li>
-        		<li><a href="/logout"><span>로그아웃</span></a></li>
-        	</ul>
-        </li>
-        <li class='menu'>
-        	<div class='label'><a href="#"><i class='fa fa-bell'></i></a></div>
-        </li>
-      </ul>
-  </div>
+	<div class='content wrap'>
+		<div id="leftTopBox">
+			<a href='/' id='brand'> <img src='/img/pm_white.png'>
+			</a>
+
+			<form class="searchForm" action="#S">
+				<input type="text"> <i class="fa fa-search"></i>
+			</form>
+		</div>
+
+
+		<ul class='util'>
+			<li class='menu drop-down'><img class='avatar'
+				src='/img/avatar-default.png' style='margin-left: 15px;'>
+				<div class='label'>
+					<a href="#">${sessionUserName}</a>
+				</div>
+				<ul>
+					<li><a href="/user"><span>내 정보</span></a></li>
+					<li><a href="/logout"><span>로그아웃</span></a></li>
+				</ul></li>
+			<li class='menu'>
+				<div class='label'>
+					<a href="#"><i class='fa fa-bell'></i></a>
+				</div>
+			</li>
+		</ul>
+	</div>
 </div>
+
+<script type="template" class="searchFormTemplate">
+  <div class="searchResult">
+    여기는 서치폼입니다.
+  </div>
+</script>
+
+<script>
+	window.addEventListener('load', function() {
+		var elSearch = document.querySelector(".searchForm");
+    var searchResult = document.querySelector(".searchFormTemplate");
+		elSearch.addEventListener("focus", function(e) {
+			e.target.parentElement.className = "onSearchForm";
+      //elSearch.insertAdjacentHTML("afterend", searchResult.text);
+		}, true);
+
+		elSearch.addEventListener("focusout", function(e) {
+			e.target.parentElement.className = "searchForm";
+		}, true);
+	}, false);
+</script>
