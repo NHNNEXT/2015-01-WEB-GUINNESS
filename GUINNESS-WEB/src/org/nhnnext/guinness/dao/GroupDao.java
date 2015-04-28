@@ -63,7 +63,8 @@ public class GroupDao extends JdbcDaoSupport {
 		return getJdbcTemplate().query(sql,  (rs, rowNum) -> new User(
 				rs.getString("userId"),
 				rs.getString("userName"), 
-				rs.getString("userPassword")
+				rs.getString("userPassword"),
+				rs.getString("userStatus").charAt(0)
 				), groupId);
 	}
 }

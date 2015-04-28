@@ -20,7 +20,8 @@ public class ConfirmDao extends JdbcDaoSupport {
 			return getJdbcTemplate().queryForObject(sql, (rs, rowNum) -> new User(
 					rs.getString("userId"), 
 					rs.getString("userName"), 
-					rs.getString("userPassword")
+					rs.getString("userPassword"),
+					rs.getString("userStatus").charAt(0)
 					), keyAddress).getUserId();
 		} catch (EmptyResultDataAccessException e) {
 			return null;

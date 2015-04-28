@@ -27,21 +27,25 @@ public class User {
 	@Expose(serialize=false)
 	private String userPassword;
 	
+	private char status;
+	
 	@Expose
 	private byte userImage;
+	
 	
 	 public User() {
 	}
 
-	public User(String userId, String userName, String userPassword, byte userImage) {
+	public User(String userId, String userName, String userPassword, char status, byte userImage) {
 		this.userId = userId;
 		this.userName = userName;
 		this.userPassword = userPassword;
+		this.status = status;
 		this.userImage = userImage;
 	}
 	
-	public User(String userId, String userName, String userPassword) {
-		this(userId, userName, userPassword, (byte)0);
+	public User(String userId, String userName, String userPassword, char status) {
+		this(userId, userName, userPassword, status, (byte)0);
 	}
 
 	public String getUserId() {
@@ -74,6 +78,14 @@ public class User {
 
 	public void setUserImage(byte userImage) {
 		this.userImage = userImage;
+	}
+
+	public char getStatus() {
+		return status;
+	}
+
+	public void setStatus(char status) {
+		this.status = status;
 	}
 
 	@Override

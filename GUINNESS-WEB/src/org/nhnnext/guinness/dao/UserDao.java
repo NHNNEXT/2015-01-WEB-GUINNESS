@@ -26,7 +26,8 @@ public class UserDao extends JdbcDaoSupport {
 			return getJdbcTemplate().queryForObject(sql, (rs, rowNum) -> new User(
 					rs.getString("userId"), 
 					rs.getString("userName"), 
-					rs.getString("userPassword")
+					rs.getString("userPassword"),
+					rs.getString("userStatus").charAt(0)
 					), userId);
 		} catch (EmptyResultDataAccessException e) {
 			return null;
