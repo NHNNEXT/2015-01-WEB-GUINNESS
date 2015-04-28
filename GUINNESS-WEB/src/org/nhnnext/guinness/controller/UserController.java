@@ -52,15 +52,16 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
-	protected String create(HttpSession session, Model model, User user) throws AlreadyExistedUserIdException,
-			MessagingException {
+	protected String create(Model model, User user) throws AlreadyExistedUserIdException, MessagingException {
+		logger.debug("User: {}", user);
 		if (!extractViolationMessage(model, user)) {
 			return "index";
 		}
-		userDao.createUser(user);
 		String keyAddress = RandomFactory.getRandomId(10);
-		confirmDao.createConfirm(keyAddress, user.getUserId());
 		sendMail(keyAddress, user.getUserId());
+		userDao.createUser(user);
+		confirmDao.createConfirm(keyAddress, user.getUserId());
+		logger.debug("user create success");
 		return "sendEmail";
 	}
 
@@ -75,15 +76,16 @@ public class UserController {
 		return "redirect:/";
 	}
 
-	private void sendMail(String keyAddress, String userId) throws MessagingException {
+	public void sendMail(String keyAddress, String userId) throws MessagingException, NullPointerException {
+		logger.debug("sendMail");
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 		messageHelper.setTo(userId);
 		messageHelper.setFrom("hakimaru@naver.com");
-		String str = "<a href='http://localhost:8080/user/confirm/" + keyAddress + "'> 가입하기 </a>";
-		messageHelper.setText(str, true);
-		messageHelper.setSubject("환영합니다."); // 메일제목은 생략이 가능하다
+		messageHelper.setSubject("환영합니다. 페이퍼민트 가입 인증 메일입니다."); // 메일제목은 생략이 가능하다
+		messageHelper.setText("<a href='http://localhost:8080/user/confirm/" + keyAddress + "'> 가입하기 </a>", true);
 		mailSender.send(message);
+		logger.debug("Mail is sended");
 	}
 
 	@RequestMapping(value = "/user")
