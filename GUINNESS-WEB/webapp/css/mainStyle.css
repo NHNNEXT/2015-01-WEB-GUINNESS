@@ -183,9 +183,12 @@ ul {
 }
 
 .searchResult {
-	background: gray;
+	position: fixed;
+	background: #F6F6F6;
 	width: 300px;
 	height: 300px;
+	z-index: 200;
+	display: none;
 }
 
 .onSearchForm i.fa.fa-search {
@@ -193,6 +196,8 @@ ul {
 }
 
 .onSearchForm > input {
+	-webkit-animation-duration: 1s;
+	-webkit-animation-name: wideIn;
 	margin-left: 15px;
 	width: 230px;
 	height: 30px;
@@ -202,6 +207,32 @@ ul {
 	border: none;
 	outline-style: none;
 	padding-left: 5px;
+}
+
+@-webkit-keyframes wideIn{
+0% {
+	margin-left: 15px;
+	width: 130px;
+	height: 30px;
+	margin-top: 13px;
+	border-radius: 5px;
+	background: white;
+	border: none;
+	outline-style: none;
+	padding-left: 5px;
+}
+	100% {
+   margin-left: 15px;
+	width: 230px;
+	height: 30px;
+	margin-top: 13px;
+	border-radius: 5px;
+	background: white;
+	border: none;
+	outline-style: none;
+	padding-left: 5px;
+  }
+	
 }
 
 

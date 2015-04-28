@@ -36,22 +36,47 @@
 </div>
 
 <script type="template" class="searchFormTemplate">
-  <div class="searchResult">
-    여기는 서치폼입니다.
-  </div>
+  <section>
+  </section>
 </script>
 
 <script>
-	window.addEventListener('load', function() {
-		var elSearch = document.querySelector(".searchForm");
-    var searchResult = document.querySelector(".searchFormTemplate");
-		elSearch.addEventListener("focus", function(e) {
+	function searchForm(elSearch, searchResultBox) {
+		this.elSearch = elSearch;
+		this.searchResultBox = searchResultBox;
+		this._createResultBox();
+		this._setPosition();
+		
+		this.elSearch.addEventListener("focus", function(e) {
 			e.target.parentElement.className = "onSearchForm";
-      //elSearch.insertAdjacentHTML("afterend", searchResult.text);
+			var elResult = document.querySelector(".searchResult");
+			elResult.style.display="table";
 		}, true);
 
-		elSearch.addEventListener("focusout", function(e) {
+		this.elSearch.addEventListener("focusout", function(e) {
 			e.target.parentElement.className = "searchForm";
+			var elResult = document.querySelector(".searchResult");
+			elResult.style.display="none";
 		}, true);
+	}
+	
+	searchForm.prototype._createResultBox = function() {
+		document.body.insertAdjacentHTML("beforeend", this.searchResultBox);
+		this.elResult = document.querySelector("body > section:last-child");
+		this.elResult.className = "searchResult";
+	}
+	
+	searchForm.prototype._setPosition = function() {
+		var elInputBox = document.querySelector(".searchForm > input");
+		var rect = elInputBox.getBoundingClientRect();
+		var elResult = document.querySelector(".searchResult");
+		elResult.style.top = rect.bottom+"px";
+		elResult.style.left = rect.left+"px";
+	}
+
+	window.addEventListener('load', function() {
+		var elSearch = document.querySelector(".searchForm");
+    	var searchResultBox = document.querySelector(".searchFormTemplate").text;
+		new searchForm(elSearch, searchResultBox);
 	}, false);
 </script>
