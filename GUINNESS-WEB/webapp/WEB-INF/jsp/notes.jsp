@@ -191,8 +191,8 @@
 
 		function deleteNote(noteId) {
 			guinness.ajax({
-				method: "get",
-				url: "/note/delete/" + noteId,
+				method: "delete",
+				url: "/notes/" + noteId,
 				success: function(req) {
 					var json = JSON.parse(req.responseText);
 					if(json === "success") {
@@ -209,7 +209,7 @@
 			currScrollTop = document.body.scrollTop;
 			guinness.ajax({
 				method: 'get',
-				url: '/note/read?noteId=' + noteId,
+				url: '/notes/' + noteId,
 				success: function(req) {
 					var json = JSON.parse(req.responseText);
 					showNoteModal(json);
