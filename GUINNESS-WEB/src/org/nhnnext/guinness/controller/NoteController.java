@@ -88,9 +88,8 @@ public class NoteController {
 		return noteList;
 	}
 
-	@RequestMapping("/note/read")
-	protected ModelAndView show(WebRequest req) throws IOException {
-		String noteId = req.getParameter("noteId");
+	@RequestMapping("/notes/{noteId}")
+	protected ModelAndView show(@PathVariable String noteId) throws IOException {
 		Note note = null;
 		try {
 			note = noteDao.readNote(noteId);
@@ -125,7 +124,7 @@ public class NoteController {
 		return "redirect:/g/" + groupId;
 	}
 	
-	@RequestMapping(value = "/note/delete/{noteId}")
+	@RequestMapping(value = "/notes/{noteId}", method = RequestMethod.DELETE)
 	protected ModelAndView delete(@PathVariable String noteId) {
 		logger.debug(" noteId : " + noteId);
 		if(noteDao.deleteNote(noteId) == 1) {
