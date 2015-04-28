@@ -27,6 +27,7 @@ div#view-preview-template {
   padding: 15px;
   margin-top: 1px;
   overflow:auto;
+  word-break: break-all;
 }
 
 .attention {
