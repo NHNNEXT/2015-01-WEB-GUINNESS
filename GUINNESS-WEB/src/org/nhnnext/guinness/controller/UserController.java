@@ -9,11 +9,13 @@ import java.util.Set;
 import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 
+import org.nhnnext.guinness.dao.ConfirmDao;
 import org.nhnnext.guinness.dao.UserDao;
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
 import org.nhnnext.guinness.exception.UserUpdateException;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.MyValidatorFactory;
+import org.nhnnext.guinness.util.RandomFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,9 @@ public class UserController {
 	@Autowired
 	private UserDao userDao;
 	
+	@Autowired
+	private ConfirmDao confirmDao;
+	
 	@RequestMapping("/")
 	protected String init(Model model) {
 		model.addAttribute("user", new User());
@@ -43,11 +48,12 @@ public class UserController {
 		if(!extractViolationMessage(model, user)) {
 			return "index";
 		}
-		
 		userDao.createUser(user);
-		session.setAttribute("sessionUserId", user.getUserId());
-		session.setAttribute("sessionUserName", user.getUserName());
-		return "groups";
+		confirmDao.createConfirm(RandomFactory.getRandomKeyAddress(10), user.getUserId());
+		
+		// TODO email 전송
+		
+		return "sendEmail";
 	}
 
 	@RequestMapping(value = "/user")
