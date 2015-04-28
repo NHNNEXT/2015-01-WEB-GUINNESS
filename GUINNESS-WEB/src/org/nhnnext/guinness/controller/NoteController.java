@@ -101,7 +101,7 @@ public class NoteController {
 		return new ModelAndView("jsonView").addObject("jsonData", note);
 	}
 
-	@RequestMapping(value = "/note/create", method = RequestMethod.POST)
+	@RequestMapping(value = "/notes", method = RequestMethod.POST)
 	protected String create(WebRequest req, HttpSession session, Model model) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		String groupId = req.getParameter("groupId");
@@ -113,6 +113,15 @@ public class NoteController {
 			return "redirect:/notes/editor?groupId=" + groupId;
 		}
 		noteDao.createNote(new Note(noteText, targetDate, sessionUserId, groupId));
+		return "redirect:/g/" + groupId;
+	}
+
+	@RequestMapping(value = "/notes", method=RequestMethod.PUT)
+	private String update(WebRequest req) {
+		String groupId = req.getParameter("groupId");
+		String noteId = req.getParameter("noteId");
+		String noteText = req.getParameter("noteText");
+		noteDao.updateNote(noteText, noteId);
 		return "redirect:/g/" + groupId;
 	}
 	
