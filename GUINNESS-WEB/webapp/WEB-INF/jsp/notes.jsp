@@ -167,15 +167,10 @@
 				el.appendChild(newEl);
 				document.getElementById(obj.noteId).addEventListener("click", function(e) {
 					if(e.target.className === "fa fa-trash") {
-						confirmDeleteNote(obj.noteId)
+						confirmDeleteNote(this.getAttribute("id"))
 					} else {
-						var el = e.target.parentNode;
-						while(el.tagName !== "A") {
-							el = el.parentNode;
-						}
-						readNoteContents(el.id);
+						readNoteContents(this.getAttribute("id"));
 					}
-					
 				}, false);
 			}
 		}
