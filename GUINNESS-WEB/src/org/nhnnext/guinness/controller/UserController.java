@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 
@@ -20,8 +21,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
@@ -37,11 +41,15 @@ public class UserController {
 	@Autowired
 	private ConfirmDao confirmDao;
 	
+	@Autowired 
+	private JavaMailSender mailSender;
+	
 	@RequestMapping("/")
 	protected String init(Model model) {
 		model.addAttribute("user", new User());
 		return "index";
 	}
+	
 	
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
 	protected String create(HttpSession session, Model model, User user) throws AlreadyExistedUserIdException {
@@ -54,6 +62,31 @@ public class UserController {
 		// TODO email 전송
 		
 		return "sendEmail";
+	}
+	
+	@RequestMapping(value = "/user/confirm/{keyAddress}")
+	protected String confirm(@PathVariable String keyAddress) throws IOException {
+		userDao.updateUserState(confirmDao.findUserIdByKeyAddress(keyAddress), 'I');
+		confirmDao.completeConfirm(keyAddress);
+		return "/";
+	}
+	
+	@RequestMapping(value = "/mail")
+	public String sendMail() {
+		
+		try {
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+			messageHelper.setTo("받는사람");
+			messageHelper.setText("메일본문");
+			messageHelper.setFrom("kush@nhnnext.org");
+			messageHelper.setSubject("메일제목(생략가능)");	// 메일제목은 생략이 가능하다
+			
+			mailSender.send(message);
+		} catch(Exception e){
+			System.out.println(e);
+		}
+		return "Sucess";
 	}
 
 	@RequestMapping(value = "/user")

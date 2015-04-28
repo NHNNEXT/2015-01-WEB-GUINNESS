@@ -17,4 +17,10 @@
 		p:dataSource-ref="dataSource" />
 	<bean id="NoteDao" class="org.nhnnext.guinness.dao.NoteDao"
 		p:dataSource-ref="dataSource" />
+	<bean id="ConfirmDao" class="org.nhnnext.guinness.dao.ConfirmDao"
+		p:dataSource-ref="dataSource" />
+
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+	</bean>
 </beans>
