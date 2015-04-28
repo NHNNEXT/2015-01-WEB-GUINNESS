@@ -14,7 +14,7 @@ import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.JsonResult;
 import org.nhnnext.guinness.util.MyValidatorFactory;
-import org.nhnnext.guinness.util.RandomString;
+import org.nhnnext.guinness.util.RandomFactory;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -122,7 +122,7 @@ public class GroupController {
 		try {
 			group = new Group(req.getParameter("groupName"), groupCaptainUserId, isPublic);
 			while (true) {
-				String groupId = RandomString.getRandomId(5);
+				String groupId = RandomFactory.getRandomId(5);
 				if (groupDao.readGroup(groupId) == null) {
 					group.setGroupId(groupId);
 					break;
