@@ -1,5 +1,7 @@
 package org.nhnnext.guinness.controller;
 
+import javax.mail.MessagingException;
+
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
 import org.nhnnext.guinness.exception.UserUpdateException;
 import org.nhnnext.guinness.model.User;
@@ -33,10 +35,18 @@ public class ControllerExceptionHandler {
 		return mav;
 	}
 	
+	@ExceptionHandler(MessagingException.class)
+	public ModelAndView exception(MessagingException e) {
+		ModelAndView mav = new ModelAndView("/exception");
+		logger.debug("exception: {}", e.getClass().getSimpleName());
+		return mav;
+	}
+
 	@ExceptionHandler(Exception.class)
 	public ModelAndView exception(Exception e) {
 		ModelAndView mav = new ModelAndView("/exception");
 		logger.debug("exception: {}", e.getClass().getSimpleName());
 		return mav;
 	}
+	
 }

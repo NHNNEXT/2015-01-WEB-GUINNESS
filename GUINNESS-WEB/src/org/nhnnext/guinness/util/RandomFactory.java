@@ -15,8 +15,4 @@ public class RandomFactory {
 		}
 		return buf.toString();
 	}
-	
-	public static String getRandomKeyAddress(int lengthOfReturnAddress) {
-		return "http://localhost:8080/user/confirm/" + getRandomId(lengthOfReturnAddress);
-	}
 }

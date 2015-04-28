@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
@@ -52,41 +53,38 @@ public class UserController {
 	
 	
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
-	protected String create(HttpSession session, Model model, User user) throws AlreadyExistedUserIdException {
+	protected String create(HttpSession session, Model model, User user) throws AlreadyExistedUserIdException, MessagingException {
 		if(!extractViolationMessage(model, user)) {
 			return "index";
 		}
 		userDao.createUser(user);
-		confirmDao.createConfirm(RandomFactory.getRandomKeyAddress(10), user.getUserId());
+		String keyAddress = RandomFactory.getRandomId(10);
+		confirmDao.createConfirm(keyAddress, user.getUserId());
+		sendMail(keyAddress, user.getUserId());
 		
 		// TODO email 전송
+		logger.debug("1");
 		
 		return "sendEmail";
 	}
 	
 	@RequestMapping(value = "/user/confirm/{keyAddress}")
 	protected String confirm(@PathVariable String keyAddress) throws IOException {
-		userDao.updateUserState(confirmDao.findUserIdByKeyAddress(keyAddress), 'I');
+		String userId = confirmDao.findUserIdByKeyAddress(keyAddress);
+		userDao.updateUserState(userId, 'I');
 		confirmDao.completeConfirm(keyAddress);
-		return "/";
+		return "redirect:/";
 	}
 	
-	@RequestMapping(value = "/mail")
-	public String sendMail() {
-		
-		try {
+	private void sendMail(String keyAddress, String userId) throws MessagingException {
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-			messageHelper.setTo("받는사람");
-			messageHelper.setText("메일본문");
-			messageHelper.setFrom("kush@nhnnext.org");
-			messageHelper.setSubject("메일제목(생략가능)");	// 메일제목은 생략이 가능하다
-			
+			messageHelper.setTo(userId);
+			messageHelper.setFrom("hakimaru@naver.com");
+			String str = "<a href='http://localhost:8080/user/confirm/" + keyAddress + "'> 가입하기 </a>";
+			messageHelper.setText(str, true);
+			messageHelper.setSubject("환영합니다.");	// 메일제목은 생략이 가능하다
 			mailSender.send(message);
-		} catch(Exception e){
-			System.out.println(e);
-		}
-		return "Sucess";
 	}
 
 	@RequestMapping(value = "/user")

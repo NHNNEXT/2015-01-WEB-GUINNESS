@@ -40,6 +40,6 @@ public class UserDao extends JdbcDaoSupport {
 
 	public void updateUserState(String userId, char userStatus) {
 		String sql = "update USERS set userStatus = ? where userId = ?";
-		getJdbcTemplate().update(sql, userStatus, userId);		
+		getJdbcTemplate().update(sql, ""+userStatus, userId);	
 	}
 }

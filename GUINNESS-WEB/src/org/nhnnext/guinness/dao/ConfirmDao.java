@@ -15,7 +15,7 @@ public class ConfirmDao extends JdbcDaoSupport {
 	}
 
 	public String findUserIdByKeyAddress(String keyAddress) {
-		String sql = "select * from CONFIRMS where keyAddress = ?";
+		String sql = "select * from CONFIRMS A, USERS B where A.keyAddress = ? AND A.userId = B.userId";
 		try {
 			return getJdbcTemplate().queryForObject(sql, (rs, rowNum) -> new User(
 					rs.getString("userId"), 
