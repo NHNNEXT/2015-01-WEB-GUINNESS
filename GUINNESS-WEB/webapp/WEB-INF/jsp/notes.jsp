@@ -155,7 +155,7 @@
 
 				var userId = document.getElementById("sessionUserId").value;
 				if(userId === obj.userId) {
-					out += "<i class='fa fa-trash'></i>";
+					out += "<i class='fa fa-pencil'></i><i class='fa fa-trash'></i>";
 				}				
 				out += "<div class='msgContainer'>";
 				out += "<div><span class='userName'>" + obj.userName + "</span></div>";
@@ -167,13 +167,16 @@
 				el.appendChild(newEl);
 				document.getElementById(obj.noteId).addEventListener("click", function(e) {
 					if(e.target.className === "fa fa-trash") {
-						confirmDeleteNote(this.getAttribute("id"))
+						confirmDeleteNote(this.getAttribute("id"));
+					} else if(e.target.className === "fa fa-pencil") {
+						window.location.href = "/note/editor?noteId=" + this.getAttribute("id") + "&groupId=" + document.querySelector("#groupId").value;
 					} else {
 						readNoteContents(this.getAttribute("id"));
 					}
 				}, false);
 			}
 		}
+
 
 		function confirmDeleteNote(noteId) {
 			var message = "노트를 삭제하시겠습니까?";

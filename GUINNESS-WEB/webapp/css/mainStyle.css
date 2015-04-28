@@ -176,14 +176,57 @@ ul {
 	padding: 20px;
 }
 
-#brand {
-	
+.searchForm i.fa.fa-search {
+  left: -28px;
+  position: relative;
+  color: white;
+}
+
+.searchResult {
+	background: gray;
+	width: 300px;
+	height: 300px;
+}
+
+.onSearchForm i.fa.fa-search {
+  display: none;
+}
+
+.onSearchForm > input {
+	margin-left: 15px;
+	width: 230px;
+	height: 30px;
+	margin-top: 13px;
+	border-radius: 5px;
+	background: white;
+	border: none;
+	outline-style: none;
+	padding-left: 5px;
+}
+
+
+.searchForm > input {
+  margin-left: 15px;
+  width: 130px;
+  height: 30px;
+  margin-top: 13px;
+  border-radius: 5px;
+  background: #7FBEBC;
+  border: none;
+  outline-style: none;
+  padding-left: 5px;
+}
+
+div#leftTopBox {
+  float: left;
+  width: 350px;
 }
 
 #brand img {
 	padding-top: 5px;
 	height: 45px;
 	padding-bottom: 5px;
+	float: left;
 }
 
 #jumbotron-container {
@@ -416,6 +459,11 @@ textarea#commentText {
 	border-radius: 22px;
 	overflow: hidden;
 	background-color: #558;
+}
+
+.diary-list i.fa.fa-pencil {
+	display: block;
+	float: right;
 }
 
 .diary-list i.fa.fa-trash {
