@@ -1,8 +1,6 @@
 package org.nhnnext.guinness.dao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.util.Iterator;
 import java.util.List;
@@ -68,5 +66,13 @@ public class NoteDaoTest {
 		String noteId = "21";
 		
 		assertEquals(1, noteDao.deleteNote(noteId));
+	}
+	
+	@Test
+	public void update() throws Exception {
+		String noteId = "3";
+		String text = "수정된 내용";
+		noteDao.updateNote(text, noteId);
+		assertEquals(text, noteDao.readNote(noteId).getNoteText());
 	}
 }

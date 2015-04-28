@@ -461,6 +461,11 @@ textarea#commentText {
 	background-color: #558;
 }
 
+.diary-list i.fa.fa-pencil {
+	display: block;
+	float: right;
+}
+
 .diary-list i.fa.fa-trash {
 	display: block;
 	float: right;

@@ -15,7 +15,7 @@ public class UserDao extends JdbcDaoSupport {
 			logger.debug("UserDao: userId already exist!");
 			throw new AlreadyExistedUserIdException();
 		}
-		String sql = "insert into USERS values(?,?,?,?,default)";
+		String sql = "insert into USERS values(?,?,?,?,default,default)";
 		getJdbcTemplate().update(sql, user.getUserId(), user.getUserName(), user.getUserPassword(), null);
 	}
 

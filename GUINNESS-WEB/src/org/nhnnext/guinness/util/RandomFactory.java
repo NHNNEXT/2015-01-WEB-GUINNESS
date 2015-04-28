@@ -2,8 +2,8 @@ package org.nhnnext.guinness.util;
 
 import java.util.Random;
 
-public class RandomString {
-	private RandomString() {
+public class RandomFactory {
+	private RandomFactory() {
 	}
 
 	public static String getRandomId(int lengthOfReturnString) {
@@ -14,5 +14,9 @@ public class RandomString {
 			buf.append(alphabet.charAt(rnd.nextInt(alphabet.length())));
 		}
 		return buf.toString();
+	}
+	
+	public static String getRandomKeyAddress(int lengthOfReturnAddress) {
+		return "http://localhost:8080/user/confirm/" + getRandomId(lengthOfReturnAddress);
 	}
 }

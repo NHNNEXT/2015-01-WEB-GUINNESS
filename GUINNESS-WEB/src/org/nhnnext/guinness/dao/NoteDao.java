@@ -71,6 +71,10 @@ public class NoteDao extends JdbcDaoSupport {
 		String sql = "delete from NOTES where noteId = ?";
 		logger.debug(" noteId : {} ", noteId);
 		return getJdbcTemplate().update(sql, noteId);
-		
+	}
+
+	public void updateNote(String text, String noteId) {
+		String sql = "UPDATE NOTES SET noteText = ? where noteId = ?";
+		getJdbcTemplate().update(sql, text, noteId);
 	}
 }
