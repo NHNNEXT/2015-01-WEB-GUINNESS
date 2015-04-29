@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.joda.time.DateTime;
 import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.NoteDao;
 import org.nhnnext.guinness.model.Note;
@@ -17,7 +16,6 @@ import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.datetime.joda.JodaTimeContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
