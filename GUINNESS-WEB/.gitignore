@@ -20,3 +20,6 @@
 .DS_store
 
 .idea
+
+/webapp/img/profile/*.*
+!/webapp/img/profile/avatar-default.png
