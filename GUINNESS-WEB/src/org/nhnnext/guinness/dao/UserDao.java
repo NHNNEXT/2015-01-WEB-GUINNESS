@@ -11,8 +11,8 @@ public class UserDao extends JdbcDaoSupport {
 
 	public void createUser(User user) {
 		logger.debug("user: {}", user);
-		String sql = "insert into USERS values(?,?,?,?,default,default)";
-		getJdbcTemplate().update(sql, user.getUserId(), user.getUserName(), user.getUserPassword(), null);
+		String sql = "insert into USERS values(?,?,?,default,default,default)";
+		getJdbcTemplate().update(sql, user.getUserId(), user.getUserName(), user.getUserPassword());
 	}
 
 	public User findUserByUserId(String userId) {
