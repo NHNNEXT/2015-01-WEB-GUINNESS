@@ -155,7 +155,7 @@ public class UserController {
 		Map<String, String> viewMap = new HashMap<String, String>();
 
 		User user = userDao.findUserByUserId(userId);
-		if (user == null || !user.getUserPassword().equals(userPassword) || user.getStatus() != 'I') {
+		if (user == null || !user.getUserPassword().equals(userPassword) || user.getStatus() != 'E') {
 			viewMap.put("view", "loginFailed");
 			return new ModelAndView("jsonView").addObject("jsonData", viewMap);
 		}

@@ -79,7 +79,7 @@ public class NoteDao extends JdbcDaoSupport {
 	}
 	
 	public List<Note> searchQuery(String userId, String query) {
-		String sql = "select * from NOTES A, GROUPS_USERS B, USERS C, GROUPS D WHERE B.userId = ? AND B.groupId = A.groupId AND B.groupId = D.groupId AND A.noteText like ?;";
+		String sql = "select * from NOTES A, GROUPS_USERS B, USERS C, GROUPS D WHERE B.userId = ? AND B.groupId = A.groupId AND B.groupId = D.groupId AND A.userId = C.userId AND A.noteText like ?;";
 		try {
 			ArrayList<Note> temp = (ArrayList<Note>) getJdbcTemplate().query(
 					sql,
