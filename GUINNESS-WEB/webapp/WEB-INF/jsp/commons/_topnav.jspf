@@ -41,6 +41,17 @@
   </section>
 </script>
 
+<script type="template" class="searchResultTemplate">
+	<div class="searchResultNoteId">
+		<div class="searchResultText"></div>
+		<span class="searchResultName"></span>
+		<span> - </span>
+		<span class="searchResultDate"></span>
+		<span> on </span>
+		<span class="searchResultGroup"></span>
+	</div>
+</script>
+
 <script>
 	function searchForm(elSearch, searchResultBox) {
 		this.elSearch = elSearch;
@@ -87,10 +98,33 @@
 					method:"get",
 					url : "/search?words=" + sText,
 					success : function(req) {
-						console.log(JSON.parse(req.responseText));
+						json = JSON.parse(req.responseText);
+						var elSearchResult=document.querySelector(".searchResult");
+						elSearchResult.innerHTML="<div></div>"
+						searchResult(json);
 					}
 				});
 			}
 		}, false);
 	}, false);
+	
+	function searchResult(json){
+		var elSearchResult=document.querySelector(".searchResult > div:last-child");
+		for(var i = 0; i < json.listValues.length; i++){
+			var hlSearchResultTemplate = document.querySelector(".searchResultTemplate").text;
+			elSearchResult.insertAdjacentHTML("afterend", hlSearchResultTemplate);
+			var elDiv = document.querySelector(".searchResultNoteId");
+			jsonList = json.listValues[i];
+			elDiv.className = "searchResultNoteId" + jsonList.noteId;
+			var elDiv = document.querySelector(".searchResultNoteId" + jsonList.noteId);
+			var elsearchResultText = document.querySelector(".searchResultNoteId" + jsonList.noteId+" > .searchResultText");
+			elsearchResultText.innerHTML = jsonList.noteText; 
+			var elsearchResultName = document.querySelector(".searchResultNoteId" + jsonList.noteId+" > .searchResultName");
+			elsearchResultName.innerHTML = jsonList.userName; 
+			var elsearchResultDate = document.querySelector(".searchResultNoteId" + jsonList.noteId+" > .searchResultDate");
+			elsearchResultDate.innerHTML = jsonList.targetDate; 
+			var elsearchResultGroup = document.querySelector(".searchResultNoteId" + jsonList.noteId+ " > .searchResultGroup");
+			elsearchResultGroup.innerHTML = jsonList.groupName;
+		}
+	} 
 </script>
