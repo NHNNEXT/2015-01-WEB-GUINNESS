@@ -19,7 +19,7 @@
 
 		<ul class='util'>
 			<li class='menu drop-down'><img class='avatar'
-				src='/img/avatar-default.png' style='margin-left: 15px;'>
+				src='/img/profile/${sessionUserImage}' style='margin-left: 15px;'>
 				<div class='label'>
 					<a href="#">${sessionUserName}</a>
 				</div>

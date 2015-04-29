@@ -19,7 +19,8 @@ Create Table USERS(
  userId varchar(50) PRIMARY KEY,
  userName varchar(50) Not Null,
  userPassword varchar(16) Not Null,
- userImage BLOB,
+ userStatus char(1) DEFAULT 'R',
+ userImage varchar(20) DEFAULT "avatar-default.png",
  createDate DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -62,3 +63,19 @@ Create Table COMMENTS (
   Foreign Key(userId) REFERENCES USERS(userId)  on delete cascade,
   Foreign Key(noteId) REFERENCES NOTES(noteId)  on delete cascade
 );
+
+Create Table CONFIRMS(
+ keyAddress varchar(100) PRIMARY KEY,
+ userId varchar(50),
+ createDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+ Foreign Key(userId) REFERENCES USERS(userId)
+);
+
+/* TEST USER SET */
+
+insert into USERS values('g@g.g', '기얏토', '1234qwer','E' , default , default);
+insert into USERS values('a@a.a', '알파', '1234qwer' ,'E' , default , default);
+insert into USERS values('h@h.h', '휘바', '1234qwer' ,'E' , default , default);
+insert into USERS values('m@m.m', '모카', '1234qwer' ,'E' , default , default);
+insert into USERS values('d@d.d', '다스', '1234qwer' ,'E' , default , default);
+insert into USERS values('y@y.y', '와이빈', '1234qwer' ,'E' , default , default);

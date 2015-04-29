@@ -24,7 +24,9 @@ public class CommentDao extends JdbcDaoSupport {
 				rs.getString("userId"), 
 				rs.getString("noteId"), 
 				rs.getString("userName"),
-				rs.getString("commentId")), noteId);
+				rs.getString("commentId"),
+				rs.getString("userImage")
+				), noteId);
 	}
 
 	public Comment readCommentByCommentId(String commentId) {

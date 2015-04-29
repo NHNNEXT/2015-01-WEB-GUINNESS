@@ -45,4 +45,7 @@
 		<property name="modelKey" value="jsonData" />
 		<property name="extractValueFromSingleKeyModel" value="true" />
 	</bean>
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+	
 </beans>

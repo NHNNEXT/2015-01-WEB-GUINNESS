@@ -52,7 +52,7 @@
 	</template>
 	<template id="comment-template">
 	<li><img class='avatar' class='avatar'
-		src='/img/avatar-default.png'>
+		src='/img/profile/avatar-default.png'>
 		<div class='comment-container'>
 			<div class='comment-info'>
 				<span class='comment-user'></span> <span class='comment-date'></span>
@@ -71,8 +71,7 @@
 			document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
 
 			document.title = ${groupName};
-			var groupName = (${groupName}.replace(/</g, "&lt;")).replace(
-					/>/g, "&gt;");
+			var groupName = (${groupName}.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 			document.querySelector('#group-name').innerHTML = groupName;
 			appendNoteList(${noteList});
 		}, false);
@@ -151,7 +150,7 @@
 				newEl.setAttribute("id", obj.noteId);
 				newEl.setAttribute("href", "#");
 				out = "";
-				out += "<li><img class='avatar' class='avatar' src='/img/avatar-default.png'>";
+				out += "<li><img class='avatar' class='avatar' src='/img/profile/"+obj.userImage+"'>";
 
 				var userId = document.getElementById("sessionUserId").value;
 				if(userId === obj.userId) {
@@ -265,6 +264,7 @@
 				commentEl.querySelector('.comment-user').innerHTML = obj.userName;
 				commentEl.querySelector('.comment-date').innerHTML = obj.createDate;
 				commentEl.querySelector('.comment').innerHTML = obj.commentText;
+				commentEl.querySelector('.avatar').setAttribute("src","/img/profile/"+obj.userImage);
 				if (userId === obj.userId) {
 					commentEl.querySelector('.comment-util').innerHTML = "<div class='default-utils'><a onclick='showEditInputBox(&quot;"+ obj.commentText + "&quot; , &quot;"+ obj.commentId + "&quot;)'>수정</a><a href='#' onclick='deleteComment(&quot;" + obj.commentId + "&quot;)'>삭제</a></div>"
 				}

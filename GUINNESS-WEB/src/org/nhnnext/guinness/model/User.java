@@ -30,13 +30,13 @@ public class User {
 	private char status;
 	
 	@Expose
-	private byte userImage;
+	private String userImage;
 	
 	
 	 public User() {
 	}
 
-	public User(String userId, String userName, String userPassword, char status, byte userImage) {
+	public User(String userId, String userName, String userPassword, char status, String userImage) {
 		this.userId = userId;
 		this.userName = userName;
 		this.userPassword = userPassword;
@@ -45,7 +45,7 @@ public class User {
 	}
 	
 	public User(String userId, String userName, String userPassword, char status) {
-		this(userId, userName, userPassword, status, (byte)0);
+		this(userId, userName, userPassword, status, "avatar-default.png");
 	}
 
 	public String getUserId() {
@@ -60,7 +60,7 @@ public class User {
 		return userPassword;
 	}
 
-	public byte getUserImage() {
+	public String getUserImage() {
 		return userImage;
 	}
 
@@ -76,7 +76,7 @@ public class User {
 		this.userPassword = userPassword;
 	}
 
-	public void setUserImage(byte userImage) {
+	public void setUserImage(String userImage) {
 		this.userImage = userImage;
 	}
 
@@ -88,16 +88,16 @@ public class User {
 		this.status = status;
 	}
 
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + status;
 		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
-		result = prime * result + userImage;
-		result = prime * result
-				+ ((userName == null) ? 0 : userName.hashCode());
-		result = prime * result
-				+ ((userPassword == null) ? 0 : userPassword.hashCode());
+		result = prime * result + ((userImage == null) ? 0 : userImage.hashCode());
+		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+		result = prime * result + ((userPassword == null) ? 0 : userPassword.hashCode());
 		return result;
 	}
 
@@ -110,12 +110,17 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
+		if (status != other.status)
+			return false;
 		if (userId == null) {
 			if (other.userId != null)
 				return false;
 		} else if (!userId.equals(other.userId))
 			return false;
-		if (userImage != other.userImage)
+		if (userImage == null) {
+			if (other.userImage != null)
+				return false;
+		} else if (!userImage.equals(other.userImage))
 			return false;
 		if (userName == null) {
 			if (other.userName != null)
@@ -132,6 +137,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", userName=" + userName + ", userImage=" + userImage + "]";
+		return "User [userId=" + userId + ", userName=" + userName + ", userPassword=" + userPassword + ", status="
+				+ status + ", userImage=" + userImage + "]";
 	}
 }
