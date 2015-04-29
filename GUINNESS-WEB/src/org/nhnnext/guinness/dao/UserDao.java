@@ -27,7 +27,8 @@ public class UserDao extends JdbcDaoSupport {
 					rs.getString("userId"), 
 					rs.getString("userName"), 
 					rs.getString("userPassword"),
-					rs.getString("userStatus").charAt(0)
+					rs.getString("userStatus").charAt(0),
+					rs.getString("userImage")
 					), userId);
 		} catch (EmptyResultDataAccessException e) {
 			return null;
@@ -36,7 +37,7 @@ public class UserDao extends JdbcDaoSupport {
 	
 	public void updateUser(User user) {
 		String sql = "update USERS set userName = ?, userPassword = ?, userImage = ? where userId = ?";
-		getJdbcTemplate().update(sql, user.getUserName(), user.getUserPassword(), null, user.getUserId());
+		getJdbcTemplate().update(sql, user.getUserName(), user.getUserPassword(), user.getUserImage(), user.getUserId());
 	}
 
 	public void updateUserState(String userId, char userStatus) {

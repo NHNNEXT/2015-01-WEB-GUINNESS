@@ -1,5 +1,6 @@
 package org.nhnnext.guinness.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,7 +30,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -73,6 +76,7 @@ public class UserController {
 		User user = userDao.readUser(userId);
 		session.setAttribute("sessionUserId", userId);
 		session.setAttribute("sessionUserName", user.getUserName());
+		session.setAttribute("sessionUserImage", user.getUserImage());
 		return "redirect:/";
 	}
 
@@ -94,12 +98,19 @@ public class UserController {
 		return "updateUser";
 	}
 
-	@RequestMapping(value = "/user", method = RequestMethod.PUT)
-	protected String updateUser(WebRequest req, HttpSession session, Model model, User user) throws UserUpdateException {
+	@RequestMapping(value = "/user/update", method = RequestMethod.POST)
+	protected String updateUser(WebRequest req, HttpSession session, Model model, User user, @RequestParam("profileImage") MultipartFile profileImage) throws UserUpdateException, IllegalStateException, IOException {
 
 		// TODO 추후 password 입력 양식 변경 시 리펙토링 필요
 		String userNewPassword = req.getParameter("userNewPassword");
-		String userPassword = req.getParameter("userPassword");
+		if (profileImage != null) {
+			String fileName = user.getUserId();
+			String rootPath = session.getServletContext().getRealPath("/");
+			profileImage.transferTo(new File(rootPath+"img/profile/" + fileName));
+			user.setUserImage(fileName);
+		}
+
+		String userPassword = user.getUserPassword();
 		if (userNewPassword.equals(""))
 			userNewPassword = userPassword;
 		user.setUserPassword(userNewPassword);
@@ -118,6 +129,7 @@ public class UserController {
 		}
 
 		session.setAttribute("sessionUserName", user.getUserName());
+		session.setAttribute("sessionUserImage", user.getUserImage());
 		return "redirect:/groups";
 	}
 
@@ -135,6 +147,7 @@ public class UserController {
 		}
 		session.setAttribute("sessionUserId", user.getUserId());
 		session.setAttribute("sessionUserName", user.getUserName());
+		session.setAttribute("sessionUserImage", user.getUserImage());
 		viewMap.put("view", "groups");
 		return new ModelAndView("jsonView").addObject("jsonData", viewMap);
 	}

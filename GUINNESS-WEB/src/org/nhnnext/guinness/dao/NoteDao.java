@@ -19,7 +19,7 @@ public class NoteDao extends JdbcDaoSupport {
 	}
 
 	public List<Note> readNoteList(String groupId, String endDate, String targetDate, String userIds) {
-		String sql = "select * from NOTES,USERS " + "where NOTES.userId = USERS.userId " + "and groupId = ? "
+		String sql = "select * from NOTES, USERS " + "where NOTES.userId = USERS.userId " + "and groupId = ? "
 				+ "and NOTES.targetDate between ? and ? ";
 		if (userIds != null) {
 			sql += "and NOTES.userId in (" + userIds + ") ";
@@ -31,7 +31,7 @@ public class NoteDao extends JdbcDaoSupport {
 					sql,
 					(rs, rowNum) -> new Note(rs.getString("noteId"), rs.getString("noteText"), rs
 							.getString("targetDate"), rs.getString("userId"), rs.getString("groupId"), rs
-							.getString("userName"), rs.getInt("commentCount")), groupId, endDate, targetDate);
+							.getString("userName"), rs.getInt("commentCount"), rs.getString("userImage")), groupId, endDate, targetDate);
 		} catch (EmptyResultDataAccessException e) {
 			return new ArrayList<Note>();
 		}

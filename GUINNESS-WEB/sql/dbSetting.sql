@@ -19,7 +19,8 @@ Create Table USERS(
  userId varchar(50) PRIMARY KEY,
  userName varchar(50) Not Null,
  userPassword varchar(16) Not Null,
- userImage BLOB,
+ userStatus char(1) DEFAULT 'Y',
+ userImage varchar(20) DEFAULT "avatar-default.png",
  createDate DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -61,4 +62,22 @@ Create Table COMMENTS (
   noteId bigint,
   Foreign Key(userId) REFERENCES USERS(userId)  on delete cascade,
   Foreign Key(noteId) REFERENCES NOTES(noteId)  on delete cascade
+);
+
+Create Table CONFIRMS(
+ keyAddress varchar(100) PRIMARY KEY,
+ userId varchar(50),
+ createDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+ Foreign Key(userId) REFERENCES USERS(userId)
+);
+
+/* TEST USER SET */
+
+insert into USERS values (
+	"t@t.com",
+	"테스트유저",
+	"1234qwer",
+	"I",
+	default,
+	default
 );
