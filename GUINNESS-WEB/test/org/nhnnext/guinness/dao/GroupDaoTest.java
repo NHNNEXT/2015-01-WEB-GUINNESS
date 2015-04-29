@@ -46,7 +46,7 @@ public class GroupDaoTest {
 	
 	@Test
 	public void createGroupUser() throws Exception {
-		if(userDao.readUser(user.getUserId()) != null)
+		if(userDao.findUserByUserId(user.getUserId()) != null)
 			userDao.createUser(user);
 		if (groupDao.readGroup(group.getGroupId()) != null)
 			groupDao.createGroup(group);

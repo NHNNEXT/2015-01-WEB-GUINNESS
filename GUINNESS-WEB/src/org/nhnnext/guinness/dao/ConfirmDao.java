@@ -28,9 +28,14 @@ public class ConfirmDao extends JdbcDaoSupport {
 		}
 	}
 
-	public void completeConfirm(String keyAddress) {
+	public void deleteConfirmByKeyAddress(String keyAddress) {
 		String sql = "delete from CONFIRMS where keyAddress = ?";
 		getJdbcTemplate().update(sql, keyAddress);
+	}
+	
+	public void deleteConfirmByUserId(String userId) {
+		String sql = "delete from CONFIRMS where userId = ?";
+		getJdbcTemplate().update(sql, userId);
 	}
 
 }

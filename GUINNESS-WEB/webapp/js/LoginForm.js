@@ -2,17 +2,25 @@
  * Login 및 회원가입을 위한 script
  * required::guinness.js
  */
+window.addEventListener('load', function() {
+	if(document.querySelector('.errorMessage').innerHTML) {
+		switchForm(false);
+	}
+})
 
 var el = document.querySelector("#switchForm");
-el.addEventListener("click", switchForm, false);
+el.addEventListener("click", function() { 
+	switchForm(true)}, false);
 
 document.querySelector("#login-form").addEventListener("submit", function(e) { e.preventDefault(); loginCheck(); }, false);
 
-function switchForm() {
+function switchForm(flag) {
 	var el;
-	el = document.querySelectorAll(".errorMessage");
-	for (var i = 0; i < el.length; i++) {
-	  el[i].innerHTML = "";
+	if(flag) {
+		el = document.querySelectorAll(".errorMessage");
+		for (var i = 0; i < el.length; i++) {
+		  el[i].innerHTML = "";
+		}
 	}
 	el = document.querySelector("#signup-form");
 	if (el.style.display === "block") {

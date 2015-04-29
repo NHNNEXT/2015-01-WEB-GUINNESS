@@ -21,13 +21,13 @@ public class UserDaoTest {
 	
 	@Test
 	public void ExistCreateUserTest() throws ClassNotFoundException {
-		assertEquals(null, userDao.readUser("h@s.com"));
+		assertEquals(null, userDao.findUserByUserId("h@s.com"));
 	}
 	
 	@Test
 	public void CRUDTest() throws ClassNotFoundException, AlreadyExistedUserIdException {
 		userDao.createUser(new User("daoTest@guinness.com","Name","password", 'I'));
-		User user = userDao.readUser("daoTest@guinness.com");
+		User user = userDao.findUserByUserId("daoTest@guinness.com");
 		assertNotNull(user);
 	}
 }

@@ -60,9 +60,23 @@ public class UserController {
 		if (!extractViolationMessage(model, user)) {
 			return "index";
 		}
+		
+		//  User 객체 받아오기
+		User existedUser = userDao.findUserByUserId(user.getUserId());
+
+		// 활성화된 계정일 경우
+		if(existedUser == null)
+			userDao.createUser(user);
+		
+		if(existedUser.getStatus() == 'E')
+			throw new AlreadyExistedUserIdException();
+
+		if(existedUser.getStatus() == 'R') {
+			confirmDao.deleteConfirmByUserId(user.getUserId());
+		}
+		
 		String keyAddress = RandomFactory.getRandomId(10);
 		sendMail(keyAddress, user.getUserId());
-		userDao.createUser(user);
 		confirmDao.createConfirm(keyAddress, user.getUserId());
 		logger.debug("user create success");
 		return "sendEmail";
@@ -71,9 +85,9 @@ public class UserController {
 	@RequestMapping(value = "/user/confirm/{keyAddress}")
 	protected String confirm(@PathVariable String keyAddress, HttpSession session) throws IOException {
 		String userId = confirmDao.findUserIdByKeyAddress(keyAddress);
-		userDao.updateUserState(userId, 'I');
-		confirmDao.completeConfirm(keyAddress);
-		User user = userDao.readUser(userId);
+		userDao.updateUserState(userId, 'E');
+		confirmDao.deleteConfirmByKeyAddress(keyAddress);
+		User user = userDao.findUserByUserId(userId);
 		session.setAttribute("sessionUserId", userId);
 		session.setAttribute("sessionUserName", user.getUserName());
 		session.setAttribute("sessionUserImage", user.getUserImage());
@@ -118,7 +132,7 @@ public class UserController {
 		if (!extractViolationMessage(model, user))
 			throw new UserUpdateException("잘못된 형식입니다.");
 
-		if (!userDao.readUser(user.getUserId()).getUserPassword().equals(userPassword)) {
+		if (!userDao.findUserByUserId(user.getUserId()).getUserPassword().equals(userPassword)) {
 			throw new UserUpdateException("비밀번호가 일치하지 않습니다.");
 		}
 
@@ -140,7 +154,7 @@ public class UserController {
 
 		Map<String, String> viewMap = new HashMap<String, String>();
 
-		User user = userDao.readUser(userId);
+		User user = userDao.findUserByUserId(userId);
 		if (user == null || !user.getUserPassword().equals(userPassword) || user.getStatus() != 'I') {
 			viewMap.put("view", "loginFailed");
 			return new ModelAndView("jsonView").addObject("jsonData", viewMap);
