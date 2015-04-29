@@ -10,9 +10,10 @@
 			<a href='/' id='brand'> <img src='/img/pm_white.png'>
 			</a>
 
-			<form class="searchForm" action="#S">
-				<input type="text"> <i class="fa fa-search"></i>
-			</form>
+			<div class="searchForm">
+				<input id="searchText" type="text"> <i
+					class="fa fa-search"></i>
+			</div>
 		</div>
 
 
@@ -46,7 +47,7 @@
 		this.searchResultBox = searchResultBox;
 		this._createResultBox();
 		this._setPosition();
-
+		
 		this.elSearch.addEventListener("focus", function(e) {
 			e.target.parentElement.className = "onSearchForm";
 			var elResult = document.querySelector(".searchResult");
@@ -78,5 +79,18 @@
 		var elSearch = document.querySelector(".searchForm");
     	var searchResultBox = document.querySelector(".searchFormTemplate").text;
 		new searchForm(elSearch, searchResultBox);
+	
+		elSearch.addEventListener("keypress", function(ev) {
+			var sText = document.querySelector("#searchText").value;
+			if (ev.keyCode===13) {
+			guinness.ajax({
+					method:"get",
+					url : "/search?words=" + sText,
+					success : function(req) {
+						console.log(JSON.parse(req.responseText));
+					}
+				});
+			}
+		}, false);
 	}, false);
 </script>

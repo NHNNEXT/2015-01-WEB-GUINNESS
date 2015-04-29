@@ -77,4 +77,20 @@ public class NoteDao extends JdbcDaoSupport {
 		String sql = "UPDATE NOTES SET noteText = ? where noteId = ?";
 		getJdbcTemplate().update(sql, text, noteId);
 	}
+	
+	public List<Note> searchQuery(String userId, String query) {
+		String sql = "select * from NOTES A, GROUPS_USERS B, USERS C WHERE B.userId = ? AND B.groupId = A.groupId AND A.noteText like ?;";
+		try {
+			ArrayList<Note> temp = (ArrayList<Note>) getJdbcTemplate().query(
+					sql,
+					(rs, rowNum) -> new Note(rs.getString("noteId"), rs.getString("noteText"), rs.getString("targetDate"), rs
+							.getString("userId"), rs.getString("groupId"), rs.getString("userName")), userId, query);
+			for (Note note : temp) {
+				System.out.println(note);
+			}
+			return temp;
+		} catch (EmptyResultDataAccessException e) {
+			return new ArrayList<Note>();
+		}
+	}
 }
