@@ -58,7 +58,7 @@ public class GroupDao extends JdbcDaoSupport {
 	}
 
 	public List<User> readGroupMember(String groupId) {
-		String sql = "select * from USERS,GROUPS_USERS where GROUPS_USERS.groupId = ? and GROUPS_USERS.userId = USERS.userId;";
+		String sql = "select * from USERS,GROUPS_USERS where GROUPS_USERS.groupId = ? and GROUPS_USERS.userId = USERS.userId ORDER BY userName;";
 		
 		return getJdbcTemplate().query(sql,  (rs, rowNum) -> new User(
 				rs.getString("userId"),
