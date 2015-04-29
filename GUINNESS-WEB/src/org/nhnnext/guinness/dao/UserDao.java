@@ -1,6 +1,5 @@
 package org.nhnnext.guinness.dao;
 
-import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
 import org.nhnnext.guinness.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,16 +9,13 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 public class UserDao extends JdbcDaoSupport {
 	private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
 
-	public void createUser(User user) throws AlreadyExistedUserIdException {
-		if (readUser(user.getUserId()) != null) {
-			logger.debug("UserDao: userId already exist!");
-			throw new AlreadyExistedUserIdException();
-		}
+	public void createUser(User user) {
+		logger.debug("user: {}", user);
 		String sql = "insert into USERS values(?,?,?,?,default,default)";
 		getJdbcTemplate().update(sql, user.getUserId(), user.getUserName(), user.getUserPassword(), null);
 	}
 
-	public User readUser(String userId) {
+	public User findUserByUserId(String userId) {
 		String sql = "select * from USERS where userId=?";
 
 		try {

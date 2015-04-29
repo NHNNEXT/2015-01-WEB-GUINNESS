@@ -47,7 +47,7 @@ public class GroupController {
 		String userId = req.getParameter("userId");
 		String groupId = req.getParameter("groupId");
 		try {
-			if (userDao.readUser(userId) == null) {
+			if (userDao.findUserByUserId(userId) == null) {
 				return new ModelAndView("jsonView", "jsonData", "unknownUser");
 			}
 			if (groupDao.checkJoinedGroup(userId, groupId)) {
