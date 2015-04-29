@@ -117,7 +117,11 @@ public class UserController {
 
 		// TODO 추후 password 입력 양식 변경 시 리펙토링 필요
 		String userNewPassword = req.getParameter("userNewPassword");
-		if (profileImage != null) {
+		User prevUser = userDao.findUserByUserId(user.getUserId());
+		
+		user.setUserImage(prevUser.getUserImage());
+		if (!profileImage.isEmpty()) {
+			logger.debug("Img change");
 			String fileName = user.getUserId();
 			String rootPath = session.getServletContext().getRealPath("/");
 			profileImage.transferTo(new File(rootPath+"img/profile/" + fileName));
@@ -132,7 +136,7 @@ public class UserController {
 		if (!extractViolationMessage(model, user))
 			throw new UserUpdateException("잘못된 형식입니다.");
 
-		if (!userDao.findUserByUserId(user.getUserId()).getUserPassword().equals(userPassword)) {
+		if (!prevUser.getUserPassword().equals(userPassword)) {
 			throw new UserUpdateException("비밀번호가 일치하지 않습니다.");
 		}
 
@@ -141,7 +145,8 @@ public class UserController {
 		} catch (DataIntegrityViolationException e) {
 			throw new UserUpdateException("잘못된 형식입니다.");
 		}
-
+		
+		//session refresh...
 		session.setAttribute("sessionUserName", user.getUserName());
 		session.setAttribute("sessionUserImage", user.getUserImage());
 		return "redirect:/groups";
@@ -151,7 +156,6 @@ public class UserController {
 	protected ModelAndView login(WebRequest req, HttpSession session) throws IOException {
 		String userId = req.getParameter("userId");
 		String userPassword = req.getParameter("userPassword");
-
 		Map<String, String> viewMap = new HashMap<String, String>();
 
 		User user = userDao.findUserByUserId(userId);
