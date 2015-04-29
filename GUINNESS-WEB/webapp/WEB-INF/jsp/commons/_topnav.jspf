@@ -46,7 +46,7 @@
 		this.searchResultBox = searchResultBox;
 		this._createResultBox();
 		this._setPosition();
-		
+
 		this.elSearch.addEventListener("focus", function(e) {
 			e.target.parentElement.className = "onSearchForm";
 			var elResult = document.querySelector(".searchResult");
