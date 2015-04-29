@@ -37,13 +37,11 @@ public class SearchController {
 		for (String word : words) {
 			System.out.println(word);
 		}
-		//Map<Integer, Integer> result = new HashMap();
+//		Map<String, Integer> result = new HashMap();
 		List<Note> notes = new ArrayList<Note>();
 
 		for(String word : words) {
-			logger.debug("쿼리 검색 시작");
-			logger.debug("리턴값 : {}",noteDao.searchQuery(sessionUserId, "%"+word+"%"));
-			notes.addAll(noteDao.searchQuery(sessionUserId, "%"+word+"%"));	
+			notes.addAll(noteDao.searchQuery(sessionUserId, "%"+word+"%"));
 		}
 		//TODO notes의 중복 정렬.
 		
