@@ -67,7 +67,7 @@ public class UserController {
 		// 활성화된 계정일 경우
 		if(existedUser == null)
 			userDao.createUser(user);
-		
+			
 		if(existedUser.getStatus() == 'E')
 			throw new AlreadyExistedUserIdException();
 
@@ -84,7 +84,9 @@ public class UserController {
 
 	@RequestMapping(value = "/user/confirm/{keyAddress}")
 	protected String confirm(@PathVariable String keyAddress, HttpSession session) throws IOException {
+		logger.debug("keyAddress: {}", keyAddress);
 		String userId = confirmDao.findUserIdByKeyAddress(keyAddress);
+		logger.debug("userId: {}", userId);
 		userDao.updateUserState(userId, 'E');
 		confirmDao.deleteConfirmByKeyAddress(keyAddress);
 		User user = userDao.findUserByUserId(userId);
@@ -96,6 +98,7 @@ public class UserController {
 
 	public void sendMail(String keyAddress, String userId) throws MessagingException, NullPointerException {
 		logger.debug("sendMail");
+		//TODO test시 mailSender.createMimeMessage()가 null이여서 NullPointerException이 뜬다. 이 때문에 정상적으로 테스트가 종료되지 않는다.
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 		messageHelper.setTo(userId);

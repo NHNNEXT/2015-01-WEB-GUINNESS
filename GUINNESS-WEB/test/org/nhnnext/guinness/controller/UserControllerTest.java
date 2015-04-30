@@ -1,10 +1,12 @@
 package org.nhnnext.guinness.controller;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 import org.junit.Before;
@@ -15,8 +17,8 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.nhnnext.guinness.dao.ConfirmDao;
 import org.nhnnext.guinness.dao.UserDao;
+import org.nhnnext.guinness.model.User;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -57,6 +59,16 @@ public class UserControllerTest {
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(forwardedUrl("sendEmail"));
+	}
+	
+	@Test
+	public void confirm() throws Exception {
+		when(confirmDao.findUserIdByKeyAddress("qawsedrftg")).thenReturn("parpermint@yopmail.com");
+		when(userDao.findUserByUserId("parpermint@yopmail.com")).thenReturn(new User("parpermint@yopmail.com", "다스", "1q2w3e4r", 'R'));
+		this.mockMvc.perform(
+				post("/user/confirm/qawsedrftg"))
+				.andDo(print())
+				.andExpect(redirectedUrl("/"));
 	}
 
 }
