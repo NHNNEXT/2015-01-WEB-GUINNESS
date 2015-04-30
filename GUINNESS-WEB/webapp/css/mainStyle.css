@@ -465,33 +465,30 @@ textarea#commentText {
 }
 
 /*
- * diary page
+ * note page
  */
 #note-list-container {
 	margin-top: 100px;
 	float: none;
 }
 
-.diary-date {
+.note-date {
 	margin-bottom: 10px;
 	margin-top: 10px;
+	color: #454545;
 }
 
-.diary-list {
+.note-list {
 	display: table;
 	width: 650px;
 }
 
-.diary-list a {
+.note-list a {
 	text-decoration: none;
 	color: #454545;
 }
 
-.diary-list .note-date {
-	font-size: 12px;
-}
-
-.diary-list li {
+.note-list li {
 	position: relative;
 	display: table;
 	width: 610px;
@@ -504,11 +501,11 @@ textarea#commentText {
 	border-radius: 10px;
 }
 
-.diary-list li:hover {
+.note-list li:hover {
 	background-color:#fdf5ce;
 }
 
-.diary-list img.avatar, #commentListUl img.avatar{
+.note-list img.avatar, #commentListUl img.avatar{
 	display: block;
 	float: left;
 	width: 45px;
@@ -518,31 +515,49 @@ textarea#commentText {
 	background-color: #558;
 }
 
-.diary-list i.fa.fa-pencil {
-	display: block;
-	float: right;
+.note-list .content-container {
+	padding-left:50px;
 }
 
-.diary-list i.fa.fa-trash {
-	display: block;
-	float: right;
-}
 
-.diary-list i:hover {
+.note-list i:hover {
 	color: gray;
 }
 
-.diary-list .userName {
+.note-list .userName {
 	font-size: 13px;
 	font-weight: bold;
 }
 
-.diary-list .qhsans {
+.note-list .userId {
+	font-size: 12px;
+	font-weight: bold;
+	color: #74afad;
+	padding-right:5px;
+	padding-left:5px;
+}
+
+.note-list li .note-date {
+	color: #BDBDBD;
+	font-size:12px;
+}
+
+.note-list .qhsans {
 	position: relative;
 	margin-top: 15px;
 	font-size: 15px;
 	line-height: 20px;
 }
+
+.note-list .note-util i{
+	margin-left:5px;
+	float:right;
+}
+
+.note-list .note-util i:hover{
+	color: gray;
+}
+
 
 #switchForm:hover {
 	color: #BCBCBC;

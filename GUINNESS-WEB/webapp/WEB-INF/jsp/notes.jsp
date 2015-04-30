@@ -105,7 +105,7 @@
 				el.parentNode.removeChild(el);
 			}
 			//리스트 초기화
-			el = document.querySelectorAll(".diary-list");
+			el = document.querySelectorAll(".note-list");
 			var elLength = el.length;
 			if (el != undefined) {
 				for (var i = elLength-1; i >= 0; i--) {
@@ -126,9 +126,9 @@
 				if (el == undefined) {
 					el = document.createElement("ul");
 					el.setAttribute("id", "day-" + targetDate);
-					el.setAttribute("class", "diary-list");
+					el.setAttribute("class", "note-list");
 					newEl = document.createElement("div");
-					newEl.setAttribute("class", "diary-date");
+					newEl.setAttribute("class", "note-date");
 					newEl.innerHTML = "<span>" + targetDate + "</span>";
 					el.appendChild(newEl);
 					document.querySelector('#note-list-container').appendChild(el);
@@ -154,10 +154,11 @@
 
 				var userId = document.getElementById("sessionUserId").value;
 				if(userId === obj.userId) {
-					out += "<i class='fa fa-pencil'></i><i class='fa fa-trash'></i>";
+					out += "<div class='note-util'><i class='fa fa-pencil'></i><i class='fa fa-trash'></i></div>";
 				}				
-				out += "<div class='msgContainer'>";
-				out += "<div><span class='userName'>" + obj.userName + "</span></div>";
+				out += "<div class='content-container'>";
+				out += "<div><span class='userName'>" + obj.userName + "</span><span class='userId'>" + obj.userId + "</span></div>";
+				out += "<div><span class='note-date'>" + obj.targetDate + "</span></div>";
 				if (attention!==null) {out += attention+'<br />'}
 				if (question!==null) {out += question+'<br />'}
 				if (tag!==null) {out += tag+'<br />'}
