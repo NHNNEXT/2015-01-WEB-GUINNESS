@@ -11,11 +11,14 @@ html, body {
 .searchResultNoteId {
 	width: 400px;
 	height: 62px;
-	border: 1px solid gray;
 	margin-bottom: 2px;
 	border-radius: 3px;
 	padding: 4px;
 	float: left;
+}
+
+.searchResultNoteId:hover {
+	background-color: #E8FB90;
 }
 
 .searchResultText{
@@ -209,11 +212,10 @@ ul {
 .searchResult {
 	position: fixed;
 	background: #F6F6F6;
-	width: 300px;
-	height: 50px;
-	max-height: 400px;
+	width: 410px;
+	max-height: 390px;
 	z-index: 200;
-	overflow: auto;
+	overflow-y:scroll;
 	display: none;
 }
 

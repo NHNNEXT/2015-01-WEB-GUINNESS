@@ -54,15 +54,18 @@
 
 <script>
 	function searchForm(elSearch, searchResultBox) {
-		this.elSearch = elSearch;
-		this.searchResultBox = searchResultBox;
+		this.elSearch = (elSearch!==undefined) ? elSearch : undefined ;
+		this.searchResultBox = (searchResultBox!==undefined) ? searchResultBox : undefined ;
+	}
+
+	searchForm.prototype.init = function() {
 		this._createResultBox();
 		this._setPosition();
-		
+
 		this.elSearch.addEventListener("focus", function(e) {
 			e.target.parentElement.className = "onSearchForm";
 			var elResult = document.querySelector(".searchResult");
-			elResult.style.display="table";
+			elResult.style.display="block";
 		}, true);
 
 		this.elSearch.addEventListener("focusout", function(e) {
@@ -70,6 +73,7 @@
 			var elResult = document.querySelector(".searchResult");
 			elResult.style.display="none";
 			document.querySelector(".searchForm > input").value="";
+			document.querySelector(".searchResult").innerHTML="<div></div>";
 		}, true);
 	}
 	
@@ -80,30 +84,35 @@
 	}
 	
 	searchForm.prototype._setPosition = function() {
-		var elInputBox = document.querySelector(".searchForm > input");
+		var elInputBox = document.querySelector("#searchText");
 		var rect = elInputBox.getBoundingClientRect();
 		var elResult = document.querySelector(".searchResult");
 		elResult.style.top = rect.bottom+"px";
 		elResult.style.left = rect.left+"px";
 	}
+	
+	window.addEventListener('resize', function() {
+		new searchForm()._setPosition();
+	}, false);
 
 	window.addEventListener('load', function() {
 		var elSearch = document.querySelector(".searchForm");
     	var searchResultBox = document.querySelector(".searchFormTemplate").text;
-		new searchForm(elSearch, searchResultBox);
+		new searchForm(elSearch, searchResultBox).init();
 	
-		elSearch.addEventListener("keypress", function(ev) {
+		elSearch.addEventListener("keyup", function(ev) {
 			var sText = document.querySelector("#searchText").value;
-			if (ev.keyCode===13) {
-			guinness.ajax({
-					method:"get",
-					url : "/search?words=" + sText,
-					success : function(req) {
-						json = JSON.parse(req.responseText);
-						var elSearchResult=document.querySelector(".searchResult");
-						elSearchResult.innerHTML="<div></div>"
-						searchResult(json);
-					}
+			if (sText.replace(/\s/gm, "").length>0) {
+				sText = sText.replace(/^\s{1,}|\s{1,}$/, "");
+				guinness.ajax({
+						method:"get",
+						url : "/search?words=" + sText,
+						success : function(req) {
+							json = JSON.parse(req.responseText);
+							var elSearchResult=document.querySelector(".searchResult");
+							elSearchResult.innerHTML="<div></div>"
+							searchResult(json);
+						}
 				});
 			}
 		}, false);
