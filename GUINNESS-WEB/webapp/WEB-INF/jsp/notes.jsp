@@ -89,7 +89,6 @@
 			var rect = elCreateNoteBtn.getBoundingClientRect();
 
 			var elMemberList = document.querySelector('#group-member-container');
-			elMemberList.style.top = rect.top+"px";
 			elMemberList.style.left = rect.right+290+"px";
 		}
 		
