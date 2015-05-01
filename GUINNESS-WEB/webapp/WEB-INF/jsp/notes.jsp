@@ -74,7 +74,24 @@
 			var groupName = (${groupName}.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 			document.querySelector('#group-name').innerHTML = groupName;
 			appendNoteList(${noteList});
+
+			
+			_setMemberListPosition();
 		}, false);
+
+		window.addEventListener('resize', function() {
+			_setMemberListPosition();
+		}, false);
+
+		function _setMemberListPosition() {
+			
+			var elCreateNoteBtn = document.querySelector('#create-new-button');
+			var rect = elCreateNoteBtn.getBoundingClientRect();
+
+			var elMemberList = document.querySelector('#group-member-container');
+			elMemberList.style.top = rect.top+"px";
+			elMemberList.style.left = rect.right+290+"px";
+		}
 		
 		function cancelNoteCreate(e) {
 			if (document.querySelector(".modal-cover #noteText").value != "") {
