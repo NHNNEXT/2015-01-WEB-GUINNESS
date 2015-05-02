@@ -2,9 +2,8 @@ package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpSession;
 
@@ -36,16 +35,6 @@ public class SearchController {
 	private @ResponseBody JsonResult<Note> getSearchResult(WebRequest req, HttpSession session) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		String [] words = req.getParameter("words").split(" ");
-//		Map<String, Integer> result = new HashMap();
-		List<Note> notes = new ArrayList<Note>();
-
-		for(String word : words) {
-			notes.addAll(noteDao.searchQuery(sessionUserId, "%"+word+"%"));
-		}
-		Collections.sort(notes, (c1, c2) -> Integer.parseInt(c2.getNoteId()) - Integer.parseInt(c1.getNoteId()));
-		HashSet<Note> hs = new HashSet<Note>(notes);
-		ArrayList<Note> newNotes = new ArrayList<Note>(hs);
-		//TODO notes의 중복 정렬.
-		return new JsonResult<Note>(true, newNotes);
+		return new JsonResult<Note>(true, noteDao.searchQuery(sessionUserId, words));
 	}
 }

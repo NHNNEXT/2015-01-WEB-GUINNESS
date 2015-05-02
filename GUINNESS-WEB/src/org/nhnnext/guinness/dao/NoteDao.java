@@ -31,7 +31,8 @@ public class NoteDao extends JdbcDaoSupport {
 					sql,
 					(rs, rowNum) -> new Note(rs.getString("noteId"), rs.getString("noteText"), rs
 							.getString("targetDate"), rs.getString("userId"), rs.getString("groupId"), rs
-							.getString("userName"), rs.getInt("commentCount"), rs.getString("userImage")), groupId, endDate, targetDate);
+							.getString("userName"), rs.getInt("commentCount"), rs.getString("userImage")), groupId,
+					endDate, targetDate);
 		} catch (EmptyResultDataAccessException e) {
 			return new ArrayList<Note>();
 		}
@@ -77,18 +78,22 @@ public class NoteDao extends JdbcDaoSupport {
 		String sql = "UPDATE NOTES SET noteText = ? where noteId = ?";
 		getJdbcTemplate().update(sql, text, noteId);
 	}
-	
-	public List<Note> searchQuery(String userId, String query) {
-		String sql = "select * from NOTES A, GROUPS_USERS B, USERS C, GROUPS D WHERE A.userId = ? AND A.userId = C.userId AND B.groupId = A.groupId AND B.groupId = D.groupId AND A.noteText like ?";
+
+	public List<Note> searchQuery(String userId, String... words) {
+		String query = "";
+		for (String word : words) {
+			query+=" OR N.noteText like \"%"+word+"%\"";
+		}
+		String sql = "SELECT distinct noteId, noteText, targetDate, N.userId, N.groupId, U.userName, G.groupName, N.commentCount FROM NOTES N LEFT JOIN USERS U ON N.userId = U.userId LEFT JOIN GROUPS G ON N.groupId = G.groupId LEFT JOIN GROUPS_USERS GU on GU.groupId = N.groupId WHERE "
+				+ query.substring(3)
+				+ " and N.groupId in (select groupId from GROUPS_USERS where userId = ?) AND N.userId = GU.userId order by N.targetDate desc";
+		logger.debug("sql={}", sql);
 		try {
-			ArrayList<Note> temp = (ArrayList<Note>) getJdbcTemplate().query(
+			return (ArrayList<Note>) getJdbcTemplate().query(
 					sql,
-					(rs, rowNum) -> new Note(rs.getString("noteId"), rs.getString("noteText"), rs.getString("targetDate"), rs
-							.getString("userId"), rs.getString("groupId"), rs.getString("userName"), rs.getString("groupName")), userId, query);
-			for (Note note : temp) {
-				System.out.println(note);
-			}
-			return temp;
+					(rs, rowNum) -> new Note(rs.getString("noteId"), rs.getString("noteText"), rs
+							.getString("targetDate"), rs.getString("userId"), rs.getString("groupId"), rs
+							.getString("userName"), rs.getString("groupName"), rs.getInt("commentCount")), userId);
 		} catch (EmptyResultDataAccessException e) {
 			return new ArrayList<Note>();
 		}

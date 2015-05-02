@@ -9,7 +9,7 @@ html, body {
 }
 
 .searchResultNoteId {
-	width: 400px;
+	width: 392px;
 	height: 62px;
 	margin-bottom: 2px;
 	border-radius: 3px;
@@ -212,7 +212,7 @@ ul {
 .searchResult {
 	position: fixed;
 	background: #F6F6F6;
-	width: 410px;
+	width: 416px;
 	max-height: 390px;
 	z-index: 200;
 	overflow-y:scroll;

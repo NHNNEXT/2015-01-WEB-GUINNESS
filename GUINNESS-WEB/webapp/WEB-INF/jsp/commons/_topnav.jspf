@@ -16,7 +16,6 @@
 			</div>
 		</div>
 
-
 		<ul class='util'>
 			<li class='menu drop-down'><img class='avatar'
 				src='/img/profile/${sessionUserImage}' style='margin-left: 15px;'>
@@ -119,11 +118,11 @@
 	}, false);
 	
 	function searchResult(json){
-		var elSearchResult=document.querySelector(".searchResult > div:last-child");
 		for(var i = 0; i < json.listValues.length; i++){
+			var elSearchResult=document.querySelector(".searchResult > div:last-child");
 			var hlSearchResultTemplate = document.querySelector(".searchResultTemplate").text;
 			elSearchResult.insertAdjacentHTML("afterend", hlSearchResultTemplate);
-			var elDiv = document.querySelector(".searchResultNoteId");
+			var elDiv = document.querySelector(".searchResultNoteId:last-child");
 			jsonList = json.listValues[i];
 			elDiv.id = "searchResultNoteId" + jsonList.noteId;
 			var elDiv = document.querySelector("#searchResultNoteId" + jsonList.noteId);
