@@ -26,8 +26,8 @@ public class Note {
 	}
 	
 	public Note(String noteId, String noteText, String targetDate, String userId,
-			String groupId, String userName, String groupName) {
-		this(noteId, noteText, targetDate, userId, groupId, userName, 0, groupName, null);
+			String groupId, String userName, String groupName, int commentCount) {
+		this(noteId, noteText, targetDate, userId, groupId, userName, commentCount, groupName, null);
 	}
 	
 	public Note(String noteId, String noteText, String targetDate, String userId,

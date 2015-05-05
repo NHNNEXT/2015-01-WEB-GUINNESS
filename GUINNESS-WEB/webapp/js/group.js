@@ -6,7 +6,7 @@ window.addEventListener('load', function() {
 	});
 	document.querySelector('#create-new').addEventListener('mouseup', createGroup, false);
 }, false);
-		
+
 function createGroup() {
 	var bodyTemplate = document.importNode(document.querySelector("#create-group-template").content, true);
 	guinness.util.modal({
@@ -14,7 +14,7 @@ function createGroup() {
 		body: bodyTemplate,
 		defaultCloseEvent: false
 	});
-			
+
 	document.querySelector('.modal-close-btn').addEventListener('click', function(e){
 		cancelGroupCreate();
 	}, false);
@@ -30,7 +30,7 @@ function createGroup() {
 			cancelGroupCreate();
 		}
 	},false);
-	
+
 	document.querySelector('#create-group-form').addEventListener('submit', function(e){
 		e.preventDefault();
 		var form = document.querySelector('#create-group-form');
@@ -42,7 +42,7 @@ function createGroup() {
 		guinness.util.alert("경고!","그룹 이름을 입력하세요!");
 	}, false);
 }
-		
+
 function cancelGroupCreate() {
 	if (document.querySelector(".modal-cover input[name='groupName']").value != "") {
 		guinness.util.alert("취소","그룹 만들기를 취소하시겠습니까?", function(){ document.querySelector('.modal-cover').remove(); }, function(){});
@@ -81,11 +81,11 @@ function appendGroups(json) {
 function confirmDelete(groupId, groupName) {
 	groupName = (groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 	var message = "그룹을 삭제하시겠습니까?";
-	guinness.util.alert(groupName, message, 
+	guinness.util.alert(groupName, message,
 		function() {
 			document.body.style.overflow = "auto";
 			location.href = "/group/delete?groupId=" + groupId;
-		}, 
+		},
 		function() {
 			document.body.style.overflow = "auto";
             return;

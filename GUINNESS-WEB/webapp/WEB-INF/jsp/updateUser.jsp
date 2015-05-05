@@ -86,7 +86,7 @@
 								<label for="userPassword">비밀번호</label>
 								<form:password path="userPassword" placeholder='' />
 								<span class="info"><strong>[필수사항]</strong>정보변경을 완료하기 위해 비밀번호를 입력해주세요.</span>
-							</p> 
+							</p>
 							<c:if test="${not empty signValidErrorMessage}">
 								<span class="errorMessage"> ${signValidErrorMessage} <br /></span>
 							</c:if>
@@ -97,6 +97,7 @@
 			</form:form>
 		</div>
 	</div>
+	<script src="/js/guinness.js"></script>
 	<script>
 		//TODO 개인정보를 Ajax로 요청하여 화면에 출력
 		window.addEventListener('load', function() {
