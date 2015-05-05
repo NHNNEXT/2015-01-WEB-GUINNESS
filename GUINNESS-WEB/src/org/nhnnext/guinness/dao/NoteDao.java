@@ -52,7 +52,7 @@ public class NoteDao extends JdbcDaoSupport {
 					sql,
 					(rs, rowNum) -> new Note(rs.getString("noteId"), rs.getString("noteText"), rs
 							.getString("targetDate"), rs.getString("userId"), rs.getString("groupId"), rs
-							.getString("userName")), noteId);
+							.getString("userName"), rs.getInt("commentCount"), rs.getString("userImage")), noteId);
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
