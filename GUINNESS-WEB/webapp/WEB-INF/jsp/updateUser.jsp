@@ -98,21 +98,5 @@
 		</div>
 	</div>
 	<script src="/js/guinness.js"></script>
-	<script>
-		//TODO 개인정보를 Ajax로 요청하여 화면에 출력
-		window.addEventListener('load', function() {
-			var req = new XMLHttpRequest();
-			var json = null;
-			req.onreadystatechange = function() {
-				if (req.readyState == 4) {
-					if (req.status == 200) {
-						json = JSON.parse(req.responseText);
-					}
-				}
-			};
-			//req.open('get', '/group/read', true);
-			//req.send();
-		}, false);
-	</script>
 </body>
 </html>
