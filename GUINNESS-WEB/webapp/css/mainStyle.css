@@ -200,6 +200,10 @@ ul {
 	padding: 20px;
 }
 
+#header .util .label .alarm-count {
+	position:absolute; width:20px; height:20px; background-color:#FF7E7E; color:#fff; font-size:9px; font-weight:bold; text-align:center; border-radius:10px; top:30px; left:30px; z-index:9; line-height:20px;
+}
+
 .searchForm i.fa.fa-search {
   left: -28px;
   position: relative;
@@ -475,6 +479,7 @@ textarea#commentText {
 .note-date {
 	margin-bottom: 10px;
 	margin-top: 10px;
+	font-weight: bold;
 	color: #454545;
 }
 

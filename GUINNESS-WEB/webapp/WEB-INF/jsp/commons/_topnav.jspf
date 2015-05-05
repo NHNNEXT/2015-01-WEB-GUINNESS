@@ -28,8 +28,11 @@
 					<li><a href="/logout"><span>로그아웃</span></a></li>
 				</ul></li>
 			<li class='menu'>
-				<div class='label'>
-					<a href="#"><i class='fa fa-bell'></i></a>
+				<div class='label' style="position:relative;">
+					<div class='alarm-count' style="display:none;">2</div>
+					<a href="#">
+						<i class='fa fa-bell'></i>
+					</a>
 				</div>
 			</li>
 		</ul>
