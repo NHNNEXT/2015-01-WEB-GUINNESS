@@ -32,9 +32,9 @@ Element.prototype.show = function() {
   this.style.display = "block";
 };
 
-Element.prototype.hide = function() {
-  this.style.display = "none";
-};
+//Element.prototype.hide = function() {
+//  this.style.display = "none";
+//};
 
 
 NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {

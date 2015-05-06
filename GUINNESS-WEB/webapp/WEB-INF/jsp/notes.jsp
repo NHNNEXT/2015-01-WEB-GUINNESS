@@ -12,6 +12,14 @@
 <script src="/js/datepickr.js"></script>
 <script src="/js/guinness.js"></script>
 <script src="/js/markdown.js"></script>
+
+<!-- 노트 캘린더 -->
+<link rel="stylesheet" href="/css/dateRangePickerForBootstrap.css">
+<link rel="stylesheet" href="/css/daterangepicker-bs3.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="/js/moment.js"></script>
+<script src="/js/daterangepicker.js"></script>
+
 </head>
 <body>
 	<%@ include file="./commons/_topnav.jspf"%>
@@ -19,14 +27,20 @@
 	<h1 id="empty-message"
 		style="position: absolute; color: #888; top: 300px; width: 100%; text-align: center;">새
 		노트를 작성해주세요</h1>
-	<div id='note-list-container' class='content wrap'>
+	<div id='note-list-container' class='content wrap'>	
 		<a href="/g/${groupId}"><span id="group-name"></span></a>
+		
+		<div id = "selectCalendar" class="input-prepend input-group">
+            <input type="text" style="width: 200px" name="reservation" id="reservation" class="form-control" value="" /> 
+		</div>
+		
 		<form id="notes-create-form" action="/note/editor" method="get">
 			<input id="groupId" type="hidden" name="groupId" value="">
 			<button id='create-new-button' type="submit">
 				<i class="fa fa-plus-circle"></i>
 			</button>
 		</form>
+		
 		<div id='group-member-container'>
 			<form id="addMemberForm" action="/group/add/member" method="post">
 				<input type="hidden" name="groupId"> <input
@@ -67,9 +81,7 @@
 		document.querySelector("#addMemberForm input[name='groupId']").value = groupId;
 		document.querySelector("#groupId").value = groupId;
 		readMember(groupId);
-		
 		document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
-
 		document.title = ${groupName};
 		var groupName = (${groupName}.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 		document.querySelector('#group-name').innerHTML = groupName;
@@ -80,5 +92,12 @@
 	}, false);
 	</script>
 	<script src="/js/note.js"></script>
+	<script type="text/javascript">
+    	$(document).ready(function() {
+			$('#reservation').daterangepicker(null, function(start, end, label) {
+				console.log(start.toISOString(), end.toISOString(), label);
+				});
+			});
+	</script>
 </body>
 </html>
