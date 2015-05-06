@@ -40,11 +40,13 @@ public class SearchController {
 	
 	@RequestMapping(value="/n/{noteId}")
 	private String init(@PathVariable String noteId, HttpSession session, Model model) {
+		logger.debug("noteId: {}", noteId);
 		String sessionUserId = (String) session.getAttribute("sessionUserId");
 		logger.debug("sessionUserId={}", sessionUserId);
 		model.addAttribute("functionSelect", "showNote.js");
 		model.addAttribute("sessionUserId", sessionUserId);
 		model.addAttribute("noteId", noteId);
+		logger.debug("noteId: {}", noteId);
 		return "search";
 	}
 }

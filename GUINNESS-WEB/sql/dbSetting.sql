@@ -71,6 +71,20 @@ Create Table CONFIRMS(
  Foreign Key(userId) REFERENCES USERS(userId)
 );
 
+Create Table ALARMS(
+ alarmId varchar(10) NOT NULL,
+ calleeId varchar(50) NOT NULL,
+ callerId varchar(50) NOT NULL,
+ noteId bigint NOT NULL,
+ alarmText text NOT NULL,
+ createDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+ Foreign Key(calleeId) REFERENCES USERS(userId) on delete cascade,
+ Foreign Key(callerId) REFERENCES USERS(userId) on delete cascade,
+ Foreign Key(noteId) REFERENCES NOTES(noteId) on delete cascade
+);
+
+
+
 /* TEST USER SET */
 
 insert into USERS values('g@g.g', '기얏토', '1234qwer','E' , default , default);
