@@ -8,6 +8,20 @@ html, body {
 	background-color: #e9eaed;
 }
 
+.pCommentBox {
+    background-color: white;
+    border: 1px solid darkgray;
+    width: 100px;
+    height: 80px;
+    padding: 10px;
+    position: fixed;
+}
+
+.pCommentBox .inputP {
+    border-bottom: 1px solid darkgray;
+    border-left: 1px solid darkgray;
+}
+
 .searchResultNoteId {
 	width: 392px;
 	height: 62px;
@@ -72,6 +86,19 @@ div#view-preview-template {
 	font-size: 14px;
 	float: left;
 	margin-left: 31px;
+}
+
+#calendar-container {
+	top: 147px;
+	position: fixed;
+	right: 100%;
+	margin-left: -250px;
+	background-color: white;
+	width: 280px;
+	height: 420px;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+	border-bottom-left-radius: 8px;
 }
 
 #group-member-container {
@@ -510,6 +537,28 @@ textarea#commentText {
 
 .note-list li:hover {
 	background-color: #fdf5ce;
+}
+
+.note-list li p {
+    position: relative;
+    width: 100%;
+    padding-right: 15%;
+}
+
+.note-list li p i{
+    font-size: 20px;
+}
+
+.fa-plus-square-o {
+    float: right;
+    position: absolute;
+    top:0%;
+    right: 2%;
+    color:#454545;
+}
+
+.noteCard:hover {
+    background-color: white!important;
 }
 
 .note-list img.avatar, #commentListUl img.avatar {

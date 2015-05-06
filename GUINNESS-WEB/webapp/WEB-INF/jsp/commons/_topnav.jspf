@@ -2,12 +2,23 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script src="/js/search.js"></script>
+<script src="/js/guinness.js"></script>
 <c:if test="${empty sessionUserId}">
 	<c:redirect url="/" />
 </c:if>
 <style>
-	.alarm-list li{
+	.drop-down .alarm-list {
+		float:right;
+		right:0px;
+		top:45px;
+		background-image:none;
+	}
+	.drop-down .alarm-list li {
+		width:200px;
 		border-bottom:3px solid #94BDBC;
+	}
+	.drop-down .alarm-list li a {
+		width:auto;
 	}
 </style>
 <div id="header">

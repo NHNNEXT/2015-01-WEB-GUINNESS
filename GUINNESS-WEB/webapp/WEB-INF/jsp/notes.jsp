@@ -12,6 +12,14 @@
 <script src="/js/datepickr.js"></script>
 <script src="/js/guinness.js"></script>
 <script src="/js/markdown.js"></script>
+
+<!-- 노트 캘린더 -->
+<link rel="stylesheet" href="/css/dateRangePickerForBootstrap.css">
+<link rel="stylesheet" href="/css/daterangepicker-bs3.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="/js/moment.js"></script>
+<script src="/js/daterangepicker.js"></script>
+
 </head>
 <body>
 	<%@ include file="./commons/_topnav.jspf"%>
@@ -27,6 +35,15 @@
 				<i class="fa fa-plus-circle"></i>
 			</button>
 		</form>
+
+		<!-- <input type="text" name="rangeCalendar" value="01/01/2015 - 01/31/2015" /> -->
+
+		<!-- <input type="text" name="defaultCalendar" value="10/24/1984" /> -->
+		<div id='calendar-container'>
+			<div id="defaultCalendar" ></div>
+		</div>
+		
+
 		<div id='group-member-container'>
 			<form id="addMemberForm" action="/group/add/member" method="post">
 				<input type="hidden" name="groupId"> <input
@@ -69,6 +86,9 @@
 		readMember(groupId);
 		
 		document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
+		document.title = ${groupName};
+		var groupName = (${groupName}.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
+		document.querySelector('#group-name').innerHTML = groupName;
 		
 		guinness.ajax({
 			method : "get",
@@ -84,5 +104,34 @@
 	}, false);
 	</script>
 	<script src="/js/note.js"></script>
+	<!-- <script type="text/javascript">
+		$(function() {
+		    $('input[name="rangeCalendar"]').daterangepicker();
+		});
+	</script> -->
+	<!-- <script type="text/javascript">
+		$(function() {
+		    $('input[id="defaultCalendar"]').daterangepicker({
+		        singleDatePicker: true,
+		        showDropdowns: true
+		    }, 
+		    function(start, end, label) {
+		        var years = moment().diff(start, 'years');
+		        alert("You are " + years + " years old.");
+		    });
+		});
+	</script> -->
+	<script type="text/javascript">
+		$(function() {
+		   $('div[id="defaultCalendar"]').daterangepicker({
+		        singleDatePicker: true,
+		        showDropdowns: true
+		    }, 
+		    function(start, end, label) {
+		    	console.log(start.toISOString(), end.toISOString(), label);
+		        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+		    });
+		});
+	</script>
 </body>
 </html>
