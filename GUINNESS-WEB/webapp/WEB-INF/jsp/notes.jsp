@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/datepickr.css">
 <script src="/js/datepickr.js"></script>
-<script src="/js/guinness.js"></script>
 <script src="/js/markdown.js"></script>
 </head>
 <body>
