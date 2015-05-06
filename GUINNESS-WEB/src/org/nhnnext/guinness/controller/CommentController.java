@@ -5,9 +5,12 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.nhnnext.guinness.dao.AlarmDao;
 import org.nhnnext.guinness.dao.CommentDao;
 import org.nhnnext.guinness.dao.NoteDao;
+import org.nhnnext.guinness.model.Alarm;
 import org.nhnnext.guinness.model.Comment;
+import org.nhnnext.guinness.util.RandomFactory;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,16 +31,29 @@ public class CommentController {
 	private CommentDao commentDao;
 	@Autowired
 	private NoteDao noteDao;
+	@Autowired
+	private AlarmDao alarmDao;
 
 	@RequestMapping(value = "/create/{commentText}/{commentType}/{noteId}", method = RequestMethod.PUT)
 	protected ModelAndView create(@PathVariable String commentText, @PathVariable String commentType,
-			@PathVariable String noteId, HttpSession session) throws IOException {
+			@PathVariable String noteId, HttpSession session, WebRequest req) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
+		
 		try {
 			if (!commentText.equals("")) {
 				Comment comment = new Comment(commentText, commentType, sessionUserId, noteId);
 				commentDao.createComment(comment);
 				noteDao.increaseCommentCount(noteId);
+				String alarmId = null;
+				Alarm alarm = null;
+				while (true) {
+					alarmId = RandomFactory.getRandomId(10);
+					if (alarmDao.read(alarmId) == null) {
+						alarm = new Alarm(alarmId, noteDao.readNote(noteId).getUserId(), sessionUserId, noteId, "댓글을 남겼습니다.");
+						break;
+					}
+				}
+				alarmDao.create(alarm);
 			}
 			List<Comment> commentList = commentDao.readCommentListByNoteId(noteId);
 			ModelAndView mav = new ModelAndView("jsonView");

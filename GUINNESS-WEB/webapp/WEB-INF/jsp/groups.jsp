@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
 <link rel="stylesheet" href="/css/mainStyle.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
-<script src="/js/guinness.js"></script>
 </head>
 <body>
 	<script>

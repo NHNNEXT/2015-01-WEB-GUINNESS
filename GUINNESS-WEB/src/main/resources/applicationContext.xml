@@ -19,6 +19,8 @@
 		p:dataSource-ref="dataSource" />
 	<bean id="ConfirmDao" class="org.nhnnext.guinness.dao.ConfirmDao"
 		p:dataSource-ref="dataSource" />
+	<bean id="AlarmDao" class="org.nhnnext.guinness.dao.AlarmDao"
+		p:dataSource-ref="dataSource" />
 
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.naver.com" />

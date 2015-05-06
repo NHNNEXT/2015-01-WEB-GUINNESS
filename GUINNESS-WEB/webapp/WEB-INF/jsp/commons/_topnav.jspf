@@ -2,9 +2,25 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script src="/js/search.js"></script>
+<script src="/js/guinness.js"></script>
 <c:if test="${empty sessionUserId}">
 	<c:redirect url="/" />
 </c:if>
+<style>
+	.drop-down .alarm-list {
+		float:right;
+		right:0px;
+		top:45px;
+		background-image:none;
+	}
+	.drop-down .alarm-list li {
+		width:200px;
+		border-bottom:3px solid #94BDBC;
+	}
+	.drop-down .alarm-list li a {
+		width:auto;
+	}
+</style>
 <div id="header">
 	<div class='content wrap'>
 		<div id="leftTopBox">
@@ -27,13 +43,15 @@
 					<li><a href="/user"><span>내 정보</span></a></li>
 					<li><a href="/logout"><span>로그아웃</span></a></li>
 				</ul></li>
-			<li class='menu'>
+			<li class='menu drop-down'>
 				<div class='label' style="position:relative;">
 					<div class='alarm-count' style="display:none;">2</div>
 					<a href="#">
 						<i class='fa fa-bell'></i>
 					</a>
 				</div>
+				<ul class='alarm-list'>
+				</ul>
 			</li>
 		</ul>
 	</div>
@@ -53,4 +71,37 @@
 		<br /><span> on </span>
 		<span class="searchResultGroup"></span>
 	</a>
+</script>
+
+<script>
+(function(){
+	guinness.ajax({
+		method:"get",
+		url:"/alarm",
+		success: function(req) {
+			var alarmList = JSON.parse(req.responseText);
+			if (alarmList.length !== 0) {
+				document.querySelector(".alarm-count").style.display = "block";
+				document.querySelector(".alarm-count").innerHTML = alarmList.length;
+			}
+			var alarmListContainer = document.querySelector(".alarm-list");
+			for (alarm of alarmList) {
+				alarmListContainer.appendChild(
+						guinness.createElement({
+							name: "li",
+							attrs: {
+								id:"alarm-"+alarm.alarmId,
+								onclick: "alarmSelect(this,"+alarm.noteId+")"
+							},
+							content: "<a href='#'>"+alarm.callerId+"님이 "+alarm.alarmText+"</a>"
+						})
+				);
+			}
+		}
+	});
+})();
+
+function alarmSelect(t, noteId){
+ 	window.location.href="/alarm/delete/?alarmId="+t.id.split("alarm-")[1]+"&noteId="+noteId;
+}
 </script>

@@ -46,6 +46,7 @@ public class ControllerExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	public ModelAndView exception(Exception e) {
 		ModelAndView mav = new ModelAndView("/exception");
+		e.printStackTrace();
 		logger.debug("exception: {}", e.getClass().getSimpleName());
 		return mav;
 	}

@@ -70,19 +70,25 @@ public class GroupController {
 		return new JsonResult<User>(true, groupDao.readGroupMember(groupId));
 	}
 
-	@RequestMapping("/read")
+	@RequestMapping("/read/all")
 	protected ModelAndView list(HttpSession session) throws IOException {
 		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
 			return new ModelAndView("redirect:/");
 		}
 
 		String userId = ServletRequestUtil.getUserIdFromSession(session);
+		logger.debug(userId);
 		try {
 			return new ModelAndView("jsonView", "jsonData", groupDao.readGroupList(userId));
 		} catch (Exception e) {
 			logger.error("Exception", e);
 			return new ModelAndView("/exception");
 		}
+	}
+	
+	@RequestMapping("/read/{groupId}")
+	protected ModelAndView groupInfo(@PathVariable String groupId) {
+		return new ModelAndView("jsonView", "jsonData", groupDao.readGroup(groupId));
 	}
 
 	@RequestMapping("/delete")
