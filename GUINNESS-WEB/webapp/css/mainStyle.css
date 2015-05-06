@@ -74,6 +74,19 @@ div#view-preview-template {
 	margin-left: 31px;
 }
 
+#calendar-container {
+	top: 147px;
+	position: fixed;
+	right: 100%;
+	margin-left: -250px;
+	background-color: white;
+	width: 280px;
+	height: 420px;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+	border-bottom-left-radius: 8px;
+}
+
 #group-member-container {
 	top: 147px;
 	position: fixed;
