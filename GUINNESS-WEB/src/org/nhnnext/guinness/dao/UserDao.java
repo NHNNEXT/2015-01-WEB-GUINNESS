@@ -16,6 +16,7 @@ public class UserDao extends JdbcDaoSupport {
 	}
 
 	public User findUserByUserId(String userId) {
+		logger.debug("findUserByUserId// userId: {}", userId);
 		String sql = "select * from USERS where userId=?";
 
 		try {

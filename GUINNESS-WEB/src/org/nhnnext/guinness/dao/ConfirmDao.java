@@ -34,6 +34,7 @@ public class ConfirmDao extends JdbcDaoSupport {
 	}
 	
 	public void deleteConfirmByUserId(String userId) {
+		logger.debug("deleteConfirmByUserId// userId: {}", userId);
 		String sql = "delete from CONFIRMS where userId = ?";
 		getJdbcTemplate().update(sql, userId);
 	}

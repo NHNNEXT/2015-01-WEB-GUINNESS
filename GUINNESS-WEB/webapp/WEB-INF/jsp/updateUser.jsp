@@ -77,14 +77,14 @@
 								<span class="info"><strong>[필수사항]</strong>스터디메이트들과의 소통을 위한 이름을 입력하세요.</span>
 							</p>
 							<p>
-								<label for="userNewPassword">비밀번호 변경</label> 
-								<input name="userNewPassword" type="password" placeholder='' />
+								<label for="userPassword">비밀번호 변경</label> 
+								<form:password path="userPassword" placeholder='' />
 								<span class="info">비밀번호를 변경하시려면 새로운 비밀번호를 입력하세요.</span>
 							</p>
 							<hr />
 							<p>
-								<label for="userPassword">비밀번호</label>
-								<form:password path="userPassword" placeholder='' />
+								<label for="userOldPassword">비밀번호</label>
+								<input name="userOldPassword" type="password" placeholder='' />
 								<span class="info"><strong>[필수사항]</strong>정보변경을 완료하기 위해 비밀번호를 입력해주세요.</span>
 							</p>
 							<c:if test="${not empty signValidErrorMessage}">

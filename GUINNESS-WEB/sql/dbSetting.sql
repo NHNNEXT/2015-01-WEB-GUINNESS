@@ -20,7 +20,7 @@ Create Table USERS(
  userName varchar(50) Not Null,
  userPassword varchar(16) Not Null,
  userStatus char(1) DEFAULT 'R',
- userImage varchar(20) DEFAULT "avatar-default.png",
+ userImage varchar(54) DEFAULT "avatar-default.png",
  createDate DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 

@@ -9,7 +9,7 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		p:driverClassName="${database.driverClassName}" p:url="${database.url}"
 		p:username="${database.username}" p:password="${database.password}" />
-	<bean id="UserDao" class="org.nhnnext.guinness.dao.UserDao"
+	<bean id="userDao" class="org.nhnnext.guinness.dao.UserDao"
 		p:dataSource-ref="dataSource" />
 	<bean id="CommentDao" class="org.nhnnext.guinness.dao.CommentDao"
 		p:dataSource-ref="dataSource" />
@@ -17,12 +17,16 @@
 		p:dataSource-ref="dataSource" />
 	<bean id="NoteDao" class="org.nhnnext.guinness.dao.NoteDao"
 		p:dataSource-ref="dataSource" />
-	<bean id="ConfirmDao" class="org.nhnnext.guinness.dao.ConfirmDao"
+	<bean id="confirmDao" class="org.nhnnext.guinness.dao.ConfirmDao"
 		p:dataSource-ref="dataSource" />
 	<bean id="AlarmDao" class="org.nhnnext.guinness.dao.AlarmDao"
 		p:dataSource-ref="dataSource" />
+	<bean id="userService" class="org.nhnnext.guinness.service.UserService"
+		p:userDao-ref="userDao" 
+		p:confirmDao-ref="confirmDao" 
+		p:javaMailSender-ref="javaMailSender" />
 
-	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.naver.com" />
 		<property name="port" value="587" />
 		<property name="username" value="hakimaru" />
