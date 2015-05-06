@@ -69,13 +69,17 @@
 		readMember(groupId);
 		
 		document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
-
-		document.title = ${groupName};
-		var groupName = (${groupName}.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
-		document.querySelector('#group-name').innerHTML = groupName;
-		appendNoteList(${noteList});
-
 		
+		guinness.ajax({
+			method : "get",
+			url : "/group/read/"+groupId,
+			success : function(req) { 
+				var groupName = JSON.parse(req.responseText).groupName.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+				document.title = groupName;
+				document.querySelector('#group-name').innerHTML = groupName;				
+			}
+		});
+		appendNoteList(${noteList});
 		_setMemberListPosition();
 	}, false);
 	</script>

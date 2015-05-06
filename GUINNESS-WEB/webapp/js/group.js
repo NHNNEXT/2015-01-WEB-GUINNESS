@@ -1,7 +1,7 @@
 window.addEventListener('load', function() {
 	guinness.ajax({
 		method : "get",
-		url : "/group/read",
+		url : "/group/read/all",
 		success : function(req) { appendGroups(JSON.parse(req.responseText)); }
 	});
 	document.querySelector('#create-new').addEventListener('mouseup', createGroup, false);

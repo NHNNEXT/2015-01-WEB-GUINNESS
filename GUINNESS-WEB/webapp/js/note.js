@@ -13,7 +13,7 @@
 		
 		function cancelNoteCreate(e) {
 			if (document.querySelector(".modal-cover #noteText").value != "") {
-				guinness.util.alert("취소","작성중인 노트 기록을 취소하시겠습니까?",function() { document.querySelector('.modal-cover').remove(); }, function() {});
+				guinness.util.alert("취소","작성중인 노트 기록을 취소하시겠습니까?", function() { document.querySelector('.modal-cover').remove(); }, function() {});
 				return;
 			}
 			document.querySelector('.modal-cover').remove();
@@ -29,7 +29,7 @@
 				  if (json.length != 0) {
 					  appendNoteList(json);
 				  }
-				}  
+				}
 		  });
 		}
 
@@ -335,9 +335,10 @@
 			var allchk = document.querySelector(".memberAllClick");
 			
 			for(var i=0; i<objs.length; i++){
-				objs[i].checked=allchk.checked;
+				objs[i].checked = allchk.checked;
 			}
 		}
+		
 		function OnOffMemberAllClickBtn(){
 			var objs = document.querySelectorAll(".memberChk");
 			var allchk = document.querySelector(".memberAllClick");
@@ -361,7 +362,7 @@
 			var groupId = window.location.pathname.split("/")[2];
 			var targetDate = guinness.util.today("-");
 			var objs = document.querySelectorAll(".memberChk");
-			var array=new Array();
+			var array = [];
 
 			for(var i=0; i<objs.length; i++){
 				if(objs[i].checked === true)
