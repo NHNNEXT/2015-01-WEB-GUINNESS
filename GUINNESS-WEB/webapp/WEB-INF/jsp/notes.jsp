@@ -1,13 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="utf-8">
 <title>스터디의 시작, 페이퍼민트</title>
 <%@ include file="./commons/_favicon.jspf"%>
-<link rel="stylesheet"
-	href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
+<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
 <link rel="stylesheet" href="/css/mainStyle.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/datepickr.css">
@@ -15,22 +13,17 @@
 <script src="/js/guinness.js"></script>
 <script src="/js/markdown.js"></script>
 
-<!-- Include Required Prerequisites -->
-<script type="text/javascript"
-	src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
-<script type="text/javascript" src="/js/moment.min.js"></script>
-<!-- <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3.3.2/css/bootstrap.css" /> -->
-
-<!-- Include Date Range Picker -->
-<script type="text/javascript" src="/js/daterangepicker.js"></script>
-<link rel="stylesheet" type="text/css"
-	href="/css/daterangepicker-bs3.css" />
+<!-- 노트 캘린더 -->
+<link rel="stylesheet" href="/css/dateRangePickerForBootstrap.css">
+<link rel="stylesheet" href="/css/daterangepicker-bs3.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="/js/moment.js"></script>
+<script src="/js/daterangepicker.js"></script>
 
 </head>
 <body>
 	<%@ include file="./commons/_topnav.jspf"%>
-	<input type="hidden" id="sessionUserId" name="sessionUserId"
-		value="${sessionUserId}">
+	<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUserId}">
 	<h1 id="empty-message"
 		style="position: absolute; color: #888; top: 300px; width: 100%; text-align: center;">새
 		노트를 작성해주세요</h1>
@@ -93,6 +86,9 @@
 		readMember(groupId);
 		
 		document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
+		document.title = ${groupName};
+		var groupName = (${groupName}.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
+		document.querySelector('#group-name').innerHTML = groupName;
 		
 		guinness.ajax({
 			method : "get",

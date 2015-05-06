@@ -97,6 +97,5 @@
 			</form:form>
 		</div>
 	</div>
-	<script src="/js/guinness.js"></script>
 </body>
 </html>

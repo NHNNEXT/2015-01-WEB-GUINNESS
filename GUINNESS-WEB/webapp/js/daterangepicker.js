@@ -68,8 +68,6 @@
             options = {};
 
         this.parentEl = (typeof options === 'object' && options.parentEl && $(options.parentEl).length) ? $(options.parentEl) : $(this.parentEl);
-        //this.parentEl = document.querySelector("#calendar-container");
-        //this.container = $(DRPTemplate).appendTo(this.parentEl);
         this.container = $(DRPTemplate).appendTo(document.querySelector("#calendar-container"));
 
         this.setOptions(options, cb);
