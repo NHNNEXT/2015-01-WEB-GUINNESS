@@ -61,6 +61,24 @@
 			<div class='comment-util'></div>
 		</div></li>
 	</template>
+	<script>
+	window.addEventListener('load', function() {
+		var groupId = window.location.pathname.split("/")[2];
+		document.querySelector("#addMemberForm input[name='groupId']").value = groupId;
+		document.querySelector("#groupId").value = groupId;
+		readMember(groupId);
+		
+		document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
+
+		document.title = ${groupName};
+		var groupName = (${groupName}.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
+		document.querySelector('#group-name').innerHTML = groupName;
+		appendNoteList(${noteList});
+
+		
+		_setMemberListPosition();
+	}, false);
+	</script>
 	<script src="/js/note.js"></script>
 </body>
 </html>
