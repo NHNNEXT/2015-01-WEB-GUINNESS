@@ -22,7 +22,14 @@
 			<li></li>
 		</ul>
 	</div>
-
+            
+    <script type="template" class="pCommentTemplate">
+        <div class="pCommentBox">
+            <p class="inputP" contenteditable="true">Leave here</p>
+            <p><span>확인</span><span>취소</span></p>
+        </div>
+    </script>
+        
 	<script type="template" class="noteTemplate" >
 			<img class="avatar" >
 			<div class="content-container">
