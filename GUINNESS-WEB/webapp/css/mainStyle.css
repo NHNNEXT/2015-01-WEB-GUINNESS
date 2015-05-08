@@ -89,29 +89,24 @@ div#view-preview-template {
 }
 
 #calendar-container {
-	top: 147px;
-	position: fixed;
-	right: 100%;
-	margin-left: -250px;
+	position:absolute;
 	background-color: white;
-	width: 280px;
+	top:50px;
+	left:0;
 	height: 420px;
-	border-top-left-radius: 8px;
-	border-top-right-radius: 8px;
-	border-bottom-left-radius: 8px;
+	border-radius:8px;
 }
 
 #group-member-container {
-	top: 147px;
-	position: fixed;
-	left: 100%;
-	margin-left: -250px;
-	background-color: white;
 	width: 200px;
 	height: 420px;
-	border-top-left-radius: 8px;
-	border-top-right-radius: 8px;
-	border-bottom-left-radius: 8px;
+	position:absolute;
+	top: 50px;
+	left: 100%;
+	margin-left: -200px;
+	background-color: white;
+	border-radius:8px;
+	font-size:12px;
 }
 
 form#notes-create-form {
@@ -137,17 +132,14 @@ textarea#noteTextBox:focus {
 #group-member-container ul {
 	overflow-x: hidden;
 	overflow-y: scroll;
-	height: 349px;
 	display: block;
 }
 
 #group-member-container li {
 	list-style: none;
 	position: relative;
-	font-size: 16px;
-	width: 194px;
-	border-bottom: 1px solid #E5E5E5;
-	padding: 5px 5px 12px 5px;
+	border-bottom: 1px solid #ccc;
+	padding: 5px;
 }
 
 #addMemberForm .inputText {
@@ -512,11 +504,6 @@ textarea#commentText {
 	color: #454545;
 }
 
-.note-list {
-	display: table;
-	width: 650px;
-}
-
 .note-list a {
 	text-decoration: none;
 	color: #454545;
@@ -524,8 +511,7 @@ textarea#commentText {
 
 .note-list li {
 	position: relative;
-	display: table;
-	width: 610px;
+	width: 480px;
 	margin: 0 auto;
 	padding: 20px;
 	list-style: none;
@@ -675,9 +661,10 @@ textarea#commentText {
 
 #create-new-button {
 	margin: 0 auto;
-	width: 644px;
+	width: 520px;
 	height: 100%;
 	font-size: 70px;
+	margin-top:3px;
 	margin-bottom: 10px;
 	color: #B4B4B4;
 	text-align: center;
