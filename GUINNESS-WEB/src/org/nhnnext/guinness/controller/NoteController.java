@@ -6,19 +6,23 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.nhnnext.guinness.dao.AlarmDao;
 import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.NoteDao;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
+import org.nhnnext.guinness.model.Alarm;
 import org.nhnnext.guinness.model.Note;
+import org.nhnnext.guinness.model.User;
+import org.nhnnext.guinness.util.RandomFactory;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,11 +37,15 @@ import com.google.gson.Gson;
 @Controller
 public class NoteController {
 	private static final Logger logger = LoggerFactory.getLogger(NoteController.class);
-	@Autowired
+	
+	@Resource
 	private GroupDao groupDao;
 
-	@Autowired
+	@Resource
 	private NoteDao noteDao;
+	
+	@Resource
+	private AlarmDao alarmDao;
 
 	public void setGroupDao(GroupDao groupDao) {
 		this.groupDao = groupDao;
@@ -111,7 +119,26 @@ public class NoteController {
 		if (noteText.equals("")) {
 			return "redirect:/notes/editor?groupId=" + groupId;
 		}
-		noteDao.createNote(new Note(noteText, targetDate, sessionUserId, groupId));
+		
+		String noteId = ""+noteDao.createNote(new Note(noteText, targetDate, sessionUserId, groupId));
+		
+		String alarmId = null;
+		Alarm alarm = null;
+		String noteWriter = noteDao.readNote(noteId).getUserId();
+		List<User> groupMembers = groupDao.readGroupMember(groupId);
+		for (User user : groupMembers) {
+			if (user.getUserId().equals(sessionUserId)) {
+				continue;
+			}
+			while (true) {
+				alarmId = RandomFactory.getRandomId(10);
+				if (alarmDao.read(alarmId) == null) {
+					alarm = new Alarm(alarmId, user.getUserId(), noteWriter, noteId, "그룹에 새 글을 작성하였습니다.");
+					break;
+				}
+			}
+			alarmDao.create(alarm);
+		}
 		return "redirect:/g/" + groupId;
 	}
 
