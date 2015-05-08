@@ -360,9 +360,9 @@
 			}
 		}
 		
-		function reloadNoteList(){
+		function reloadNoteList(targetDateOption){
 			var groupId = window.location.pathname.split("/")[2];
-			var targetDate = guinness.util.today("-");
+			var targetDate = targetDateOption;
 			var objs = document.querySelectorAll(".memberChk");
 			var array = [];
 

@@ -10,8 +10,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.nhnnext.guinness.dao.AlarmDao;
 import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.NoteDao;
@@ -63,35 +61,33 @@ public class NoteController {
 			return "illegal";
 		}
 		String groupName = groupDao.readGroup(groupId).getGroupName();
-		List<Note> noteList = getNoteListFromDao(getFormattedCurrentDate(), groupId, null);
+		List<Note> noteList = getNoteListFromDao(null, groupId, null);
 		model.addAttribute("noteList", new Gson().toJson(noteList));
 		model.addAttribute("groupName", new Gson().toJson(groupName));
 		return "notes";
 	}
-	
-	@RequestMapping("/note/list")
+
+	@RequestMapping(value = "/note/list", method = RequestMethod.POST)
 	protected @ResponseBody List<Note> reloadNoteList(WebRequest req) throws IOException {
 		String userIds = req.getParameter("checkedUserId");
 		String groupId = req.getParameter("groupId");
-		List<Note> noteList = getNoteListFromDao(req.getParameter("targetDate"), groupId, userIds);
+		String targetDate = req.getParameter("targetDate");
+		if(targetDate.equals("undefined")){
+			targetDate = null;
+		}
+		List<Note> noteList = getNoteListFromDao(targetDate, groupId, userIds);
 		return noteList;
-	}
-
-	private String getFormattedCurrentDate() {
-		DateTime now = new DateTime();
-		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-
-		DateTime targetDate = new DateTime(formatter.print(now)).plusDays(1).minusSeconds(1);
-		return targetDate.toString();
 	}
 
 	private List<Note> getNoteListFromDao(String date, String groupId, String userIds) {
 		if (userIds == "")
 			return new ArrayList<Note>();
-		
 		DateTime targetDate = new DateTime(date).plusDays(1).minusSeconds(1);
-		DateTime endDate = targetDate.minusYears(10);
-		targetDate = targetDate.plusYears(10);
+		DateTime endDate = targetDate.minusDays(1).plusSeconds(1);
+		if (date == null) {
+			endDate = targetDate.minusYears(10);
+			targetDate = targetDate.plusYears(10);
+		}
 		List<Note> noteList = noteDao.readNoteList(groupId, endDate.toString(), targetDate.toString(), userIds);
 		return noteList;
 	}
@@ -142,7 +138,7 @@ public class NoteController {
 		return "redirect:/g/" + groupId;
 	}
 
-	@RequestMapping(value = "/notes", method=RequestMethod.PUT)
+	@RequestMapping(value = "/notes", method = RequestMethod.PUT)
 	private String update(WebRequest req) {
 		String groupId = req.getParameter("groupId");
 		String noteId = req.getParameter("noteId");
@@ -150,14 +146,14 @@ public class NoteController {
 		noteDao.updateNote(noteText, noteId);
 		return "redirect:/g/" + groupId;
 	}
-	
+
 	@RequestMapping(value = "/notes/{noteId}", method = RequestMethod.DELETE)
 	protected ModelAndView delete(@PathVariable String noteId) {
 		logger.debug(" noteId : " + noteId);
-		if(noteDao.deleteNote(noteId) == 1) {
+		if (noteDao.deleteNote(noteId) == 1) {
 			return new ModelAndView("jsonView", "jsonData", "success");
 		}
-		
+
 		return new ModelAndView("jsonView", "jsonData", "fail");
 	}
 }

@@ -41,13 +41,18 @@ function createGroup() {
 			var param = "groupName="+form.groupName.value+"&isPublic="+form.isPublic.value;
 			guinness.ajax({
 				method : "post",
-				url : "/group/create",
+				url : "/groups",
 				param: param,
 				success : function(req) { 
-					appendGroups(JSON.parse(req.responseText)); 
+					if(JSON.parse(req.responseText).view === undefined) {
+						appendGroups(JSON.parse(req.responseText));
+						document.querySelector('.modal-cover').remove();
+					}
+					else
+						guinness.util.alert("경고!", JSON.parse(req.responseText).view);
 				}
 			});
-			document.querySelector('.modal-cover').remove();
+			
 			return;
 		}
 		guinness.util.alert("경고!","그룹 이름을 입력하세요!");
@@ -95,7 +100,7 @@ function confirmDelete(groupId, groupName) {
 	guinness.util.alert(groupName, message,
 		function() {
 			document.body.style.overflow = "auto";
-			location.href = "/group/delete?groupId=" + groupId;
+			location.href = "/groups/delete/"+groupId;
 		},
 		function() {
 			document.body.style.overflow = "auto";

@@ -50,15 +50,11 @@ public class GroupController {
 		return groupDao.readGroupList(userId);
 	}
 	
-	@RequestMapping(value = "/group/create", method = RequestMethod.POST)
-	protected @ResponseBody List<Group> create(WebRequest req, HttpSession session, Model model) throws IOException {
-		logger.debug("in create");
+	@RequestMapping(value = "/groups", method = RequestMethod.POST)
+	protected @ResponseBody List<Group> create(WebRequest req, HttpSession session, Model model) throws IOException, FailedMakingGroupException {
 		char isPublic = ("public".equals((String)	req.getParameter("isPublic"))) ? 'T' : 'F';
-		logger.debug("isPublic: {}",isPublic);
 		String groupCaptainUserId = ServletRequestUtil.getUserIdFromSession(session);
-		logger.debug("groupCaptainUserId: {}",groupCaptainUserId);
 		String groupName = req.getParameter("groupName");
-		logger.debug("groupName: {}",groupName);
 		Group group = new Group(groupName, groupCaptainUserId, isPublic);
 		while (true) {
 			String groupId = RandomFactory.getRandomId(5);
@@ -72,8 +68,7 @@ public class GroupController {
 		Set<ConstraintViolation<Group>> constraintViolation = validator.validate(group);
 		if (!constraintViolation.isEmpty()) {
 			String errorMessage = constraintViolation.iterator().next().getMessage();
-			model.addAttribute("errorMessage", errorMessage);
-			return null;
+			throw new FailedMakingGroupException(errorMessage);
 		}
 		
 		groupDao.createGroup(group);
@@ -81,6 +76,23 @@ public class GroupController {
 		List<Group> result = new ArrayList<Group>();
 		result.add(group);
 		return result;
+	}
+	
+	@RequestMapping("/groups/delete/{groupId}")
+	protected String delete(@PathVariable String groupId, WebRequest req, HttpSession session, Model model) throws Exception {
+		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
+		logger.debug("groupId: {}", groupId);
+		Group group = groupDao.readGroup(groupId);
+		if(group == null) {
+			// 비정상적인 접근
+			throw new Exception();
+		}
+		if (!group.getGroupCaptainUserId().equals(sessionUserId)) {
+			model.addAttribute("errorMessage", "삭제 권한 없음");
+			return "groups";
+		}
+		groupDao.deleteGroup(group);
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value = "/group/add/member", method = RequestMethod.POST)
@@ -125,31 +137,6 @@ public class GroupController {
 				groupDao.readGroup(groupId));
 	}
 
-	@RequestMapping("/group/delete")
-	protected String delete(WebRequest req, HttpSession session, Model model)
-			throws IOException {
-		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
-			return "redirect:/";
-		}
-
-		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
-		try {
-			Group group = groupDao.readGroup(req.getParameter("groupId"));
-			if (!group.getGroupCaptainUserId().equals(sessionUserId)) {
-				model.addAttribute("errorMessage", "삭제 권한 없음");
-				return "groups";
-			}
-			groupDao.deleteGroup(group);
-			return "redirect:/";
-		} catch (Exception e) {
-			logger.error("Exception", e);
-			return "exception";
-		}
-	}
-
-	
-
-
 	@RequestMapping(value = { "/groups/form", "/groups/createForm" })
 	public String createForm() {
 		return "form";
@@ -158,11 +145,6 @@ public class GroupController {
 	@RequestMapping(value = { "/groups/{groupId}/form" })
 	public String updateForm(@PathVariable Long groupId) {
 		return "form";
-	}
-
-	@RequestMapping(value = "/groups", method = RequestMethod.POST)
-	public String create(Group group) {
-		return "redirect:/groups";
 	}
 
 	@RequestMapping("/groups/{groupId}")
