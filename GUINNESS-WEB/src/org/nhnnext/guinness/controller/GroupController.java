@@ -1,6 +1,7 @@
 package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -50,10 +51,14 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value = "/group/create", method = RequestMethod.POST)
-	protected String create(WebRequest req, HttpSession session, Model model) throws IOException {
-		char isPublic = ("public".equals(req.getParameter("isPublic"))) ? 'T' : 'F';
+	protected @ResponseBody List<Group> create(WebRequest req, HttpSession session, Model model) throws IOException {
+		logger.debug("in create");
+		char isPublic = ("public".equals((String)	req.getParameter("isPublic"))) ? 'T' : 'F';
+		logger.debug("isPublic: {}",isPublic);
 		String groupCaptainUserId = ServletRequestUtil.getUserIdFromSession(session);
+		logger.debug("groupCaptainUserId: {}",groupCaptainUserId);
 		String groupName = req.getParameter("groupName");
+		logger.debug("groupName: {}",groupName);
 		Group group = new Group(groupName, groupCaptainUserId, isPublic);
 		while (true) {
 			String groupId = RandomFactory.getRandomId(5);
@@ -68,13 +73,14 @@ public class GroupController {
 		if (!constraintViolation.isEmpty()) {
 			String errorMessage = constraintViolation.iterator().next().getMessage();
 			model.addAttribute("errorMessage", errorMessage);
-			return "groups";
+			return null;
 		}
 		
 		groupDao.createGroup(group);
 		groupDao.createGroupUser(groupCaptainUserId, group.getGroupId());
-		
-		return "redirect:/";
+		List<Group> result = new ArrayList<Group>();
+		result.add(group);
+		return result;
 	}
 	
 	@RequestMapping(value = "/group/add/member", method = RequestMethod.POST)
