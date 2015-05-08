@@ -44,6 +44,8 @@
 
 		<!-- <input type="text" name="defaultCalendar" value="10/24/1984" /> -->
 		<div id='calendar-container'>
+			<input class="inputBtn"
+				type="submit" value="전체보기" onclick="reloadNoteList()" />
 			<div id="defaultCalendar" ></div>
 		</div>
 		

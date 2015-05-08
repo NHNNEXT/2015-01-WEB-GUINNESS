@@ -72,6 +72,9 @@ public class NoteController {
 		String userIds = req.getParameter("checkedUserId");
 		String groupId = req.getParameter("groupId");
 		String targetDate = req.getParameter("targetDate");
+		if(targetDate.equals("undefined")){
+			targetDate = null;
+		}
 		List<Note> noteList = getNoteListFromDao(targetDate, groupId, userIds);
 		return noteList;
 	}
