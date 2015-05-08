@@ -51,14 +51,10 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value = "/group/create", method = RequestMethod.POST)
-	protected @ResponseBody List<Group> create(WebRequest req, HttpSession session, Model model) throws IOException {
-		logger.debug("in create");
+	protected @ResponseBody List<Group> create(WebRequest req, HttpSession session, Model model) throws IOException, FailedMakingGroupException {
 		char isPublic = ("public".equals((String)	req.getParameter("isPublic"))) ? 'T' : 'F';
-		logger.debug("isPublic: {}",isPublic);
 		String groupCaptainUserId = ServletRequestUtil.getUserIdFromSession(session);
-		logger.debug("groupCaptainUserId: {}",groupCaptainUserId);
 		String groupName = req.getParameter("groupName");
-		logger.debug("groupName: {}",groupName);
 		Group group = new Group(groupName, groupCaptainUserId, isPublic);
 		while (true) {
 			String groupId = RandomFactory.getRandomId(5);
@@ -72,8 +68,7 @@ public class GroupController {
 		Set<ConstraintViolation<Group>> constraintViolation = validator.validate(group);
 		if (!constraintViolation.isEmpty()) {
 			String errorMessage = constraintViolation.iterator().next().getMessage();
-			model.addAttribute("errorMessage", errorMessage);
-			return null;
+			throw new FailedMakingGroupException(errorMessage);
 		}
 		
 		groupDao.createGroup(group);

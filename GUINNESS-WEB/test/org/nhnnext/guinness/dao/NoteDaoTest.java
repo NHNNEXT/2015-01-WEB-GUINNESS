@@ -1,6 +1,8 @@
 package org.nhnnext.guinness.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.Iterator;
 import java.util.List;

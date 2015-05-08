@@ -44,10 +44,15 @@ function createGroup() {
 				url : "/group/create",
 				param: param,
 				success : function(req) { 
-					appendGroups(JSON.parse(req.responseText)); 
+					if(JSON.parse(req.responseText).view === undefined) {
+						appendGroups(JSON.parse(req.responseText));
+						document.querySelector('.modal-cover').remove();
+					}
+					else
+						guinness.util.alert("경고!", JSON.parse(req.responseText).view);
 				}
 			});
-			document.querySelector('.modal-cover').remove();
+			
 			return;
 		}
 		guinness.util.alert("경고!","그룹 이름을 입력하세요!");

@@ -55,6 +55,14 @@ public class ControllerExceptionHandler {
 		logger.debug("UserUpdateException:{}", e.getMessage());
 		return mav;
 	}
+	
+	// 그룹 생성시 그룹명 길 경우 예외처리
+	@ExceptionHandler(FailedMakingGroupException.class)
+	public ModelAndView failedMakingGroupException(FailedMakingGroupException e) {
+		Map<String, String> viewMap = new HashMap<String, String>();
+		viewMap.put("view", e.getMessage());
+		return new ModelAndView("jsonView").addObject("jsonData", viewMap);
+	}
 
 	@ExceptionHandler(Exception.class)
 	public ModelAndView exception(Exception e) {
