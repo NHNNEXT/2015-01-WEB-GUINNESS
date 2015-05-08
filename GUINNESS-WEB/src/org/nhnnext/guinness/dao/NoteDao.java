@@ -1,5 +1,8 @@
 package org.nhnnext.guinness.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,15 +10,31 @@ import org.nhnnext.guinness.model.Note;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 public class NoteDao extends JdbcDaoSupport {
 	private static final Logger logger = LoggerFactory.getLogger(NoteDao.class);
 
-	public void createNote(Note note) {
+	public long createNote(Note note) {
 		String sql = "insert into NOTES (noteText, targetDate, userId, groupId, commentCount) values(?, ?, ?, ?, 0)";
-
-		getJdbcTemplate().update(sql, note.getNoteText(), note.getTargetDate(), note.getUserId(), note.getGroupId());
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		getJdbcTemplate().update(
+		    new PreparedStatementCreator() {
+		        public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+		            PreparedStatement ps =
+		                connection.prepareStatement(sql, new String[] {"noteId"});
+		            ps.setString(1, note.getNoteText());
+		            ps.setString(2, note.getTargetDate());
+		            ps.setString(3, note.getUserId());
+		            ps.setString(4, note.getGroupId());
+		            return ps;
+		        }
+		    },
+		    keyHolder);
+		return keyHolder.getKey().longValue();
 	}
 
 	public List<Note> readNoteList(String groupId, String endDate, String targetDate, String userIds) {

@@ -3,14 +3,14 @@
 		}, false);
 
 		function _setMemberListPosition() {
-			
+			/*
 			var elCreateNoteBtn = document.querySelector('#create-new-button');
 			var rect = elCreateNoteBtn.getBoundingClientRect();
 
 			var elMemberList = document.querySelector('#group-member-container');
 			elMemberList.style.left = rect.right+290+"px";
 			var elCalendarView = document.querySelector('#calendar-container');
-			elCalendarView.style.right = rect.right+10+"px";
+			elCalendarView.style.right = rect.right+10+"px";*/
 		}
 		
 		function cancelNoteCreate(e) {

@@ -36,10 +36,18 @@ function createGroup() {
 	document.querySelector('#create-group-form').addEventListener('submit', function(e){
 		e.preventDefault();
 		var form = document.querySelector('#create-group-form');
-		form.action = "/group/create";
 
 		if(document.querySelector('.modal-cover input[name="groupName"]').value != ""){
-			form.submit();
+			var param = "groupName="+form.groupName.value+"&isPublic="+form.isPublic.value;
+			guinness.ajax({
+				method : "post",
+				url : "/group/create",
+				param: param,
+				success : function(req) { 
+					appendGroups(JSON.parse(req.responseText)); 
+				}
+			});
+			document.querySelector('.modal-cover').remove();
 			return;
 		}
 		guinness.util.alert("경고!","그룹 이름을 입력하세요!");
