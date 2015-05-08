@@ -24,6 +24,9 @@ public class Group {
 	
 	@Autowired
 	private static GroupDao groupDao;
+	
+	public Group() {
+	}
 
 	public Group(String groupId, String groupName, String groupCaptainUserId, char isPublic) {
 		this.groupId = groupId;
@@ -54,6 +57,22 @@ public class Group {
 
 	public char getIsPublic() {
 		return isPublic;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+
+	public void setGroupCaptainUserId(String groupCaptainUserId) {
+		this.groupCaptainUserId = groupCaptainUserId;
+	}
+
+	public void setIsPublic(char isPublic) {
+		this.isPublic = isPublic;
+	}
+
+	public static void setGroupDao(GroupDao groupDao) {
+		Group.groupDao = groupDao;
 	}
 
 	public char isPublic() {
