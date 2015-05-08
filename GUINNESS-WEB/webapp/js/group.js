@@ -41,7 +41,7 @@ function createGroup() {
 			var param = "groupName="+form.groupName.value+"&isPublic="+form.isPublic.value;
 			guinness.ajax({
 				method : "post",
-				url : "/group/create",
+				url : "/groups",
 				param: param,
 				success : function(req) { 
 					if(JSON.parse(req.responseText).view === undefined) {
@@ -100,7 +100,7 @@ function confirmDelete(groupId, groupName) {
 	guinness.util.alert(groupName, message,
 		function() {
 			document.body.style.overflow = "auto";
-			location.href = "/group/delete?groupId=" + groupId;
+			location.href = "/groups/delete/"+groupId;
 		},
 		function() {
 			document.body.style.overflow = "auto";
