@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
 <meta charset="utf-8">
 <title>스터디의 시작, 페이퍼민트</title>
@@ -19,6 +19,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="/js/moment.js"></script>
 <script src="/js/daterangepicker.js"></script>
+
+
+
+
 
 </head>
 <body>
@@ -123,7 +127,7 @@
 	</script> -->
 	<script type="text/javascript">
 		$(function() {
-		   $('div[id="defaultCalendar"]').daterangepicker({
+		    $('div[id="defaultCalendar"]').daterangepicker({
 		        singleDatePicker: true,
 		        showDropdowns: true
 		    }, 
@@ -132,6 +136,11 @@
 		        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
 		    });
 		});
+		
+		document.querySelector('#calendar-container').addEventListener("click", function(e) {
+			var targetDate = $('#defaultCalendar').data('daterangepicker').startDate._d.toISOString().substring(0,10);
+			reloadNoteList(targetDate);
+			}, false);
 	</script>
 </body>
 </html>
