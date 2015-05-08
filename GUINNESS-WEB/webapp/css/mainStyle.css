@@ -99,10 +99,11 @@ div#view-preview-template {
 
 #group-member-container {
 	width: 200px;
-	height: 420px;
+	height: auto;
 	position:absolute;
 	top: 50px;
 	left: 100%;
+	padding-bottom:20px;
 	margin-left: -200px;
 	background-color: white;
 	border-radius:8px;
@@ -113,11 +114,7 @@ form#notes-create-form {
 	text-align: center;
 }
 
-#create-new-button:focus {
-	outline: none;
-}
-
-textarea#noteTextBox:focus {
+#create-new-button:focus, textarea#noteTextBox:focus {
 	outline: none;
 }
 

@@ -8,7 +8,7 @@
 	.table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td,
 	.table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td {
 	box-sizing: border-box;
-	padding: 2px;
+	padding: 0px;
 }
 
 .form-control {
