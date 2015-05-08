@@ -23,6 +23,7 @@
 			<mvc:mapping path="/group/**" />
 			<mvc:mapping path="/groups/**" />
 			<mvc:mapping path="/g/**" />
+			<mvc:mapping path="/api/**" />
 			<bean class="org.nhnnext.guinness.intercepter.SessionCheckInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>

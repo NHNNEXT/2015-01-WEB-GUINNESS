@@ -5,7 +5,6 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.nhnnext.guinness.dao.GroupDao;
-import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class Group {
@@ -33,8 +32,7 @@ public class Group {
 		this.isPublic = isPublic;
 	}
 
-	public Group(String groupName, String groupCaptainUserId, char isPublic) throws MakingObjectListFromJdbcException,
-			ClassNotFoundException {
+	public Group(String groupName, String groupCaptainUserId, char isPublic) {
 		this(null, groupName, groupCaptainUserId, isPublic);
 	}
 

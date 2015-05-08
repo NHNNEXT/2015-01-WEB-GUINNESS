@@ -4,8 +4,8 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	<context:component-scan base-package="org.nhnnext.guinness.service" />
 	<context:property-placeholder location="classpath*:application-properties.xml" />
-
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		p:driverClassName="${database.driverClassName}" p:url="${database.url}"
 		p:username="${database.username}" p:password="${database.password}" />
@@ -21,10 +21,6 @@
 		p:dataSource-ref="dataSource" />
 	<bean id="AlarmDao" class="org.nhnnext.guinness.dao.AlarmDao"
 		p:dataSource-ref="dataSource" />
-	<bean id="userService" class="org.nhnnext.guinness.service.UserService"
-		p:userDao-ref="userDao" 
-		p:confirmDao-ref="confirmDao" 
-		p:javaMailSender-ref="javaMailSender" />
 
 	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.naver.com" />

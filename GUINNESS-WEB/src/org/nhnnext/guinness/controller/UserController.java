@@ -8,8 +8,6 @@ import java.util.Set;
 import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 
-import org.nhnnext.guinness.dao.ConfirmDao;
-import org.nhnnext.guinness.dao.UserDao;
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
 import org.nhnnext.guinness.exception.FailedLoginException;
 import org.nhnnext.guinness.exception.SendMailException;
@@ -35,11 +33,7 @@ public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
-	private UserDao userDao;
-	@Autowired
 	private UserService userService;
-	@Autowired
-	private ConfirmDao confirmDao;
 
 	@RequestMapping("/")
 	protected String init(Model model) {

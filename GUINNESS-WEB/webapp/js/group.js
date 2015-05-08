@@ -1,7 +1,7 @@
 window.addEventListener('load', function() {
 	guinness.ajax({
 		method : "get",
-		url : "/group/read/all",
+		url : "/api/groups",
 		success : function(req) { appendGroups(JSON.parse(req.responseText)); }
 	});
 	document.querySelector('#create-new').addEventListener('mouseup', createGroup, false);
@@ -18,11 +18,13 @@ function createGroup() {
 	document.querySelector('.modal-close-btn').addEventListener('click', function(e){
 		cancelGroupCreate();
 	}, false);
+	
 	document.querySelector('.modal-cover').addEventListener('click', function(e){
 		if (e.target.className==='modal-cover') {
 			cancelGroupCreate();
 		}
 	}, false);
+	
 	document.querySelector('.modal-cover').setAttribute('tabindex',0);
 	document.querySelector('.modal-cover').addEventListener('keydown',function(e){
 		if(e.keyCode === 27){
@@ -35,9 +37,10 @@ function createGroup() {
 		e.preventDefault();
 		var form = document.querySelector('#create-group-form');
 		form.action = "/group/create";
-		//check
+
 		if(document.querySelector('.modal-cover input[name="groupName"]').value != ""){
-			form.submit(); return;
+			form.submit();
+			return;
 		}
 		guinness.util.alert("경고!","그룹 이름을 입력하세요!");
 	}, false);

@@ -21,12 +21,12 @@ public class ControllerExceptionHandler {
 	
 	// 본인 확인을 위한 메일 전송 시 예외처리
 	@ExceptionHandler(SendMailException.class)
-	public ModelAndView sendMailException(SendMailException e) {
+	public String sendMailException(SendMailException e) {
 		e.printStackTrace();
-		return new ModelAndView("/exception");
+		return "/exception";
 	}
 	
-	// 회원가입 시 해당 계정의 가입 기록 확인 
+	// 회원가입시 중복 아이디 예외처리
 	@ExceptionHandler(AlreadyExistedUserIdException.class)
 	public ModelAndView alreadyExistedUserIdException(AlreadyExistedUserIdException e) {
 		e.printStackTrace();
@@ -55,7 +55,6 @@ public class ControllerExceptionHandler {
 		logger.debug("UserUpdateException:{}", e.getMessage());
 		return mav;
 	}
-
 
 	@ExceptionHandler(Exception.class)
 	public ModelAndView exception(Exception e) {
