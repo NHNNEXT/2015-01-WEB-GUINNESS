@@ -133,7 +133,7 @@ public class NoteController {
 			while (true) {
 				alarmId = RandomFactory.getRandomId(10);
 				if (alarmDao.read(alarmId) == null) {
-					alarm = new Alarm(alarmId, user.getUserId(), noteWriter, noteId, "그룹에 새 글을 작성하였습니다.");
+					alarm = new Alarm(alarmId, user.getUserId(), noteWriter, noteId, "그룹에 새 글을 작성하였습니다.", "N");
 					break;
 				}
 			}

@@ -19,7 +19,7 @@ public class CommentDao extends JdbcDaoSupport {
 		
 		return getJdbcTemplate().query(sql, (rs, rowNum) -> new Comment(
 				rs.getString("commentText"), 
-				rs.getString("commentType"), 
+				rs.getString("commentType"),
 				rs.getString("createDate"), 
 				rs.getString("userId"), 
 				rs.getString("noteId"), 
