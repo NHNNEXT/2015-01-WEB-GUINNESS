@@ -10,9 +10,9 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 public class AlarmDao extends JdbcDaoSupport {
 
 	public void create(Alarm alarm) {
-		String sql = "insert into ALARMS (alarmId, calleeId, callerId, noteId, alarmText, createDate) values(?, ?, ?, ?, ?, default)";
+		String sql = "insert into ALARMS (alarmId, calleeId, callerId, noteId, alarmText, alarmStatus, createDate) values(?, ?, ?, ?, ?, ?, default)";
 		getJdbcTemplate().update(sql, alarm.getAlarmId(), alarm.getCalleeId(),
-				alarm.getCallerId(), alarm.getNoteId(), alarm.getAlarmText());
+				alarm.getCallerId(), alarm.getNoteId(), alarm.getAlarmText(), alarm.getAlarmStatus());
 	}
 
 	public Alarm read(String alarmId) {

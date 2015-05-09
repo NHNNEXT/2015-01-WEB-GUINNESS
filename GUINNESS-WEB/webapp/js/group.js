@@ -26,7 +26,7 @@ function loadGroupAlarm() {
                   
 function setGroupAlarm(json) {
     var group = document.body.querySelectorAll('#group-container > a > li > input[type="hidden"]');
-    var js = json.listValues;
+    var js = json.mapValues;
     for (var i in group) {
         for (var j in js) {
             if( group[i].value === js[j].groupId) {
