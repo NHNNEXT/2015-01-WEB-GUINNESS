@@ -68,7 +68,7 @@
 		<span class="searchResultName"></span>
 		<br />
 		<span class="searchResultDate"></span>
-		<br /><span> on </span>
+		<br /><span class="spanOnSearch"> on </span>
 		<span class="searchResultGroup"></span>
 	</a>
 </script>

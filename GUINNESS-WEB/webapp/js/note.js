@@ -181,6 +181,7 @@
 			  url : "/comment?noteId=" + noteId,
 			  success : function(req) {
 			    appendComment(JSON.parse(req.responseText));
+                guinness.util.setModalPosition();
 			  }
 			});
 		}

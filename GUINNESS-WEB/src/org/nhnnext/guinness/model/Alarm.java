@@ -6,73 +6,97 @@ public class Alarm {
 	private String callerId;
 	private String noteId;
 	private String alarmText;
+	private String alarmStatus;
 	private String createDate;
-	
+
 	public Alarm() {
 	}
-	public Alarm(String alarmId, String calleeId, String callerId, String noteId, String alarmText) {
-		this(alarmId, calleeId, callerId, noteId, alarmText, null);
+
+	public Alarm(String alarmId, String calleeId, String callerId, String noteId, String alarmText, String alarmStatus) {
+		this(alarmId, calleeId, callerId, noteId, alarmText, alarmStatus, null);
 	}
-	public Alarm(String alarmId, String calleeId, String callerId, String noteId, String alarmText, String createDate) {
+
+	public Alarm(String alarmId, String calleeId, String callerId, String noteId, String alarmText, String alarmStatus,
+			String createDate) {
 		this.alarmId = alarmId;
 		this.calleeId = calleeId;
 		this.callerId = callerId;
 		this.noteId = noteId;
 		this.alarmText = alarmText;
+		this.alarmStatus = alarmStatus;
 		this.createDate = createDate;
 	}
+
 	public String getAlarmId() {
 		return alarmId;
 	}
+
 	public void setAlarmId(String alarmId) {
 		this.alarmId = alarmId;
 	}
+
 	public String getCalleeId() {
 		return calleeId;
 	}
+
 	public void setCalleeId(String calleeId) {
 		this.calleeId = calleeId;
 	}
+
 	public String getCallerId() {
 		return callerId;
 	}
+
 	public void setCallerId(String callerId) {
 		this.callerId = callerId;
 	}
+
 	public String getNoteId() {
 		return noteId;
 	}
+
 	public void setNoteId(String noteId) {
 		this.noteId = noteId;
 	}
+
 	public String getAlarmText() {
 		return alarmText;
 	}
+
 	public void setAlarmText(String alarmText) {
 		this.alarmText = alarmText;
 	}
+
+	public String getAlarmStatus() {
+		return alarmStatus;
+	}
+
+	public void setAlarmStatus(String alarmStatus) {
+		this.alarmStatus = alarmStatus;
+	}
+
 	public String getCreateDate() {
 		return createDate;
 	}
+
 	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((alarmId == null) ? 0 : alarmId.hashCode());
-		result = prime * result
-				+ ((alarmText == null) ? 0 : alarmText.hashCode());
-		result = prime * result
-				+ ((calleeId == null) ? 0 : calleeId.hashCode());
-		result = prime * result
-				+ ((callerId == null) ? 0 : callerId.hashCode());
-		result = prime * result
-				+ ((createDate == null) ? 0 : createDate.hashCode());
+		result = prime * result + ((alarmStatus == null) ? 0 : alarmStatus.hashCode());
+		result = prime * result + ((alarmText == null) ? 0 : alarmText.hashCode());
+		result = prime * result + ((calleeId == null) ? 0 : calleeId.hashCode());
+		result = prime * result + ((callerId == null) ? 0 : callerId.hashCode());
+		result = prime * result + ((createDate == null) ? 0 : createDate.hashCode());
 		result = prime * result + ((noteId == null) ? 0 : noteId.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -86,6 +110,8 @@ public class Alarm {
 			if (other.alarmId != null)
 				return false;
 		} else if (!alarmId.equals(other.alarmId))
+			return false;
+		if (alarmStatus != other.alarmStatus)
 			return false;
 		if (alarmText == null) {
 			if (other.alarmText != null)
@@ -114,11 +140,11 @@ public class Alarm {
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
-		return "Alarm [alarmId=" + alarmId + ", calleeId=" + calleeId
-				+ ", callerId=" + callerId + ", noteId=" + noteId
-				+ ", alarmText=" + alarmText + ", createDate=" + createDate
-				+ "]";
+		return "Alarm [alarmId=" + alarmId + ", calleeId=" + calleeId + ", callerId=" + callerId + ", noteId=" + noteId
+				+ ", alarmText=" + alarmText + ", alarmStatus=" + alarmStatus + ", createDate=" + createDate + "]";
 	}
+
 }

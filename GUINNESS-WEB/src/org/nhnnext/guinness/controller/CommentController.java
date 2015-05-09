@@ -49,7 +49,7 @@ public class CommentController {
 				while (true) {
 					alarmId = RandomFactory.getRandomId(10);
 					if (alarmDao.read(alarmId) == null) {
-						alarm = new Alarm(alarmId, noteDao.readNote(noteId).getUserId(), sessionUserId, noteId, "댓글을 남겼습니다.");
+						alarm = new Alarm(alarmId, noteDao.readNote(noteId).getUserId(), sessionUserId, noteId, "댓글을 남겼습니다", "C");
 						break;
 					}
 				}

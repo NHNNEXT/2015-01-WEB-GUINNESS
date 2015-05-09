@@ -8,6 +8,32 @@ html, body {
 	background-color: #e9eaed;
 }
 
+.code {
+    color:darkgreen;
+    overflow-x: scroll;
+    white-space:nowrap;
+    background-color: #EDEDED;
+    padding-left: 9px;
+    padding-right: 9px;
+    padding-bottom: 9px;
+}
+
+#group-container > a > li > div.alarm-count {
+    position:absolute;
+    width:20px;
+    height:20px;
+    background-color:#FF7E7E;
+    color:#fff;
+    font-size:9px;
+    font-weight:bold;
+    text-align:center;
+    border-radius:10px;
+    top:119px;
+    left:319px;
+    z-index:9;
+    line-height:20px;
+}
+
 .pCommentBox {
     background-color: white;
     border: 1px solid darkgray;
@@ -29,6 +55,7 @@ html, body {
 	border-radius: 3px;
 	padding: 4px;
 	float: left;
+    background-color: lightsteelblue;
 }
 
 .searchResultNoteId:hover {
@@ -43,8 +70,37 @@ html, body {
 	margin-right: 5px;
 	border-radius: 3px;
 	padding: 4px;
-	background: white;
+	background-color: white;
 	float: left;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: black;
+    font-size: 16px;
+    word-break: break-word;
+}
+
+.searchResultName {
+    font-size:16px;
+    color:black;
+    font-weight: 600;
+}
+
+.searchResultDate {
+    font-size: 13px; 
+    color:darkslategray;
+    font-weight: 200;
+}
+
+.searchResultGroup {
+    font-size: 14px; 
+    color:darkslategray;
+    font-weight: 600;
+}
+
+.spanOnSearch {
+    font-size: 12px; 
+    color:darkslategray;
+    font-weight: 100;
 }
 
 a#escape-note {
@@ -618,14 +674,15 @@ textarea#commentText {
 .modal-container {
 	position: relative;
 	display: table;
-	top: 50%;
 	z-index: 25;
 	margin: 0 auto;
-	margin-top: -250px;
 	background-color: white;
 	border-radius: 10px;
 	overflow: hidden;
+    top:400%;
 }
+
+
 
 .modal-header {
 	width: 100%;

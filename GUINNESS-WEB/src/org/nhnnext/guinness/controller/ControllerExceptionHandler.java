@@ -6,7 +6,6 @@ import org.nhnnext.guinness.exception.FailedLoginException;
 import org.nhnnext.guinness.exception.FailedMakingGroupException;
 import org.nhnnext.guinness.exception.SendMailException;
 import org.nhnnext.guinness.exception.UserUpdateException;
-import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.JsonResult;
 import org.slf4j.Logger;

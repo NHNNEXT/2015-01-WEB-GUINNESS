@@ -96,6 +96,19 @@ markdownToHtml.prototype.newline = function() {
 	return this;
 }
 
+markdownToHtml.prototype.code = function () {
+    var array = this.text.match(/`{3}(.|[\n]|[\s])+`{3}/g);
+    for ( var i in array ) {
+        var htmlText = array[i].replace(/\n/g, '<br/>');
+        htmlText = htmlText.replace(/`{3}$/, '</div></p>');
+        htmlText = htmlText.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+        htmlText = htmlText.replace(/\s/g, '&nbsp;');
+        htmlText = htmlText.replace(/^`{3}/, '<p><div class="code">');
+        this.text =this.text.replace(array[i], htmlText);
+    }
+    return this;
+}
+
 markdownToHtml.prototype.getHtmlText = function() {
-	return this.tag().bold().italic().image().link().header().attention().question().newline().text.replace(/<p><\/p>/,"\n");
+	return this.tag().bold().italic().image().link().header().attention().question().code().newline().text.replace(/<p><\/p>/,"\n");
 }
