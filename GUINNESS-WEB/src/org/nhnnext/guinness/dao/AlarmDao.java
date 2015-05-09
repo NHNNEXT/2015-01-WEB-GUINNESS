@@ -1,6 +1,7 @@
 package org.nhnnext.guinness.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.nhnnext.guinness.model.Alarm;
 import org.slf4j.Logger;
@@ -50,11 +51,14 @@ public class AlarmDao extends JdbcDaoSupport {
 		getJdbcTemplate().update(sql, alarmId);
 	}
 
-	public List<String> readNoteAlarm(String sessionUserId) {
-		String sql = "select groupId from ALARMS as A, NOTES as N where A.alarmStatus = 'N' and A.calleeId ='"
+	public List<Map<String, Object>> readNoteAlarm(String sessionUserId) {
+		String sql = "select groupId, count(*) as groupAlarmCount from ALARMS as A, NOTES as N where A.alarmStatus = 'N' and A.calleeId ='"
 				+ sessionUserId
-				+ "' and N.noteId = A.noteId;";
-		return getJdbcTemplate().queryForList(sql, String.class);
+				+ "' and N.noteId = A.noteId GROUP BY groupId order by groupId;";
+		//return getJdbcTemplate().queryForList(sql, Map<String, int>);
+		return getJdbcTemplate().queryForList(sql);
+		
+		
 	}
 
 }

@@ -2,10 +2,40 @@ window.addEventListener('load', function() {
 	guinness.ajax({
 		method : "get",
 		url : "/api/groups",
-		success : function(req) { appendGroups(JSON.parse(req.responseText)); }
+		success : function(req) {
+            appendGroups(JSON.parse(req.responseText));
+            loadGroupAlarm();
+        }
 	});
 	document.querySelector('#create-new').addEventListener('mouseup', createGroup, false);
 }, false);
+
+function loadGroupAlarm() {
+    guinness.ajax({
+        method:"get",
+        url:"/alarm/counts",
+        success : function(req) {
+            setGroupAlarm(JSON.parse(req.responseText));
+        }
+    })
+}
+                  
+                  
+function setGroupAlarm(json) {
+    var group = document.body.querySelectorAll('#group-container > a > li > input[type="hidden"]');
+    var js = json.listValues;
+    for (var i in group) {
+        for (var j in js) {
+            if( group[i].value === js[j].groupId) {
+                var elCount = document.createElement("div");
+                elCount.className="alarm-count";
+                elCount.style.display="block"
+                elCount.innerText = js[j].groupAlarmCount; 
+                group[i].parentElement.appendChild(elCount);
+            }
+        }
+    }
+}
 
 function createGroup() {
 	var bodyTemplate = document.importNode(document.querySelector("#create-group-template").content, true);
