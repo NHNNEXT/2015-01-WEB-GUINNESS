@@ -11,15 +11,14 @@ html, body {
 .pCommentBox {
     background-color: white;
     border: 1px solid darkgray;
-    width: 100px;
+    width: 145px;
     height: 80px;
     padding: 10px;
     position: fixed;
 }
 
-.pCommentBox .inputP {
-    border-bottom: 1px solid darkgray;
-    border-left: 1px solid darkgray;
+.pCommentBox .pCommentSubmit {
+    float : right;
 }
 
 .searchResultNoteId {

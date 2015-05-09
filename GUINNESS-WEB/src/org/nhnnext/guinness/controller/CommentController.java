@@ -34,14 +34,14 @@ public class CommentController {
 	@Autowired
 	private AlarmDao alarmDao;
 
-	@RequestMapping(value = "/create/{commentText}/{commentType}/{noteId}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/create/{commentText}/{commentType}/{noteId}/{paragraphText}", method = RequestMethod.PUT)
 	protected ModelAndView create(@PathVariable String commentText, @PathVariable String commentType,
-			@PathVariable String noteId, HttpSession session, WebRequest req) throws IOException {
+			@PathVariable String noteId, @PathVariable String paragraphText, HttpSession session, WebRequest req) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		
 		try {
 			if (!commentText.equals("")) {
-				Comment comment = new Comment(commentText, commentType, sessionUserId, noteId);
+				Comment comment = new Comment(commentText, commentType, sessionUserId, noteId, paragraphText);
 				commentDao.createComment(comment);
 				noteDao.increaseCommentCount(noteId);
 				String alarmId = null;

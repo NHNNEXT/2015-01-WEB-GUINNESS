@@ -68,7 +68,7 @@
 	<div class="note-content"></div>
 	<div id="commentListUl"></div>
 	<form id="commentForm" method="post">
-		<textarea id='commentText' name='commentText' rows='5' cols='50'></textarea>
+		<textarea id='commentText' name='commentText' rows='5' cols='60'></textarea>
 		<br>
 		<button id='submitComment' class='btn btn-pm'>확인</button>
 	</form>

@@ -25,8 +25,11 @@
             
     <script type="template" class="pCommentTemplate">
         <div class="pCommentBox">
-            <p class="inputP" contenteditable="true">Leave here</p>
-            <p><span>확인</span><span>취소</span></p>
+            <form id="pCommentForm" method="post">
+				<textarea id='pCommentText' name='pCommentText' rows='4' cols='20'></textarea>
+				<br>
+				<input type='submit' class='pCommentSubmit' value='확인'>
+			</form>
         </div>
     </script>
         
@@ -46,5 +49,8 @@
 				</div>
 			</div>
 	</script>
+	
+	<script src="/js/search.js"></script>
+	
 </body>
 </html>

@@ -9,8 +9,8 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 public class CommentDao extends JdbcDaoSupport {
 	
 	public void createComment(Comment comment) throws ClassNotFoundException {
-		String sql = "insert into COMMENTS (commentText, commentType, userId, noteId) values(?, ?, ?, ?)";
-		getJdbcTemplate().update(sql, comment.getCommentText(), comment.getCommentType(), comment.getUserId(), comment.getNoteId());
+		String sql = "insert into COMMENTS (commentText, commentType, userId, noteId, paragraphText) values(?, ?, ?, ?, ?)";
+		getJdbcTemplate().update(sql, comment.getCommentText(), comment.getCommentType(), comment.getUserId(), comment.getNoteId(), comment.getParagraphText());
 	}
 
 	public List<Comment> readCommentListByNoteId(String noteId) throws MakingObjectListFromJdbcException,
@@ -23,6 +23,7 @@ public class CommentDao extends JdbcDaoSupport {
 				rs.getString("createDate"), 
 				rs.getString("userId"), 
 				rs.getString("noteId"), 
+				rs.getString("paragraphText"),
 				rs.getString("userName"),
 				rs.getString("commentId"),
 				rs.getString("userImage")
@@ -37,7 +38,8 @@ public class CommentDao extends JdbcDaoSupport {
 				rs.getString("commentType"), 
 				rs.getString("createDate"), 
 				rs.getString("userId"), 
-				rs.getString("noteId"), 
+				rs.getString("noteId"),
+				rs.getString("paragraphText"),
 				rs.getString("userName"),
 				rs.getString("commentId")
 				), commentId);

@@ -17,6 +17,7 @@ import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Alarm;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.User;
+import org.nhnnext.guinness.util.AutoMatchParagraphComments;
 import org.nhnnext.guinness.util.RandomFactory;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
@@ -143,9 +144,11 @@ public class NoteController {
 		String groupId = req.getParameter("groupId");
 		String noteId = req.getParameter("noteId");
 		String noteText = req.getParameter("noteText");
+		AutoMatchParagraphComments.updateParagraphText(noteText, noteId);
 		noteDao.updateNote(noteText, noteId);
 		return "redirect:/g/" + groupId;
 	}
+
 
 	@RequestMapping(value = "/notes/{noteId}", method = RequestMethod.DELETE)
 	protected ModelAndView delete(@PathVariable String noteId) {

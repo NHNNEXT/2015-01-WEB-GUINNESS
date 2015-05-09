@@ -6,38 +6,43 @@ public class Comment {
 	private String createDate;
 	private String userId;
 	private String noteId;
+	private String paragraphText;
+
 	private String userName;
 	private String commentId;
 	private String userImage;
+	
 
-	public Comment(String commentText, String commentType, String createDate, String userId, String noteId,
+	public Comment(String commentText, String commentType, String createDate, String userId, String noteId, String paragraphText,
 			String userName, String commentId, String userImage) {
 		this.commentText = commentText;
 		this.commentType = commentType;
 		this.createDate = createDate;
 		this.userId = userId;
 		this.noteId = noteId;
+		this.paragraphText = paragraphText;
 		this.userName = userName;
 		this.commentId = commentId;
 		this.userImage = userImage;
 	}
 
-	public Comment(String commentText, String commentType, String createDate, String userId, String noteId,
+	public Comment(String commentText, String commentType, String createDate, String userId, String noteId, String paragraphText,
 			String userName, String commentId) {
-		this(commentText, commentType, createDate, userId, noteId, userName, commentId, null);
+		this(commentText, commentType, createDate, userId, noteId, paragraphText, userName, commentId, null);
 	}
 
 	public Comment(String commentText, String commentType, String createDate, String userId, String noteId, String userName) {
-		this(commentText, commentType, createDate, userId, noteId, userName, null);
+		this(commentText, commentType, createDate, userId, noteId, null, userName, null);
 	}
 
+	public Comment(String commentText, String commentType, String userId, String noteId, String paragraphText) {
+		this(commentText, commentType, null, userId, noteId, paragraphText);
+	}
+	
 	public Comment(String commentText, String commentType, String userId, String noteId) {
-		this(commentText, commentType, null, userId, noteId, null);
+		this(commentText, commentType, null, userId, noteId);
 	}
-
-	public String getUserImage() {
-		return userImage;
-	}
+	
 
 	public String getCommentText() {
 		return commentText;
@@ -45,6 +50,10 @@ public class Comment {
 
 	public String getCommentType() {
 		return commentType;
+	}
+
+	public String getCreateDate() {
+		return createDate;
 	}
 
 	public String getUserId() {
@@ -55,8 +64,8 @@ public class Comment {
 		return noteId;
 	}
 
-	public String getCreateDate() {
-		return createDate;
+	public String getParagraphText() {
+		return paragraphText;
 	}
 
 	public String getUserName() {
@@ -66,8 +75,15 @@ public class Comment {
 	public String getCommentId() {
 		return commentId;
 	}
-	
 
+	public String getUserImage() {
+		return userImage;
+	}
+
+	public void setParagraphText(String paragraphText) {
+		this.paragraphText = paragraphText;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -77,6 +93,7 @@ public class Comment {
 		result = prime * result + ((commentType == null) ? 0 : commentType.hashCode());
 		result = prime * result + ((createDate == null) ? 0 : createDate.hashCode());
 		result = prime * result + ((noteId == null) ? 0 : noteId.hashCode());
+		result = prime * result + ((paragraphText == null) ? 0 : paragraphText.hashCode());
 		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		result = prime * result + ((userImage == null) ? 0 : userImage.hashCode());
 		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
@@ -117,6 +134,11 @@ public class Comment {
 				return false;
 		} else if (!noteId.equals(other.noteId))
 			return false;
+		if (paragraphText == null) {
+			if (other.paragraphText != null)
+				return false;
+		} else if (!paragraphText.equals(other.paragraphText))
+			return false;
 		if (userId == null) {
 			if (other.userId != null)
 				return false;
@@ -138,10 +160,7 @@ public class Comment {
 	@Override
 	public String toString() {
 		return "Comment [commentText=" + commentText + ", commentType=" + commentType + ", createDate=" + createDate
-				+ ", userId=" + userId + ", noteId=" + noteId + ", userName=" + userName + ", commentId=" + commentId
-				+ ", userImage=" + userImage + "]";
+				+ ", userId=" + userId + ", noteId=" + noteId + ", paragraphText=" + paragraphText + ", userName="
+				+ userName + ", commentId=" + commentId + ", userImage=" + userImage + "]";
 	}
-	
-	
-
 }
