@@ -45,8 +45,10 @@ function loginCheck() {
   		url: "/login",
   		param: param,
   		success: function(req) {
-  				   if (JSON.parse(req.responseText).view === "loginFailed") { document.querySelector("#login-error-message").innerHTML = "로그인 실패!"; }
+  				   if (JSON.parse(req.responseText) === false) { 
+  					   document.querySelector("#login-error-message").innerHTML = "로그인 실패!"; 
+  				   }
   				   else { window.location.href = "/groups"}
-  				 }
+  		}
   	});
 }

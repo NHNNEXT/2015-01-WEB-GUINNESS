@@ -1,8 +1,6 @@
 package org.nhnnext.guinness.controller;
 
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
@@ -24,9 +22,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class UserController {
@@ -57,20 +55,16 @@ public class UserController {
 		saveUserInfoInSession(session, user);
 		return "redirect:/";
 	}
-
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	protected ModelAndView login(WebRequest req, HttpSession session) throws FailedLoginException {
+	protected @ResponseBody boolean login(WebRequest req, HttpSession session) throws FailedLoginException {
 		String userId = req.getParameter("userId");
 		String userPassword = req.getParameter("userPassword");
 		User user = userService.login(userId, userPassword);
-
 		saveUserInfoInSession(session, user);
-
-		Map<String, String> viewMap = new HashMap<String, String>();
-		viewMap.put("view", "groups");
-		return new ModelAndView("jsonView").addObject("jsonData", viewMap);
+		return true;
 	}
-
+	
 	@RequestMapping("/logout")
 	protected String logout(HttpSession session) {
 		session.invalidate();

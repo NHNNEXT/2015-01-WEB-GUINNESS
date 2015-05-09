@@ -9,8 +9,7 @@ public class CharacterSetInterceptor extends HandlerInterceptorAdapter {
 	private final String DEFAULT_ENCODING = "UTF-8";
 
 	@Override
-	public boolean preHandle(HttpServletRequest request,
-			HttpServletResponse response, Object handler) throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		request.setCharacterEncoding(DEFAULT_ENCODING);
 		response.setCharacterEncoding(DEFAULT_ENCODING);
 		return true;

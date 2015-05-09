@@ -291,15 +291,15 @@
 			var groupId = document.querySelector('#addMemberForm input[name="groupId"]').value;
 			guinness.ajax({
 				method:"post",
-				url:"/group/add/member",
+				url:"/groups/members",
 				param:"userId="+userId+"&groupId="+groupId,
 				success:
 				  function(req) {
-					var json = JSON.parse(req.responseText)
+					var json = req.responseText
 					if(json === "unknownUser") guinness.util.alert("멤버추가 실패","사용자를 찾을 수 없습니다!");
 					else if(json === "joinedUser") guinness.util.alert("멤버추가 실패","사용자가 이미 가입되어있습니다!");
 					else {
-						appendMember(json);
+						appendMember(JSON.parse(json));
 					}
 					document.querySelector('.inputText').value = "";
 			      }	
@@ -309,7 +309,7 @@
 		function readMember(groupId) {
 			guinness.ajax({ 
 				method:"get", 
-				url:"/group/read/member/"+groupId, 
+				url:"/groups/members/"+groupId, 
 				success: 
 				  function(req) {
 					if(JSON.parse(req.responseText).success){

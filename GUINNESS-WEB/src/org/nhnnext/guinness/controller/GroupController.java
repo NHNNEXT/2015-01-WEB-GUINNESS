@@ -1,7 +1,6 @@
 package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -11,7 +10,8 @@ import javax.validation.Validator;
 
 import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.UserDao;
-import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
+import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
+import org.nhnnext.guinness.exception.FailedMakingGroupException;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.JsonResult;
@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class GroupController {
@@ -38,7 +37,7 @@ public class GroupController {
 	private GroupDao groupDao;
 	@Autowired
 	private UserDao userDao;
-	
+
 	@RequestMapping("/groups")
 	public String list() throws IOException {
 		return "groups";
@@ -49,10 +48,10 @@ public class GroupController {
 		String userId = ServletRequestUtil.getUserIdFromSession(session);
 		return groupDao.readGroupList(userId);
 	}
-	
+
 	@RequestMapping(value = "/groups", method = RequestMethod.POST)
-	protected @ResponseBody List<Group> create(WebRequest req, HttpSession session, Model model) throws IOException, FailedMakingGroupException {
-		char isPublic = ("public".equals((String)	req.getParameter("isPublic"))) ? 'T' : 'F';
+	protected @ResponseBody JsonResult<Group> create(WebRequest req, HttpSession session, Model model) throws IOException, FailedMakingGroupException {
+		char isPublic = ("public".equals((String) req.getParameter("isPublic"))) ? 'T' : 'F';
 		String groupCaptainUserId = ServletRequestUtil.getUserIdFromSession(session);
 		String groupName = req.getParameter("groupName");
 		Group group = new Group(groupName, groupCaptainUserId, isPublic);
@@ -70,20 +69,19 @@ public class GroupController {
 			String errorMessage = constraintViolation.iterator().next().getMessage();
 			throw new FailedMakingGroupException(errorMessage);
 		}
-		
+
 		groupDao.createGroup(group);
 		groupDao.createGroupUser(groupCaptainUserId, group.getGroupId());
-		List<Group> result = new ArrayList<Group>();
-		result.add(group);
-		return result;
+		return new JsonResult<Group>().setSuccess(true).setObject(group);
 	}
-	
+
 	@RequestMapping("/groups/delete/{groupId}")
-	protected String delete(@PathVariable String groupId, WebRequest req, HttpSession session, Model model) throws Exception {
+	protected String delete(@PathVariable String groupId, WebRequest req,
+			HttpSession session, Model model) throws Exception {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		logger.debug("groupId: {}", groupId);
 		Group group = groupDao.readGroup(groupId);
-		if(group == null) {
+		if (group == null) {
 			// 비정상적인 접근
 			throw new Exception();
 		}
@@ -92,63 +90,26 @@ public class GroupController {
 			return "groups";
 		}
 		groupDao.deleteGroup(group);
+		// TODO 리턴으로 그룹정보를 넘겨서 해당 그룹 카드만 삭제하도록 AJAX 통신을 이용하게 변경예정
 		return "redirect:/";
 	}
 	
-	@RequestMapping(value = "/group/add/member", method = RequestMethod.POST)
-	protected ModelAndView addGroupMember(WebRequest req, HttpSession session)
-			throws IOException {
-		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
-			return new ModelAndView("redirect:/");
-		}
-
+	@RequestMapping(value = "/groups/members", method = RequestMethod.POST)
+	protected @ResponseBody List<User> addGroupMember(WebRequest req) throws FailedAddGroupMemberException {
 		String userId = req.getParameter("userId");
 		String groupId = req.getParameter("groupId");
-		try {
-			if (userDao.findUserByUserId(userId) == null) {
-				return new ModelAndView("jsonView", "jsonData", "unknownUser");
-			}
-			if (groupDao.checkJoinedGroup(userId, groupId)) {
-				return new ModelAndView("jsonView", "jsonData", "joinedUser");
-			}
-			groupDao.createGroupUser(userId, groupId);
-			return new ModelAndView("jsonView", "jsonData",
-					groupDao.readGroupMember(groupId));
-		} catch (MakingObjectListFromJdbcException e) {
-			logger.error("Exception", e);
-			return new ModelAndView("exception");
-		}
+		
+		if (userDao.findUserByUserId(userId) == null) 
+			throw new FailedAddGroupMemberException("unknownUser");
+		if (groupDao.checkJoinedGroup(userId, groupId)) 
+			throw new FailedAddGroupMemberException("joinedUser");
+		
+		groupDao.createGroupUser(userId, groupId);
+		return groupDao.readGroupMember(groupId);
 	}
 
-	@RequestMapping("/group/read/member/{groupId}")
-	protected @ResponseBody JsonResult<User> memberList(
-			@PathVariable String groupId, HttpSession session)
-			throws IOException {
-		if (!ServletRequestUtil.existedUserIdFromSession(session)) {
-			return new JsonResult<User>(false, "/");
-		}
-		return new JsonResult<User>(true, groupDao.readGroupMember(groupId));
-	}
-
-
-	@RequestMapping("/group/read/{groupId}")
-	protected ModelAndView groupInfo(@PathVariable String groupId) {
-		return new ModelAndView("jsonView", "jsonData",
-				groupDao.readGroup(groupId));
-	}
-
-	@RequestMapping(value = { "/groups/form", "/groups/createForm" })
-	public String createForm() {
-		return "form";
-	}
-
-	@RequestMapping(value = { "/groups/{groupId}/form" })
-	public String updateForm(@PathVariable Long groupId) {
-		return "form";
-	}
-
-	@RequestMapping("/groups/{groupId}")
-	public String show(@PathVariable Long groupId) {
-		return "show";
+	@RequestMapping("/groups/members/{groupId}")
+	protected @ResponseBody JsonResult<User> memberList(@PathVariable String groupId) {
+		return new JsonResult<User>().setSuccess(true).setListValues(groupDao.readGroupMember(groupId));
 	}
 }

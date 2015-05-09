@@ -36,7 +36,7 @@
 					<input id='login-userId' class='text' type="text" name="userId" placeholder="이메일" required>
 					<span id="login-error-message" class="errorMessage"></span>
 						<input id='login-userPassword' class='text' type="password" name="userPassword" placeholder="비밀번호" required><br/>
-					<button onclick="loginCheck()" class='btn btn-pm'>로그인</button>
+					<button class='btn btn-pm'>로그인</button>
 				</form>
 				<div id='login-util'>
 					<div id="switchForm">

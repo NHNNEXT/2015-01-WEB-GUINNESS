@@ -35,7 +35,7 @@ public class SearchController {
 	private @ResponseBody JsonResult<Note> getSearchResult(WebRequest req, HttpSession session) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		String [] words = req.getParameter("words").split(" ");
-		return new JsonResult<Note>(true, noteDao.searchQuery(sessionUserId, words));
+		return new JsonResult<Note>().setSuccess(true).setListValues(noteDao.searchQuery(sessionUserId, words));
 	}
 	
 	@RequestMapping(value="/n/{noteId}")
