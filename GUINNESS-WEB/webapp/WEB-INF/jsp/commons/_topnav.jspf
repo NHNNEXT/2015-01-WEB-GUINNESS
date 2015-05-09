@@ -93,7 +93,7 @@
 								id:"alarm-"+alarm.alarmId,
 								onclick: "alarmSelect(this,"+alarm.noteId+")"
 							},
-							content: "<a href='#'>"+alarm.callerId+"님이 "+alarm.alarmText+"</a>"
+							content: "<a href='#'>"+alarm.userName+"님이 "+alarm.groupName+alarm.alarmText+"</a>"
 						})
 				);
 			}
