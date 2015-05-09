@@ -658,14 +658,15 @@ textarea#commentText {
 .modal-container {
 	position: relative;
 	display: table;
-	top: 50%;
 	z-index: 25;
 	margin: 0 auto;
-	margin-top: -250px;
 	background-color: white;
 	border-radius: 10px;
 	overflow: hidden;
+    top:40%;
 }
+
+
 
 .modal-header {
 	width: 100%;

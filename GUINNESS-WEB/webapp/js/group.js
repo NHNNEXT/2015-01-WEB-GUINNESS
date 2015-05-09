@@ -14,6 +14,8 @@ function createGroup() {
 		body: bodyTemplate,
 		defaultCloseEvent: false
 	});
+    
+    guinness.util.setModalPosition();
 
 	document.querySelector('.modal-close-btn').addEventListener('click', function(e){
 		cancelGroupCreate();
