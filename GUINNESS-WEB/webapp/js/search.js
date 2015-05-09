@@ -83,11 +83,7 @@ function searchResult(json){
     elDiv.id = "searchResultNoteId" + jsonList.noteId;
     document.querySelector("#searchResultNoteId" + jsonList.noteId).href="/search/n/"+jsonList.noteId;
     var elsearchResultText = document.querySelector("#searchResultNoteId" + jsonList.noteId+" > .searchResultText");
-    if (jsonList.noteText.length > 20) {
-      elsearchResultText.innerHTML = jsonList.noteText.slice(0,20)+"...";
-    } else {
-      elsearchResultText.innerHTML = jsonList.noteText;
-    }
+    elsearchResultText.innerHTML = jsonList.noteText;
     var elsearchResultName = document.querySelector("#searchResultNoteId" + jsonList.noteId+" > .searchResultName");
     elsearchResultName.innerHTML = jsonList.userName;
     var elsearchResultDate = document.querySelector("#searchResultNoteId" + jsonList.noteId+" > .searchResultDate");

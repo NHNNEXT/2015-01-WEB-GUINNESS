@@ -8,6 +8,16 @@ html, body {
 	background-color: #e9eaed;
 }
 
+.code {
+    color:darkgreen;
+    overflow-x: scroll;
+    white-space:nowrap;
+    background-color: #EDEDED;
+    padding-left: 9px;
+    padding-right: 9px;
+    padding-bottom: 9px;
+}
+
 .pCommentBox {
     background-color: white;
     border: 1px solid darkgray;
@@ -29,6 +39,7 @@ html, body {
 	border-radius: 3px;
 	padding: 4px;
 	float: left;
+    background-color: lightsteelblue;
 }
 
 .searchResultNoteId:hover {
@@ -43,8 +54,37 @@ html, body {
 	margin-right: 5px;
 	border-radius: 3px;
 	padding: 4px;
-	background: white;
+	background-color: white;
 	float: left;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: black;
+    font-size: 16px;
+    word-break: break-word;
+}
+
+.searchResultName {
+    font-size:16px;
+    color:black;
+    font-weight: 600;
+}
+
+.searchResultDate {
+    font-size: 13px; 
+    color:darkslategray;
+    font-weight: 200;
+}
+
+.searchResultGroup {
+    font-size: 14px; 
+    color:darkslategray;
+    font-weight: 600;
+}
+
+.spanOnSearch {
+    font-size: 12px; 
+    color:darkslategray;
+    font-weight: 100;
 }
 
 a#escape-note {
