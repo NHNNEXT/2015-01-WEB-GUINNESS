@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.nhnnext.guinness.model.Note;
 import org.slf4j.Logger;
@@ -98,7 +99,7 @@ public class NoteDao extends JdbcDaoSupport {
 		getJdbcTemplate().update(sql, text, noteId);
 	}
 
-	public List<Note> searchQuery(String userId, String... words) {
+	public List<Map<String, Object>> searchQueryForMap(String userId, String... words) {
 		String query = "";
 		for (String word : words) {
 			query+=" OR N.noteText like \"%"+word+"%\"";
@@ -108,13 +109,9 @@ public class NoteDao extends JdbcDaoSupport {
 				+ " and N.groupId in (select groupId from GROUPS_USERS where userId = ?) AND N.userId = GU.userId order by N.targetDate desc";
 		logger.debug("sql={}", sql);
 		try {
-			return (ArrayList<Note>) getJdbcTemplate().query(
-					sql,
-					(rs, rowNum) -> new Note(rs.getString("noteId"), rs.getString("noteText"), rs
-							.getString("targetDate"), rs.getString("userId"), rs.getString("groupId"), rs
-							.getString("userName"), rs.getString("groupName"), rs.getInt("commentCount")), userId);
+			return getJdbcTemplate().queryForList(sql, userId);
 		} catch (EmptyResultDataAccessException e) {
-			return new ArrayList<Note>();
+			return new ArrayList<Map<String, Object>>();
 		}
 	}
 }

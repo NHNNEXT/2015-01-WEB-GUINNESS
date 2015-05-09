@@ -7,7 +7,6 @@ import javax.servlet.http.HttpSession;
 
 import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.NoteDao;
-import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.util.JsonResult;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
@@ -27,15 +26,14 @@ public class SearchController {
 	
 	@Resource
 	private GroupDao groupDao;
-
 	@Resource
 	private NoteDao noteDao;
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
-	private @ResponseBody JsonResult<Note> getSearchResult(WebRequest req, HttpSession session) throws IOException {
+	private @ResponseBody JsonResult getSearchResult(WebRequest req, HttpSession session) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		String [] words = req.getParameter("words").split(" ");
-		return new JsonResult<Note>().setSuccess(true).setListValues(noteDao.searchQuery(sessionUserId, words));
+		return new JsonResult().setSuccess(true).setMapValues(noteDao.searchQueryForMap(sessionUserId, words));
 	}
 	
 	@RequestMapping(value="/n/{noteId}")

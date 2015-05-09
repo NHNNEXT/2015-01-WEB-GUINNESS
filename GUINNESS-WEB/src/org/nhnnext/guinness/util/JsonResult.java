@@ -1,39 +1,40 @@
 package org.nhnnext.guinness.util;
 
 import java.util.List;
+import java.util.Map;
 
-public class JsonResult<T> {
+public class JsonResult {
 	private boolean success;
 	private String message;
 	private String locationWhenFail;
-	private T object;
-	private List<T> listValues;
+	private Object object;
+	private List<Map<String, Object>> mapValues;
 	
 	public JsonResult() {
 	}
 	
-	public JsonResult<T> setSuccess(boolean success) {
+	public JsonResult setSuccess(boolean success) {
 		this.success = success;
 		return this;
 	}
 	
-	public JsonResult<T> setMessage(String message) {
+	public JsonResult setMessage(String message) {
 		this.message = message;
 		return this;
 	}
 	
-	public JsonResult<T> setLocationWhenFail(String locationWhenFail) {
+	public JsonResult setLocationWhenFail(String locationWhenFail) {
 		this.locationWhenFail = locationWhenFail;
 		return this;
 	}
 	
-	public JsonResult<T> setListValues(List<T> listValues) {
-		this.listValues = listValues;
+	public JsonResult setObject(Object object) {
+		this.object = object;
 		return this;
 	}
 	
-	public JsonResult<T> setObject(T object) {
-		this.object = object;
+	public JsonResult setMapValues(List<Map<String, Object>> list) {
+		this.mapValues = list;
 		return this;
 	}
 	
@@ -49,22 +50,20 @@ public class JsonResult<T> {
 		return locationWhenFail;
 	}
 
-	public T getObject() {
+	public Object getObject() {
 		return object;
 	}
-
-	public List<T> getListValues() {
-		return listValues;
+	
+	public List<Map<String, Object>> getMapValues() {
+		return mapValues;
 	}
-
-	public void addValue(T value) {
-		listValues.add(value);
-	}
-
+	
+	
 	@Override
 	public String toString() {
-		return "ResponseResult [success=" + success + ", message=" + message
+		return "JsonResult [success=" + success + ", message=" + message
 				+ ", locationWhenFail=" + locationWhenFail + ", object="
-				+ object + ", listValues=" + listValues + "]";
+				+ object + ", mapValues=" + mapValues + "]";
 	}
+	
 }

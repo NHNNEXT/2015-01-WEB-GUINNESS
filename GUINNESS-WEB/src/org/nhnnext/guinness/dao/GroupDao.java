@@ -1,6 +1,7 @@
 package org.nhnnext.guinness.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.User;
@@ -39,15 +40,10 @@ public class GroupDao extends JdbcDaoSupport {
 			return null;
 		}
 	}
-
-	public List<Group> readGroupList(String userId) {
+	
+	public List<Map<String, Object>> readGroupListForMap(String userId) {
 		String sql = "select * from GROUPS as G, (select groupId from GROUPS_USERS as A, USERS as B where A.userId = B.userId and B.userId = ?) as C where G.groupId = C.groupId ORDER BY groupName;";
-		
-		return getJdbcTemplate().query(sql, (rs, rowNum) -> new Group(rs.getString("groupId"),
-				rs.getString("groupName"),
-				rs.getString("groupCaptainUserId"), 
-				rs.getString("isPublic").charAt(0)
-				), userId);
+		return getJdbcTemplate().queryForList(sql, userId);
 	}
 
 	public boolean checkJoinedGroup(String userId, String groupId) {
@@ -55,6 +51,11 @@ public class GroupDao extends JdbcDaoSupport {
 		if ( getJdbcTemplate().queryForObject(sql, Integer.class, new Object[] { userId, groupId }) > 0)
 			return true;
 		return false;
+	}
+	
+	public List<Map<String, Object>> readGroupMemberForMap(String groupId) {
+		String sql = "select * from USERS,GROUPS_USERS where GROUPS_USERS.groupId = ? and GROUPS_USERS.userId = USERS.userId ORDER BY userName;";
+		return getJdbcTemplate().queryForList(sql, groupId);
 	}
 
 	public List<User> readGroupMember(String groupId) {

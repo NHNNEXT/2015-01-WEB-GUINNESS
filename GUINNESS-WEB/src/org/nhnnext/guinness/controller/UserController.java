@@ -3,6 +3,7 @@ package org.nhnnext.guinness.controller;
 import java.util.Iterator;
 import java.util.Set;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 
@@ -15,7 +16,6 @@ import org.nhnnext.guinness.service.UserService;
 import org.nhnnext.guinness.util.MyValidatorFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-	@Autowired
+	@Resource
 	private UserService userService;
 
 	@RequestMapping("/")

@@ -1,7 +1,6 @@
 package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
@@ -13,7 +12,6 @@ import org.nhnnext.guinness.dao.UserDao;
 import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
 import org.nhnnext.guinness.exception.FailedMakingGroupException;
 import org.nhnnext.guinness.model.Group;
-import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.JsonResult;
 import org.nhnnext.guinness.util.MyValidatorFactory;
 import org.nhnnext.guinness.util.RandomFactory;
@@ -44,13 +42,13 @@ public class GroupController {
 	}
 
 	@RequestMapping("/api/groups")
-	protected @ResponseBody List<Group> list(HttpSession session) throws IOException {
+	protected @ResponseBody JsonResult list(HttpSession session) throws IOException {
 		String userId = ServletRequestUtil.getUserIdFromSession(session);
-		return groupDao.readGroupList(userId);
+		return new JsonResult().setSuccess(true).setMapValues(groupDao.readGroupListForMap(userId));
 	}
 
 	@RequestMapping(value = "/groups", method = RequestMethod.POST)
-	protected @ResponseBody JsonResult<Group> create(WebRequest req, HttpSession session, Model model) throws IOException, FailedMakingGroupException {
+	protected @ResponseBody JsonResult create(WebRequest req, HttpSession session, Model model) throws IOException, FailedMakingGroupException {
 		char isPublic = ("public".equals((String) req.getParameter("isPublic"))) ? 'T' : 'F';
 		String groupCaptainUserId = ServletRequestUtil.getUserIdFromSession(session);
 		String groupName = req.getParameter("groupName");
@@ -72,7 +70,7 @@ public class GroupController {
 
 		groupDao.createGroup(group);
 		groupDao.createGroupUser(groupCaptainUserId, group.getGroupId());
-		return new JsonResult<Group>().setSuccess(true).setObject(group);
+		return new JsonResult().setSuccess(true).setObject(group);
 	}
 
 	@RequestMapping("/groups/delete/{groupId}")
@@ -95,21 +93,21 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value = "/groups/members", method = RequestMethod.POST)
-	protected @ResponseBody List<User> addGroupMember(WebRequest req) throws FailedAddGroupMemberException {
+	protected @ResponseBody JsonResult addGroupMember(WebRequest req) throws FailedAddGroupMemberException {
 		String userId = req.getParameter("userId");
 		String groupId = req.getParameter("groupId");
 		
 		if (userDao.findUserByUserId(userId) == null) 
-			throw new FailedAddGroupMemberException("unknownUser");
+			throw new FailedAddGroupMemberException("사용자를 찾을 수 없습니다!");
 		if (groupDao.checkJoinedGroup(userId, groupId)) 
-			throw new FailedAddGroupMemberException("joinedUser");
+			throw new FailedAddGroupMemberException("사용자가 이미 가입되어있습니다!");
 		
 		groupDao.createGroupUser(userId, groupId);
-		return groupDao.readGroupMember(groupId);
+		return new JsonResult().setSuccess(true).setObject(userDao.findUserByUserId(userId));
 	}
 
 	@RequestMapping("/groups/members/{groupId}")
-	protected @ResponseBody JsonResult<User> memberList(@PathVariable String groupId) {
-		return new JsonResult<User>().setSuccess(true).setListValues(groupDao.readGroupMember(groupId));
+	protected @ResponseBody JsonResult listGroupMember(@PathVariable String groupId) {
+		return new JsonResult().setSuccess(true).setMapValues(groupDao.readGroupMemberForMap(groupId));
 	}
 }

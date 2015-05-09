@@ -64,9 +64,9 @@ public class ControllerExceptionHandler {
 	
 	// 그룹 멤버 추가시 예외처리
 	@ExceptionHandler(FailedAddGroupMemberException.class)
-	public @ResponseBody String failedAddGroupMemberException(FailedAddGroupMemberException e) {
+	public @ResponseBody JsonResult failedAddGroupMemberException(FailedAddGroupMemberException e) {
 		e.printStackTrace();
-		return e.getMessage();
+		return new JsonResult().setSuccess(false).setMessage(e.getMessage());
 	}
 
 	@ExceptionHandler(Exception.class)

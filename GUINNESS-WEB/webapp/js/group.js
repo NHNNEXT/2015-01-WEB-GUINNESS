@@ -3,8 +3,11 @@ window.addEventListener('load', function() {
 		method : "get",
 		url : "/api/groups",
 		success : function(req) {
-            appendGroups(JSON.parse(req.responseText));
-            loadGroupAlarm();
+			var result = JSON.parse(req.responseText);
+			if (result.success) {
+				appendGroups(result.mapValues);
+				loadGroupAlarm();
+			}
         }
 	});
 	document.querySelector('#create-new').addEventListener('mouseup', createGroup, false);

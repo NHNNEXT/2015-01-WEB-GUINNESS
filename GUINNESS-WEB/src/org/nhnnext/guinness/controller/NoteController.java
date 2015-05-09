@@ -38,20 +38,10 @@ public class NoteController {
 	
 	@Resource
 	private GroupDao groupDao;
-
 	@Resource
 	private NoteDao noteDao;
-	
 	@Resource
 	private AlarmDao alarmDao;
-
-	public void setGroupDao(GroupDao groupDao) {
-		this.groupDao = groupDao;
-	}
-
-	public void setNoteDao(NoteDao noteDao) {
-		this.noteDao = noteDao;
-	}
 
 	@RequestMapping(value = "/g/{groupId}")
 	protected String initReadNoteList(@PathVariable String groupId, HttpSession session, Model model) throws IOException {
