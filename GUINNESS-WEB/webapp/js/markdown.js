@@ -100,10 +100,10 @@ markdownToHtml.prototype.code = function () {
     var array = this.text.match(/`{3}(.|[\n]|[\s])+`{3}/g);
     for ( var i in array ) {
         var htmlText = array[i].replace(/\n/g, '<br/>');
-        htmlText = htmlText.replace(/`{3}$/, '</p>');
+        htmlText = htmlText.replace(/`{3}$/, '</div></p>');
         htmlText = htmlText.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
         htmlText = htmlText.replace(/\s/g, '&nbsp;');
-        htmlText = htmlText.replace(/^`{3}/, '<p class="code">');
+        htmlText = htmlText.replace(/^`{3}/, '<p><div class="code">');
         this.text =this.text.replace(array[i], htmlText);
     }
     return this;

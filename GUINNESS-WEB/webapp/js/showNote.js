@@ -51,7 +51,10 @@ search.note.pCommentHover = function (event) {
     if (event.target.className==="fa fa-plus-square-o") {
         return;
     }
-    var plusSquare = event.target.querySelector("i");
+    var plusSquare = event.target.querySelector(".fa-plus-square-o");
+    if (plusSquare === null ) {
+        return;
+    }
     if(event.type === 'mouseleave') {
         plusSquare.style.display="none";
         return;
