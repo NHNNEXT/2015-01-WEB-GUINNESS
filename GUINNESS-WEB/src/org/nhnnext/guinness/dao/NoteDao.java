@@ -53,10 +53,8 @@ public class NoteDao extends JdbcDaoSupport {
 		}
 	}
 
-	public List<Note> readNoteList(String groupId, String endDate,
-			String targetDate, String userIds) {
-		String sql = "select * from NOTES, USERS "
-				+ "where NOTES.userId = USERS.userId " + "and groupId = ? "
+	public List<Note> readNoteList(String groupId, String endDate, String targetDate, String userIds) {
+		String sql = "select * from NOTES, USERS where NOTES.userId = USERS.userId " + "and groupId = ? "
 				+ "and NOTES.targetDate between ? and ? ";
 		if (userIds != null) {
 			sql += "and NOTES.userId in (" + userIds + ") ";
@@ -106,9 +104,9 @@ public class NoteDao extends JdbcDaoSupport {
 		getJdbcTemplate().update(sql, noteId);
 	}
 
-	public void decreaseCommentCount(String commentId) {
-		String sql = "UPDATE NOTES SET commentCount = commentCount -1 where noteId = (select noteId from COMMENTS where commentId = ?)";
-		getJdbcTemplate().update(sql, commentId);
+	public int decreaseCommentCount(String commentId) {
+		String sql = "update NOTES set commentCount = commentCount - 1 where noteId = (select noteId from COMMENTS where commentId = ?)";
+		return getJdbcTemplate().update(sql, Long.parseLong(commentId));
 	}
 
 	public int deleteNote(String noteId) {

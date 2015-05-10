@@ -19,11 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class CommentController {
-
 	@Autowired
 	private CommentDao commentDao;
 	@Autowired
@@ -65,16 +63,17 @@ public class CommentController {
 		return new JsonResult().setSuccess(true).setMapValues(commentDao.readCommentListByNoteId(noteId));
 	}
 
-	@RequestMapping("/comment/{commentId}/delete")
-	protected ModelAndView delete(@PathVariable String commentId) {
+	@RequestMapping(value = "/comments/{commentId}", method = RequestMethod.PUT)
+	protected @ResponseBody JsonResult update(@PathVariable String commentId, WebRequest req) {
+		String commentText = req.getParameter("commentText");
+		commentDao.updateComment(commentId, commentText);
+		return new JsonResult().setSuccess(true).setObject(commentDao.readCommentByCommentId(commentId));
+	}
+	
+	@RequestMapping(value = "/comments/{commentId}", method = RequestMethod.DELETE)
+	protected @ResponseBody JsonResult delete(@PathVariable String commentId) {
 		noteDao.decreaseCommentCount(commentId);
 		commentDao.deleteComment(commentId);
-		return new ModelAndView("jsonView", "jsonData", "delete success");
-	}
-
-	@RequestMapping(value = "/comment/{commentId}/{commentText}", method = RequestMethod.PUT)
-	protected ModelAndView update(@PathVariable String commentId, @PathVariable String commentText) {
-		commentDao.updateComment(commentId, commentText);
-		return new ModelAndView("jsonView", "jsonData", commentDao.readCommentByCommentId(commentId));
+		return new JsonResult().setSuccess(true);
 	}
 }

@@ -211,11 +211,11 @@
 				var commentEl = commentList.querySelector('li:last-child');
 				commentEl.setAttribute('id', 'cmt-'+obj.commentId);
 				commentEl.querySelector('.comment-user').innerHTML = obj.userName;
-				commentEl.querySelector('.comment-date').innerHTML = obj.createDate;
+				commentEl.querySelector('.comment-date').innerHTML = guinness.util.someday(obj.createDate,"-");
 				commentEl.querySelector('.comment').innerHTML = obj.commentText;
 				commentEl.querySelector('.avatar').setAttribute("src","/img/profile/"+obj.userImage);
 				if (userId === obj.userId) {
-					commentEl.querySelector('.comment-util').innerHTML = "<div class='default-utils'><a onclick='showEditInputBox(&quot;"+ obj.commentText + "&quot; , &quot;"+ obj.commentId + "&quot;)'>수정</a><a href='#' onclick='deleteComment(&quot;" + obj.commentId + "&quot;)'>삭제</a></div>"
+					commentEl.querySelector('.comment-util').innerHTML = "<div class='default-utils'><a href='#' onclick='showEditInputBox(&quot;"+ obj.commentText + "&quot; , &quot;"+ obj.commentId + "&quot;)'>수정</a><a href='#' onclick='deleteComment(&quot;" + obj.commentId + "&quot;)'>삭제</a></div>"
 				}
 			}
 		}
@@ -223,9 +223,13 @@
 		function updateComment(commentId, commentText){
 			guinness.ajax({
 				method:"put",
-				url:"/comment/" + commentId + "/" + commentText,
+				url:"/comments/" + commentId,
+				param:"commentText="+commentText,
 				success: function(req) {
-					var json = JSON.parse(req.responseText);
+					var result = JSON.parse(req.responseText);
+					if(result.success !== true)
+						return;
+					var json = result.object;
 					var el = document.querySelector("#cmt-"+commentId);
 					el.querySelector('.comment').innerHTML = json.commentText;
 					el.querySelector('.comment-date').innerHTML = json.createDate;
@@ -236,12 +240,14 @@
 			});
 		}
 		
+
 		function deleteComment(commentId){
 			guinness.ajax({
-				method:"get",
-				url:"/comment/" + commentId + "/delete",
+				method:"delete",
+				url:"/comments/" + commentId,
 				success: function(req) {
-					document.querySelector('#cmt-'+commentId).remove();
+					if(JSON.parse(req.responseText).success === true)
+						document.querySelector('#cmt-'+commentId).remove();
 				}
 			});
 		}
@@ -288,7 +294,7 @@
 				guinness.ajax({
 					method:"post",
 					url:"/comments/",
-					param:"commentText="+commentText+"&commentType=" + commentType +"&noteId=" + noteId,
+					param:"commentText="+commentText+"&commentType="+commentType+"&noteId="+noteId,
 					success: function(req) {
 						var result = JSON.parse(req.responseText);
 						  if(result.success !== true)
