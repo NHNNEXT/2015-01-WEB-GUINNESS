@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
 @Controller
-@RequestMapping("/search")
 public class SearchController {
 	private static final Logger logger = LoggerFactory.getLogger(SearchController.class);
 	
@@ -29,17 +28,17 @@ public class SearchController {
 	@Resource
 	private NoteDao noteDao;
 	
-	@RequestMapping(value="", method=RequestMethod.GET)
+	@RequestMapping(value="/search", method=RequestMethod.GET)
 	private @ResponseBody JsonResult getSearchResult(WebRequest req, HttpSession session) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		String [] words = req.getParameter("words").split(" ");
 		return new JsonResult().setSuccess(true).setMapValues(noteDao.searchQueryForMap(sessionUserId, words));
 	}
 	
-	@RequestMapping(value="/n/{noteId}")
-	private String init(@PathVariable String noteId, HttpSession session, Model model) {
+	@RequestMapping(value="/search/n/{noteId}")
+	private String init(@PathVariable String noteId, HttpSession session, Model model) throws IOException {
 		logger.debug("noteId: {}", noteId);
-		String sessionUserId = (String) session.getAttribute("sessionUserId");
+		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		logger.debug("sessionUserId={}", sessionUserId);
 		model.addAttribute("functionSelect", "showNote.js");
 		model.addAttribute("sessionUserId", sessionUserId);

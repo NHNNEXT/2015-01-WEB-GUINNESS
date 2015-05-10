@@ -15,25 +15,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
 @Controller
-@RequestMapping("/alarm")
 public class AlarmController {
 
 	@Resource
 	private AlarmDao alarmDao;
 
-	@RequestMapping("")
+	@RequestMapping("/alarms")
 	protected @ResponseBody JsonResult list(HttpSession session) {
 		String userId = (String) session.getAttribute("sessionUserId");
 		return new JsonResult().setSuccess(true).setMapValues(alarmDao.list(userId));
 	}
 
-	@RequestMapping("delete")
+	@RequestMapping("/alarm/delete")
 	protected String delete(WebRequest req, Model model) {
 		alarmDao.delete(req.getParameter("alarmId"));
 		return "redirect:/search/n/" + req.getParameter("noteId");
 	}
 
-	@RequestMapping("counts")
+	@RequestMapping("/alarm/counts")
 	protected @ResponseBody JsonResult alarmCounts(HttpSession session) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		return new JsonResult().setSuccess(true).setMapValues(alarmDao.readNoteAlarm(sessionUserId));

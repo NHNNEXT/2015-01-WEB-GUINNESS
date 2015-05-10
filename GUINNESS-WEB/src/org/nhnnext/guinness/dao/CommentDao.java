@@ -1,6 +1,7 @@
 package org.nhnnext.guinness.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.nhnnext.guinness.model.Comment;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
@@ -12,19 +13,9 @@ public class CommentDao extends JdbcDaoSupport {
 		getJdbcTemplate().update(sql, comment.getCommentText(), comment.getCommentType(), comment.getUserId(), comment.getNoteId());
 	}
 
-	public List<Comment> readCommentListByNoteId(String noteId) {
+	public List<Map<String, Object>> readCommentListByNoteId(String noteId) {
 		String sql = "select * from COMMENTS, USERS where COMMENTS.userId = USERS.userId AND noteId = ?";
-		
-		return getJdbcTemplate().query(sql, (rs, rowNum) -> new Comment(
-				rs.getString("commentText"), 
-				rs.getString("commentType"),
-				rs.getString("createDate"), 
-				rs.getString("userId"), 
-				rs.getString("noteId"), 
-				rs.getString("userName"),
-				rs.getString("commentId"),
-				rs.getString("userImage")
-				), noteId);
+		return getJdbcTemplate().queryForList(sql, noteId);
 	}
 
 	public Comment readCommentByCommentId(String commentId) {

@@ -11,6 +11,7 @@ import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.JsonResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +21,15 @@ import org.springframework.web.servlet.view.RedirectView;
 @ControllerAdvice
 public class ControllerExceptionHandler {
 	private static final Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
+
+	// 디비 접속 안되었을 경우 예외처리
+	@ExceptionHandler(CannotGetJdbcConnectionException.class)
+	public ModelAndView cannotGetJdbcConnectionException(CannotGetJdbcConnectionException e) {
+		e.printStackTrace();
+		ModelAndView mav = new ModelAndView("/exception");
+		logger.debug("exception: {}", e.getClass().getSimpleName());
+		return mav;
+	}
 	
 	// 본인 확인을 위한 메일 전송 시 예외처리
 	@ExceptionHandler(SendMailException.class)
@@ -86,5 +96,6 @@ public class ControllerExceptionHandler {
 		logger.debug("exception: {}", e.getClass().getSimpleName());
 		return mav;
 	}
+	
 	
 }

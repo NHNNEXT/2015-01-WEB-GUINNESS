@@ -185,10 +185,13 @@
 			var noteId = obj.noteId;
 			guinness.ajax({
 			  method : "get",
-			  url : "/comment?noteId=" + noteId,
+			  url : "/comments/" + noteId,
 			  success : function(req) {
-			    appendComment(JSON.parse(req.responseText));
-                guinness.util.setModalPosition();
+				  var result = JSON.parse(req.responseText);
+				  if(result.success !== true)
+					  return;
+				  appendComment(result.mapValues);
+				  guinness.util.setModalPosition();
 			  }
 			});
 		}
@@ -276,7 +279,6 @@
 			el.querySelector('.comment-util').appendChild(updateButton);
 			el.querySelector('.comment-util').appendChild(cancelButton);
 		}
-
 		function createComment(obj) {
 			var commentText = document.querySelector('#commentText').value;
 			if(commentText !== ""){
@@ -284,11 +286,15 @@
 				var noteId = obj.noteId;
 				var commentType = "A";
 				guinness.ajax({
-					method:"put",
-					url:"/comment/create/" + commentText + "/" + commentType + "/" + noteId,
+					method:"post",
+					url:"/comments/",
+					param:"commentText="+commentText+"&commentType=" + commentType +"&noteId=" + noteId,
 					success: function(req) {
-						appendComment(JSON.parse(req.responseText));
-						document.querySelector('#commentText').value ="";
+						var result = JSON.parse(req.responseText);
+						  if(result.success !== true)
+							  return;
+						  appendComment(result.mapValues);
+						  document.querySelector('#commentText').value ="";
 					}
 				});
 			}
