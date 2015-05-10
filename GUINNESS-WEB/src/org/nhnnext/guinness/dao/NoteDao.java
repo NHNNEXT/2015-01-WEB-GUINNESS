@@ -22,24 +22,41 @@ public class NoteDao extends JdbcDaoSupport {
 	public long createNote(Note note) {
 		String sql = "insert into NOTES (noteText, targetDate, userId, groupId, commentCount) values(?, ?, ?, ?, 0)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
-		getJdbcTemplate().update(
-		    new PreparedStatementCreator() {
-		        public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-		            PreparedStatement ps =
-		                connection.prepareStatement(sql, new String[] {"noteId"});
-		            ps.setString(1, note.getNoteText());
-		            ps.setString(2, note.getTargetDate());
-		            ps.setString(3, note.getUserId());
-		            ps.setString(4, note.getGroupId());
-		            return ps;
-		        }
-		    },
-		    keyHolder);
+		getJdbcTemplate().update(new PreparedStatementCreator() {
+			public PreparedStatement createPreparedStatement(
+					Connection connection) throws SQLException {
+				PreparedStatement ps = connection.prepareStatement(sql,
+						new String[] { "noteId" });
+				ps.setString(1, note.getNoteText());
+				ps.setString(2, note.getTargetDate());
+				ps.setString(3, note.getUserId());
+				ps.setString(4, note.getGroupId());
+				return ps;
+			}
+		}, keyHolder);
 		return keyHolder.getKey().longValue();
 	}
 
-	public List<Note> readNoteList(String groupId, String endDate, String targetDate, String userIds) {
-		String sql = "select * from NOTES, USERS " + "where NOTES.userId = USERS.userId " + "and groupId = ? "
+	public List<Map<String, Object>> readNoteListForMap(String groupId, String endDate, String targetDate, String userIds) {
+		String sql = "select * from NOTES, USERS "
+				+ "where NOTES.userId = USERS.userId " + "and groupId = ? "
+				+ "and NOTES.targetDate between ? and ? ";
+		if (userIds != null) {
+			sql += "and NOTES.userId in (" + userIds + ") ";
+		}
+		sql += "order by targetDate desc";
+
+		try {
+			return getJdbcTemplate().queryForList(sql, groupId, endDate, targetDate);
+		} catch (EmptyResultDataAccessException e) {
+			return new ArrayList<Map<String, Object>>();
+		}
+	}
+
+	public List<Note> readNoteList(String groupId, String endDate,
+			String targetDate, String userIds) {
+		String sql = "select * from NOTES, USERS "
+				+ "where NOTES.userId = USERS.userId " + "and groupId = ? "
 				+ "and NOTES.targetDate between ? and ? ";
 		if (userIds != null) {
 			sql += "and NOTES.userId in (" + userIds + ") ";
@@ -49,10 +66,13 @@ public class NoteDao extends JdbcDaoSupport {
 		try {
 			return getJdbcTemplate().query(
 					sql,
-					(rs, rowNum) -> new Note(rs.getString("noteId"), rs.getString("noteText"), rs
-							.getString("targetDate"), rs.getString("userId"), rs.getString("groupId"), rs
-							.getString("userName"), rs.getInt("commentCount"), rs.getString("userImage")), groupId,
-					endDate, targetDate);
+					(rs, rowNum) -> new Note(rs.getString("noteId"), rs
+							.getString("noteText"), rs.getString("targetDate"),
+							rs.getString("userId"), rs.getString("groupId"), rs
+									.getString("userName"), rs
+									.getInt("commentCount"), rs
+									.getString("userImage")), groupId, endDate,
+					targetDate);
 		} catch (EmptyResultDataAccessException e) {
 			return new ArrayList<Note>();
 		}
@@ -70,9 +90,12 @@ public class NoteDao extends JdbcDaoSupport {
 		try {
 			return getJdbcTemplate().queryForObject(
 					sql,
-					(rs, rowNum) -> new Note(rs.getString("noteId"), rs.getString("noteText"), rs
-							.getString("targetDate"), rs.getString("userId"), rs.getString("groupId"), rs
-							.getString("userName"), rs.getInt("commentCount"), rs.getString("userImage")), noteId);
+					(rs, rowNum) -> new Note(rs.getString("noteId"), rs
+							.getString("noteText"), rs.getString("targetDate"),
+							rs.getString("userId"), rs.getString("groupId"), rs
+									.getString("userName"), rs
+									.getInt("commentCount"), rs
+									.getString("userImage")), noteId);
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
@@ -90,7 +113,6 @@ public class NoteDao extends JdbcDaoSupport {
 
 	public int deleteNote(String noteId) {
 		String sql = "delete from NOTES where noteId = ?";
-		logger.debug(" noteId : {} ", noteId);
 		return getJdbcTemplate().update(sql, noteId);
 	}
 
@@ -99,10 +121,11 @@ public class NoteDao extends JdbcDaoSupport {
 		getJdbcTemplate().update(sql, text, noteId);
 	}
 
-	public List<Map<String, Object>> searchQueryForMap(String userId, String... words) {
+	public List<Map<String, Object>> searchQueryForMap(String userId,
+			String... words) {
 		String query = "";
 		for (String word : words) {
-			query+=" OR N.noteText like \"%"+word+"%\"";
+			query += " OR N.noteText like \"%" + word + "%\"";
 		}
 		String sql = "SELECT distinct noteId, noteText, targetDate, N.userId, N.groupId, U.userName, G.groupName, N.commentCount FROM NOTES N LEFT JOIN USERS U ON N.userId = U.userId LEFT JOIN GROUPS G ON N.groupId = G.groupId LEFT JOIN GROUPS_USERS GU on GU.groupId = N.groupId WHERE "
 				+ query.substring(3)

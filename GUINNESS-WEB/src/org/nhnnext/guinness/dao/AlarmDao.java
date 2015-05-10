@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.nhnnext.guinness.model.Alarm;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 

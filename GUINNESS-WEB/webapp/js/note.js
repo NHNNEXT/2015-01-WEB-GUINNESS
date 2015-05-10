@@ -132,14 +132,19 @@
 				url: "/notes/" + noteId,
 				success: function(req) {
 					var json = JSON.parse(req.responseText);
-					if(json === "success") {
+					if(json.success === true) {
 						// TODO reload방식 말고 removeChild를 이용해서 삭제할 것
 						// 날짜에 노트가 1개 있을 경우 날짜도 같이 지워져야 한다
 						document.location.reload(true);
+//						deleteNoteCard(json.object);
 					}
 				}
 			});
 		}
+		
+//		function deleteNoteCard(noteId) {
+//			var Ul = document.querySelector("#" + noteId);
+//		}
 
 		var currScrollTop;
 		function readNoteContents(noteId) {
@@ -148,8 +153,10 @@
 				method: 'get',
 				url: '/notes/' + noteId,
 				success: function(req) {
-					var json = JSON.parse(req.responseText);
-					showNoteModal(json);
+					var result = JSON.parse(req.responseText);
+					if(result.success !== true)
+						return;
+					showNoteModal(result.object);
 					document.body.scrollTop = currScrollTop;
 				}
 			});
@@ -363,20 +370,17 @@
 			}
 		}
 		
-		function reloadNoteList(targetDateOption){
+		function reloadNoteList(targetDate){
 			var groupId = window.location.pathname.split("/")[2];
-			var targetDate = targetDateOption;
 			var objs = document.querySelectorAll(".memberChk");
 			var array = [];
-
 			for(var i=0; i<objs.length; i++){
 				if(objs[i].checked === true)
 					array.push("'"+objs[i].value+"'");
 			}
 			guinness.ajax({ 
-				method:"post", 
-				url:"/note/list",
-				param:'groupId='+groupId+'&targetDate='+targetDate+'&checkedUserId='+array,
+				method:"get", 
+				url:'/api/notes/?groupId='+groupId+'&targetDate='+targetDate+'&checkedUserId='+array,
 				success: 
 				  function(req) {
 					appendNoteList(JSON.parse(req.responseText));

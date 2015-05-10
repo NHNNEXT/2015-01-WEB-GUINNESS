@@ -210,8 +210,7 @@ guinness.util.alert.choose = function(c) {
 };
 
 guinness.ajax = function(o) {
-	if (o.method === undefined || o.url === undefined
-			|| o.success === undefined) {
+	if (o.method === undefined || o.url === undefined || o.success === undefined) {
 		console.log("error: insufficient parameters supplied");
 		return;
 	}
@@ -227,8 +226,7 @@ guinness.ajax = function(o) {
 	};
 	req.open(o.method, o.url, true);
 	if (o.method.toLowerCase() == "post") {
-		req.setRequestHeader("Content-type",
-				"application/x-www-form-urlencoded");
+		req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	}
 	req.send(o.param);
 };

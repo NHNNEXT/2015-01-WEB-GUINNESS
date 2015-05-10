@@ -23,8 +23,8 @@ public class AlarmController {
 
 	@RequestMapping("")
 	protected @ResponseBody JsonResult list(HttpSession session) {
-		return new JsonResult().setSuccess(true).setMapValues(
-				alarmDao.list((String) session.getAttribute("sessionUserId")));
+		String userId = (String) session.getAttribute("sessionUserId");
+		return new JsonResult().setSuccess(true).setMapValues(alarmDao.list(userId));
 	}
 
 	@RequestMapping("delete")
@@ -36,7 +36,6 @@ public class AlarmController {
 	@RequestMapping("counts")
 	protected @ResponseBody JsonResult alarmCounts(HttpSession session) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
-		return new JsonResult().setSuccess(true).setMapValues(
-				alarmDao.readNoteAlarm(sessionUserId));
+		return new JsonResult().setSuccess(true).setMapValues(alarmDao.readNoteAlarm(sessionUserId));
 	}
 }

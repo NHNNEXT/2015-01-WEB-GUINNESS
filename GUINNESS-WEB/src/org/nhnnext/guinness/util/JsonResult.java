@@ -53,11 +53,10 @@ public class JsonResult {
 	public Object getObject() {
 		return object;
 	}
-	
+
 	public List<Map<String, Object>> getMapValues() {
 		return mapValues;
 	}
-	
 	
 	@Override
 	public String toString() {
