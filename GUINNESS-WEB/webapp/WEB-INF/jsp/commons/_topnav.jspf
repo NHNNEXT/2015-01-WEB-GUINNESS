@@ -79,7 +79,7 @@
 		method:"get",
 		url:"/alarm",
 		success: function(req) {
-			var alarmList = JSON.parse(req.responseText);
+			var alarmList = JSON.parse(req.responseText).mapValues;
 			if (alarmList.length !== 0) {
 				document.querySelector(".alarm-count").style.display = "block";
 				document.querySelector(".alarm-count").innerHTML = alarmList.length;

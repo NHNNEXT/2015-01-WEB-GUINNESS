@@ -10,15 +10,11 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 public class AlarmDao extends JdbcDaoSupport {
-	private static final Logger logger = LoggerFactory.getLogger(AlarmDao.class);
 
 	public void create(Alarm alarm) {
 		String sql = "insert into ALARMS (alarmId, calleeId, callerId, noteId, alarmText, alarmStatus, createDate) values(?, ?, ?, ?, ?, ?, default)";
-		logger.debug("alarm: {}", alarm);
-		logger.debug("알람 상태 {}", alarm.getAlarmStatus());
-
-		getJdbcTemplate().update(sql, alarm.getAlarmId(), alarm.getCalleeId(), alarm.getCallerId(), alarm.getNoteId(),
-				alarm.getAlarmText(), alarm.getAlarmStatus());
+		getJdbcTemplate().update(sql, alarm.getAlarmId(), alarm.getCalleeId(),
+				alarm.getCallerId(), alarm.getNoteId(), alarm.getAlarmText(), alarm.getAlarmStatus());
 	}
 
 	public Alarm read(String alarmId) {
@@ -26,10 +22,11 @@ public class AlarmDao extends JdbcDaoSupport {
 
 		try {
 			return getJdbcTemplate().queryForObject(
-					sql,
-					(rs, rowNum) -> new Alarm(rs.getString("alarmId"), rs.getString("calleeId"), rs
-							.getString("callerId"), rs.getString("noteId"), rs.getString("alarmText"), rs
-							.getString("alarmStatus"), rs.getString("createDate")), alarmId);
+				sql,
+				(rs, rowNum) -> new Alarm(rs.getString("alarmId"), rs
+						.getString("calleeId"), rs.getString("callerId"), rs
+						.getString("noteId"), rs.getString("alarmText"), rs.getString("alarmStatus"), rs
+						.getString("createDate")), alarmId);
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}

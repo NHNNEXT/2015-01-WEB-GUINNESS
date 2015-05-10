@@ -3,8 +3,11 @@ window.addEventListener('load', function() {
 		method : "get",
 		url : "/api/groups",
 		success : function(req) {
-            appendGroups(JSON.parse(req.responseText));
-            loadGroupAlarm();
+			var result = JSON.parse(req.responseText);
+			if (result.success) {
+				appendGroups(result.mapValues);
+				loadGroupAlarm();
+			}
         }
 	});
 	document.querySelector('#create-new').addEventListener('mouseup', createGroup, false);
@@ -23,7 +26,7 @@ function loadGroupAlarm() {
                   
 function setGroupAlarm(json) {
     var group = document.body.querySelectorAll('#group-container > a > li > input[type="hidden"]');
-    var js = json.listValues;
+    var js = json.mapValues;
     for (var i in group) {
         for (var j in js) {
             if( group[i].value === js[j].groupId) {
@@ -76,15 +79,14 @@ function createGroup() {
 				url : "/groups",
 				param: param,
 				success : function(req) { 
-					if(JSON.parse(req.responseText).view === undefined) {
-						appendGroups(JSON.parse(req.responseText));
+					if(JSON.parse(req.responseText).success !== false) {
+						appendGroup(JSON.parse(req.responseText).object);
 						document.querySelector('.modal-cover').remove();
 					}
 					else
-						guinness.util.alert("경고!", JSON.parse(req.responseText).view);
+						guinness.util.alert("경고!", JSON.parse(req.responseText).message);
 				}
 			});
-			
 			return;
 		}
 		guinness.util.alert("경고!","그룹 이름을 입력하세요!");
@@ -99,30 +101,36 @@ function cancelGroupCreate() {
 	document.querySelector('.modal-cover').remove();
 }
 
-function appendGroups(json) {
+function appendGroup(obj) {
 	var el = document.querySelector('#group-container');
-	var obj = null;
 	var template = document.querySelector("#group-card-template").content;
 	var newEl;
+	var groupName = (obj.groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
+	document.cookie = obj.groupId + "=" + encodeURI(obj.groupName);
+	newEl = document.importNode(template, true);
+	newEl.querySelector(".group-card").setAttribute("href", "/g/" + obj.groupId);
+	newEl.querySelector(".group-name").innerHTML = groupName;
+	newEl.querySelector('.deleteGroup-btn').addEventListener("mousedown",
+		function(e) {
+			e.preventDefault();
+			var groupId = e.currentTarget.parentElement.parentElement.getAttribute("href").split("/")[2];
+			var groupName = e.currentTarget.parentElement.querySelector(".group-name").innerHTML;
+			confirmDelete(groupId, groupName);
+		}, false);
+	if (obj.isPublic === 'T') {
+		newEl.querySelector('.fa-lock').setAttribute('class','fa fa-unlock');
+	}
+	newEl.querySelector('input').setAttribute("value", obj.groupId);
+	el.appendChild(newEl);
+}
+
+function appendGroups(json) {
+	var el = document.querySelector('#group-container');
+	var template = document.querySelector("#group-card-template").content;
+	var obj = null;
+	var newEl;
 	for (var i = 0; i < json.length; i++) {
-		obj = json[i];
-		var groupName = (obj.groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
-		document.cookie = obj.groupId + "=" + encodeURI(obj.groupName);
-		newEl = document.importNode(template, true);
-		newEl.querySelector(".group-card").setAttribute("href", "/g/" + obj.groupId);
-		newEl.querySelector(".group-name").innerHTML = groupName;
-		newEl.querySelector('.deleteGroup-btn').addEventListener("mousedown",
-			function(e) {
-				e.preventDefault();
-				var groupId = e.currentTarget.parentElement.parentElement.getAttribute("href").split("/")[2];
-				var groupName = e.currentTarget.parentElement.querySelector(".group-name").innerHTML;
-				confirmDelete(groupId, groupName);
-			}, false);
-		if (obj.isPublic === 'T') {
-			newEl.querySelector('.fa-lock').setAttribute('class','fa fa-unlock');
-		}
-		newEl.querySelector('input').setAttribute("value", obj.groupId);
-		el.appendChild(newEl);
+		appendGroup(json[i])
 	}
 }
 

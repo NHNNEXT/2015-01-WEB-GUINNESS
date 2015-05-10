@@ -74,12 +74,12 @@ window.addEventListener('load', function() {
 }, false);
 
 function searchResult(json){
-  for(var i = 0; i < json.listValues.length; i++){
+  for(var i = 0; i < json.mapValues.length; i++){
     var elSearchResult=document.querySelector(".searchResult > a:last-child");
     var hlSearchResultTemplate = document.querySelector(".searchResultTemplate").text;
     elSearchResult.insertAdjacentHTML("afterend", hlSearchResultTemplate);
     var elDiv = document.querySelector(".searchResultNoteId:last-child");
-    jsonList = json.listValues[i];
+    jsonList = json.mapValues[i];
     elDiv.id = "searchResultNoteId" + jsonList.noteId;
     document.querySelector("#searchResultNoteId" + jsonList.noteId).href="/search/n/"+jsonList.noteId;
     var elsearchResultText = document.querySelector("#searchResultNoteId" + jsonList.noteId+" > .searchResultText");

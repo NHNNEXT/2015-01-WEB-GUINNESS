@@ -2,19 +2,17 @@ package org.nhnnext.guinness.dao;
 
 import java.util.List;
 
-import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Comment;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 public class CommentDao extends JdbcDaoSupport {
 	
-	public void createComment(Comment comment) throws ClassNotFoundException {
+	public void createComment(Comment comment) {
 		String sql = "insert into COMMENTS (commentText, commentType, userId, noteId) values(?, ?, ?, ?)";
 		getJdbcTemplate().update(sql, comment.getCommentText(), comment.getCommentType(), comment.getUserId(), comment.getNoteId());
 	}
 
-	public List<Comment> readCommentListByNoteId(String noteId) throws MakingObjectListFromJdbcException,
-	ClassNotFoundException {
+	public List<Comment> readCommentListByNoteId(String noteId) {
 		String sql = "select * from COMMENTS, USERS where COMMENTS.userId = USERS.userId AND noteId = ?";
 		
 		return getJdbcTemplate().query(sql, (rs, rowNum) -> new Comment(

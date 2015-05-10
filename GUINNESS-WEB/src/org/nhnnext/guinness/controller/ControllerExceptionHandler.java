@@ -1,17 +1,18 @@
 package org.nhnnext.guinness.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
+import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
 import org.nhnnext.guinness.exception.FailedLoginException;
+import org.nhnnext.guinness.exception.FailedMakingGroupException;
 import org.nhnnext.guinness.exception.SendMailException;
 import org.nhnnext.guinness.exception.UserUpdateException;
 import org.nhnnext.guinness.model.User;
+import org.nhnnext.guinness.util.JsonResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -38,11 +39,9 @@ public class ControllerExceptionHandler {
 	
 	// 로그인 실패시 예외처리
 	@ExceptionHandler(FailedLoginException.class)
-	public ModelAndView failedLoginException(FailedLoginException e) {
+	public @ResponseBody boolean failedLoginException(FailedLoginException e) {
 		e.printStackTrace();
-		Map<String, String> viewMap = new HashMap<String, String>();
-		viewMap.put("view", "loginFailed");
-		return new ModelAndView("jsonView").addObject("jsonData", viewMap);
+		return false;
 	}
 	
 	// 회원정보 수정시 예외처리
@@ -57,17 +56,23 @@ public class ControllerExceptionHandler {
 	}
 	
 	// 그룹 생성시 그룹명 길 경우 예외처리
-	@ExceptionHandler(FailedMakingGroupException.class)
-	public ModelAndView failedMakingGroupException(FailedMakingGroupException e) {
-		Map<String, String> viewMap = new HashMap<String, String>();
-		viewMap.put("view", e.getMessage());
-		return new ModelAndView("jsonView").addObject("jsonData", viewMap);
+	@ExceptionHandler(FailedMakingGroupException.class )
+	public @ResponseBody JsonResult failedMakingGroupException(FailedMakingGroupException e) {
+		e.printStackTrace();
+		return new JsonResult().setSuccess(false).setMessage(e.getMessage());
+	}
+	
+	// 그룹 멤버 추가시 예외처리
+	@ExceptionHandler(FailedAddGroupMemberException.class)
+	public @ResponseBody JsonResult failedAddGroupMemberException(FailedAddGroupMemberException e) {
+		e.printStackTrace();
+		return new JsonResult().setSuccess(false).setMessage(e.getMessage());
 	}
 
 	@ExceptionHandler(Exception.class)
 	public ModelAndView exception(Exception e) {
-		ModelAndView mav = new ModelAndView("/exception");
 		e.printStackTrace();
+		ModelAndView mav = new ModelAndView("/exception");
 		logger.debug("exception: {}", e.getClass().getSimpleName());
 		return mav;
 	}

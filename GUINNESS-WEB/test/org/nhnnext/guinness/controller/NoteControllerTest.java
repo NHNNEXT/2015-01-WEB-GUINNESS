@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nhnnext.guinness.dao.GroupDao;
-import org.nhnnext.guinness.dao.NoteDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
@@ -26,18 +25,13 @@ public class NoteControllerTest {
 	private NoteController notecontroller;
 	private HttpSession session;
 	private GroupDao groupDao;
-	private NoteDao noteDao;
 
 	@Before
 	public void setUp() {
 		session = mock(HttpSession.class);
 		groupDao = mock(GroupDao.class);
-		noteDao = mock(NoteDao.class);
 		
 		notecontroller = new NoteController();
-		
-		this.notecontroller.setNoteDao(noteDao);
-		this.notecontroller.setGroupDao(groupDao);
 	}
 
 	@Test

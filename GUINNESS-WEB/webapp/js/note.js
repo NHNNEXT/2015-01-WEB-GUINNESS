@@ -292,16 +292,16 @@
 			var groupId = document.querySelector('#addMemberForm input[name="groupId"]').value;
 			guinness.ajax({
 				method:"post",
-				url:"/group/add/member",
+				url:"/groups/members",
 				param:"userId="+userId+"&groupId="+groupId,
 				success:
 				  function(req) {
-					var json = JSON.parse(req.responseText)
-					if(json === "unknownUser") guinness.util.alert("멤버추가 실패","사용자를 찾을 수 없습니다!");
-					else if(json === "joinedUser") guinness.util.alert("멤버추가 실패","사용자가 이미 가입되어있습니다!");
-					else {
-						appendMember(json);
+					var json = JSON.parse(req.responseText);
+					if(json.success === false) {
+						guinness.util.alert("멤버추가 실패",json.message);
+						return;
 					}
+					appendMember(json.object);
 					document.querySelector('.inputText').value = "";
 			      }	
 			});
@@ -310,25 +310,27 @@
 		function readMember(groupId) {
 			guinness.ajax({ 
 				method:"get", 
-				url:"/group/read/member/"+groupId, 
+				url:"/groups/members/"+groupId, 
 				success: 
 				  function(req) {
 					if(JSON.parse(req.responseText).success){
-						appendMember(JSON.parse(req.responseText).listValues);
+						appendMembers(JSON.parse(req.responseText).mapValues);
 					}else{
 						 window.location.href = JSON.parse(req.responseText).locationWhenFail;
 					}
 				  } 
 			});
 		}
-
-		function appendMember(json) {
+		function appendMember(obj) {
 			var el = document.querySelector("#group-member");
-			el.innerHTML = "";
+			var newLi = document.createElement("li");
+			newLi.innerHTML = "<input type='checkbox' class='memberChk' checked=true value="+obj.userId+" onclick='OnOffMemberAllClickBtn()'>"+obj.userName+"<br/>"+"("+obj.userId+")";
+			el.appendChild(newLi);
+		}
+
+		function appendMembers(json) {
 			for (var i = 0; i < json.length; i++) {
-				var newLi = document.createElement("li");
-				newLi.innerHTML = "<input type='checkbox' class='memberChk' checked=true value="+json[i].userId+" onclick='OnOffMemberAllClickBtn()'>"+json[i].userName+"<br/>"+"("+json[i].userId+")";
-				el.appendChild(newLi);
+				appendMember(json[i]);
 			}
 		}
 		

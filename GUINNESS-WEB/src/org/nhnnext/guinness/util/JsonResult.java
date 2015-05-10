@@ -1,68 +1,69 @@
 package org.nhnnext.guinness.util;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JsonResult<T> {
+public class JsonResult {
 	private boolean success;
+	private String message;
 	private String locationWhenFail;
-	private Map<String, Object> mapValues = new HashMap<String, Object>();
-	private List<T> listValues;
-
+	private Object object;
+	private List<Map<String, Object>> mapValues;
+	
 	public JsonResult() {
-		success = true;
 	}
-
-	public JsonResult(boolean success, Map<String, Object> values) {
-		this(success, null, values);
-	}
-
-	public JsonResult(boolean success, List<T> listValues) {
-		this(success, null, listValues);
-	}
-
-	public JsonResult(boolean success, String locationWhenFail) {
-		this(success, locationWhenFail, null, null);
-	}
-
-	public JsonResult(boolean success, String locationWhenFail, Map<String, Object> mapValues) {
-		this(success, locationWhenFail, mapValues, null);
-	}
-
-	public JsonResult(boolean success, String locationWhenFail, List<T> listValues) {
-		this(success, locationWhenFail, null, listValues);
-	}
-
-	public JsonResult(boolean success, String locationWhenFail, Map<String, Object> mapValues, List<T> listValues) {
+	
+	public JsonResult setSuccess(boolean success) {
 		this.success = success;
+		return this;
+	}
+	
+	public JsonResult setMessage(String message) {
+		this.message = message;
+		return this;
+	}
+	
+	public JsonResult setLocationWhenFail(String locationWhenFail) {
 		this.locationWhenFail = locationWhenFail;
-		this.mapValues = mapValues;
-		this.listValues = listValues;
+		return this;
 	}
-
-	public void putValue(String key, Object value) {
-		mapValues.put(key, value);
+	
+	public JsonResult setObject(Object object) {
+		this.object = object;
+		return this;
 	}
-
-	public void addValue(T value) {
-		listValues.add(value);
+	
+	public JsonResult setMapValues(List<Map<String, Object>> list) {
+		this.mapValues = list;
+		return this;
 	}
-
+	
 	public boolean isSuccess() {
 		return success;
+	}
+
+	public String getMessage() {
+		return message;
 	}
 
 	public String getLocationWhenFail() {
 		return locationWhenFail;
 	}
 
-	public Map<String, Object> getValues() {
+	public Object getObject() {
+		return object;
+	}
+	
+	public List<Map<String, Object>> getMapValues() {
 		return mapValues;
 	}
-
-	public List<T> getListValues() {
-		return listValues;
+	
+	
+	@Override
+	public String toString() {
+		return "JsonResult [success=" + success + ", message=" + message
+				+ ", locationWhenFail=" + locationWhenFail + ", object="
+				+ object + ", mapValues=" + mapValues + "]";
 	}
-
+	
 }
