@@ -50,13 +50,13 @@ public class UserService {
 		logger.debug("User: {}", user);
 		User existedUser = userDao.findUserByUserId(user.getUserId());
 		
-		// 활성화된 계정일 경우
-		if(existedUser == null)
+		if(existedUser == null) {
 			userDao.createUser(user);
-			
-		if(existedUser.getStatus() == 'E')
+			existedUser = userDao.findUserByUserId(user.getUserId());
+		}
+		if(existedUser.getStatus() == 'E') {
 			throw new AlreadyExistedUserIdException("이미 존재하는 계정입니다.");
-
+		}
 		if(existedUser.getStatus() == 'R') {
 			confirmDao.deleteConfirmByUserId(user.getUserId());
 		}

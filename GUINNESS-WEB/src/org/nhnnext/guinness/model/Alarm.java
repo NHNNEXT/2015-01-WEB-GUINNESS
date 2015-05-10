@@ -111,7 +111,7 @@ public class Alarm {
 				return false;
 		} else if (!alarmId.equals(other.alarmId))
 			return false;
-		if (alarmStatus != other.alarmStatus)
+		if (!alarmStatus.equals(other.alarmStatus))
 			return false;
 		if (alarmText == null) {
 			if (other.alarmText != null)

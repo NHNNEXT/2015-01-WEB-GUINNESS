@@ -26,8 +26,7 @@ public class NoteDaoTest {
 	
 	@Test
 	public void CreateNote() throws ClassNotFoundException {
-		Note note = new Note("test", "2015-03-19 17:56:24",
-				"jyb0823@naver.com", "Ogsho");
+		Note note = new Note("test", "2015-03-19 17:56:24", "jyb0823@naver.com", "Ogsho");
 		noteDao.createNote(note);
 		Note newNote = noteDao.readNote(note.getNoteId());
 		assertNotNull(newNote);
@@ -38,12 +37,12 @@ public class NoteDaoTest {
 		List<Note> noteList = null;
 		try {
 			noteList = noteDao.readNoteList("Ogsho", "2015-03-21", "2015-03-31", "test@naver.com");
+			for (Iterator<Note> i = noteList.iterator(); i.hasNext();) {
+				Note note = i.next();
+				logger.debug(note.toString());
+			}
 		} catch (Exception e) {
 			logger.debug(e.getMessage());
-		}
-		for (Iterator<Note> i = noteList.iterator(); i.hasNext();) {
-			Note note = i.next();
-			logger.debug(note.toString());
 		}
 	}
 
