@@ -275,7 +275,7 @@
 				var userId = document.getElementById("sessionUserId").value;
 				var noteId = obj.noteId;
 				var commentType = "A";
-				var paragraphText = "";
+				var paragraphText = "문단 원본이다.";
 				guinness.ajax({
 					method:"put",
 					url:"/comment/create/" + commentText + "/" + commentType + "/" + noteId + "/" + paragraphText,

@@ -39,9 +39,12 @@ public class CommentController {
 			@PathVariable String noteId, @PathVariable String paragraphText, HttpSession session, WebRequest req) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		
+		logger.debug("코멘트 : {}, 타입 : {}, 노트아이디 : {}, 문단텍스트 : {}", commentText, commentType, noteId, paragraphText);
+		
 		try {
 			if (!commentText.equals("")) {
 				Comment comment = new Comment(commentText, commentType, sessionUserId, noteId, paragraphText);
+				logger.debug("코멘트 : {}", comment.toString());
 				commentDao.createComment(comment);
 				noteDao.increaseCommentCount(noteId);
 				String alarmId = null;

@@ -7,7 +7,6 @@ public class Comment {
 	private String userId;
 	private String noteId;
 	private String paragraphText;
-
 	private String userName;
 	private String commentId;
 	private String userImage;
@@ -31,18 +30,13 @@ public class Comment {
 		this(commentText, commentType, createDate, userId, noteId, paragraphText, userName, commentId, null);
 	}
 
-	public Comment(String commentText, String commentType, String createDate, String userId, String noteId, String userName) {
-		this(commentText, commentType, createDate, userId, noteId, null, userName, null);
+	public Comment(String commentText, String commentType, String createDate, String userId, String noteId, String paragraphText, String userName) {
+		this(commentText, commentType, createDate, userId, noteId, paragraphText, userName, null);
 	}
 
 	public Comment(String commentText, String commentType, String userId, String noteId, String paragraphText) {
-		this(commentText, commentType, null, userId, noteId, paragraphText);
+		this(commentText, commentType, null, userId, noteId, paragraphText, null);
 	}
-	
-	public Comment(String commentText, String commentType, String userId, String noteId) {
-		this(commentText, commentType, null, userId, noteId);
-	}
-	
 
 	public String getCommentText() {
 		return commentText;

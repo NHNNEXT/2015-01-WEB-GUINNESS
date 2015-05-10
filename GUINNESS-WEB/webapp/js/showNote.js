@@ -70,7 +70,6 @@ search.note.pComment.show = function(target) {
     search.note.pComment._setPosition(target);
     var elpCommentBox = document.body.querySelector(".pCommentBox");
     window.addEventListener('resize', function() {
-        console.log("dd");
         if (document.body.querySelector(".pCommentBox").style.display !== "none" ) {
             search.note.pComment._setPosition(search.note.pComment.targetI);
         }
@@ -89,4 +88,26 @@ window.addEventListener('load', function () {
     "use strict";
 	search.note.load(document.querySelector("#noteId").value);
     search.note.pComment.create(document.querySelector(".pCommentTemplate").text);
+    
+    document.querySelector('#pCommentForm').addEventListener('submit', function(e) { e.preventDefault(); createComment(e); }, false);
+
 }, false);
+
+
+function createComment(e) {
+	var commentText = document.querySelector('#pCommentText').value;
+	if(commentText !== ""){
+		var userId = document.getElementById("sessionUserId").value;
+		var noteId = document.querySelector('#noteId').value;
+		var commentType = "B";
+		var paragraphText = "문단 원본이라고 생각해줘요.";
+		guinness.ajax({
+			method:"put",
+			url:"/comment/create/" + commentText + "/" + commentType + "/" + noteId + "/" + paragraphText,
+			success: function(req) {
+				appendComment(JSON.parse(req.responseText));
+				document.querySelector('#pCommentText').value ="";
+			}
+		});
+	}
+}

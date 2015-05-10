@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="/css/mainStyle.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/datepickr.css">
+<script src="/js/guinness.js"></script>
 <script src="/js/datepickr.js"></script>
 <script src="/js/markdown.js"></script>
 <script src="/js/${functionSelect}"></script>
@@ -28,7 +29,7 @@
             <form id="pCommentForm" method="post">
 				<textarea id='pCommentText' name='pCommentText' rows='4' cols='20'></textarea>
 				<br>
-				<input type='submit' class='pCommentSubmit' value='확인'>
+				<button id='submitComment' class='pCommentSubmit'>확인</button>
 			</form>
         </div>
     </script>
@@ -49,8 +50,5 @@
 				</div>
 			</div>
 	</script>
-	
-	<script src="/js/search.js"></script>
-	
 </body>
 </html>
