@@ -15,7 +15,7 @@ public class CommentDao extends JdbcDaoSupport {
 
 	public List<Comment> readCommentListByNoteId(String noteId) throws MakingObjectListFromJdbcException,
 	ClassNotFoundException {
-		String sql = "select * from COMMENTS, USERS where COMMENTS.userId = USERS.userId AND noteId = ?";
+		String sql = "select * from COMMENTS, USERS where COMMENTS.userId = USERS.userId AND noteId = ? AND commentType='A'";
 		
 		return getJdbcTemplate().query(sql, (rs, rowNum) -> new Comment(
 				rs.getString("commentText"), 
