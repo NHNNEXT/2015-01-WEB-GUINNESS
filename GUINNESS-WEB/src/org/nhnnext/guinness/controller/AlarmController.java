@@ -10,7 +10,9 @@ import org.nhnnext.guinness.util.JsonResult;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
@@ -26,10 +28,10 @@ public class AlarmController {
 		return new JsonResult().setSuccess(true).setMapValues(alarmDao.list(userId));
 	}
 
-	@RequestMapping("/alarm/delete")
-	protected String delete(WebRequest req, Model model) {
-		alarmDao.delete(req.getParameter("alarmId"));
-		return "redirect:/search/n/" + req.getParameter("noteId");
+	@RequestMapping(value = "/alarms/delete/{alarmId}", method = RequestMethod.DELETE)
+	protected @ResponseBody JsonResult delete(@PathVariable String alarmId, WebRequest req, Model model) {
+		alarmDao.delete(alarmId);
+		return new JsonResult().setSuccess(true);
 	}
 
 	@RequestMapping("/alarm/counts")

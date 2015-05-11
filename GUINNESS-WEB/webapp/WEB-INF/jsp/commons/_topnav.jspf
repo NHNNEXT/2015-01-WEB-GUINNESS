@@ -102,6 +102,16 @@
 })();
 
 function alarmSelect(t, noteId){
- 	window.location.href="/alarm/delete/?alarmId="+t.id.split("alarm-")[1]+"&noteId="+noteId;
+	guinness.ajax({
+		method:"delete",
+		url:"/alarms/delete/"+t.id.split("alarm-")[1],
+		success: function(req) {
+			var result = JSON.parse(req.responseText);
+			if (result.success !== true) {
+				return;
+			}
+		 	window.location.href="/search/n/" + noteId;
+		}
+	});
 }
 </script>
