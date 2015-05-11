@@ -4,30 +4,26 @@ import java.util.List;
 import java.util.Map;
 
 import org.nhnnext.guinness.model.Alarm;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 public class AlarmDao extends JdbcDaoSupport {
+	private static final Logger logger = LoggerFactory.getLogger(AlarmDao.class);
 
 	public void create(Alarm alarm) {
 		String sql = "insert into ALARMS (alarmId, calleeId, callerId, noteId, alarmText, alarmStatus, createDate) values(?, ?, ?, ?, ?, ?, default)";
-		getJdbcTemplate().update(sql, alarm.getAlarmId(), alarm.getCalleeId(),
-				alarm.getCallerId(), alarm.getNoteId(), alarm.getAlarmText(), alarm.getAlarmStatus());
+		getJdbcTemplate().update(sql, alarm.getAlarmId(), alarm.getCalleeId(), alarm.getCallerId(), alarm.getNoteId(),
+				alarm.getAlarmText(), alarm.getAlarmStatus());
 	}
 
-	public Alarm read(String alarmId) {
-		String sql = "select * from ALARMS where alarmId = ?";
-
-		try {
-			return getJdbcTemplate().queryForObject(
-				sql,
-				(rs, rowNum) -> new Alarm(rs.getString("alarmId"), rs
-						.getString("calleeId"), rs.getString("callerId"), rs
-						.getString("noteId"), rs.getString("alarmText"), rs.getString("alarmStatus"), rs
-						.getString("createDate")), alarmId);
-		} catch (EmptyResultDataAccessException e) {
-			return null;
+	public boolean read(String alarmId) {
+		String sql = "select count(1) from ALARMS where alarmId = ?";
+		logger.debug("{}", ""+getJdbcTemplate().queryForObject(sql, Integer.class, alarmId));
+		if (getJdbcTemplate().queryForObject(sql, Integer.class, alarmId) == 0) {
+			return Boolean.FALSE;
 		}
+		return Boolean.TRUE;
 	}
 
 	public List<Map<String, Object>> list(String calleeId) {
@@ -41,8 +37,7 @@ public class AlarmDao extends JdbcDaoSupport {
 	}
 
 	public List<Map<String, Object>> readNoteAlarm(String sessionUserId) {
-		String sql = "select groupId, count(*) as groupAlarmCount from ALARMS as A, NOTES as N where A.alarmStatus = 'N' and A.calleeId =? and N.noteId = A.noteId GROUP BY groupId order by groupId;";
+		String sql = "select groupId, count(1) as groupAlarmCount from ALARMS as A, NOTES as N where A.alarmStatus = 'N' and A.calleeId =? and N.noteId = A.noteId GROUP BY groupId order by groupId;";
 		return getJdbcTemplate().queryForList(sql, sessionUserId);
 	}
-
 }
