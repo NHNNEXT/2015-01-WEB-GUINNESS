@@ -104,7 +104,7 @@
 function alarmSelect(t, noteId){
 	guinness.ajax({
 		method:"delete",
-		url:"/alarms/delete/"+t.id.split("alarm-")[1],
+		url:"/alarms/"+t.id.split("alarm-")[1],
 		success: function(req) {
 			var result = JSON.parse(req.responseText);
 			if (result.success !== true) {

@@ -28,13 +28,13 @@ public class AlarmController {
 		return new JsonResult().setSuccess(true).setMapValues(alarmDao.list(userId));
 	}
 
-	@RequestMapping(value = "/alarms/delete/{alarmId}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/alarms/{alarmId}", method = RequestMethod.DELETE)
 	protected @ResponseBody JsonResult delete(@PathVariable String alarmId, WebRequest req, Model model) {
 		alarmDao.delete(alarmId);
 		return new JsonResult().setSuccess(true);
 	}
 
-	@RequestMapping("/alarm/counts")
+	@RequestMapping("/alarms/count")
 	protected @ResponseBody JsonResult alarmCounts(HttpSession session) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		return new JsonResult().setSuccess(true).setMapValues(alarmDao.readNoteAlarm(sessionUserId));

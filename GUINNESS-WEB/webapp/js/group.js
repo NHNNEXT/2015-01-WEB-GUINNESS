@@ -16,7 +16,7 @@ window.addEventListener('load', function() {
 function loadGroupAlarm() {
     guinness.ajax({
         method:"get",
-        url:"/alarm/counts",
+        url:"/alarms/count",
         success : function(req) {
             setGroupAlarm(JSON.parse(req.responseText));
         }
