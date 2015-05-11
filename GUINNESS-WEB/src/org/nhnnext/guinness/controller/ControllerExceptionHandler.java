@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
 import org.nhnnext.guinness.exception.FailedLoginException;
+import org.nhnnext.guinness.exception.FailedMakingGroupException;
 import org.nhnnext.guinness.exception.SendMailException;
 import org.nhnnext.guinness.exception.UserUpdateException;
 import org.nhnnext.guinness.model.User;

@@ -95,4 +95,5 @@ public class CommentController {
 		commentDao.updateComment(commentId, commentText);
 		return new ModelAndView("jsonView", "jsonData", commentDao.readCommentByCommentId(commentId));
 	}
+	
 }

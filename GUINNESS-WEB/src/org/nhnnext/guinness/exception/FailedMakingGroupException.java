@@ -1,4 +1,4 @@
-package org.nhnnext.guinness.controller;
+package org.nhnnext.guinness.exception;
 
 public class FailedMakingGroupException extends Exception {
 	private static final long serialVersionUID = 1L;

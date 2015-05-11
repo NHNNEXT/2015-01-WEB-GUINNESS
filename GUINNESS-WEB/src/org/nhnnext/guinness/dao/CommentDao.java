@@ -29,6 +29,22 @@ public class CommentDao extends JdbcDaoSupport {
 				rs.getString("userImage")
 				), noteId);
 	}
+	
+	public List<Comment> readParagraphCommentListByNoteId(String noteId) throws MakingObjectListFromJdbcException,
+	ClassNotFoundException {
+		String sql = "select * from COMMENTS, USERS where COMMENTS.userId = USERS.userId AND noteId = ? AND commentType='B'";
+		return getJdbcTemplate().query(sql, (rs, rowNum) -> new Comment(
+				rs.getString("commentText"), 
+				rs.getString("commentType"),
+				rs.getString("createDate"), 
+				rs.getString("userId"), 
+				rs.getString("noteId"), 
+				rs.getString("paragraphText"),
+				rs.getString("userName"),
+				rs.getString("commentId"),
+				rs.getString("userImage")
+				), noteId);
+	}
 
 	public Comment readCommentByCommentId(String commentId) {
 		String sql = "select * from COMMENTS, USERS where COMMENTS.userId = USERS.userId AND commentId = ?";
@@ -59,4 +75,10 @@ public class CommentDao extends JdbcDaoSupport {
 		String sql = "update COMMENTS set commentText = ? where commentId = ?";
 		getJdbcTemplate().update(sql, commentText, commentId);
 	}
+	
+	public void updateParagraphComment(String commentId, String paragraphText) {
+		String sql = "update COMMENTS set paragraphText = ? where commentId = ?";
+		getJdbcTemplate().update(sql, paragraphText, commentId);
+	}
+	
 }

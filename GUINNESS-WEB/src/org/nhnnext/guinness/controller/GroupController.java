@@ -11,6 +11,7 @@ import javax.validation.Validator;
 
 import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.UserDao;
+import org.nhnnext.guinness.exception.FailedMakingGroupException;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.User;

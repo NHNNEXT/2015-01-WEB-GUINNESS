@@ -4,20 +4,28 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.joda.time.DateTime;
 import org.nhnnext.guinness.dao.AlarmDao;
+import org.nhnnext.guinness.dao.CommentDao;
 import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.NoteDao;
 import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Alarm;
+import org.nhnnext.guinness.model.Comment;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.User;
-import org.nhnnext.guinness.util.AutoMatchParagraphComments;
 import org.nhnnext.guinness.util.RandomFactory;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
@@ -42,6 +50,9 @@ public class NoteController {
 
 	@Resource
 	private NoteDao noteDao;
+	
+	@Resource
+	private CommentDao commentDao;
 	
 	@Resource
 	private AlarmDao alarmDao;
@@ -144,7 +155,7 @@ public class NoteController {
 		String groupId = req.getParameter("groupId");
 		String noteId = req.getParameter("noteId");
 		String noteText = req.getParameter("noteText");
-		AutoMatchParagraphComments.updateParagraphText(noteText, noteId);
+		updateParagraphText(noteText, noteId);
 		noteDao.updateNote(noteText, noteId);
 		return "redirect:/g/" + groupId;
 	}
@@ -159,4 +170,130 @@ public class NoteController {
 
 		return new ModelAndView("jsonView", "jsonData", "fail");
 	}
+	
+	
+	public ModelAndView updateParagraphText(String noteText, String noteId) {
+
+		List<Comment> commentList = null;
+		
+		try {
+			commentList = commentDao.readParagraphCommentListByNoteId(noteId);
+		} catch (MakingObjectListFromJdbcException | ClassNotFoundException e) {
+			return new ModelAndView("/WEB-INF/jsp/exception.jsp");
+		}
+		
+		logger.debug("코멘트는 몇개? : {}", commentList.size());
+		
+		List<String> wordDic = makeDic(noteText, commentList);
+
+		String[] pNoteText = splitParagraph(noteText); // 문단 구분
+
+		int[][] pVector = new int[pNoteText.length][];
+
+		for (int i = 0; i < pNoteText.length; i++) {
+			String[] pWord = splitWord(pNoteText[i]);
+			pVector[i] = getVector(wordDic, pWord);
+		}
+
+		int index=1;
+		for (Comment comment : commentList) {
+			Map<Integer, Double> score = new HashMap<Integer, Double>();
+			String[] wordsOfCommentParagraphText = splitWord(comment.getParagraphText());
+			int[] cVector = getVector(wordDic, wordsOfCommentParagraphText);
+			logger.debug("{}번째 코멘트.", index);
+			for (int k = 0; k < pNoteText.length; k++) {
+				logger.debug("{}번째, 스코어 : {}", k, cosineSimilarity(pVector[k], cVector));
+				score.put(k, cosineSimilarity(pVector[k], cVector));
+			}
+			
+			logger.debug("스코어 : {}", score);
+			Iterator it = sortByValue(score).iterator();
+			int key = (Integer) it.next();
+			logger.debug("인덱스? : {}", key);
+			logger.debug("점수 : {}", score.get(key));
+			logger.debug("수정된 문단 텍스트 : {}", pNoteText[key]);
+			logger.debug("수정 전 commentParagraphText : {}", comment.getParagraphText());
+			comment.setParagraphText(pNoteText[key]);
+			logger.debug("수정 후 commentParagraphText : {}", comment.getParagraphText());
+			commentDao.updateParagraphComment(comment.getCommentId(), comment.getParagraphText());
+			index++;
+		}
+
+		return null;
+	}
+
+	private static String[] splitWord(String text) {
+		return text.split("( )+|( )*(\r\n)+");
+	}
+
+	private static String[] splitParagraph(String text) {
+		return text.split("(  )( )+(\r\n)*|( )*(\r\n)+");
+	}
+
+	private static int[] getVector(List<String> wordDic, String[] pWord) {
+		int index;
+		int[] vector = new int[wordDic.size()];
+		for (String word : pWord) {
+			index = wordDic.indexOf(word);
+			if(index!=-1){									// 인덱스 확인 필요.
+				vector[wordDic.indexOf(word)]++;
+			}
+		}
+		return vector;
+	}
+
+	private static List<String> makeDic(String noteText, List<Comment> commentList) {
+		Set<String> wordSet = new TreeSet<String>();
+		noteText = noteText.replace("\r\n", ""); 			// 단순 개행은 삭제.
+		String[] noteWordText = splitWord(noteText); 		// 띄어쓰기 단위로 단어 구분.
+		for (String word : noteWordText) {
+			wordSet.add(word);
+		}
+		for(Comment comment : commentList){
+			String[] commetWordText = splitWord(comment.getParagraphText());
+			for (String word : commetWordText) {
+				wordSet.add(word);
+			}
+		}
+		return new ArrayList<String>(wordSet); 							// word 사전 구성.(정렬)
+	}
+
+	private static double cosineSimilarity(int[] textA, int[] textB) { 	// 유사도 계산
+
+		int innerProduct=0;
+		double normA, normB;
+		int sumOfSquare=0;
+		
+		for(int i=0; i<textA.length; i++){
+			innerProduct += textA[i] * textB[i];
+		}
+		for(Integer value : textA){
+			sumOfSquare += value*value;
+		}
+		normA = Math.sqrt(sumOfSquare);
+		
+		sumOfSquare=0;
+		for(Integer value : textB){
+			sumOfSquare += value*value;
+		}
+		normB = Math.sqrt(sumOfSquare);
+		
+		return innerProduct/(normA*normB);
+	}
+
+	public static List sortByValue(final Map map){
+        List list = new ArrayList();
+        list.addAll(map.keySet());
+        Collections.sort(list,new Comparator(){
+            public int compare(Object o1,Object o2){
+                Object v1 = map.get(o1);
+                Object v2 = map.get(o2);
+                 
+                return ((Comparable) v1).compareTo(v2);
+            }
+             
+        });
+        Collections.reverse(list); // 주석시 오름차순
+        return list;
+    }
 }
