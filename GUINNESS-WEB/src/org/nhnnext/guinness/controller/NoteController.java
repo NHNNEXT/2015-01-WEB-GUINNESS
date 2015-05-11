@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -55,28 +56,31 @@ public class NoteController {
 	}
 
 	@RequestMapping("/api/notes")
-	protected @ResponseBody List<Note> reloadNoteList(WebRequest req) {
+	protected @ResponseBody List<Map<String, Object>> reloadNoteList(WebRequest req) {
 		String userIds = req.getParameter("checkedUserId");
 		String groupId = req.getParameter("groupId");
 		String targetDate = req.getParameter("targetDate"); 
 		if("undefined".equals(targetDate))
 			targetDate = null;
 		if(userIds == null || groupId == null) {
-			return new ArrayList<Note>();
+			return new ArrayList<Map<String, Object>>();
 		}
-		// TODO js에서 날짜처리하는 부분을 문자열 처리가 아닌 숫자데이터 처리로 변경하기 
-		// 현재는 js에서 받아서 파싱 할 때 생성일자 데이터를 형식에 맞게 보내기 위해서 Note객체로 보내준다.
+		
 		return getNoteListFromDao(targetDate, groupId, userIds);
 	}
-
-	private List<Note> getNoteListFromDao(String date, String groupId, String userIds) {
+	
+	private List<Map<String, Object>> getNoteListFromDao(String date, String groupId, String userIds) {
 		DateTime targetDate = new DateTime(date).plusDays(1).minusSeconds(1);
 		DateTime endDate = targetDate.minusDays(1).plusSeconds(1);
 		if (date == null) {
 			endDate = targetDate.minusYears(10);
 			targetDate = targetDate.plusYears(10);
 		}
-		return noteDao.readNoteList(groupId, endDate.toString(), targetDate.toString(), userIds);
+		// targetDate의 포맷을 위한 변경
+		List<Map<String, Object>> list = noteDao.readNoteListForMap(groupId, endDate.toString(), targetDate.toString(), userIds);
+		for (Map<String, Object> map : list)
+			map.replace("targetDate", map.get("targetDate").toString());
+		return list;
 	}
 
 	@RequestMapping("/notes/{noteId}")

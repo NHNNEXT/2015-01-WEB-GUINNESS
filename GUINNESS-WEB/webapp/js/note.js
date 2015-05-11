@@ -3,14 +3,6 @@
 		}, false);
 
 		function _setMemberListPosition() {
-			/*
-			var elCreateNoteBtn = document.querySelector('#create-new-button');
-			var rect = elCreateNoteBtn.getBoundingClientRect();
-
-			var elMemberList = document.querySelector('#group-member-container');
-			elMemberList.style.left = rect.right+290+"px";
-			var elCalendarView = document.querySelector('#calendar-container');
-			elCalendarView.style.right = rect.right+10+"px";*/
 		}
 		
 		function cancelNoteCreate(e) {
@@ -211,7 +203,7 @@
 				var commentEl = commentList.querySelector('li:last-child');
 				commentEl.setAttribute('id', 'cmt-'+obj.commentId);
 				commentEl.querySelector('.comment-user').innerHTML = obj.userName;
-				commentEl.querySelector('.comment-date').innerHTML = guinness.util.someday(obj.createDate,"-");
+				commentEl.querySelector('.comment-date').innerHTML = obj.createDate;
 				commentEl.querySelector('.comment').innerHTML = obj.commentText;
 				commentEl.querySelector('.avatar').setAttribute("src","/img/profile/"+obj.userImage);
 				if (userId === obj.userId) {

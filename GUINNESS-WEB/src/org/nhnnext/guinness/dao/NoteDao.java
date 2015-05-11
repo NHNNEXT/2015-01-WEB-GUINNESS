@@ -52,30 +52,7 @@ public class NoteDao extends JdbcDaoSupport {
 			return new ArrayList<Map<String, Object>>();
 		}
 	}
-
-	public List<Note> readNoteList(String groupId, String endDate, String targetDate, String userIds) {
-		String sql = "select * from NOTES, USERS where NOTES.userId = USERS.userId " + "and groupId = ? "
-				+ "and NOTES.targetDate between ? and ? ";
-		if (userIds != null) {
-			sql += "and NOTES.userId in (" + userIds + ") ";
-		}
-		sql += "order by targetDate desc";
-
-		try {
-			return getJdbcTemplate().query(
-					sql,
-					(rs, rowNum) -> new Note(rs.getString("noteId"), rs
-							.getString("noteText"), rs.getString("targetDate"),
-							rs.getString("userId"), rs.getString("groupId"), rs
-									.getString("userName"), rs
-									.getInt("commentCount"), rs
-									.getString("userImage")), groupId, endDate,
-					targetDate);
-		} catch (EmptyResultDataAccessException e) {
-			return new ArrayList<Note>();
-		}
-	}
-
+	
 	public int checkGroupNotesCount(String groupId) {
 		String sql = "select count(*) from NOTES where groupId=?";
 

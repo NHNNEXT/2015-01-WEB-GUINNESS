@@ -74,8 +74,7 @@ public class GroupController {
 	}
 
 	@RequestMapping("/groups/delete/{groupId}")
-	protected String delete(@PathVariable String groupId, WebRequest req,
-			HttpSession session, Model model) throws Exception {
+	protected String delete(@PathVariable String groupId, WebRequest req, HttpSession session, Model model) throws Exception {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		logger.debug("groupId: {}", groupId);
 		Group group = groupDao.readGroup(groupId);

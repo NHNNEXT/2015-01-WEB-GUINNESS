@@ -1,6 +1,8 @@
 package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -60,7 +62,11 @@ public class CommentController {
 
 	@RequestMapping("/comments/{noteId}")
 	protected @ResponseBody JsonResult list(@PathVariable String noteId, WebRequest req) {
-		return new JsonResult().setSuccess(true).setMapValues(commentDao.readCommentListByNoteId(noteId));
+		List<Map<String, Object>> list = commentDao.readCommentListByNoteId(noteId);
+		// createDate의 포맷을 위한 변경
+		for (Map<String, Object> map : list)
+			map.replace("createDate", map.get("createDate").toString());
+		return new JsonResult().setSuccess(true).setMapValues(list);
 	}
 
 	@RequestMapping(value = "/comments/{commentId}", method = RequestMethod.PUT)
