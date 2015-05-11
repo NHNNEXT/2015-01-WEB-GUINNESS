@@ -77,7 +77,7 @@
 (function(){
 	guinness.ajax({
 		method:"get",
-		url:"/alarm",
+		url:"/alarms",
 		success: function(req) {
 			var alarmList = JSON.parse(req.responseText).mapValues;
 			if (alarmList.length !== 0) {

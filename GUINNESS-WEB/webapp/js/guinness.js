@@ -3,8 +3,9 @@ guinness.util = {};
 /*
  * 현재 날짜를 반환하는 Function 문자열형태의 explode를 인자로 넣으면 해당 문자열을 구분자로 반환
  */
-guinness.util.today = function(explode) {
-	var today = new Date();
+
+guinness.util.someday = function(date, explode) {
+	var today = new Date(date);
 	var day = today.getDate();
 	var month = today.getMonth() + 1;
 	var year = today.getFullYear();
@@ -20,6 +21,10 @@ guinness.util.today = function(explode) {
 		today = year + "년" + month + "월" + day + "일";
 	}
 	return today;
+};
+
+guinness.util.today = function(explode) {
+	someday(new Date(), explode);
 };
 
 Element.prototype.remove = function() {
@@ -210,8 +215,7 @@ guinness.util.alert.choose = function(c) {
 };
 
 guinness.ajax = function(o) {
-	if (o.method === undefined || o.url === undefined
-			|| o.success === undefined) {
+	if (o.method === undefined || o.url === undefined || o.success === undefined) {
 		console.log("error: insufficient parameters supplied");
 		return;
 	}
@@ -226,9 +230,8 @@ guinness.ajax = function(o) {
 		}
 	};
 	req.open(o.method, o.url, true);
-	if (o.method.toLowerCase() == "post") {
-		req.setRequestHeader("Content-type",
-				"application/x-www-form-urlencoded");
+	if (o.method.toLowerCase() == "post" || o.method.toLowerCase() == "put") {
+		req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	}
 	req.send(o.param);
 };

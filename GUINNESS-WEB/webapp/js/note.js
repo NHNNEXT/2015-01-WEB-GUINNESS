@@ -132,14 +132,19 @@
 				url: "/notes/" + noteId,
 				success: function(req) {
 					var json = JSON.parse(req.responseText);
-					if(json === "success") {
+					if(json.success === true) {
 						// TODO reload방식 말고 removeChild를 이용해서 삭제할 것
 						// 날짜에 노트가 1개 있을 경우 날짜도 같이 지워져야 한다
 						document.location.reload(true);
+//						deleteNoteCard(json.object);
 					}
 				}
 			});
 		}
+		
+//		function deleteNoteCard(noteId) {
+//			var Ul = document.querySelector("#" + noteId);
+//		}
 
 		var currScrollTop;
 		function readNoteContents(noteId) {
@@ -148,8 +153,10 @@
 				method: 'get',
 				url: '/notes/' + noteId,
 				success: function(req) {
-					var json = JSON.parse(req.responseText);
-					showNoteModal(json);
+					var result = JSON.parse(req.responseText);
+					if(result.success !== true)
+						return;
+					showNoteModal(result.object);
 					document.body.scrollTop = currScrollTop;
 				}
 			});
@@ -178,10 +185,13 @@
 			var noteId = obj.noteId;
 			guinness.ajax({
 			  method : "get",
-			  url : "/comment?noteId=" + noteId,
+			  url : "/comments/" + noteId,
 			  success : function(req) {
-			    appendComment(JSON.parse(req.responseText));
-                guinness.util.setModalPosition();
+				  var result = JSON.parse(req.responseText);
+				  if(result.success !== true)
+					  return;
+				  appendComment(result.mapValues);
+				  guinness.util.setModalPosition();
 			  }
 			});
 		}
@@ -201,11 +211,11 @@
 				var commentEl = commentList.querySelector('li:last-child');
 				commentEl.setAttribute('id', 'cmt-'+obj.commentId);
 				commentEl.querySelector('.comment-user').innerHTML = obj.userName;
-				commentEl.querySelector('.comment-date').innerHTML = obj.createDate;
+				commentEl.querySelector('.comment-date').innerHTML = guinness.util.someday(obj.createDate,"-");
 				commentEl.querySelector('.comment').innerHTML = obj.commentText;
 				commentEl.querySelector('.avatar').setAttribute("src","/img/profile/"+obj.userImage);
 				if (userId === obj.userId) {
-					commentEl.querySelector('.comment-util').innerHTML = "<div class='default-utils'><a onclick='showEditInputBox(&quot;"+ obj.commentText + "&quot; , &quot;"+ obj.commentId + "&quot;)'>수정</a><a href='#' onclick='deleteComment(&quot;" + obj.commentId + "&quot;)'>삭제</a></div>"
+					commentEl.querySelector('.comment-util').innerHTML = "<div class='default-utils'><a href='#' onclick='showEditInputBox(&quot;"+ obj.commentText + "&quot; , &quot;"+ obj.commentId + "&quot;)'>수정</a><a href='#' onclick='deleteComment(&quot;" + obj.commentId + "&quot;)'>삭제</a></div>"
 				}
 			}
 		}
@@ -213,9 +223,13 @@
 		function updateComment(commentId, commentText){
 			guinness.ajax({
 				method:"put",
-				url:"/comment/" + commentId + "/" + commentText,
+				url:"/comments/" + commentId,
+				param:"commentText="+commentText,
 				success: function(req) {
-					var json = JSON.parse(req.responseText);
+					var result = JSON.parse(req.responseText);
+					if(result.success !== true)
+						return;
+					var json = result.object;
 					var el = document.querySelector("#cmt-"+commentId);
 					el.querySelector('.comment').innerHTML = json.commentText;
 					el.querySelector('.comment-date').innerHTML = json.createDate;
@@ -226,12 +240,14 @@
 			});
 		}
 		
+
 		function deleteComment(commentId){
 			guinness.ajax({
-				method:"get",
-				url:"/comment/" + commentId + "/delete",
+				method:"delete",
+				url:"/comments/" + commentId,
 				success: function(req) {
-					document.querySelector('#cmt-'+commentId).remove();
+					if(JSON.parse(req.responseText).success === true)
+						document.querySelector('#cmt-'+commentId).remove();
 				}
 			});
 		}
@@ -269,7 +285,6 @@
 			el.querySelector('.comment-util').appendChild(updateButton);
 			el.querySelector('.comment-util').appendChild(cancelButton);
 		}
-
 		function createComment(obj) {
 			var commentText = document.querySelector('#commentText').value;
 			if(commentText !== ""){
@@ -277,11 +292,15 @@
 				var noteId = obj.noteId;
 				var commentType = "A";
 				guinness.ajax({
-					method:"put",
-					url:"/comment/create/" + commentText + "/" + commentType + "/" + noteId,
+					method:"post",
+					url:"/comments/",
+					param:"commentText="+commentText+"&commentType="+commentType+"&noteId="+noteId,
 					success: function(req) {
-						appendComment(JSON.parse(req.responseText));
-						document.querySelector('#commentText').value ="";
+						var result = JSON.parse(req.responseText);
+						  if(result.success !== true)
+							  return;
+						  appendComment(result.mapValues);
+						  document.querySelector('#commentText').value ="";
 					}
 				});
 			}
@@ -363,20 +382,17 @@
 			}
 		}
 		
-		function reloadNoteList(targetDateOption){
+		function reloadNoteList(targetDate){
 			var groupId = window.location.pathname.split("/")[2];
-			var targetDate = targetDateOption;
 			var objs = document.querySelectorAll(".memberChk");
 			var array = [];
-
 			for(var i=0; i<objs.length; i++){
 				if(objs[i].checked === true)
 					array.push("'"+objs[i].value+"'");
 			}
 			guinness.ajax({ 
-				method:"post", 
-				url:"/note/list",
-				param:'groupId='+groupId+'&targetDate='+targetDate+'&checkedUserId='+array,
+				method:"get", 
+				url:'/api/notes/?groupId='+groupId+'&targetDate='+targetDate+'&checkedUserId='+array,
 				success: 
 				  function(req) {
 					appendNoteList(JSON.parse(req.responseText));

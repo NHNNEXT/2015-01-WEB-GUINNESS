@@ -13,10 +13,11 @@ import org.joda.time.DateTime;
 import org.nhnnext.guinness.dao.AlarmDao;
 import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.NoteDao;
-import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
+import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.model.Alarm;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.User;
+import org.nhnnext.guinness.util.JsonResult;
 import org.nhnnext.guinness.util.RandomFactory;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
@@ -28,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 
@@ -44,54 +44,44 @@ public class NoteController {
 	private AlarmDao alarmDao;
 
 	@RequestMapping(value = "/g/{groupId}")
-	protected String initReadNoteList(@PathVariable String groupId, HttpSession session, Model model) throws IOException {
+	protected String initReadNoteList(@PathVariable String groupId, HttpSession session, Model model) throws IOException, UnpermittedAccessGroupException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
-			model.addAttribute("errorMessage", "비정상적 접근시도.");
-			return "illegal";
+			throw new UnpermittedAccessGroupException();
 		}
-		String groupName = groupDao.readGroup(groupId).getGroupName();
-		List<Note> noteList = getNoteListFromDao(null, groupId, null);
-		model.addAttribute("noteList", new Gson().toJson(noteList));
-		model.addAttribute("groupName", new Gson().toJson(groupName));
+		model.addAttribute("groupName", groupDao.readGroup(groupId).getGroupName());
+		model.addAttribute("noteList", new Gson().toJson(getNoteListFromDao(null, groupId, null)));
 		return "notes";
 	}
 
-	@RequestMapping(value = "/note/list", method = RequestMethod.POST)
-	protected @ResponseBody List<Note> reloadNoteList(WebRequest req) throws IOException {
+	@RequestMapping("/api/notes")
+	protected @ResponseBody List<Note> reloadNoteList(WebRequest req) {
 		String userIds = req.getParameter("checkedUserId");
 		String groupId = req.getParameter("groupId");
-		String targetDate = req.getParameter("targetDate");
-		if(targetDate.equals("undefined")){
+		String targetDate = req.getParameter("targetDate"); 
+		if("undefined".equals(targetDate))
 			targetDate = null;
+		if(userIds == null || groupId == null) {
+			return new ArrayList<Note>();
 		}
-		List<Note> noteList = getNoteListFromDao(targetDate, groupId, userIds);
-		return noteList;
+		// TODO js에서 날짜처리하는 부분을 문자열 처리가 아닌 숫자데이터 처리로 변경하기 
+		// 현재는 js에서 받아서 파싱 할 때 생성일자 데이터를 형식에 맞게 보내기 위해서 Note객체로 보내준다.
+		return getNoteListFromDao(targetDate, groupId, userIds);
 	}
 
 	private List<Note> getNoteListFromDao(String date, String groupId, String userIds) {
-		if (userIds == "")
-			return new ArrayList<Note>();
 		DateTime targetDate = new DateTime(date).plusDays(1).minusSeconds(1);
 		DateTime endDate = targetDate.minusDays(1).plusSeconds(1);
 		if (date == null) {
 			endDate = targetDate.minusYears(10);
 			targetDate = targetDate.plusYears(10);
 		}
-		List<Note> noteList = noteDao.readNoteList(groupId, endDate.toString(), targetDate.toString(), userIds);
-		return noteList;
+		return noteDao.readNoteList(groupId, endDate.toString(), targetDate.toString(), userIds);
 	}
 
 	@RequestMapping("/notes/{noteId}")
-	protected ModelAndView show(@PathVariable String noteId) throws IOException {
-		Note note = null;
-		try {
-			note = noteDao.readNote(noteId);
-		} catch (MakingObjectListFromJdbcException e) {
-			logger.error("Exception", e);
-			return new ModelAndView("exception");
-		}
-		return new ModelAndView("jsonView").addObject("jsonData", note);
+	protected @ResponseBody JsonResult show(@PathVariable String noteId) {
+		return new JsonResult().setSuccess(true).setObject(noteDao.readNote(noteId));
 	}
 
 	@RequestMapping(value = "/notes", method = RequestMethod.POST)
@@ -101,7 +91,6 @@ public class NoteController {
 		String noteText = req.getParameter("noteText");
 		String targetDate = req.getParameter("targetDate") + " "
 				+ new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
-
 		if (noteText.equals("")) {
 			return "redirect:/notes/editor?groupId=" + groupId;
 		}
@@ -138,12 +127,11 @@ public class NoteController {
 	}
 
 	@RequestMapping(value = "/notes/{noteId}", method = RequestMethod.DELETE)
-	protected ModelAndView delete(@PathVariable String noteId) {
+	protected @ResponseBody JsonResult delete(@PathVariable String noteId) {
 		logger.debug(" noteId : " + noteId);
 		if (noteDao.deleteNote(noteId) == 1) {
-			return new ModelAndView("jsonView", "jsonData", "success");
+			return new JsonResult().setSuccess(true).setObject(noteId);
 		}
-
-		return new ModelAndView("jsonView", "jsonData", "fail");
+		return new JsonResult().setSuccess(false);
 	}
 }

@@ -9,7 +9,9 @@ search.note.load = function (noteId) {
 		url: "/notes/" + noteId,
 		success: function (req) {
 			var json = JSON.parse(req.responseText);
-			search.note.create(json);
+			if(json.success !== true)
+				return;
+			search.note.create(json.object);
 		}
     };
 	guinness.ajax(ajaxObj);

@@ -3,8 +3,8 @@ package org.nhnnext.guinness.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,8 +13,6 @@ import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Comment;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
@@ -23,7 +21,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/applicationContext.xml")
 public class CommentDaoTest {
-	private static final Logger logger = LoggerFactory.getLogger(CommentDaoTest.class);
 	private static final String NOTEID = "7";
 
 	@Autowired
@@ -33,22 +30,19 @@ public class CommentDaoTest {
 	Note note = null;
 	Comment comment = null;
 	List<Comment> comments = null;
+	List<Map<String, Object>> comments2 = null;
 
 	@Before
 	public void before() throws MakingObjectListFromJdbcException, ClassNotFoundException {
 		commentDao.deleteAllCommentsByNoteId("9");
 		comment = new Comment("unit test", "A", "admin@guinness.com", "9");
 		commentDao.createComment(comment);
-		comments = commentDao.readCommentListByNoteId(comment.getNoteId());
+		comments2 = commentDao.readCommentListByNoteId(comment.getNoteId());
 	}
 
 	@Test
 	public void readCommentListByNoteId() throws ClassNotFoundException {
-		List<Comment> comments = commentDao.readCommentListByNoteId(NOTEID);
-		for (Iterator<Comment> i = comments.iterator(); i.hasNext();) {
-			Comment comment = i.next();
-			logger.debug(comment.toString());
-		}
+		List<Map<String, Object>> comments = commentDao.readCommentListByNoteId(NOTEID);
 		assertNotNull(comments);
 	}
 

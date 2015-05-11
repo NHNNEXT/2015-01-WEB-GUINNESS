@@ -5,11 +5,13 @@ import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
 import org.nhnnext.guinness.exception.FailedLoginException;
 import org.nhnnext.guinness.exception.FailedMakingGroupException;
 import org.nhnnext.guinness.exception.SendMailException;
+import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.exception.UserUpdateException;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.JsonResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,6 +21,15 @@ import org.springframework.web.servlet.view.RedirectView;
 @ControllerAdvice
 public class ControllerExceptionHandler {
 	private static final Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
+
+	// 디비 접속 안되었을 경우 예외처리
+	@ExceptionHandler(CannotGetJdbcConnectionException.class)
+	public ModelAndView cannotGetJdbcConnectionException(CannotGetJdbcConnectionException e) {
+		e.printStackTrace();
+		ModelAndView mav = new ModelAndView("/exception");
+		logger.debug("exception: {}", e.getClass().getSimpleName());
+		return mav;
+	}
 	
 	// 본인 확인을 위한 메일 전송 시 예외처리
 	@ExceptionHandler(SendMailException.class)
@@ -68,6 +79,15 @@ public class ControllerExceptionHandler {
 		e.printStackTrace();
 		return new JsonResult().setSuccess(false).setMessage(e.getMessage());
 	}
+	
+	// 허가되지않은 그룹 접속 시도 시 예외처리
+	@ExceptionHandler(UnpermittedAccessGroupException.class)
+	public ModelAndView unpermittedAccessGroupException(UnpermittedAccessGroupException e) {
+		e.printStackTrace();
+		ModelAndView mav = new ModelAndView("/illegal");
+		mav.addObject("errorMessage", "비정상적 접근시도.");
+		return mav;
+	}
 
 	@ExceptionHandler(Exception.class)
 	public ModelAndView exception(Exception e) {
@@ -76,5 +96,6 @@ public class ControllerExceptionHandler {
 		logger.debug("exception: {}", e.getClass().getSimpleName());
 		return mav;
 	}
+	
 	
 }
