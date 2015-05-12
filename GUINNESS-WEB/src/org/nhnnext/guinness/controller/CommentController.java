@@ -4,19 +4,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
-import org.nhnnext.guinness.dao.AlarmDao;
-import org.nhnnext.guinness.dao.CommentDao;
-import org.nhnnext.guinness.dao.NoteDao;
-import org.nhnnext.guinness.model.Alarm;
 import org.nhnnext.guinness.model.Comment;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.User;
+import org.nhnnext.guinness.service.CommentService;
 import org.nhnnext.guinness.util.JsonResult;
-import org.nhnnext.guinness.util.RandomFactory;
 import org.nhnnext.guinness.util.ServletRequestUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,12 +22,8 @@ import org.springframework.web.context.request.WebRequest;
 
 @Controller
 public class CommentController {
-	@Autowired
-	private CommentDao commentDao;
-	@Autowired
-	private NoteDao noteDao;
-	@Autowired
-	private AlarmDao alarmDao;
+	@Resource
+	private CommentService commentService;
 	
 	@RequestMapping(value = "/comments", method = RequestMethod.POST)
 	protected @ResponseBody JsonResult create(HttpSession session, WebRequest req) throws IOException {
@@ -39,51 +31,32 @@ public class CommentController {
 		String commentText = req.getParameter("commentText");
 		String commentType = req.getParameter("commentType");
 		String noteId = req.getParameter("noteId");
-		
 		if (commentText.equals(""))
-			return new JsonResult().setSuccess(false).setMapValues(commentDao.readCommentListByNoteId(noteId));
+			return new JsonResult().setSuccess(false);
 		
-		User sessionUser = new User(sessionUserId);
-		Note note = new Note(noteId);
-		Comment comment = new Comment(commentText, commentType, sessionUser, note);
-		commentDao.createComment(comment);
-		noteDao.increaseCommentCount(noteId);
-		
-		if(!sessionUserId.equals(noteDao.readNote(noteId).getUser().getUserId())) {
-			String alarmId = null;
-			Alarm alarm = null;
-			while (true) {
-				alarmId = RandomFactory.getRandomId(10);
-				if (!alarmDao.isExistAlarmId(alarmId)) {
-					alarm = new Alarm(alarmId, "C", sessionUser, noteDao.readNote(noteId).getUser(), note);
-					break;
-				}
-			}
-			alarmDao.create(alarm);
-		}
-		return new JsonResult().setSuccess(true).setMapValues(commentDao.readCommentListByNoteId(noteId));
+		Comment comment = new Comment(commentText, commentType, new User(sessionUserId), new Note(noteId));
+		return new JsonResult().setSuccess(true).setMapValues(commentService.create(comment));
 	}
 
 	@RequestMapping("/comments/{noteId}")
-	protected @ResponseBody JsonResult list(@PathVariable String noteId, WebRequest req) {
-		List<Map<String, Object>> list = commentDao.readCommentListByNoteId(noteId);
+	protected @ResponseBody JsonResult list(@PathVariable String noteId) {
+		List<Map<String, Object>> list = commentService.list(noteId);
 		// createDate의 포맷을 위한 변경
 		for (Map<String, Object> map : list)
 			map.replace("createDate", map.get("createDate").toString());
+		System.out.println(list);
 		return new JsonResult().setSuccess(true).setMapValues(list);
 	}
 
 	@RequestMapping(value = "/comments/{commentId}", method = RequestMethod.PUT)
 	protected @ResponseBody JsonResult update(@PathVariable String commentId, WebRequest req) {
 		String commentText = req.getParameter("commentText");
-		commentDao.updateComment(commentId, commentText);
-		return new JsonResult().setSuccess(true).setObject(commentDao.readCommentByCommentId(commentId));
+		return new JsonResult().setSuccess(true).setObject((Comment)commentService.update(commentId, commentText));
 	}
 	
 	@RequestMapping(value = "/comments/{commentId}", method = RequestMethod.DELETE)
 	protected @ResponseBody JsonResult delete(@PathVariable String commentId) {
-		noteDao.decreaseCommentCount(commentId);
-		commentDao.deleteComment(commentId);
+		commentService.delete(commentId);
 		return new JsonResult().setSuccess(true);
 	}
 }

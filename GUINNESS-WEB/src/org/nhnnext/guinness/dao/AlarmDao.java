@@ -37,7 +37,7 @@ public class AlarmDao extends JdbcDaoSupport {
 	}
 
 	public List<Map<String, Object>> readNoteAlarm(String sessionUserId) {
-		String sql = "select groupId, count(1) as groupAlarmCount from ALARMS as A, NOTES as N where A.alarmStatus = 'N' and A.calleeId =? and N.noteId = A.noteId GROUP BY groupId order by groupId;";
+		String sql = "select groupId, count(*) as groupAlarmCount from ALARMS as A, NOTES as N where A.alarmStatus = 'N' and A.calleeId =? and N.noteId = A.noteId GROUP BY groupId order by groupId;";
 		return getJdbcTemplate().queryForList(sql, sessionUserId);
 	}
 }
