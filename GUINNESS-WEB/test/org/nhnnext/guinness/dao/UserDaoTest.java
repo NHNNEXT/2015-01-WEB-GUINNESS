@@ -26,7 +26,7 @@ public class UserDaoTest {
 	
 	@Test
 	public void CRUDTest() throws ClassNotFoundException, AlreadyExistedUserIdException {
-		userDao.createUser(new User("daoTest@guinness.com","Name","password", 'I'));
+		userDao.createUser(new User("daoTest@guinness.com","Name","password", "I"));
 		User user = userDao.findUserByUserId("daoTest@guinness.com");
 		assertNotNull(user);
 	}

@@ -21,8 +21,8 @@ public class GroupDaoTest {
 	@Autowired
 	private UserDao userDao;
 	
-	private User user = new User("das@das.com", "다스", "1q2w3e", 'I', "avatar-default.png");
-	private Group group = new Group("group", "groupName", "das@das.com", 'F');
+	private User user = new User("das@das.com", "다스", "1q2w3e", "I", "avatar-default.png");
+	private Group group = new Group("group", "groupName", "das@das.com", "F");
 
 	@Test
 	public void createGroup() throws ClassNotFoundException {

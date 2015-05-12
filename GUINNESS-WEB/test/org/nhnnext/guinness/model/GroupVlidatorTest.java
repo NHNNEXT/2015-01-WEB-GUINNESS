@@ -27,7 +27,7 @@ public class GroupVlidatorTest {
 
 	@Test
 	public void groupIdIsNull() {
-		Group group = new Group(null,"a","CaptainUserId",'F');
+		Group group = new Group(null,"a","CaptainUserId","F");
 		Set<ConstraintViolation<Group>> constraintViolations = validator.validate(group);
 		assertEquals(2, constraintViolations.size());
 		

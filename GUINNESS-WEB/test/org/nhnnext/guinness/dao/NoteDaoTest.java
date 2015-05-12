@@ -6,7 +6,9 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
+import org.nhnnext.guinness.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,7 +22,7 @@ public class NoteDaoTest {
 	
 	@Test
 	public void CreateNote() throws ClassNotFoundException {
-		Note note = new Note("test", "2015-03-19 17:56:24", "jyb0823@naver.com", "Ogsho");
+		Note note = new Note("test", "2015-03-19 17:56:24", new User("jyb0823@naver.com"), new Group("Ogsho"));
 		noteDao.createNote(note);
 		Note newNote = noteDao.readNote(note.getNoteId());
 		assertNotNull(newNote);

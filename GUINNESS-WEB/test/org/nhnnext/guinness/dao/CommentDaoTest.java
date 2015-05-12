@@ -13,6 +13,7 @@ import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Comment;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
+import org.nhnnext.guinness.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
@@ -35,9 +36,9 @@ public class CommentDaoTest {
 	@Before
 	public void before() throws MakingObjectListFromJdbcException, ClassNotFoundException {
 		commentDao.deleteAllCommentsByNoteId("9");
-		comment = new Comment("unit test", "A", "admin@guinness.com", "9");
+		comment = new Comment("unit test", "A", new User("admin@guinness.com"), new Note("9"));
 		commentDao.createComment(comment);
-		comments2 = commentDao.readCommentListByNoteId(comment.getNoteId());
+		comments2 = commentDao.readCommentListByNoteId(comment.getNote().getNoteId());
 	}
 
 	@Test
