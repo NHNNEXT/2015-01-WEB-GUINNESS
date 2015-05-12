@@ -13,7 +13,7 @@ public class GroupDao extends JdbcDaoSupport {
 	public void createGroup(Group group) {
 		String sql = "insert into GROUPS values(?,?,?,DEFAULT,?)";
 		getJdbcTemplate().update(sql, group.getGroupId(), group.getGroupName(),
-				group.getGroupCaptainUserId(), "" + group.isPublic());
+				group.getGroupCaptainUserId(), group.isPublic());
 	}
 
 	public void deleteGroup(Group group) {

@@ -387,7 +387,10 @@
 				url:'/api/notes/?groupId='+groupId+'&targetDate='+targetDate+'&checkedUserId='+array,
 				success: 
 				  function(req) {
-					appendNoteList(JSON.parse(req.responseText));
+					var result = JSON.parse(req.responseText);
+					if (result.success) {
+						appendNoteList(result.mapValues);
+					}
 				  } 
 			});
 		}

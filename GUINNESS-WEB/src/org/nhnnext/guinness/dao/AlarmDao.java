@@ -17,7 +17,7 @@ public class AlarmDao extends JdbcDaoSupport {
 				alarm.getAlarmStatus());
 	}
 
-	public boolean read(String alarmId) {
+	public boolean isExistAlarmId(String alarmId) {
 		String sql = "select count(1) from ALARMS where alarmId = ?";
 		logger.debug("{}", ""+getJdbcTemplate().queryForObject(sql, Integer.class, alarmId));
 		if (getJdbcTemplate().queryForObject(sql, Integer.class, alarmId) == 0) {

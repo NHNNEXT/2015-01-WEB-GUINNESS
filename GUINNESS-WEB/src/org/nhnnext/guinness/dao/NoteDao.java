@@ -10,8 +10,6 @@ import java.util.Map;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
@@ -19,8 +17,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 public class NoteDao extends JdbcDaoSupport {
-	private static final Logger logger = LoggerFactory.getLogger(NoteDao.class);
-
 	public long createNote(Note note) {
 		String sql = "insert into NOTES (noteText, targetDate, userId, groupId, commentCount) values(?, ?, ?, ?, 0)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -54,7 +50,7 @@ public class NoteDao extends JdbcDaoSupport {
 	}
 
 	public int checkGroupNotesCount(String groupId) {
-		String sql = "select count(*) from NOTES where groupId=?";
+		String sql = "select count(1) from NOTES where groupId=?";
 
 		return getJdbcTemplate().queryForObject(sql, Integer.class, groupId);
 	}
@@ -104,7 +100,6 @@ public class NoteDao extends JdbcDaoSupport {
 		String sql = "SELECT distinct noteId, noteText, targetDate, N.userId, N.groupId, U.userName, G.groupName, N.commentCount FROM NOTES N LEFT JOIN USERS U ON N.userId = U.userId LEFT JOIN GROUPS G ON N.groupId = G.groupId LEFT JOIN GROUPS_USERS GU on GU.groupId = N.groupId WHERE "
 				+ query.substring(3)
 				+ " and N.groupId in (select groupId from GROUPS_USERS where userId = ?) AND N.userId = GU.userId order by N.targetDate desc";
-		logger.debug("sql={}", sql);
 		try {
 			return getJdbcTemplate().queryForList(sql, userId);
 		} catch (EmptyResultDataAccessException e) {

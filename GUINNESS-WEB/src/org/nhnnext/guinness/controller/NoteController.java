@@ -57,17 +57,16 @@ public class NoteController {
 	}
 
 	@RequestMapping("/api/notes")
-	protected @ResponseBody List<Map<String, Object>> reloadNoteList(WebRequest req) {
+	protected @ResponseBody JsonResult reloadNoteList(WebRequest req) {
 		String userIds = req.getParameter("checkedUserId");
 		String groupId = req.getParameter("groupId");
 		String targetDate = req.getParameter("targetDate"); 
 		if("undefined".equals(targetDate))
 			targetDate = null;
 		if(userIds == null || groupId == null) {
-			return new ArrayList<Map<String, Object>>();
+			return new JsonResult().setSuccess(false).setMapValues(new ArrayList<Map<String, Object>>());
 		}
-		
-		return getNoteListFromDao(targetDate, groupId, userIds);
+		return new JsonResult().setSuccess(true).setMapValues(getNoteListFromDao(targetDate, groupId, userIds));
 	}
 	
 	private List<Map<String, Object>> getNoteListFromDao(String date, String groupId, String userIds) {
@@ -112,7 +111,7 @@ public class NoteController {
 			}
 			while (true) {
 				alarmId = RandomFactory.getRandomId(10);
-				if (!alarmDao.read(alarmId)) {
+				if (!alarmDao.isExistAlarmId(alarmId)) {
 					alarm = new Alarm(alarmId, "N", new User(noteWriter), reader, new Note(noteId));
 					break;
 				}

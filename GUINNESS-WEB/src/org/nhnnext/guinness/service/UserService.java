@@ -68,7 +68,7 @@ public class UserService {
 	
 	public User confirm(String keyAddress) {
 		String userId = confirmDao.findUserIdByKeyAddress(keyAddress);
-		userDao.updateUserState(userId, 'E');
+		userDao.updateUserState(userId, "E");
 		confirmDao.deleteConfirmByKeyAddress(keyAddress);
 		return userDao.findUserByUserId(userId);
 	}

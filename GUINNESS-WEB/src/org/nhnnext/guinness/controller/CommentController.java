@@ -54,7 +54,7 @@ public class CommentController {
 			Alarm alarm = null;
 			while (true) {
 				alarmId = RandomFactory.getRandomId(10);
-				if (!alarmDao.read(alarmId)) {
+				if (!alarmDao.isExistAlarmId(alarmId)) {
 					alarm = new Alarm(alarmId, "C", sessionUser, noteDao.readNote(noteId).getUser(), note);
 					break;
 				}
