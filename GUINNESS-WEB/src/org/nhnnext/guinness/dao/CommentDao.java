@@ -4,13 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.nhnnext.guinness.model.Comment;
+import org.nhnnext.guinness.model.Note;
+import org.nhnnext.guinness.model.User;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 public class CommentDao extends JdbcDaoSupport {
 	
 	public void createComment(Comment comment) {
 		String sql = "insert into COMMENTS (commentText, commentType, userId, noteId) values(?, ?, ?, ?)";
-		getJdbcTemplate().update(sql, comment.getCommentText(), comment.getCommentType(), comment.getUserId(), comment.getNoteId());
+		getJdbcTemplate().update(sql, comment.getCommentText(), comment.getCommentType(), comment.getUser().getUserId(), comment.getNote().getNoteId());
 	}
 
 	public List<Map<String, Object>> readCommentListByNoteId(String noteId) {
@@ -22,13 +24,12 @@ public class CommentDao extends JdbcDaoSupport {
 		String sql = "select * from COMMENTS, USERS where COMMENTS.userId = USERS.userId AND commentId = ?";
 		
 		return getJdbcTemplate().queryForObject(sql, (rs, rowNum) -> new Comment(
+				rs.getString("commentId"),
 				rs.getString("commentText"), 
 				rs.getString("commentType"), 
 				rs.getString("createDate"), 
-				rs.getString("userId"), 
-				rs.getString("noteId"), 
-				rs.getString("userName"),
-				rs.getString("commentId")
+				new User(rs.getString("userId")), 
+				new Note(rs.getString("noteId"))
 				), commentId);
 	}
 	

@@ -21,7 +21,7 @@ public class ConfirmDao extends JdbcDaoSupport {
 					rs.getString("userId"), 
 					rs.getString("userName"), 
 					rs.getString("userPassword"),
-					rs.getString("userStatus").charAt(0)
+					rs.getString("userStatus")
 					), keyAddress).getUserId();
 		} catch (EmptyResultDataAccessException e) {
 			return null;

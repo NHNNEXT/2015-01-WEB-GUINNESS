@@ -64,7 +64,7 @@ public class UserControllerTest {
 	@Test
 	public void confirm() throws Exception {
 		when(confirmDao.findUserIdByKeyAddress("qawsedrftg")).thenReturn("parpermint@yopmail.com");
-		when(userDao.findUserByUserId("parpermint@yopmail.com")).thenReturn(new User("parpermint@yopmail.com", "다스", "1q2w3e4r", 'R'));
+		when(userDao.findUserByUserId("parpermint@yopmail.com")).thenReturn(new User("parpermint@yopmail.com", "다스", "1q2w3e4r", "R"));
 		this.mockMvc.perform(
 				post("/user/confirm/qawsedrftg"))
 				.andDo(print())

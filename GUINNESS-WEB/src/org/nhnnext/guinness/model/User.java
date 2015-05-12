@@ -27,7 +27,7 @@ public class User {
 	@Expose(serialize=false)
 	private String userPassword;
 	
-	private char status;
+	private String status;
 	
 	@Expose
 	private String userImage;
@@ -36,7 +36,7 @@ public class User {
 	 public User() {
 	}
 
-	public User(String userId, String userName, String userPassword, char status, String userImage) {
+	public User(String userId, String userName, String userPassword, String status, String userImage) {
 		this.userId = userId;
 		this.userName = userName;
 		this.userPassword = userPassword;
@@ -44,56 +44,59 @@ public class User {
 		this.userImage = userImage;
 	}
 	
-	public User(String userId, String userName, String userPassword, char status) {
+	public User(String userId, String userName, String userPassword, String status) {
 		this(userId, userName, userPassword, status, "avatar-default.png");
+	}
+
+	public User(String userId) {
+		this(userId, null, null, null, "avatar-default.png");
 	}
 
 	public String getUserId() {
 		return userId;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public String getUserPassword() {
-		return userPassword;
-	}
-
-	public String getUserImage() {
-		return userImage;
-	}
-
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public String getUserName() {
+		return userName;
 	}
 
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 
+	public String getUserPassword() {
+		return userPassword;
+	}
+
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getUserImage() {
+		return userImage;
 	}
 
 	public void setUserImage(String userImage) {
 		this.userImage = userImage;
 	}
 
-	public char getStatus() {
-		return status;
-	}
-
-	public void setStatus(char status) {
-		this.status = status;
-	}
-
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + status;
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		result = prime * result + ((userImage == null) ? 0 : userImage.hashCode());
 		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
@@ -110,7 +113,10 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (status != other.status)
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
 			return false;
 		if (userId == null) {
 			if (other.userId != null)

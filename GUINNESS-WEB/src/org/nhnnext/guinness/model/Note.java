@@ -4,88 +4,77 @@ public class Note {
 	private String noteId;
 	private String noteText;
 	private String targetDate;
-	private String userId;
-	private String groupId;
-	private String userName;
+	private User user;
+	private Group group;
 	private int commentCount;
-	private String groupName;
-	private String userImage;
-
-	public Note(String noteText, String targetDate, String userId, String groupId) {
-		this(null, noteText, targetDate, userId, groupId, null, 0);
-	}
-
-	public Note(String noteId, String noteText, String targetDate, String userId,
-			String groupId, String userName) {
-		this(noteId, noteText, targetDate, userId, groupId, userName, 0);
-	}
 	
-	public Note(String noteId, String noteText, String targetDate, String userId,
-			String groupId, String userName, int commentCount) {
-		this(noteId, noteText, targetDate, userId, groupId, userName, commentCount, null, null);
-	}
-	
-	public Note(String noteId, String noteText, String targetDate, String userId,
-			String groupId, String userName, String groupName, int commentCount) {
-		this(noteId, noteText, targetDate, userId, groupId, userName, commentCount, groupName, null);
-	}
-	
-	public Note(String noteId, String noteText, String targetDate, String userId,
-			String groupId, String userName, int commentCount, String userImage) {
-		this(noteId, noteText, targetDate, userId, groupId, userName, commentCount, null, userImage);
-	}
-	
-	public Note(String noteId, String noteText, String targetDate, String userId,
-			String groupId, String userName, int commentCount, String groupName, String userImage) {
+	public Note(String noteId, String noteText, String targetDate, User user, Group group, int commentCount) {
 		this.noteId = noteId;
 		this.noteText = noteText;
 		this.targetDate = targetDate;
-		this.userId = userId;
-		this.groupId = groupId;
-		this.userName = userName;
+		this.user = user;
+		this.group = group;
 		this.commentCount = commentCount;
-		this.groupName = groupName;
-		this.userImage = userImage;
 	}
-	
+
+	public Note(String noteText, String targetDate, User user, Group group) {
+		super();
+		this.noteText = noteText;
+		this.targetDate = targetDate;
+		this.user = user;
+		this.group = group;
+	}
+
+	public Note(String noteId) {
+		this(noteId, null, null, null, null, 0);
+	}
+
 	public String getNoteId() {
 		return noteId;
+	}
+
+	public void setNoteId(String noteId) {
+		this.noteId = noteId;
 	}
 
 	public String getNoteText() {
 		return noteText;
 	}
 
+	public void setNoteText(String noteText) {
+		this.noteText = noteText;
+	}
+
 	public String getTargetDate() {
 		return targetDate;
 	}
 
-	public String getUserId() {
-		return userId;
+	public void setTargetDate(String targetDate) {
+		this.targetDate = targetDate;
 	}
 
-	public String getGroupId() {
-		return groupId;
+	public User getUser() {
+		return user;
 	}
-	
-	public String getUserName() {
-		return userName;
+
+	public void setUser(User user) {
+		this.user = user;
 	}
-	
+
+	public Group getGroup() {
+		return group;
+	}
+
+	public void setGroup(Group group) {
+		this.group = group;
+	}
+
 	public int getCommentCount() {
 		return commentCount;
 	}
-	
-	public String getGroupName() {
-		return groupName;
-	}
 
-	public String getUserImage() {
-		return userImage;
-	}
-	
-	public void setUserImage(String userImage) {
-		this.userImage = userImage;
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
 	}
 
 	@Override
@@ -93,14 +82,11 @@ public class Note {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + commentCount;
-		result = prime * result + ((groupId == null) ? 0 : groupId.hashCode());
-		result = prime * result + ((groupName == null) ? 0 : groupName.hashCode());
+		result = prime * result + ((group == null) ? 0 : group.hashCode());
 		result = prime * result + ((noteId == null) ? 0 : noteId.hashCode());
 		result = prime * result + ((noteText == null) ? 0 : noteText.hashCode());
 		result = prime * result + ((targetDate == null) ? 0 : targetDate.hashCode());
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
-		result = prime * result + ((userImage == null) ? 0 : userImage.hashCode());
-		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
 
@@ -115,15 +101,10 @@ public class Note {
 		Note other = (Note) obj;
 		if (commentCount != other.commentCount)
 			return false;
-		if (groupId == null) {
-			if (other.groupId != null)
+		if (group == null) {
+			if (other.group != null)
 				return false;
-		} else if (!groupId.equals(other.groupId))
-			return false;
-		if (groupName == null) {
-			if (other.groupName != null)
-				return false;
-		} else if (!groupName.equals(other.groupName))
+		} else if (!group.equals(other.group))
 			return false;
 		if (noteId == null) {
 			if (other.noteId != null)
@@ -140,29 +121,17 @@ public class Note {
 				return false;
 		} else if (!targetDate.equals(other.targetDate))
 			return false;
-		if (userId == null) {
-			if (other.userId != null)
+		if (user == null) {
+			if (other.user != null)
 				return false;
-		} else if (!userId.equals(other.userId))
-			return false;
-		if (userImage == null) {
-			if (other.userImage != null)
-				return false;
-		} else if (!userImage.equals(other.userImage))
-			return false;
-		if (userName == null) {
-			if (other.userName != null)
-				return false;
-		} else if (!userName.equals(other.userName))
+		} else if (!user.equals(other.user))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Note [noteId=" + noteId + ", noteText=" + noteText + ", targetDate=" + targetDate + ", userId="
-				+ userId + ", groupId=" + groupId + ", userName=" + userName + ", commentCount=" + commentCount
-				+ ", groupName=" + groupName + ", userImage=" + userImage + "]";
+		return "Note [noteId=" + noteId + ", noteText=" + noteText + ", targetDate=" + targetDate + ", user=" + user
+				+ ", group=" + group + ", commentCount=" + commentCount + "]";
 	}
-	
 }

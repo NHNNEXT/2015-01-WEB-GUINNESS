@@ -54,10 +54,10 @@ public class UserService {
 			userDao.createUser(user);
 			existedUser = userDao.findUserByUserId(user.getUserId());
 		}
-		if(existedUser.getStatus() == 'E') {
+		if("E".equals(existedUser.getStatus())) {
 			throw new AlreadyExistedUserIdException("이미 존재하는 계정입니다.");
 		}
-		if(existedUser.getStatus() == 'R') {
+		if("R".equals(existedUser.getStatus())) {
 			confirmDao.deleteConfirmByUserId(user.getUserId());
 		}
 		
@@ -76,7 +76,7 @@ public class UserService {
 	public User login(String userId, String userPassword) throws FailedLoginException {
 		User user = userDao.findUserByUserId(userId);
 		
-		if (user == null || !user.getUserPassword().equals(userPassword) || user.getStatus() != 'E') {
+		if (user == null || !user.getUserPassword().equals(userPassword) || !"E".equals(user.getStatus())) {
 			throw new FailedLoginException();
 		}
 		return user;

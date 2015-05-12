@@ -16,6 +16,7 @@ import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.NoteDao;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.model.Alarm;
+import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.JsonResult;
@@ -99,20 +100,20 @@ public class NoteController {
 			return "redirect:/notes/editor?groupId=" + groupId;
 		}
 		
-		String noteId = ""+noteDao.createNote(new Note(noteText, targetDate, sessionUserId, groupId));
+		String noteId = ""+noteDao.createNote(new Note(noteText, targetDate, new User(sessionUserId), new Group(groupId)));
 		
 		String alarmId = null;
 		Alarm alarm = null;
-		String noteWriter = noteDao.readNote(noteId).getUserId();
+		String noteWriter = noteDao.readNote(noteId).getUser().getUserId();
 		List<User> groupMembers = groupDao.readGroupMember(groupId);
-		for (User user : groupMembers) {
-			if (user.getUserId().equals(sessionUserId)) {
+		for (User reader : groupMembers) {
+			if (reader.getUserId().equals(sessionUserId)) {
 				continue;
 			}
 			while (true) {
 				alarmId = RandomFactory.getRandomId(10);
 				if (!alarmDao.read(alarmId)) {
-					alarm = new Alarm(alarmId, user.getUserId(), noteWriter, noteId, "에 새 글을 작성하였습니다.", "N");
+					alarm = new Alarm(alarmId, "N", new User(noteWriter), reader, new Note(noteId));
 					break;
 				}
 			}

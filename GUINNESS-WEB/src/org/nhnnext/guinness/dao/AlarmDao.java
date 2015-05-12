@@ -12,9 +12,9 @@ public class AlarmDao extends JdbcDaoSupport {
 	private static final Logger logger = LoggerFactory.getLogger(AlarmDao.class);
 
 	public void create(Alarm alarm) {
-		String sql = "insert into ALARMS (alarmId, calleeId, callerId, noteId, alarmText, alarmStatus, createDate) values(?, ?, ?, ?, ?, ?, default)";
-		getJdbcTemplate().update(sql, alarm.getAlarmId(), alarm.getCalleeId(), alarm.getCallerId(), alarm.getNoteId(),
-				alarm.getAlarmText(), alarm.getAlarmStatus());
+		String sql = "insert into ALARMS (alarmId, calleeId, callerId, noteId, alarmStatus, createDate) values(?, ?, ?, ?, ?, default)";
+		getJdbcTemplate().update(sql, alarm.getAlarmId(), alarm.getReader().getUserId(), alarm.getWriter().getUserId(), alarm.getNote().getNoteId(),
+				alarm.getAlarmStatus());
 	}
 
 	public boolean read(String alarmId) {

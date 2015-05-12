@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
+import org.nhnnext.guinness.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -23,23 +25,21 @@ public class NoteDao extends JdbcDaoSupport {
 		String sql = "insert into NOTES (noteText, targetDate, userId, groupId, commentCount) values(?, ?, ?, ?, 0)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		getJdbcTemplate().update(new PreparedStatementCreator() {
-			public PreparedStatement createPreparedStatement(
-					Connection connection) throws SQLException {
-				PreparedStatement ps = connection.prepareStatement(sql,
-						new String[] { "noteId" });
+			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+				PreparedStatement ps = connection.prepareStatement(sql, new String[] { "noteId" });
 				ps.setString(1, note.getNoteText());
 				ps.setString(2, note.getTargetDate());
-				ps.setString(3, note.getUserId());
-				ps.setString(4, note.getGroupId());
+				ps.setString(3, note.getUser().getUserId());
+				ps.setString(4, note.getGroup().getGroupId());
 				return ps;
 			}
 		}, keyHolder);
 		return keyHolder.getKey().longValue();
 	}
 
-	public List<Map<String, Object>> readNoteListForMap(String groupId, String endDate, String targetDate, String userIds) {
-		String sql = "select * from NOTES, USERS "
-				+ "where NOTES.userId = USERS.userId " + "and groupId = ? "
+	public List<Map<String, Object>> readNoteListForMap(String groupId, String endDate, String targetDate,
+			String userIds) {
+		String sql = "select * from NOTES, USERS " + "where NOTES.userId = USERS.userId " + "and groupId = ? "
 				+ "and NOTES.targetDate between ? and ? ";
 		if (userIds != null) {
 			sql += "and NOTES.userId in (" + userIds + ") ";
@@ -52,7 +52,7 @@ public class NoteDao extends JdbcDaoSupport {
 			return new ArrayList<Map<String, Object>>();
 		}
 	}
-	
+
 	public int checkGroupNotesCount(String groupId) {
 		String sql = "select count(*) from NOTES where groupId=?";
 
@@ -66,11 +66,11 @@ public class NoteDao extends JdbcDaoSupport {
 			return getJdbcTemplate().queryForObject(
 					sql,
 					(rs, rowNum) -> new Note(rs.getString("noteId"), rs
-							.getString("noteText"), rs.getString("targetDate"),
-							rs.getString("userId"), rs.getString("groupId"), rs
-									.getString("userName"), rs
-									.getInt("commentCount"), rs
-									.getString("userImage")), noteId);
+							.getString("noteText"),
+							rs.getString("targetDate"),
+							new User(rs.getString("userId"), rs.getString("userName"), rs.getString("userPassword"), rs.getString("userStatus"), rs.getString("userImage")),
+							new Group(rs.getString("groupId")),
+							rs.getInt("commentCount")), noteId);
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
@@ -96,8 +96,7 @@ public class NoteDao extends JdbcDaoSupport {
 		getJdbcTemplate().update(sql, text, noteId);
 	}
 
-	public List<Map<String, Object>> searchQueryForMap(String userId,
-			String... words) {
+	public List<Map<String, Object>> searchQueryForMap(String userId, String... words) {
 		String query = "";
 		for (String word : words) {
 			query += " OR N.noteText like \"%" + word + "%\"";

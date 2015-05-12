@@ -11,6 +11,8 @@ import org.nhnnext.guinness.dao.CommentDao;
 import org.nhnnext.guinness.dao.NoteDao;
 import org.nhnnext.guinness.model.Alarm;
 import org.nhnnext.guinness.model.Comment;
+import org.nhnnext.guinness.model.Note;
+import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.JsonResult;
 import org.nhnnext.guinness.util.RandomFactory;
 import org.nhnnext.guinness.util.ServletRequestUtil;
@@ -41,17 +43,19 @@ public class CommentController {
 		if (commentText.equals(""))
 			return new JsonResult().setSuccess(false).setMapValues(commentDao.readCommentListByNoteId(noteId));
 		
-		Comment comment = new Comment(commentText, commentType, sessionUserId, noteId);
+		User sessionUser = new User(sessionUserId);
+		Note note = new Note(noteId);
+		Comment comment = new Comment(commentText, commentType, sessionUser, note);
 		commentDao.createComment(comment);
 		noteDao.increaseCommentCount(noteId);
 		
-		if(!sessionUserId.equals(noteDao.readNote(noteId).getUserId())) {
+		if(!sessionUserId.equals(noteDao.readNote(noteId).getUser().getUserId())) {
 			String alarmId = null;
 			Alarm alarm = null;
 			while (true) {
 				alarmId = RandomFactory.getRandomId(10);
 				if (!alarmDao.read(alarmId)) {
-					alarm = new Alarm(alarmId, noteDao.readNote(noteId).getUserId(), sessionUserId, noteId, "의 노트에 댓글을 남겼습니다", "C");
+					alarm = new Alarm(alarmId, "C", sessionUser, noteDao.readNote(noteId).getUser(), note);
 					break;
 				}
 			}

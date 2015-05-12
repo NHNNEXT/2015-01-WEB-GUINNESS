@@ -2,29 +2,32 @@ package org.nhnnext.guinness.model;
 
 public class Alarm {
 	private String alarmId;
-	private String calleeId;
-	private String callerId;
-	private String noteId;
-	private String alarmText;
 	private String alarmStatus;
 	private String createDate;
+	private User writer;
+	private User reader;
+	private Note note;
 
 	public Alarm() {
 	}
 
-	public Alarm(String alarmId, String calleeId, String callerId, String noteId, String alarmText, String alarmStatus) {
-		this(alarmId, calleeId, callerId, noteId, alarmText, alarmStatus, null);
-	}
-
-	public Alarm(String alarmId, String calleeId, String callerId, String noteId, String alarmText, String alarmStatus,
-			String createDate) {
+	public Alarm(String alarmId, String alarmStatus, String createDate, User writer, User reader,
+			Note note) {
 		this.alarmId = alarmId;
-		this.calleeId = calleeId;
-		this.callerId = callerId;
-		this.noteId = noteId;
-		this.alarmText = alarmText;
 		this.alarmStatus = alarmStatus;
 		this.createDate = createDate;
+		this.writer = writer;
+		this.reader = reader;
+		this.note = note;
+	}
+
+	public Alarm(String alarmId, String alarmStatus, User writer, User reader, Note note) {
+		super();
+		this.alarmId = alarmId;
+		this.alarmStatus = alarmStatus;
+		this.writer = writer;
+		this.reader = reader;
+		this.note = note;
 	}
 
 	public String getAlarmId() {
@@ -33,38 +36,6 @@ public class Alarm {
 
 	public void setAlarmId(String alarmId) {
 		this.alarmId = alarmId;
-	}
-
-	public String getCalleeId() {
-		return calleeId;
-	}
-
-	public void setCalleeId(String calleeId) {
-		this.calleeId = calleeId;
-	}
-
-	public String getCallerId() {
-		return callerId;
-	}
-
-	public void setCallerId(String callerId) {
-		this.callerId = callerId;
-	}
-
-	public String getNoteId() {
-		return noteId;
-	}
-
-	public void setNoteId(String noteId) {
-		this.noteId = noteId;
-	}
-
-	public String getAlarmText() {
-		return alarmText;
-	}
-
-	public void setAlarmText(String alarmText) {
-		this.alarmText = alarmText;
 	}
 
 	public String getAlarmStatus() {
@@ -83,17 +54,40 @@ public class Alarm {
 		this.createDate = createDate;
 	}
 
+	public User getWriter() {
+		return writer;
+	}
+
+	public void setWriter(User writer) {
+		this.writer = writer;
+	}
+
+	public User getReader() {
+		return reader;
+	}
+
+	public void setReader(User reader) {
+		this.reader = reader;
+	}
+
+	public Note getNote() {
+		return note;
+	}
+
+	public void setNote(Note note) {
+		this.note = note;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((alarmId == null) ? 0 : alarmId.hashCode());
 		result = prime * result + ((alarmStatus == null) ? 0 : alarmStatus.hashCode());
-		result = prime * result + ((alarmText == null) ? 0 : alarmText.hashCode());
-		result = prime * result + ((calleeId == null) ? 0 : calleeId.hashCode());
-		result = prime * result + ((callerId == null) ? 0 : callerId.hashCode());
 		result = prime * result + ((createDate == null) ? 0 : createDate.hashCode());
-		result = prime * result + ((noteId == null) ? 0 : noteId.hashCode());
+		result = prime * result + ((note == null) ? 0 : note.hashCode());
+		result = prime * result + ((reader == null) ? 0 : reader.hashCode());
+		result = prime * result + ((writer == null) ? 0 : writer.hashCode());
 		return result;
 	}
 
@@ -111,40 +105,37 @@ public class Alarm {
 				return false;
 		} else if (!alarmId.equals(other.alarmId))
 			return false;
-		if (!alarmStatus.equals(other.alarmStatus))
-			return false;
-		if (alarmText == null) {
-			if (other.alarmText != null)
+		if (alarmStatus == null) {
+			if (other.alarmStatus != null)
 				return false;
-		} else if (!alarmText.equals(other.alarmText))
-			return false;
-		if (calleeId == null) {
-			if (other.calleeId != null)
-				return false;
-		} else if (!calleeId.equals(other.calleeId))
-			return false;
-		if (callerId == null) {
-			if (other.callerId != null)
-				return false;
-		} else if (!callerId.equals(other.callerId))
+		} else if (!alarmStatus.equals(other.alarmStatus))
 			return false;
 		if (createDate == null) {
 			if (other.createDate != null)
 				return false;
 		} else if (!createDate.equals(other.createDate))
 			return false;
-		if (noteId == null) {
-			if (other.noteId != null)
+		if (note == null) {
+			if (other.note != null)
 				return false;
-		} else if (!noteId.equals(other.noteId))
+		} else if (!note.equals(other.note))
+			return false;
+		if (reader == null) {
+			if (other.reader != null)
+				return false;
+		} else if (!reader.equals(other.reader))
+			return false;
+		if (writer == null) {
+			if (other.writer != null)
+				return false;
+		} else if (!writer.equals(other.writer))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Alarm [alarmId=" + alarmId + ", calleeId=" + calleeId + ", callerId=" + callerId + ", noteId=" + noteId
-				+ ", alarmText=" + alarmText + ", alarmStatus=" + alarmStatus + ", createDate=" + createDate + "]";
+		return "Alarm [alarmId=" + alarmId + ", alarmStatus=" + alarmStatus + ", createDate=" + createDate
+				+ ", writer=" + writer + ", reader=" + reader + ", note=" + note + "]";
 	}
-
 }

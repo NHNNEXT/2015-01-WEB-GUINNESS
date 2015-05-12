@@ -34,7 +34,7 @@ public class GroupDao extends JdbcDaoSupport {
 					rs.getString("groupId"), 
 					rs.getString("groupName"), 
 					rs.getString("groupCaptainUserId"), 
-					rs.getString("isPublic").charAt(0)
+					rs.getString("isPublic")
 					), groupId);
 		} catch (EmptyResultDataAccessException e) {
 			return null;
@@ -65,7 +65,7 @@ public class GroupDao extends JdbcDaoSupport {
 				rs.getString("userId"),
 				rs.getString("userName"), 
 				rs.getString("userPassword"),
-				rs.getString("userStatus").charAt(0)
+				rs.getString("userStatus")
 				), groupId);
 	}
 }

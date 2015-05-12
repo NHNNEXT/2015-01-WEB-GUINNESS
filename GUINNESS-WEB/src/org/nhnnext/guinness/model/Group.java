@@ -20,7 +20,7 @@ public class Group {
 	private String groupCaptainUserId;
 
 	@NotNull
-	private char isPublic;
+	private String isPublic;
 	
 	@Autowired
 	private static GroupDao groupDao;
@@ -28,15 +28,19 @@ public class Group {
 	public Group() {
 	}
 
-	public Group(String groupId, String groupName, String groupCaptainUserId, char isPublic) {
+	public Group(String groupId, String groupName, String groupCaptainUserId, String isPublic) {
 		this.groupId = groupId;
 		this.groupName = groupName;
 		this.groupCaptainUserId = groupCaptainUserId;
 		this.isPublic = isPublic;
 	}
 
-	public Group(String groupName, String groupCaptainUserId, char isPublic) {
+	public Group(String groupName, String groupCaptainUserId, String isPublic) {
 		this(null, groupName, groupCaptainUserId, isPublic);
+	}
+
+	public Group(String groupId) {
+		this(groupId, null, null, null);
 	}
 
 	public void setGroupId(String groupId) {
@@ -55,7 +59,7 @@ public class Group {
 		return groupCaptainUserId;
 	}
 
-	public char getIsPublic() {
+	public String getIsPublic() {
 		return isPublic;
 	}
 
@@ -67,7 +71,7 @@ public class Group {
 		this.groupCaptainUserId = groupCaptainUserId;
 	}
 
-	public void setIsPublic(char isPublic) {
+	public void setIsPublic(String isPublic) {
 		this.isPublic = isPublic;
 	}
 
@@ -75,10 +79,10 @@ public class Group {
 		Group.groupDao = groupDao;
 	}
 
-	public char isPublic() {
+	public String isPublic() {
 		return isPublic;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -86,7 +90,7 @@ public class Group {
 		result = prime * result + ((groupCaptainUserId == null) ? 0 : groupCaptainUserId.hashCode());
 		result = prime * result + ((groupId == null) ? 0 : groupId.hashCode());
 		result = prime * result + ((groupName == null) ? 0 : groupName.hashCode());
-		result = prime * result + isPublic;
+		result = prime * result + ((isPublic == null) ? 0 : isPublic.hashCode());
 		return result;
 	}
 
@@ -114,7 +118,10 @@ public class Group {
 				return false;
 		} else if (!groupName.equals(other.groupName))
 			return false;
-		if (isPublic != other.isPublic)
+		if (isPublic == null) {
+			if (other.isPublic != null)
+				return false;
+		} else if (!isPublic.equals(other.isPublic))
 			return false;
 		return true;
 	}

@@ -24,7 +24,7 @@ public class UserDao extends JdbcDaoSupport {
 					rs.getString("userId"), 
 					rs.getString("userName"), 
 					rs.getString("userPassword"),
-					rs.getString("userStatus").charAt(0),
+					rs.getString("userStatus"),
 					rs.getString("userImage")
 					), userId);
 		} catch (EmptyResultDataAccessException e) {
