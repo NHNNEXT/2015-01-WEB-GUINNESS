@@ -173,6 +173,7 @@
 				<configuration>
 					<url>jdbc:mysql://localhost:3306/GUINNESS</url>
 					<user>link413</user>
+					<password>link413</password>
 				</configuration>
 			</plugin>
 			<plugin>
