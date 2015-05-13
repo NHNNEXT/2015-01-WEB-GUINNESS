@@ -39,4 +39,13 @@ public class ConfirmDao extends JdbcDaoSupport {
 		getJdbcTemplate().update(sql, userId);
 	}
 
+	public boolean isExistKeyAddress(String keyAddress) {
+		String sql = "select count(1) from confirms where keyaddress = ?";
+		logger.debug("{}", ""+getJdbcTemplate().queryForObject(sql, Integer.class, keyAddress));
+		if (getJdbcTemplate().queryForObject(sql, Integer.class, keyAddress) == 0) {
+			return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
+	}
+
 }

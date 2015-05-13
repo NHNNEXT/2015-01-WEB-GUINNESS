@@ -69,6 +69,10 @@ public class Comment {
 		this.note = note;
 	}
 
+	public boolean checkWriter(User noteWriter) {
+		return this.getUser().getUserId().equals(noteWriter.getUserId());
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

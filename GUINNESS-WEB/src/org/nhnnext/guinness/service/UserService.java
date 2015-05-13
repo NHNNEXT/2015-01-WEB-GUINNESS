@@ -3,6 +3,7 @@ package org.nhnnext.guinness.service;
 import java.io.File;
 import java.io.IOException;
 
+import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -16,7 +17,6 @@ import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.mail.MailAuthenticationException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -29,41 +29,43 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserService {
 	private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 	
-	@Autowired
+	@Resource
 	private UserDao userDao;
-	@Autowired
+	@Resource
 	private ConfirmDao confirmDao;
-	@Autowired
+	@Resource
 	private JavaMailSender javaMailSender;
 	
-	public void setUserDao(UserDao userDao) {
-		this.userDao = userDao;
-	}
-	public void setConfirmDao(ConfirmDao confirmDao) {
-		this.confirmDao = confirmDao;
-	}
-	public void setJavaMailSender(JavaMailSender javaMailSender) {
-		this.javaMailSender = javaMailSender;
+	public void join(User user) throws AlreadyExistedUserIdException, SendMailException {
+		User existedUser = createUser(user);
+		createConfirm(user, existedUser);
 	}
 	
-	public void create(User user) throws AlreadyExistedUserIdException, SendMailException {
-		logger.debug("User: {}", user);
-		User existedUser = userDao.findUserByUserId(user.getUserId());
-		
-		if(existedUser == null) {
-			userDao.createUser(user);
-			existedUser = userDao.findUserByUserId(user.getUserId());
-		}
-		if("E".equals(existedUser.getStatus())) {
+	private User createUser(User user) throws AlreadyExistedUserIdException {
+//		TODO 코드리뷰
+//		if(null != userDao.findUserByUserId(user.getUserId())) {
+		if(userDao.findUserByUserId(user.getUserId()) != null) {
 			throw new AlreadyExistedUserIdException("이미 존재하는 계정입니다.");
 		}
+		userDao.createUser(user);
+		return userDao.findUserByUserId(user.getUserId());
+	}
+
+	private void createConfirm(User user, User existedUser) throws SendMailException {
 		if("R".equals(existedUser.getStatus())) {
 			confirmDao.deleteConfirmByUserId(user.getUserId());
 		}
-		
-		String keyAddress = RandomFactory.getRandomId(10);
-		sendMail(keyAddress, user.getUserId());
+		String keyAddress = createKeyAddress();
 		confirmDao.createConfirm(keyAddress, user.getUserId());
+		sendMail(keyAddress, user.getUserId());
+	}
+	
+	private String createKeyAddress() {
+		String keyAddress = RandomFactory.getRandomId(10);
+		if(confirmDao.isExistKeyAddress(keyAddress)) {
+			return createKeyAddress();
+		}
+		return keyAddress;
 	}
 	
 	public User confirm(String keyAddress) {
@@ -75,59 +77,42 @@ public class UserService {
 	
 	public User login(String userId, String userPassword) throws FailedLoginException {
 		User user = userDao.findUserByUserId(userId);
-		
-		if (user == null || !user.getUserPassword().equals(userPassword) || !"E".equals(user.getStatus())) {
+		if (user == null || !user.isCorrectPassword(userPassword) || !user.checkStatus("E")) {
 			throw new FailedLoginException();
 		}
 		return user;
 	}
 
 	private void sendMail(String keyAddress, String userId) throws SendMailException  {
-		logger.debug("sendMail//keyAddress: {} userId: {}", keyAddress, userId);
 		try {
 			MimeMessage message = javaMailSender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 			messageHelper.setTo(userId);
 			messageHelper.setFrom("hakimaru@naver.com");
-			messageHelper.setSubject("환영합니다. 페이퍼민트 가입 인증 메일입니다."); // 메일제목은 생략이 가능하다
-			messageHelper.setText("<a href='http://localhost:8080/user/confirm/" + keyAddress + "'> 가입하기 </a>", true);
+			messageHelper.setSubject("환영합니다. 페이퍼민트 가입 인증 메일입니다.");
+			messageHelper.setText("<a href='http://localhost:8080/user/confirm/" + keyAddress + "'> 페이퍼민트 시작하기 </a>", true);
 			javaMailSender.send(message);
-		} catch (MessagingException e) {
-			throw new SendMailException();
-		} catch (NullPointerException e) {
-			throw new SendMailException("MimeMessage가 생성이 되지 않습니다");
-		} catch (MailAuthenticationException e) {
-			throw new SendMailException("메일 계정을 확인하세요");
+		} catch (MessagingException | NullPointerException | MailAuthenticationException e) {
+			throw new SendMailException(e.getClass().getSimpleName());
 		}
-		
-		logger.debug("Mail is sended");
 	}
 	public void update(User user, String userOldPassword, Model model, String rootPath, MultipartFile profileImage) throws UserUpdateException {
-		
+		//TODO update 방식에 변경 소요 있음.
 		User prevUser = userDao.findUserByUserId(user.getUserId());
-		if (!prevUser.getUserPassword().equals(userOldPassword)) {
+		if (!prevUser.isCorrectPassword(userOldPassword)) {
 			throw new UserUpdateException("비밀번호가 일치하지 않습니다.");
 		}
-		
 		try {
 			user.setUserImage(prevUser.getUserImage());
 			if (!profileImage.isEmpty()) {
 				String fileName = user.getUserId();
 				profileImage.transferTo(new File(rootPath + "img/profile/" + fileName));
 				user.setUserImage(fileName);
-				logger.debug("Image is changed");
+				userDao.updateUser(user);
 			}
-		} catch (IllegalStateException | IOException e) {
-			e.printStackTrace();
-			throw new UserUpdateException("잘못된 이미지 형식입니다.");
-		}
-
-		try {
-			userDao.updateUser(user);
-		} catch (DataIntegrityViolationException e) {
+		} catch (IllegalStateException | IOException | DataIntegrityViolationException e) {
 			e.printStackTrace();
 			throw new UserUpdateException("잘못된 형식입니다.");
 		}
-
 	}
 }

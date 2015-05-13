@@ -45,7 +45,7 @@ public class UserController {
 		if (!extractViolationMessage(model, user)) {
 			return "index";
 		}
-		userService.create(user);
+		userService.join(user);
 		return "sendEmail";
 	}
 

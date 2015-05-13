@@ -91,6 +91,14 @@ public class User {
 	public void setUserImage(String userImage) {
 		this.userImage = userImage;
 	}
+	
+	public boolean isCorrectPassword(String userPassword) {
+		return this.userPassword.equals(userPassword);
+	}
+
+	public boolean checkStatus(String status) {
+		return this.status.equals(status);
+	}
 
 	@Override
 	public int hashCode() {
