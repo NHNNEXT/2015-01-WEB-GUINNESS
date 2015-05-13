@@ -73,7 +73,7 @@
 							<form:hidden path="userId" value="${sessionUserId}" />
 							<p>
 								<label for="userName">사용자 이름</label>
-								<form:input path="userName" required="required" value="${sessionUserName}" />
+								<form:input path="userName" autocomplete="off" required="required" value="${sessionUserName}" />
 								<span class="info"><strong>[필수사항]</strong>스터디메이트들과의 소통을 위한 이름을 입력하세요.</span>
 							</p>
 							<p>
