@@ -195,30 +195,21 @@ public class NoteController {
 			pVector[i] = getVector(wordDic, pWord);
 		}
 
-		int index=1;
 		for (Comment comment : commentList) {
 			Map<Integer, Double> score = new HashMap<Integer, Double>();
 			String[] wordsOfCommentParagraphText = splitWord(comment.getParagraphText());
 			int[] cVector = getVector(wordDic, wordsOfCommentParagraphText);
-			logger.debug("{}번째 코멘트.", index);
 			for (int k = 0; k < pNoteText.length; k++) {
 				logger.debug("{}번째, 스코어 : {}", k, cosineSimilarity(pVector[k], cVector));
 				score.put(k, cosineSimilarity(pVector[k], cVector));
 			}
-			
 			logger.debug("스코어 : {}", score);
-			Iterator it = sortByValue(score).iterator();
-			int key = (Integer) it.next();
+			Iterator<Integer> it = sortByValue(score).iterator();
+			int key = it.next();
 			logger.debug("인덱스? : {}", key);
 			logger.debug("점수 : {}", score.get(key));
-			logger.debug("수정된 문단 텍스트 : {}", pNoteText[key]);
-			logger.debug("수정 전 commentParagraphText : {}", comment.getParagraphText());
-			comment.setParagraphText(pNoteText[key]);
-			logger.debug("수정 후 commentParagraphText : {}", comment.getParagraphText());
-			commentDao.updateParagraphComment(comment.getCommentId(), comment.getParagraphText());
-			index++;
+			commentDao.updateParagraphComment(comment.getCommentId(), pNoteText[key]);
 		}
-
 		return null;
 	}
 
@@ -259,11 +250,10 @@ public class NoteController {
 	}
 
 	private static double cosineSimilarity(int[] textA, int[] textB) { 	// 유사도 계산
-
 		int innerProduct=0;
 		double normA, normB;
 		int sumOfSquare=0;
-		
+
 		for(int i=0; i<textA.length; i++){
 			innerProduct += textA[i] * textB[i];
 		}
@@ -281,17 +271,16 @@ public class NoteController {
 		return innerProduct/(normA*normB);
 	}
 
-	public static List sortByValue(final Map map){
-        List list = new ArrayList();
+	@SuppressWarnings("unchecked")
+	public static List<Integer> sortByValue(final Map<Integer, Double> map){
+        List<Integer> list = new ArrayList<Integer>();
         list.addAll(map.keySet());
-        Collections.sort(list,new Comparator(){
+        Collections.sort(list,new Comparator<Object>(){
             public int compare(Object o1,Object o2){
                 Object v1 = map.get(o1);
                 Object v2 = map.get(o2);
-                 
-                return ((Comparable) v1).compareTo(v2);
+                return ((Comparable<Object>) v1).compareTo(v2);
             }
-             
         });
         Collections.reverse(list); // 주석시 오름차순
         return list;

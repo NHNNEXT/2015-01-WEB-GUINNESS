@@ -10,7 +10,6 @@ public class Comment {
 	private String userName;
 	private String commentId;
 	private String userImage;
-	
 
 	public Comment(String commentText, String commentType, String createDate, String userId, String noteId, String paragraphText,
 			String userName, String commentId, String userImage) {
@@ -72,10 +71,6 @@ public class Comment {
 
 	public String getUserImage() {
 		return userImage;
-	}
-
-	public void setParagraphText(String paragraphText) {
-		this.paragraphText = paragraphText;
 	}
 	
 	@Override
