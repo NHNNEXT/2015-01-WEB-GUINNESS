@@ -20,10 +20,6 @@
 <script src="/js/moment.js"></script>
 <script src="/js/daterangepicker.js"></script>
 
-
-
-
-
 </head>
 <body>
 	<%@ include file="./commons/_topnav.jspf"%>
@@ -74,8 +70,7 @@
 	</form>
 	</template>
 	<template id="comment-template">
-	<li><img class='avatar' class='avatar'
-		src='/img/profile/avatar-default.png'>
+	<li><img class='avatar' class='avatar' src='/img/profile/avatar-default.png'>
 		<div class='comment-container'>
 			<div class='comment-info'>
 				<span class='comment-user'></span> <span class='comment-date'></span>
