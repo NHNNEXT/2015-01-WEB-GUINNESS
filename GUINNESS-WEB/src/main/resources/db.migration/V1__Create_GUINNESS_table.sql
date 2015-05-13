@@ -1,7 +1,3 @@
-drop database GUINNESS;
-
-drop user 'link413'@'localhost';
-
 /* DB 생성 */
 
 Create DATABASE GUINNESS DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
@@ -79,3 +75,5 @@ insert into USERS values('h@h.h', '휘바', '1234qwer' ,'E' , default , default)
 insert into USERS values('m@m.m', '모카', '1234qwer' ,'E' , default , default);
 insert into USERS values('d@d.d', '다스', '1234qwer' ,'E' , default , default);
 insert into USERS values('y@y.y', '와이빈', '1234qwer' ,'E' , default , default);
+insert into USERS values('j@j.j', '승미', '1234qwer' ,'E' , default , default);
+insert into USERS values('s@s.s', '송희', '1234qwer' ,'E' , default , default);

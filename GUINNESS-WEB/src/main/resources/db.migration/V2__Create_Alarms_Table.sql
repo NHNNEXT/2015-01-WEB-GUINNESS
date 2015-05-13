@@ -1,5 +1,3 @@
-alter table USERS modify userImage varchar(54) default "avatar-default.png";
-
 Create Table ALARMS(
  alarmId varchar(10) NOT NULL,
  calleeId varchar(50) NOT NULL,
