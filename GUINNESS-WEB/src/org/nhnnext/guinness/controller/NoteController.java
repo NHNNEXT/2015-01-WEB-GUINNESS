@@ -96,7 +96,7 @@ public class NoteController {
 		String noteTargetDate = req.getParameter("noteTargetDate") + " "
 				+ new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
 		if (noteText.equals("")) {
-			return "redirect:/notes/editor?groupId=" + groupId;
+			return "redirect:/editor/g/" + groupId;
 		}
 		String noteId = ""+noteDao.createNote(new Note(noteText, noteTargetDate, new User(sessionUserId), new Group(groupId)));
 		
