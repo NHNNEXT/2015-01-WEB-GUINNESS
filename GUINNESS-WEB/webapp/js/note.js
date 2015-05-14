@@ -125,19 +125,17 @@
 				success: function(req) {
 					var json = JSON.parse(req.responseText);
 					if(json.success === true) {
-						// TODO reload방식 말고 removeChild를 이용해서 삭제할 것
-						// 날짜에 노트가 1개 있을 경우 날짜도 같이 지워져야 한다
-						document.location.reload(true);
-//						deleteNoteCard(json.object);
+						var el = document.getElementById(noteId);
+						if(el.previousSibling.nodeName === "DIV" && el.nextSibling === null) {
+							el.parentNode.remove();
+						} else {
+							el.remove();
+						}
 					}
 				}
 			});
 		}
 		
-//		function deleteNoteCard(noteId) {
-//			var Ul = document.querySelector("#" + noteId);
-//		}
-
 		var currScrollTop;
 		function readNoteContents(noteId) {
 			currScrollTop = document.body.scrollTop;
