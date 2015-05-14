@@ -97,7 +97,7 @@ markdownToHtml.prototype.newline = function() {
 }
 
 markdownToHtml.prototype.code = function () {
-    var array = this.text.match(/`{3}(.|[\n]|[\s])+`{3}/g);
+    var array = this.text.match(/```(.|[\n\s]){1,}```/g);
     for ( var i in array ) {
         var htmlText = array[i].replace(/\n/g, '<br/>');
         htmlText = htmlText.replace(/`{3}$/, '</div></p>');
