@@ -27,7 +27,7 @@ public class GroupDaoTest {
 	@Test
 	public void createGroup() throws ClassNotFoundException {
 		if (groupDao.readGroup(group.getGroupId()) != null)
-			groupDao.deleteGroup(group);
+			groupDao.deleteGroup(group.getGroupId());
 		groupDao.createGroup(group);
 		assertNotNull(group);
 	}
