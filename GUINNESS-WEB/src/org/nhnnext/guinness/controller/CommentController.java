@@ -43,8 +43,7 @@ public class CommentController {
 		List<Map<String, Object>> list = commentService.list(noteId);
 		// createDate의 포맷을 위한 변경
 		for (Map<String, Object> map : list)
-			map.replace("createDate", map.get("createDate").toString());
-		System.out.println(list);
+			map.replace("commentCreateDate", map.get("commentCreateDate").toString());
 		return new JsonResult().setSuccess(true).setMapValues(list);
 	}
 

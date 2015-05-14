@@ -4,15 +4,15 @@ public class Comment {
 	private String commentId;
 	private String commentText;
 	private String commentType;
-	private String createDate;
+	private String commentCreateDate;
 	private User user;
 	private Note note;
 	
-	public Comment(String commentId, String commentText, String commentType, String createDate, User user, Note note) {
+	public Comment(String commentId, String commentText, String commentType, String commentCreateDate, User user, Note note) {
 		this.commentId = commentId;
 		this.commentText = commentText;
 		this.commentType = commentType;
-		this.createDate = createDate;
+		this.commentCreateDate = commentCreateDate;
 		this.user = user;
 		this.note = note;
 	}
@@ -33,8 +33,8 @@ public class Comment {
 		return commentType;
 	}
 
-	public String getCreateDate() {
-		return createDate;
+	public String getCommentCreateDate() {
+		return commentCreateDate;
 	}
 
 	public User getUser() {
@@ -57,8 +57,8 @@ public class Comment {
 		this.commentType = commentType;
 	}
 
-	public void setCreateDate(String createDate) {
-		this.createDate = createDate;
+	public void setCommentCreateDate(String commentCreateDate) {
+		this.commentCreateDate = commentCreateDate;
 	}
 
 	public void setUser(User user) {
@@ -80,7 +80,7 @@ public class Comment {
 		result = prime * result + ((commentId == null) ? 0 : commentId.hashCode());
 		result = prime * result + ((commentText == null) ? 0 : commentText.hashCode());
 		result = prime * result + ((commentType == null) ? 0 : commentType.hashCode());
-		result = prime * result + ((createDate == null) ? 0 : createDate.hashCode());
+		result = prime * result + ((commentCreateDate == null) ? 0 : commentCreateDate.hashCode());
 		result = prime * result + ((note == null) ? 0 : note.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
@@ -110,10 +110,10 @@ public class Comment {
 				return false;
 		} else if (!commentType.equals(other.commentType))
 			return false;
-		if (createDate == null) {
-			if (other.createDate != null)
+		if (commentCreateDate == null) {
+			if (other.commentCreateDate != null)
 				return false;
-		} else if (!createDate.equals(other.createDate))
+		} else if (!commentCreateDate.equals(other.commentCreateDate))
 			return false;
 		if (note == null) {
 			if (other.note != null)
@@ -130,7 +130,7 @@ public class Comment {
 
 	@Override
 	public String toString() {
-		return "Comment [commentText=" + commentText + ", commentType=" + commentType + ", createDate=" + createDate
+		return "Comment [commentText=" + commentText + ", commentType=" + commentType + ", commentCreateDate=" + commentCreateDate
 				+ ", commentId=" + commentId + ", user=" + user + ", note=" + note + "]";
 	}
 }
