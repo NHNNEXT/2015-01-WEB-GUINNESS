@@ -92,8 +92,17 @@
 		document.querySelector('#group-name').innerHTML = groupName;
 
 		appendNoteList(${noteList});
-		_setMemberListPosition();
+		
+		var elCreateBtn = document.querySelector("#create-new-button");
+		_setPosition(elCreateBtn);
 	}, false);
+	
+	function _setPosition (target) {
+	    var rect = target.getBoundingClientRect();
+	    var elpCommentBox = document.body.querySelector("#allShow");
+	    elpCommentBox.style.top = rect.top+"px";
+	    elpCommentBox.style.left = rect.left-210+"px";
+	}
 	</script>
 	<script src="/js/note.js"></script>
 	<!-- <script type="text/javascript">
@@ -124,7 +133,7 @@
 		        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
 		    });
 		});
-		
+
 		document.querySelector('#calendar-container').addEventListener("click", function(e) {
 			var noteTargetDate = $('#defaultCalendar').data('daterangepicker').startDate._d.toISOString().substring(0,10);
 			reloadNoteList(noteTargetDate);
