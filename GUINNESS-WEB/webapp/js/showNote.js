@@ -31,21 +31,21 @@ search.note.create = function (json) {
 	note.querySelector(".fa-comments").innerText = " " + json.commentCount;
     var elNoteParagraph = document.querySelectorAll(".noteCard p");
     NodeList.prototype.forEach = Array.prototype.forEach;
-    elNoteParagraph.forEach(function(paragraph) {
-        var elPlusSquare = document.createElement('i')
-        elPlusSquare.className = 'fa fa-plus-square-o';
-        elPlusSquare.style.display="none";
-        elPlusSquare.addEventListener('click', function (e) {
-            search.note.pComment.show(e.target);
-        }, false);
-        paragraph.appendChild(elPlusSquare);
-        paragraph.addEventListener("mouseover", function () {
-            search.note.pCommentHover(event);
-        }, false);
-        paragraph.addEventListener("mouseleave", function (event) {
-            search.note.pCommentHover(event);
-        }, false);
-    });
+//    elNoteParagraph.forEach(function(paragraph) {
+//        var elPlusSquare = document.createElement('i')
+//        elPlusSquare.className = 'fa fa-plus-square-o';
+//        elPlusSquare.style.display="none";
+//        elPlusSquare.addEventListener('click', function (e) {
+//            search.note.pComment.show(e.target);
+//        }, false);
+//        paragraph.appendChild(elPlusSquare);
+//        paragraph.addEventListener("mouseover", function () {
+//            search.note.pCommentHover(event);
+//        }, false);
+//        paragraph.addEventListener("mouseleave", function (event) {
+//            search.note.pCommentHover(event);
+//        }, false);
+//    });
 };
 
 search.note.pCommentHover = function (event) {
