@@ -158,7 +158,7 @@
 			var bodyTemplate = document.querySelector("#view-note-template").content;
 			bodyTemplate = document.importNode(bodyTemplate, true);
 			guinness.util.modal({
-				header: obj.userName,
+				header: obj.user.userName,
 				body: bodyTemplate,
 				defaultCloseEvent: false,
 				whenCloseEvent: function(){
