@@ -58,7 +58,7 @@ public class ControllerExceptionHandler {
 	// 회원정보 수정시 예외처리
 	@ExceptionHandler(UserUpdateException.class)
 	public ModelAndView userUpdateException(UserUpdateException e) {
-		RedirectView rv = new RedirectView("/user");
+		RedirectView rv = new RedirectView("/user/form");
 		rv.setExposeModelAttributes(false);
 		ModelAndView mav = new ModelAndView(rv);
 		mav.addObject("message", e.getMessage());
