@@ -158,7 +158,7 @@
 			var bodyTemplate = document.querySelector("#view-note-template").content;
 			bodyTemplate = document.importNode(bodyTemplate, true);
 			guinness.util.modal({
-				header: obj.userName,
+				header: obj.user.userName,
 				body: bodyTemplate,
 				defaultCloseEvent: false,
 				whenCloseEvent: function(){
@@ -203,7 +203,7 @@
 				var commentEl = commentList.querySelector('li:last-child');
 				commentEl.setAttribute('id', 'cmt-'+obj.commentId);
 				commentEl.querySelector('.comment-user').innerHTML = obj.userName;
-				commentEl.querySelector('.comment-date').innerHTML = obj.createDate;
+				commentEl.querySelector('.comment-date').innerHTML = obj.commentCreateDate;
 				commentEl.querySelector('.comment').innerHTML = obj.commentText;
 				commentEl.querySelector('.avatar').setAttribute("src","/img/profile/"+obj.userImage);
 				if (userId === obj.userId) {
@@ -224,7 +224,7 @@
 					var json = result.object;
 					var el = document.querySelector("#cmt-"+commentId);
 					el.querySelector('.comment').innerHTML = json.commentText;
-					el.querySelector('.comment-date').innerHTML = json.createDate;
+					el.querySelector('.comment-date').innerHTML = json.commentCreateDate;
 					el.querySelector('.comment').setAttribute('contentEditable',false);
 					el.querySelectorAll('.comment-update').remove();
 					el.querySelector('.default-utils').show();

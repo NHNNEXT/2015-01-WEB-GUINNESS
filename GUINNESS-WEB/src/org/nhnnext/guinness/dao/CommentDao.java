@@ -27,7 +27,7 @@ public class CommentDao extends JdbcDaoSupport {
 				rs.getString("commentId"),
 				rs.getString("commentText"), 
 				rs.getString("commentType"), 
-				rs.getString("createDate"), 
+				rs.getString("commentCreateDate"), 
 				new User(rs.getString("userId"),
 						rs.getString("userName"), 
 						rs.getString("userPassword"),
