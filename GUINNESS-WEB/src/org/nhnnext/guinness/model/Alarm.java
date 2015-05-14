@@ -3,7 +3,7 @@ package org.nhnnext.guinness.model;
 public class Alarm {
 	private String alarmId;
 	private String alarmStatus;
-	private String createDate;
+	private String alarmCreateDate;
 	private User writer;
 	private User reader;
 	private Note note;
@@ -11,11 +11,11 @@ public class Alarm {
 	public Alarm() {
 	}
 
-	public Alarm(String alarmId, String alarmStatus, String createDate, User writer, User reader,
+	public Alarm(String alarmId, String alarmStatus, String alarmCreateDate, User writer, User reader,
 			Note note) {
 		this.alarmId = alarmId;
 		this.alarmStatus = alarmStatus;
-		this.createDate = createDate;
+		this.alarmCreateDate = alarmCreateDate;
 		this.writer = writer;
 		this.reader = reader;
 		this.note = note;
@@ -46,12 +46,12 @@ public class Alarm {
 		this.alarmStatus = alarmStatus;
 	}
 
-	public String getCreateDate() {
-		return createDate;
+	public String getAlarmCreateDate() {
+		return alarmCreateDate;
 	}
 
-	public void setCreateDate(String createDate) {
-		this.createDate = createDate;
+	public void setAlarmCreateDate(String alarmCreateDate) {
+		this.alarmCreateDate = alarmCreateDate;
 	}
 
 	public User getWriter() {
@@ -84,7 +84,7 @@ public class Alarm {
 		int result = 1;
 		result = prime * result + ((alarmId == null) ? 0 : alarmId.hashCode());
 		result = prime * result + ((alarmStatus == null) ? 0 : alarmStatus.hashCode());
-		result = prime * result + ((createDate == null) ? 0 : createDate.hashCode());
+		result = prime * result + ((alarmCreateDate == null) ? 0 : alarmCreateDate.hashCode());
 		result = prime * result + ((note == null) ? 0 : note.hashCode());
 		result = prime * result + ((reader == null) ? 0 : reader.hashCode());
 		result = prime * result + ((writer == null) ? 0 : writer.hashCode());
@@ -110,10 +110,10 @@ public class Alarm {
 				return false;
 		} else if (!alarmStatus.equals(other.alarmStatus))
 			return false;
-		if (createDate == null) {
-			if (other.createDate != null)
+		if (alarmCreateDate == null) {
+			if (other.alarmCreateDate != null)
 				return false;
-		} else if (!createDate.equals(other.createDate))
+		} else if (!alarmCreateDate.equals(other.alarmCreateDate))
 			return false;
 		if (note == null) {
 			if (other.note != null)
@@ -135,7 +135,7 @@ public class Alarm {
 
 	@Override
 	public String toString() {
-		return "Alarm [alarmId=" + alarmId + ", alarmStatus=" + alarmStatus + ", createDate=" + createDate
+		return "Alarm [alarmId=" + alarmId + ", alarmStatus=" + alarmStatus + ", alarmCreateDate=" + alarmCreateDate
 				+ ", writer=" + writer + ", reader=" + reader + ", note=" + note + "]";
 	}
 }

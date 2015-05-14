@@ -1,8 +1,6 @@
 package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -24,7 +22,7 @@ import org.springframework.web.context.request.WebRequest;
 public class CommentController {
 	@Resource
 	private CommentService commentService;
-	
+
 	@RequestMapping(value = "/comments", method = RequestMethod.POST)
 	protected @ResponseBody JsonResult create(HttpSession session, WebRequest req) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
@@ -33,27 +31,22 @@ public class CommentController {
 		String noteId = req.getParameter("noteId");
 		if (commentText.equals(""))
 			return new JsonResult().setSuccess(false);
-		
+
 		Comment comment = new Comment(commentText, commentType, new User(sessionUserId), new Note(noteId));
 		return new JsonResult().setSuccess(true).setMapValues(commentService.create(comment));
 	}
 
 	@RequestMapping("/comments/{noteId}")
 	protected @ResponseBody JsonResult list(@PathVariable String noteId) {
-		List<Map<String, Object>> list = commentService.list(noteId);
-		// createDate의 포맷을 위한 변경
-		for (Map<String, Object> map : list)
-			map.replace("createDate", map.get("createDate").toString());
-		System.out.println(list);
-		return new JsonResult().setSuccess(true).setMapValues(list);
+		return new JsonResult().setSuccess(true).setMapValues(commentService.list(noteId));
 	}
 
 	@RequestMapping(value = "/comments/{commentId}", method = RequestMethod.PUT)
 	protected @ResponseBody JsonResult update(@PathVariable String commentId, WebRequest req) {
-		String commentText = req.getParameter("commentText");
-		return new JsonResult().setSuccess(true).setObject((Comment)commentService.update(commentId, commentText));
+		return new JsonResult().setSuccess(true).setObject(
+				(Comment) commentService.update(commentId, req.getParameter("commentText")));
 	}
-	
+
 	@RequestMapping(value = "/comments/{commentId}", method = RequestMethod.DELETE)
 	protected @ResponseBody JsonResult delete(@PathVariable String commentId) {
 		commentService.delete(commentId);

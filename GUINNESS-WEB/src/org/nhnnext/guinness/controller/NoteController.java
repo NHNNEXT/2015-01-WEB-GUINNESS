@@ -60,26 +60,26 @@ public class NoteController {
 	protected @ResponseBody JsonResult reloadNoteList(WebRequest req) {
 		String userIds = req.getParameter("checkedUserId");
 		String groupId = req.getParameter("groupId");
-		String targetDate = req.getParameter("targetDate"); 
-		if("undefined".equals(targetDate))
-			targetDate = null;
+		String noteTargetDate = req.getParameter("noteTargetDate"); 
+		if("undefined".equals(noteTargetDate))
+			noteTargetDate = null;
 		if(userIds == null || groupId == null) {
 			return new JsonResult().setSuccess(false).setMapValues(new ArrayList<Map<String, Object>>());
 		}
-		return new JsonResult().setSuccess(true).setMapValues(getNoteListFromDao(targetDate, groupId, userIds));
+		return new JsonResult().setSuccess(true).setMapValues(getNoteListFromDao(noteTargetDate, groupId, userIds));
 	}
 	
 	private List<Map<String, Object>> getNoteListFromDao(String date, String groupId, String userIds) {
-		DateTime targetDate = new DateTime(date).plusDays(1).minusSeconds(1);
-		DateTime endDate = targetDate.minusDays(1).plusSeconds(1);
+		DateTime noteTargetDate = new DateTime(date).plusDays(1).minusSeconds(1);
+		DateTime endDate = noteTargetDate.minusDays(1).plusSeconds(1);
 		if (date == null) {
-			endDate = targetDate.minusYears(10);
-			targetDate = targetDate.plusYears(10);
+			endDate = noteTargetDate.minusYears(10);
+			noteTargetDate = noteTargetDate.plusYears(10);
 		}
 		// targetDate의 포맷을 위한 변경
-		List<Map<String, Object>> list = noteDao.readNoteListForMap(groupId, endDate.toString(), targetDate.toString(), userIds);
+		List<Map<String, Object>> list = noteDao.readNoteListForMap(groupId, endDate.toString(), noteTargetDate.toString(), userIds);
 		for (Map<String, Object> map : list)
-			map.replace("targetDate", map.get("targetDate").toString());
+			map.replace("noteTargetDate", map.get("noteTargetDate").toString());
 		return list;
 	}
 
@@ -93,13 +93,12 @@ public class NoteController {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		String groupId = req.getParameter("groupId");
 		String noteText = req.getParameter("noteText");
-		String targetDate = req.getParameter("targetDate") + " "
+		String noteTargetDate = req.getParameter("noteTargetDate") + " "
 				+ new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
 		if (noteText.equals("")) {
-			return "redirect:/notes/editor?groupId=" + groupId;
+			return "redirect:/editor/g/" + groupId;
 		}
-		
-		String noteId = ""+noteDao.createNote(new Note(noteText, targetDate, new User(sessionUserId), new Group(groupId)));
+		String noteId = ""+noteDao.createNote(new Note(noteText, noteTargetDate, new User(sessionUserId), new Group(groupId)));
 		
 		String alarmId = null;
 		Alarm alarm = null;
@@ -126,7 +125,9 @@ public class NoteController {
 		String groupId = req.getParameter("groupId");
 		String noteId = req.getParameter("noteId");
 		String noteText = req.getParameter("noteText");
-		noteDao.updateNote(noteText, noteId);
+		String noteTargetDate = req.getParameter("noteTargetDate") + " "
+				+ new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
+		noteDao.updateNote(noteText, noteId, noteTargetDate);
 		return "redirect:/g/" + groupId;
 	}
 

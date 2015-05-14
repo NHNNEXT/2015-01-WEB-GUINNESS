@@ -61,41 +61,68 @@
 		<h1>
 			<i class='fa fa-user'></i><span style='margin-left: 10px;'>회원정보수정</span>
 		</h1>
-		<div id='profile-panel' class='panel'>
-			<form:form modelAttribute="user" id='editProfile-form' enctype='multipart/form-data' method='post' action='/user/update'>
-				<table id='editProfile-panel-body' class='panel-body' style='width: 100%'>
+		<div id='profile-check-password' class='panel'>
+			<label>비밀번호를 입력해주세요 </label>
+			<input id="check-password" type="password" name ="password">
+			<button id="profile-check-password-button">확인</button>
+			<label id ="checkPasswordErrorMessage"></label>
+		</div>
+		<div id='profile-panel' class='panel' hidden="true">
+			<form:form modelAttribute="user" id='editProfile-form'
+				enctype='multipart/form-data' method='post' action='/user/update'>
+				<table id='editProfile-panel-body' class='panel-body'
+					style='width: 100%'>
 					<tr>
-						<td valign=top id='editProfile-photoArea' style='width: 200px; text-align: center;'>
-							<img class='avatar' src="/img/profile/${sessionUserImage}">
-							<input type="file" name="profileImage" accept="image/x-png, image/gif, image/jpeg" />
-						</td>
-						<td valign=top id='editProfile-profileArea' style='padding-left: 25px;'>
-							<form:hidden path="userId" value="${sessionUserId}" />
+						<td valign=top id='editProfile-photoArea'
+							style='width: 200px; text-align: center;'><img
+							class='avatar' src="/img/profile/${sessionUserImage}"> <input
+							type="file" name="profileImage"
+							accept="image/x-png, image/gif, image/jpeg" /></td>
+						<td valign=top id='editProfile-profileArea'
+							style='padding-left: 25px;'><form:hidden path="userId"
+								value="${sessionUserId}" />
 							<p>
 								<label for="userName">사용자 이름</label>
-								<form:input path="userName" autocomplete="off" required="required" value="${sessionUserName}" />
-								<span class="info"><strong>[필수사항]</strong>스터디메이트들과의 소통을 위한 이름을 입력하세요.</span>
+								<form:input path="userName" autocomplete="off"
+									required="required" value="${sessionUserName}" />
+								<span class="info"><strong>[필수사항]</strong>스터디메이트들과의 소통을
+									위한 이름을 입력하세요.</span>
 							</p>
 							<p>
-								<label for="userPassword">비밀번호 변경</label> 
+								<label for="userPassword">비밀번호 변경</label>
 								<form:password path="userPassword" placeholder='' />
 								<span class="info">비밀번호를 변경하시려면 새로운 비밀번호를 입력하세요.</span>
 							</p>
-							<hr />
 							<p>
-								<label for="userOldPassword">비밀번호</label>
-								<input name="userOldPassword" type="password" placeholder='' />
-								<span class="info"><strong>[필수사항]</strong>정보변경을 완료하기 위해 비밀번호를 입력해주세요.</span>
-							</p>
-							<c:if test="${not empty signValidErrorMessage}">
+								<label for="userAgainPassword">비밀번호 확인</label> <input
+									name="userAgainPassword" type="password" placeholder='' /> <span
+									class="info">비밀번호를 확인하기 위해 한번 더 입력하세요.</span>
+							</p> <c:if test="${not empty signValidErrorMessage}">
 								<span class="errorMessage"> ${signValidErrorMessage} <br /></span>
 							</c:if>
-							<button type="submit" class="btn btn-pm">수정</button>
-						</td>
+							<hr />
+							<button type="submit" class="btn btn-pm">수정</button></td>
 					</tr>
 				</table>
 			</form:form>
 		</div>
 	</div>
+	<script type="text/javascript">
+		document.querySelector('#profile-check-password-button').addEventListener("click", function(e) {
+			guinness.ajax({
+		  		method: "post",
+		  		url: "/user/update/check",
+		  		param: "password="+document.querySelector('#check-password').value,
+		  		success: function(req) {
+		  				   if (JSON.parse(req.responseText).success === false) {
+		  					   document.querySelector('#checkPasswordErrorMessage').innerHTML = JSON.parse(req.responseText).message;
+		  					   return;
+		  				   }
+						document.querySelector('#profile-panel').hidden = false;
+		  				document.querySelector('#profile-check-password').hidden = true;
+		  		}
+		  	});
+		}, false);
+	</script>
 </body>
 </html>

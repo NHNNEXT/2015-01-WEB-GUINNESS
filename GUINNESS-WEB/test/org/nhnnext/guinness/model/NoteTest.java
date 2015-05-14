@@ -16,8 +16,8 @@ public class NoteTest {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 
-		String targetDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime());
-		logger.debug(targetDate);
+		String noteTargetDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime());
+		logger.debug(noteTargetDate);
 	}
 
 }

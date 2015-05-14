@@ -32,7 +32,7 @@
 			<div id="editorTools">
 				<div id="calendar">
 					<i id="datepickr" class="fa fa-calendar"></i> <input
-						id="targetDate" name="targetDate" value="" readonly>
+						id="noteTargetDate" name="noteTargetDate" value="" readonly>
 				</div>
 			</div>
 			<textarea id="noteTextBox" rows="28" cols="28" name="noteText" form="noteForm">${noteText}</textarea>
@@ -55,10 +55,10 @@
 			previewBox.innerHTML = new markdownToHtml(document.querySelector('#noteTextBox').value).getHtmlText();
 		}, false);
 	 
-			document.querySelector("#targetDate").value = guinness.util.today("-");
+			document.querySelector("#noteTargetDate").value = guinness.util.today("-");
 			datepickr('#calendar', {
 				dateFormat : 'Y-m-d',
-				altInput : document.querySelector('#targetDate')
+				altInput : document.querySelector('#noteTargetDate')
 			});
 	
 			var textBox=document.querySelector("#noteTextBox");

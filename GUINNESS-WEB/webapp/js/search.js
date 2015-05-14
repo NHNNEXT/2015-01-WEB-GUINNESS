@@ -87,7 +87,7 @@ function searchResult(json){
     var elsearchResultName = document.querySelector("#searchResultNoteId" + jsonList.noteId+" > .searchResultName");
     elsearchResultName.innerHTML = jsonList.userName;
     var elsearchResultDate = document.querySelector("#searchResultNoteId" + jsonList.noteId+" > .searchResultDate");
-    elsearchResultDate.innerHTML = jsonList.targetDate;
+    elsearchResultDate.innerHTML = guinness.util.koreaDate(jsonList.noteTargetDate);
     var elsearchResultGroup = document.querySelector("#searchResultNoteId" + jsonList.noteId+ " > .searchResultGroup");
     elsearchResultGroup.innerHTML = jsonList.groupName;
   }

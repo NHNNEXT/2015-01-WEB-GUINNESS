@@ -55,7 +55,8 @@ public class NoteDaoTest {
 	public void update() throws Exception {
 		String noteId = "3";
 		String text = "수정된 내용";
-		noteDao.updateNote(text, noteId);
+		String targetDate = "20150315";
+		noteDao.updateNote(text, noteId, targetDate);
 		assertEquals(text, noteDao.readNote(noteId).getNoteText());
 	}
 }

@@ -18,13 +18,13 @@ import org.springframework.jdbc.support.KeyHolder;
 
 public class NoteDao extends JdbcDaoSupport {
 	public long createNote(Note note) {
-		String sql = "insert into NOTES (noteText, targetDate, userId, groupId, commentCount) values(?, ?, ?, ?, 0)";
+		String sql = "insert into NOTES (noteText, noteTargetDate, userId, groupId, commentCount) values(?, ?, ?, ?, 0)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		getJdbcTemplate().update(new PreparedStatementCreator() {
 			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
 				PreparedStatement ps = connection.prepareStatement(sql, new String[] { "noteId" });
 				ps.setString(1, note.getNoteText());
-				ps.setString(2, note.getTargetDate());
+				ps.setString(2, note.getNoteTargetDate());
 				ps.setString(3, note.getUser().getUserId());
 				ps.setString(4, note.getGroup().getGroupId());
 				return ps;
@@ -33,17 +33,17 @@ public class NoteDao extends JdbcDaoSupport {
 		return keyHolder.getKey().longValue();
 	}
 
-	public List<Map<String, Object>> readNoteListForMap(String groupId, String endDate, String targetDate,
+	public List<Map<String, Object>> readNoteListForMap(String groupId, String endDate, String noteTargetDate,
 			String userIds) {
 		String sql = "select * from NOTES, USERS " + "where NOTES.userId = USERS.userId " + "and groupId = ? "
-				+ "and NOTES.targetDate between ? and ? ";
+				+ "and NOTES.noteTargetDate between ? and ? ";
 		if (userIds != null) {
 			sql += "and NOTES.userId in (" + userIds + ") ";
 		}
-		sql += "order by targetDate desc";
+		sql += "order by noteTargetDate desc";
 
 		try {
-			return getJdbcTemplate().queryForList(sql, groupId, endDate, targetDate);
+			return getJdbcTemplate().queryForList(sql, groupId, endDate, noteTargetDate);
 		} catch (EmptyResultDataAccessException e) {
 			return new ArrayList<Map<String, Object>>();
 		}
@@ -63,7 +63,7 @@ public class NoteDao extends JdbcDaoSupport {
 					sql,
 					(rs, rowNum) -> new Note(rs.getString("noteId"), rs
 							.getString("noteText"),
-							rs.getString("targetDate"),
+							rs.getString("noteTargetDate"),
 							new User(rs.getString("userId"), rs.getString("userName"), rs.getString("userPassword"), rs.getString("userStatus"), rs.getString("userImage")),
 							new Group(rs.getString("groupId")),
 							rs.getInt("commentCount")), noteId);
@@ -87,9 +87,9 @@ public class NoteDao extends JdbcDaoSupport {
 		return getJdbcTemplate().update(sql, noteId);
 	}
 
-	public void updateNote(String text, String noteId) {
-		String sql = "UPDATE NOTES SET noteText = ? where noteId = ?";
-		getJdbcTemplate().update(sql, text, noteId);
+	public void updateNote(String text, String noteId, String noteTargetDate) {
+		String sql = "UPDATE NOTES SET noteText = ?, noteTargetDate = ? where noteId = ?";
+		getJdbcTemplate().update(sql, text, noteTargetDate, noteId);
 	}
 
 	public List<Map<String, Object>> searchQueryForMap(String userId, String... words) {
@@ -97,9 +97,9 @@ public class NoteDao extends JdbcDaoSupport {
 		for (String word : words) {
 			query += " OR N.noteText like \"%" + word + "%\"";
 		}
-		String sql = "SELECT distinct noteId, noteText, targetDate, N.userId, N.groupId, U.userName, G.groupName, N.commentCount FROM NOTES N LEFT JOIN USERS U ON N.userId = U.userId LEFT JOIN GROUPS G ON N.groupId = G.groupId LEFT JOIN GROUPS_USERS GU on GU.groupId = N.groupId WHERE "
+		String sql = "SELECT distinct noteId, noteText, noteTargetDate, N.userId, N.groupId, U.userName, G.groupName, N.commentCount FROM NOTES N LEFT JOIN USERS U ON N.userId = U.userId LEFT JOIN GROUPS G ON N.groupId = G.groupId LEFT JOIN GROUPS_USERS GU on GU.groupId = N.groupId WHERE "
 				+ query.substring(3)
-				+ " and N.groupId in (select groupId from GROUPS_USERS where userId = ?) AND N.userId = GU.userId order by N.targetDate desc";
+				+ " and N.groupId in (select groupId from GROUPS_USERS where userId = ?) AND N.userId = GU.userId order by N.noteTargetDate desc";
 		try {
 			return getJdbcTemplate().queryForList(sql, userId);
 		} catch (EmptyResultDataAccessException e) {

@@ -13,6 +13,7 @@ import org.nhnnext.guinness.exception.SendMailException;
 import org.nhnnext.guinness.exception.UserUpdateException;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.service.UserService;
+import org.nhnnext.guinness.util.JsonResult;
 import org.nhnnext.guinness.util.MyValidatorFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,24 +72,31 @@ public class UserController {
 		return "redirect:/";
 	}
 
-	@RequestMapping(value = "/user")
+	@RequestMapping(value = "/user/form")
 	protected String updateForm(Model model) {
 		model.addAttribute("user", new User());
 		return "updateUser";
+	}
+	
+	@RequestMapping(value = "/user/update/check", method = RequestMethod.POST)
+	protected @ResponseBody JsonResult updateUserCheck(HttpSession session, WebRequest req){
+		String userPassword = req.getParameter("password");
+		String userId = (String) session.getAttribute("sessionUserId");
+		boolean result = userService.checkUpdatePassword(userId, userPassword);
+		if(!result)
+			return new JsonResult().setSuccess(result).setMessage("비밀번호를 확인해주세요");
+		return new JsonResult().setSuccess(result); 
 	}
 
 	@RequestMapping(value = "/user/update", method = RequestMethod.POST)
 	protected String updateUser(WebRequest req, HttpSession session, Model model, User user,
 			@RequestParam("profileImage") MultipartFile profileImage) throws UserUpdateException {
-		// 유효성 체크
-		String userOldPassword = req.getParameter("userOldPassword");
-		if ("".equals(user.getUserPassword()))
-			user.setUserPassword(userOldPassword);
-		if (!extractViolationMessage(model, user))
-			throw new UserUpdateException("잘못된 형식입니다.");
+		String userAgainPassword = req.getParameter("userAgainPassword");
+		if(!user.isCorrectPassword(userAgainPassword))
+			throw new UserUpdateException("비밀번호가 다릅니다.");
 
 		String rootPath = session.getServletContext().getRealPath("/");
-		userService.update(user, userOldPassword, model, rootPath, profileImage);
+		userService.update(user, model, rootPath, profileImage);
 
 		// session refresh...
 		saveUserInfoInSession(session, user);

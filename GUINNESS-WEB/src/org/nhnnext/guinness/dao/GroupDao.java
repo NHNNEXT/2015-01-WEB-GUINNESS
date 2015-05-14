@@ -16,9 +16,9 @@ public class GroupDao extends JdbcDaoSupport {
 				group.getGroupCaptainUserId(), group.isPublic());
 	}
 
-	public void deleteGroup(Group group) {
+	public void deleteGroup(String groupId) {
 		String sql = "delete from GROUPS where groupId=?";
-		getJdbcTemplate().update(sql, group.getGroupId());
+		getJdbcTemplate().update(sql, groupId);
 	}
 
 	public void createGroupUser(String userId, String groupId) {

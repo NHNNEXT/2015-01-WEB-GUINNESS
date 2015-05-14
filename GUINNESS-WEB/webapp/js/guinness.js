@@ -41,6 +41,33 @@ NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
 	}
 };
 
+guinness.util.koreaDate = function (date) {
+	var distance = new Date() - date;
+	if (distance >= 1000 * 60 * 60) {
+		var week = new Array('일', '월', '화', '수', '목', '금', '토');
+		var date = new Date(date);
+		var result = date.getFullYear() + "년 " + date.getMonth() + "월 "
+				+ date.getDay() + "일(" + week[date.getDay()] + ") ";
+		var hour = date.getHours();
+		if (hour > 12) {
+			result = result + "PM " + (hour - 12);
+		} else {
+			result = result + "AM " + hour;
+		}
+		var minute = date.getMinutes();
+		if (minute > 9) {
+			result = result + ":" + minute;
+		} else {
+			result = result + ":0" + minute;
+		}
+		return result;
+	} else if (distance >= 1000 * 60) {
+		return new Date(distance).getMinutes() + "분 전";
+	} else {
+		return "방금 전"; 
+	}
+}
+
 /*
  * modal에 사용하는 Function
  */
@@ -94,8 +121,12 @@ guinness.util.modal = function(o) {
 				o.whenCloseEvent();
 			}
 		}, false);
-
 	}
+    
+    if (typeof(o.defaultCloseEvent) === "function" ){
+        o.defaultCloseEvent();
+    }
+    
 	var modalBody = guinness.createElement({
 		name : "div",
 		attrs : {
