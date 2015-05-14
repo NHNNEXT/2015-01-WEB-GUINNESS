@@ -15,8 +15,6 @@ import org.nhnnext.guinness.exception.SendMailException;
 import org.nhnnext.guinness.exception.UserUpdateException;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.mail.MailAuthenticationException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -27,8 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UserService {
-	private static final Logger logger = LoggerFactory.getLogger(UserService.class);
-	
 	@Resource
 	private UserDao userDao;
 	@Resource
@@ -96,23 +92,26 @@ public class UserService {
 			throw new SendMailException(e.getClass().getSimpleName());
 		}
 	}
-	public void update(User user, String userOldPassword, Model model, String rootPath, MultipartFile profileImage) throws UserUpdateException {
-		//TODO update 방식에 변경 소요 있음.
+	public void update(User user, Model model, String rootPath, MultipartFile profileImage) throws UserUpdateException {
 		User prevUser = userDao.findUserByUserId(user.getUserId());
-		if (!prevUser.isCorrectPassword(userOldPassword)) {
-			throw new UserUpdateException("비밀번호가 일치하지 않습니다.");
-		}
 		try {
+			if ("".equals(user.getUserPassword()))
+				user.setUserPassword(prevUser.getUserPassword());
 			user.setUserImage(prevUser.getUserImage());
 			if (!profileImage.isEmpty()) {
 				String fileName = user.getUserId();
 				profileImage.transferTo(new File(rootPath + "img/profile/" + fileName));
 				user.setUserImage(fileName);
-				userDao.updateUser(user);
 			}
+			userDao.updateUser(user);
 		} catch (IllegalStateException | IOException | DataIntegrityViolationException e) {
 			e.printStackTrace();
 			throw new UserUpdateException("잘못된 형식입니다.");
 		}
+	}
+
+	public boolean checkUpdatePassword(String userId, String userPassword) {
+		User user = userDao.findUserByUserId(userId);
+		return user.isCorrectPassword(userPassword);
 	}
 }

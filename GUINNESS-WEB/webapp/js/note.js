@@ -141,10 +141,13 @@ function deleteNote(noteId) {
 		success : function(req) {
 			var json = JSON.parse(req.responseText);
 			if (json.success === true) {
-				// TODO reload방식 말고 removeChild를 이용해서 삭제할 것
-				// 날짜에 노트가 1개 있을 경우 날짜도 같이 지워져야 한다
-				document.location.reload(true);
-				// deleteNoteCard(json.object);
+				var el = document.getElementById(noteId);
+				if (el.previousSibling.nodeName === "DIV"
+						&& el.nextSibling === null) {
+					el.parentNode.remove();
+				} else {
+					el.remove();
+				}
 			}
 		}
 	});
@@ -224,7 +227,8 @@ function appendComment(json) {
 		var commentEl = commentList.querySelector('li:last-child');
 		commentEl.setAttribute('id', 'cmt-' + obj.commentId);
 		commentEl.querySelector('.comment-user').innerHTML = obj.userName;
-		commentEl.querySelector('.comment-date').innerHTML = guinness.util.koreaDate(obj.commentCreateDate);
+		commentEl.querySelector('.comment-date').innerHTML = guinness.util
+				.koreaDate(obj.commentCreateDate);
 		commentEl.querySelector('.comment-date').id = obj.commentCreateDate;
 		commentEl.querySelector('.comment').innerHTML = obj.commentText;
 		commentEl.querySelector('.avatar').setAttribute("src",
@@ -246,8 +250,6 @@ function appendComment(json) {
 		}
 	}, 5000);
 }
-
-
 
 function updateComment(commentId, commentText) {
 	guinness
