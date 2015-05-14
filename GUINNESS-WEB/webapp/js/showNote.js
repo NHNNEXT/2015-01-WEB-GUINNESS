@@ -19,13 +19,13 @@ search.note.load = function (noteId) {
 
 search.note.create = function (json) {
     "use strict";
-	document.querySelector(".note-list").lastElementChild.insertAdjacentHTML("beforeend", document.querySelector(".noteTemplate").text);
-	var note = document.querySelector(".note-list > li:last-child");
+	document.querySelector(".search-note-list").lastElementChild.insertAdjacentHTML("beforeend", document.querySelector(".noteTemplate").text);
+	var note = document.querySelector(".search-note-list > li:last-child");
 	note.className = "noteCard";
 	note.id = json.noteId;
-	note.querySelector(".avatar").src = "/img/profile/" + json.userImage;
-	note.querySelector(".userName").innerText = json.userName;
-	note.querySelector(".userId").innerText = json.userId;
+	note.querySelector(".avatar").src = "/img/profile/" + json.user.userImage;
+	note.querySelector(".userName").innerText = json.user.userName;
+	note.querySelector(".userId").innerText = json.user.userId;
 	note.querySelector(".note-date").innerText = json.noteTargetDate;
 	note.querySelector(".noteText").innerHTML = new markdownToHtml(json.noteText).getHtmlText();
 	note.querySelector(".fa-comments").innerText = " " + json.commentCount;

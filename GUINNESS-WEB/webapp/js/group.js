@@ -108,6 +108,7 @@ function appendGroup(obj) {
 	var groupName = (obj.groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 	document.cookie = obj.groupId + "=" + encodeURI(obj.groupName);
 	newEl = document.importNode(template, true);
+	newEl.querySelector(".group-card").setAttribute("id", obj.groupId);
 	newEl.querySelector(".group-card").setAttribute("href", "/g/" + obj.groupId);
 	newEl.querySelector(".group-name").innerHTML = groupName;
 	newEl.querySelector('.deleteGroup-btn').addEventListener("mousedown",
@@ -140,11 +141,25 @@ function confirmDelete(groupId, groupName) {
 	guinness.util.alert(groupName, message,
 		function() {
 			document.body.style.overflow = "auto";
-			location.href = "/groups/delete/"+groupId;
+			deleteGroup(groupId);
 		},
 		function() {
 			document.body.style.overflow = "auto";
             return;
 		}
 	);
+}
+
+function deleteGroup(groupId) {
+	guinness.ajax({
+		method:"delete",
+		url:"/groups/" + groupId,
+		success: function(req) {
+			if(JSON.parse(req.responseText).success === true) {
+				document.querySelector('#' + groupId).remove();
+			} else {
+				guinness.util.alert('경고', '삭제할 권한이 없습니다.');
+			}
+		}
+	});		
 }
