@@ -32,7 +32,7 @@
 	<template id='create-group-template'>
 		<form id='create-group-form' method="post">
 			<div>
-				그룹이름 <input type="text" name="groupName">
+				그룹이름 <input type="text" name="groupName" autocomplete="off" required>
 			</div>
 			<div>
 				<input type="radio" name="isPublic" value="private" checked>

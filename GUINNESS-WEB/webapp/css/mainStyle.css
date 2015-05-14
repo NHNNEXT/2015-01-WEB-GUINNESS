@@ -1,6 +1,6 @@
 html, body {
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 	font-family: 'Nanum Gothic';
 	color: #454545;
 	height: 100%;
@@ -145,10 +145,10 @@ div#view-preview-template {
 }
 
 #calendar-container {
-	position:absolute;
+	position: absolute;
 	background-color: white;
-	top:50px;
-	left:0;
+	top: 50px;
+	left: 0;
 	height: 420px;
 	border-radius:8px;
 }

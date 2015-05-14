@@ -24,11 +24,11 @@
 						<span class="errorMessage"> ${signValidErrorMessage } <br />
 						</span>
 					</c:if>
-					<form:input cssClass='text' path="userId" placeholder="이메일" value="${userId}" required="required"/>
+					<form:input cssClass='text' path="userId" placeholder="이메일" autocomplete="off" value="${userId}" required="required"/>
 					<c:if test="${not empty message}">
 						<span class="errorMessage"> ${message} </span>
 					</c:if>
-					<form:input cssClass='text' path="userName" placeholder="이름" value="${userName}" required="required"/>
+					<form:input cssClass='text' path="userName" placeholder="이름" autocomplete="off" value="${userName}" required="required"/>
 					<form:password cssClass='text' path="userPassword" placeholder="비밀번호" required="required"/><br/>
 					<button type="submit" class='btn btn-pm'>회원가입</button>
 				</form:form>
