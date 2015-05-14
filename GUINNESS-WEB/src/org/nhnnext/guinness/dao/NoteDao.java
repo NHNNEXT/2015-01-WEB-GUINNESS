@@ -87,9 +87,9 @@ public class NoteDao extends JdbcDaoSupport {
 		return getJdbcTemplate().update(sql, noteId);
 	}
 
-	public void updateNote(String text, String noteId) {
-		String sql = "UPDATE NOTES SET noteText = ? where noteId = ?";
-		getJdbcTemplate().update(sql, text, noteId);
+	public void updateNote(String text, String noteId, String noteTargetDate) {
+		String sql = "UPDATE NOTES SET noteText = ?, noteTargetDate = ? where noteId = ?";
+		getJdbcTemplate().update(sql, text, noteTargetDate, noteId);
 	}
 
 	public List<Map<String, Object>> searchQueryForMap(String userId, String... words) {

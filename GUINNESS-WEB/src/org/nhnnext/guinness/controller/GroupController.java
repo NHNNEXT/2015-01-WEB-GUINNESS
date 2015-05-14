@@ -72,23 +72,22 @@ public class GroupController {
 		groupDao.createGroupUser(groupCaptainUserId, group.getGroupId());
 		return new JsonResult().setSuccess(true).setObject(group);
 	}
-
-	@RequestMapping("/groups/delete/{groupId}")
-	protected String delete(@PathVariable String groupId, WebRequest req, HttpSession session, Model model) throws Exception {
+	
+	@RequestMapping(value = "/groups/{groupId}", method = RequestMethod.DELETE )
+	protected @ResponseBody JsonResult delete(@PathVariable String groupId, HttpSession session, Model model) throws Exception {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		logger.debug("groupId: {}", groupId);
 		Group group = groupDao.readGroup(groupId);
 		if (group == null) {
-			// 비정상적인 접근
 			throw new Exception();
 		}
 		if (!group.getGroupCaptainUserId().equals(sessionUserId)) {
 			model.addAttribute("errorMessage", "삭제 권한 없음");
-			return "groups";
+			return new JsonResult().setSuccess(false);
 		}
-		groupDao.deleteGroup(group);
-		// TODO 리턴으로 그룹정보를 넘겨서 해당 그룹 카드만 삭제하도록 AJAX 통신을 이용하게 변경예정
-		return "redirect:/";
+		groupDao.deleteGroup(groupId);
+		
+		return new JsonResult().setSuccess(true);
 	}
 	
 	@RequestMapping(value = "/groups/members", method = RequestMethod.POST)
