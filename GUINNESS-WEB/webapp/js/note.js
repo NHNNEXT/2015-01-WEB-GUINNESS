@@ -1,11 +1,5 @@
 function cancelNoteCreate(e) {
 	if (document.querySelector(".modal-cover #noteText").value != "") {
-		guinness.util.alert("취소","작성중인 노트 기록을 취소하시겠습니까?", function() { document.querySelector('.modal-cover').remove(); }, function() {});
-		return;
-}
-
-function cancelNoteCreate(e) {
-	if (document.querySelector(".modal-cover #noteText").value != "") {
 		guinness.util.alert("취소", "작성중인 노트 기록을 취소하시겠습니까?", function() {
 			document.querySelector('.modal-cover').remove();
 		}, function() {
@@ -135,42 +129,22 @@ function confirmDeleteNote(noteId) {
 
 function deleteNote(noteId) {
 	guinness.ajax({
-		method : "delete",
-		url : "/notes/" + noteId,
-		success : function(req) {
-			var json = JSON.parse(req.responseText);
-			if (json.success === true) {
-				var el = document.getElementById(noteId);
-				if (el.previousSibling.nodeName === "DIV"
-						&& el.nextSibling === null) {
-					el.parentNode.remove();
+		method: "delete",
+		url: "/notes/" + noteId,
+		success: function(req) {
+		var json = JSON.parse(req.responseText);
+			if(json.success === true) {
+				var t = document.getElementById(noteId);
+				if (t.parentElement.childElementCount <= 2) {
+					t.parentElement.remove();
 				} else {
-					el.remove();
+					t.remove();
 				}
 			}
 		}
 	});
 }
 
-<<<<<<< HEAD
-		function deleteNote(noteId) {
-			guinness.ajax({
-				method: "delete",
-				url: "/notes/" + noteId,
-				success: function(req) {
-					var json = JSON.parse(req.responseText);
-					if(json.success === true) {
-						var t = document.getElementById(noteId);
-						if (t.parentElement.childElementCount <= 2) {
-							t.parentElement.remove();
-						} else {
-							t.remove();
-						}
-					}
-				}
-			});
-		}
-=======
 var currScrollTop;
 function readNoteContents(noteId) {
 	currScrollTop = document.body.scrollTop;
@@ -186,7 +160,6 @@ function readNoteContents(noteId) {
 		}
 	});
 }
->>>>>>> f9c629fad77eba4aa980f327cff46e8976555538
 
 var commentTimeUpdate;
 
