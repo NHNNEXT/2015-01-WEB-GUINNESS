@@ -19,8 +19,8 @@ search.note.load = function (noteId) {
 
 search.note.create = function (json) {
     "use strict";
-	document.querySelector(".note-list").lastElementChild.insertAdjacentHTML("beforeend", document.querySelector(".noteTemplate").text);
-	var note = document.querySelector(".note-list > li:last-child");
+	document.querySelector(".search-note-list").lastElementChild.insertAdjacentHTML("beforeend", document.querySelector(".noteTemplate").text);
+	var note = document.querySelector(".search-note-list > li:last-child");
 	note.className = "noteCard";
 	note.id = json.noteId;
 	note.querySelector(".avatar").src = "/img/profile/" + json.user.userImage;

@@ -18,7 +18,7 @@
 	<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUserId}">
 	<input type="hidden" id="noteId" name="noteId" value="${noteId}">
 	<div id='note-list-container' class='content wrap'>
-		<ul class="note-list">
+		<ul class="search-note-list">
 			<li></li>
 		</ul>
 	</div>
