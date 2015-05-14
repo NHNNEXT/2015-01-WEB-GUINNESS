@@ -125,7 +125,9 @@ public class NoteController {
 		String groupId = req.getParameter("groupId");
 		String noteId = req.getParameter("noteId");
 		String noteText = req.getParameter("noteText");
-		noteDao.updateNote(noteText, noteId);
+		String noteTargetDate = req.getParameter("noteTargetDate") + " "
+				+ new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
+		noteDao.updateNote(noteText, noteId, noteTargetDate);
 		return "redirect:/g/" + groupId;
 	}
 
