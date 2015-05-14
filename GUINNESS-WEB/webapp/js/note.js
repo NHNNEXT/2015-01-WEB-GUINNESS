@@ -1,10 +1,3 @@
-		window.addEventListener('resize', function() {
-			_setMemberListPosition();
-		}, false);
-
-		function _setMemberListPosition() {
-		}
-		
 		function cancelNoteCreate(e) {
 			if (document.querySelector(".modal-cover #noteText").value != "") {
 				guinness.util.alert("취소","작성중인 노트 기록을 취소하시겠습니까?", function() { document.querySelector('.modal-cover').remove(); }, function() {});
@@ -125,18 +118,16 @@
 				success: function(req) {
 					var json = JSON.parse(req.responseText);
 					if(json.success === true) {
-						// TODO reload방식 말고 removeChild를 이용해서 삭제할 것
-						// 날짜에 노트가 1개 있을 경우 날짜도 같이 지워져야 한다
-						document.location.reload(true);
-//						deleteNoteCard(json.object);
+						var t = document.getElementById(noteId);
+						if (t.parentElement.childElementCount <= 2) {
+							t.parentElement.remove();
+						} else {
+							t.remove();
+						}
 					}
 				}
 			});
 		}
-		
-//		function deleteNoteCard(noteId) {
-//			var Ul = document.querySelector("#" + noteId);
-//		}
 
 		var currScrollTop;
 		function readNoteContents(noteId) {

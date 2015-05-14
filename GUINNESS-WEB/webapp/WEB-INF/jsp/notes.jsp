@@ -92,7 +92,6 @@
 		document.querySelector('#group-name').innerHTML = groupName;
 
 		appendNoteList(${noteList});
-		_setMemberListPosition();
 	}, false);
 	</script>
 	<script src="/js/note.js"></script>
