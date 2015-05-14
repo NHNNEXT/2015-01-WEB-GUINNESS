@@ -97,6 +97,56 @@ html, body {
     font-weight: 600;
 }
 
+.search-note-list li {
+	position: relative;
+	width: 800px;
+	margin: 0 auto;
+	padding: 20px;
+	list-style: none;
+	color: #454545;
+	margin-bottom: 10px;
+	background-color: #fff;
+	border-radius: 10px;
+}
+
+.search-note-list img.avatar{
+	display: block;
+	float: left;
+	width: 45px;
+	height: 45px;
+	border-radius: 22px;
+	overflow: hidden;
+	background-color: #558;
+}
+
+.search-note-list .content-container {
+	padding-left: 50px;
+	padding-right: 50px;
+}
+
+.search-note-list .userName {
+	font-size: 13px;
+	font-weight: bold;
+}
+
+.search-note-list .userId {
+	font-size: 12px;
+	font-weight: bold;
+	color: #74afad;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+.search-note-list li .note-date {
+	color: #BDBDBD;
+	font-size: 12px;
+}
+
+.search-note-list .note-util i {
+	margin-left: 5px;
+	float: right;
+}
+
 .spanOnSearch {
     font-size: 12px; 
     color:darkslategray;
