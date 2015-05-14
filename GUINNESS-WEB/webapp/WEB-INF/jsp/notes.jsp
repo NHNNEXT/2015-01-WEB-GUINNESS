@@ -29,12 +29,11 @@
 		노트를 작성해주세요</h1>
 	<div id='note-list-container' class='content wrap'>
 		<a href="/g/${groupId}"><span id="group-name"></span></a>
-		<form id="notes-create-form" action="/note/editor" method="get">
-			<input id="groupId" type="hidden" name="groupId" value="">
-			<button id='create-new-button' type="submit">
+		<a href="/editor/g/${groupId}">
+			<button id='create-new-button'>
 				<i class="fa fa-plus-circle"></i>
 			</button>
-		</form>
+		</a>
 
 		<!-- <input type="text" name="rangeCalendar" value="01/01/2015 - 01/31/2015" /> -->
 
@@ -83,7 +82,7 @@
 	window.addEventListener('load', function() {
 		var groupId = window.location.pathname.split("/")[2];
 		document.querySelector("#addMemberForm input[name='groupId']").value = groupId;
-		document.querySelector("#groupId").value = groupId;
+		// document.querySelector("#groupId").value = groupId;
 		readMember(groupId);
 		
 		document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);

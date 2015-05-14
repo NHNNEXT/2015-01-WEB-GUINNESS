@@ -1,7 +1,5 @@
 package org.nhnnext.guinness.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.NoteDao;
 import org.nhnnext.guinness.model.Group;
@@ -11,8 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.WebRequest;
 
 import com.google.gson.Gson;
 
@@ -23,24 +19,15 @@ public class EditorController {
 	@Autowired
 	private NoteDao noteDao;
 
-	@RequestMapping(value = "/note/editor", method = RequestMethod.GET)
-	private String Editor(WebRequest req, HttpSession session, Model model) {
-		String groupId = req.getParameter("groupId");
-		String noteId = req.getParameter("noteId");
-		if (noteId != null) {
-			model.addAttribute("noteId", noteId);
-			model.addAttribute("noteText", noteDao.readNote(noteId).getNoteText());
-		}
-		if (groupId != null) {
-			String groupName = groupDao.readGroup(groupId).getGroupName();
-			model.addAttribute("groupId", groupId);
-			model.addAttribute("groupName", new Gson().toJson(groupName));
-		}
+	@RequestMapping(value = "/editor/g/{groupId}")
+	private String createEditor(@PathVariable String groupId, Model model) {
+		model.addAttribute("groupId", groupId);
+		model.addAttribute("groupName", new Gson().toJson(groupDao.readGroup(groupId).getGroupName()));
 		return "editor";
 	}
 
-	@RequestMapping(value = "/editor/{noteId}", method = RequestMethod.GET)
-	private String Editor(@PathVariable String noteId, Model model) {
+	@RequestMapping(value = "/editor/{noteId}")
+	private String updateEditor(@PathVariable String noteId, Model model) {
 		Note note = noteDao.readNote(noteId);
 		Group group = groupDao.readGroup(note.getGroup().getGroupId());
 
