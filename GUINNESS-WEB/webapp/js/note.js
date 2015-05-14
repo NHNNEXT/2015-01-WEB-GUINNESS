@@ -98,7 +98,7 @@
 					if(e.target.className === "fa fa-trash") {
 						confirmDeleteNote(this.getAttribute("id"));
 					} else if(e.target.className === "fa fa-pencil") {
-						window.location.href = "/note/editor?noteId=" + this.getAttribute("id") + "&groupId=" + document.querySelector("#groupId").value;
+						window.location.href = "/editor/" + this.getAttribute("id");
 					} else {
 						readNoteContents(this.getAttribute("id"));
 					}

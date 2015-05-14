@@ -170,6 +170,10 @@ form#notes-create-form {
 	text-align: center;
 }
 
+#create-note {
+	text-align: center;
+}
+
 #create-new-button:focus, textarea#noteTextBox:focus {
 	outline: none;
 }
