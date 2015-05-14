@@ -3,24 +3,24 @@ package org.nhnnext.guinness.model;
 public class Note {
 	private String noteId;
 	private String noteText;
-	private String targetDate;
+	private String noteTargetDate;
 	private User user;
 	private Group group;
 	private int commentCount;
 	
-	public Note(String noteId, String noteText, String targetDate, User user, Group group, int commentCount) {
+	public Note(String noteId, String noteText, String noteTargetDate, User user, Group group, int commentCount) {
 		this.noteId = noteId;
 		this.noteText = noteText;
-		this.targetDate = targetDate;
+		this.noteTargetDate = noteTargetDate;
 		this.user = user;
 		this.group = group;
 		this.commentCount = commentCount;
 	}
 
-	public Note(String noteText, String targetDate, User user, Group group) {
+	public Note(String noteText, String noteTargetDate, User user, Group group) {
 		super();
 		this.noteText = noteText;
-		this.targetDate = targetDate;
+		this.noteTargetDate = noteTargetDate;
 		this.user = user;
 		this.group = group;
 	}
@@ -45,12 +45,12 @@ public class Note {
 		this.noteText = noteText;
 	}
 
-	public String getTargetDate() {
-		return targetDate;
+	public String getNoteTargetDate() {
+		return noteTargetDate;
 	}
 
-	public void setTargetDate(String targetDate) {
-		this.targetDate = targetDate;
+	public void setNoteTargetDate(String noteTargetDate) {
+		this.noteTargetDate = noteTargetDate;
 	}
 
 	public User getUser() {
@@ -85,7 +85,7 @@ public class Note {
 		result = prime * result + ((group == null) ? 0 : group.hashCode());
 		result = prime * result + ((noteId == null) ? 0 : noteId.hashCode());
 		result = prime * result + ((noteText == null) ? 0 : noteText.hashCode());
-		result = prime * result + ((targetDate == null) ? 0 : targetDate.hashCode());
+		result = prime * result + ((noteTargetDate == null) ? 0 : noteTargetDate.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
@@ -116,10 +116,10 @@ public class Note {
 				return false;
 		} else if (!noteText.equals(other.noteText))
 			return false;
-		if (targetDate == null) {
-			if (other.targetDate != null)
+		if (noteTargetDate == null) {
+			if (other.noteTargetDate != null)
 				return false;
-		} else if (!targetDate.equals(other.targetDate))
+		} else if (!noteTargetDate.equals(other.noteTargetDate))
 			return false;
 		if (user == null) {
 			if (other.user != null)
@@ -131,7 +131,7 @@ public class Note {
 
 	@Override
 	public String toString() {
-		return "Note [noteId=" + noteId + ", noteText=" + noteText + ", targetDate=" + targetDate + ", user=" + user
+		return "Note [noteId=" + noteId + ", noteText=" + noteText + ", noteTargetDate=" + noteTargetDate + ", user=" + user
 				+ ", group=" + group + ", commentCount=" + commentCount + "]";
 	}
 }

@@ -126,8 +126,8 @@
 		});
 		
 		document.querySelector('#calendar-container').addEventListener("click", function(e) {
-			var targetDate = $('#defaultCalendar').data('daterangepicker').startDate._d.toISOString().substring(0,10);
-			reloadNoteList(targetDate);
+			var noteTargetDate = $('#defaultCalendar').data('daterangepicker').startDate._d.toISOString().substring(0,10);
+			reloadNoteList(noteTargetDate);
 			}, false);
 	</script>
 </body>

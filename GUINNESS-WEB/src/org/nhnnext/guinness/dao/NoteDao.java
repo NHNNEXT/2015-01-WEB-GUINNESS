@@ -24,7 +24,7 @@ public class NoteDao extends JdbcDaoSupport {
 			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
 				PreparedStatement ps = connection.prepareStatement(sql, new String[] { "noteId" });
 				ps.setString(1, note.getNoteText());
-				ps.setString(2, note.getTargetDate());
+				ps.setString(2, note.getNoteTargetDate());
 				ps.setString(3, note.getUser().getUserId());
 				ps.setString(4, note.getGroup().getGroupId());
 				return ps;
@@ -33,7 +33,7 @@ public class NoteDao extends JdbcDaoSupport {
 		return keyHolder.getKey().longValue();
 	}
 
-	public List<Map<String, Object>> readNoteListForMap(String groupId, String endDate, String targetDate,
+	public List<Map<String, Object>> readNoteListForMap(String groupId, String endDate, String noteTargetDate,
 			String userIds) {
 		String sql = "select * from NOTES, USERS " + "where NOTES.userId = USERS.userId " + "and groupId = ? "
 				+ "and NOTES.noteTargetDate between ? and ? ";
@@ -43,7 +43,7 @@ public class NoteDao extends JdbcDaoSupport {
 		sql += "order by noteTargetDate desc";
 
 		try {
-			return getJdbcTemplate().queryForList(sql, groupId, endDate, targetDate);
+			return getJdbcTemplate().queryForList(sql, groupId, endDate, noteTargetDate);
 		} catch (EmptyResultDataAccessException e) {
 			return new ArrayList<Map<String, Object>>();
 		}

@@ -13,10 +13,10 @@
 			document.querySelector('.modal-cover').remove();
 		}
 		
-		function readNoteList(groupId, targetDate) {
+		function readNoteList(groupId, noteTargetDate) {
 		  guinness.ajax({ 
 			  method: "get", 
-			  url: "/note/list?groupId="+groupId+"&targetDate="+targetDate, 
+			  url: "/note/list?groupId="+groupId+"&noteTargetDate="+noteTargetDate, 
 			  success: 
 				function(req) {
 				  var json = JSON.parse(req.responseText);
@@ -47,18 +47,18 @@
 			var out = "";
 			for (var i = 0; i < json.length; i++) {
 				obj = json[i];
-				var targetDate = obj.targetDate;
-				targetDate = targetDate.split(" ");
-				targetDate = targetDate[0];
-				targetDate = targetDate.replace(/'-'/g, '');
-				el = document.querySelector("#day-" + targetDate);
+				var noteTargetDate = obj.noteTargetDate;
+				noteTargetDate = noteTargetDate.split(" ");
+				noteTargetDate = noteTargetDate[0];
+				noteTargetDate = noteTargetDate.replace(/'-'/g, '');
+				el = document.querySelector("#day-" + noteTargetDate);
 				if (el == undefined) {
 					el = document.createElement("ul");
-					el.setAttribute("id", "day-" + targetDate);
+					el.setAttribute("id", "day-" + noteTargetDate);
 					el.setAttribute("class", "note-list");
 					newEl = document.createElement("div");
 					newEl.setAttribute("class", "note-date");
-					newEl.innerHTML = "<span>" + targetDate + "</span>";
+					newEl.innerHTML = "<span>" + noteTargetDate + "</span>";
 					el.appendChild(newEl);
 					document.querySelector('#note-list-container').appendChild(el);
 				}
@@ -87,7 +87,7 @@
 				}				
 				out += "<div class='content-container'>";
 				out += "<div><span class='userName'>" + obj.userName + "</span><span class='userId'>" + obj.userId + "</span></div>";
-				out += "<div><span class='note-date'>" + obj.targetDate + "</span></div>";
+				out += "<div><span class='note-date'>" + obj.noteTargetDate + "</span></div>";
 				if (attention!==null) {out += attention+'<br />'}
 				if (question!==null) {out += question+'<br />'}
 				if (tag!==null) {out += tag+'<br />'}
@@ -374,7 +374,7 @@
 			}
 		}
 		
-		function reloadNoteList(targetDate){
+		function reloadNoteList(noteTargetDate){
 			var groupId = window.location.pathname.split("/")[2];
 			var objs = document.querySelectorAll(".memberChk");
 			var array = [];
@@ -384,7 +384,7 @@
 			}
 			guinness.ajax({ 
 				method:"get", 
-				url:'/api/notes/?groupId='+groupId+'&targetDate='+targetDate+'&checkedUserId='+array,
+				url:'/api/notes/?groupId='+groupId+'&noteTargetDate='+noteTargetDate+'&checkedUserId='+array,
 				success: 
 				  function(req) {
 					var result = JSON.parse(req.responseText);
