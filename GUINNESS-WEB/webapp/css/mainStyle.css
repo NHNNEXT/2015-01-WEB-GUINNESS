@@ -8,6 +8,14 @@ html, body {
 	background-color: #e9eaed;
 }
 
+#allShow {
+  margin-top: 0px;
+  display: block;
+  position: fixed;
+  top: 131px;
+  width: 200px;
+}
+
 .code {
     color:darkgreen;
     overflow-x: scroll;

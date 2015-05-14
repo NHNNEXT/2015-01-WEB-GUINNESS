@@ -40,9 +40,8 @@
 		<!-- <input type="text" name="rangeCalendar" value="01/01/2015 - 01/31/2015" /> -->
 
 		<!-- <input type="text" name="defaultCalendar" value="10/24/1984" /> -->
+		<input class="inputBtn" id="allShow" type="submit" value="전체보기" onclick="reloadNoteList()" />
 		<div id='calendar-container'>
-			<input class="inputBtn"
-				type="submit" value="전체보기" onclick="reloadNoteList()" />
 			<div id="defaultCalendar" ></div>
 		</div>
 		
