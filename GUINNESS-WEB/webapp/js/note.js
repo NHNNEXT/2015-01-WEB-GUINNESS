@@ -203,7 +203,7 @@
 				var commentEl = commentList.querySelector('li:last-child');
 				commentEl.setAttribute('id', 'cmt-'+obj.commentId);
 				commentEl.querySelector('.comment-user').innerHTML = obj.userName;
-				commentEl.querySelector('.comment-date').innerHTML = obj.commentCreateDate;
+				commentEl.querySelector('.comment-date').innerHTML = koreaDate(obj.commentCreateDate);
 				commentEl.querySelector('.comment').innerHTML = obj.commentText;
 				commentEl.querySelector('.avatar').setAttribute("src","/img/profile/"+obj.userImage);
 				if (userId === obj.userId) {
@@ -211,6 +211,32 @@
 				}
 			}
 		}
+
+        function koreaDate(date) {
+            var distance = new Date()-date;
+            if ( distance > 1000 * 60 * 60) {
+                var week = new Array('일', '월', '화', '수', '목', '금', '토');
+                var date = new Date(date);
+                var result = date.getFullYear()+"년 "+date.getMonth()+"월 "+date.getDay()+"일 "+week[date.getDay()]+"요일 ";
+                var hour = date.getHours();
+                if (hour > 12) {
+                    result = result + "PM "+(hour-12);
+                } else {
+                    result = result + "AM "+hour;
+                }
+                var minute = date.getMinutes();
+                if (minute > 9) {
+                    result = result + ":"+minute;
+                } else {
+                    result = result + ":0" + minute;
+                }
+                return result;
+            } else if (distance > 1000 * 60) {
+                return new Date(distance).getMinutes()+"분 전";
+            } else {
+                return new Date(distance).getSeconds()+"초 전";
+            }
+        }
 		
 		function updateComment(commentId, commentText){
 			guinness.ajax({
