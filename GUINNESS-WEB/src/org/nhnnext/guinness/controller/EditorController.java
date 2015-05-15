@@ -30,13 +30,10 @@ public class EditorController {
 	private String updateEditor(@PathVariable String noteId, Model model) {
 		Note note = noteDao.readNote(noteId);
 		Group group = groupDao.readGroup(note.getGroup().getGroupId());
-
 		model.addAttribute("noteId", noteId);
 		model.addAttribute("noteText", note.getNoteText());
-
 		model.addAttribute("groupId", group.getGroupId());
 		model.addAttribute("groupName", new Gson().toJson(group.getGroupName()));
-
 		return "editor";
 	}
 }

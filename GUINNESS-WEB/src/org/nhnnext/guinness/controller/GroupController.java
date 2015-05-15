@@ -65,7 +65,6 @@ public class GroupController {
 
 	@RequestMapping("/groups/members/{groupId}")
 	protected @ResponseBody JsonResult listGroupMember(@PathVariable String groupId) {
-		
 		return new JsonResult().setSuccess(true).setMapValues(groupService.groupMembers(groupId));
 	}
 }
