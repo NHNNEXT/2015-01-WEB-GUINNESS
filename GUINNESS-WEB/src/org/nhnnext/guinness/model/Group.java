@@ -35,10 +35,6 @@ public class Group {
 		this.isPublic = isPublic;
 	}
 
-	public Group(String groupName, String groupCaptainUserId, String isPublic) {
-		this(null, groupName, groupCaptainUserId, isPublic);
-	}
-
 	public Group(String groupId) {
 		this(groupId, null, null, null);
 	}
@@ -81,6 +77,10 @@ public class Group {
 
 	public String isPublic() {
 		return isPublic;
+	}
+	
+	public boolean checkCaptain(String userId) {
+		return this.groupCaptainUserId.equals(userId);
 	}
 
 	@Override

@@ -98,7 +98,6 @@ public class UserController {
 		String rootPath = session.getServletContext().getRealPath("/");
 		userService.update(user, model, rootPath, profileImage);
 
-		// session refresh...
 		saveUserInfoInSession(session, user);
 		return "redirect:/groups";
 	}

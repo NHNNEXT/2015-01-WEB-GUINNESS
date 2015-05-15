@@ -5,11 +5,14 @@ import java.util.Map;
 
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 public class GroupDao extends JdbcDaoSupport {
-
+	private static final Logger logger = LoggerFactory.getLogger(GroupDao.class);
+	
 	public void createGroup(Group group) {
 		String sql = "insert into GROUPS values(?,?,?,DEFAULT,?)";
 		getJdbcTemplate().update(sql, group.getGroupId(), group.getGroupName(),
@@ -67,5 +70,14 @@ public class GroupDao extends JdbcDaoSupport {
 				rs.getString("userPassword"),
 				rs.getString("userStatus")
 				), groupId);
+	}
+	
+	public boolean isExistGroupId(String groupId) {
+		String sql = "select count(1) from GROUPS where groupId = ?";
+		logger.debug("{}", ""+getJdbcTemplate().queryForObject(sql, Integer.class, groupId));
+		if (getJdbcTemplate().queryForObject(sql, Integer.class, groupId) == 0) {
+			return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
 	}
 }

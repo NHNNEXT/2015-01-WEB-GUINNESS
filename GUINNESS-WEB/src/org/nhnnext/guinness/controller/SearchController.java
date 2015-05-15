@@ -21,8 +21,6 @@ import org.springframework.web.context.request.WebRequest;
 
 @Controller
 public class SearchController {
-	private static final Logger logger = LoggerFactory.getLogger(SearchController.class);
-	
 	@Resource
 	private GroupDao groupDao;
 	@Resource
@@ -37,13 +35,10 @@ public class SearchController {
 	
 	@RequestMapping(value="/search/n/{noteId}")
 	private String init(@PathVariable String noteId, HttpSession session, Model model) throws IOException {
-		logger.debug("noteId: {}", noteId);
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
-		logger.debug("sessionUserId={}", sessionUserId);
 		model.addAttribute("functionSelect", "showNote.js");
 		model.addAttribute("sessionUserId", sessionUserId);
 		model.addAttribute("noteId", noteId);
-		logger.debug("noteId: {}", noteId);
 		return "search";
 	}
 }

@@ -2,10 +2,12 @@ package org.nhnnext.guinness.controller;
 
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
 import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
+import org.nhnnext.guinness.exception.FailedDeleteGroupException;
 import org.nhnnext.guinness.exception.FailedLoginException;
 import org.nhnnext.guinness.exception.FailedMakingGroupException;
 import org.nhnnext.guinness.exception.SendMailException;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
+import org.nhnnext.guinness.exception.UnpermittedDeleteGroupException;
 import org.nhnnext.guinness.exception.UserUpdateException;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.JsonResult;
@@ -87,6 +89,22 @@ public class ControllerExceptionHandler {
 		ModelAndView mav = new ModelAndView("/illegal");
 		mav.addObject("errorMessage", "비정상적 접근시도.");
 		return mav;
+	}
+	
+	// 없는 그룹 삭제 시 예외처리
+	@ExceptionHandler(FailedDeleteGroupException.class)
+	public ModelAndView failedDeleteGroupException(FailedDeleteGroupException e) {
+		e.printStackTrace();
+		ModelAndView mav = new ModelAndView("/exception");
+		logger.debug("exception: {}", e.getClass().getSimpleName());
+		return mav;
+	}
+	
+	// 삭제 권한 없는 그룹 삭제 시 예외처리
+	@ExceptionHandler(UnpermittedDeleteGroupException.class)
+	public @ResponseBody JsonResult unpermittedDeleteGroupException(UnpermittedDeleteGroupException e) {
+		e.printStackTrace();
+		return new JsonResult().setSuccess(false);
 	}
 
 	@ExceptionHandler(Exception.class)

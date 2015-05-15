@@ -155,11 +155,11 @@ function deleteGroup(groupId) {
 		method:"delete",
 		url:"/groups/" + groupId,
 		success: function(req) {
-			if(JSON.parse(req.responseText).success === true) {
-				document.querySelector('#' + groupId).remove();
-			} else {
+			if(JSON.parse(req.responseText).success !== true) {
 				guinness.util.alert('경고', '삭제할 권한이 없습니다.');
+				return;
 			}
+			document.querySelector('#' + groupId).remove();
 		}
 	});		
 }
