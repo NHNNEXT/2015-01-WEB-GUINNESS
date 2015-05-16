@@ -93,15 +93,8 @@
 
 		appendNoteList(${noteList});
 		var elCreateBtn = document.querySelector("#create-new-button");
-		_setPosition(elCreateBtn);
 	}, false);
 	
-	function _setPosition (target) {
-	    var rect = target.getBoundingClientRect();
-	    var elpCommentBox = document.body.querySelector("#allShow");
-	    elpCommentBox.style.top = rect.top+"px";
-	    elpCommentBox.style.left = rect.left-210+"px";
-	}
 	</script>
 	<script src="/js/note.js"></script>
 	<!-- <script type="text/javascript">

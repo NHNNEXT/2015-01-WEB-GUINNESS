@@ -9,11 +9,28 @@ html, body {
 }
 
 #allShow {
-  margin-top: 0px;
-  display: block;
-  position: fixed;
-  top: 131px;
+  position: absolute;
+  background-color: #74AFAD;
+  color:white;
+  top: 42px;
+  left: 0;
+  height: 20px;
   width: 200px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+    border:none;
+}
+
+#allShow:focus {
+	outline:none;	
+}
+
+#allShow:hover {
+	background-color: #88BEBB;
+}
+
+#allShow:active {
+    background-color:cadetblue;
 }
 
 .code {
