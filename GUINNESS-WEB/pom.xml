@@ -10,6 +10,18 @@
 		<maven.test.skip>true</maven.test.skip>
 		<org.springframework.version>4.1.6.RELEASE</org.springframework.version>
 	</properties>
+
+	<profiles>
+		<profile>
+			<id>sonar</id>
+			<properties>
+				<sonar.jdbc.url>jdbc:mysql://localhost:3306/sonar?rewriteBatchedStatements=true</sonar.jdbc.url>
+				<sonar.jdbc.username>sonar</sonar.jdbc.username>
+				<sonar.jdbc.password>link413</sonar.jdbc.password>
+			</properties>
+		</profile>
+	</profiles>
+
 	<dependencies>
 
 		<!-- File Upload -->
@@ -202,6 +214,12 @@
 					<wtpversion>2.0</wtpversion>
 					<wtpContextName>/</wtpContextName>
 				</configuration>
+			</plugin>
+			<!-- sonarQube -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>2.5</version>
 			</plugin>
 		</plugins>
 	</build>

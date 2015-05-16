@@ -96,3 +96,11 @@ Create Table ALARMS(
  Foreign Key(callerId) REFERENCES USERS(userId) on delete cascade,
  Foreign Key(noteId) REFERENCES NOTES(noteId) on delete cascade
 );
+
+
+/* 소나큐브용 데이터베이스 생성 및 설정. */
+mysql -u root -p
+CREATE DATABASE sonar DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
+create user sonar identified by 'link413';
+GRANT ALL PRIVILEGES on  sonar.*  to 'sonar'@'localhost' identified BY 'sonar' WITH GRANT OPTION;
+flush privileges;
