@@ -12,13 +12,8 @@
 <link rel="stylesheet" href="/css/mainStyle.css">
 </head>
 <body>
-	<div id="header">
-		<div class='content wrap'>
-			<div id="leftTopBox">
-				<a href='/' id='brand'> <img src='/img/pm_white.png'></a>
-			</div>
-		</div>
-	</div>
+	<%@ include file="./commons/_guest_topnav.jspf"%>
+	
 	<div class='sendmail-content'>
 		<c:choose>
 			<c:when test="${not empty message}">

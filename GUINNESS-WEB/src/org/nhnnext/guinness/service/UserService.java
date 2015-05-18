@@ -129,7 +129,7 @@ public class UserService {
 		if(userDao.findUserByUserId(userId) == null) {
 			throw new NotExistedUserIdException("존재하지 않는 계정입니다.");
 		}
-		String tempPassword = "temp" + RandomFactory.getRandomId(4);
+		String tempPassword = "temp_" + RandomFactory.getRandomId(4);
 		User user = new User();
 		user.setUserId(userId);
 		user.setUserPassword(tempPassword);

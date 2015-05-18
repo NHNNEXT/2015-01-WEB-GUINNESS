@@ -110,7 +110,6 @@ public class UserController {
 	
 	@RequestMapping(value = "/user/findPassword", method = RequestMethod.POST)
 	protected String findPassword(@RequestParam("userId") String userId, Model model) throws NotExistedUserIdException, SendMailException {
-		System.out.println(userId);
 		userService.initPassword(userId);
 		model.addAttribute("message", "임시 비밀번호를 이메일로 보내드렸습니다.");
 		return "sendEmail";
