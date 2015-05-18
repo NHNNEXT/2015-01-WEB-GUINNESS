@@ -29,16 +29,18 @@
 				<input type="hidden" name="_method" value="put" >
 				<input type="hidden" name="noteId" value="${noteId}">
 			</c:if>
-			<div id="editorTools">
-				<div id="calendar">
-					<i id="datepickr" class="fa fa-calendar"></i> <input
-						id="noteTargetDate" name="noteTargetDate" value="" readonly>
-				</div>
-			</div>
-			<textarea id="noteTextBox" rows="28" cols="28" name="noteText" form="noteForm">${noteText}</textarea>
-			<div id="view-preview-template">
-				<div id="previewBox"></div>
-			</div>
+            <div id="editorBox">
+                <div id="editorTools">
+                    <div id="calendar">
+                        <i id="datepickr" class="fa fa-calendar"></i> <input
+                            id="noteTargetDate" name="noteTargetDate" value="" readonly>
+                    </div>
+                </div>
+                <textarea id="noteTextBox" rows="28" cols="28" name="noteText" form="noteForm">${noteText}</textarea>
+                <div id="view-preview-template">
+                    <div id="previewBox"></div>
+                </div>
+            </div>
 			<a id="escape-note" class="btn btn-pm" href="/g/${groupId}">취소</a>
 			<input type="submit" class="btn btn-pm" value="작성" />
 		</form>
