@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
 @Controller
+@RequestMapping("/search")
 public class SearchController {
 	//TODO 코트리뷰 서비스로 레이어를 분리해야할지?
 	@Resource
@@ -25,14 +26,14 @@ public class SearchController {
 	@Resource
 	private NoteDao noteDao;
 	
-	@RequestMapping(value="/search", method=RequestMethod.GET)
+	@RequestMapping(value="", method=RequestMethod.GET)
 	private @ResponseBody JsonResult getSearchResult(WebRequest req, HttpSession session) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		String [] words = req.getParameter("words").split(" ");
 		return new JsonResult().setSuccess(true).setMapValues(noteDao.searchQueryForMap(sessionUserId, words));
 	}
 	
-	@RequestMapping(value="/search/n/{noteId}")
+	@RequestMapping("/n/{noteId}")
 	private String init(@PathVariable String noteId, HttpSession session, Model model) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		model.addAttribute("functionSelect", "showNote.js");

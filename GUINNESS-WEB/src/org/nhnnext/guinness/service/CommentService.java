@@ -34,6 +34,7 @@ public class CommentService {
 	private void createAlarm(Comment comment) {
 		Note note = comment.getNote();
 		User noteWriter = noteDao.readNote(note.getNoteId()).getUser();
+		
 		if (!comment.checkWriter(noteWriter)) {
 			alarmDao.create(new Alarm(createAlarmId(), "C", comment.getUser(), noteWriter, note));
 		}
@@ -46,13 +47,6 @@ public class CommentService {
 		}
 		return alarmId;
 	}
-	
-	// TODO 코드리뷰
-//	private String createAlarmId() {
-//		String alarmId;
-//		while (alarmDao.isExistAlarmId(alarmId = RandomFactory.getRandomId(10)));
-//		return alarmId;
-//	}
 
 	public List<Map<String, Object>> list(String noteId) {
 		return commentDao.readCommentListByNoteId(noteId);

@@ -41,7 +41,7 @@
 				</div>
 				<ul>
 					<li><a href="/user/form"><span>내 정보</span></a></li>
-					<li><a href="/logout"><span>로그아웃</span></a></li>
+					<li><a href="/user/logout"><span>로그아웃</span></a></li>
 				</ul></li>
 			<li class='menu drop-down'>
 				<div class='label' style="position:relative;">
@@ -119,7 +119,7 @@ function alarmSelect(t, noteId, alarmStatus){
 			}
 		 	if(alarmStatus === "G"){
 		 		guinness.util.alert("그룹 멤버 초대", "초대를 수락하시겠습니까?", function(){
-		 		// 멤버 추가해주고, 그룹으로 이동.
+		 			// 멤버 추가해주고, 그룹으로 이동.
 					
 		 			console.log("수락.");
 		 			return;

@@ -30,7 +30,7 @@
 	<div id='note-list-container' class='content wrap'>
 		<a href="/g/${groupId}"><span id="group-name"></span></a>
 		<div id='create-note'>
-			<a href='/editor/g/${groupId}'>
+			<a href='/notes/editor/g/${groupId}'>
 				<button id='create-new-button'>
 					<i class="fa fa-plus-circle"></i>
 				</button>

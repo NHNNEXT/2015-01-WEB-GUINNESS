@@ -60,8 +60,9 @@ public class NoteService {
 	}
 
 	public void create(String sessionUserId, String groupId, String noteText, String noteTargetDate) {
-		String noteId = ""+noteDao.createNote(new Note(noteText, noteTargetDate, new User(sessionUserId), new Group(groupId)));
-		
+		Group group = new Group(groupId);
+		String noteId = ""+noteDao.createNote(new Note(noteText, noteTargetDate, new User(sessionUserId), group));
+
 		String alarmId = null;
 		Alarm alarm = null;
 		String noteWriter = noteDao.readNote(noteId).getUser().getUserId();

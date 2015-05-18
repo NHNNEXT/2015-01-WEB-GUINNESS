@@ -23,22 +23,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
 @Controller
+@RequestMapping("/groups")
 public class GroupController {
 	@Resource
 	private GroupService groupService;
 
-	@RequestMapping("/groups")
+	@RequestMapping("/form")
 	public String list() throws IOException {
 		return "groups";
 	}
 
-	@RequestMapping("/api/groups")
+	@RequestMapping("")
 	protected @ResponseBody JsonResult list(HttpSession session) throws IOException {
 		String userId = ServletRequestUtil.getUserIdFromSession(session);
 		return new JsonResult().setSuccess(true).setMapValues(groupService.readGroups(userId));
 	}
 
-	@RequestMapping(value = "/groups", method = RequestMethod.POST)
+	@RequestMapping(value = "", method = RequestMethod.POST)
 	protected @ResponseBody JsonResult create(WebRequest req, HttpSession session, Model model) throws IOException, FailedMakingGroupException {
 		String isPublic = ("public".equals((String) req.getParameter("isPublic"))) ? "T" : "F";
 		String groupCaptainUserId = ServletRequestUtil.getUserIdFromSession(session);
@@ -47,14 +48,14 @@ public class GroupController {
 		return new JsonResult().setSuccess(true).setObject(group);
 	}
 	
-	@RequestMapping(value = "/groups/{groupId}", method = RequestMethod.DELETE )
+	@RequestMapping(value = "/{groupId}", method = RequestMethod.DELETE )
 	protected @ResponseBody JsonResult delete(@PathVariable String groupId, HttpSession session, Model model) throws FailedDeleteGroupException, IOException, UnpermittedDeleteGroupException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		groupService.delete(groupId, sessionUserId);
 		return new JsonResult().setSuccess(true);
 	}
 	
-	@RequestMapping(value = "/groups/members", method = RequestMethod.POST)
+	@RequestMapping(value = "/members", method = RequestMethod.POST)
 	protected @ResponseBody JsonResult inviteGroupMember(WebRequest req, HttpSession session) throws FailedAddGroupMemberException, IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		String userId = req.getParameter("userId");
@@ -66,7 +67,7 @@ public class GroupController {
 	}
 
 
-	@RequestMapping("/groups/members/{groupId}")
+	@RequestMapping("/members/{groupId}")
 	protected @ResponseBody JsonResult listGroupMember(@PathVariable String groupId) {
 		return new JsonResult().setSuccess(true).setMapValues(groupService.groupMembers(groupId));
 	}
