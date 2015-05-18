@@ -583,7 +583,7 @@ textarea#commentText {
 }
 
 #group-name {
-	font-weight: 900;
+	font-weight: 500;
 	font-size: 25px;
 	border-left: 5px solid rgb(93, 129, 128);
 	color: rgb(93, 129, 128);
@@ -735,9 +735,14 @@ textarea#commentText {
 	color: gray;
 }
 
-#switchForm:hover {
+.switchForm:hover {
 	color: #BCBCBC;
 	text-decoration: underline;
+}
+
+.text:hover {
+	color: #BCBCBC;
+	text-decoration: underline;	
 }
 
 /*
