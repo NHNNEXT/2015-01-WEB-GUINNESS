@@ -100,6 +100,14 @@ public class User {
 		return this.status.equals(status);
 	}
 
+	public SessionUser createSessionUser() {
+		return new SessionUser(userId, userName, userImage);
+	}
+	
+	public boolean isSameUserId(String userId) {
+		return (this.userId).equals(userId);
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

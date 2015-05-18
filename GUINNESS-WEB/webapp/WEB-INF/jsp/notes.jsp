@@ -23,7 +23,7 @@
 </head>
 <body>
 	<%@ include file="./commons/_topnav.jspf"%>
-	<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUserId}">
+	<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUser.userId}">
 	<h1 id="empty-message"
 		style="position: absolute; color: #888; top: 300px; width: 100%; text-align: center;">새
 		노트를 작성해주세요</h1>

@@ -75,16 +75,16 @@
 					<tr>
 						<td valign=top id='editProfile-photoArea'
 							style='width: 200px; text-align: center;'><img
-							class='avatar' src="/img/profile/${sessionUserImage}"> <input
+							class='avatar' src="/img/profile/${sessionUser.userImage}"> <input
 							type="file" name="profileImage"
 							accept="image/x-png, image/gif, image/jpeg" /></td>
 						<td valign=top id='editProfile-profileArea'
 							style='padding-left: 25px;'><form:hidden path="userId"
-								value="${sessionUserId}" />
+								value="${sessionUser.userId}" />
 							<p>
 								<label for="userName">사용자 이름</label>
 								<form:input path="userName" autocomplete="off"
-									required="required" value="${sessionUserName}" />
+									required="required" value="${sessionUser.userName}" />
 								<span class="info"><strong>[필수사항]</strong>스터디메이트들과의 소통을
 									위한 이름을 입력하세요.</span>
 							</p>

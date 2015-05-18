@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script src="/js/search.js"></script>
 <script src="/js/guinness.js"></script>
-<c:if test="${empty sessionUserId}">
+<c:if test="${empty sessionUser.userId}">
 	<c:redirect url="/" />
 </c:if>
 <style>
@@ -35,9 +35,9 @@
 
 		<ul class='util'>
 			<li class='menu drop-down'><img class='avatar'
-				src='/img/profile/${sessionUserImage}' style='margin-left: 15px;'>
+				src='/img/profile/${sessionUser.userImage}' style='margin-left: 15px;'>
 				<div class='label'>
-					<a href="#">${sessionUserName}</a>
+					<a href="#">${sessionUser.userName}</a>
 				</div>
 				<ul>
 					<li><a href="/user/form"><span>내 정보</span></a></li>

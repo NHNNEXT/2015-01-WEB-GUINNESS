@@ -4,12 +4,14 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpSession;
 
+import org.nhnnext.guinness.model.SessionUser;
+
 public class ServletRequestUtil {
 	private ServletRequestUtil() {
 	}
 	
 	public static boolean existedUserIdFromSession(HttpSession session) throws IOException {
-		if (session.getAttribute("sessionUserId") == null) {
+		if (session.getAttribute("sessionUser") == null) {
 			return Boolean.FALSE;
 		}
 		return Boolean.TRUE;
@@ -19,6 +21,6 @@ public class ServletRequestUtil {
 		if(!existedUserIdFromSession(session)){
 			return null;
 		}
-		return (String) session.getAttribute("sessionUserId");
+		return ((SessionUser)session.getAttribute("sessionUser")).getUserId();
 	}
 }

@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.nhnnext.guinness.dao.AlarmDao;
+import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.util.JsonResult;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,7 @@ public class AlarmController {
 
 	@RequestMapping("")
 	protected @ResponseBody JsonResult list(HttpSession session) {
-		String userId = (String) session.getAttribute("sessionUserId");
+		String userId = ((SessionUser)session.getAttribute("sessionUser")).getUserId();
 		return new JsonResult().setSuccess(true).setMapValues(alarmDao.list(userId));
 	}
 

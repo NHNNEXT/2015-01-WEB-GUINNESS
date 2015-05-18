@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<c:if test="${not empty sessionUserId}">
+<c:if test="${not empty sessionUser.userId}">
 	<c:redirect url="/groups/form" />
 </c:if>
 <title>스터디의 시작, 페이퍼민트</title>

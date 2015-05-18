@@ -8,7 +8,6 @@ import javax.annotation.Resource;
 import org.nhnnext.guinness.dao.AlarmDao;
 import org.nhnnext.guinness.dao.CommentDao;
 import org.nhnnext.guinness.dao.NoteDao;
-import org.nhnnext.guinness.model.Alarm;
 import org.nhnnext.guinness.model.Comment;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.User;

@@ -12,6 +12,7 @@ import org.nhnnext.guinness.exception.FailedLoginException;
 import org.nhnnext.guinness.exception.NotExistedUserIdException;
 import org.nhnnext.guinness.exception.SendMailException;
 import org.nhnnext.guinness.exception.UserUpdateException;
+import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.service.UserService;
 import org.nhnnext.guinness.util.JsonResult;
@@ -48,8 +49,8 @@ public class UserController {
 
 	@RequestMapping("/confirm/{keyAddress}")
 	protected String confirm(@PathVariable String keyAddress, HttpSession session) {
-		User user = userService.confirm(keyAddress);
-		saveUserInfoInSession(session, user);
+		SessionUser sessionUser = userService.confirm(keyAddress).createSessionUser();
+		saveUserInfoInSession(session, sessionUser);
 		return "redirect:/";
 	}
 	
@@ -57,8 +58,8 @@ public class UserController {
 	protected @ResponseBody boolean login(WebRequest req, HttpSession session) throws FailedLoginException {
 		String userId = req.getParameter("userId");
 		String userPassword = req.getParameter("userPassword");
-		User user = userService.login(userId, userPassword);
-		saveUserInfoInSession(session, user);
+		SessionUser sessionUser = (userService.login(userId, userPassword)).createSessionUser();
+		saveUserInfoInSession(session, sessionUser);
 		return true;
 	}
 	
@@ -77,7 +78,7 @@ public class UserController {
 	@RequestMapping(value = "/update/check", method = RequestMethod.POST)
 	protected @ResponseBody JsonResult updateUserCheck(HttpSession session, WebRequest req){
 		String userPassword = req.getParameter("password");
-		String userId = (String) session.getAttribute("sessionUserId");
+		String userId = ((SessionUser)session.getAttribute("sessionUser")).getUserId();
 		boolean result = userService.checkUpdatePassword(userId, userPassword);
 		if(!result)
 			return new JsonResult().setSuccess(result).setMessage("비밀번호를 확인해주세요");
@@ -93,9 +94,8 @@ public class UserController {
 
 		String rootPath = session.getServletContext().getRealPath("/");
 		userService.update(user, model, rootPath, profileImage);
-
-		saveUserInfoInSession(session, user);
-		return "redirect:/groups";
+		saveUserInfoInSession(session, user.createSessionUser());
+		return "redirect:/groups/form";
 	}
 
 	@RequestMapping("/findPasswordForm")
@@ -110,10 +110,8 @@ public class UserController {
 		return "sendEmail";
 	}
 	
-	private void saveUserInfoInSession(HttpSession session, User user) {
-		session.setAttribute("sessionUserId", user.getUserId());
-		session.setAttribute("sessionUserName", user.getUserName());
-		session.setAttribute("sessionUserImage", user.getUserImage());
+	private void saveUserInfoInSession(HttpSession session, SessionUser sessionUser) {
+		session.setAttribute("sessionUser", sessionUser);
 	}
 
 	private boolean extractViolationMessage(Model model, User user) {

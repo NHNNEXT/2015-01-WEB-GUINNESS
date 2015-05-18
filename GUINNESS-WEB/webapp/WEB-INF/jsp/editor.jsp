@@ -21,7 +21,7 @@
 <body>
 	<%@ include file="./commons/_topnav.jspf"%>
 	<input type="hidden" id="sessionUserId" name="sessionUserId"
-		value="${sessionUserId}">
+		value="${sessionUser.userId}">
 	<div id='note-edit-container' class='content wrap'>
 	<div id='note-edit-group-name' >
 		<a href="/g/${groupId}"><span id="group-name"></span></a></div>
