@@ -5,6 +5,7 @@ import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
 import org.nhnnext.guinness.exception.FailedDeleteGroupException;
 import org.nhnnext.guinness.exception.FailedLoginException;
 import org.nhnnext.guinness.exception.FailedMakingGroupException;
+import org.nhnnext.guinness.exception.NotExistedUserIdException;
 import org.nhnnext.guinness.exception.SendMailException;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.exception.UnpermittedDeleteGroupException;
@@ -102,6 +103,14 @@ public class ControllerExceptionHandler {
 		return new JsonResult().setSuccess(false);
 	}
 
+	// 비밀번호 찾기시 미존재 아이디 예외처리
+	@ExceptionHandler(NotExistedUserIdException.class)
+	public ModelAndView notExistedUserIdException(NotExistedUserIdException e) {
+		ModelAndView mav = new ModelAndView("/findPassword");
+		mav.addObject("message", "존재하지 않는 이메일입니다.");
+		return mav;
+	}
+	
 	@ExceptionHandler(Exception.class)
 	public ModelAndView exception(Exception e) {
 		e.printStackTrace();
@@ -109,6 +118,4 @@ public class ControllerExceptionHandler {
 		logger.debug("exception: {}", e.getClass().getSimpleName());
 		return mav;
 	}
-	
-	
 }

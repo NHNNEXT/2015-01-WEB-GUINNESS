@@ -30,11 +30,13 @@
 				</p>
 			</div>
 			<div id="commentListUl"></div>
-			<form id="commentForm" action="" method="post">
-				<i class="fa fa-envelope-o" style=""></i>
-				<input type="text" class="inputtext" id="identify_email" name="email" style="width: 255px;">
-				<!-- <textarea id="commentText" name="commentText" rows="5" cols="50"></textarea> -->
-				<br>
+			<form id="commentForm" action="/user/findPassword" method="post">
+				<i class="fa fa-envelope-o" style=""></i> <input type="text"
+					class="inputtext" id="identify_email" name="userId"
+					style="width: 255px;"> <br>
+				<c:if test="${not empty message}">
+					<span class="errorMessage"> ${message} </span>
+				</c:if>
 				<button id="submitComment" class="btn btn-pm">확인</button>
 			</form>
 		</div>

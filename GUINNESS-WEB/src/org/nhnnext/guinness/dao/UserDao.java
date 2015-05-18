@@ -41,4 +41,9 @@ public class UserDao extends JdbcDaoSupport {
 		String sql = "update USERS set userStatus = ? where userId = ?";
 		getJdbcTemplate().update(sql, userStatus, userId);	
 	}
+
+	public void initPassword(User user) {
+		String sql = "update USERS set userPassword = ? where userId = ?";
+		getJdbcTemplate().update(sql, user.getUserPassword(), user.getUserId());
+	}
 }

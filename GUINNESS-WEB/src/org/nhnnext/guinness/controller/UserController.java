@@ -9,6 +9,7 @@ import javax.validation.ConstraintViolation;
 
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
 import org.nhnnext.guinness.exception.FailedLoginException;
+import org.nhnnext.guinness.exception.NotExistedUserIdException;
 import org.nhnnext.guinness.exception.SendMailException;
 import org.nhnnext.guinness.exception.UserUpdateException;
 import org.nhnnext.guinness.model.User;
@@ -103,8 +104,15 @@ public class UserController {
 	}
 
 	@RequestMapping("/user/findPasswordForm")
-	protected String findPassword(HttpSession session) {
+	protected String findPasswordForm(HttpSession session) {
 		return "findPassword";
+	}
+	
+	@RequestMapping(value = "/user/findPassword", method = RequestMethod.POST)
+	protected String findPassword(@RequestParam("userId") String userId) throws NotExistedUserIdException, SendMailException {
+		System.out.println(userId);
+		userService.initPassword(userId);
+		return "redirect:/";
 	}
 	
 	private void saveUserInfoInSession(HttpSession session, User user) {
