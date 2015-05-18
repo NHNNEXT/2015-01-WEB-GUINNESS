@@ -19,6 +19,7 @@ import org.springframework.web.context.request.WebRequest;
 
 @Controller
 public class SearchController {
+	//TODO 코트리뷰 서비스로 레이어를 분리해야할지?
 	@Resource
 	private GroupDao groupDao;
 	@Resource

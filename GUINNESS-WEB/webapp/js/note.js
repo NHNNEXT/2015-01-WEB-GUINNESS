@@ -333,6 +333,10 @@ function createComment(obj) {
 
 function addMember(userId, groupId) {
 	var userId = document.querySelector('#addMemberForm input[name="userId"]').value;
+	if (userId.trim() === ""){
+		guinness.util.alert("멤버초대 실패", "초대할 멤버의 이메일주소를 입력하세요.");
+		return;
+	}
 	var groupId = document
 			.querySelector('#addMemberForm input[name="groupId"]').value;
 	guinness.ajax({
@@ -342,7 +346,7 @@ function addMember(userId, groupId) {
 		success : function(req) {
 			var json = JSON.parse(req.responseText);
 			if (json.success === false) {
-				guinness.util.alert("멤버추가 실패", json.message);
+				guinness.util.alert("멤버초대 실패", json.message);
 				return;
 			}
 			appendMember(json.object);
