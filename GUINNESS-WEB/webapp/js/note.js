@@ -107,7 +107,7 @@ function appendNoteList(json) {
 					if (e.target.className === "fa fa-trash") {
 						confirmDeleteNote(this.getAttribute("id"));
 					} else if (e.target.className === "fa fa-pencil") {
-						window.location.href = "/editor/"
+						window.location.href = "/notes/editor/"
 								+ this.getAttribute("id");
 					} else {
 						readNoteContents(this.getAttribute("id"));
@@ -423,7 +423,7 @@ function reloadNoteList(noteTargetDate) {
 	}
 	guinness.ajax({
 		method : "get",
-		url : '/api/notes/?groupId=' + groupId + '&noteTargetDate='
+		url : '/notes/reload/?groupId=' + groupId + '&noteTargetDate='
 				+ noteTargetDate + '&checkedUserId=' + array,
 		success : function(req) {
 			var result = JSON.parse(req.responseText);

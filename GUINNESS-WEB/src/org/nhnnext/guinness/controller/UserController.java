@@ -29,19 +29,14 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
+@RequestMapping("/user")
 public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@Resource
 	private UserService userService;
 
-	@RequestMapping("/")
-	protected String init(Model model) {
-		model.addAttribute("user", new User());
-		return "index";
-	}
-
-	@RequestMapping(value = "/user", method = RequestMethod.POST)
+	@RequestMapping(value = "", method = RequestMethod.POST)
 	protected String create(Model model, User user) throws AlreadyExistedUserIdException, SendMailException {
 		// 유효성 체크
 		if (!extractViolationMessage(model, user)) {
@@ -51,7 +46,7 @@ public class UserController {
 		return "sendEmail";
 	}
 
-	@RequestMapping(value = "/user/confirm/{keyAddress}")
+	@RequestMapping("/confirm/{keyAddress}")
 	protected String confirm(@PathVariable String keyAddress, HttpSession session) {
 		User user = userService.confirm(keyAddress);
 		saveUserInfoInSession(session, user);
@@ -73,13 +68,13 @@ public class UserController {
 		return "redirect:/";
 	}
 
-	@RequestMapping(value = "/user/form")
+	@RequestMapping("/form")
 	protected String updateForm(Model model) {
 		model.addAttribute("user", new User());
 		return "updateUser";
 	}
 	
-	@RequestMapping(value = "/user/update/check", method = RequestMethod.POST)
+	@RequestMapping(value = "/update/check", method = RequestMethod.POST)
 	protected @ResponseBody JsonResult updateUserCheck(HttpSession session, WebRequest req){
 		String userPassword = req.getParameter("password");
 		String userId = (String) session.getAttribute("sessionUserId");
@@ -89,7 +84,7 @@ public class UserController {
 		return new JsonResult().setSuccess(result); 
 	}
 
-	@RequestMapping(value = "/user/update", method = RequestMethod.POST)
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	protected String updateUser(WebRequest req, HttpSession session, Model model, User user,
 			@RequestParam("profileImage") MultipartFile profileImage) throws UserUpdateException {
 		String userAgainPassword = req.getParameter("userAgainPassword");
@@ -103,12 +98,12 @@ public class UserController {
 		return "redirect:/groups";
 	}
 
-	@RequestMapping("/user/findPasswordForm")
+	@RequestMapping("/findPasswordForm")
 	protected String findPasswordForm(HttpSession session) {
 		return "findPassword";
 	}
 	
-	@RequestMapping(value = "/user/findPassword", method = RequestMethod.POST)
+	@RequestMapping(value = "/findPassword", method = RequestMethod.POST)
 	protected String findPassword(@RequestParam("userId") String userId, Model model) throws NotExistedUserIdException, SendMailException {
 		userService.initPassword(userId);
 		model.addAttribute("message", "임시 비밀번호를 이메일로 보내드렸습니다.");
