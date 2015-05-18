@@ -969,3 +969,9 @@ span.tag {
 	display: block;
 	margin: 0 auto;
 }
+
+.sendmail-content {
+	width: 940px;
+	margin: 0 auto;
+	margin-top: 200px;
+}
