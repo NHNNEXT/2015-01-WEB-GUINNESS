@@ -47,10 +47,10 @@
 		
 
 		<div id='group-member-container'>
-			<form id="addMemberForm" action="/group/add/member" method="post">
-				<input type="hidden" name="groupId"> <input
-					class="inputText" type="text" name="userId"> <input
-					class="inputBtn" type="submit" value="초대">
+			<form id="addMemberForm">
+				<input type="hidden" name="groupId">
+				<input class="inputText" type="text" name="userId">
+				<input class="inputBtn" type="submit" value="초대">
 			</form>
 			<input class="memberAllClick" type="checkbox" checked=true
 				onclick="allCheckMember()" />전체선택 <input class="inputBtn"
