@@ -43,7 +43,6 @@ public class ControllerExceptionHandler {
 	// 회원가입시 중복 아이디 예외처리
 	@ExceptionHandler(AlreadyExistedUserIdException.class)
 	public ModelAndView alreadyExistedUserIdException(AlreadyExistedUserIdException e) {
-		e.printStackTrace();
 		ModelAndView mav = new ModelAndView("/index");
 		mav.addObject("user", new User());
 		mav.addObject("message", "이미 존재하는 아이디입니다.");
@@ -53,7 +52,6 @@ public class ControllerExceptionHandler {
 	// 로그인 실패시 예외처리
 	@ExceptionHandler(FailedLoginException.class)
 	public @ResponseBody boolean failedLoginException(FailedLoginException e) {
-		e.printStackTrace();
 		return false;
 	}
 	
@@ -71,14 +69,12 @@ public class ControllerExceptionHandler {
 	// 그룹 생성시 그룹명 길 경우 예외처리
 	@ExceptionHandler(FailedMakingGroupException.class )
 	public @ResponseBody JsonResult failedMakingGroupException(FailedMakingGroupException e) {
-		e.printStackTrace();
 		return new JsonResult().setSuccess(false).setMessage(e.getMessage());
 	}
 	
 	// 그룹 멤버 추가시 예외처리
 	@ExceptionHandler(FailedAddGroupMemberException.class)
 	public @ResponseBody JsonResult failedAddGroupMemberException(FailedAddGroupMemberException e) {
-		e.printStackTrace();
 		return new JsonResult().setSuccess(false).setMessage(e.getMessage());
 	}
 	
@@ -103,7 +99,6 @@ public class ControllerExceptionHandler {
 	// 삭제 권한 없는 그룹 삭제 시 예외처리
 	@ExceptionHandler(UnpermittedDeleteGroupException.class)
 	public @ResponseBody JsonResult unpermittedDeleteGroupException(UnpermittedDeleteGroupException e) {
-		e.printStackTrace();
 		return new JsonResult().setSuccess(false);
 	}
 
