@@ -318,6 +318,7 @@ ul {
 	top: 0px;
 	width: 100%;
 	background-color: #74afad;
+    height: 40px
 }
 
 #header .util {
@@ -327,8 +328,8 @@ ul {
 }
 
 #header .util img.avatar {
-	width: 45px;
-	height: 45px;
+	width: 28px;
+	height: 28px;
 	float: left;
 	border-radius: 22px;
 	overflow: hidden;
@@ -347,11 +348,13 @@ ul {
 
 #header .util a {
 	color: white;
+    margin-right: 6px;
+    margin-left: 6px;
 }
 
 #header .util .label {
 	float: left;
-	padding: 20px;
+	padding: 10px;
 }
 
 #header .util .label .alarm-count {
@@ -386,8 +389,8 @@ ul {
 	-webkit-animation-name: wideIn;
 	margin-left: 15px;
 	width: 230px;
-	height: 30px;
-	margin-top: 13px;
+	height: 23px;
+	margin-top: 8px;
 	border-radius: 5px;
 	background: white;
 	border: none;
@@ -399,8 +402,8 @@ ul {
 	0% {
 		margin-left: 15px;
 		width: 130px;
-		height: 30px;
-		margin-top: 13px;
+		height: 23px;
+		margin-top: 8px;
 		border-radius: 5px;
 		background: white;
 		border: none;
@@ -411,8 +414,8 @@ ul {
 	100% {
 		margin-left:15px;
 		width:230px;
-		height:30px;
-		margin-top:13px;
+		height:23px;
+		margin-top:8px;
 		border-radius:5px;
 		background:white;
 		border:none;
@@ -424,8 +427,8 @@ ul {
 .searchForm>input {
 	margin-left: 15px;
 	width: 130px;
-	height: 30px;
-	margin-top: 13px;
+	height: 23px;
+	margin-top: 8px;
 	border-radius: 5px;
 	background: #7FBEBC;
 	border: none;
@@ -440,7 +443,7 @@ div#leftTopBox {
 
 #brand img {
 	padding-top: 5px;
-	height: 45px;
+	height: 28px;
 	padding-bottom: 5px;
 	float: left;
 }
@@ -626,7 +629,7 @@ textarea#commentText {
  * note page
  */
 #note-list-container {
-	margin-top: 100px;
+	margin-top: 53px;
 	float: none;
 }
 
@@ -824,7 +827,7 @@ textarea#commentText {
 .drop-down ul {
 	display: none;
 	position: absolute;
-	top: 58px;
+	top: 39px;
 	padding-top: 15px;
 	list-style: none;
 	background-image: url("/img/menuPointer.png");
