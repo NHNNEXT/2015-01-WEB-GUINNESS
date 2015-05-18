@@ -15,6 +15,8 @@
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="/js/datepickr.js"></script>
 <script src="/js/markdown.js"></script>
+<script src="/js/guinness.js"></script>
+<script src="/js/editor.js"></script>
 </head>
 <body>
 	<%@ include file="./commons/_topnav.jspf"%>
@@ -45,30 +47,6 @@
 			<input type="submit" class="btn btn-pm" value="작성" />
 		</form>
 	</div>
-	<script>
-	
-	 	window.addEventListener('load', function() {
-			document.title = ${groupName};
-			var groupName = (${groupName}.replace(/</g, "&lt;")).replace(
-					/>/g, "&gt;");
-			document.querySelector('#group-name').innerHTML = groupName;
-
-			var previewBox = document.querySelector('#previewBox');
-			previewBox.innerHTML = new markdownToHtml(document.querySelector('#noteTextBox').value).getHtmlText();
-		}, false);
-	 
-			document.querySelector("#noteTargetDate").value = guinness.util.today("-");
-			datepickr('#calendar', {
-				dateFormat : 'Y-m-d',
-				altInput : document.querySelector('#noteTargetDate')
-			});
-	
-			var textBox=document.querySelector("#noteTextBox");
-			textBox.addEventListener('keyup', function(e) {
-
-				var previewBox = document.querySelector('#previewBox');
-				previewBox.innerHTML=new markdownToHtml(e.target.value).getHtmlText();
-			}, false);
-	</script>
+	<input id="hiddenGroupName" type="hidden" value="${groupName}" />
 </body>
 </html>
