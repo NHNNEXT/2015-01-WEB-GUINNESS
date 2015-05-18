@@ -119,7 +119,7 @@ function alarmSelect(t, noteId, alarmStatus){
 			}
 		 	if(alarmStatus === "G"){
 		 		guinness.util.alert("그룹 멤버 초대", "초대를 수락하시겠습니까?", function(){
-		 		// 멤버 추가해주고, 그룹으로 이동.
+		 			// 멤버 추가해주고, 그룹으로 이동.
 					
 		 			console.log("수락.");
 		 			return;

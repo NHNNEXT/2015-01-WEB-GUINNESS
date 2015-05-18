@@ -8,28 +8,6 @@ public class Alarm {
 	private User reader;
 	private Note note;
 	private Group group;
-
-	public Alarm() {
-	}
-
-	public Alarm(String alarmId, String alarmStatus, String alarmCreateDate, User writer, User reader,
-			Note note) {
-		this.alarmId = alarmId;
-		this.alarmStatus = alarmStatus;
-		this.alarmCreateDate = alarmCreateDate;
-		this.writer = writer;
-		this.reader = reader;
-		this.note = note;
-	}
-
-	public Alarm(String alarmId, String alarmStatus, User writer, User reader, Note note) {
-		super();
-		this.alarmId = alarmId;
-		this.alarmStatus = alarmStatus;
-		this.writer = writer;
-		this.reader = reader;
-		this.note = note;
-	}
 	
 	public Alarm(String alarmId, String alarmStatus, User writer, User reader, Note note, Group group) {
 		super();
@@ -39,6 +17,10 @@ public class Alarm {
 		this.reader = reader;
 		this.note = note;
 		this.group = group;
+	}
+
+	public Alarm(String alarmId, String alarmStatus, User writer, User reader, Note note) {
+		this(alarmId, alarmStatus, writer, reader, note, new Group("-1"));
 	}
 
 	public void setAlarmId(String alarmId) {

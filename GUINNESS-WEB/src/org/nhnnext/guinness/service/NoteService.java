@@ -15,8 +15,6 @@ import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -24,8 +22,6 @@ import com.google.gson.Gson;
 
 @Service
 public class NoteService {
-	private static final Logger logger = LoggerFactory.getLogger(NoteService.class);
-	
 	@Resource
 	private GroupDao groupDao;
 	@Resource
@@ -64,8 +60,9 @@ public class NoteService {
 	}
 
 	public void create(String sessionUserId, String groupId, String noteText, String noteTargetDate) {
-		String noteId = ""+noteDao.createNote(new Note(noteText, noteTargetDate, new User(sessionUserId), new Group(groupId)));
-		
+		Group group = new Group(groupId);
+		String noteId = ""+noteDao.createNote(new Note(noteText, noteTargetDate, new User(sessionUserId), group));
+
 		String alarmId = null;
 		Alarm alarm = null;
 		String noteWriter = noteDao.readNote(noteId).getUser().getUserId();
@@ -81,8 +78,7 @@ public class NoteService {
 					break;
 				}
 			}
-			
-			//alarmDao.create(alarm);
+			alarmDao.create(alarm);
 		}
 	}
 
