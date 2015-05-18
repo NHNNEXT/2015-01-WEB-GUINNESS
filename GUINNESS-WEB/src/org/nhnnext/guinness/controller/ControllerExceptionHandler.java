@@ -5,6 +5,7 @@ import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
 import org.nhnnext.guinness.exception.FailedDeleteGroupException;
 import org.nhnnext.guinness.exception.FailedLoginException;
 import org.nhnnext.guinness.exception.FailedMakingGroupException;
+import org.nhnnext.guinness.exception.NotExistedUserIdException;
 import org.nhnnext.guinness.exception.SendMailException;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.exception.UnpermittedDeleteGroupException;
@@ -43,7 +44,6 @@ public class ControllerExceptionHandler {
 	// 회원가입시 중복 아이디 예외처리
 	@ExceptionHandler(AlreadyExistedUserIdException.class)
 	public ModelAndView alreadyExistedUserIdException(AlreadyExistedUserIdException e) {
-		e.printStackTrace();
 		ModelAndView mav = new ModelAndView("/index");
 		mav.addObject("user", new User());
 		mav.addObject("message", "이미 존재하는 아이디입니다.");
@@ -53,7 +53,6 @@ public class ControllerExceptionHandler {
 	// 로그인 실패시 예외처리
 	@ExceptionHandler(FailedLoginException.class)
 	public @ResponseBody boolean failedLoginException(FailedLoginException e) {
-		e.printStackTrace();
 		return false;
 	}
 	
@@ -71,14 +70,12 @@ public class ControllerExceptionHandler {
 	// 그룹 생성시 그룹명 길 경우 예외처리
 	@ExceptionHandler(FailedMakingGroupException.class )
 	public @ResponseBody JsonResult failedMakingGroupException(FailedMakingGroupException e) {
-		e.printStackTrace();
 		return new JsonResult().setSuccess(false).setMessage(e.getMessage());
 	}
 	
 	// 그룹 멤버 추가시 예외처리
 	@ExceptionHandler(FailedAddGroupMemberException.class)
 	public @ResponseBody JsonResult failedAddGroupMemberException(FailedAddGroupMemberException e) {
-		e.printStackTrace();
 		return new JsonResult().setSuccess(false).setMessage(e.getMessage());
 	}
 	
@@ -103,10 +100,17 @@ public class ControllerExceptionHandler {
 	// 삭제 권한 없는 그룹 삭제 시 예외처리
 	@ExceptionHandler(UnpermittedDeleteGroupException.class)
 	public @ResponseBody JsonResult unpermittedDeleteGroupException(UnpermittedDeleteGroupException e) {
-		e.printStackTrace();
 		return new JsonResult().setSuccess(false);
 	}
 
+	// 비밀번호 찾기시 미존재 아이디 예외처리
+	@ExceptionHandler(NotExistedUserIdException.class)
+	public ModelAndView notExistedUserIdException(NotExistedUserIdException e) {
+		ModelAndView mav = new ModelAndView("/findPassword");
+		mav.addObject("message", "존재하지 않는 이메일입니다.");
+		return mav;
+	}
+	
 	@ExceptionHandler(Exception.class)
 	public ModelAndView exception(Exception e) {
 		e.printStackTrace();
@@ -114,6 +118,4 @@ public class ControllerExceptionHandler {
 		logger.debug("exception: {}", e.getClass().getSimpleName());
 		return mav;
 	}
-	
-	
 }

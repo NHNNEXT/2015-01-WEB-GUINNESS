@@ -62,10 +62,10 @@
 			<i class='fa fa-user'></i><span style='margin-left: 10px;'>회원정보수정</span>
 		</h1>
 		<div id='profile-check-password' class='panel'>
-			<label>비밀번호를 입력해주세요 </label>
-			<input id="check-password" type="password" name ="password">
+			<label>비밀번호를 입력해주세요 </label> <input id="check-password"
+				type="password" name="password">
 			<button id="profile-check-password-button">확인</button>
-			<label id ="checkPasswordErrorMessage"></label>
+			<label id="checkPasswordErrorMessage"></label>
 		</div>
 		<div id='profile-panel' class='panel' hidden="true">
 			<form:form modelAttribute="user" id='editProfile-form'
@@ -108,21 +108,41 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		document.querySelector('#profile-check-password-button').addEventListener("click", function(e) {
-			guinness.ajax({
-		  		method: "post",
-		  		url: "/user/update/check",
-		  		param: "password="+document.querySelector('#check-password').value,
-		  		success: function(req) {
-		  				   if (JSON.parse(req.responseText).success === false) {
-		  					   document.querySelector('#checkPasswordErrorMessage').innerHTML = JSON.parse(req.responseText).message;
-		  					   return;
-		  				   }
-						document.querySelector('#profile-panel').hidden = false;
-		  				document.querySelector('#profile-check-password').hidden = true;
-		  		}
-		  	});
+		window.addEventListener('load', function() {
+			document.querySelector('#profile-check-password-button')
+					.addEventListener("click", function(e) {
+						passwordCheck(e);
+					}, false);
+			var checkPasswordBox = document.querySelector('#check-password');
+			
+			checkPasswordBox.addEventListener("keyup", function(e) {
+				if (e.keyCode === 13) {
+					passwordCheck(e);
+				}
+			}, false);
+			
+			checkPasswordBox.focus();
 		}, false);
+
+		function passwordCheck(e) {
+			guinness
+					.ajax({
+						method : "post",
+						url : "/user/update/check",
+						param : "password="
+								+ document.querySelector('#check-password').value,
+						success : function(req) {
+							if (JSON.parse(req.responseText).success === false) {
+								document
+										.querySelector('#checkPasswordErrorMessage').innerHTML = JSON
+										.parse(req.responseText).message;
+								return;
+							}
+							document.querySelector('#profile-panel').hidden = false;
+							document.querySelector('#profile-check-password').hidden = true;
+						}
+					});
+		}
 	</script>
 </body>
 </html>

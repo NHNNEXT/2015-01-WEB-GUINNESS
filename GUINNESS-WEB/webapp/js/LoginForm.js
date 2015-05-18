@@ -8,7 +8,7 @@ window.addEventListener('load', function() {
 	}
 })
 
-var el = document.querySelector("#switchForm");
+var el = document.querySelector(".switchForm");
 el.addEventListener("click", function() { 
 	switchForm(true)}, false);
 
