@@ -604,7 +604,7 @@ textarea#commentText {
 }
 
 .group-list li:hover {
-	background-color: #a54215;
+	background-color: #615F5F;
 }
 
 .group-list li#create-new {
@@ -612,7 +612,7 @@ textarea#commentText {
 }
 
 .group-list li#create-new:hover {
-	background-color: rgb(200, 200, 180);
+	background-color: rgb(194, 192, 192);
 }
 
 .group-list .fa-lock, .group-list .fa-unlock {
