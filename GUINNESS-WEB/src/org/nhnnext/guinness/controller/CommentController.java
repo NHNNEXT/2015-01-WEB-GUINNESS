@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
 @Controller
+//TODO offline 코드 리뷰 - 리팩토링 point는?
+// @RequestMapping("/comments")
 public class CommentController {
 	@Resource
 	private CommentService commentService;

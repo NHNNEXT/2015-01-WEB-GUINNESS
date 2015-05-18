@@ -50,6 +50,7 @@ public class GroupDao extends JdbcDaoSupport {
 	}
 
 	public boolean checkJoinedGroup(String userId, String groupId) {
+		//TODO offline 코드 리뷰 - 리팩토링 point는?
 		String sql = "select count(*) from GROUPS_USERS, GROUPS where GROUPS_USERS.userId = ? and GROUPS_USERS.groupID = GROUPS.groupId and GROUPS.groupId = ?";
 		if ( getJdbcTemplate().queryForObject(sql, Integer.class, new Object[] { userId, groupId }) > 0)
 			return true;

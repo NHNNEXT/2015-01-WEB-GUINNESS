@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
 @Controller
+//TODO offline 코드 리뷰 - url에 일관성이 없는 이유는 무엇인가?
 public class NoteController {
 	private static final Logger logger = LoggerFactory.getLogger(NoteController.class);
 	
