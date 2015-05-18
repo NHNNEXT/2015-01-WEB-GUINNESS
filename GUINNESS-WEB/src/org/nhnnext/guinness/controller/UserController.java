@@ -102,6 +102,11 @@ public class UserController {
 		return "redirect:/groups";
 	}
 
+	@RequestMapping("/user/findPasswordForm")
+	protected String findPassword(HttpSession session) {
+		return "findPassword";
+	}
+	
 	private void saveUserInfoInSession(HttpSession session, User user) {
 		session.setAttribute("sessionUserId", user.getUserId());
 		session.setAttribute("sessionUserName", user.getUserName());
