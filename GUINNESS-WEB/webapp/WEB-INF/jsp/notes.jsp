@@ -48,16 +48,17 @@
 
 		<div id='group-member-container'>
 			<form id="addMemberForm" action="/group/add/member" method="post">
-				<input type="hidden" name="groupId"> <input
-					class="inputText" type="text" name="userId"> <input
-					class="inputBtn" type="submit" value="초대">
+				<span style="font-weight:bold;">멤버추가</span><br/>
+				<input type="hidden" name="groupId"> 
+				<input class="inputText" type="text" name="userId">
+				<input class="inputBtn" type="submit" value="초대">
 			</form>
-			<input class="memberAllClick" type="checkbox" checked=true
-				onclick="allCheckMember()" />전체선택 <input class="inputBtn"
-				type="submit" value="확인" onclick="reloadNoteList()" />
-
-			<ul id='group-member'>
-			</ul>
+			<div id='group-member-list'>
+				<span style="font-weight:bold;">멤버관리</span><br/>
+				<input class="memberAllClick" type="checkbox" checked=true onclick="allCheckMember()" />전체선택 
+				<input class="inputBtn" type="submit" value="확인" onclick="reloadNoteList()" />
+				<ul id='group-member'></ul>
+			</div>
 		</div>
 	</div>
 	<template id="view-note-template">
