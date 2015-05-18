@@ -42,13 +42,13 @@ function loginCheck() {
   	var param = "userId="+userId+"&userPassword="+userPassword;
   	guinness.ajax({
   		method: "post",
-  		url: "/login",
+  		url: "/user/login",
   		param: param,
   		success: function(req) {
   				   if (JSON.parse(req.responseText) === false) { 
   					   document.querySelector("#login-error-message").innerHTML = "로그인 실패!"; 
   				   }
-  				   else { window.location.href = "/groups"}
+  				   else { window.location.href = "/groups/form"}
   		}
   	});
 }

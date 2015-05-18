@@ -41,7 +41,7 @@
 				</div>
 				<ul>
 					<li><a href="/user/form"><span>내 정보</span></a></li>
-					<li><a href="/logout"><span>로그아웃</span></a></li>
+					<li><a href="/user/logout"><span>로그아웃</span></a></li>
 				</ul></li>
 			<li class='menu drop-down'>
 				<div class='label' style="position:relative;">

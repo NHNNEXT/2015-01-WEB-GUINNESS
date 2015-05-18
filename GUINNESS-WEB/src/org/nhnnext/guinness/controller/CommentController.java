@@ -19,11 +19,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
 @Controller
+@RequestMapping("/comments")
 public class CommentController {
 	@Resource
 	private CommentService commentService;
 
-	@RequestMapping(value = "/comments", method = RequestMethod.POST)
+	@RequestMapping(value = "", method = RequestMethod.POST)
 	protected @ResponseBody JsonResult create(HttpSession session, WebRequest req) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		String commentText = req.getParameter("commentText");
@@ -36,18 +37,18 @@ public class CommentController {
 		return new JsonResult().setSuccess(true).setMapValues(commentService.create(comment));
 	}
 
-	@RequestMapping("/comments/{noteId}")
+	@RequestMapping("/{noteId}")
 	protected @ResponseBody JsonResult list(@PathVariable String noteId) {
 		return new JsonResult().setSuccess(true).setMapValues(commentService.list(noteId));
 	}
 
-	@RequestMapping(value = "/comments/{commentId}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{commentId}", method = RequestMethod.PUT)
 	protected @ResponseBody JsonResult update(@PathVariable String commentId, WebRequest req) {
 		return new JsonResult().setSuccess(true).setObject(
 				(Comment) commentService.update(commentId, req.getParameter("commentText")));
 	}
 
-	@RequestMapping(value = "/comments/{commentId}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{commentId}", method = RequestMethod.DELETE)
 	protected @ResponseBody JsonResult delete(@PathVariable String commentId) {
 		commentService.delete(commentId);
 		return new JsonResult().setSuccess(true);
