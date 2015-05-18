@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
@@ -55,9 +56,10 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value = "/groups/members", method = RequestMethod.POST)
-	protected @ResponseBody JsonResult addGroupMember(WebRequest req) throws FailedAddGroupMemberException {
-		String userId = req.getParameter("userId");
-		String groupId = req.getParameter("groupId");
+	protected @ResponseBody JsonResult addGroupMember(@RequestParam String userId, @RequestParam String groupId) throws FailedAddGroupMemberException {
+		//TODO offline 코드 리뷰 - 리팩토링 point는?
+		//String userId = req.getParameter("userId");
+		//String groupId = req.getParameter("groupId");
 		User user = groupService.addGroupMember(userId, groupId);		
 		return new JsonResult().setSuccess(true).setObject(user);
 	}

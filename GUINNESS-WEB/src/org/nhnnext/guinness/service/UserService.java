@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.annotation.Resource;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 
 import org.nhnnext.guinness.dao.ConfirmDao;
 import org.nhnnext.guinness.dao.UserDao;
@@ -16,9 +14,6 @@ import org.nhnnext.guinness.exception.UserUpdateException;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.mail.MailAuthenticationException;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,7 +25,7 @@ public class UserService {
 	@Resource
 	private ConfirmDao confirmDao;
 	@Resource
-	private JavaMailSender javaMailSender;
+	private MailService mailService;
 	
 	public void join(User user) throws AlreadyExistedUserIdException, SendMailException {
 		User existedUser = createUser(user);
@@ -38,8 +33,7 @@ public class UserService {
 	}
 	
 	private User createUser(User user) throws AlreadyExistedUserIdException {
-//		TODO 코드리뷰
-//		if(null != userDao.findUserByUserId(user.getUserId())) {
+		// 다음 형태로 많이 사용함.
 		if(userDao.findUserByUserId(user.getUserId()) != null) {
 			throw new AlreadyExistedUserIdException("이미 존재하는 계정입니다.");
 		}
@@ -48,14 +42,16 @@ public class UserService {
 	}
 
 	private void createConfirm(User user, User existedUser) throws SendMailException {
+		// TODO offline 코드 리뷰 - 리팩토링 point는?
 		if("R".equals(existedUser.getStatus())) {
 			confirmDao.deleteConfirmByUserId(user.getUserId());
 		}
 		String keyAddress = createKeyAddress();
 		confirmDao.createConfirm(keyAddress, user.getUserId());
-		sendMail(keyAddress, user.getUserId());
+		mailService.	sendMail(keyAddress, user.getUserId());
 	}
 	
+	// TODO offline 코드 리뷰 - userId가 동적으로 변경되어야 하는 이유는?
 	private String createKeyAddress() {
 		String keyAddress = RandomFactory.getRandomId(10);
 		if(confirmDao.isExistKeyAddress(keyAddress)) {
@@ -73,28 +69,17 @@ public class UserService {
 	
 	public User login(String userId, String userPassword) throws FailedLoginException {
 		User user = userDao.findUserByUserId(userId);
+		// TODO offline 코드 리뷰 - 리팩토링 point는? 
 		if (user == null || !user.isCorrectPassword(userPassword) || !user.checkStatus("E")) {
 			throw new FailedLoginException();
 		}
 		return user;
 	}
 
-	private void sendMail(String keyAddress, String userId) throws SendMailException  {
-		try {
-			MimeMessage message = javaMailSender.createMimeMessage();
-			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-			messageHelper.setTo(userId);
-			messageHelper.setFrom("hakimaru@naver.com");
-			messageHelper.setSubject("환영합니다. 페이퍼민트 가입 인증 메일입니다.");
-			messageHelper.setText("<a href='http://localhost:8080/user/confirm/" + keyAddress + "'> 페이퍼민트 시작하기 </a>", true);
-			javaMailSender.send(message);
-		} catch (MessagingException | NullPointerException | MailAuthenticationException e) {
-			throw new SendMailException(e.getClass().getSimpleName());
-		}
-	}
 	public void update(User user, Model model, String rootPath, MultipartFile profileImage) throws UserUpdateException {
 		User prevUser = userDao.findUserByUserId(user.getUserId());
 		try {
+			// TODO offline 코드 리뷰 - 리팩토링 point는?
 			if ("".equals(user.getUserPassword()))
 				user.setUserPassword(prevUser.getUserPassword());
 			user.setUserImage(prevUser.getUserImage());

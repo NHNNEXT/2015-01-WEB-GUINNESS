@@ -38,6 +38,7 @@ public class GroupService {
 		return group;
 	}
 	
+	// TODO offline 코드 리뷰 - groupId가 동적으로 변경되어야 하는 이유는?
 	private String createGroupId() {
 		String groupId = RandomFactory.getRandomId(5);
 		if(groupDao.isExistGroupId(groupId)) {
@@ -59,6 +60,8 @@ public class GroupService {
 	}
 
 	public User addGroupMember(String userId, String groupId)throws FailedAddGroupMemberException {
+		// TODO offline 코드 리뷰 - 리팩토링 point는?
+		// userDao.findUserByUserId(userId) 메서드가 두 번 호출되고 있는데 한번으로 처리하면 안되나?
 		if (userDao.findUserByUserId(userId) == null) 
 			throw new FailedAddGroupMemberException("사용자를 찾을 수 없습니다!");
 		if (groupDao.checkJoinedGroup(userId, groupId)) 
@@ -71,6 +74,7 @@ public class GroupService {
 		return groupDao.readGroupMemberForMap(groupId);
 	}
 
+	// TODO offline 코드 리뷰 - 리팩토링 point는? 
 	public void readGroup(Model model, String groupId) {
 		model.addAttribute("groupId", groupId);
 		model.addAttribute("groupName", groupDao.readGroup(groupId).getGroupName());

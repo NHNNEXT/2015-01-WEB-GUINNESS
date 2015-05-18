@@ -103,6 +103,7 @@ public class UserController {
 	}
 
 	private void saveUserInfoInSession(HttpSession session, User user) {
+		//TODO offline 코드 리뷰 - 리팩토링 point는?
 		session.setAttribute("sessionUserId", user.getUserId());
 		session.setAttribute("sessionUserName", user.getUserName());
 		session.setAttribute("sessionUserImage", user.getUserImage());

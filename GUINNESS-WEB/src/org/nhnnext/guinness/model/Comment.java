@@ -70,6 +70,7 @@ public class Comment {
 	}
 
 	public boolean checkWriter(User noteWriter) {
+		//TODO offline 코드 리뷰 - 리팩토링 point는?
 		return this.getUser().getUserId().equals(noteWriter.getUserId());
 	}
 	

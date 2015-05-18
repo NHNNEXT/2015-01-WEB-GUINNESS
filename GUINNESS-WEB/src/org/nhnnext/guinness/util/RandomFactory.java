@@ -7,6 +7,7 @@ public class RandomFactory {
 	}
 
 	public static String getRandomId(int lengthOfReturnString) {
+		//TODO offline 코드 리뷰 - 리팩토링 point는?
 		String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		Random rnd = new Random();
 		StringBuilder buf = new StringBuilder();

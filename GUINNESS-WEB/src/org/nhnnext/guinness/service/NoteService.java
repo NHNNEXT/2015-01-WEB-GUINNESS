@@ -29,10 +29,12 @@ public class NoteService {
 	@Resource
 	private AlarmDao alarmDao;
 	
+	// TODO offline 코드 리뷰 - 리팩토링 point는?
 	public void initNotes(Model model, String sessionUserId, String groupId) throws UnpermittedAccessGroupException {
 		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
 			throw new UnpermittedAccessGroupException();
 		}
+		// TODO offline 코드 리뷰 - 리팩토링 point는?
 		model.addAttribute("groupName", groupDao.readGroup(groupId).getGroupName());
 		model.addAttribute("noteList", new Gson().toJson(getNoteListFromDao(null, groupId, null)));
 	}
@@ -42,6 +44,7 @@ public class NoteService {
 	}
 	
 	private List<Map<String, Object>> getNoteListFromDao(String date, String groupId, String userIds) {
+		// TODO offline 코드 리뷰 - 리팩토링 point는?
 		DateTime noteTargetDate = new DateTime(date).plusDays(1).minusSeconds(1);
 		DateTime endDate = noteTargetDate.minusDays(1).plusSeconds(1);
 		if (date == null) {
@@ -60,13 +63,16 @@ public class NoteService {
 	}
 
 	public void create(String sessionUserId, String groupId, String noteText, String noteTargetDate) {
+		// TODO offline 코드 리뷰 - 리팩토링 point는?
 		String noteId = ""+noteDao.createNote(new Note(noteText, noteTargetDate, new User(sessionUserId), new Group(groupId)));
 		
 		String alarmId = null;
 		Alarm alarm = null;
+		// TODO offline 코드 리뷰 - 리팩토링 point는?
 		String noteWriter = noteDao.readNote(noteId).getUser().getUserId();
 		List<User> groupMembers = groupDao.readGroupMember(groupId);
 		for (User reader : groupMembers) {
+			// TODO offline 코드 리뷰 - 리팩토링 point는?
 			if (reader.getUserId().equals(sessionUserId)) {
 				continue;
 			}
@@ -89,6 +95,7 @@ public class NoteService {
 		return noteDao.deleteNote(noteId);
 	}
 
+	// TODO offline 코드 리뷰 - 리팩토링 point는?
 	public void updateForm(String noteId, Model model) {
 		Note note = noteDao.readNote(noteId);
 		Group group = groupDao.readGroup(note.getGroup().getGroupId());

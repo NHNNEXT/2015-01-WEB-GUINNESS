@@ -20,6 +20,7 @@ import org.springframework.web.context.request.WebRequest;
 @Controller
 public class SearchController {
 	//TODO 코트리뷰 서비스로 레이어를 분리해야할지?
+	// 선택의 문제라 판단함. 일관성 측면에서 분리할 수도 있고, 효율성 측면에서 현재 상태도 문제 없을 수 있음.
 	@Resource
 	private GroupDao groupDao;
 	@Resource
