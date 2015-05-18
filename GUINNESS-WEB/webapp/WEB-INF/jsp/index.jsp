@@ -23,22 +23,20 @@
 				<div class='subscribe'>페이퍼민트에서 나만의 학습 노트를 작성하고, 스터디 멤버들과 함께
 					그룹을 생성하여 학습 노트를 공유하거나 언제 어디에서나 피드백을 받으세요!</div>
 				<form:form commandName="user" id="signup-form" method="post"
-					action="/user" class='form-group'
-					style='margin: 0 auto; display: none;'>
+					action="/user" class='form-group' style='margin: 0 auto; display: none;'>
 					<c:if test="${not empty signValidErrorMessage}">
 						<span class="errorMessage"> ${signValidErrorMessage } <br />
 						</span>
 					</c:if>
-					<form:input cssClass='text' path="userId" placeholder="이메일"
+					<form:input id="join-userEmail" cssClass='text' path="userId" placeholder="이메일"
 						autocomplete="off" value="${userId}" required="required" />
-					<c:if test="${not empty message}">
-						<span class="errorMessage"> ${message} </span>
-					</c:if>
-					<form:input cssClass='text' path="userName" placeholder="이름"
+					<span id="join-userEmail-message" class="errorMessage"></span>
+					<form:input id="join-userName" cssClass='text' path="userName" placeholder="이름"
 						autocomplete="off" value="${userName}" required="required" />
-					<form:password cssClass='text' path="userPassword"
+					<span id="join-userName-message" class="errorMessage"></span>
+					<form:password id="join-userPassword" cssClass='text' path="userPassword"
 						placeholder="비밀번호" required="required" />
-					<br />
+					<span id="join-userPassword-message" class="errorMessage"></span>
 					<button type="submit" class='btn btn-pm'>회원가입</button>
 				</form:form>
 				<form method="post" id="login-form" class='form-group'

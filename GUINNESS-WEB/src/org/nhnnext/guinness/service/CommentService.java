@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.nhnnext.guinness.dao.AlarmDao;
 import org.nhnnext.guinness.dao.CommentDao;
 import org.nhnnext.guinness.dao.NoteDao;
+import org.nhnnext.guinness.model.Alarm;
 import org.nhnnext.guinness.model.Comment;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.User;
@@ -33,9 +34,10 @@ public class CommentService {
 	private void createAlarm(Comment comment) {
 		Note note = comment.getNote();
 		User noteWriter = noteDao.readNote(note.getNoteId()).getUser();
-//		if (!comment.checkWriter(noteWriter)) {
-//			alarmDao.create(new Alarm(createAlarmId(), "C", comment.getUser(), noteWriter, note));
-//		}
+		
+		if (!comment.checkWriter(noteWriter)) {
+			alarmDao.create(new Alarm(createAlarmId(), "C", comment.getUser(), noteWriter, note));
+		}
 	}
 
 	private String createAlarmId() {
@@ -45,13 +47,6 @@ public class CommentService {
 		}
 		return alarmId;
 	}
-	
-	// TODO 코드리뷰
-//	private String createAlarmId() {
-//		String alarmId;
-//		while (alarmDao.isExistAlarmId(alarmId = RandomFactory.getRandomId(10)));
-//		return alarmId;
-//	}
 
 	public List<Map<String, Object>> list(String noteId) {
 		return commentDao.readCommentListByNoteId(noteId);
