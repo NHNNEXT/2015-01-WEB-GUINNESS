@@ -8,6 +8,7 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd">
 	<context:component-scan base-package="org.nhnnext.guinness.controller" />
+	
 	<mvc:annotation-driven />
 	<mvc:resources location="/img/" mapping="/img/**" />
 	<mvc:resources location="/favicon/" mapping="/favicon/**" />
