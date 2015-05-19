@@ -97,7 +97,7 @@ public class UserService {
 
 	public void initPassword(String userId) throws NotExistedUserIdException, SendMailException {
 		if(userDao.findUserByUserId(userId) == null) {
-			throw new NotExistedUserIdException("존재하지 않는 계정입니다.");
+			throw new NotExistedUserIdException("사용자를 찾을 수 없습니다.");
 		}
 		String tempPassword = "temp_" + RandomFactory.getRandomId(4);
 		User user = new User();
