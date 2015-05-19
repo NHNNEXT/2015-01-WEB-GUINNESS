@@ -1,15 +1,4 @@
-function cancelNoteCreate(e) {
-	if (document.querySelector(".modal-cover #noteText").value != "") {
-		guinness.util.alert("취소", "작성중인 노트 기록을 취소하시겠습니까?", function() {
-			document.querySelector('.modal-cover').remove();
-		}, function() {
-		});
-		return;
-	}
-	document.querySelector('.modal-cover').remove();
-}
-
-function readNoteList(groupId, noteTargetDate) {
+function readNoteList(noteTargetDate) {
 	guinness.ajax({
 		method : "get",
 		url : "/note/list?groupId=" + groupId + "&noteTargetDate="
@@ -338,7 +327,6 @@ function addMember() {
 		alert.innerHTML = "초대할 멤버의 아이디를 입력하세요.";
 		return;
 	}
-	var groupId = document.querySelector('#addMemberForm input[name="groupId"]').value;
 	guinness.ajax({
 		method : "post",
 		url : "/groups/members",
@@ -363,7 +351,7 @@ function addMember() {
 	});
 }
 
-function readMember(groupId) {
+function readMember() {
 	guinness.ajax({
 		method : "get",
 		url : "/groups/members/" + groupId,
@@ -418,7 +406,6 @@ function OnOffMemberAllClickBtn() {
 }
 
 function reloadNoteList(noteTargetDate) {
-	var groupId = window.location.pathname.split("/")[2];
 	var objs = document.querySelectorAll(".memberChk");
 	var array = [];
 	for (var i = 0; i < objs.length; i++) {
