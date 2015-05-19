@@ -10,11 +10,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/applicationContext.xml")
 public class NoteServiceTest {
-	
 	@Test
 	public void create() {
 		//given
-		String givenText = "???!!!abc!!!???";
+		String givenText = "   !!!첫번째 중요!!! ???첫번째 물음??? #이거는 일반 텍스트 "
+				+ "!!!두번째 중요!!! **볼드체** ???두번째 질문???    ";
 		ArrayList<String> importantList = new ArrayList<String>();
 		ArrayList<String> questionList = new ArrayList<String>();
 		
@@ -25,27 +25,26 @@ public class NoteServiceTest {
 		// then
 		System.out.println(importantList);
 		System.out.println(questionList);
-		System.out.println(givenText);
 	}
 
 	private ArrayList<String> findText(String givenText, char ch) {
+		givenText = givenText.trim();
 		int flag = 0;
+		int len = givenText.length();
 		int beginIndex = 0;
 		int endIndex = 0;
 		ArrayList<String> list = new ArrayList<String>();
 		
-		for(int i = 0; i < givenText.length(); i++) {
+		for(int i = 0; i < len; i++) {
 			if(givenText.charAt(i) == ch) {
 				flag++;
-				continue;
 			}
 			if(flag == 3 && beginIndex == 0) {
-				beginIndex = i;
+				beginIndex = i + 1;
 			}
 			if(flag == 6) {
-				endIndex = i - 3;
+				endIndex = i - 2;
 				list.add(givenText.substring(beginIndex, endIndex));
-				System.out.println(givenText.substring(i));
 				flag = 0;
 				beginIndex = 0;
 				endIndex = 0;
