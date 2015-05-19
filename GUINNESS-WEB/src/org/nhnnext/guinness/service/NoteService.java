@@ -65,19 +65,19 @@ public class NoteService {
 		String alarmId = null;
 		Alarm alarm = null;
 		List<User> groupMembers = groupDao.readGroupMember(groupId);
-		for (User reader : groupMembers) {
-			if (reader.isSameUserId(sessionUserId)) {
-				continue;
-			}
-			while (true) {
-				alarmId = RandomFactory.getRandomId(10);
-				if (!alarmDao.isExistAlarmId(alarmId)) {
-					alarm = new Alarm(alarmId, "N", noteWriter.getUser(), reader, noteWriter);
-					break;
-				}
-			}
+//		for (User reader : groupMembers) {
+//			if (reader.isSameUserId(sessionUserId)) {
+//				continue;
+//			}
+//			while (true) {
+//				alarmId = RandomFactory.getRandomId(10);
+//				if (!alarmDao.isExistAlarmId(alarmId)) {
+//					alarm = new Alarm(alarmId, "N", noteWriter.getUser(), reader, noteWriter);
+//					break;
+//				}
+//			}
 //			alarmDao.create(alarm);
-		}
+//		}
 	}
 
 	public void update(String noteText, String noteId, String noteTargetDate) {

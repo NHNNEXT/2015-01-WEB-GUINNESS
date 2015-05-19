@@ -37,7 +37,7 @@ public class AlarmDao extends JdbcDaoSupport {
 	}
 
 	public List<Map<String, Object>> list(String calleeId) {
-		String sql = "select A.*, U.userName, G.groupName from ALARMS as A, USERS as U, NOTES as N, GROUPS as G where A.calleeId= ? and A.callerId=U.userId and A.noteId = N.noteId and ((A.alarmStatus='G' and A.invitedGroupId=G.groupId) or ((A.alarmStatus='N' or A.alarmStatus='C') and N.groupId = G.groupId)) order by A.alarmCreateDate desc;";
+		String sql = "select A.*, U.userName, G.groupName from ALARMS as A, USERS as U, NOTES as N, GROUPS as G where A.calleeId=? and A.callerId=U.userId and A.noteId = N.noteId and N.groupId = G.groupId order by A.alarmCreateDate desc;";
 		return getJdbcTemplate().queryForList(sql, calleeId);
 	}
 
