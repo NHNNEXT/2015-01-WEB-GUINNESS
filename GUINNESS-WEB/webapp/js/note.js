@@ -219,7 +219,7 @@ function appendComment(json) {
 		commentEl.querySelector('.comment-date').innerHTML = guinness.util
 				.koreaDate(obj.commentCreateDate);
 		commentEl.querySelector('.comment-date').id = obj.commentCreateDate;
-		commentEl.querySelector('.comment').innerHTML = obj.commentText;
+		commentEl.querySelector('.comment').innerHTML = (obj.commentText).replace(/\n/g, '<br/>');
 		commentEl.querySelector('.avatar').setAttribute("src",
 				"/img/profile/" + obj.userImage);
 		if (userId === obj.userId) {
@@ -252,7 +252,7 @@ function updateComment(commentId, commentText) {
 						return;
 					var json = result.object;
 					var el = document.querySelector("#cmt-" + commentId);
-					el.querySelector('.comment').innerHTML = json.commentText;
+					el.querySelector('.comment').innerHTML = json.commentText.replace(/\n/g, '<br/>');
 					el.querySelector('.comment-date').innerHTML = json.commentCreateDate;
 					el.querySelector('.comment').setAttribute(
 							'contentEditable', false);
