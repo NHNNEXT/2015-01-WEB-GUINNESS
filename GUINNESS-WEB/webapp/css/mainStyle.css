@@ -273,8 +273,29 @@ form#notes-create-form {
 	padding:5px 0;
 }
 
-#group-member-container #group-member-list #group-member td.member-util i {
+#group-member-container #group-member-list #group-member td.member-util ul {
+	list-style:none;
+}
+
+#group-member-container #group-member-list #group-member td.member-util ul li {
 	cursor:pointer;
+	display:inline-block;
+	margin-left:2px;
+}
+
+#group-member-container #group-member-list #group-member td.member-util ul li .info {
+	position:absolute;
+	font-size:8px;
+	margin-left:-20px;
+	margin-top:-30px;
+	display:none;
+	padding:2px;
+	background-color:#454545;
+	color:white;
+}
+
+#group-member-container #group-member-list #group-member td.member-util ul li:hover .info {
+	display:block;
 }
 
 #addMemberForm {
