@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.markdown4j.Markdown4jProcessor;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.service.GroupService;
 import org.nhnnext.guinness.service.NoteService;
@@ -21,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
@@ -103,5 +105,11 @@ public class NoteController {
 	private String updateEditor(@PathVariable String noteId, Model model) {
 		noteService.updateForm(noteId, model);
 		return "editor";
+	}
+	
+	@RequestMapping(value="/notes/editor/preview", method=RequestMethod.POST)
+	private @ResponseBody JsonResult preview(@RequestParam String markdown) throws IOException {
+		String html = new Markdown4jProcessor().process(markdown);
+		return new JsonResult().setSuccess(true).setMessage(html);
 	}
 }
