@@ -7,84 +7,86 @@ public class Alarm {
 	private User writer;
 	private User reader;
 	private Note note;
-
-	public Alarm() {
-	}
-
-	public Alarm(String alarmId, String alarmStatus, String alarmCreateDate, User writer, User reader,
-			Note note) {
-		this.alarmId = alarmId;
-		this.alarmStatus = alarmStatus;
-		this.alarmCreateDate = alarmCreateDate;
-		this.writer = writer;
-		this.reader = reader;
-		this.note = note;
-	}
-
-	public Alarm(String alarmId, String alarmStatus, User writer, User reader, Note note) {
+	private Group group;
+	
+	public Alarm(String alarmId, String alarmStatus, User writer, User reader, Note note, Group group) {
 		super();
 		this.alarmId = alarmId;
 		this.alarmStatus = alarmStatus;
 		this.writer = writer;
 		this.reader = reader;
 		this.note = note;
+		this.group = group;
 	}
 
-	public String getAlarmId() {
-		return alarmId;
+	public Alarm(String alarmId, String alarmStatus, User writer, User reader, Note note) {
+		this(alarmId, alarmStatus, writer, reader, note, new Group("-1"));
 	}
 
 	public void setAlarmId(String alarmId) {
 		this.alarmId = alarmId;
 	}
 
-	public String getAlarmStatus() {
-		return alarmStatus;
-	}
-
 	public void setAlarmStatus(String alarmStatus) {
 		this.alarmStatus = alarmStatus;
-	}
-
-	public String getAlarmCreateDate() {
-		return alarmCreateDate;
 	}
 
 	public void setAlarmCreateDate(String alarmCreateDate) {
 		this.alarmCreateDate = alarmCreateDate;
 	}
 
-	public User getWriter() {
-		return writer;
-	}
-
 	public void setWriter(User writer) {
 		this.writer = writer;
-	}
-
-	public User getReader() {
-		return reader;
 	}
 
 	public void setReader(User reader) {
 		this.reader = reader;
 	}
 
+	public void setNote(Note note) {
+		this.note = note;
+	}
+
+	public void setGroup(Group group) {
+		this.group = group;
+	}
+
+	public String getAlarmId() {
+		return alarmId;
+	}
+
+	public String getAlarmStatus() {
+		return alarmStatus;
+	}
+
+	public String getAlarmCreateDate() {
+		return alarmCreateDate;
+	}
+
+	public User getWriter() {
+		return writer;
+	}
+
+	public User getReader() {
+		return reader;
+	}
+
 	public Note getNote() {
 		return note;
 	}
 
-	public void setNote(Note note) {
-		this.note = note;
+	public Group getGroup() {
+		return group;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((alarmCreateDate == null) ? 0 : alarmCreateDate.hashCode());
 		result = prime * result + ((alarmId == null) ? 0 : alarmId.hashCode());
 		result = prime * result + ((alarmStatus == null) ? 0 : alarmStatus.hashCode());
-		result = prime * result + ((alarmCreateDate == null) ? 0 : alarmCreateDate.hashCode());
+		result = prime * result + ((group == null) ? 0 : group.hashCode());
 		result = prime * result + ((note == null) ? 0 : note.hashCode());
 		result = prime * result + ((reader == null) ? 0 : reader.hashCode());
 		result = prime * result + ((writer == null) ? 0 : writer.hashCode());
@@ -100,6 +102,11 @@ public class Alarm {
 		if (getClass() != obj.getClass())
 			return false;
 		Alarm other = (Alarm) obj;
+		if (alarmCreateDate == null) {
+			if (other.alarmCreateDate != null)
+				return false;
+		} else if (!alarmCreateDate.equals(other.alarmCreateDate))
+			return false;
 		if (alarmId == null) {
 			if (other.alarmId != null)
 				return false;
@@ -110,10 +117,10 @@ public class Alarm {
 				return false;
 		} else if (!alarmStatus.equals(other.alarmStatus))
 			return false;
-		if (alarmCreateDate == null) {
-			if (other.alarmCreateDate != null)
+		if (group == null) {
+			if (other.group != null)
 				return false;
-		} else if (!alarmCreateDate.equals(other.alarmCreateDate))
+		} else if (!group.equals(other.group))
 			return false;
 		if (note == null) {
 			if (other.note != null)
@@ -136,6 +143,7 @@ public class Alarm {
 	@Override
 	public String toString() {
 		return "Alarm [alarmId=" + alarmId + ", alarmStatus=" + alarmStatus + ", alarmCreateDate=" + alarmCreateDate
-				+ ", writer=" + writer + ", reader=" + reader + ", note=" + note + "]";
+				+ ", writer=" + writer + ", reader=" + reader + ", note=" + note + ", group=" + group + "]";
 	}
+
 }

@@ -23,14 +23,14 @@
 </head>
 <body>
 	<%@ include file="./commons/_topnav.jspf"%>
-	<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUserId}">
+	<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUser.userId}">
 	<h1 id="empty-message"
 		style="position: absolute; color: #888; top: 300px; width: 100%; text-align: center;">새
 		노트를 작성해주세요</h1>
 	<div id='note-list-container' class='content wrap'>
 		<a href="/g/${groupId}"><span id="group-name"></span></a>
 		<div id='create-note'>
-			<a href='/editor/g/${groupId}'>
+			<a href='/notes/editor/g/${groupId}'>
 				<button id='create-new-button'>
 					<i class="fa fa-plus-circle"></i>
 				</button>
@@ -49,7 +49,7 @@
 		<div id='group-member-container'>
 			<form id="addMemberForm" action="/group/add/member" method="post">
 				<span style="font-weight:bold;">멤버추가</span><br/>
-				<input type="hidden" name="groupId"> 
+				<input type="hidden" name="groupId">
 				<input class="inputText" type="text" name="userId">
 				<input class="inputBtn" type="submit" value="초대">
 			</form>

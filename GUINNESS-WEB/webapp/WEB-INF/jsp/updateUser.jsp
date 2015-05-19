@@ -62,10 +62,10 @@
 			<i class='fa fa-user'></i><span style='margin-left: 10px;'>회원정보수정</span>
 		</h1>
 		<div id='profile-check-password' class='panel'>
-			<label>비밀번호를 입력해주세요 </label>
-			<input id="check-password" type="password" name ="password">
+			<label>비밀번호를 입력해주세요 </label> <input id="check-password"
+				type="password" name="password">
 			<button id="profile-check-password-button">확인</button>
-			<label id ="checkPasswordErrorMessage"></label>
+			<label id="checkPasswordErrorMessage"></label>
 		</div>
 		<div id='profile-panel' class='panel' hidden="true">
 			<form:form modelAttribute="user" id='editProfile-form'
@@ -75,16 +75,16 @@
 					<tr>
 						<td valign=top id='editProfile-photoArea'
 							style='width: 200px; text-align: center;'><img
-							class='avatar' src="/img/profile/${sessionUserImage}"> <input
+							class='avatar' src="/img/profile/${sessionUser.userImage}"> <input
 							type="file" name="profileImage"
 							accept="image/x-png, image/gif, image/jpeg" /></td>
 						<td valign=top id='editProfile-profileArea'
 							style='padding-left: 25px;'><form:hidden path="userId"
-								value="${sessionUserId}" />
+								value="${sessionUser.userId}" />
 							<p>
 								<label for="userName">사용자 이름</label>
 								<form:input path="userName" autocomplete="off"
-									required="required" value="${sessionUserName}" />
+									required="required" value="${sessionUser.userName}" />
 								<span class="info"><strong>[필수사항]</strong>스터디메이트들과의 소통을
 									위한 이름을 입력하세요.</span>
 							</p>
@@ -108,21 +108,41 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		document.querySelector('#profile-check-password-button').addEventListener("click", function(e) {
-			guinness.ajax({
-		  		method: "post",
-		  		url: "/user/update/check",
-		  		param: "password="+document.querySelector('#check-password').value,
-		  		success: function(req) {
-		  				   if (JSON.parse(req.responseText).success === false) {
-		  					   document.querySelector('#checkPasswordErrorMessage').innerHTML = JSON.parse(req.responseText).message;
-		  					   return;
-		  				   }
-						document.querySelector('#profile-panel').hidden = false;
-		  				document.querySelector('#profile-check-password').hidden = true;
-		  		}
-		  	});
+		window.addEventListener('load', function() {
+			document.querySelector('#profile-check-password-button')
+					.addEventListener("click", function(e) {
+						passwordCheck(e);
+					}, false);
+			var checkPasswordBox = document.querySelector('#check-password');
+			
+			checkPasswordBox.addEventListener("keyup", function(e) {
+				if (e.keyCode === 13) {
+					passwordCheck(e);
+				}
+			}, false);
+			
+			checkPasswordBox.focus();
 		}, false);
+
+		function passwordCheck(e) {
+			guinness
+					.ajax({
+						method : "post",
+						url : "/user/update/check",
+						param : "password="
+								+ document.querySelector('#check-password').value,
+						success : function(req) {
+							if (JSON.parse(req.responseText).success === false) {
+								document
+										.querySelector('#checkPasswordErrorMessage').innerHTML = JSON
+										.parse(req.responseText).message;
+								return;
+							}
+							document.querySelector('#profile-panel').hidden = false;
+							document.querySelector('#profile-check-password').hidden = true;
+						}
+					});
+		}
 	</script>
 </body>
 </html>

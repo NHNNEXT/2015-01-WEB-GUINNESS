@@ -1,0 +1,62 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script src="/js/search.js"></script>
+<script src="/js/guinness.js"></script>
+
+<style>
+	.drop-down .alarm-list {
+		float:right;
+		right:0px;
+		top:45px;
+		background-image:none;
+	}
+	.drop-down .alarm-list li {
+		width:200px;
+		border-bottom:3px solid #94BDBC;
+	}
+	.drop-down .alarm-list li a {
+		width:auto;
+	}
+	
+	.passwordBox {
+	    margin-top: 20px;
+	    margin-bottom: 20px;
+	    -webkit-border-radius: 4px;
+	    margin-left: auto;
+	    margin-right: auto;
+	    padding-top: 10px;
+	    width: 555px;
+	    background-color: #fff;
+	    border: 1px solid #ccc
+	}
+</style>
+<div id="header">
+	<div class='content wrap'>
+		<div id="leftTopBox">
+			<a href='/' id='brand'> <img src='/img/pm_white.png'>
+			</a>
+
+			<div class="searchForm">
+				<input id="searchText" type="text"> <i
+					class="fa fa-search"></i>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="template" class="searchFormTemplate">
+  <section>
+  </section>
+</script>
+
+<script type="template" class="searchResultTemplate">
+	<a class="searchResultNoteId" href="#">
+		<div class="searchResultText"></div>
+		<span class="searchResultName"></span>
+		<br />
+		<span class="searchResultDate"></span>
+		<br /><span class="spanOnSearch"> on </span>
+		<span class="searchResultGroup"></span>
+	</a>
+</script>

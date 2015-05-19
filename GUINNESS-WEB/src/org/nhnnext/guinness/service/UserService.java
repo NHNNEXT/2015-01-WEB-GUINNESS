@@ -11,6 +11,7 @@ import org.nhnnext.guinness.dao.ConfirmDao;
 import org.nhnnext.guinness.dao.UserDao;
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
 import org.nhnnext.guinness.exception.FailedLoginException;
+import org.nhnnext.guinness.exception.NotExistedUserIdException;
 import org.nhnnext.guinness.exception.SendMailException;
 import org.nhnnext.guinness.exception.UserUpdateException;
 import org.nhnnext.guinness.model.User;
@@ -53,7 +54,7 @@ public class UserService {
 		}
 		String keyAddress = createKeyAddress();
 		confirmDao.createConfirm(keyAddress, user.getUserId());
-		sendMail(keyAddress, user.getUserId());
+		sendMailforSignUp(keyAddress, user.getUserId());
 	}
 	
 	private String createKeyAddress() {
@@ -79,14 +80,23 @@ public class UserService {
 		return user;
 	}
 
-	private void sendMail(String keyAddress, String userId) throws SendMailException  {
+	private void sendMailforSignUp(String keyAddress, String userId) throws SendMailException  {
 		try {
 			MimeMessage message = javaMailSender.createMimeMessage();
-			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, false, "utf-8");
+			String htmlMsg = "<h3>페이퍼민트에 가입해주셔서 감사합니다.</h3>" +
+		    "<a href='http://localhost:8080/user/confirm/" + keyAddress + "' style='font-size: 15px;"
+		    		+ "color: white; text-decoration:none'>"
+		    		+ "<div style='padding: 10px; border: 0px; width: 120px;"
+		    		+ "margin: 15px 5px; background-color: #74afad; "
+		    		+ "text-align:center'>페퍼민트 시작하기</div></a>" +
+			"<p>Copyright &copy; by link413. All rights reserved.</p>";
+			System.out.println(htmlMsg);
+			
 			messageHelper.setTo(userId);
 			messageHelper.setFrom("hakimaru@naver.com");
 			messageHelper.setSubject("환영합니다. 페이퍼민트 가입 인증 메일입니다.");
-			messageHelper.setText("<a href='http://localhost:8080/user/confirm/" + keyAddress + "'> 페이퍼민트 시작하기 </a>", true);
+			messageHelper.setText(htmlMsg, true);
 			javaMailSender.send(message);
 		} catch (MessagingException | NullPointerException | MailAuthenticationException e) {
 			throw new SendMailException(e.getClass().getSimpleName());
@@ -113,5 +123,31 @@ public class UserService {
 	public boolean checkUpdatePassword(String userId, String userPassword) {
 		User user = userDao.findUserByUserId(userId);
 		return user.isCorrectPassword(userPassword);
+	}
+
+	public void initPassword(String userId) throws NotExistedUserIdException, SendMailException {
+		if(userDao.findUserByUserId(userId) == null) {
+			throw new NotExistedUserIdException("존재하지 않는 계정입니다.");
+		}
+		String tempPassword = "temp_" + RandomFactory.getRandomId(4);
+		User user = new User();
+		user.setUserId(userId);
+		user.setUserPassword(tempPassword);
+		userDao.initPassword(user);
+		sendMailforInitPassword(tempPassword, userId);
+	}
+	
+	private void sendMailforInitPassword(String tempPassword, String userId) throws SendMailException  {
+		try {
+			MimeMessage message = javaMailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+			messageHelper.setTo(userId);
+			messageHelper.setFrom("hakimaru@naver.com");
+			messageHelper.setSubject("페이퍼민트 임시 메일을 보내드립니다.");
+			messageHelper.setText("임시 메일은 " + tempPassword + " 입니다.", true);
+			javaMailSender.send(message);
+		} catch (MessagingException | NullPointerException | MailAuthenticationException e) {
+			throw new SendMailException(e.getClass().getSimpleName());
+		}
 	}
 }

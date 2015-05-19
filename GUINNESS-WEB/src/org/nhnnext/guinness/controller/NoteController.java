@@ -33,14 +33,14 @@ public class NoteController {
 	@Resource
 	private GroupService groupService;
 
-	@RequestMapping(value = "/g/{groupId}")
+	@RequestMapping("/g/{groupId}")
 	protected String initReadNoteList(@PathVariable String groupId, HttpSession session, Model model) throws IOException, UnpermittedAccessGroupException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		noteService.initNotes(model, sessionUserId, groupId);
 		return "notes";
 	}
 
-	@RequestMapping("/api/notes")
+	@RequestMapping("/notes/reload")
 	protected @ResponseBody JsonResult reloadNoteList(WebRequest req) {
 		String userIds = req.getParameter("checkedUserId");
 		String groupId = req.getParameter("groupId");
@@ -67,7 +67,7 @@ public class NoteController {
 		String noteTargetDate = req.getParameter("noteTargetDate") + " "
 				+ new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
 		if (noteText.equals("")) {
-			return "redirect:/editor/g/" + groupId;
+			return "redirect:/notes/editor/g/" + groupId;
 		}
 		noteService.create(sessionUserId, groupId, noteText, noteTargetDate);
 		return "redirect:/g/" + groupId;
@@ -93,13 +93,13 @@ public class NoteController {
 		return new JsonResult().setSuccess(false);
 	}
 	
-	@RequestMapping(value = "/editor/g/{groupId}")
+	@RequestMapping("/notes/editor/g/{groupId}")
 	private String createForm(@PathVariable String groupId, Model model) {
 		groupService.readGroup(model, groupId);
 		return "editor";
 	}
 
-	@RequestMapping(value = "/editor/{noteId}")
+	@RequestMapping("/notes/editor/{noteId}")
 	private String updateEditor(@PathVariable String noteId, Model model) {
 		noteService.updateForm(noteId, model);
 		return "editor";

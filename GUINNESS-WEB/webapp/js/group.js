@@ -1,7 +1,7 @@
 window.addEventListener('load', function() {
 	guinness.ajax({
 		method : "get",
-		url : "/api/groups",
+		url : "/groups",
 		success : function(req) {
 			var result = JSON.parse(req.responseText);
 			if (result.success) {

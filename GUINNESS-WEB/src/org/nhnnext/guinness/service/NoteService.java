@@ -61,19 +61,18 @@ public class NoteService {
 
 	public void create(String sessionUserId, String groupId, String noteText, String noteTargetDate) {
 		String noteId = ""+noteDao.createNote(new Note(noteText, noteTargetDate, new User(sessionUserId), new Group(groupId)));
-		
+		Note noteWriter = noteDao.readNote(noteId);
 		String alarmId = null;
 		Alarm alarm = null;
-		String noteWriter = noteDao.readNote(noteId).getUser().getUserId();
 		List<User> groupMembers = groupDao.readGroupMember(groupId);
 		for (User reader : groupMembers) {
-			if (reader.getUserId().equals(sessionUserId)) {
+			if (reader.isSameUserId(sessionUserId)) {
 				continue;
 			}
 			while (true) {
 				alarmId = RandomFactory.getRandomId(10);
 				if (!alarmDao.isExistAlarmId(alarmId)) {
-					alarm = new Alarm(alarmId, "N", new User(noteWriter), reader, new Note(noteId));
+					alarm = new Alarm(alarmId, "N", noteWriter.getUser(), reader, noteWriter);
 					break;
 				}
 			}
