@@ -24,12 +24,10 @@ function readNoteList(groupId, noteTargetDate) {
 }
 
 function appendNoteList(json) {
-	// "새 노트를 작성해주세요" 삭제
 	var el = document.querySelector("#empty-message");
 	if (el != undefined) {
 		el.parentNode.removeChild(el);
 	}
-	// 리스트 초기화
 	el = document.querySelectorAll(".note-list");
 	var elLength = el.length;
 	if (el != undefined) {
@@ -37,7 +35,6 @@ function appendNoteList(json) {
 			el[i].outerHTML = "";
 		}
 	}
-	// 날짜별로 들어갈수 있게...
 	var newEl = undefined;
 	var obj = undefined;
 	var out = "";
@@ -359,8 +356,13 @@ function createComment(obj) {
 
 function addMember(userId, groupId) {
 	var userId = document.querySelector('#addMemberForm input[name="userId"]').value;
+	var alert = document.querySelector(".addMemberAlert");
+	alert.style.visibility="hidden";
 	if (userId.trim() === ""){
-		guinness.util.alert("멤버초대 실패", "초대할 멤버의 아이디를 입력하세요.");
+		alert.style.visibility="visible";
+		alert.style.color="#ff5a5a";
+		alert.style.fontSize="11px";
+		alert.innerHTML = "초대할 멤버의 아이디를 입력하세요.";
 		return;
 	}
 	var groupId = document
@@ -373,31 +375,40 @@ function addMember(userId, groupId) {
 			var json = JSON.parse(req.responseText);
 			if (json.success === false) {
 				guinness.util.alert("멤버초대 실패", json.message);
+				alert.style.visibility="visible";
+				alert.style.color="#ff5a5a";
+				alert.style.fontSize="11px";
+				alert.innerHTML = json.message;
 				return;
 			}
 			appendMember(json.object);
 			document.querySelector('.inputText').value = "";
+			else {
+				alert.style.visibility="visible";
+				alert.style.color="#ff5a5a";
+				alert.style.fontSize="11px";
+				alert.innerHTML = "그룹에 초대하였습니다.";
+				return;
+			}
 		}
 	});
 }
 
 function readMember(groupId) {
-	guinness
-			.ajax({
-				method : "get",
-				url : "/groups/members/" + groupId,
-				success : function(req) {
-					if (JSON.parse(req.responseText).success) {
-						appendMembers(JSON.parse(req.responseText).mapValues);
-					} else {
-						window.location.href = JSON.parse(req.responseText).locationWhenFail;
-					}
-				}
-			});
+	guinness.ajax({
+		method : "get",
+		url : "/groups/members/" + groupId,
+		success : function(req) {
+			if (JSON.parse(req.responseText).success) {
+				appendMembers(JSON.parse(req.responseText).mapValues);
+			} else {
+				window.location.href = JSON.parse(req.responseText).locationWhenFail;
+			}
+		}
+	});
 }
 
 var memberTemplate = document.querySelector("#member-template").content;
-
 function appendMember(obj) {
 	var newMember = document.importNode(memberTemplate, true);
 	newMember.querySelector(".memberChk").value = obj.userId;
@@ -412,15 +423,13 @@ function appendMembers(json) {
 	}
 }
 
-function allCheckMember() {
-
-	var objs = document.querySelectorAll(".memberChk");
-	var allchk = document.querySelector(".memberAllClick");
-
-	for (var i = 0; i < objs.length; i++) {
-		objs[i].checked = allchk.checked;
-	}
-}
+//function allCheckMember() {
+//	var objs = document.querySelectorAll(".memberChk");
+//	var allchk = document.querySelector(".memberAllClick");
+//	for (var i = 0; i < objs.length; i++) {
+//		objs[i].checked = allchk.checked;
+//	}
+//}
 
 function OnOffMemberAllClickBtn() {
 	var objs = document.querySelectorAll(".memberChk");
