@@ -395,14 +395,15 @@ function readMember(groupId) {
 				}
 			});
 }
+
+var memberTemplate = document.querySelector("#member-template").content;
+
 function appendMember(obj) {
-	var el = document.querySelector("#group-member");
-	var newLi = document.createElement("li");
-	newLi.innerHTML = "<input type='checkbox' class='memberChk' checked=true value="
-			+ obj.userId
-			+ " onclick='OnOffMemberAllClickBtn()'>"
-			+ obj.userName + "<br/>" + "(" + obj.userId + ")";
-	el.appendChild(newLi);
+	var newMember = document.importNode(memberTemplate, true);
+	newMember.querySelector(".memberChk").value = obj.userId;
+	newMember.querySelector(".member-name").innerHTML = obj.userName;
+	newMember.querySelector(".member-id").innerHTML = obj.userId;
+	document.querySelector("#group-member").appendChild(newMember);
 }
 
 function appendMembers(json) {
@@ -425,7 +426,6 @@ function OnOffMemberAllClickBtn() {
 	var objs = document.querySelectorAll(".memberChk");
 	var allchk = document.querySelector(".memberAllClick");
 	var existUnchecked = false;
-
 	for (var i = 0; i < objs.length; i++) {
 		if (objs[i].checked === false) {
 			existUnchecked = true;

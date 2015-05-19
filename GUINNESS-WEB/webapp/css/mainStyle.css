@@ -230,19 +230,6 @@ a#escape-note {
 	border-radius:8px;
 }
 
-#group-member-container {
-	width: 200px;
-	height: auto;
-	position:absolute;
-	top: 50px;
-	left: 100%;
-	padding-bottom:20px;
-	margin-left: -200px;
-	background-color: white;
-	border-radius:8px;
-	font-size:12px;
-}
-
 form#notes-create-form {
 	text-align: center;
 }
@@ -262,39 +249,57 @@ form#notes-create-form {
 	margin: 0 auto;
 }
 
+#group-member-container {
+	width: 200px;
+	max-height:500px;
+	position:absolute;
+	top: 50px;
+	left: 100%;
+	padding-bottom:20px;
+	margin-left: -200px;
+	background-color: white;
+	font-size:12px;
+	overflow:hidden;
+}
+
+#group-member-container div#group-member-list {
+	position:relative;
+	padding: 10px;
+	border-bottom:1px solid #ccc;
+}
+
 #group-member-container ul {
 	overflow-x: hidden;
 	overflow-y: scroll;
 	display: block;
 }
 
-#group-member-container li {
-	list-style: none;
+#group-member-container div#group-member-list li {
 	position: relative;
-	border-bottom: 1px solid #ccc;
-	padding: 5px;
-}
-
-#addMemberForm .inputText {
-	width: 136px;
-	height: 15px;
-	margin-left: 8px;
-}
-
-#addMemberForm .inputBtn {
-	color: white;
-	background-color: #558;
-	border-radius: 3px;
-	width: 38px;
+	list-style: none;
 }
 
 #addMemberForm {
-	background-color: #74AFAD;
 	position: relative;
-	width: 200px;
-	padding-bottom: 10px;
-	border-top-left-radius: 8px;
-	border-top-right-radius: 8px;
+	padding:10px 10px;
+	border-bottom:1px solid #ccc;
+}
+
+#addMemberForm .inputText {
+	width:74%;
+	height:15px;
+	display:inline;
+}
+
+#addMemberForm .inputBtn {
+	position:relative;
+	display:inline;
+	color: white;
+	background-color:#74AFAD;
+	top:-2px;
+	border:0;
+	border-bottom:2px solid #619493;
+	width:20%;
 }
 
 a {
@@ -446,6 +451,7 @@ div#leftTopBox {
 	height: 28px;
 	padding-bottom: 5px;
 	float: left;
+	border:0;
 }
 
 #jumbotron-container {
