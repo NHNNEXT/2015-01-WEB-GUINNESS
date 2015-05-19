@@ -35,8 +35,8 @@
 				그룹이름 <input type="text" name="groupName" autocomplete="off" required>
 			</div>
 			<div>
-				<input type="radio" name="isPublic" value="private" checked>
-				<label>비공개</label> <input type="radio" name="isPublic" value="public">
+				<input type="radio" name="isPublic" value="F" checked>
+				<label>비공개</label> <input type="radio" name="isPublic" value="T">
 				<label>공개</label>
 			</div>
 			<br />

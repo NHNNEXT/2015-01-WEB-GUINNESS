@@ -26,7 +26,6 @@ public class MailService {
 		    		+ "margin: 15px 5px; background-color: #74afad; "
 		    		+ "text-align:center'>페이퍼민트 시작하기</div></a>" +
 			"<p>Copyright &copy; by link413. All rights reserved.</p>";
-			System.out.println(htmlMsg);
 			
 			messageHelper.setTo(userId);
 			messageHelper.setFrom("hakimaru@naver.com");
