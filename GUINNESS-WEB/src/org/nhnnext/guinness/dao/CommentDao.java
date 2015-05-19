@@ -3,12 +3,25 @@ package org.nhnnext.guinness.dao;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+
 import org.nhnnext.guinness.model.Comment;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.User;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class CommentDao extends JdbcDaoSupport {
+	@Resource
+	private DataSource dataSource;
+ 
+	@PostConstruct
+	private void initialize() {
+		setDataSource(dataSource);
+	}
 	
 	public void createComment(Comment comment) {
 		String sql = "insert into COMMENTS (commentText, commentType, userId, noteId) values(?, ?, ?, ?)";

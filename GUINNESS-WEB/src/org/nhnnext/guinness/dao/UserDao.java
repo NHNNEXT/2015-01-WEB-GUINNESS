@@ -1,12 +1,26 @@
 package org.nhnnext.guinness.dao;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+
 import org.nhnnext.guinness.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class UserDao extends JdbcDaoSupport {
+	@Resource
+	private DataSource dataSource;
+ 
+	@PostConstruct
+	private void initialize() {
+		setDataSource(dataSource);
+	}
+	
 	private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
 
 	public void createUser(User user) {
