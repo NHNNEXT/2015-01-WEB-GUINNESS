@@ -61,12 +61,13 @@ public class GroupService {
 	}
 
 	public User addGroupMember(String userId, String groupId)throws FailedAddGroupMemberException {
-		if (userDao.findUserByUserId(userId) == null) 
+		User user = userDao.findUserByUserId(userId);
+		if (user == null) 
 			throw new FailedAddGroupMemberException("사용자를 찾을 수 없습니다!");
 		if (groupDao.checkJoinedGroup(userId, groupId)) 
 			throw new FailedAddGroupMemberException("사용자가 이미 가입되어있습니다!");
 		groupDao.createGroupUser(userId, groupId);
-		return userDao.findUserByUserId(userId);
+		return user;
 	}
 
 	public List<Map<String, Object>> groupMembers(String groupId) {

@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/datepickr.css">
 <script src="/js/datepickr.js"></script>
-<script src="/js/guinness.js"></script>
 <script src="/js/markdown.js"></script>
 
 <!-- 노트 캘린더 -->
@@ -40,11 +39,12 @@
 		<!-- <input type="text" name="rangeCalendar" value="01/01/2015 - 01/31/2015" /> -->
 
 		<!-- <input type="text" name="defaultCalendar" value="10/24/1984" /> -->
-		<input class="inputBtn" id="allShow" type="submit" value="전체보기" onclick="reloadNoteList()" />
-		<div id='calendar-container'>
-			<div id="defaultCalendar" ></div>
+		<div id="left-menu-container">
+			<input class="inputBtn" id="allShow" type="submit" value="전체보기" onclick="reloadNoteList()" />
+			<div id='calendar-container'>
+				<div id="defaultCalendar" ></div>
+			</div>
 		</div>
-		
 
 		<div id='group-member-container'>
 			<form id="addMemberForm" action="/group/add/member" method="post">
@@ -52,7 +52,7 @@
 				<input type="hidden" name="groupId">
 				<input class="inputText" type="text" name="userId">
 				<input class="inputBtn" type="submit" value="초대">
-				<span class="addMemberAlert" style="visibility:hidden;"></span>
+				<span class="addMemberAlert" style="visibility:hidden;">멤버추가메세지</span>
 			</form>
 			<div id='group-member-list'>
 				<span style="font-weight:bold;">멤버관리</span><br/>
@@ -86,13 +86,21 @@
 	<template id="member-template">
 		<tr>
 			<td class="member-info" style="width:140px; display:inline-block;">
-				<div class="member-name" style="font-weight:bold;">와이빈</div>
-				<div class="member-id" style="color:#888; font-size:9px;">y@y.y</div>
+				<div class="member-name" style="font-weight:bold;">멤버이름</div>
+				<div class="member-id" style="color:#888; font-size:9px;">멤버아이디</div>
 			</td>
 			<td class="member-util" style="font-size:15px; display:inline-block;">
-				<i class="fa fa-eye"></i>
-				<input style="display:none;" type='checkbox' class='memberChk' checked=true value="">
-				<i class="fa fa-times"></i>
+				<ul>
+					<li>
+						<i class="fa fa-eye"></i>
+						<span class="info">노트 숨기기</span>
+					</li>
+					<input style="display:none;" type='checkbox' class='memberChk' checked=true value="">
+					<li>
+						<i class="fa fa-times"></i>
+						<span class="info">멤버제외</span>
+					</li>
+				</ul>
 			</td>
 		</tr>
 	</template>
@@ -100,7 +108,6 @@
 	window.addEventListener('load', function() {
 		var groupId = window.location.pathname.split("/")[2];
 		document.querySelector("#addMemberForm input[name='groupId']").value = groupId;
-		// document.querySelector("#groupId").value = groupId;
 		readMember(groupId);
 		
 		document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
@@ -133,20 +140,20 @@
 	</script> -->
 	<script type="text/javascript">
 		$(function() {
-		    $('div[id="defaultCalendar"]').daterangepicker({
+		    $("#defaultCalendar").daterangepicker({
 		        singleDatePicker: true,
 		        showDropdowns: true
-		    }, 
+		    },
 		    function(start, end, label) {
 		    	console.log(start.toISOString(), end.toISOString(), label);
 		        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-		    });
+		    }); 
 		});
 
 		document.querySelector('#calendar-container').addEventListener("click", function(e) {
 			var noteTargetDate = $('#defaultCalendar').data('daterangepicker').startDate._d.toISOString().substring(0,10);
 			reloadNoteList(noteTargetDate);
-			}, false);
+		}, false);
 	</script>
 </body>
 </html>

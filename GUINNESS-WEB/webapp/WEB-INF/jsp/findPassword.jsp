@@ -13,7 +13,6 @@
 <link rel="stylesheet" href="/css/mainStyle.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/datepickr.css">
-<script src="/js/guinness.js"></script>
 </head>
 <body>
 	<%@ include file="./commons/_guest_topnav.jspf"%>
@@ -22,21 +21,21 @@
 		<div class="modal-header">
 			<div class="modal-title">계정찾기</div>
 		</div>
-		<div class="modal-body note-modal">
-			<div class="note-content">
+		<div class="modal-body" style="width: 500px; padding-top: 5px;">
+			<div style="border-bottom: 2px solid #f8f8f8;">
 				<p>
-					<span class="attention"><i class="fa fa-exclamation-circle"></i>
-						이메일을 입력하세요.</span>
+					<span>이메일을 입력하세요.</span>
 				</p>
 			</div>
-			<div id="commentListUl"></div>
-			<form id="commentForm" action="/user/findPassword" method="post">
-				<i class="fa fa-envelope-o" style=""></i> <input type="text"
+				<!-- <button class="btn btn-pm" onclick="redirectRoot()">취소</button> -->
+			<form id="commentForm" action="/user/findPassword" method="post" >
+				<i class="fa fa-envelope-o" style="font-size: 18px;"></i> <input type="text"
 					class="inputtext" id="identify_email" name="userId"
-					style="width: 255px;"> <br>
+					style="width: 255px; margin: 5px; padding: 5px"> <br>
 				<c:if test="${not empty message}">
 					<span class="errorMessage"> ${message} </span>
 				</c:if>
+				<a class="btn btn-pm" style="text-align: center; width: 99px; height: 19px; background: gray;" href="/">취소</a>
 				<button id="submitComment" class="btn btn-pm">확인</button>
 			</form>
 		</div>
@@ -44,6 +43,8 @@
 </body>
 
 <script>
-	
+function redirectRoot() {
+	window.location.href = "/";
+}
 </script>
 </html>

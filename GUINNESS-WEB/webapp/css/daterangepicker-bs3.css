@@ -7,10 +7,6 @@
  * Built for http://www.improvely.com
  */
 
-.daterangepicker.dropdown-menu.single.opensright.show-calendar {
-  position: static;
-  margin-top: 0px;
-}
 
 #calendar-container > div.daterangepicker.dropdown-menu.single.opensright.show-calendar > div.calendar.first.single.right > div > table {
 	background:white;
@@ -26,7 +22,6 @@
 
  .daterangepicker.dropdown-menu {
   max-width: none;
-  z-index: 3000;
 }
 
 .daterangepicker.opensleft .ranges, .daterangepicker.opensleft .calendar {
@@ -147,15 +142,12 @@
 }
 
 .daterangepicker {
-  position: absolute;
+  position: relative;
   background: #fff;
-  top: 100px;
-  left: 20px;
   padding: 4px;
+  left:0;
+  top:0;
   margin-top: 1px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
 }
 
 .daterangepicker.opensleft:before {

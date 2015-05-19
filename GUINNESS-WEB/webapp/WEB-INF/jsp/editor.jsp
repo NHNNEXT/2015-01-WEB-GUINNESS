@@ -7,15 +7,13 @@
 <meta charset="utf-8">
 <title>스터디의 시작, 페이퍼민트</title>
 <%@ include file="./commons/_favicon.jspf"%>
-<link rel="stylesheet"
-	href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
+<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
 <link rel="stylesheet" href="/css/mainStyle.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/datepickr.css">
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="/js/datepickr.js"></script>
 <script src="/js/markdown.js"></script>
-<script src="/js/guinness.js"></script>
 <script src="/js/editor.js"></script>
 </head>
 <body>
