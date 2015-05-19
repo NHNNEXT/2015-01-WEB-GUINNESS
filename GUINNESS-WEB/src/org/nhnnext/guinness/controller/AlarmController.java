@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/alarms")
 public class AlarmController {
-
-	//TODO 코트리뷰 서비스로 레이어를 분리해야할지?
 	@Resource
 	private AlarmDao alarmDao;
 

@@ -55,15 +55,14 @@ public class UserController {
 	@RequestMapping("/confirm/{keyAddress}")
 	protected String confirm(@PathVariable String keyAddress, HttpSession session) {
 		SessionUser sessionUser = userService.confirm(keyAddress).createSessionUser();
-		saveUserInfoInSession(session, sessionUser);
+		session.setAttribute("sessionUser", sessionUser);
 		return "redirect:/";
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	protected @ResponseBody boolean login(@RequestParam String userId, 
-			@RequestParam String userPassword, HttpSession session) throws FailedLoginException {
+	protected @ResponseBody boolean login(@RequestParam String userId, @RequestParam String userPassword, HttpSession session) throws FailedLoginException {
 		SessionUser sessionUser = (userService.login(userId, userPassword)).createSessionUser();
-		saveUserInfoInSession(session, sessionUser);
+		session.setAttribute("sessionUser", sessionUser);
 		return true;
 	}
 	
@@ -81,8 +80,8 @@ public class UserController {
 	
 	@RequestMapping(value = "/update/check", method = RequestMethod.POST)
 	protected @ResponseBody JsonResult updateUserCheck(@RequestParam String userPassword, HttpSession session){
-		String userId = ((SessionUser)session.getAttribute("sessionUser")).getUserId();
-		boolean result = userService.checkUpdatePassword(userId, userPassword);
+		SessionUser sessionUser = (SessionUser)session.getAttribute("sessionUser");
+		boolean result = userService.checkUpdatePassword(sessionUser.getUserId(), userPassword);
 		if(!result)
 			return new JsonResult().setSuccess(result).setMessage("비밀번호를 확인해주세요");
 		return new JsonResult().setSuccess(result); 
@@ -94,7 +93,7 @@ public class UserController {
 			throw new UserUpdateException("비밀번호가 다릅니다.");
 		String rootPath = session.getServletContext().getRealPath("/");
 		userService.update(user, rootPath, profileImage);
-		saveUserInfoInSession(session, user.createSessionUser());
+		session.setAttribute("sessionUser", user.createSessionUser());
 		return "redirect:/groups/form";
 	}
 
@@ -108,9 +107,5 @@ public class UserController {
 		userService.initPassword(userId);
 		model.addAttribute("message", "임시 비밀번호를 이메일로 보내드렸습니다.");
 		return "sendEmail";
-	}
-	
-	private void saveUserInfoInSession(HttpSession session, SessionUser sessionUser) {
-		session.setAttribute("sessionUser", sessionUser);
 	}
 }

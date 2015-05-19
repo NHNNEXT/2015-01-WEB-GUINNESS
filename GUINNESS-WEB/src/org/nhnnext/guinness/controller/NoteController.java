@@ -1,9 +1,7 @@
 package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -12,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.service.GroupService;
 import org.nhnnext.guinness.service.NoteService;
+import org.nhnnext.guinness.util.DateTimeUtil;
 import org.nhnnext.guinness.util.JsonResult;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
@@ -42,7 +41,8 @@ public class NoteController {
 	}
 
 	@RequestMapping("/notes/reload")
-	protected @ResponseBody JsonResult reloadNoteList(@RequestParam("checkedUserId") String userIds, @RequestParam String noteTargetDate, @RequestParam String groupId, WebRequest req) {
+	protected @ResponseBody JsonResult reloadNoteList(@RequestParam("checkedUserId") String userIds, 
+			@RequestParam String noteTargetDate, @RequestParam String groupId, WebRequest req) {
 		if("undefined".equals(noteTargetDate))
 			noteTargetDate = null;
 		if(userIds == null || groupId == null) {
@@ -60,19 +60,17 @@ public class NoteController {
 	protected String create(@RequestParam String groupId, @RequestParam String noteText, 
 			@RequestParam String noteTargetDate, HttpSession session, Model model) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
-		String formattedDate = noteTargetDate + " " + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
 		if (noteText.equals("")) {
 			return "redirect:/notes/editor/g/" + groupId;
 		}
-		noteService.create(sessionUserId, groupId, noteText, formattedDate);
+		noteService.create(sessionUserId, groupId, noteText, DateTimeUtil.addCurrentTime(noteTargetDate));
 		return "redirect:/g/" + groupId;
 	}
 
 	@RequestMapping(value = "/notes", method = RequestMethod.PUT)
 	private String update(@RequestParam String groupId, @RequestParam String noteId, 
 			@RequestParam String noteTargetDate, @RequestParam String noteText) {
-		String formattedDate = noteTargetDate + " " + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
-		noteService.update(noteText, noteId, formattedDate);
+		noteService.update(noteText, noteId, DateTimeUtil.addCurrentTime(noteTargetDate));
 		return "redirect:/g/" + groupId;
 	}
 
