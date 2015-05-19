@@ -23,10 +23,10 @@ public class AlarmDao extends JdbcDaoSupport {
 	}
 	
 	public void create(Alarm alarm) {
-		String sql = "insert into ALARMS (alarmId, calleeId, callerId, noteId, invitedGroupId, alarmStatus, alarmCreateDate) values(?, ?, ?, ?, ?, ?, default)";
-		getJdbcTemplate().update(sql, alarm.getAlarmId(), alarm.getReader().getUserId(), alarm.getWriter().getUserId(), alarm.getNote().getNoteId(), alarm.getGroup().getGroupId(),
+		String sql = "insert into ALARMS (alarmId, calleeId, callerId, noteId, alarmStatus, alarmCreateDate) values(?, ?, ?, ?, ?, default)";
+		getJdbcTemplate().update(sql, alarm.getAlarmId(), alarm.getReader().getUserId(), alarm.getWriter().getUserId(), alarm.getNote().getNoteId(),
 				alarm.getAlarmStatus());
-	}	
+	}
 
 	public boolean isExistAlarmId(String alarmId) {
 		String sql = "select count(1) from ALARMS where alarmId = ?";
