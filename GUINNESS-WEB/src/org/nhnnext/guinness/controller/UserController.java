@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -39,6 +38,7 @@ public class UserController {
 
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
 	protected String create(@Valid User user, BindingResult result, Model model) throws AlreadyExistedUserIdException, SendMailException {
+		// 유효성 검사
 		if(result.hasErrors()) {
             List<ObjectError> list = result.getAllErrors();
             for (ObjectError e : list) {
@@ -60,9 +60,8 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	protected @ResponseBody boolean login(WebRequest req, HttpSession session) throws FailedLoginException {
-		String userId = req.getParameter("userId");
-		String userPassword = req.getParameter("userPassword");
+	protected @ResponseBody boolean login(@RequestParam String userId, 
+			@RequestParam String userPassword, HttpSession session) throws FailedLoginException {
 		SessionUser sessionUser = (userService.login(userId, userPassword)).createSessionUser();
 		saveUserInfoInSession(session, sessionUser);
 		return true;
@@ -81,8 +80,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/update/check", method = RequestMethod.POST)
-	protected @ResponseBody JsonResult updateUserCheck(HttpSession session, WebRequest req){
-		String userPassword = req.getParameter("password");
+	protected @ResponseBody JsonResult updateUserCheck(@RequestParam String userPassword, HttpSession session){
 		String userId = ((SessionUser)session.getAttribute("sessionUser")).getUserId();
 		boolean result = userService.checkUpdatePassword(userId, userPassword);
 		if(!result)
@@ -91,12 +89,9 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	protected String updateUser(WebRequest req, HttpSession session, Model model, User user,
-			@RequestParam("profileImage") MultipartFile profileImage) throws UserUpdateException {
-		String userAgainPassword = req.getParameter("userAgainPassword");
+	protected String updateUser(@RequestParam String userAgainPassword, @RequestParam("profileImage") MultipartFile profileImage, HttpSession session, Model model, User user) throws UserUpdateException {
 		if(!user.isCorrectPassword(userAgainPassword))
 			throw new UserUpdateException("비밀번호가 다릅니다.");
-
 		String rootPath = session.getServletContext().getRealPath("/");
 		userService.update(user, rootPath, profileImage);
 		saveUserInfoInSession(session, user.createSessionUser());

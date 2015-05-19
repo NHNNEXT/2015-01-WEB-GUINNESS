@@ -129,7 +129,7 @@
 					.ajax({
 						method : "post",
 						url : "/user/update/check",
-						param : "password="
+						param : "userPassword="
 								+ document.querySelector('#check-password').value,
 						success : function(req) {
 							if (JSON.parse(req.responseText).success === false) {
