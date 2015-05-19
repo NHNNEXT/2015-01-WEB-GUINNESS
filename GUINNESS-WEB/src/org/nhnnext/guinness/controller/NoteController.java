@@ -7,13 +7,13 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
-import org.markdown4j.Markdown4jProcessor;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.service.GroupService;
 import org.nhnnext.guinness.service.NoteService;
 import org.nhnnext.guinness.util.DateTimeUtil;
 import org.nhnnext.guinness.util.JsonResult;
+import org.nhnnext.guinness.util.Markdown;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,10 +53,12 @@ public class NoteController {
 		return new JsonResult().setSuccess(true).setMapValues(noteService.reloadNotes(userIds, groupId, noteTargetDate));
 	}
 
+	//여기.
 	@RequestMapping("/notes/{noteId}")
-	protected @ResponseBody JsonResult show(@PathVariable String noteId) {
+	protected @ResponseBody JsonResult show(@PathVariable String noteId) throws IOException {
 		Note note = noteService.readNote(noteId);
 		logger.debug("note: {}", note);
+		note.setNoteText(new Markdown().toHTML(note.getNoteText()));
 		return new JsonResult().setSuccess(true).setObject(note);
 	}
 
@@ -103,7 +105,7 @@ public class NoteController {
 	
 	@RequestMapping(value="/notes/editor/preview", method=RequestMethod.POST)
 	private @ResponseBody JsonResult preview(@RequestParam String markdown) throws IOException {
-		String html = new Markdown4jProcessor().process(markdown);
+		String html = new Markdown().toHTML(markdown);
 		return new JsonResult().setSuccess(true).setMessage(html);
 	}
 }
