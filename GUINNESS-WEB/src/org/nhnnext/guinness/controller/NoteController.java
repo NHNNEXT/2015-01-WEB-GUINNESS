@@ -95,7 +95,7 @@ public class NoteController {
 	
 	@RequestMapping("/notes/editor/g/{groupId}")
 	private String createForm(@PathVariable String groupId, Model model) {
-		groupService.readGroup(model, groupId);
+		model.addAttribute(groupService.readGroup(groupId));
 		return "editor";
 	}
 

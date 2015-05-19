@@ -19,7 +19,6 @@ import org.nhnnext.guinness.util.RandomFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 @Service
 public class GroupService {
@@ -90,9 +89,8 @@ public class GroupService {
 	public List<Map<String, Object>> groupMembers(String groupId) {
 		return groupDao.readGroupMemberForMap(groupId);
 	}
-
-	public void readGroup(Model model, String groupId) {
-		model.addAttribute("groupId", groupId);
-		model.addAttribute("groupName", groupDao.readGroup(groupId).getGroupName());
+	
+	public Group readGroup(String groupId) {
+		return groupDao.readGroup(groupId);
 	}
 }
