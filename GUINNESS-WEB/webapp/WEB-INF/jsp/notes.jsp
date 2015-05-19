@@ -39,11 +39,12 @@
 		<!-- <input type="text" name="rangeCalendar" value="01/01/2015 - 01/31/2015" /> -->
 
 		<!-- <input type="text" name="defaultCalendar" value="10/24/1984" /> -->
-		<input class="inputBtn" id="allShow" type="submit" value="전체보기" onclick="reloadNoteList()" />
-		<div id='calendar-container'>
-			<div id="defaultCalendar" ></div>
+		<div id="left-menu-container">
+			<input class="inputBtn" id="allShow" type="submit" value="전체보기" onclick="reloadNoteList()" />
+			<div id='calendar-container'>
+				<div id="defaultCalendar" ></div>
+			</div>
 		</div>
-		
 
 		<div id='group-member-container'>
 			<form id="addMemberForm" action="/group/add/member" method="post">
@@ -51,7 +52,7 @@
 				<input type="hidden" name="groupId">
 				<input class="inputText" type="text" name="userId">
 				<input class="inputBtn" type="submit" value="초대">
-				<span class="addMemberAlert" style="visibility:hidden;"></span>
+				<span class="addMemberAlert" style="visibility:hidden;">멤버추가메세지</span>
 			</form>
 			<div id='group-member-list'>
 				<span style="font-weight:bold;">멤버관리</span><br/>
@@ -131,14 +132,14 @@
 	</script> -->
 	<script type="text/javascript">
 		$(function() {
-		    $('div[id="defaultCalendar"]').daterangepicker({
+		    $("#defaultCalendar").daterangepicker({
 		        singleDatePicker: true,
 		        showDropdowns: true
-		    }, 
+		    },
 		    function(start, end, label) {
 		    	console.log(start.toISOString(), end.toISOString(), label);
 		        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-		    });
+		    }); 
 		});
 
 		document.querySelector('#calendar-container').addEventListener("click", function(e) {
