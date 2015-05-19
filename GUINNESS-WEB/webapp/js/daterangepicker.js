@@ -569,9 +569,9 @@
 
             if (this.opens == 'left') {
                 this.container.css({
-                    top: containerTop,
-                    right: parentRightEdge - this.element.offset().left - this.element.outerWidth(),
-                    left: 'auto'
+                    //top: containerTop,
+                    //right: parentRightEdge - this.element.offset().left - this.element.outerWidth(),
+                    //left: 'auto'
                 });
                 if (this.container.offset().left < 0) {
                     this.container.css({
@@ -581,10 +581,10 @@
                 }
             } else if (this.opens == 'center') {
                 this.container.css({
-                    top: containerTop,
-                    left: this.element.offset().left - parentOffset.left + this.element.outerWidth() / 2
-                            - this.container.outerWidth() / 2,
-                    right: 'auto'
+                    //top: containerTop,
+                    //left: this.element.offset().left - parentOffset.left + this.element.outerWidth() / 2
+                     //       - this.container.outerWidth() / 2,
+                    //right: 'auto'
                 });
                 if (this.container.offset().left < 0) {
                     this.container.css({
@@ -594,9 +594,9 @@
                 }
             } else {
                 this.container.css({
-                    top: containerTop,
-                    left: this.element.offset().left - parentOffset.left,
-                    right: 'auto'
+                    //top: containerTop,
+                    //left: this.element.offset().left - parentOffset.left,
+                    //right: 'auto'
                 });
                 if (this.container.offset().left + this.container.outerWidth() > $(window).width()) {
                     this.container.css({
