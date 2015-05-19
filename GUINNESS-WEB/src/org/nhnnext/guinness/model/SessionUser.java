@@ -22,7 +22,7 @@ public class SessionUser {
 	public String getUserImage() {
 		return userImage;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

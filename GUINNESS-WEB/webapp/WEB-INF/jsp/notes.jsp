@@ -49,7 +49,6 @@
 		<div id='group-member-container'>
 			<form id="addMemberForm" action="/group/add/member" method="post">
 				<span style="font-weight:bold;">멤버추가</span><br/>
-				<input type="hidden" name="groupId">
 				<input class="inputText" type="text" name="userId">
 				<input class="inputBtn" type="submit" value="초대">
 				<span class="addMemberAlert" style="visibility:hidden;">멤버추가메세지</span>
@@ -105,16 +104,13 @@
 		</tr>
 	</template>
 	<script>
+	document.title = "${groupName}";
+	var groupName = ("${groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
+	document.querySelector('#group-name').innerHTML = groupName;
+	const groupId = window.location.pathname.split("/")[2];
 	window.addEventListener('load', function() {
-		var groupId = window.location.pathname.split("/")[2];
-		document.querySelector("#addMemberForm input[name='groupId']").value = groupId;
-		readMember(groupId);
-		
+		readMember();
 		document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
-		document.title = "${groupName}";
-		var groupName = ("${groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
-		document.querySelector('#group-name').innerHTML = groupName;
-
 		appendNoteList(${noteList});
 		var elCreateBtn = document.querySelector("#create-new-button");
 	}, false);

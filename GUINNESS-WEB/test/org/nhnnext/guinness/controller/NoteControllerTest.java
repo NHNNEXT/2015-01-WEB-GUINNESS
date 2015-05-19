@@ -1,6 +1,6 @@
 package org.nhnnext.guinness.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -16,6 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.ui.Model;
 import org.springframework.validation.support.BindingAwareModelMap;
+import org.springframework.web.context.request.WebRequest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/applicationContext.xml")
@@ -25,12 +26,13 @@ public class NoteControllerTest {
 	private NoteController notecontroller;
 	private HttpSession session;
 	private GroupDao groupDao;
+	private WebRequest request;
 
 	@Before
 	public void setUp() {
 		session = mock(HttpSession.class);
 		groupDao = mock(GroupDao.class);
-		
+		request = mock(WebRequest.class);
 		notecontroller = new NoteController();
 	}
 
