@@ -330,8 +330,13 @@ function createComment(obj) {
 
 function addMember(userId, groupId) {
 	var userId = document.querySelector('#addMemberForm input[name="userId"]').value;
+	var alert = document.querySelector(".addMemberAlert");
+	alert.style.visibility="hidden";
 	if (userId.trim() === ""){
-		guinness.util.alert("멤버초대 실패", "초대할 멤버의 아이디를 입력하세요.");
+		alert.style.visibility="visible";
+		alert.style.color="#ff5a5a";
+		alert.style.fontSize="11px";
+		alert.innerHTML = "초대할 멤버의 아이디를 입력하세요.";
 		return;
 	}
 	var groupId = document
@@ -343,11 +348,17 @@ function addMember(userId, groupId) {
 		success : function(req) {
 			var json = JSON.parse(req.responseText);
 			if (json.success === false) {
-				guinness.util.alert("그룹 멤버 초대", json.message);
+				alert.style.visibility="visible";
+				alert.style.color="#ff5a5a";
+				alert.style.fontSize="11px";
+				alert.innerHTML = json.message;
 				return;
 			}
 			else {
-				guinness.util.alert("그룹 멤버 초대", "그룹 초대를 요청하였습니다.");
+				alert.style.visibility="visible";
+				alert.style.color="#ff5a5a";
+				alert.style.fontSize="11px";
+				alert.innerHTML = "그룹에 초대하였습니다.";
 				return;
 			}
 		}

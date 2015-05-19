@@ -52,6 +52,7 @@
 				<input type="hidden" name="groupId">
 				<input class="inputText" type="text" name="userId">
 				<input class="inputBtn" type="submit" value="초대">
+				<span class="addMemberAlert" style="visibility:hidden;"></span>
 			</form>
 			<div id='group-member-list'>
 				<span style="font-weight:bold;">멤버관리</span><br/>

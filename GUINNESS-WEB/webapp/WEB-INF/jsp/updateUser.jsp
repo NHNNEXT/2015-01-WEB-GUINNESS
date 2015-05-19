@@ -52,7 +52,7 @@
 }
 
 #editProfile-form span.info strong {
-	color: #ff5a5a
+	color: #ff5a5a;
 }
 </style>
 <body>
