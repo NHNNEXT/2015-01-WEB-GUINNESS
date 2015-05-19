@@ -19,7 +19,6 @@ import org.nhnnext.guinness.util.RandomFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 @Service
 public class GroupService {
@@ -66,21 +65,21 @@ public class GroupService {
 	public void inviteGroupMember(String sessionUserId, String inviteeId, String groupId)throws FailedAddGroupMemberException {
 		if (userDao.findUserByUserId(inviteeId) == null) 
 			throw new FailedAddGroupMemberException("사용자를 찾을 수 없습니다!");
-		if (alarmDao.checkStandbyJoinGroup(inviteeId, groupId)) 
-			throw new FailedAddGroupMemberException("가입 요청 대기중 입니다.");
+//		if (alarmDao.checkStandbyJoinGroup(inviteeId, groupId)) 
+//			throw new FailedAddGroupMemberException("가입 요청 대기중 입니다.");
 		if (groupDao.checkJoinedGroup(inviteeId, groupId)) 
 			throw new FailedAddGroupMemberException("사용자가 이미 가입되어있습니다!");
 		
 		String alarmId = null;
 		Alarm alarm = null;
-		while (true) {
-			alarmId = RandomFactory.getRandomId(10);
-			if (!alarmDao.isExistAlarmId(alarmId)) {
-				logger.debug("알람 아이디 : {}", alarmId);
-				alarm = new Alarm(alarmId, "G", new User(sessionUserId), new User(inviteeId), new Note(Integer.toString(-1)), new Group(groupId));
-				break;
-			}
-		}
+//		while (true) {
+//			alarmId = RandomFactory.getRandomId(10);
+//			if (!alarmDao.isExistAlarmId(alarmId)) {
+//				logger.debug("알람 아이디 : {}", alarmId);
+//				alarm = new Alarm(alarmId, "G", new User(sessionUserId), new User(inviteeId), new Note(Integer.toString(-1)), new Group(groupId));
+//				break;
+//			}
+//		}
 //		alarmDao.create(alarm);
 		
 		//groupDao.createGroupUser(userId, groupId);
@@ -90,9 +89,8 @@ public class GroupService {
 	public List<Map<String, Object>> groupMembers(String groupId) {
 		return groupDao.readGroupMemberForMap(groupId);
 	}
-
-	public void readGroup(Model model, String groupId) {
-		model.addAttribute("groupId", groupId);
-		model.addAttribute("groupName", groupDao.readGroup(groupId).getGroupName());
+	
+	public Group readGroup(String groupId) {
+		return groupDao.readGroup(groupId);
 	}
 }
