@@ -13,7 +13,6 @@
 <link rel="stylesheet" href="/css/mainStyle.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/datepickr.css">
-<script src="/js/guinness.js"></script>
 </head>
 <body>
 	<%@ include file="./commons/_guest_topnav.jspf"%>

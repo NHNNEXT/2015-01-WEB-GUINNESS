@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/datepickr.css">
 <script src="/js/datepickr.js"></script>
-<script src="/js/guinness.js"></script>
 <script src="/js/markdown.js"></script>
 
 <!-- 노트 캘린더 -->
@@ -100,7 +99,6 @@
 	window.addEventListener('load', function() {
 		var groupId = window.location.pathname.split("/")[2];
 		document.querySelector("#addMemberForm input[name='groupId']").value = groupId;
-		// document.querySelector("#groupId").value = groupId;
 		readMember(groupId);
 		
 		document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
@@ -146,7 +144,7 @@
 		document.querySelector('#calendar-container').addEventListener("click", function(e) {
 			var noteTargetDate = $('#defaultCalendar').data('daterangepicker').startDate._d.toISOString().substring(0,10);
 			reloadNoteList(noteTargetDate);
-			}, false);
+		}, false);
 	</script>
 </body>
 </html>
