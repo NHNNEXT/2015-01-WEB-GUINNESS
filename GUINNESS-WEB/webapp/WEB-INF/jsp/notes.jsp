@@ -55,10 +55,11 @@
 			</form>
 			<div id='group-member-list'>
 				<span style="font-weight:bold;">멤버관리</span><br/>
-				<input class="memberAllClick" type="checkbox" checked=true onclick="allCheckMember()" />전체선택 
-				<input class="inputBtn" type="submit" value="확인" onclick="reloadNoteList()" />
 				<table id='group-member'>
 				</table>
+			</div>
+			<div style="padding:10px;">
+				<a href="#"><span style="font-weight:bold;">그룹탈퇴하기</span></a>
 			</div>
 		</div>
 	</div>

@@ -268,15 +268,16 @@ form#notes-create-form {
 	border-bottom:1px solid #ccc;
 }
 
-#group-member-container ul {
-	overflow-x: hidden;
-	overflow-y: scroll;
-	display: block;
+#group-member-container div#group-member-list #group-member {
+	margin-top:10px;
 }
 
-#group-member-container div#group-member-list li {
-	position: relative;
-	list-style: none;
+#group-member-container #group-member-list #group-member td {
+	padding:5px 0;
+}
+
+#group-member-container #group-member-list #group-member td.member-util i {
+	cursor:pointer;
 }
 
 #addMemberForm {
