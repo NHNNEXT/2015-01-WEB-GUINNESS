@@ -306,6 +306,7 @@ function showEditInputBox(commentText, commentId) {
 	el.querySelector('.comment-util').appendChild(updateButton);
 	el.querySelector('.comment-util').appendChild(cancelButton);
 }
+
 function createComment(obj) {
 	var commentText = document.querySelector('#commentText').value;
 	if (commentText !== "") {
@@ -356,7 +357,7 @@ function addMember(userId, groupId) {
 			}
 			else {
 				alert.style.visibility="visible";
-				alert.style.color="#ff5a5a";
+				alert.style.color="#86E57F";
 				alert.style.fontSize="11px";
 				alert.innerHTML = "그룹에 초대하였습니다.";
 				return;
