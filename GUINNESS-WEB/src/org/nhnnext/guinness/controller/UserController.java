@@ -1,11 +1,10 @@
 package org.nhnnext.guinness.controller;
 
-import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
 
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
 import org.nhnnext.guinness.exception.FailedLoginException;
@@ -16,11 +15,12 @@ import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.service.UserService;
 import org.nhnnext.guinness.util.JsonResult;
-import org.nhnnext.guinness.util.MyValidatorFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,12 +37,17 @@ public class UserController {
 	@Resource
 	private UserService userService;
 
-	@RequestMapping(value = "", method = RequestMethod.POST)
-	protected String create(Model model, User user) throws AlreadyExistedUserIdException, SendMailException {
-		// 유효성 체크
-		if (!extractViolationMessage(model, user)) {
-			return "index";
-		}
+	@RequestMapping(value = "/user", method = RequestMethod.POST)
+	protected String create(@Valid User user, BindingResult result, Model model) throws AlreadyExistedUserIdException, SendMailException {
+		if(result.hasErrors()) {
+            List<ObjectError> list = result.getAllErrors();
+            for (ObjectError e : list) {
+            	String element = e.getCodes()[0].split("\\.")[2];
+            	model.addAttribute(element+"_message", result.getFieldError(element).getDefaultMessage());
+            	logger.debug("field: {}, message: {}", element, result.getFieldError(element).getDefaultMessage());
+            }
+            return "index";
+        }
 		userService.join(user);
 		return "sendEmail";
 	}
@@ -112,21 +117,5 @@ public class UserController {
 	
 	private void saveUserInfoInSession(HttpSession session, SessionUser sessionUser) {
 		session.setAttribute("sessionUser", sessionUser);
-	}
-
-	private boolean extractViolationMessage(Model model, User user) {
-		Set<ConstraintViolation<User>> constraintViolations = MyValidatorFactory.createValidator().validate(user);
-		if (!constraintViolations.isEmpty()) {
-			String signValidErrorMessage = "";
-			Iterator<ConstraintViolation<User>> violations = constraintViolations.iterator();
-			while (violations.hasNext()) {
-				ConstraintViolation<User> each = violations.next();
-				signValidErrorMessage = signValidErrorMessage + "<br />" + each.getMessage();
-			}
-			model.addAttribute("signValidErrorMessage", signValidErrorMessage);
-			logger.debug("violation error");
-			return false;
-		}
-		return true;
 	}
 }

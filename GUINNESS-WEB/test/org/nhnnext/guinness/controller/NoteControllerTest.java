@@ -1,6 +1,6 @@
 package org.nhnnext.guinness.controller;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -48,4 +48,10 @@ public class NoteControllerTest {
 		assertNotNull(result);
 	}
 	
+	@Test
+	public void testName() throws Exception {
+		String str = "boo.and:foo";
+		String[] strArr = str.split("\\.");
+		logger.debug(strArr.length+"");
+	}
 }
