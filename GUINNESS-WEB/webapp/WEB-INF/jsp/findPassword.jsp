@@ -31,16 +31,18 @@
 				<i class="fa fa-envelope-o" style="font-size: 18px;"></i> <input type="text"
 					class="inputtext" id="identify_email" name="userId"
 					style="width: 255px; margin: 5px; padding: 5px">
-				<c:if test="${not empty message}">
-					<span class="errorMessage" style="font-size: 13px"> ${message} </span>
-				</c:if> <br>
+				<span id="identify_email-message" class="errorMessage" style="font-size: 13px"> ${message} </span>
+				<br>
 				<a class="btn btn-pm" style="text-align: center; width: 99px; height: 19px; background: gray;" href="/">취소</a>
 				<button id="submitComment" class="btn btn-pm">확인</button>
 			</form>
 		</div>
 	</div>
 </body>
-
+<script type="text/javascript" src="/js/joinCheck.js"></script>
 <script>
+	window.addEventListener('load', function() {
+		joinCheck.setEmailValidation("identify_email", "identify_email-message");
+	});
 </script>
 </html>
