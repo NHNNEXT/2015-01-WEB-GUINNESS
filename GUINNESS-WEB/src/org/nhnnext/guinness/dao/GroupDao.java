@@ -64,7 +64,7 @@ public class GroupDao extends JdbcDaoSupport {
 	}
 
 	public boolean checkJoinedGroup(String userId, String groupId) {
-		String sql = "select count(*) from GROUPS_USERS, GROUPS where GROUPS_USERS.userId = ? and GROUPS_USERS.groupID = GROUPS.groupId and GROUPS.groupId = ?";
+		String sql = "select count(*) from GROUPS_USERS where userId = ? and groupId = ?";
 		if ( getJdbcTemplate().queryForObject(sql, Integer.class, new Object[] { userId, groupId }) > 0)
 			return true;
 		return false;
