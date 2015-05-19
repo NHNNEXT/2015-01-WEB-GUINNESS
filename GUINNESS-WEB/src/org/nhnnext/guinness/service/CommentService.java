@@ -36,7 +36,7 @@ public class CommentService {
 		User noteWriter = noteDao.readNote(note.getNoteId()).getUser();
 		
 		if (!comment.checkWriter(noteWriter)) {
-			alarmDao.create(new Alarm(createAlarmId(), "C", comment.getUser(), noteWriter, note));
+//			alarmDao.create(new Alarm(createAlarmId(), "C", comment.getUser(), noteWriter, note));
 		}
 	}
 

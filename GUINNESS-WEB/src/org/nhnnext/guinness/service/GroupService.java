@@ -81,7 +81,7 @@ public class GroupService {
 				break;
 			}
 		}
-		alarmDao.create(alarm);
+//		alarmDao.create(alarm);
 		
 		//groupDao.createGroupUser(userId, groupId);
 		//return userDao.findUserByUserId(userId);
