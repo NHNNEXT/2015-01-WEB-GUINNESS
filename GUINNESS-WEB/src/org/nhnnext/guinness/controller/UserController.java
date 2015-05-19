@@ -93,7 +93,7 @@ public class UserController {
 			throw new UserUpdateException("비밀번호가 다릅니다.");
 
 		String rootPath = session.getServletContext().getRealPath("/");
-		userService.update(user, model, rootPath, profileImage);
+		userService.update(user, rootPath, profileImage);
 		saveUserInfoInSession(session, user.createSessionUser());
 		return "redirect:/groups/form";
 	}

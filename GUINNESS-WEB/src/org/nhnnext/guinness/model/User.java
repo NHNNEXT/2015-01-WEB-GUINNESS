@@ -108,6 +108,18 @@ public class User {
 		return (this.userId).equals(userId);
 	}
 	
+	public void update(User user) {
+		if(!"".equals(user.userPassword)) {
+			userPassword = user.userPassword;
+		}
+		if(!"".equals(user.userName)) {
+			userName = user.userName;
+		}
+		if(!"".equals(user.userImage)) {
+			userImage = user.userImage;
+		}
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

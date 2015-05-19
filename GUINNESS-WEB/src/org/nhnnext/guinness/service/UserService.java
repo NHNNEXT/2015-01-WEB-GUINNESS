@@ -16,7 +16,6 @@ import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -74,19 +73,17 @@ public class UserService {
 		}
 		return user;
 	}
-
-	public void update(User user, Model model, String rootPath, MultipartFile profileImage) throws UserUpdateException {
-		User prevUser = userDao.findUserByUserId(user.getUserId());
+	
+	public void update(User user, String rootPath, MultipartFile profileImage) throws UserUpdateException {
+		User dbUser = userDao.findUserByUserId(user.getUserId());
 		try {
-			if ("".equals(user.getUserPassword()))
-				user.setUserPassword(prevUser.getUserPassword());
-			user.setUserImage(prevUser.getUserImage());
 			if (!profileImage.isEmpty()) {
 				String fileName = user.getUserId();
 				profileImage.transferTo(new File(rootPath + "img/profile/" + fileName));
 				user.setUserImage(fileName);
 			}
-			userDao.updateUser(user);
+			dbUser.update(user);
+			userDao.updateUser(dbUser);
 		} catch (IllegalStateException | IOException | DataIntegrityViolationException e) {
 			e.printStackTrace();
 			throw new UserUpdateException("잘못된 형식입니다.");
