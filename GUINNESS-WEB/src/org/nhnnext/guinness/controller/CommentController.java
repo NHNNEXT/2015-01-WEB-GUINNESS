@@ -15,8 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.WebRequest;
 
 @Controller
 @RequestMapping("/comments")
@@ -25,11 +25,8 @@ public class CommentController {
 	private CommentService commentService;
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	protected @ResponseBody JsonResult create(HttpSession session, WebRequest req) throws IOException {
+	protected @ResponseBody JsonResult create(HttpSession session, @RequestParam String commentText, @RequestParam String commentType, @RequestParam String noteId) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
-		String commentText = req.getParameter("commentText");
-		String commentType = req.getParameter("commentType");
-		String noteId = req.getParameter("noteId");
 		if (commentText.equals(""))
 			return new JsonResult().setSuccess(false);
 
@@ -43,9 +40,9 @@ public class CommentController {
 	}
 
 	@RequestMapping(value = "/{commentId}", method = RequestMethod.PUT)
-	protected @ResponseBody JsonResult update(@PathVariable String commentId, WebRequest req) {
+	protected @ResponseBody JsonResult update(@PathVariable String commentId, @RequestParam String commentText) {
 		return new JsonResult().setSuccess(true).setObject(
-				(Comment) commentService.update(commentId, req.getParameter("commentText")));
+				(Comment) commentService.update(commentId, commentText));
 	}
 
 	@RequestMapping(value = "/{commentId}", method = RequestMethod.DELETE)

@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
@@ -41,11 +42,7 @@ public class NoteController {
 	}
 
 	@RequestMapping("/notes/reload")
-	protected @ResponseBody JsonResult reloadNoteList(WebRequest req) {
-		String userIds = req.getParameter("checkedUserId");
-		String groupId = req.getParameter("groupId");
-		String noteTargetDate = req.getParameter("noteTargetDate"); 
-		
+	protected @ResponseBody JsonResult reloadNoteList(@RequestParam("checkedUserId") String userIds, @RequestParam String noteTargetDate, @RequestParam String groupId, WebRequest req) {
 		if("undefined".equals(noteTargetDate))
 			noteTargetDate = null;
 		if(userIds == null || groupId == null) {
@@ -60,27 +57,22 @@ public class NoteController {
 	}
 
 	@RequestMapping(value = "/notes", method = RequestMethod.POST)
-	protected String create(WebRequest req, HttpSession session, Model model) throws IOException {
+	protected String create(@RequestParam String groupId, @RequestParam String noteText, 
+			@RequestParam String noteTargetDate, HttpSession session, Model model) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
-		String groupId = req.getParameter("groupId");
-		String noteText = req.getParameter("noteText");
-		String noteTargetDate = req.getParameter("noteTargetDate") + " "
-				+ new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
+		String formattedDate = noteTargetDate + " " + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
 		if (noteText.equals("")) {
 			return "redirect:/notes/editor/g/" + groupId;
 		}
-		noteService.create(sessionUserId, groupId, noteText, noteTargetDate);
+		noteService.create(sessionUserId, groupId, noteText, formattedDate);
 		return "redirect:/g/" + groupId;
 	}
 
 	@RequestMapping(value = "/notes", method = RequestMethod.PUT)
-	private String update(WebRequest req) {
-		String groupId = req.getParameter("groupId");
-		String noteId = req.getParameter("noteId");
-		String noteText = req.getParameter("noteText");
-		String noteTargetDate = req.getParameter("noteTargetDate") + " "
-				+ new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
-		noteService.update(noteText, noteId, noteTargetDate);
+	private String update(@RequestParam String groupId, @RequestParam String noteId, 
+			@RequestParam String noteTargetDate, @RequestParam String noteText) {
+		String formattedDate = noteTargetDate + " " + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
+		noteService.update(noteText, noteId, formattedDate);
 		return "redirect:/g/" + groupId;
 	}
 

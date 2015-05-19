@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.WebRequest;
 
 @Controller
 @RequestMapping("/alarms")
@@ -32,7 +31,7 @@ public class AlarmController {
 	}
 
 	@RequestMapping(value = "/{alarmId}", method = RequestMethod.DELETE)
-	protected @ResponseBody JsonResult delete(@PathVariable String alarmId, WebRequest req, Model model) {
+	protected @ResponseBody JsonResult delete(@PathVariable String alarmId, Model model) {
 		alarmDao.delete(alarmId);
 		return new JsonResult().setSuccess(true);
 	}
