@@ -223,8 +223,6 @@ function appendComment(json) {
 				"/img/profile/" + obj.userImage);
 		if (userId === obj.userId) {
 			commentEl.querySelector('.comment-util').innerHTML = "<div class='default-utils'><a href='#' onclick='showEditInputBox(&quot;"
-					+ obj.commentText
-					+ "&quot; , &quot;"
 					+ obj.commentId
 					+ "&quot;)'>수정</a><a href='#' onclick='deleteComment(&quot;"
 					+ obj.commentId + "&quot;)'>삭제</a></div>"
@@ -272,8 +270,9 @@ function deleteComment(commentId) {
 	});
 }
 
-function showEditInputBox(commentText, commentId) {
+function showEditInputBox(commentId) {
 	var el = document.querySelector('#cmt-' + commentId);
+	var commentText = el.querySelector('.comment').innerHTML;
 	el.querySelector('.default-utils').hide();
 	el.querySelector('.comment').setAttribute('contentEditable', true);
 	var updateButton = guinness.createElement({
@@ -292,7 +291,7 @@ function showEditInputBox(commentText, commentId) {
 	});
 	updateButton.addEventListener('click', function() {
 		var el = document.querySelector('#cmt-' + commentId);
-		var commentText = el.querySelector('.comment').textContent;
+		var commentText = el.querySelector('.comment').innerText;
 		updateComment(commentId, commentText);
 	}, false);
 	cancelButton.addEventListener('click', function() {
