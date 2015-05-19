@@ -13,6 +13,7 @@ import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.model.Alarm;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
+import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
 import org.springframework.stereotype.Service;
@@ -67,7 +68,7 @@ public class NoteService {
 		String noteId = ""+noteDao.createNote(new Note(noteText, noteTargetDate, new User(sessionUserId), new Group(groupId)));
 		String alarmId = null;
 		Alarm alarm = null;
-		String noteWriter = noteDao.readNote(noteId).getUser().getUserId();
+		SessionUser sessionUser = noteDao.readNote(noteId).getUser().createSessionUser();
 		List<User> groupMembers = groupDao.readGroupMember(groupId);
 		for (User reader : groupMembers) {
 			if (reader.getUserId().equals(sessionUserId)) {
@@ -76,7 +77,7 @@ public class NoteService {
 			while (true) {
 				alarmId = RandomFactory.getRandomId(10);
 				if (!alarmDao.isExistAlarmId(alarmId)) {
-					alarm = new Alarm(alarmId, "N", new User(noteWriter), reader, new Note(noteId));
+					alarm = new Alarm(alarmId, "N", sessionUser, reader, new Note(noteId));
 					break;
 				}
 			}

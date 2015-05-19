@@ -303,9 +303,13 @@ function createComment(obj) {
 			param : "commentText=" + commentText + "&commentType="
 					+ commentType + "&noteId=" + noteId,
 			success : function(req) {
+				debugger;
 				var result = JSON.parse(req.responseText);
-				if (result.success !== true)
+				if (result.success !== true){
+					document.querySelector('#commentText').value = result.message;
 					return;
+//					window.location.href = JSON.parse(req.responseText).locationWhenFail;
+				}
 				appendComment(result.mapValues);
 				document.querySelector('#commentText').value = "";
 			}
