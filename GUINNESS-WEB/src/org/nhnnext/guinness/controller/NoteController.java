@@ -59,7 +59,7 @@ public class NoteController {
 
 	@RequestMapping(value = "/notes", method = RequestMethod.POST)
 	protected String create(@RequestParam String groupId, @RequestParam String noteText, 
-			@RequestParam String noteTargetDate, HttpSession session, Model model) throws IOException {
+			@RequestParam String noteTargetDate, HttpSession session, Model model) throws IOException, UnpermittedAccessGroupException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		if (noteText.equals("")) {
 			return "redirect:/notes/editor/g/" + groupId;
@@ -85,7 +85,9 @@ public class NoteController {
 	}
 	
 	@RequestMapping("/notes/editor/g/{groupId}")
-	private String createForm(@PathVariable String groupId, Model model) {
+	private String createForm(@PathVariable String groupId, Model model, HttpSession session) throws UnpermittedAccessGroupException, IOException {
+		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
+		noteService.checkJoinedGroup(groupId, sessionUserId);
 		model.addAttribute(groupService.readGroup(groupId));
 		return "editor";
 	}

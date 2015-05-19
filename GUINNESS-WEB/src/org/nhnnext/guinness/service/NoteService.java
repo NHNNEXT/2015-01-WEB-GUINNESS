@@ -32,7 +32,7 @@ public class NoteService {
 	public void initNotes(Model model, String sessionUserId, String groupId) throws UnpermittedAccessGroupException {
 		Group group = groupDao.readGroup(groupId);
 		if (!group.isPublic() && !groupDao.checkJoinedGroup(sessionUserId, groupId)) {
-			throw new UnpermittedAccessGroupException();
+			throw new UnpermittedAccessGroupException("비정상적 접근시도.");
 		}
 		model.addAttribute("groupName", group.getGroupName());
 		model.addAttribute("noteList", new Gson().toJson(getNoteListFromDao(null, groupId, null)));
@@ -60,9 +60,11 @@ public class NoteService {
 		return noteDao.readNote(noteId);
 	}
 
-	public void create(String sessionUserId, String groupId, String noteText, String noteTargetDate) {
+	public void create(String sessionUserId, String groupId, String noteText, String noteTargetDate) throws UnpermittedAccessGroupException {
+		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
+			throw new UnpermittedAccessGroupException();
+		}
 		String noteId = ""+noteDao.createNote(new Note(noteText, noteTargetDate, new User(sessionUserId), new Group(groupId)));
-		
 		String alarmId = null;
 		Alarm alarm = null;
 		String noteWriter = noteDao.readNote(noteId).getUser().getUserId();
@@ -97,5 +99,12 @@ public class NoteService {
 		model.addAttribute("groupId", group.getGroupId());
 		model.addAttribute("groupName", new Gson().toJson(group.getGroupName()));
 		model.addAttribute("noteId", noteId);
+	}
+	
+	public boolean checkJoinedGroup(String groupId, String sessionUserId) throws UnpermittedAccessGroupException {
+		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
+			throw new UnpermittedAccessGroupException("권한이 없습니다. 그룹 가입을 요청하세요.");
+		}
+		return true;
 	}
 }

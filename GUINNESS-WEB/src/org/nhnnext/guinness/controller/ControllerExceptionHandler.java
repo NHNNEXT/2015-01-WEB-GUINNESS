@@ -84,7 +84,7 @@ public class ControllerExceptionHandler {
 	public ModelAndView unpermittedAccessGroupException(UnpermittedAccessGroupException e) {
 		e.printStackTrace();
 		ModelAndView mav = new ModelAndView("/illegal");
-		mav.addObject("errorMessage", "비정상적 접근시도.");
+		mav.addObject("errorMessage", e.getMessage());
 		return mav;
 	}
 	
