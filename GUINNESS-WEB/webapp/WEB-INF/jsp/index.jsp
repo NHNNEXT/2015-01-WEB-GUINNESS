@@ -54,7 +54,7 @@
 							id='label-signUp' style="display: block">회원가입</span>
 					</div>
 					<div class="switchForm">
-						<a class="text" href="/user/findPasswordForm"
+						<a id='password-tag' class="text" href="/user/findPasswordForm"
 							style="text-decoration: none; padding: 5px">비밀번호를 잊으셨나요?</a>
 					</div>
 				</div>

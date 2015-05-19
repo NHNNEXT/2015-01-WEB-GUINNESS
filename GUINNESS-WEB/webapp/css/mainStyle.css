@@ -747,7 +747,7 @@ textarea#commentText {
 	text-decoration: underline;
 }
 
-.text:hover {
+#password-tag:hover {
 	color: #BCBCBC;
 	text-decoration: underline;	
 }
