@@ -218,16 +218,11 @@ function appendComment(json) {
 		commentEl.querySelector('.comment-date').innerHTML = guinness.util
 				.koreaDate(obj.commentCreateDate);
 		commentEl.querySelector('.comment-date').id = obj.commentCreateDate;
-		commentEl.querySelector('.comment').innerHTML = (obj.commentText).replace(/\n/g, '<br/>');
+		commentEl.querySelector('.comment').innerHTML = (obj.commentText).replace(/\n/g, '\n<br/>');
 		commentEl.querySelector('.avatar').setAttribute("src",
 				"/img/profile/" + obj.userImage);
 		if (userId === obj.userId) {
-			commentEl.querySelector('.comment-util').innerHTML = "<div class='default-utils'><a href='#' onclick='showEditInputBox(&quot;"
-					+ obj.commentText
-					+ "&quot; , &quot;"
-					+ obj.commentId
-					+ "&quot;)'>수정</a><a href='#' onclick='deleteComment(&quot;"
-					+ obj.commentId + "&quot;)'>삭제</a></div>"
+			commentEl.querySelector('.comment-util').innerHTML = "<div class='default-utils'><a href='#' onclick='showEditInputBox()'>수정</a><a href='#' onclick='deleteComment()'>삭제</a></div>"
 		}
 	}
 
@@ -251,7 +246,7 @@ function updateComment(commentId, commentText) {
 						return;
 					var json = result.object;
 					var el = document.querySelector("#cmt-" + commentId);
-					el.querySelector('.comment').innerHTML = json.commentText.replace(/\n/g, '<br/>');
+					el.querySelector('.comment').innerHTML = (json.commentText).replace(/\n/g, '\n<br/>');
 					el.querySelector('.comment-date').innerHTML = json.commentCreateDate;
 					el.querySelector('.comment').setAttribute(
 							'contentEditable', false);
@@ -272,8 +267,9 @@ function deleteComment(commentId) {
 	});
 }
 
-function showEditInputBox(commentText, commentId) {
-	var el = document.querySelector('#cmt-' + commentId);
+function showEditInputBox() {
+	debugger;
+	var el = document.querySelector('#cmt-' + obj.commentId);
 	el.querySelector('.default-utils').hide();
 	el.querySelector('.comment').setAttribute('contentEditable', true);
 	var updateButton = guinness.createElement({
@@ -291,14 +287,14 @@ function showEditInputBox(commentText, commentId) {
 		content : "취소"
 	});
 	updateButton.addEventListener('click', function() {
-		var el = document.querySelector('#cmt-' + commentId);
+		var el = document.querySelector('#cmt-' + obj.commentId);
 		var commentText = el.querySelector('.comment').textContent;
-		updateComment(commentId, commentText);
+		updateComment(obj.commentId, commentText);
 	}, false);
 	cancelButton.addEventListener('click', function() {
-		var el = document.querySelector('#cmt-' + commentId);
+		var el = document.querySelector('#cmt-' + obj.commentId);
 		el.querySelector('.comment').setAttribute('contentEditable', false);
-		el.querySelector('.comment').innerHTML = commentText;
+		el.querySelector('.comment').innerHTML = (obj.commentText).replace(/\n/g, '\n<br/>');
 		el.querySelectorAll('.comment-update').remove();
 		el.querySelector('.default-utils').show();
 	}, false);

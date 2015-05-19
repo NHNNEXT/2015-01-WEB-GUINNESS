@@ -75,8 +75,8 @@ public class Group {
 		Group.groupDao = groupDao;
 	}
 
-	public String isPublic() {
-		return isPublic;
+	public boolean isPublic() {
+		return isPublic.equals("T");
 	}
 	
 	public boolean checkCaptain(String userId) {

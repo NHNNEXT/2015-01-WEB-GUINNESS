@@ -30,10 +30,11 @@ public class NoteService {
 	private AlarmDao alarmDao;
 	
 	public void initNotes(Model model, String sessionUserId, String groupId) throws UnpermittedAccessGroupException {
-		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
+		Group group = groupDao.readGroup(groupId);
+		if (!group.isPublic() && !groupDao.checkJoinedGroup(sessionUserId, groupId)) {
 			throw new UnpermittedAccessGroupException();
 		}
-		model.addAttribute("groupName", groupDao.readGroup(groupId).getGroupName());
+		model.addAttribute("groupName", group.getGroupName());
 		model.addAttribute("noteList", new Gson().toJson(getNoteListFromDao(null, groupId, null)));
 	}
 	
