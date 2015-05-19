@@ -78,7 +78,7 @@ function appendNoteList(json) {
 
 		var userId = document.getElementById("sessionUserId").value;
 		if (userId === obj.userId) {
-			out += "<div class='note-util'><i class='fa fa-pencil'></i><i class='fa fa-trash'></i></div>";
+			out += "<div class='note-util'><div><span>삭제</span><i class='fa fa-trash'></i></div><div><span>수정</span><i class='fa fa-pencil'></i></div></div>";
 		}
 		out += "<div class='content-container'>";
 		out += "<div><span class='userName'>" + obj.userName
@@ -104,8 +104,7 @@ function appendNoteList(json) {
 					if (e.target.className === "fa fa-trash") {
 						confirmDeleteNote(this.getAttribute("id"));
 					} else if (e.target.className === "fa fa-pencil") {
-						window.location.href = "/notes/editor/"
-								+ this.getAttribute("id");
+						window.location.href = "/notes/editor/" + this.getAttribute("id");
 					} else {
 						readNoteContents(this.getAttribute("id"));
 					}
