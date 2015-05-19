@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.markdown4j.Markdown4jProcessor;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
+import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.service.GroupService;
 import org.nhnnext.guinness.service.NoteService;
 import org.nhnnext.guinness.util.DateTimeUtil;
@@ -54,7 +55,9 @@ public class NoteController {
 
 	@RequestMapping("/notes/{noteId}")
 	protected @ResponseBody JsonResult show(@PathVariable String noteId) {
-		return new JsonResult().setSuccess(true).setObject(noteService.readNote(noteId));
+		Note note = noteService.readNote(noteId);
+		logger.debug("note: {}", note);
+		return new JsonResult().setSuccess(true).setObject(note);
 	}
 
 	@RequestMapping(value = "/notes", method = RequestMethod.POST)

@@ -31,7 +31,7 @@ public class NoteService {
 	
 	public void initNotes(Model model, String sessionUserId, String groupId) throws UnpermittedAccessGroupException {
 		Group group = groupDao.readGroup(groupId);
-		if (!group.isPublic() && !groupDao.checkJoinedGroup(sessionUserId, groupId)) {
+		if (!group.isStatus() && !groupDao.checkJoinedGroup(sessionUserId, groupId)) {
 			throw new UnpermittedAccessGroupException("비정상적 접근시도.");
 		}
 		model.addAttribute("groupName", group.getGroupName());
