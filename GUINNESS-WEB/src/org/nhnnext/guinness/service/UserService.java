@@ -89,7 +89,7 @@ public class UserService {
 		    		+ "color: white; text-decoration:none'>"
 		    		+ "<div style='padding: 10px; border: 0px; width: 120px;"
 		    		+ "margin: 15px 5px; background-color: #74afad; "
-		    		+ "text-align:center'>페퍼민트 시작하기</div></a>" +
+		    		+ "text-align:center'>페이퍼민트 시작하기</div></a>" +
 			"<p>Copyright &copy; by link413. All rights reserved.</p>";
 			System.out.println(htmlMsg);
 			
@@ -144,7 +144,13 @@ public class UserService {
 			messageHelper.setTo(userId);
 			messageHelper.setFrom("hakimaru@naver.com");
 			messageHelper.setSubject("페이퍼민트 임시 메일을 보내드립니다.");
-			messageHelper.setText("임시 메일은 " + tempPassword + " 입니다.", true);
+			messageHelper.setText("임시 비밀번호는 " + tempPassword + " 입니다."
+					+"<a href='http://localhost:8080/' style='font-size: 15px;"
+		    		+ "color: white; text-decoration:none'>"
+		    		+ "<div style='padding: 10px; border: 0px; width: 120px;"
+		    		+ "margin: 15px 5px; background-color: #74afad; "
+		    		+ "text-align:center'>페이퍼민트로 가기</div></a>" +
+			"<p>Copyright &copy; by link413. All rights reserved.</p>", true);
 			javaMailSender.send(message);
 		} catch (MessagingException | NullPointerException | MailAuthenticationException e) {
 			throw new SendMailException(e.getClass().getSimpleName());

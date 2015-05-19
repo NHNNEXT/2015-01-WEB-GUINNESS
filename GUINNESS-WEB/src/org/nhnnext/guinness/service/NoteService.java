@@ -76,7 +76,7 @@ public class NoteService {
 					break;
 				}
 			}
-			alarmDao.create(alarm);
+//			alarmDao.create(alarm);
 		}
 	}
 
