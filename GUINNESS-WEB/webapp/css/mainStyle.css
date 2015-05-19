@@ -162,6 +162,26 @@ html, body {
 	font-size: 12px;
 }
 
+.note-util div{
+	display:inline-block;
+	float:right;
+}
+
+.note-util div span{
+	position:absolute;
+	display:none;
+	font-size:8px;
+	padding:2px;
+	background-color:#454545;
+	color:white;
+	margin-top:-16px;
+	margin-left:0px;
+}
+
+.note-util div:hover span{
+	display:block;
+}
+
 .search-note-list .note-util i {
 	margin-left: 5px;
 	float: right;
@@ -790,12 +810,10 @@ textarea#commentText {
 	z-index: 25;
 	margin: 0 auto;
 	background-color: white;
-	border-radius: 10px;
 	overflow: hidden;
+	border-radius:4px;
     top:400%;
 }
-
-
 
 .modal-header {
 	width: 100%;
