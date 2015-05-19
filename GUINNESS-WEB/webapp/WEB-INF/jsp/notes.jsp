@@ -57,7 +57,8 @@
 				<span style="font-weight:bold;">멤버관리</span><br/>
 				<input class="memberAllClick" type="checkbox" checked=true onclick="allCheckMember()" />전체선택 
 				<input class="inputBtn" type="submit" value="확인" onclick="reloadNoteList()" />
-				<ul id='group-member'></ul>
+				<table id='group-member'>
+				</table>
 			</div>
 		</div>
 	</div>
@@ -79,6 +80,19 @@
 			<div class='comment'></div>
 			<div class='comment-util'></div>
 		</div></li>
+	</template>
+	<template id="member-template">
+		<tr>
+			<td class="member-info" style="width:140px; display:inline-block;">
+				<div class="member-name" style="font-weight:bold;">와이빈</div>
+				<div class="member-id" style="color:#888; font-size:9px;">y@y.y</div>
+			</td>
+			<td class="member-util" style="font-size:15px; display:inline-block;">
+				<i class="fa fa-eye"></i>
+				<input style="display:none;" type='checkbox' class='memberChk' checked=true value="">
+				<i class="fa fa-times"></i>
+			</td>
+		</tr>
 	</template>
 	<script>
 	window.addEventListener('load', function() {
