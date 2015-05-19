@@ -19,8 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.WebRequest;
 
 @Controller
 @RequestMapping("/groups")
@@ -40,10 +40,8 @@ public class GroupController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	protected @ResponseBody JsonResult create(WebRequest req, HttpSession session, Model model) throws IOException, FailedMakingGroupException {
-		String isPublic = req.getParameter("isPublic");
+	protected @ResponseBody JsonResult create(@RequestParam String isPublic, @RequestParam String groupName, HttpSession session, Model model) throws IOException, FailedMakingGroupException {
 		String groupCaptainUserId = ServletRequestUtil.getUserIdFromSession(session);
-		String groupName = req.getParameter("groupName");
 		Group group = groupService.create(groupName, groupCaptainUserId, isPublic);
 		return new JsonResult().setSuccess(true).setObject(group);
 	}
@@ -56,9 +54,7 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value = "/members", method = RequestMethod.POST)
-	protected @ResponseBody JsonResult addGroupMember(WebRequest req) throws FailedAddGroupMemberException {
-		String userId = req.getParameter("userId");
-		String groupId = req.getParameter("groupId");
+	protected @ResponseBody JsonResult addGroupMember(@RequestParam String userId, @RequestParam String groupId) throws FailedAddGroupMemberException {
 		User user = groupService.addGroupMember(userId, groupId);		
 		return new JsonResult().setSuccess(true).setObject(user);
 	}

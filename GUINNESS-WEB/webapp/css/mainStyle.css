@@ -690,6 +690,11 @@ textarea#commentText {
 	color: #454545;
 }
 
+.note-list span.attention, .note-list span.question{
+	padding:5px 0;
+	font-size:13px;
+}
+
 .note-list li {
 	position: relative;
 	width: 480px;
