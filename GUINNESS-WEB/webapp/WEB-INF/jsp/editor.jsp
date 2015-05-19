@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="/css/mainStyle.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/datepickr.css">
+<link rel="stylesheet" href="/css/markdown.css">
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="/js/datepickr.js"></script>
 <script src="/js/markdown.js"></script>
@@ -38,7 +39,7 @@
                 </div>
                 <textarea id="noteTextBox" rows="28" cols="28" name="noteText" form="noteForm">${noteText}</textarea>
                 <div id="view-preview-template">
-                    <div id="previewBox"></div>
+                    <div id="previewBox" class="markdown-body"></div>
                 </div>
             </div>
 			<a id="escape-note" class="btn btn-pm" href="/g/${groupId}">취소</a>
