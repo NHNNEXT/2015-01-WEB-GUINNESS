@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.annotation.Resource;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 
 import org.nhnnext.guinness.dao.ConfirmDao;
 import org.nhnnext.guinness.dao.UserDao;
@@ -17,9 +15,6 @@ import org.nhnnext.guinness.exception.UserUpdateException;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.mail.MailAuthenticationException;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,7 +26,7 @@ public class UserService {
 	@Resource
 	private ConfirmDao confirmDao;
 	@Resource
-	private JavaMailSender javaMailSender;
+	private MailService mailService;
 	
 	public void join(User user) throws AlreadyExistedUserIdException, SendMailException {
 		User existedUser = createUser(user);
@@ -54,7 +49,7 @@ public class UserService {
 		}
 		String keyAddress = createKeyAddress();
 		confirmDao.createConfirm(keyAddress, user.getUserId());
-		sendMailforSignUp(keyAddress, user.getUserId());
+		mailService.sendMailforSignUp(keyAddress, user.getUserId());
 	}
 	
 	private String createKeyAddress() {
@@ -80,28 +75,6 @@ public class UserService {
 		return user;
 	}
 
-	private void sendMailforSignUp(String keyAddress, String userId) throws SendMailException  {
-		try {
-			MimeMessage message = javaMailSender.createMimeMessage();
-			MimeMessageHelper messageHelper = new MimeMessageHelper(message, false, "utf-8");
-			String htmlMsg = "<h3>페이퍼민트에 가입해주셔서 감사합니다.</h3>" +
-		    "<a href='http://localhost:8080/user/confirm/" + keyAddress + "' style='font-size: 15px;"
-		    		+ "color: white; text-decoration:none'>"
-		    		+ "<div style='padding: 10px; border: 0px; width: 120px;"
-		    		+ "margin: 15px 5px; background-color: #74afad; "
-		    		+ "text-align:center'>페이퍼민트 시작하기</div></a>" +
-			"<p>Copyright &copy; by link413. All rights reserved.</p>";
-			System.out.println(htmlMsg);
-			
-			messageHelper.setTo(userId);
-			messageHelper.setFrom("hakimaru@naver.com");
-			messageHelper.setSubject("환영합니다. 페이퍼민트 가입 인증 메일입니다.");
-			messageHelper.setText(htmlMsg, true);
-			javaMailSender.send(message);
-		} catch (MessagingException | NullPointerException | MailAuthenticationException e) {
-			throw new SendMailException(e.getClass().getSimpleName());
-		}
-	}
 	public void update(User user, Model model, String rootPath, MultipartFile profileImage) throws UserUpdateException {
 		User prevUser = userDao.findUserByUserId(user.getUserId());
 		try {
@@ -134,26 +107,6 @@ public class UserService {
 		user.setUserId(userId);
 		user.setUserPassword(tempPassword);
 		userDao.initPassword(user);
-		sendMailforInitPassword(tempPassword, userId);
-	}
-	
-	private void sendMailforInitPassword(String tempPassword, String userId) throws SendMailException  {
-		try {
-			MimeMessage message = javaMailSender.createMimeMessage();
-			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-			messageHelper.setTo(userId);
-			messageHelper.setFrom("hakimaru@naver.com");
-			messageHelper.setSubject("페이퍼민트 임시 메일을 보내드립니다.");
-			messageHelper.setText("임시 비밀번호는 " + tempPassword + " 입니다."
-					+"<a href='http://localhost:8080/' style='font-size: 15px;"
-		    		+ "color: white; text-decoration:none'>"
-		    		+ "<div style='padding: 10px; border: 0px; width: 120px;"
-		    		+ "margin: 15px 5px; background-color: #74afad; "
-		    		+ "text-align:center'>페이퍼민트로 가기</div></a>" +
-			"<p>Copyright &copy; by link413. All rights reserved.</p>", true);
-			javaMailSender.send(message);
-		} catch (MessagingException | NullPointerException | MailAuthenticationException e) {
-			throw new SendMailException(e.getClass().getSimpleName());
-		}
+		mailService.sendMailforInitPassword(tempPassword, userId);
 	}
 }
