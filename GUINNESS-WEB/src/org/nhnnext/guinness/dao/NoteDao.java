@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.User;
@@ -15,8 +19,18 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class NoteDao extends JdbcDaoSupport {
+	@Resource
+	private DataSource dataSource;
+ 
+	@PostConstruct
+	private void initialize() {
+		setDataSource(dataSource);
+	}
+	
 	public long createNote(Note note) {
 		String sql = "insert into NOTES (noteText, noteTargetDate, userId, groupId, commentCount) values(?, ?, ?, ?, 0)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();

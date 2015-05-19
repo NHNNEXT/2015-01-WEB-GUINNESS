@@ -1,14 +1,28 @@
 package org.nhnnext.guinness.dao;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+
 import org.nhnnext.guinness.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ConfirmDao extends JdbcDaoSupport {
 	private static final Logger logger = LoggerFactory.getLogger(ConfirmDao.class);
 
+	@Resource
+	private DataSource dataSource;
+ 
+	@PostConstruct
+	private void initialize() {
+		setDataSource(dataSource);
+	}
+	
 	public void createConfirm(String keyAddress, String userId) {
 		String sql = "insert into CONFIRMS values(?,?,default)";
 		getJdbcTemplate().update(sql, keyAddress, userId);
