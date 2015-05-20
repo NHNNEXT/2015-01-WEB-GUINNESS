@@ -83,7 +83,7 @@ function appendNoteList(json) {
 		if (tag !== null) {
 			out += tag + '<br />'
 		}
-		out += "<div><i class='fa fa-comments'> " + obj.commentCount
+		out += "<div class='comment-div'><i class='fa fa-comments'> " + obj.commentCount
 				+ "</i></div></div></li>";
 		newEl.innerHTML = out;
 		el.appendChild(newEl);

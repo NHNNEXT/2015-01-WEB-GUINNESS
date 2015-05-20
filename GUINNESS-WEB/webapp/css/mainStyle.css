@@ -1011,6 +1011,13 @@ textarea#commentText {
 	padding: 5px;
 }
 
+.comment-div { 
+    position: relative;
+    float: right;
+    width: 30px;
+    bottom: 20px;
+}
+
 span.italic {
 	font-style: italic;
 }
