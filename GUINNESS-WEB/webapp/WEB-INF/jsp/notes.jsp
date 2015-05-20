@@ -103,6 +103,11 @@
 			</td>
 		</tr>
 	</template>
+        
+    <script type="template" >
+            
+    </script>    
+    
 	<script>
 	document.title = "${groupName}";
 	var groupName = ("${groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
