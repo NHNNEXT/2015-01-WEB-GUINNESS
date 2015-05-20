@@ -8,6 +8,23 @@ html, body {
 	background-color: #e9eaed;
 }
 
+.leftsideContainer {
+	margin-top: 22px; background-color: white; width: 200px; height: 100px; overflow: scroll;
+}
+
+#summaryShow {
+  position: absolute;
+  background-color: #74AFAD;
+  color: white;
+  height: 20px;
+  width: 200px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border: none;
+  text-align: center;
+  font: normal normal normal 11px/normal '.HelveticaNeueDeskInterface-Regular';"
+}
+
 #allShow {
   position: absolute;
   background-color: #74AFAD;
