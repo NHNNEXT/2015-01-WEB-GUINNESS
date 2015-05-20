@@ -54,6 +54,41 @@
 #editProfile-form span.info strong {
 	color: #ff5a5a;
 }
+#profile-check-password {
+  outline: 1px solid #dadada;
+  width: 400px;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+#profile-check-password label {
+    display: block;
+    margin-bottom: 30px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#profile-check-password input {
+	width: 100%;
+	height: 30px;
+	outline: 1px solid #dadada;
+	border-radius: 5px;
+	font-size: 15px;
+}
+
+#profile-check-password button {
+    display: block;
+    margin-top: 30px;
+    width: 100%;
+    min-height: 40px;
+    border: none;
+    border-radius: 5px;
+    height: 30px;
+    font-size: 15px;
+    color: white;
+    background-color: rgb(116, 175, 173);
+}
+
 </style>
 <body>
 	<%@ include file="./commons/_topnav.jspf"%>
@@ -62,8 +97,9 @@
 			<i class='fa fa-user'></i><span style='margin-left: 10px;'>회원정보수정</span>
 		</h1>
 		<div id='profile-check-password' class='panel'>
-			<label>비밀번호를 입력해주세요 </label> <input id="check-password"
-				type="password" name="password">
+			<label>비밀번호 재확인 </label>
+			<input value="${sessionUser.userId}" readonly> 
+			<input id="check-password" type="password" name="password" autofocus>
 			<button id="profile-check-password-button">확인</button>
 			<label id="checkPasswordErrorMessage"></label>
 		</div>
