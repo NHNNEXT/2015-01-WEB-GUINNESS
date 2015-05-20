@@ -62,12 +62,8 @@ function getAlarms(){
 		method:"get",
 		url:"/alarms",
 		success: function(req) {
-			
-			debugger;
-			
 			var noteAlarmList = JSON.parse(req.responseText).note.mapValues;
 			var groupAlarmList = JSON.parse(req.responseText).group.mapValues;
-			
 			if (noteAlarmList.length + groupAlarmList.length !== 0) {
 				document.querySelector(".alarm-count").style.display = "block";
 				document.querySelector(".alarm-count").innerHTML = noteAlarmList.length + groupAlarmList.length;
@@ -143,8 +139,6 @@ function groupAlarmSelect(t, userId, groupId, alarmStatus){
 		 	if(alarmStatus === "I"){
 		 		guinness.util.alert("그룹 멤버 초대", "초대를 수락하시겠습니까?", function(){
 		 			joinGroupMember(userId, groupId);
-		 			appendGroup(JSON.parse(req.responseText).object);
-		 			// 그룹 리스트 ajax로 새로 받아와서 붙이기. 대신, group에서.
 		 		}, function(){
 		 			// 신청한 사람에게 거부 의사 알리기.
 		 		});
@@ -152,6 +146,26 @@ function groupAlarmSelect(t, userId, groupId, alarmStatus){
 		 	getAlarms();
 		}
 	});	
+}
+
+function appendGroupCard(groupId){
+	guinness.ajax({
+		method : "get",
+		url : "/groups",
+		success : function(req) {
+			var result = JSON.parse(req.responseText);
+			if (result.success) {
+				var json = result.mapValues;
+				debugger;
+				for (var i = 0; i < json.length; i++) {
+					if(json[i].groupId === groupId){
+						appendGroup(json[i]);
+						return;
+					}
+				}
+			}
+        }
+	});
 }
 
 function joinGroupMember(userId, groupId) {
@@ -164,7 +178,10 @@ function joinGroupMember(userId, groupId) {
 				if (json.success === false) {
 					guinness.util.alert("멤버초대 실패", json.message);
 				} else {
-					guinness.util.alert("알림", "그룹에 가입되었습니다.");
+					if(document.querySelector('#group-container') !== null){
+						appendGroupCard(groupId);
+					}
+		 			guinness.util.alert("알림", "그룹에 가입되었습니다.");
 				}
 			}
 		});
