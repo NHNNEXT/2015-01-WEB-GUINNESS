@@ -9,8 +9,10 @@
 <link rel="stylesheet" href="/css/mainStyle.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/datepickr.css">
+<link rel="stylesheet" href="/css/markdown.css">
 <script src="/js/datepickr.js"></script>
 <script src="/js/markdown.js"></script>
+<script src="/js/pComment.js"></script>
 <script src="/js/${functionSelect}"></script>
 </head>
 <body>
@@ -40,7 +42,9 @@
 				<div>
 					<span class="note-date"></span>
 				</div>
+				<div class="markdown-body">
 					<div class="noteText"></div>
+				</div>
 				<div>
 					<i class="fa fa-comments"></i>
 				</div>
