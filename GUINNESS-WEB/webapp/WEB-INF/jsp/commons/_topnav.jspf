@@ -72,11 +72,15 @@
 </script>
 
 <script>
-(function(){
+getAlarms();
+
+function getAlarms(){
 	guinness.ajax({
 		method:"get",
 		url:"/alarms",
 		success: function(req) {
+			
+			debugger;
 			
 			var noteAlarmList = JSON.parse(req.responseText).note.mapValues;
 			var groupAlarmList = JSON.parse(req.responseText).group.mapValues;
@@ -86,14 +90,18 @@
 				document.querySelector(".alarm-count").innerHTML = noteAlarmList.length + groupAlarmList.length;
 			}
 			var alarmListContainer = document.querySelector(".alarm-list");
+			alarmListContainer.innerHTML = "";
 			for (alarm of groupAlarmList) {
-				var alarmContent;
-				if(alarm.alarmStatus === "I")
+				var alarmContent = "";
+				if(alarm.alarmStatus === "I") {
 					alarmContent = "<a href='#'>"+alarm.userName+"님이 \""+ alarm.groupName + "\"그룹에 초대하였습니다."+ "</a>";
-				/* if(alarm.alarmStatus === "A")
+				}
+				/* if(alarm.alarmStatus === "A") {
 						alarmContent = "<a href='#'>"+alarm.userName+"님이 \""+ alarm.groupName + "\"그룹 초대를 수락하였습니다."+ "</a>";
-				if(alarm.alarmStatus === "R")
-						alarmContent = "<a href='#'>"+alarm.userName+"님이 \""+ alarm.groupName + "\"그룹 초대를 거절하였습니다."+ "</a>"; */
+				}
+				if(alarm.alarmStatus === "R") {
+						alarmContent = "<a href='#'>"+alarm.userName+"님이 \""+ alarm.groupName + "\"그룹 초대를 거절하였습니다."+ "</a>";
+				} */
 				alarmListContainer.appendChild(
 						guinness.createElement({
 							name: "li",
@@ -124,7 +132,7 @@
 			}
 		}
 	});
-})();
+}
 
 function noteAlarmSelect(t, noteId, alarmStatus){
 	guinness.ajax({
@@ -150,13 +158,15 @@ function groupAlarmSelect(t, userId, groupId, alarmStatus){
 				return;
 			}
 		 	if(alarmStatus === "I"){
-		 		debugger;
 		 		guinness.util.alert("그룹 멤버 초대", "초대를 수락하시겠습니까?", function(){
 		 			joinGroupMember(userId, groupId);
+		 			appendGroup(JSON.parse(req.responseText).object);
+		 			// 그룹 리스트 ajax로 새로 받아와서 붙이기. 대신, group에서.
 		 		}, function(){
 		 			// 신청한 사람에게 거부 의사 알리기.
 		 		});
 		 	}
+		 	getAlarms();
 		}
 	});	
 }
@@ -176,4 +186,5 @@ function joinGroupMember(userId, groupId) {
 			}
 		});
 }
+
 </script>
