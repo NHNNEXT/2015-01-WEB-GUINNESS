@@ -407,6 +407,16 @@ function OnOffMemberAllClickBtn() {
 	}
 }
 
+function deleteNoteList() {
+	el = document.querySelectorAll(".note-list");
+	var elLength = el.length;
+	if (el != undefined) {
+		for (var i = elLength - 1; i >= 0; i--) {
+			el[i].outerHTML = "";
+		}
+	}
+}
+
 function reloadNoteList(noteTargetDate) {
 	var groupId = window.location.pathname.split("/")[2];
 	var objs = document.querySelectorAll(".memberChk");
@@ -422,6 +432,7 @@ function reloadNoteList(noteTargetDate) {
 		success : function(req) {
 			var result = JSON.parse(req.responseText);
 			if (result.success) {
+				deleteNoteList();
 				appendNoteList(result.mapValues);
 			}
 		}
@@ -446,6 +457,27 @@ var infiniteScroll = function() {
 		var timeDiv = div.childNodes.item(1);
 		var noteTargetDate = timeDiv.childNodes.item(0).innerHTML;
 		noteTargetDate = noteTargetDate.substring(0, noteTargetDate.length-2);
-		reloadNoteList(noteTargetDate);
+		reloadWithoutDeleteNoteList(noteTargetDate);
 	}
 };
+
+var reloadWithoutDeleteNoteList = function(noteTargetDate) {
+	var groupId = window.location.pathname.split("/")[2];
+	var objs = document.querySelectorAll(".memberChk");
+	var array = [];
+	for (var i = 0; i < objs.length; i++) {
+		if (objs[i].checked === true)
+			array.push("'" + objs[i].value + "'");
+	}
+	guinness.ajax({
+		method : "get",
+		url : '/notes/reload/?groupId=' + groupId + '&noteTargetDate='
+				+ noteTargetDate + '&checkedUserId=' + array,
+		success : function(req) {
+			var result = JSON.parse(req.responseText);
+			if (result.success) {
+				appendNoteList(result.mapValues);
+			}
+		}
+	});
+}
