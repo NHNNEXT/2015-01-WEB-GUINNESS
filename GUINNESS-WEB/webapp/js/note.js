@@ -316,21 +316,37 @@ function createComment(obj) {
 	}
 }
 
+function isJoinedUser() {
+	var sessionUserId = document.getElementById("sessionUserId").value;
+	for (var i = 0; i < member.length; i++) {
+		if(member[i].userId === sessionUserId){
+			return true;
+		}
+	}
+	return false;
+}
+
 function addMember() {
+	var sessionUserId = document.getElementById("sessionUserId").value;
 	var userId = document.querySelector('#addMemberForm input[name="userId"]').value;
 	var alert = document.querySelector(".addMemberAlert");
 	alert.style.visibility="hidden";
+	alert.style.color="#ff5a5a";
+	alert.style.fontSize="11px";
+	if(!bJoinedUser){
+		alert.style.visibility="visible";
+		alert.innerHTML = "권한이 없습니다. </br>그룹 가입을 요청하세요.";
+		return;
+	}
 	if (userId.trim() === ""){
 		alert.style.visibility="visible";
-		alert.style.color="#ff5a5a";
-		alert.style.fontSize="11px";
 		alert.innerHTML = "초대할 멤버의 아이디를 입력하세요.";
 		return;
 	}
 	guinness.ajax({
 		method : "post",
 		url : "/groups/members",
-		param : "userId=" + userId + "&groupId=" + groupId,
+		param : "userId=" + userId + "&groupId=" + groupId + "&sessionUserId=" + sessionUserId,
 		success : function(req) {
 			var json = JSON.parse(req.responseText);
 			if (json.success === false) {
@@ -351,13 +367,16 @@ function addMember() {
 	});
 }
 
+var member;
+
 function readMember() {
 	guinness.ajax({
 		method : "get",
 		url : "/groups/members/" + groupId,
 		success : function(req) {
 			if (JSON.parse(req.responseText).success) {
-				appendMembers(JSON.parse(req.responseText).mapValues);
+				member = JSON.parse(req.responseText).mapValues;
+				appendMembers(member);
 			} else {
 				window.location.href = JSON.parse(req.responseText).locationWhenFail;
 			}
@@ -377,6 +396,9 @@ function appendMember(obj) {
 function appendMembers(json) {
 	for (var i = 0; i < json.length; i++) {
 		appendMember(json[i]);
+	}
+	if(!bJoinedUser){
+		document.getElementById("leave-group").style.visibility = "hidden";
 	}
 }
 

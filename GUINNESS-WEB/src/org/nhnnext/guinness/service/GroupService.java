@@ -10,6 +10,7 @@ import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.UserDao;
 import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
 import org.nhnnext.guinness.exception.FailedDeleteGroupException;
+import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.exception.UnpermittedDeleteGroupException;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.User;
@@ -60,7 +61,10 @@ public class GroupService {
 		groupDao.deleteGroup(groupId);		
 	}
 
-	public User addGroupMember(String userId, String groupId)throws FailedAddGroupMemberException {
+	public User addGroupMember(String userId, String groupId, String sessionUserId)throws FailedAddGroupMemberException, UnpermittedAccessGroupException {
+		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
+			throw new UnpermittedAccessGroupException("권한이 없습니다. 그룹 가입을 요청하세요.");
+		}
 		User user = userDao.findUserByUserId(userId);
 		if (user == null) 
 			throw new FailedAddGroupMemberException("사용자를 찾을 수 없습니다!");

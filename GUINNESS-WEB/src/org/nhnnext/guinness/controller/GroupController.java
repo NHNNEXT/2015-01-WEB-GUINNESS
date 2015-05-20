@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
 import org.nhnnext.guinness.exception.FailedDeleteGroupException;
 import org.nhnnext.guinness.exception.FailedMakingGroupException;
+import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.exception.UnpermittedDeleteGroupException;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.User;
@@ -54,8 +55,13 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value = "/members", method = RequestMethod.POST)
-	protected @ResponseBody JsonResult addGroupMember(@RequestParam String userId, @RequestParam String groupId) throws FailedAddGroupMemberException {
-		User user = groupService.addGroupMember(userId, groupId);		
+	protected @ResponseBody JsonResult addGroupMember(@RequestParam String userId, @RequestParam String groupId, @RequestParam String sessionUserId) throws FailedAddGroupMemberException {
+		User user;
+		try {
+			user = groupService.addGroupMember(userId, groupId, sessionUserId);
+		} catch (UnpermittedAccessGroupException e) {
+			return new JsonResult().setSuccess(false).setMessage(e.getMessage());
+		}		
 		return new JsonResult().setSuccess(true).setObject(user);
 	}
 

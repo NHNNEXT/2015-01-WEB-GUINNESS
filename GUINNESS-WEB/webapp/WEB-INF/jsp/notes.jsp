@@ -59,7 +59,7 @@
 				</table>
 			</div>
 			<div style="padding:10px;">
-				<a href="#"><span style="font-weight:bold;">그룹탈퇴하기</span></a>
+				<a href="#"><span id="leave-group" style="font-weight:bold;">그룹탈퇴하기</span></a>
 			</div>
 		</div>
 	</div>
@@ -108,10 +108,12 @@
 	var groupName = ("${groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 	document.querySelector('#group-name').innerHTML = groupName;
 	const groupId = window.location.pathname.split("/")[2];
+	var bJoinedUser = false;
 	window.addEventListener('load', function() {
 		readMember();
 		document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
 		appendNoteList(${noteList});
+		bJoinedUser = isJoinedUser();
 		var elCreateBtn = document.querySelector("#create-new-button");
 	}, false);
 	
