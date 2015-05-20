@@ -9,20 +9,6 @@ function cancelNoteCreate(e) {
 	document.querySelector('.modal-cover').remove();
 }
 
-function readNoteList(groupId, noteTargetDate) {
-	guinness.ajax({
-		method : "get",
-		url : "/note/list?groupId=" + groupId + "&noteTargetDate="
-				+ noteTargetDate,
-		success : function(req) {
-			var json = JSON.parse(req.responseText);
-			if (json.length != 0) {
-				appendNoteList(json);
-			}
-		}
-	});
-}
-
 function appendNoteList(json) {
 	var el = document.querySelector("#empty-message");
 	if (el != undefined) {
@@ -317,7 +303,6 @@ function createComment(obj) {
 				if (result.success !== true){
 					document.querySelector('#commentText').value = result.message;
 					return;
-//					window.location.href = JSON.parse(req.responseText).locationWhenFail;
 				}
 				appendComment(result.mapValues);
 				document.querySelector('#commentText').value = "";
@@ -411,14 +396,6 @@ function appendMembers(json) {
 		document.getElementById("leave-group").style.visibility = "hidden";
 	}
 }
-
-//function allCheckMember() {
-//	var objs = document.querySelectorAll(".memberChk");
-//	var allchk = document.querySelector(".memberAllClick");
-//	for (var i = 0; i < objs.length; i++) {
-//		objs[i].checked = allchk.checked;
-//	}
-//}
 
 function OnOffMemberAllClickBtn() {
 	var objs = document.querySelectorAll(".memberChk");
