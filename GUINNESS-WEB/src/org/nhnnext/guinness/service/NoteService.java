@@ -1,5 +1,6 @@
 package org.nhnnext.guinness.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.joda.time.DateTime;
 import org.nhnnext.guinness.dao.AlarmDao;
 import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.NoteDao;
+import org.nhnnext.guinness.dao.PreviewDao;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.model.Alarm;
 import org.nhnnext.guinness.model.Group;
@@ -28,6 +30,8 @@ public class NoteService {
 	private NoteDao noteDao;
 	@Resource
 	private AlarmDao alarmDao;
+	@Resource
+	private PreviewDao previewDao;
 	
 	public void initNotes(Model model, String sessionUserId, String groupId) throws UnpermittedAccessGroupException {
 		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
@@ -79,6 +83,33 @@ public class NoteService {
 			}
 			alarmDao.create(alarm);
 		}
+		createPreview(noteId, groupId, extractText(noteText, '!'), extractText(noteText, '?'));
+	}
+
+	public ArrayList<String> extractText(String givenText, char ch) {
+		givenText = givenText.trim();
+		int flag = 0;
+		int len = givenText.length();
+		int beginIndex = 0;
+		int endIndex = 0;
+		ArrayList<String> list = new ArrayList<String>();
+		
+		for(int i = 0; i < len; i++) {
+			if(givenText.charAt(i) == ch) {
+				flag++;
+			}
+			if(flag == 3 && beginIndex == 0) {
+				beginIndex = i + 1;
+			}
+			if(flag == 6) {
+				endIndex = i - 2;
+				list.add(givenText.substring(beginIndex, endIndex));
+				flag = 0;
+				beginIndex = 0;
+				endIndex = 0;
+			}
+		}
+		return list;
 	}
 
 	public void update(String noteText, String noteId, String noteTargetDate) {
@@ -96,5 +127,10 @@ public class NoteService {
 		model.addAttribute("groupId", group.getGroupId());
 		model.addAttribute("groupName", new Gson().toJson(group.getGroupName()));
 		model.addAttribute("noteId", noteId);
+	}
+
+	public void createPreview(String noteId, String groupId, ArrayList<String> attentionList,
+			ArrayList<String> questionList) {
+		previewDao.create(new Note(noteId), new Group(groupId), attentionList, questionList);
 	}
 }
