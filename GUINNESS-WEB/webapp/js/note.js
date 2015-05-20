@@ -385,6 +385,7 @@ function readMember(groupId) {
 		success : function(req) {
 			if (JSON.parse(req.responseText).success) {
 				member = JSON.parse(req.responseText).mapValues;
+				bJoinedUser = isJoinedUser();
 				appendMembers(member);
 			} else {
 				window.location.href = JSON.parse(req.responseText).locationWhenFail;
