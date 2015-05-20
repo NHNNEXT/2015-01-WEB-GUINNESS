@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
 import org.nhnnext.guinness.exception.FailedDeleteGroupException;
 import org.nhnnext.guinness.exception.FailedMakingGroupException;
+import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.exception.UnpermittedDeleteGroupException;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.User;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.WebRequest;
 
 @Controller
 @RequestMapping("/groups")
@@ -54,20 +54,18 @@ public class GroupController {
 		return new JsonResult().setSuccess(true);
 	}
 	
-
 	@RequestMapping(value = "/members/invite", method = RequestMethod.POST)
-	protected @ResponseBody JsonResult inviteGroupMember(WebRequest req, HttpSession session) throws FailedAddGroupMemberException, IOException {
-		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
-		String userId = req.getParameter("userId");
-		String groupId = req.getParameter("groupId");
-		groupService.inviteGroupMember(sessionUserId, userId, groupId);		
+	protected @ResponseBody JsonResult inviteGroupMember(@RequestParam String userId, @RequestParam String groupId, @RequestParam String sessionUserId) throws FailedAddGroupMemberException {
+		try {
+			groupService.inviteGroupMember(sessionUserId, userId, groupId);
+		} catch (UnpermittedAccessGroupException e) {
+			return new JsonResult().setSuccess(false).setMessage(e.getMessage());
+		}		
 		return new JsonResult().setSuccess(true);
 	}
 	
 	@RequestMapping(value = "/members/accept", method = RequestMethod.POST)
-	protected @ResponseBody JsonResult acceptGroupMember(WebRequest req) throws FailedAddGroupMemberException {
-		String userId = req.getParameter("userId");
-		String groupId = req.getParameter("groupId");
+	protected @ResponseBody JsonResult acceptGroupMember(@RequestParam String userId, @RequestParam String groupId) throws FailedAddGroupMemberException {
 		User user = groupService.addGroupMember(userId, groupId);		
 		return new JsonResult().setSuccess(true).setObject(user);
 	}

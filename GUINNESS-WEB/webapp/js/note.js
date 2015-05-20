@@ -55,9 +55,9 @@ function appendNoteList(json) {
 			el.appendChild(newEl);
 			document.querySelector('#note-list-container').appendChild(el);
 		}
-		var noteText = new markdownToHtml(obj.noteText).getHtmlText();
+		var noteText = obj.noteText;
 		var attention = noteText
-				.match(/<span class="attention">.{1,}<\/span>/g);
+				.match(/<span class='attention'>.{1,}<\/span>/g);
 		if (attention !== null) {
 			attention = attention.join('<br />');
 		}
@@ -78,7 +78,7 @@ function appendNoteList(json) {
 
 		var userId = document.getElementById("sessionUserId").value;
 		if (userId === obj.userId) {
-			out += "<div class='note-util'><i class='fa fa-pencil'></i><i class='fa fa-trash'></i></div>";
+			out += "<div class='note-util'><div><span>삭제</span><i class='fa fa-trash'></i></div><div><span>수정</span><i class='fa fa-pencil'></i></div></div>";
 		}
 		out += "<div class='content-container'>";
 		out += "<div><span class='userName'>" + obj.userName
@@ -104,8 +104,7 @@ function appendNoteList(json) {
 					if (e.target.className === "fa fa-trash") {
 						confirmDeleteNote(this.getAttribute("id"));
 					} else if (e.target.className === "fa fa-pencil") {
-						window.location.href = "/notes/editor/"
-								+ this.getAttribute("id");
+						window.location.href = "/notes/editor/" + this.getAttribute("id");
 					} else {
 						readNoteContents(this.getAttribute("id"));
 					}
@@ -174,8 +173,7 @@ function showNoteModal(obj) {
 	});
 	document.querySelector('.modal-body').setAttribute('class',
 			'modal-body note-modal');
-	document.querySelector('.note-content').innerHTML = new markdownToHtml(
-			obj.noteText).getHtmlText();
+	document.querySelector('.note-content').innerHTML = obj.noteText;
 	document.querySelector('#commentForm').addEventListener('submit',
 			function(e) {
 				e.preventDefault();
@@ -219,16 +217,11 @@ function appendComment(json) {
 		commentEl.querySelector('.comment-date').innerHTML = guinness.util
 				.koreaDate(obj.commentCreateDate);
 		commentEl.querySelector('.comment-date').id = obj.commentCreateDate;
-		commentEl.querySelector('.comment').innerHTML = obj.commentText;
+		commentEl.querySelector('.comment').innerHTML = (obj.commentText).replace(/\n/g, '\n<br/>');
 		commentEl.querySelector('.avatar').setAttribute("src",
 				"/img/profile/" + obj.userImage);
 		if (userId === obj.userId) {
-			commentEl.querySelector('.comment-util').innerHTML = "<div class='default-utils'><a href='#' onclick='showEditInputBox(&quot;"
-					+ obj.commentText
-					+ "&quot; , &quot;"
-					+ obj.commentId
-					+ "&quot;)'>수정</a><a href='#' onclick='deleteComment(&quot;"
-					+ obj.commentId + "&quot;)'>삭제</a></div>"
+			commentEl.querySelector('.comment-util').innerHTML = "<div class='default-utils'><a href='#' onclick='showEditInputBox()'>수정</a><a href='#' onclick='deleteComment()'>삭제</a></div>"
 		}
 	}
 
@@ -252,7 +245,7 @@ function updateComment(commentId, commentText) {
 						return;
 					var json = result.object;
 					var el = document.querySelector("#cmt-" + commentId);
-					el.querySelector('.comment').innerHTML = json.commentText;
+					el.querySelector('.comment').innerHTML = json.commentText.replace(/\n/g, '<br/>');
 					el.querySelector('.comment-date').innerHTML = json.commentCreateDate;
 					el.querySelector('.comment').setAttribute(
 							'contentEditable', false);
@@ -273,8 +266,9 @@ function deleteComment(commentId) {
 	});
 }
 
-function showEditInputBox(commentText, commentId) {
+function showEditInputBox(commentId) {
 	var el = document.querySelector('#cmt-' + commentId);
+	var commentText = el.querySelector('.comment').innerHTML;
 	el.querySelector('.default-utils').hide();
 	el.querySelector('.comment').setAttribute('contentEditable', true);
 	var updateButton = guinness.createElement({
@@ -292,14 +286,14 @@ function showEditInputBox(commentText, commentId) {
 		content : "취소"
 	});
 	updateButton.addEventListener('click', function() {
-		var el = document.querySelector('#cmt-' + commentId);
-		var commentText = el.querySelector('.comment').textContent;
-		updateComment(commentId, commentText);
+		var el = document.querySelector('#cmt-' + obj.commentId);
+		var commentText = el.querySelector('.comment').innerText;
+		updateComment(obj.commentId, commentText);
 	}, false);
 	cancelButton.addEventListener('click', function() {
-		var el = document.querySelector('#cmt-' + commentId);
+		var el = document.querySelector('#cmt-' + obj.commentId);
 		el.querySelector('.comment').setAttribute('contentEditable', false);
-		el.querySelector('.comment').innerHTML = commentText;
+		el.querySelector('.comment').innerHTML = (obj.commentText).replace(/\n/g, '\n<br/>');
 		el.querySelectorAll('.comment-update').remove();
 		el.querySelector('.default-utils').show();
 	}, false);
@@ -320,8 +314,11 @@ function createComment(obj) {
 					+ commentType + "&noteId=" + noteId,
 			success : function(req) {
 				var result = JSON.parse(req.responseText);
-				if (result.success !== true)
+				if (result.success !== true){
+					document.querySelector('#commentText').value = result.message;
 					return;
+//					window.location.href = JSON.parse(req.responseText).locationWhenFail;
+				}
 				appendComment(result.mapValues);
 				document.querySelector('#commentText').value = "";
 			}
@@ -329,22 +326,37 @@ function createComment(obj) {
 	}
 }
 
+function isJoinedUser() {
+	var sessionUserId = document.getElementById("sessionUserId").value;
+	for (var i = 0; i < member.length; i++) {
+		if(member[i].userId === sessionUserId){
+			return true;
+		}
+	}
+	return false;
+}
+
 function addMember() {
+	var sessionUserId = document.getElementById("sessionUserId").value;
 	var userId = document.querySelector('#addMemberForm input[name="userId"]').value;
 	var alert = document.querySelector(".addMemberAlert");
 	alert.style.visibility="hidden";
+	alert.style.color="#ff5a5a";
+	alert.style.fontSize="11px";
+	if(!bJoinedUser){
+		alert.style.visibility="visible";
+		alert.innerHTML = "권한이 없습니다. </br>그룹 가입을 요청하세요.";
+		return;
+	}
 	if (userId.trim() === ""){
 		alert.style.visibility="visible";
-		alert.style.color="#ff5a5a";
-		alert.style.fontSize="11px";
 		alert.innerHTML = "초대할 멤버의 아이디를 입력하세요.";
 		return;
 	}
-	var groupId = document.querySelector('#addMemberForm input[name="groupId"]').value;
 	guinness.ajax({
 		method : "post",
 		url : "/groups/members/invite",
-		param : "userId=" + userId + "&groupId=" + groupId,
+		param : "userId=" + userId + "&groupId=" + groupId + "&sessionUserId=" + sessionUserId,
 		success : function(req) {
 			var json = JSON.parse(req.responseText);
 			if (json.success === false) {
@@ -357,12 +369,14 @@ function addMember() {
 				alert.style.visibility="visible";
 				alert.style.color="#86E57F";
 				alert.style.fontSize="11px";
-				alert.innerHTML = "초대 요청을 보냈습니다.";
+				alert.innerHTML = "그룹에 초대하였습니다.";
 				return;
 			}
 		}
 	});
 }
+
+var member;
 
 function readMember(groupId) {
 	guinness.ajax({
@@ -370,7 +384,8 @@ function readMember(groupId) {
 		url : "/groups/members/" + groupId,
 		success : function(req) {
 			if (JSON.parse(req.responseText).success) {
-				appendMembers(JSON.parse(req.responseText).mapValues);
+				member = JSON.parse(req.responseText).mapValues;
+				appendMembers(member);
 			} else {
 				window.location.href = JSON.parse(req.responseText).locationWhenFail;
 			}
@@ -390,6 +405,9 @@ function appendMember(obj) {
 function appendMembers(json) {
 	for (var i = 0; i < json.length; i++) {
 		appendMember(json[i]);
+	}
+	if(!bJoinedUser){
+		document.getElementById("leave-group").style.visibility = "hidden";
 	}
 }
 
@@ -444,9 +462,14 @@ var infiniteScroll = function() {
 	var documentHeight = document.body.scrollHeight;
 
 	if(scrollHeight == documentHeight) {
+		console.log("hit");
 		var list = document.querySelectorAll(".note-list");
+		if(list.length == 0)
+			return;
 		var date = list.item(list.length-1);
 		var last = date.childNodes.item(date.childNodes.length-1);
+		if(date.childNodes.length == 0)
+			return;
 		var li = last.childNodes.item(0);
 		var div = li.childNodes.item(2);
 		var timeDiv = div.childNodes.item(1);

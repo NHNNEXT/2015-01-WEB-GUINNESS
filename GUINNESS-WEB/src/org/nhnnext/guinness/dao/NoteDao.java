@@ -14,6 +14,8 @@ import javax.sql.DataSource;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
@@ -23,6 +25,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class NoteDao extends JdbcDaoSupport {
+	
+	private static final Logger logger = LoggerFactory.getLogger(NoteDao.class);
 	@Resource
 	private DataSource dataSource;
  
@@ -50,11 +54,12 @@ public class NoteDao extends JdbcDaoSupport {
 	// 최초
 	public List<Map<String, Object>> _readNotes(String groupId, String noteTargetDate, String userIds) {
 		String sql = "select * from NOTES, USERS where NOTES.groupId = ? and NOTES.userId = USERS.userId ";
-		if (userIds != null) {
+		logger.debug("userIds: {}",userIds);
+		if (userIds != null && userIds != "null" && userIds != "" ) {
 			sql += "and NOTES.userId in (" + userIds + ") ";
 		}
 		if ( noteTargetDate != null) {
-			sql += "and NOTES.noteTargetDate < "+ noteTargetDate + " ";
+			sql += "and NOTES.noteTargetDate < '"+ noteTargetDate + "' ";
 		}
 		sql += "order by NOTES.noteTargetDate desc limit 3";
 		try {

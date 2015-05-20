@@ -9,8 +9,8 @@
 <link rel="stylesheet" href="/css/mainStyle.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/datepickr.css">
+<link rel="stylesheet" href="/css/markdown.css">
 <script src="/js/datepickr.js"></script>
-<script src="/js/markdown.js"></script>
 
 <!-- 노트 캘린더 -->
 <link rel="stylesheet" href="/css/dateRangePickerForBootstrap.css">
@@ -39,11 +39,12 @@
 		<!-- <input type="text" name="rangeCalendar" value="01/01/2015 - 01/31/2015" /> -->
 
 		<!-- <input type="text" name="defaultCalendar" value="10/24/1984" /> -->
-		<input class="inputBtn" id="allShow" type="submit" value="전체보기" onclick="reloadNoteList()" />
-		<div id='calendar-container'>
-			<div id="defaultCalendar" ></div>
+		<div id="left-menu-container">
+			<input class="inputBtn" id="allShow" type="submit" value="전체보기" onclick="reloadNoteList()" />
+			<div id='calendar-container'>
+				<div id="defaultCalendar" ></div>
+			</div>
 		</div>
-		
 
 		<div id='group-member-container'>
 			<form id="addMemberForm">
@@ -59,18 +60,20 @@
 				</table>
 			</div>
 			<div style="padding:10px;">
-				<a href="#"><span style="font-weight:bold;">그룹탈퇴하기</span></a>
+				<a href="#"><span id="leave-group" style="font-weight:bold;">그룹탈퇴하기</span></a>
 			</div>
 		</div>
 	</div>
 	<template id="view-note-template">
-	<div class="note-content"></div>
-	<div id="commentListUl"></div>
-	<form id="commentForm" method="post">
-		<textarea id='commentText' name='commentText' rows='5' cols='50'></textarea>
-		<br>
-		<button id='submitComment' class='btn btn-pm'>확인</button>
-	</form>
+	<div class="markdown-body">
+		<div class="note-content"></div>
+		<div id="commentListUl"></div>
+		<form id="commentForm" method="post">
+			<textarea id='commentText' name='commentText' rows='5' cols='50'></textarea>
+			<br>
+			<button id='submitComment' class='btn btn-pm'>확인</button>
+		</form>
+	</div>
 	</template>
 	<template id="comment-template">
 	<li><img class='avatar' class='avatar' src='/img/profile/avatar-default.png'>
@@ -85,28 +88,40 @@
 	<template id="member-template">
 		<tr>
 			<td class="member-info" style="width:140px; display:inline-block;">
-				<div class="member-name" style="font-weight:bold;">와이빈</div>
-				<div class="member-id" style="color:#888; font-size:9px;">y@y.y</div>
+				<div class="member-name" style="font-weight:bold;">멤버이름</div>
+				<div class="member-id" style="color:#888; font-size:9px;">멤버아이디</div>
 			</td>
 			<td class="member-util" style="font-size:15px; display:inline-block;">
-				<i class="fa fa-eye"></i>
-				<input style="display:none;" type='checkbox' class='memberChk' checked=true value="">
-				<i class="fa fa-times"></i>
+				<ul>
+					<li>
+						<i class="fa fa-eye"></i>
+						<span class="info">노트 숨기기</span>
+					</li>
+					<!-- <input style="display:none;" type='checkbox' class='memberChk' checked="true" value=""/> -->
+					<li>
+						<i class="fa fa-times"></i>
+						<span class="info">멤버제외</span>
+					</li>
+				</ul>
 			</td>
 		</tr>
 	</template>
 	<script>
+	document.title = "${groupName}";
+	var groupName = ("${groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
+	document.querySelector('#group-name').innerHTML = groupName;
+	const groupId = window.location.pathname.split("/")[2];
+	var bJoinedUser = false;
 	window.addEventListener('load', function() {
-		var groupId = window.location.pathname.split("/")[2];
 		document.querySelector("#addMemberForm input[name='groupId']").value = groupId;
-		readMember(groupId);
-		
+		readMember();
 		document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
 		document.title = "${groupName}";
 		var groupName = ("${groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 		document.querySelector('#group-name').innerHTML = groupName;
 
 		appendNoteList(${noteList});
+		bJoinedUser = isJoinedUser();
 		var elCreateBtn = document.querySelector("#create-new-button");
 	}, false);
 	
@@ -135,14 +150,14 @@
 	</script> -->
 	<script type="text/javascript">
 		$(function() {
-		    $('div[id="defaultCalendar"]').daterangepicker({
+		    $("#defaultCalendar").daterangepicker({
 		        singleDatePicker: true,
 		        showDropdowns: true
-		    }, 
+		    },
 		    function(start, end, label) {
 		    	console.log(start.toISOString(), end.toISOString(), label);
 		        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-		    });
+		    }); 
 		});
 
 		document.querySelector('#calendar-container').addEventListener("click", function(e) {
