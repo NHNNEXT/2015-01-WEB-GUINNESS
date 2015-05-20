@@ -30,7 +30,7 @@ public class AlarmController {
 	protected @ResponseBody Map<String, JsonResult> list(HttpSession session) {
 		String userId = ((SessionUser)session.getAttribute("sessionUser")).getUserId();
 		Map<String, JsonResult> result = new HashMap<String, JsonResult>();
-		result.put("post", new JsonResult().setSuccess(true).setMapValues(alarmDao.listNotes(userId)));
+		result.put("note", new JsonResult().setSuccess(true).setMapValues(alarmDao.listNotes(userId)));
 		result.put("group", new JsonResult().setSuccess(true).setMapValues(alarmDao.listGroups(userId)));
 		return result;
 	}
