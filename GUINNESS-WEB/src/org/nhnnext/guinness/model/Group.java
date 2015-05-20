@@ -55,7 +55,7 @@ public class Group {
 		this.status = status;
 	}
 
-	public boolean isStatus() {
+	public boolean isPublicOfStatus() {
 		return status.equals("T");
 	}
 	
