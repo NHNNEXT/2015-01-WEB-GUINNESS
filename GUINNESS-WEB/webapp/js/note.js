@@ -28,13 +28,6 @@ function appendNoteList(json) {
 	if (el != undefined) {
 		el.parentNode.removeChild(el);
 	}
-	el = document.querySelectorAll(".note-list");
-	var elLength = el.length;
-	if (el != undefined) {
-		for (var i = elLength - 1; i >= 0; i--) {
-			el[i].outerHTML = "";
-		}
-	}
 	var newEl = undefined;
 	var obj = undefined;
 	var out = "";
