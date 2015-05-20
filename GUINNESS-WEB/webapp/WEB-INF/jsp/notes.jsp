@@ -57,7 +57,7 @@
 				</table>
 			</div>
 			<div style="padding:10px;">
-				<a href="#"><span id="leave-group" style="font-weight:bold;">그룹탈퇴하기</span></a>
+				<a href="#"><span id="leave-group" style="font-weight:bold;" onclick="confirmLeave()">그룹탈퇴하기</span></a>
 			</div>
 		</div>
 	</div>
