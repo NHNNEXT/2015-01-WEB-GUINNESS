@@ -148,6 +148,7 @@
   left:0;
   top:0;
   margin-top: 1px;
+  border-radius: 0px 0px 10px 10px;
 }
 
 .daterangepicker.opensleft:before {
