@@ -438,3 +438,20 @@ function reloadNoteList(noteTargetDate) {
 		}
 	});
 }
+
+var infiniteScroll = function() {
+	var scrollHeight = document.body.scrollTop + window.innerHeight;
+	var documentHeight = document.body.scrollHeight;
+
+	if(scrollHeight == documentHeight) {
+		var list = document.querySelectorAll(".note-list");
+		var date = list.item(list.length-1);
+		var last = date.childNodes.item(date.childNodes.length-1);
+		var li = last.childNodes.item(0);
+		var div = li.childNodes.item(2);
+		var timeDiv = div.childNodes.item(1);
+		var noteTargetDate = timeDiv.childNodes.item(0).innerHTML;
+		noteTargetDate = noteTargetDate.substring(0, noteTargetDate.length-2);
+		reloadNoteList(noteTargetDate);
+	}
+};
