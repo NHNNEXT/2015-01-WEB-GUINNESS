@@ -55,9 +55,9 @@ function appendNoteList(json) {
 			el.appendChild(newEl);
 			document.querySelector('#note-list-container').appendChild(el);
 		}
-		var noteText = new markdownToHtml(obj.noteText).getHtmlText();
+		var noteText = obj.noteText;
 		var attention = noteText
-				.match(/<span class="attention">.{1,}<\/span>/g);
+				.match(/<span class='attention'>.{1,}<\/span>/g);
 		if (attention !== null) {
 			attention = attention.join('<br />');
 		}
@@ -173,8 +173,7 @@ function showNoteModal(obj) {
 	});
 	document.querySelector('.modal-body').setAttribute('class',
 			'modal-body note-modal');
-	document.querySelector('.note-content').innerHTML = new markdownToHtml(
-			obj.noteText).getHtmlText();
+	document.querySelector('.note-content').innerHTML = obj.noteText;
 	document.querySelector('#commentForm').addEventListener('submit',
 			function(e) {
 				e.preventDefault();

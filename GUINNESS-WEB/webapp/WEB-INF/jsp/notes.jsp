@@ -9,8 +9,8 @@
 <link rel="stylesheet" href="/css/mainStyle.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/datepickr.css">
+<link rel="stylesheet" href="/css/markdown.css">
 <script src="/js/datepickr.js"></script>
-<script src="/js/markdown.js"></script>
 
 <!-- 노트 캘린더 -->
 <link rel="stylesheet" href="/css/dateRangePickerForBootstrap.css">
@@ -65,13 +65,15 @@
 		</div>
 	</div>
 	<template id="view-note-template">
-	<div class="note-content"></div>
-	<div id="commentListUl"></div>
-	<form id="commentForm" method="post">
-		<textarea id='commentText' name='commentText' rows='5' cols='50'></textarea>
-		<br>
-		<button id='submitComment' class='btn btn-pm'>확인</button>
-	</form>
+	<div class="markdown-body">
+		<div class="note-content"></div>
+		<div id="commentListUl"></div>
+		<form id="commentForm" method="post">
+			<textarea id='commentText' name='commentText' rows='5' cols='50'></textarea>
+			<br>
+			<button id='submitComment' class='btn btn-pm'>확인</button>
+		</form>
+	</div>
 	</template>
 	<template id="comment-template">
 	<li><img class='avatar' class='avatar' src='/img/profile/avatar-default.png'>
