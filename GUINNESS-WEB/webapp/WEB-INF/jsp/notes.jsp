@@ -52,7 +52,7 @@
 				<input type="hidden" name="groupId">
 				<input class="inputText" type="text" name="userId">
 				<input class="inputBtn" type="submit" value="초대">
-				<span class="addMemberAlert" style="visibility:hidden;"></span>
+				<span class="addMemberAlert" style="visibility:hidden;">멤버추가메세지</span>
 			</form>
 			<div id='group-member-list'>
 				<span style="font-weight:bold;">멤버관리</span><br/>
@@ -97,7 +97,7 @@
 						<i class="fa fa-eye"></i>
 						<span class="info">노트 숨기기</span>
 					</li>
-					<!-- <input style="display:none;" type='checkbox' class='memberChk' checked="true" value=""/> -->
+					<input style="display:none;" type='checkbox' class='memberChk' checked=true value="">
 					<li>
 						<i class="fa fa-times"></i>
 						<span class="info">멤버제외</span>
@@ -110,18 +110,17 @@
 	document.title = "${groupName}";
 	var groupName = ("${groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 	document.querySelector('#group-name').innerHTML = groupName;
-	const groupId = window.location.pathname.split("/")[2];
 	var bJoinedUser = false;
+	const groupId = window.location.pathname.split("/")[2];
 	window.addEventListener('load', function() {
 		document.querySelector("#addMemberForm input[name='groupId']").value = groupId;
-		readMember();
+		readMember(groupId);
 		document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
 		document.title = "${groupName}";
 		var groupName = ("${groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 		document.querySelector('#group-name').innerHTML = groupName;
 
 		appendNoteList(${noteList});
-		bJoinedUser = isJoinedUser();
 		var elCreateBtn = document.querySelector("#create-new-button");
 	}, false);
 	
