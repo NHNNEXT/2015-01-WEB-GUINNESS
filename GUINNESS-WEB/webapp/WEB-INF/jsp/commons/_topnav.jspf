@@ -6,23 +6,6 @@
 <c:if test="${empty sessionUser.userId}">
 	<c:redirect url="/" />
 </c:if>
-<style>
-.drop-down .alarm-list {
-	float: right;
-	right: 0px;
-	top: 45px;
-	background-image: none;
-}
-
-.drop-down .alarm-list li {
-	width: 200px;
-	border-bottom: 3px solid #94BDBC;
-}
-
-.drop-down .alarm-list li a {
-	width: auto;
-}
-</style>
 <div id="header">
 	<div class='content wrap'>
 		<div id="leftTopBox">
