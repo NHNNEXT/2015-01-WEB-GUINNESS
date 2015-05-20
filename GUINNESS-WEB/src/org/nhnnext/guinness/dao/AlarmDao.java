@@ -66,4 +66,11 @@ public class AlarmDao extends JdbcDaoSupport {
 		String sql = "select groupId, count(*) as groupAlarmCount from NOTE_ALARMS as A, NOTES as N where A.alarmStatus = 'N' and A.calleeId =? and N.noteId = A.noteId GROUP BY groupId order by groupId;";
 		return getJdbcTemplate().queryForList(sql, sessionUserId);
 	}
+
+	public boolean checkGroupAlarms(String userId, String groupId) {
+		String sql = "select count(*) from GROUP_ALARMS where calleeId = ? and groupId = ?";
+		if (getJdbcTemplate().queryForObject(sql, Integer.class, new Object[] { userId, groupId }) > 0)
+			return true;
+		return false;
+	}
 }

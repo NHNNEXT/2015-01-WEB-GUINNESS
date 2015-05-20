@@ -69,7 +69,9 @@ public class GroupService {
 		if (userDao.findUserByUserId(userId) == null) 
 			throw new FailedAddGroupMemberException("사용자를 찾을 수 없습니다!");
 		if (groupDao.checkJoinedGroup(userId, groupId)) 
-			throw new FailedAddGroupMemberException("사용자가 이미 가입되어있습니다!");
+			throw new FailedAddGroupMemberException("이미 가입되어 있습니다!");
+		if (alarmDao.checkGroupAlarms(userId, groupId)) 
+			throw new FailedAddGroupMemberException("가입 요청 대기중 입니다!");
 		Alarm alarm = new Alarm(createAlarmId(), "I", (new User(sessionUserId)).createSessionUser(), new User(userId), new Group(groupId));
 		alarmDao.createGroupInvitation(alarm);
 	}
