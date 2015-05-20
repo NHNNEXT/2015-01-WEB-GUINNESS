@@ -121,6 +121,10 @@
 		var elCreateBtn = document.querySelector("#create-new-button");
 	}, false);
 	
+	window.addEventListener('scroll', function() {
+		infiniteScroll();
+	}, false);
+	
 	</script>
 	<script src="/js/note.js"></script>
 	<script type="text/javascript">

@@ -31,13 +31,6 @@ function appendNoteList(json) {
 	if (el != undefined) {
 		el.parentNode.removeChild(el);
 	}
-	el = document.querySelectorAll(".note-list");
-	var elLength = el.length;
-	if (el != undefined) {
-		for (var i = elLength - 1; i >= 0; i--) {
-			el[i].outerHTML = "";
-		}
-	}
 	var newEl = undefined;
 	var obj = undefined;
 	var out = "";
@@ -366,12 +359,14 @@ function addMember() {
 				alert.style.color="#ff5a5a";
 				alert.style.fontSize="11px";
 				alert.innerHTML = json.message;
+				document.querySelector('#addMemberForm input[name="userId"]').value = "";
 				return;
 			} else {
 				alert.style.visibility="visible";
 				alert.style.color="#86E57F";
 				alert.style.fontSize="11px";
-				alert.innerHTML = "그룹에 초대하였습니다.";
+				alert.innerHTML = "초대 요청을 보냈습니다.";
+				document.querySelector('#addMemberForm input[name="userId"]').value = "";
 				return;
 			}
 		}
@@ -431,7 +426,61 @@ function OnOffMemberAllClickBtn() {
 	}
 }
 
+function deleteNoteList() {
+	el = document.querySelectorAll(".note-list");
+	var elLength = el.length;
+	if (el != undefined) {
+		for (var i = elLength - 1; i >= 0; i--) {
+			el[i].outerHTML = "";
+		}
+	}
+}
+
 function reloadNoteList(noteTargetDate) {
+	var groupId = window.location.pathname.split("/")[2];
+	var objs = document.querySelectorAll(".memberChk");
+	var array = [];
+	for (var i = 0; i < objs.length; i++) {
+		if (objs[i].checked === true)
+			array.push("'" + objs[i].value + "'");
+	}
+	guinness.ajax({
+		method : "get",
+		url : '/notes/reload/?groupId=' + groupId + '&noteTargetDate='
+				+ noteTargetDate + '&checkedUserId=' + array,
+		success : function(req) {
+			var result = JSON.parse(req.responseText);
+			if (result.success) {
+				deleteNoteList();
+				appendNoteList(result.mapValues);
+			}
+		}
+	});
+}
+
+var infiniteScroll = function() {
+	var scrollHeight = document.body.scrollTop + window.innerHeight;
+	var documentHeight = document.body.scrollHeight;
+
+	if(scrollHeight == documentHeight) {
+		console.log("hit");
+		var list = document.querySelectorAll(".note-list");
+		if(list.length == 0)
+			return;
+		var date = list.item(list.length-1);
+		var last = date.childNodes.item(date.childNodes.length-1);
+		if(date.childNodes.length == 0)
+			return;
+		var li = last.childNodes.item(0);
+		var div = li.childNodes.item(2);
+		var timeDiv = div.childNodes.item(1);
+		var noteTargetDate = timeDiv.childNodes.item(0).innerHTML;
+		noteTargetDate = noteTargetDate.substring(0, noteTargetDate.length-2);
+		reloadWithoutDeleteNoteList(noteTargetDate);
+	}
+};
+
+var reloadWithoutDeleteNoteList = function(noteTargetDate) {
 	var groupId = window.location.pathname.split("/")[2];
 	var objs = document.querySelectorAll(".memberChk");
 	var array = [];

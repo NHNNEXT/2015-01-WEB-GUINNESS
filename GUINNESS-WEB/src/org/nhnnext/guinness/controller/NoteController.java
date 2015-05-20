@@ -45,12 +45,12 @@ public class NoteController {
 	@RequestMapping("/notes/reload")
 	protected @ResponseBody JsonResult reloadNoteList(@RequestParam("checkedUserId") String userIds, 
 			@RequestParam String noteTargetDate, @RequestParam String groupId, WebRequest req) {
-		if("undefined".equals(noteTargetDate))
-			noteTargetDate = null;
 		if(userIds == null || groupId == null) {
 			return new JsonResult().setSuccess(false).setMapValues(new ArrayList<Map<String, Object>>());
 		}
-		return new JsonResult().setSuccess(true).setMapValues(noteService.reloadNotes(userIds, groupId, noteTargetDate));
+		if("undefined".equals(noteTargetDate))
+			noteTargetDate = null;
+		return new JsonResult().setSuccess(true).setMapValues(noteService.reloadNotes(groupId, noteTargetDate, userIds));
 	}
 
 	//여기.
