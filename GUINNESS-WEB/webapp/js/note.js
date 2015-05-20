@@ -342,12 +342,14 @@ function addMember() {
 				alert.style.color="#ff5a5a";
 				alert.style.fontSize="11px";
 				alert.innerHTML = json.message;
+				document.querySelector('#addMemberForm input[name="userId"]').value = "";
 				return;
 			} else {
 				alert.style.visibility="visible";
 				alert.style.color="#86E57F";
 				alert.style.fontSize="11px";
-				alert.innerHTML = "그룹에 초대하였습니다.";
+				alert.innerHTML = "초대 요청을 보냈습니다.";
+				document.querySelector('#addMemberForm input[name="userId"]').value = "";
 				return;
 			}
 		}
