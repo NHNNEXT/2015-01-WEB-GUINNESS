@@ -287,7 +287,7 @@ form#notes-create-form {
 }
 
 #group-member-container #group-member-list #group-member td.member-util ul li .info {
-	position:absolute;
+	position:absolute;i
 	font-size:8px;
 	margin-left:-20px;
 	margin-top:-30px;
@@ -789,6 +789,22 @@ textarea#commentText {
 
 .note-list .note-util i:hover {
 	color: gray;
+}
+
+.note-util div{
+	display:inline-block;
+	float:right;
+}
+
+.note-util div span{
+	position:absolute;
+	display:none;
+	font-size:8px;
+	padding:2px;
+	background-color:#454545;
+	color:white;
+	margin-top:-16px;
+	margin-left:0px;
 }
 
 .switchForm:hover {
