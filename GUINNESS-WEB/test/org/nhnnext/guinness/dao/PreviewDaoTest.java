@@ -1,8 +1,10 @@
 package org.nhnnext.guinness.dao;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -11,6 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
+import org.nhnnext.guinness.model.Preview;
 import org.nhnnext.guinness.util.RandomFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -42,5 +45,13 @@ public class PreviewDaoTest {
 		
 		assertEquals(1, result);
 	}
-
+	
+	@Test
+	public void read() {
+		List<Map<String, Object>> previews = previewDao.readPreviewsForMap("DEaAd");
+		for (Map<String, Object> preview : previews) {
+			System.out.println(preview);
+		}
+		assertNotNull(previews);
+	}
 }
