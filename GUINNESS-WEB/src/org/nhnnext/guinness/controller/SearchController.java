@@ -14,8 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.WebRequest;
 
 @Controller
 @RequestMapping("/search")
@@ -27,10 +27,10 @@ public class SearchController {
 	private NoteDao noteDao;
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
-	private @ResponseBody JsonResult getSearchResult(WebRequest req, HttpSession session) throws IOException {
+	private @ResponseBody JsonResult getSearchResult(@RequestParam String words, HttpSession session) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
-		String [] words = req.getParameter("words").split(" ");
-		return new JsonResult().setSuccess(true).setMapValues(noteDao.searchQueryForMap(sessionUserId, words));
+		String [] splitWords = words.split(" ");
+		return new JsonResult().setSuccess(true).setMapValues(noteDao.searchQueryForMap(sessionUserId, splitWords));
 	}
 	
 	@RequestMapping("/n/{noteId}")

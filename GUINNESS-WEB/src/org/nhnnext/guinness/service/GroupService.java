@@ -67,11 +67,11 @@ public class GroupService {
 			throw new FailedAddGroupMemberException("사용자를 찾을 수 없습니다!");
 		if (groupDao.checkJoinedGroup(userId, groupId)) 
 			throw new FailedAddGroupMemberException("사용자가 이미 가입되어있습니다!");
-		Alarm alarm = new Alarm(createAlarmId(), "I", new User(sessionUserId), new User(userId), new Group(groupId));
+		Alarm alarm = new Alarm(createAlarmId(), "I", (new User(sessionUserId)).createSessionUser(), new User(userId), new Group(groupId));
 		alarmDao.createGroupInvitation(alarm);
 	}
 	
-	public User addGroupMember(String userId, String groupId) {
+	public User addGroupMember(String userId, String groupId)throws FailedAddGroupMemberException {
 		groupDao.createGroupUser(userId, groupId);
 		return userDao.findUserByUserId(userId);
 	}

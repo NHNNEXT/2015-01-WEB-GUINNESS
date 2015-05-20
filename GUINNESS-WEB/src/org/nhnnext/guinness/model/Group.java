@@ -1,38 +1,22 @@
 package org.nhnnext.guinness.model;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.Email;
-import org.nhnnext.guinness.dao.GroupDao;
-import org.springframework.beans.factory.annotation.Autowired;
-
 public class Group {
-
-	@Size(min = 5, max = 5)
 	private String groupId;
-
 	@Size(min = 1, max = 50)
 	private String groupName;
-
-	@Email
-	@Size(min = 1, max = 50)
 	private String groupCaptainUserId;
-
-	@NotNull
-	private String isPublic;
-	
-	@Autowired
-	private static GroupDao groupDao;
+	private String status;
 	
 	public Group() {
 	}
 
-	public Group(String groupId, String groupName, String groupCaptainUserId, String isPublic) {
+	public Group(String groupId, String groupName, String groupCaptainUserId, String status) {
 		this.groupId = groupId;
 		this.groupName = groupName;
 		this.groupCaptainUserId = groupCaptainUserId;
-		this.isPublic = isPublic;
+		this.status = status;
 	}
 
 	public Group(String groupId) {
@@ -55,8 +39,8 @@ public class Group {
 		return groupCaptainUserId;
 	}
 
-	public String getIsPublic() {
-		return isPublic;
+	public String getStatus() {
+		return status;
 	}
 
 	public void setGroupName(String groupName) {
@@ -67,16 +51,12 @@ public class Group {
 		this.groupCaptainUserId = groupCaptainUserId;
 	}
 
-	public void setIsPublic(String isPublic) {
-		this.isPublic = isPublic;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
-	public static void setGroupDao(GroupDao groupDao) {
-		Group.groupDao = groupDao;
-	}
-
-	public String isPublic() {
-		return isPublic;
+	public boolean isStatus() {
+		return status.equals("T");
 	}
 	
 	public boolean checkCaptain(String userId) {
@@ -90,7 +70,7 @@ public class Group {
 		result = prime * result + ((groupCaptainUserId == null) ? 0 : groupCaptainUserId.hashCode());
 		result = prime * result + ((groupId == null) ? 0 : groupId.hashCode());
 		result = prime * result + ((groupName == null) ? 0 : groupName.hashCode());
-		result = prime * result + ((isPublic == null) ? 0 : isPublic.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
 
@@ -118,10 +98,10 @@ public class Group {
 				return false;
 		} else if (!groupName.equals(other.groupName))
 			return false;
-		if (isPublic == null) {
-			if (other.isPublic != null)
+		if (status == null) {
+			if (other.status != null)
 				return false;
-		} else if (!isPublic.equals(other.isPublic))
+		} else if (!status.equals(other.status))
 			return false;
 		return true;
 	}
@@ -129,6 +109,6 @@ public class Group {
 	@Override
 	public String toString() {
 		return "Group [groupId=" + groupId + ", groupName=" + groupName + ", groupCaptainUserId=" + groupCaptainUserId
-				+ ", isPublic=" + isPublic + "]";
+				+ ", isPublic=" + status + "]";
 	}
 }

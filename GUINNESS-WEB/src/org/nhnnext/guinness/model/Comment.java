@@ -5,10 +5,10 @@ public class Comment {
 	private String commentText;
 	private String commentType;
 	private String commentCreateDate;
-	private User user;
+	private SessionUser user;
 	private Note note;
 	
-	public Comment(String commentId, String commentText, String commentType, String commentCreateDate, User user, Note note) {
+	public Comment(String commentId, String commentText, String commentType, String commentCreateDate, SessionUser user, Note note) {
 		this.commentId = commentId;
 		this.commentText = commentText;
 		this.commentType = commentType;
@@ -17,7 +17,7 @@ public class Comment {
 		this.note = note;
 	}
 
-	public Comment(String commentText, String commentType, User user, Note note) {
+	public Comment(String commentText, String commentType, SessionUser user, Note note) {
 		this(null, commentText, commentType, null, user, note);
 	}
 
@@ -37,7 +37,7 @@ public class Comment {
 		return commentCreateDate;
 	}
 
-	public User getUser() {
+	public SessionUser getUser() {
 		return user;
 	}
 
@@ -61,7 +61,7 @@ public class Comment {
 		this.commentCreateDate = commentCreateDate;
 	}
 
-	public void setUser(User user) {
+	public void setUser(SessionUser user) {
 		this.user = user;
 	}
 

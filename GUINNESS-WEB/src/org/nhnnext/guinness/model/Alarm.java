@@ -4,12 +4,12 @@ public class Alarm {
 	private String alarmId;
 	private String alarmStatus;
 	private String alarmCreateDate;
-	private User writer;
+	private SessionUser writer;
 	private User reader;
 	private Note note;
 	private Group group;
 
-	public Alarm(String alarmId, String alarmStatus, User writer, User reader, Note note, Group group) {
+	public Alarm(String alarmId, String alarmStatus, SessionUser writer, User reader, Note note, Group group) {
 		super();
 		this.alarmId = alarmId;
 		this.alarmStatus = alarmStatus;
@@ -19,11 +19,11 @@ public class Alarm {
 		this.group = group;
 	}
 	
-	public Alarm(String alarmId, String alarmStatus, User writer, User reader, Note note) {
+	public Alarm(String alarmId, String alarmStatus, SessionUser writer, User reader, Note note) {
 		this(alarmId, alarmStatus, writer, reader, note, null);
 	}
 	
-	public Alarm(String alarmId, String alarmStatus, User writer, User reader, Group group) {
+	public Alarm(String alarmId, String alarmStatus, SessionUser writer, User reader, Group group) {
 		this(alarmId, alarmStatus, writer, reader, null, group);
 	}
 
@@ -39,7 +39,7 @@ public class Alarm {
 		return alarmCreateDate;
 	}
 
-	public User getWriter() {
+	public SessionUser getWriter() {
 		return writer;
 	}
 
@@ -67,7 +67,7 @@ public class Alarm {
 		this.alarmCreateDate = alarmCreateDate;
 	}
 
-	public void setWriter(User writer) {
+	public void setWriter(SessionUser writer) {
 		this.writer = writer;
 	}
 

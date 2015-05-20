@@ -21,28 +21,28 @@
 		<div class="modal-header">
 			<div class="modal-title">계정찾기</div>
 		</div>
-		<div class="modal-body note-modal">
-			<div class="note-content">
+		<div class="modal-body" style="width: 500px; padding-top: 5px;">
+			<div style="border-bottom: 2px solid #f8f8f8;">
 				<p>
-					<span class="attention"><i class="fa fa-exclamation-circle"></i>
-						이메일을 입력하세요.</span>
+					<span>이메일을 입력하세요.</span>
 				</p>
 			</div>
-			<div id="commentListUl"></div>
-			<form id="commentForm" action="/user/findPassword" method="post">
-				<i class="fa fa-envelope-o" style=""></i> <input type="text"
+			<form id="commentForm" action="/user/findPassword" method="post" >
+				<i class="fa fa-envelope-o" style="font-size: 18px;"></i> <input type="text"
 					class="inputtext" id="identify_email" name="userId"
-					style="width: 255px;"> <br>
-				<c:if test="${not empty message}">
-					<span class="errorMessage"> ${message} </span>
-				</c:if>
+					style="width: 255px; margin: 5px; padding: 5px">
+				<span id="identify_email-message" class="errorMessage" style="font-size: 13px"> ${message} </span>
+				<br>
+				<a class="btn btn-pm" style="text-align: center; width: 99px; height: 19px; background: gray;" href="/">취소</a>
 				<button id="submitComment" class="btn btn-pm">확인</button>
 			</form>
 		</div>
 	</div>
 </body>
-
+<script type="text/javascript" src="/js/joinCheck.js"></script>
 <script>
-	
+	window.addEventListener('load', function() {
+		joinCheck.setEmailValidation("identify_email", "identify_email-message");
+	});
 </script>
 </html>

@@ -7,10 +7,14 @@ import javax.annotation.Resource;
 
 import org.nhnnext.guinness.dao.AlarmDao;
 import org.nhnnext.guinness.dao.CommentDao;
+import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.NoteDao;
+import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.model.Alarm;
 import org.nhnnext.guinness.model.Comment;
+import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
+import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
 import org.springframework.stereotype.Service;
@@ -23,8 +27,16 @@ public class CommentService {
 	private NoteDao noteDao;
 	@Resource
 	private AlarmDao alarmDao;
+	@Resource
+	private GroupDao groupDao;
 
-	public List<Map<String, Object>> create(Comment comment) {
+	public List<Map<String, Object>> create(SessionUser sessionUser, Note note, Comment comment) throws UnpermittedAccessGroupException {
+		Group group = groupDao.readGroupByNoteId(note.getNoteId());
+		System.out.println(sessionUser.getUserId());
+		System.out.println(group);
+		if (!groupDao.checkJoinedGroup(sessionUser.getUserId(), group.getGroupId())) {
+			throw new UnpermittedAccessGroupException("권한이 없습니다. 그룹 가입을 요청하세요.");
+		}
 		commentDao.createComment(comment);
 		noteDao.increaseCommentCount(comment.getNote().getNoteId());
 		createAlarm(comment);

@@ -13,6 +13,7 @@ import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.model.Alarm;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
+import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
 import org.springframework.stereotype.Service;
@@ -30,10 +31,11 @@ public class NoteService {
 	private AlarmDao alarmDao;
 	
 	public void initNotes(Model model, String sessionUserId, String groupId) throws UnpermittedAccessGroupException {
-		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
-			throw new UnpermittedAccessGroupException();
+		Group group = groupDao.readGroup(groupId);
+		if (!group.isStatus() && !groupDao.checkJoinedGroup(sessionUserId, groupId)) {
+			throw new UnpermittedAccessGroupException("비정상적 접근시도.");
 		}
-		model.addAttribute("groupName", groupDao.readGroup(groupId).getGroupName());
+		model.addAttribute("groupName", group.getGroupName());
 		model.addAttribute("noteList", new Gson().toJson(getNoteListFromDao(null, groupId, null)));
 	}
 	
@@ -59,12 +61,14 @@ public class NoteService {
 		return noteDao.readNote(noteId);
 	}
 
-	public void create(String sessionUserId, String groupId, String noteText, String noteTargetDate) {
+	public void create(String sessionUserId, String groupId, String noteText, String noteTargetDate) throws UnpermittedAccessGroupException {
+		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
+			throw new UnpermittedAccessGroupException();
+		}
 		String noteId = ""+noteDao.createNote(new Note(noteText, noteTargetDate, new User(sessionUserId), new Group(groupId)));
-		
 		String alarmId = null;
 		Alarm alarm = null;
-		String noteWriter = noteDao.readNote(noteId).getUser().getUserId();
+		SessionUser sessionUser = noteDao.readNote(noteId).getUser().createSessionUser();
 		List<User> groupMembers = groupDao.readGroupMember(groupId);
 		for (User reader : groupMembers) {
 			if (reader.getUserId().equals(sessionUserId)) {
@@ -73,7 +77,7 @@ public class NoteService {
 			while (true) {
 				alarmId = RandomFactory.getRandomId(10);
 				if (!alarmDao.isExistAlarmId(alarmId)) {
-					alarm = new Alarm(alarmId, "N", new User(noteWriter), reader, new Note(noteId));
+					alarm = new Alarm(alarmId, "N", sessionUser, reader, new Note(noteId));
 					break;
 				}
 			}
@@ -96,5 +100,12 @@ public class NoteService {
 		model.addAttribute("groupId", group.getGroupId());
 		model.addAttribute("groupName", new Gson().toJson(group.getGroupName()));
 		model.addAttribute("noteId", noteId);
+	}
+	
+	public boolean checkJoinedGroup(String groupId, String sessionUserId) throws UnpermittedAccessGroupException {
+		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
+			throw new UnpermittedAccessGroupException("권한이 없습니다. 그룹 가입을 요청하세요.");
+		}
+		return true;
 	}
 }

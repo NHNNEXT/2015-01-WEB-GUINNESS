@@ -8,4 +8,7 @@ public class UnpermittedAccessGroupException extends Exception{
 	public UnpermittedAccessGroupException(Throwable cause) {
 		super(cause);
 	}
+	public UnpermittedAccessGroupException(String message) {
+		super(message);
+	}
 }

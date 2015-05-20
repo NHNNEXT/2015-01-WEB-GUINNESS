@@ -6,14 +6,18 @@ window.addEventListener('load', function() {
 	if(document.querySelector('.errorMessage').innerHTML) {
 		switchForm(false);
 	}
-	// 에러메시지 리셋
-	joinCheck.resetEvent("join-userEmail");
-	joinCheck.resetEvent("join-userName");
-	joinCheck.resetEvent("join-userPassword");
-	
-	// 에러메시지 이벤트리스너 설정
-	joinCheck.setEvent();
+	// 이벤트리스너 등록
+	setEventListener();
 });
+
+var setEventListener = function() {
+	// Emanl //
+	joinCheck.setEmailValidation("join-userEmail", "join-userEmail-message");
+	// Name //
+	joinCheck.setNameValidation("join-userName", "join-userName-message");
+	// Password //
+	joinCheck.setPasswordValidation("join-userPassword", "join-userPassword-message");
+}
 
 var el = document.querySelector(".switchForm");
 el.addEventListener("click", function() { 

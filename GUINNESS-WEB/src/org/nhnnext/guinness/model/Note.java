@@ -1,5 +1,6 @@
 package org.nhnnext.guinness.model;
 
+
 public class Note {
 	private String noteId;
 	private String noteText;

@@ -30,13 +30,13 @@
 					</c:if>
 					<form:input id="join-userEmail" cssClass='text' path="userId" placeholder="이메일"
 						autocomplete="off" value="${userId}" required="required" />
-					<span id="join-userEmail-message" class="errorMessage"></span>
+					<span id="join-userEmail-message" class="errorMessage">${userId_message}</span>
 					<form:input id="join-userName" cssClass='text' path="userName" placeholder="이름"
 						autocomplete="off" value="${userName}" required="required" />
-					<span id="join-userName-message" class="errorMessage"></span>
+					<span id="join-userName-message" class="errorMessage">${userName_message}</span>
 					<form:password id="join-userPassword" cssClass='text' path="userPassword"
 						placeholder="비밀번호" required="required" />
-					<span id="join-userPassword-message" class="errorMessage"></span>
+					<span id="join-userPassword-message" class="errorMessage">${userPassword_message}</span>
 					<button type="submit" class='btn btn-pm'>회원가입</button>
 				</form:form>
 				<form method="post" id="login-form" class='form-group'

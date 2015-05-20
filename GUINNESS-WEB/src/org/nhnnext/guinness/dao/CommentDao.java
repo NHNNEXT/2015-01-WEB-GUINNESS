@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 
 import org.nhnnext.guinness.model.Comment;
 import org.nhnnext.guinness.model.Note;
-import org.nhnnext.guinness.model.User;
+import org.nhnnext.guinness.model.SessionUser;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 
@@ -41,10 +41,8 @@ public class CommentDao extends JdbcDaoSupport {
 				rs.getString("commentText"), 
 				rs.getString("commentType"), 
 				rs.getString("commentCreateDate"), 
-				new User(rs.getString("userId"),
+				new SessionUser(rs.getString("userId"),
 						rs.getString("userName"), 
-						rs.getString("userPassword"),
-						rs.getString("userStatus"),
 						rs.getString("userImage")), 
 				new Note(rs.getString("noteId"))
 				), commentId);

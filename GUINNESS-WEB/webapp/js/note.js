@@ -348,7 +348,6 @@ function addMember() {
 		success : function(req) {
 			var json = JSON.parse(req.responseText);
 			if (json.success === false) {
-				guinness.util.alert("멤버초대 실패", json.message);
 				alert.style.visibility="visible";
 				alert.style.color="#ff5a5a";
 				alert.style.fontSize="11px";
@@ -393,6 +392,14 @@ function appendMembers(json) {
 		appendMember(json[i]);
 	}
 }
+
+//function allCheckMember() {
+//	var objs = document.querySelectorAll(".memberChk");
+//	var allchk = document.querySelector(".memberAllClick");
+//	for (var i = 0; i < objs.length; i++) {
+//		objs[i].checked = allchk.checked;
+//	}
+//}
 
 function OnOffMemberAllClickBtn() {
 	var objs = document.querySelectorAll(".memberChk");

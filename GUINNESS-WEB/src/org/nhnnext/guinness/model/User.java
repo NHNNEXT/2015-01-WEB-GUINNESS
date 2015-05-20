@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.Email;
 
 import com.google.gson.annotations.Expose;
 
-public class User {
+public class User{
 	@NotNull
 	@Email(message = "이메일 주소가 유효하지 않습니다.")
 	@Size(max = 50, message = "이메일은 50 글자 이하만 사용 가능합니다.")
@@ -106,6 +106,18 @@ public class User {
 	
 	public boolean isSameUserId(String userId) {
 		return (this.userId).equals(userId);
+	}
+	
+	public void update(User user) {
+		if(!"".equals(user.userPassword)) {
+			userPassword = user.userPassword;
+		}
+		if(!"".equals(user.userName)) {
+			userName = user.userName;
+		}
+		if(!"".equals(user.userImage)) {
+			userImage = user.userImage;
+		}
 	}
 	
 	@Override
