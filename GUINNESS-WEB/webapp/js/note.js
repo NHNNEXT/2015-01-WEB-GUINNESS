@@ -1,4 +1,15 @@
-function readNoteList(noteTargetDate) {
+function cancelNoteCreate(e) {
+	if (document.querySelector(".modal-cover #noteText").value != "") {
+		guinness.util.alert("취소", "작성중인 노트 기록을 취소하시겠습니까?", function() {
+			document.querySelector('.modal-cover').remove();
+		}, function() {
+		});
+		return;
+	}
+	document.querySelector('.modal-cover').remove();
+}
+
+function readNoteList(groupId, noteTargetDate) {
 	guinness.ajax({
 		method : "get",
 		url : "/note/list?groupId=" + groupId + "&noteTargetDate="
@@ -83,7 +94,7 @@ function appendNoteList(json) {
 		if (tag !== null) {
 			out += tag + '<br />'
 		}
-		out += "<div><i class='fa fa-comments'> " + obj.commentCount
+		out += "<div class='comment-div'><i class='fa fa-comments'> " + obj.commentCount
 				+ "</i></div></div></li>";
 		newEl.innerHTML = out;
 		el.appendChild(newEl);
@@ -162,7 +173,8 @@ function showNoteModal(obj) {
 	});
 	document.querySelector('.modal-body').setAttribute('class',
 			'modal-body note-modal');
-	document.querySelector('.note-content').innerHTML = obj.noteText;
+	document.querySelector('.note-content').innerHTML = new markdownToHtml(
+			obj.noteText).getHtmlText();
 	document.querySelector('#commentForm').addEventListener('submit',
 			function(e) {
 				e.preventDefault();
@@ -302,7 +314,6 @@ function createComment(obj) {
 			param : "commentText=" + commentText + "&commentType="
 					+ commentType + "&noteId=" + noteId,
 			success : function(req) {
-				debugger;
 				var result = JSON.parse(req.responseText);
 				if (result.success !== true){
 					document.querySelector('#commentText').value = result.message;
@@ -345,12 +356,11 @@ function addMember() {
 	}
 	guinness.ajax({
 		method : "post",
-		url : "/groups/members",
+		url : "/groups/members/invite",
 		param : "userId=" + userId + "&groupId=" + groupId + "&sessionUserId=" + sessionUserId,
 		success : function(req) {
 			var json = JSON.parse(req.responseText);
 			if (json.success === false) {
-				guinness.util.alert("멤버초대 실패", json.message);
 				alert.style.visibility="visible";
 				alert.style.color="#ff5a5a";
 				alert.style.fontSize="11px";
@@ -369,7 +379,7 @@ function addMember() {
 
 var member;
 
-function readMember() {
+function readMember(groupId) {
 	guinness.ajax({
 		method : "get",
 		url : "/groups/members/" + groupId,
@@ -428,6 +438,7 @@ function OnOffMemberAllClickBtn() {
 }
 
 function reloadNoteList(noteTargetDate) {
+	var groupId = window.location.pathname.split("/")[2];
 	var objs = document.querySelectorAll(".memberChk");
 	var array = [];
 	for (var i = 0; i < objs.length; i++) {

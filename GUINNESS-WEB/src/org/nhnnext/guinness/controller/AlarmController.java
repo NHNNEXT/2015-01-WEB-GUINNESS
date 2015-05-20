@@ -1,6 +1,8 @@
 package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -15,22 +17,33 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.WebRequest;
 
 @Controller
 @RequestMapping("/alarms")
 public class AlarmController {
+
 	@Resource
 	private AlarmDao alarmDao;
 
 	@RequestMapping("")
-	protected @ResponseBody JsonResult list(HttpSession session) {
+	protected @ResponseBody Map<String, JsonResult> list(HttpSession session) {
 		String userId = ((SessionUser)session.getAttribute("sessionUser")).getUserId();
-		return new JsonResult().setSuccess(true).setMapValues(alarmDao.list(userId));
+		Map<String, JsonResult> result = new HashMap<String, JsonResult>();
+		result.put("post", new JsonResult().setSuccess(true).setMapValues(alarmDao.listNotes(userId)));
+		result.put("group", new JsonResult().setSuccess(true).setMapValues(alarmDao.listGroups(userId)));
+		return result;
 	}
 
-	@RequestMapping(value = "/{alarmId}", method = RequestMethod.DELETE)
-	protected @ResponseBody JsonResult delete(@PathVariable String alarmId, Model model) {
-		alarmDao.delete(alarmId);
+	@RequestMapping(value = "/note/{alarmId}", method = RequestMethod.DELETE)
+	protected @ResponseBody JsonResult deleteNote(@PathVariable String alarmId, WebRequest req, Model model) {
+		alarmDao.deleteNote(alarmId);
+		return new JsonResult().setSuccess(true);
+	}
+	
+	@RequestMapping(value = "/group/{alarmId}", method = RequestMethod.DELETE)
+	protected @ResponseBody JsonResult deleteGroup(@PathVariable String alarmId, WebRequest req, Model model) {
+		alarmDao.deleteGroup(alarmId);
 		return new JsonResult().setSuccess(true);
 	}
 
