@@ -78,7 +78,7 @@
 		url:"/alarms",
 		success: function(req) {
 			
-			var noteAlarmList = JSON.parse(req.responseText).post.mapValues;
+			var noteAlarmList = JSON.parse(req.responseText).note.mapValues;
 			var groupAlarmList = JSON.parse(req.responseText).group.mapValues;
 			
 			if (noteAlarmList.length + groupAlarmList.length !== 0) {
