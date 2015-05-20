@@ -1,4 +1,15 @@
-function readNoteList(noteTargetDate) {
+function cancelNoteCreate(e) {
+	if (document.querySelector(".modal-cover #noteText").value != "") {
+		guinness.util.alert("취소", "작성중인 노트 기록을 취소하시겠습니까?", function() {
+			document.querySelector('.modal-cover').remove();
+		}, function() {
+		});
+		return;
+	}
+	document.querySelector('.modal-cover').remove();
+}
+
+function readNoteList(groupId, noteTargetDate) {
 	guinness.ajax({
 		method : "get",
 		url : "/note/list?groupId=" + groupId + "&noteTargetDate="
@@ -67,7 +78,7 @@ function appendNoteList(json) {
 
 		var userId = document.getElementById("sessionUserId").value;
 		if (userId === obj.userId) {
-			out += "<div class='note-util'><div><span>삭제</span><i class='fa fa-trash'></i></div><div><span>수정</span><i class='fa fa-pencil'></i></div></div>";
+			out += "<div class='note-util'><i class='fa fa-pencil'></i><i class='fa fa-trash'></i></div>";
 		}
 		out += "<div class='content-container'>";
 		out += "<div><span class='userName'>" + obj.userName
@@ -93,7 +104,8 @@ function appendNoteList(json) {
 					if (e.target.className === "fa fa-trash") {
 						confirmDeleteNote(this.getAttribute("id"));
 					} else if (e.target.className === "fa fa-pencil") {
-						window.location.href = "/notes/editor/" + this.getAttribute("id");
+						window.location.href = "/notes/editor/"
+								+ this.getAttribute("id");
 					} else {
 						readNoteContents(this.getAttribute("id"));
 					}
@@ -162,7 +174,8 @@ function showNoteModal(obj) {
 	});
 	document.querySelector('.modal-body').setAttribute('class',
 			'modal-body note-modal');
-	document.querySelector('.note-content').innerHTML = obj.noteText;
+	document.querySelector('.note-content').innerHTML = new markdownToHtml(
+			obj.noteText).getHtmlText();
 	document.querySelector('#commentForm').addEventListener('submit',
 			function(e) {
 				e.preventDefault();
@@ -206,11 +219,16 @@ function appendComment(json) {
 		commentEl.querySelector('.comment-date').innerHTML = guinness.util
 				.koreaDate(obj.commentCreateDate);
 		commentEl.querySelector('.comment-date').id = obj.commentCreateDate;
-		commentEl.querySelector('.comment').innerHTML = (obj.commentText).replace(/\n/g, '\n<br/>');
+		commentEl.querySelector('.comment').innerHTML = obj.commentText;
 		commentEl.querySelector('.avatar').setAttribute("src",
 				"/img/profile/" + obj.userImage);
 		if (userId === obj.userId) {
-			commentEl.querySelector('.comment-util').innerHTML = "<div class='default-utils'><a href='#' onclick='showEditInputBox()'>수정</a><a href='#' onclick='deleteComment()'>삭제</a></div>"
+			commentEl.querySelector('.comment-util').innerHTML = "<div class='default-utils'><a href='#' onclick='showEditInputBox(&quot;"
+					+ obj.commentText
+					+ "&quot; , &quot;"
+					+ obj.commentId
+					+ "&quot;)'>수정</a><a href='#' onclick='deleteComment(&quot;"
+					+ obj.commentId + "&quot;)'>삭제</a></div>"
 		}
 	}
 
@@ -234,7 +252,7 @@ function updateComment(commentId, commentText) {
 						return;
 					var json = result.object;
 					var el = document.querySelector("#cmt-" + commentId);
-					el.querySelector('.comment').innerHTML = json.commentText.replace(/\n/g, '<br/>');
+					el.querySelector('.comment').innerHTML = json.commentText;
 					el.querySelector('.comment-date').innerHTML = json.commentCreateDate;
 					el.querySelector('.comment').setAttribute(
 							'contentEditable', false);
@@ -255,9 +273,8 @@ function deleteComment(commentId) {
 	});
 }
 
-function showEditInputBox(commentId) {
+function showEditInputBox(commentText, commentId) {
 	var el = document.querySelector('#cmt-' + commentId);
-	var commentText = el.querySelector('.comment').innerHTML;
 	el.querySelector('.default-utils').hide();
 	el.querySelector('.comment').setAttribute('contentEditable', true);
 	var updateButton = guinness.createElement({
@@ -275,14 +292,14 @@ function showEditInputBox(commentId) {
 		content : "취소"
 	});
 	updateButton.addEventListener('click', function() {
-		var el = document.querySelector('#cmt-' + obj.commentId);
-		var commentText = el.querySelector('.comment').innerText;
-		updateComment(obj.commentId, commentText);
+		var el = document.querySelector('#cmt-' + commentId);
+		var commentText = el.querySelector('.comment').textContent;
+		updateComment(commentId, commentText);
 	}, false);
 	cancelButton.addEventListener('click', function() {
-		var el = document.querySelector('#cmt-' + obj.commentId);
+		var el = document.querySelector('#cmt-' + commentId);
 		el.querySelector('.comment').setAttribute('contentEditable', false);
-		el.querySelector('.comment').innerHTML = (obj.commentText).replace(/\n/g, '\n<br/>');
+		el.querySelector('.comment').innerHTML = commentText;
 		el.querySelectorAll('.comment-update').remove();
 		el.querySelector('.default-utils').show();
 	}, false);
@@ -302,13 +319,9 @@ function createComment(obj) {
 			param : "commentText=" + commentText + "&commentType="
 					+ commentType + "&noteId=" + noteId,
 			success : function(req) {
-				debugger;
 				var result = JSON.parse(req.responseText);
-				if (result.success !== true){
-					document.querySelector('#commentText').value = result.message;
+				if (result.success !== true)
 					return;
-//					window.location.href = JSON.parse(req.responseText).locationWhenFail;
-				}
 				appendComment(result.mapValues);
 				document.querySelector('#commentText').value = "";
 			}
@@ -327,14 +340,14 @@ function addMember() {
 		alert.innerHTML = "초대할 멤버의 아이디를 입력하세요.";
 		return;
 	}
+	var groupId = document.querySelector('#addMemberForm input[name="groupId"]').value;
 	guinness.ajax({
 		method : "post",
-		url : "/groups/members",
+		url : "/groups/members/invite",
 		param : "userId=" + userId + "&groupId=" + groupId,
 		success : function(req) {
 			var json = JSON.parse(req.responseText);
 			if (json.success === false) {
-				guinness.util.alert("멤버초대 실패", json.message);
 				alert.style.visibility="visible";
 				alert.style.color="#ff5a5a";
 				alert.style.fontSize="11px";
@@ -344,14 +357,14 @@ function addMember() {
 				alert.style.visibility="visible";
 				alert.style.color="#86E57F";
 				alert.style.fontSize="11px";
-				alert.innerHTML = "그룹에 초대하였습니다.";
+				alert.innerHTML = "초대 요청을 보냈습니다.";
 				return;
 			}
 		}
 	});
 }
 
-function readMember() {
+function readMember(groupId) {
 	guinness.ajax({
 		method : "get",
 		url : "/groups/members/" + groupId,
@@ -406,6 +419,7 @@ function OnOffMemberAllClickBtn() {
 }
 
 function reloadNoteList(noteTargetDate) {
+	var groupId = window.location.pathname.split("/")[2];
 	var objs = document.querySelectorAll(".memberChk");
 	var array = [];
 	for (var i = 0; i < objs.length; i++) {

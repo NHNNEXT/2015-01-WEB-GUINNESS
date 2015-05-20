@@ -103,7 +103,7 @@ public class NoteService {
 					break;
 				}
 			}
-			alarmDao.create(alarm);
+			alarmDao.createNewNotes(alarm);
 		}
 	}
 

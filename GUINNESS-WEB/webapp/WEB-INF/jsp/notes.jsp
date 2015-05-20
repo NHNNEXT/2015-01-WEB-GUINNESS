@@ -35,20 +35,23 @@
 				</button>
 			</a>
 		</div>
-		
-		<div id="left-menu-container">
-			<input class="inputBtn" id="allShow" type="submit" value="전체보기" onclick="reloadNoteList()" />
-			<div id='calendar-container'>
-				<div id="defaultCalendar" ></div>
-			</div>
+
+		<!-- <input type="text" name="rangeCalendar" value="01/01/2015 - 01/31/2015" /> -->
+
+		<!-- <input type="text" name="defaultCalendar" value="10/24/1984" /> -->
+		<input class="inputBtn" id="allShow" type="submit" value="전체보기" onclick="reloadNoteList()" />
+		<div id='calendar-container'>
+			<div id="defaultCalendar" ></div>
 		</div>
+		
 
 		<div id='group-member-container'>
-			<form id="addMemberForm" action="/group/add/member" method="post">
+			<form id="addMemberForm">
 				<span style="font-weight:bold;">멤버추가</span><br/>
+				<input type="hidden" name="groupId">
 				<input class="inputText" type="text" name="userId">
 				<input class="inputBtn" type="submit" value="초대">
-				<span class="addMemberAlert" style="visibility:hidden;">멤버추가메세지</span>
+				<span class="addMemberAlert" style="visibility:hidden;"></span>
 			</form>
 			<div id='group-member-list'>
 				<span style="font-weight:bold;">멤버관리</span><br/>
@@ -82,56 +85,66 @@
 	<template id="member-template">
 		<tr>
 			<td class="member-info" style="width:140px; display:inline-block;">
-				<div class="member-name" style="font-weight:bold;">멤버이름</div>
-				<div class="member-id" style="color:#888; font-size:9px;">멤버아이디</div>
+				<div class="member-name" style="font-weight:bold;">와이빈</div>
+				<div class="member-id" style="color:#888; font-size:9px;">y@y.y</div>
 			</td>
 			<td class="member-util" style="font-size:15px; display:inline-block;">
-				<ul>
-					<li>
-						<i class="fa fa-eye"></i>
-						<span class="info">노트 숨기기</span>
-					</li>
-					<input style="display:none;" type='checkbox' class='memberChk' checked=true value="">
-					<li>
-						<i class="fa fa-times"></i>
-						<span class="info">멤버제외</span>
-					</li>
-				</ul>
+				<i class="fa fa-eye"></i>
+				<input style="display:none;" type='checkbox' class='memberChk' checked=true value="">
+				<i class="fa fa-times"></i>
 			</td>
 		</tr>
 	</template>
 	<script>
-	document.title = "${groupName}";
-	var groupName = ("${groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
-	document.querySelector('#group-name').innerHTML = groupName;
-	const groupId = window.location.pathname.split("/")[2];
 	window.addEventListener('load', function() {
-		readMember();
+		var groupId = window.location.pathname.split("/")[2];
+		document.querySelector("#addMemberForm input[name='groupId']").value = groupId;
+		readMember(groupId);
+		
 		document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
+		document.title = "${groupName}";
+		var groupName = ("${groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
+		document.querySelector('#group-name').innerHTML = groupName;
+
 		appendNoteList(${noteList});
 		var elCreateBtn = document.querySelector("#create-new-button");
 	}, false);
 	
 	</script>
 	<script src="/js/note.js"></script>
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 		$(function() {
-		    $("#defaultCalendar").daterangepicker({
+		    $('input[name="rangeCalendar"]').daterangepicker();
+		});
+	</script> -->
+	<!-- <script type="text/javascript">
+		$(function() {
+		    $('input[id="defaultCalendar"]').daterangepicker({
 		        singleDatePicker: true,
 		        showDropdowns: true
-		    },
+		    }, 
+		    function(start, end, label) {
+		        var years = moment().diff(start, 'years');
+		        alert("You are " + years + " years old.");
+		    });
+		});
+	</script> -->
+	<script type="text/javascript">
+		$(function() {
+		    $('div[id="defaultCalendar"]').daterangepicker({
+		        singleDatePicker: true,
+		        showDropdowns: true
+		    }, 
 		    function(start, end, label) {
 		    	console.log(start.toISOString(), end.toISOString(), label);
 		        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-		    }); 
+		    });
 		});
 
 		document.querySelector('#calendar-container').addEventListener("click", function(e) {
 			var noteTargetDate = $('#defaultCalendar').data('daterangepicker').startDate._d.toISOString().substring(0,10);
 			reloadNoteList(noteTargetDate);
 		}, false);
-		
-		
 	</script>
 </body>
 </html>

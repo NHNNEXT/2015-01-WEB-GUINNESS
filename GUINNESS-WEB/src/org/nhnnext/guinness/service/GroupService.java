@@ -11,6 +11,7 @@ import org.nhnnext.guinness.dao.UserDao;
 import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
 import org.nhnnext.guinness.exception.FailedDeleteGroupException;
 import org.nhnnext.guinness.exception.UnpermittedDeleteGroupException;
+import org.nhnnext.guinness.model.Alarm;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
@@ -60,14 +61,19 @@ public class GroupService {
 		groupDao.deleteGroup(groupId);		
 	}
 
-	public User addGroupMember(String userId, String groupId)throws FailedAddGroupMemberException {
-		User user = userDao.findUserByUserId(userId);
-		if (user == null) 
+	public void inviteGroupMember(String sessionUserId, String userId, String groupId)throws FailedAddGroupMemberException {
+		
+		if (userDao.findUserByUserId(userId) == null) 
 			throw new FailedAddGroupMemberException("사용자를 찾을 수 없습니다!");
 		if (groupDao.checkJoinedGroup(userId, groupId)) 
 			throw new FailedAddGroupMemberException("사용자가 이미 가입되어있습니다!");
+		Alarm alarm = new Alarm(createAlarmId(), "I", (new User(sessionUserId)).createSessionUser(), new User(userId), new Group(groupId));
+		alarmDao.createGroupInvitation(alarm);
+	}
+	
+	public User addGroupMember(String userId, String groupId)throws FailedAddGroupMemberException {
 		groupDao.createGroupUser(userId, groupId);
-		return user;
+		return userDao.findUserByUserId(userId);
 	}
 
 	public List<Map<String, Object>> groupMembers(String groupId) {
@@ -76,5 +82,13 @@ public class GroupService {
 	
 	public Group readGroup(String groupId) {
 		return groupDao.readGroup(groupId);
+	}
+	
+	private String createAlarmId() {
+		String alarmId = RandomFactory.getRandomId(10);
+		if(alarmDao.isExistAlarmId(alarmId)) {
+			return createAlarmId();
+		}
+		return alarmId;
 	}
 }

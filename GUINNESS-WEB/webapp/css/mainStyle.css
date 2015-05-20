@@ -9,12 +9,16 @@ html, body {
 }
 
 #allShow {
-  background-color:#74AFAD;
+  position: absolute;
+  background-color: #74AFAD;
   color:white;
+  top: 42px;
+  left: 0;
+  height: 20px;
   width: 200px;
-  margin:0;
-  border:0;
-  border-radius: 10px 10px 0px 0px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+    border:none;
 }
 
 #allShow:focus {
@@ -163,26 +167,6 @@ html, body {
 	font-size: 12px;
 }
 
-.note-util div{
-	display:inline-block;
-	float:right;
-}
-
-.note-util div span{
-	position:absolute;
-	display:none;
-	font-size:8px;
-	padding:2px;
-	background-color:#454545;
-	color:white;
-	margin-top:-16px;
-	margin-left:0px;
-}
-
-.note-util div:hover span{
-	display:block;
-}
-
 .search-note-list .note-util i {
 	margin-left: 5px;
 	float: right;
@@ -237,15 +221,13 @@ a#escape-note {
     border:none;
 }
 
-#left-menu-container {
-	position:absolute;
-	width:200px;
-	left:0;
-	top:50px;
-}
-
 #calendar-container {
+	position: absolute;
+	background-color: white;
+	top: 73px;
+	left: 0;
 	height: 200px;
+	border-radius:8px;
 }
 
 form#notes-create-form {
@@ -277,7 +259,6 @@ form#notes-create-form {
 	margin-left: -200px;
 	background-color: white;
 	font-size:12px;
-	border-radius: 10px;
 	overflow:hidden;
 }
 
@@ -295,29 +276,8 @@ form#notes-create-form {
 	padding:5px 0;
 }
 
-#group-member-container #group-member-list #group-member td.member-util ul {
-	list-style:none;
-}
-
-#group-member-container #group-member-list #group-member td.member-util ul li {
+#group-member-container #group-member-list #group-member td.member-util i {
 	cursor:pointer;
-	display:inline-block;
-	margin-left:2px;
-}
-
-#group-member-container #group-member-list #group-member td.member-util ul li .info {
-	position:absolute;
-	font-size:8px;
-	margin-left:-20px;
-	margin-top:-30px;
-	display:none;
-	padding:2px;
-	background-color:#454545;
-	color:white;
-}
-
-#group-member-container #group-member-list #group-member td.member-util ul li:hover .info {
-	display:block;
 }
 
 #addMemberForm {
@@ -329,7 +289,6 @@ form#notes-create-form {
 #addMemberForm .inputText {
 	width:74%;
 	height:15px;
-	border-radius: 5px;
 	display:inline;
 }
 
@@ -677,7 +636,7 @@ textarea#commentText {
  * note page
  */
 #note-list-container {
-	margin-top: 80px;
+	margin-top: 53px;
 	float: none;
 }
 
@@ -691,11 +650,6 @@ textarea#commentText {
 .note-list a {
 	text-decoration: none;
 	color: #454545;
-}
-
-.note-list span.attention, .note-list span.question{
-	padding:5px 0;
-	font-size:13px;
 }
 
 .note-list li {
@@ -818,10 +772,12 @@ textarea#commentText {
 	z-index: 25;
 	margin: 0 auto;
 	background-color: white;
+	border-radius: 10px;
 	overflow: hidden;
-	border-radius:4px;
     top:400%;
 }
+
+
 
 .modal-header {
 	width: 100%;
@@ -863,7 +819,7 @@ textarea#commentText {
 	text-align: center;
 	background-color: #eeeff2;
 	border: 3px dotted #B4B4B4;
-	border-radius: 10px;
+	border-radius: 12px;
 }
 
 #create-new-button:hover {
