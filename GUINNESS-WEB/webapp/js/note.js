@@ -343,7 +343,7 @@ function addMember() {
 	var groupId = document.querySelector('#addMemberForm input[name="groupId"]').value;
 	guinness.ajax({
 		method : "post",
-		url : "/groups/members",
+		url : "/groups/members/invite",
 		param : "userId=" + userId + "&groupId=" + groupId,
 		success : function(req) {
 			var json = JSON.parse(req.responseText);
@@ -358,7 +358,7 @@ function addMember() {
 				alert.style.visibility="visible";
 				alert.style.color="#86E57F";
 				alert.style.fontSize="11px";
-				alert.innerHTML = "그룹에 초대하였습니다.";
+				alert.innerHTML = "초대 요청을 보냈습니다.";
 				return;
 			}
 		}
@@ -393,14 +393,6 @@ function appendMembers(json) {
 		appendMember(json[i]);
 	}
 }
-
-//function allCheckMember() {
-//	var objs = document.querySelectorAll(".memberChk");
-//	var allchk = document.querySelector(".memberAllClick");
-//	for (var i = 0; i < objs.length; i++) {
-//		objs[i].checked = allchk.checked;
-//	}
-//}
 
 function OnOffMemberAllClickBtn() {
 	var objs = document.querySelectorAll(".memberChk");

@@ -55,8 +55,17 @@ public class GroupController {
 		return new JsonResult().setSuccess(true);
 	}
 	
-	@RequestMapping(value = "/members", method = RequestMethod.POST)
-	protected @ResponseBody JsonResult addGroupMember(WebRequest req) throws FailedAddGroupMemberException {
+	@RequestMapping(value = "/members/invite", method = RequestMethod.POST)
+	protected @ResponseBody JsonResult inviteGroupMember(WebRequest req, HttpSession session) throws FailedAddGroupMemberException, IOException {
+		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
+		String userId = req.getParameter("userId");
+		String groupId = req.getParameter("groupId");
+		groupService.inviteGroupMember(sessionUserId, userId, groupId);		
+		return new JsonResult().setSuccess(true);
+	}
+	
+	@RequestMapping(value = "/members/accept", method = RequestMethod.POST)
+	protected @ResponseBody JsonResult acceptGroupMember(WebRequest req) throws FailedAddGroupMemberException {
 		String userId = req.getParameter("userId");
 		String groupId = req.getParameter("groupId");
 		User user = groupService.addGroupMember(userId, groupId);		

@@ -46,7 +46,7 @@
 		
 
 		<div id='group-member-container'>
-			<form id="addMemberForm" action="/group/add/member" method="post">
+			<form id="addMemberForm">
 				<span style="font-weight:bold;">멤버추가</span><br/>
 				<input type="hidden" name="groupId">
 				<input class="inputText" type="text" name="userId">
