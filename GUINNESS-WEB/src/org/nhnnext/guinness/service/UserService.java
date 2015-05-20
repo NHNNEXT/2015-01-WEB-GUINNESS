@@ -77,6 +77,7 @@ public class UserService {
 	public void update(User user, String rootPath, MultipartFile profileImage) throws UserUpdateException {
 		User dbUser = userDao.findUserByUserId(user.getUserId());
 		try {
+			user.setUserImage(dbUser.getUserImage());
 			if (!profileImage.isEmpty()) {
 				String fileName = user.getUserId();
 				profileImage.transferTo(new File(rootPath + "img/profile/" + fileName));
