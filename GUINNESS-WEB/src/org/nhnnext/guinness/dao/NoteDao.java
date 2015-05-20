@@ -46,6 +46,23 @@ public class NoteDao extends JdbcDaoSupport {
 		}, keyHolder);
 		return keyHolder.getKey().longValue();
 	}
+	
+	// 최초
+	public List<Map<String, Object>> _readNotes(String groupId, String noteTargetDate, String userIds) {
+		String sql = "select * from NOTES, USERS where NOTES.groupId = ? and NOTES.userId = USERS.userId ";
+		if (userIds != null) {
+			sql += "and NOTES.userId in (" + userIds + ") ";
+		}
+		if ( noteTargetDate != null) {
+			sql += "and NOTES.noteTargetDate < "+ noteTargetDate + " ";
+		}
+		sql += "order by NOTES.noteTargetDate desc limit 3";
+		try {
+			return getJdbcTemplate().queryForList(sql, groupId);
+		} catch (EmptyResultDataAccessException e) {
+			return new ArrayList<Map<String, Object>>();
+		}
+	}
 
 	public List<Map<String, Object>> readNoteListForMap(String groupId, String endDate, String noteTargetDate,
 			String userIds) {

@@ -35,10 +35,7 @@
 				</button>
 			</a>
 		</div>
-
-		<!-- <input type="text" name="rangeCalendar" value="01/01/2015 - 01/31/2015" /> -->
-
-		<!-- <input type="text" name="defaultCalendar" value="10/24/1984" /> -->
+		
 		<div id="left-menu-container">
 			<input class="inputBtn" id="allShow" type="submit" value="전체보기" onclick="reloadNoteList()" />
 			<div id='calendar-container'>
@@ -117,23 +114,6 @@
 	
 	</script>
 	<script src="/js/note.js"></script>
-	<!-- <script type="text/javascript">
-		$(function() {
-		    $('input[name="rangeCalendar"]').daterangepicker();
-		});
-	</script> -->
-	<!-- <script type="text/javascript">
-		$(function() {
-		    $('input[id="defaultCalendar"]').daterangepicker({
-		        singleDatePicker: true,
-		        showDropdowns: true
-		    }, 
-		    function(start, end, label) {
-		        var years = moment().diff(start, 'years');
-		        alert("You are " + years + " years old.");
-		    });
-		});
-	</script> -->
 	<script type="text/javascript">
 		$(function() {
 		    $("#defaultCalendar").daterangepicker({
@@ -150,6 +130,8 @@
 			var noteTargetDate = $('#defaultCalendar').data('daterangepicker').startDate._d.toISOString().substring(0,10);
 			reloadNoteList(noteTargetDate);
 		}, false);
+		
+		
 	</script>
 </body>
 </html>
