@@ -6,11 +6,8 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
-import jdk.nashorn.internal.objects.annotations.Setter;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.nhnnext.guinness.util.RandomFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 

@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 
@@ -44,5 +45,30 @@ public class PreviewDao extends JdbcDaoSupport {
 				+ "join users u on u.userId = n.userId "
 				+ "where p.groupId = ? order by createDate desc";
 		return getJdbcTemplate().queryForList(sql, groupId);
+	}
+	
+	public List<Map<String, Object>> readNotes(String groupId, String noteTargetDate, String userIds) {
+		String sql = "select * from NOTES, USERS where NOTES.groupId = ? and NOTES.userId = USERS.userId ";
+		if (userIds != null && userIds != "null" && userIds != "" ) {
+			sql += "and NOTES.userId in (" + userIds + ") ";
+		}
+		if ( noteTargetDate != null) {
+			sql += "and NOTES.noteTargetDate < '"+ noteTargetDate + "' ";
+		}
+		sql += "order by NOTES.noteTargetDate desc limit 3";
+		try {
+			return getJdbcTemplate().queryForList(sql, groupId);
+		} catch (EmptyResultDataAccessException e) {
+			return new ArrayList<Map<String, Object>>();
+		}
+	}
+	
+	public List<Map<String, Object>> readPreviews(String groupId) {
+		String sql = "select attentionText, questionText from PREVIEWS, NOTES where PREVIEWS.noteId = NOTES.noteId and NOTES.groupId = ? order by NOTES.noteTargetDate desc";
+		try {
+			return getJdbcTemplate().queryForList(sql, groupId);
+		} catch (EmptyResultDataAccessException e) {
+			return new ArrayList<Map<String, Object>>();
+		}
 	}
 }

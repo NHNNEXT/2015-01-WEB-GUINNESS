@@ -26,6 +26,28 @@ function leaveGroup() {
 	
 }
 
+var appendMarkList = function(json) {
+	var attentionListElement = document.querySelector("#attention-list");
+	var questionListElement = document.querySelector("#question-list");
+	var attentionList;
+	var questionList;
+	var newEl = undefined;
+	for (var i = 0; i < json.length; i++) {
+		attentionList = JSON.parse(json[i].attentionText);
+		for(var j = 0; j< attentionList.length; j++) {
+			newEl = document.createElement("li");
+			newEl.innerHTML = attentionList[j];
+			attentionListElement.appendChild(newEl);
+		}
+		questionList = JSON.parse(json[i].questionText);
+		for(var j = 0; j< questionList.length; j++) {
+			newEl = document.createElement("li");
+			newEl.innerHTML = questionList[j];
+			questionListElement.appendChild(newEl);
+		}
+	}
+}
+
 function appendNoteList(json) {
 	var el = document.querySelector("#empty-message");
 	if (el != undefined) {

@@ -41,6 +41,16 @@
 			<div id='calendar-container'>
 				<div id="defaultCalendar" ></div>
 			</div>
+			<div id='summary-container' style=" position: absolute; top: 320px;">
+				<span id="summaryShow">공지 모음</span>
+				<div class='leftsideContainer' id='attention-container'>
+					<ul id='attention-list'></ul>
+				</div>
+				<span id="summaryShow">질문 모음</span>
+				<div class='leftsideContainer' id='question-container' style=" margin-top: 22px;">
+					<ul id='question-list'></ul>
+				</div>
+			</div>
 		</div>
 
 		<div id='group-member-container'>
@@ -123,12 +133,14 @@
 		document.querySelector('#group-name').innerHTML = groupName;
 
 		appendNoteList(${noteList});
+		appendMarkList(${markList});
 		var elCreateBtn = document.querySelector("#create-new-button");
 	}, false);
 	
 	window.addEventListener('scroll', function() {
 		infiniteScroll();
 	}, false);
+	
 	
 	</script>
 	<script src="/js/note.js"></script>
