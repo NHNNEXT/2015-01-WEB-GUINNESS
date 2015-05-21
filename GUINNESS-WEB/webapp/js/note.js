@@ -388,9 +388,15 @@ function readMember(groupId) {
 var memberTemplate = document.querySelector("#member-template").content;
 function appendMember(obj) {
 	var newMember = document.importNode(memberTemplate, true);
+	newMember.querySelector(".member-info").setAttribute("id", obj.userId);
 	newMember.querySelector(".memberChk").value = obj.userId;
 	newMember.querySelector(".member-name").innerHTML = obj.userName;
 	newMember.querySelector(".member-id").innerHTML = obj.userId;
+	newMember.querySelector('.fa-times').addEventListener("mousedown",
+			function(e) {
+				e.preventDefault();
+				guinness.confirmDeleteUser(obj.userId, obj.userName);
+			}, false);
 	document.querySelector("#group-member").appendChild(newMember);
 }
 

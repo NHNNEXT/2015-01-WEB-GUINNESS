@@ -82,11 +82,11 @@ public class GroupController {
 		return new JsonResult().setSuccess(true);
 	}
 
-	@RequestMapping(value = "/members/delete", method = RequestMethod.DELETE)
-	protected String delete(@RequestParam String sessionUserId, @RequestParam String userId,
+	@RequestMapping(value = "/members/delete", method = RequestMethod.POST)
+	protected @ResponseBody JsonResult delete(@RequestParam String sessionUserId, @RequestParam String userId,
 			@RequestParam String groupId) throws GroupUpdateException {
 		groupService.deleteGroupMember(sessionUserId, userId, groupId);
-		return "/g/" + groupId;
+		return new JsonResult().setSuccess(true);
 	}
 
 	@RequestMapping("/members/{groupId}")
