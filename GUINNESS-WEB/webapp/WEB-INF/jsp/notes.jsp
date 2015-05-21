@@ -26,8 +26,10 @@
 	<h1 id="empty-message"
 		style="position: absolute; color: #888; top: 300px; width: 100%; text-align: center;">새
 		노트를 작성해주세요</h1>
+	<div id='group-header' class="content wrap" style="margin-top:50px; padding:10px 0;">
+			<a style="display:inline-block" href="/g/${groupId}"><span id="group-name"></span></a>
+	</div>
 	<div id='note-list-container' class='content wrap'>
-		<a href="/g/${groupId}"><span id="group-name"></span></a>
 		<div id='create-note'>
 			<a href='/notes/editor/g/${groupId}'>
 				<button id='create-new-button'>
