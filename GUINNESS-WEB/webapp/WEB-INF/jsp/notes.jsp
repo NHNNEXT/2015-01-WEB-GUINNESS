@@ -36,23 +36,19 @@
 			</a>
 		</div>
 
-		<div id="left-menu-container">
+		<div id="left-menu-container" class="side-menu-container">
 			<div id='calendar-container'>
 				<div id="defaultCalendar" ></div>
 			</div>
-			<div id='summary-container' style=" position: absolute; top: 320px;">
-				<span id="summaryShow">공지 모음</span>
-				<div class='leftsideContainer' id='attention-container'>
-					<ul id='attention-list'></ul>
-				</div>
-				<span id="summaryShow" style="margin-top: 3px;">질문 모음</span>
-				<div class='leftsideContainer' id='question-container' style=" margin-top: 23px;">
-					<ul id='question-list'></ul>
-				</div>
+			<div id='summary-container'>
+				<span class="menu-title"><i class='fa fa-bullhorn'></i>  공지</span>
+				<ul id='attention-list' style="list-style:none; margin:5px 0 10px 0;"></ul>
+				<span class="menu-title"><i class='fa fa-question-circle'></i>  질문</span>
+				<ul id='question-list' style="list-style:none;"></ul>
 			</div>
 		</div>
 
-		<div id='group-member-container'>
+		<div id='group-member-container' class="side-menu-container">
 			<form id="addMemberForm">
 				<span style="font-weight:bold;">멤버추가</span><br/>
 				<input type="hidden" name="groupId">
