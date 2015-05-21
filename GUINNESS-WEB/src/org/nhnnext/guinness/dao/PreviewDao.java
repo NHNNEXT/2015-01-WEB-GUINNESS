@@ -55,7 +55,7 @@ public class PreviewDao extends JdbcDaoSupport {
 		if ( noteTargetDate != null) {
 			sql += "and NOTES.noteTargetDate < '"+ noteTargetDate + "' ";
 		}
-		sql += "order by NOTES.noteTargetDate desc limit 3";
+		sql += "order by NOTES.noteTargetDate desc limit 10";
 		try {
 			return getJdbcTemplate().queryForList(sql, groupId);
 		} catch (EmptyResultDataAccessException e) {

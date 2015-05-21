@@ -37,17 +37,17 @@
 		</div>
 
 		<div id="left-menu-container">
-			<input class="inputBtn" id="allShow" type="submit" value="전체보기" onclick="reloadNoteList()" />
 			<div id='calendar-container'>
 				<div id="defaultCalendar" ></div>
+				<input class="inputBtn" id="allShow" type="submit" value="전체보기" onclick="reloadNoteList()" />
 			</div>
 			<div id='summary-container' style=" position: absolute; top: 320px;">
 				<span id="summaryShow">공지 모음</span>
 				<div class='leftsideContainer' id='attention-container'>
 					<ul id='attention-list'></ul>
 				</div>
-				<span id="summaryShow">질문 모음</span>
-				<div class='leftsideContainer' id='question-container' style=" margin-top: 22px;">
+				<span id="summaryShow" style="margin-top: 3px;">질문 모음</span>
+				<div class='leftsideContainer' id='question-container' style=" margin-top: 23px;">
 					<ul id='question-list'></ul>
 				</div>
 			</div>
