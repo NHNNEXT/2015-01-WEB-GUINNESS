@@ -18,11 +18,6 @@ pComment = {
 	noteId : null
 };
 
-window.addEventListener('load', function() {
-	createPopupPCommentBtn();
-	setPopupPCommentBtn();
-}, false);
-
 function selectText() {
 	var select = "";
 	if (document.getSelection) {
