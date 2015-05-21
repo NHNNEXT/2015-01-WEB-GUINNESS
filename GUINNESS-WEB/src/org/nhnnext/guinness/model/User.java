@@ -47,6 +47,9 @@ public class User{
 	public User(String userId, String userName, String userPassword, String status) {
 		this(userId, userName, userPassword, status, "avatar-default.png");
 	}
+	public User(String userId, String userName, String userImage) {
+		this(userId, userName, null, null, userImage);
+	}
 
 	public User(String userId) {
 		this(userId, null, null, null, "avatar-default.png");

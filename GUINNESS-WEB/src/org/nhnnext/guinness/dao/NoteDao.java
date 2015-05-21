@@ -46,22 +46,6 @@ public class NoteDao extends JdbcDaoSupport {
 		}, keyHolder);
 		return keyHolder.getKey().longValue();
 	}
-	
-	public List<Map<String, Object>> readNotes(String groupId, String noteTargetDate, String userIds) {
-		String sql = "select * from NOTES, USERS where NOTES.groupId = ? and NOTES.userId = USERS.userId ";
-		if (userIds != null && userIds != "null" && userIds != "" ) {
-			sql += "and NOTES.userId in (" + userIds + ") ";
-		}
-		if ( noteTargetDate != null) {
-			sql += "and NOTES.noteTargetDate < '"+ noteTargetDate + "' ";
-		}
-		sql += "order by NOTES.noteTargetDate desc limit 3";
-		try {
-			return getJdbcTemplate().queryForList(sql, groupId);
-		} catch (EmptyResultDataAccessException e) {
-			return new ArrayList<Map<String, Object>>();
-		}
-	}
 
 	public int checkGroupNotesCount(String groupId) {
 		String sql = "select count(1) from NOTES where groupId=?";

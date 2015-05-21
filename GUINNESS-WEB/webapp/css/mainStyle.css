@@ -1,11 +1,36 @@
 html, body {
-	margin: 0;
-	padding: 0;
-	font-family: 'Nanum Gothic';
-	color: #454545;
-	height: 100%;
-	transition-duration: .3s;
+	margin:0;
+	padding:0;
+	font-family:'Nanum Gothic';
+	color:#454545;
+	height:100%;
+	transition-duration:.3s;
 	background-color: #e9eaed;
+}
+
+ul {
+	margin:0;
+	padding:0;
+}
+
+.wrap {
+	margin: 0 auto;
+}
+
+.content {
+	position:relative;
+	display:table;
+	width:940px;
+	min-height:10px;
+}
+
+input {
+	margin-top:10px;
+}
+
+input.text {
+	width: 250px;
+	height: 25px;
 }
 
 .popupCommentBtn {
@@ -251,7 +276,7 @@ form#notes-create-form {
 .side-menu-container {
 	position:absolute;
 	width:200px;
-	top:50px;
+	top:0px;
 	background-color:#fff;
 	font-size:12px;
 	padding-bottom:20px;
@@ -285,6 +310,10 @@ form#notes-create-form {
 #left-menu-container #summary-container #attention-list {
 	border-bottom:1px solid #ccc;
 	padding-bottom:5px;
+}
+
+#left-menu-container #summary-container ul {
+	display:block;
 }
 
 #left-menu-container #summary-container ul li {
@@ -323,7 +352,7 @@ form#notes-create-form {
 }
 
 #group-member-container #group-member-list #group-member td.member-util ul li .info {
-	position:absolute;i
+	position:absolute;
 	font-size:8px;
 	margin-left:-20px;
 	margin-top:-30px;
@@ -367,12 +396,6 @@ a {
 .errorMessage {
 	font-size: 10px;
 	color: red;
-}
-
-ul {
-	margin: 0 auto;
-	padding: 0px;
-	display: table;
 }
 
 #header {
@@ -597,26 +620,6 @@ div#calendar {
 	line-height: 25px;
 }
 
-.wrap {
-	margin: 0 auto;
-}
-
-.content {
-	position: relative;
-	display: table;
-	width: 940px;
-	min-height: 10px;
-}
-
-input {
-	margin-top: 10px;
-}
-
-input.text {
-	width: 250px;
-	height: 25px;
-}
-
 #jumbotron>form>input {
 	width: 350px;
 	height: 26px;
@@ -675,13 +678,12 @@ textarea#commentText {
 }
 
 #group-name {
-	font-weight: 500;
-	font-size: 25px;
-	border-left: 5px solid rgb(93, 129, 128);
-	color: rgb(93, 129, 128);
-	display: block;
-	margin-bottom: 20px;
-	padding-left: 10px;
+	font-weight:500;
+	font-size:25px;
+	border-left:5px solid rgb(93, 129, 128);
+	color:rgb(93, 129, 128);
+	padding-left:10px;
+	both:clean;
 }
 
 .group-list li {
@@ -721,8 +723,8 @@ textarea#commentText {
  * note page
  */
 #note-list-container {
-	margin-top: 53px;
 	float: none;
+	margin-top:20px;
 }
 
 .note-date {
@@ -730,6 +732,12 @@ textarea#commentText {
 	margin-top: 10px;
 	font-weight: bold;
 	color: #454545;
+}
+
+.note-list {
+	display:table;
+	margin:0 auto;
+	padding:0;
 }
 
 .note-list a {
@@ -795,21 +803,22 @@ textarea#commentText {
 }
 
 .note-list .userName {
+	display:inline-block;
 	font-size: 13px;
 	font-weight: bold;
 }
 
 .note-list .userId {
+	display:inline-block;
 	font-size: 12px;
 	font-weight: bold;
-	color: #74afad;
-	padding-right: 5px;
-	padding-left: 5px;
+	color:#74afad;
+	padding:0 5px;
 }
 
 .note-list li .note-date {
-	color: #BDBDBD;
-	font-size: 12px;
+	color:#888;
+	font-size:12px;
 }
 
 .note-list .qhsans {
@@ -911,12 +920,11 @@ textarea#commentText {
 }
 
 #create-new-button {
-	margin: 0 auto;
-	width: 520px;
-	height: 100%;
-	font-size: 70px;
-	margin-top:3px;
-	margin-bottom: 10px;
+	margin:0 auto;
+	width:520px;
+	height:100%;
+	font-size:70px;
+	margin-bottom:10px;
 	color: #B4B4B4;
 	text-align: center;
 	background-color: #eeeff2;
@@ -967,9 +975,9 @@ textarea#commentText {
 	background-color: #355856;
 }
 
-.deleteGroup-btn {
+.leaveGroup-btn {
 	position: relative;
-	font-size: 25px;
+	font-size: 15px;
 	cursor: pointer;
 	float: right;
 	left: 16px;
@@ -1015,7 +1023,7 @@ textarea#commentText {
 }
 
 .warn {
-	background-color: #ff5a5a;
+	background-color:#ff5a5a;
 	color: white;
 }
 

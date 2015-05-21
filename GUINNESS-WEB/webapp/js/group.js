@@ -110,12 +110,13 @@ function appendGroup(obj) {
 	newEl.querySelector(".group-card").setAttribute("id", obj.groupId);
 	newEl.querySelector(".group-card").setAttribute("href", "/g/" + obj.groupId);
 	newEl.querySelector(".group-name").innerHTML = groupName;
-	newEl.querySelector('.deleteGroup-btn').addEventListener("mousedown",
+	newEl.querySelector('.leaveGroup-btn').addEventListener("mousedown",
 		function(e) {
 			e.preventDefault();
 			var groupId = e.currentTarget.parentElement.parentElement.getAttribute("href").split("/")[2];
 			var groupName = e.currentTarget.parentElement.querySelector(".group-name").innerHTML;
-			confirmDelete(groupId, groupName);
+//			confirmDelete(groupId, groupName);
+			confirmLeave(groupId, groupName);
 		}, false);
 	if (obj.isPublic === 'T') {
 		newEl.querySelector('.fa-lock').setAttribute('class','fa fa-unlock');
@@ -132,6 +133,38 @@ function appendGroups(json) {
 	for (var i = 0; i < json.length; i++) {
 		appendGroup(json[i])
 	}
+}
+
+function confirmLeave(groupId, groupName) {
+	groupName = (groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
+	var message = "그룹을 탈퇴하시겠습니까?";
+	guinness.util.alert(groupName, message,
+		function() {
+			document.body.style.overflow = "auto";
+			var sessionUserId = document.getElementById("sessionUserId").value;
+			leaveGroup(sessionUserId, groupId);
+		},
+		function() {
+			document.body.style.overflow = "auto";
+            return;
+		}
+	);
+}
+
+function leaveGroup(sessionUserId, groupId) {
+	var param = "sessionUserId="+sessionUserId+"&groupId="+groupId;
+	guinness.ajax({
+		method:"post",
+		url:"/groups/members/leave",
+		param: param,
+		success: function(req) {
+			if(JSON.parse(req.responseText).success !== true) {
+				guinness.util.alert('경고', JSON.parse(req.responseText).message);
+				return;
+			}
+			document.querySelector('#' + groupId).remove();
+		}
+	});		
 }
 
 function confirmDelete(groupId, groupName) {

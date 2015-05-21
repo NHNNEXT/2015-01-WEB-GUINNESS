@@ -24,19 +24,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.WebRequest;
 
 import com.google.gson.Gson;
 
 @Controller
 public class NoteController {
 	private static final Logger logger = LoggerFactory.getLogger(NoteController.class);
-	
 	@Resource
 	private NoteService noteService;
 	@Resource
 	private GroupService groupService;
-
+	
 	@RequestMapping("/g/{groupId}")
 	protected String initReadNoteList(@PathVariable String groupId, HttpSession session, Model model) throws IOException, UnpermittedAccessGroupException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
@@ -46,14 +44,15 @@ public class NoteController {
 	}
 
 	@RequestMapping("/notes/reload")
-	protected @ResponseBody JsonResult reloadNoteList(@RequestParam("checkedUserId") String userIds, 
-			@RequestParam String noteTargetDate, @RequestParam String groupId, WebRequest req) {
-		if(userIds == null || groupId == null) {
+	protected @ResponseBody JsonResult reloadNotes(
+			@RequestParam String groupId, @RequestParam long noteTargetDate) {
+		logger.debug("noteTargetDate:{}",noteTargetDate);
+		if(groupId == null) {
 			return new JsonResult().setSuccess(false).setMapValues(new ArrayList<Map<String, Object>>());
 		}
 		if("undefined".equals(noteTargetDate))
-			noteTargetDate = null;
-		return new JsonResult().setSuccess(true).setMapValues(noteService.reloadNotes(groupId, noteTargetDate, userIds));
+			noteTargetDate = 0;
+		return new JsonResult().setSuccess(true).setMapValues(noteService.reloadPreviews(groupId, noteTargetDate));
 	}
 
 	//여기.
