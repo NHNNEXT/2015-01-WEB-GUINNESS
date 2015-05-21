@@ -2,7 +2,6 @@ package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
