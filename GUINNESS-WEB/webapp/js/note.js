@@ -59,10 +59,13 @@ function appendNoteList(json) {
 	for (var i = 0; i < json.length; i++) {
 		obj = json[i];		
 
+		// Long date to ISO date, May 21, 2015 2:37:31 PM -> 2015-05-21T05:37:31.000Z
 		var createDate = new Date(obj.createDate).toISOString();
+		
 		createDate = createDate.split("T");
 		createDate = createDate[0];
-		el = document.querySelector("#day-" + createDate);
+		el = document.querySelector("#day-" + createDate); // #day-2015-05-21
+		
 		if (el == undefined) {
 			el = document.createElement("ul");
 			el.setAttribute("id", "day-" + createDate);
@@ -73,9 +76,9 @@ function appendNoteList(json) {
 			el.appendChild(newEl);
 			document.querySelector('#note-list-container').appendChild(el);
 		}
-		var noteText = obj.noteText;
-		var attention = obj.attentionText;
-		var question = obj.questionText;
+		
+		var attention = JSON.parse(obj.attentionText);
+		var question = JSON.parse(obj.questionText);
 		
 		newEl = document.createElement("a");
 		newEl.setAttribute("id", obj.noteId);
@@ -93,11 +96,11 @@ function appendNoteList(json) {
 				+ "</span><span class='userId'>" + obj.userId + "</span></div>";
 		out += "<div><span class='note-date'>" + obj.createDate
 				+ "</span></div>";
-		if (attention !== null) {
-			out += attention + '<br />'
+		if (attention.length) {
+			out += "<span class='attention'>" + attention + "</span><br />";
 		}
-		if (question !== null) {
-			out += question + '<br />'
+		if (question.length) {
+			out += "<span class='question'>" + question + "</span><br />";
 		}
 		out += "<div class='comment-div'><i class='fa fa-comments'> " + obj.commentCount
 				+ "</i></div></div></li>";
