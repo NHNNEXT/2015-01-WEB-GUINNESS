@@ -46,7 +46,7 @@
 					<ul id='attention-list'></ul>
 				</div>
 				<span id="summaryShow" style="margin-top: 3px;">질문 모음</span>
-				<div class='leftsideContainer' id='question-container' style=" margin-top: 25px;">
+				<div class='leftsideContainer' id='question-container' style=" margin-top: 23px;">
 					<ul id='question-list'></ul>
 				</div>
 			</div>
