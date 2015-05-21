@@ -58,4 +58,18 @@ public class PreviewDaoTest {
 		}
 		assertNotNull(previews);
 	}
+	
+	@Test
+	public void update() {
+		ArrayList<String> attentionList = new ArrayList<String>();
+		ArrayList<String> questionList = new ArrayList<String>();
+		attentionList.add("수정된 강조");
+		questionList.add("수정된 궁금증");
+		int result = previewDao.update("6", "2015-05-21 14:00:00.0", attentionList, questionList);
+		List<Map<String, Object>> previews = previewDao.readPreviewsForMap("DEaAd");
+		for (Map<String, Object> preview : previews) {
+			System.out.println(new Gson().toJson(preview));
+		}
+		assertEquals(1, result);
+	}
 }
