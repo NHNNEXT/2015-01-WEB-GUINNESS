@@ -39,7 +39,6 @@
 		<div id="left-menu-container">
 			<div id='calendar-container'>
 				<div id="defaultCalendar" ></div>
-				<input class="inputBtn" id="allShow" type="submit" value="전체보기" onclick="reloadNoteList()" />
 			</div>
 			<div id='summary-container' style=" position: absolute; top: 320px;">
 				<span id="summaryShow">공지 모음</span>
@@ -153,7 +152,18 @@
 		    function(start, end, label) {
 		    	console.log(start.toISOString(), end.toISOString(), label);
 		        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-		    }); 
+		    });
+		    //<input id="allShow" type="submit" value="전체노트 보기" onclick="reloadNoteList()" />
+		    var allShowButton = guinness.createElement({
+		    	name : "input",
+				attrs : {
+					id : "allShow",
+					type : "submit",
+					value : "전체보기",
+					onclick : "reloadNoteList()"
+				}
+		    });
+		    $("#calendar-container").append(allShowButton);
 		});
 
 		document.querySelector('#calendar-container').addEventListener("click", function(e) {
