@@ -48,7 +48,7 @@ function createPopupPCommentBtn() {
 }
 
 function setPopupPCommentBtn() {
-	var elNoteText = document.body.querySelector(".noteText");
+	var elNoteText = document.body.querySelector(".note-content");
 
 	elNoteText.addEventListener('mousedown', function(e) {
 		mousePosition.downPoint.x = e.pageX;
@@ -75,7 +75,7 @@ function setPopupPCommentBtn() {
 								- mousePosition.downPoint.x);
 						var top = mousePosition.upPoint.y;
 
-						if (selectedText && "noteText" !== selectedElClassName) {
+						if (selectedText && "note-content" !== selectedElClassName) {
 							elPopupBtn.style.top = top + "px";
 							elPopupBtn.style.left = left + "px";
 							elPopupBtn.style.display = "block";
