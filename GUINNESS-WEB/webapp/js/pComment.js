@@ -70,7 +70,8 @@ function setPopupPCommentBtn() {
 								- mousePosition.downPoint.x);
 						var top = mousePosition.upPoint.y;
 
-						if (selectedText && "note-content" !== selectedElClassName) {
+						if (selectedText) {
+							//&& "note-content" !== selectedElClassName) {
 							elPopupBtn.style.top = top + "px";
 							elPopupBtn.style.left = left + "px";
 							elPopupBtn.style.display = "block";

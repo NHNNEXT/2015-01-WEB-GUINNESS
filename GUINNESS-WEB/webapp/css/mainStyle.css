@@ -41,6 +41,7 @@ input.text {
 	padding : 5px;
 	border-radius: 2px;
 	font-size:13px;
+	z-index : 1000;
 }
 
 .highlighted {
