@@ -69,7 +69,7 @@ public class PreviewDaoTest {
 		ArrayList<String> questionList = new ArrayList<String>();
 		attentionList.add("수정된 강조");
 		questionList.add("수정된 궁금증");
-		int result = previewDao.update("6", "2015-05-21 14:00:00.0", attentionList, questionList);
+		int result = previewDao.update("6", attentionList, questionList);
 		List<Preview> previews = previewDao.initReadPreviews("DEaAd");
 		for (Preview preview : previews) {
 			System.out.println(new Gson().toJson(preview));

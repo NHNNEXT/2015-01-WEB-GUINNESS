@@ -261,3 +261,35 @@ guinness.ajax = function(o) {
 	}
 	req.send(o.param);
 };
+
+guinness.confirmLeave = function(groupId, groupName) {
+	groupName = (groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
+	var message = "그룹을 탈퇴하시겠습니까?";
+	guinness.util.alert(groupName, message,
+		function() {
+			document.body.style.overflow = "auto";
+			var sessionUserId = document.getElementById("sessionUserId").value;
+			guinness.leaveGroup(sessionUserId, groupId);
+		},
+		function() {
+			document.body.style.overflow = "auto";
+            return;
+		}
+	);
+}
+
+guinness.leaveGroup = function(sessionUserId, groupId) {
+	var param = "sessionUserId="+sessionUserId+"&groupId="+groupId;
+	guinness.ajax({
+		method:"post",
+		url:"/groups/members/leave",
+		param: param,
+		success: function(req) {
+			if(JSON.parse(req.responseText).success !== true) {
+				guinness.util.alert('경고', JSON.parse(req.responseText).message);
+				return;
+			}
+			document.querySelector('#' + groupId).remove();
+		}
+	});
+}

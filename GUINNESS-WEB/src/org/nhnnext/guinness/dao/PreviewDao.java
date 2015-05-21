@@ -2,7 +2,6 @@ package org.nhnnext.guinness.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -15,8 +14,6 @@ import org.nhnnext.guinness.model.User;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
-
-import com.google.gson.Gson;
 
 @Repository
 public class PreviewDao extends JdbcDaoSupport {
@@ -40,8 +37,8 @@ public class PreviewDao extends JdbcDaoSupport {
 				+ "join notes n on p.noteId = n.noteId "
 				+ "join users u on u.userId = n.userId "
 				+ "where p.groupId = ? "
-				+ "and n.noteTargetDate < now() "
-				+ "order by n.noteTargetDate desc limit 10";
+				+ "and n.noteTargetDate < date_add(now(), interval 1 minute) "
+				+ "order by n.noteTargetDate desc limit 3";
 		try {
 			return getJdbcTemplate().query(sql, (rs, rowNum) -> new Preview(
 					new Note(rs.getString("noteId"), rs.getString("noteTargetDate"), rs.getInt("commentCount")),
@@ -55,25 +52,31 @@ public class PreviewDao extends JdbcDaoSupport {
 		}
 	}
 	
-	public List<Map<String, Object>> reloadPreviews(String groupId, long noteTargetDate) {
+	public List<Preview> reloadPreviews(String groupId, String noteTargetDate) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("select p.*, n.commentCount, u.userId, u.userName, u.userImage ");
+		sql.append("select p.*, n.noteTargetDate, n.commentCount, u.userId, u.userName, u.userImage ");
 		sql.append("from previews p ");
 		sql.append("join notes n on p.noteId = n.noteId ");
 		sql.append("join users u on u.userId = n.userId ");
 		sql.append("where p.groupId = ? ");
 		sql.append("and n.noteTargetDate < now() ");
-		if ( noteTargetDate != 0) sql.append("and n.noteTargetDate < '"+ noteTargetDate + "' ");
-		sql.append("order by createDate desc limit 10");
+		if ( noteTargetDate != null) sql.append("and n.noteTargetDate < '"+ noteTargetDate + "' ");
+		sql.append("order by n.noteTargetDate desc limit 3");
 		try {
-			return getJdbcTemplate().queryForList(sql.toString(), groupId);
+			return getJdbcTemplate().query(sql.toString(), (rs, rowNum) -> new Preview(
+					new Note(rs.getString("noteId"), rs.getString("noteTargetDate"), rs.getInt("commentCount")),
+					new User(rs.getString("userId"), rs.getString("userName"), rs.getString("userImage")),
+					new Group(rs.getString("groupId")),
+					rs.getString("attentionText"), 
+					rs.getString("questionText")
+					), groupId);
 		} catch (EmptyResultDataAccessException e) {
-			return new ArrayList<Map<String, Object>>();
+			return null;
 		}
 	}
 
-	public int update(String noteId, String updateDate, ArrayList<String> attentionList, ArrayList<String> questionList) {
-		String sql = "update PREVIEWS set attentionText = ?, questionText = ?, createDate = ? where noteId = ?";
-		return getJdbcTemplate().update(sql, new Gson().toJson(attentionList), new Gson().toJson(questionList), updateDate, noteId);
+	public int update(String noteId, ArrayList<String> attentionList, ArrayList<String> questionList) {
+		String sql = "update PREVIEWS set attentionText = ?, questionText = ? where noteId = ?";
+		return getJdbcTemplate().update(sql, attentionList.toString(), questionList.toString(), noteId);
 	}
 }

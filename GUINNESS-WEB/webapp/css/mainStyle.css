@@ -1,16 +1,50 @@
 html, body {
-	margin: 0;
-	padding: 0;
-	font-family: 'Nanum Gothic';
-	color: #454545;
-	height: 100%;
-	transition-duration: .3s;
+	margin:0;
+	padding:0;
+	font-family:'Nanum Gothic';
+	color:#454545;
+	height:100%;
+	transition-duration:.3s;
 	background-color: #e9eaed;
 }
 
 ul {
 	margin:0;
 	padding:0;
+}
+
+.wrap {
+	margin: 0 auto;
+}
+
+.content {
+	position:relative;
+	display:table;
+	width:940px;
+	min-height:10px;
+}
+
+input {
+	margin-top:10px;
+}
+
+input.text {
+	width: 250px;
+	height: 25px;
+}
+
+.popupCommentBtn {
+	background: black;
+	color: white;
+	position: fixed;
+	display: none;
+	padding : 5px;
+	border-radius: 2px;
+	font-size:13px;
+}
+
+.highlighted {
+	background: rgba(113, 252, 159, 0.8);
 }
 
 #allShow {
@@ -586,26 +620,6 @@ div#calendar {
 	line-height: 25px;
 }
 
-.wrap {
-	margin: 0 auto;
-}
-
-.content {
-	position: relative;
-	display: table;
-	width: 940px;
-	min-height: 10px;
-}
-
-input {
-	margin-top: 10px;
-}
-
-input.text {
-	width: 250px;
-	height: 25px;
-}
-
 #jumbotron>form>input {
 	width: 350px;
 	height: 26px;
@@ -789,21 +803,22 @@ textarea#commentText {
 }
 
 .note-list .userName {
+	display:inline-block;
 	font-size: 13px;
 	font-weight: bold;
 }
 
 .note-list .userId {
+	display:inline-block;
 	font-size: 12px;
 	font-weight: bold;
-	color: #74afad;
-	padding-right: 5px;
-	padding-left: 5px;
+	color:#74afad;
+	padding:0 5px;
 }
 
 .note-list li .note-date {
-	color: #BDBDBD;
-	font-size: 12px;
+	color:#888;
+	font-size:12px;
 }
 
 .note-list .qhsans {
@@ -960,9 +975,9 @@ textarea#commentText {
 	background-color: #355856;
 }
 
-.deleteGroup-btn {
+.leaveGroup-btn {
 	position: relative;
-	font-size: 25px;
+	font-size: 15px;
 	cursor: pointer;
 	float: right;
 	left: 16px;
@@ -1008,7 +1023,7 @@ textarea#commentText {
 }
 
 .warn {
-	background-color: #ff5a5a;
+	background-color:#ff5a5a;
 	color: white;
 }
 

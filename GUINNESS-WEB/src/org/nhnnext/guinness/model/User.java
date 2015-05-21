@@ -17,7 +17,7 @@ public class User{
 	
 	@NotNull
 	@Pattern(regexp = "([a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣].*)", message = "이름은 한글, 영문, 숫자만 가능합니다.")
-	@Size(max = 50, message = "이름은 25 글자 이하만 사용 가능합니다.")
+	@Size(max = 25, message = "이름은 25 글자 이하만 사용 가능합니다.")
 	@Expose
 	private String userName;
 	

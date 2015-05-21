@@ -20,7 +20,7 @@ public class Group {
 	}
 
 	public Group(String groupId) {
-		this(groupId, null, null, null);
+		this(groupId, null, null, "A");
 	}
 
 	public void setGroupId(String groupId) {
@@ -55,7 +55,7 @@ public class Group {
 		this.status = status;
 	}
 
-	public boolean isPublicOfStatus() {
+	public boolean checkStatus() {
 		return status.equals("T");
 	}
 	

@@ -18,6 +18,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="/js/moment.js"></script>
 <script src="/js/daterangepicker.js"></script>
+<script src="/js/pComment.js"></script>
 
 </head>
 <body>
@@ -64,7 +65,7 @@
 				</table>
 			</div>
 			<div style="padding:10px;">
-				<a href="#"><span id="leave-group" style="font-weight:bold;" onclick="confirmLeave()">그룹탈퇴하기</span></a>
+				<a href="#"><span id="leave-group" style="font-weight:bold;">그룹탈퇴하기</span></a>
 			</div>
 		</div>
 	</div>
@@ -113,7 +114,13 @@
         
     <script type="template" >
             
-    </script>    
+    </script>
+    
+    <script type="template" id="popupCommentBtnTemplate">
+    	<div class="popupCommentBtn">
+        	댓글 달기
+    	</div>
+	</script>
     
 	<script>
 	document.title = "${group.groupName}";
@@ -132,6 +139,12 @@
 		appendNoteList(json);
 		appendMarkList(json);
 		var elCreateBtn = document.querySelector("#create-new-button");
+		
+		document.querySelector('#leave-group').addEventListener("mousedown",
+				function(e) {
+					e.preventDefault();
+					guinness.confirmLeave(groupId, groupName);
+				}, false);
 	}, false);
 	
 	window.addEventListener('scroll', function() {
@@ -167,7 +180,7 @@
 		document.querySelector('#calendar-container').addEventListener("click", function(e) {
 			if (e.target.getAttribute("class") === null || e.target.getAttribute("class").indexOf("available") === -1)
 				return;
-			var noteTargetDate = $('#defaultCalendar').data('daterangepicker').startDate._d.toISOString().substring(0,10);
+			var noteTargetDate = $('#defaultCalendar').data('daterangepicker').startDate._d.toISOString().substring(0,10)+ " 23:59:59";
 			reloadNoteList(noteTargetDate);
 		}, false);
 	</script>
