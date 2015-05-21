@@ -10,6 +10,7 @@ import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.UserDao;
 import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
 import org.nhnnext.guinness.exception.FailedDeleteGroupException;
+import org.nhnnext.guinness.exception.GroupUpdateException;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.exception.UnpermittedDeleteGroupException;
 import org.nhnnext.guinness.model.Alarm;
@@ -95,5 +96,21 @@ public class GroupService {
 			return createAlarmId();
 		}
 		return alarmId;
+	}
+
+	public void update(String sessionUserId, Group group) throws GroupUpdateException {
+		Group dbGroup = groupDao.readGroup(group.getGroupId());
+		if(!sessionUserId.equals(dbGroup.getGroupCaptainUserId())){
+			throw new GroupUpdateException("그룹장만이 그룹설정이 가능합니다.");
+		}
+		List<User> userList = groupDao.readGroupMember(group.getGroupId());
+		User newCaptionuser = userDao.findUserByUserId(group.getGroupCaptainUserId());
+		if(newCaptionuser == null){
+			throw new GroupUpdateException("존재하지 않는 사용자입니다.");
+		}
+		if(!userList.contains(newCaptionuser)){
+			throw new GroupUpdateException("그룹멤버가 아닙니다.");
+		}
+		groupDao.updateGroup(group);
 	}
 }
