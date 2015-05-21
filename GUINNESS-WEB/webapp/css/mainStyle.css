@@ -33,24 +33,20 @@ html, body {
   color: white;
   height: 20px;
   width: 200px;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
   border: none;
   text-align: center;
   font: normal normal normal 11px/normal '.HelveticaNeueDeskInterface-Regular';"
 }
 
 #allShow {
-  position: absolute;
+	position: absolute;
   background-color: #74AFAD;
-  color:white;
-  top: 42px;
-  left: 0;
+  color: white;
+  top: 185px;
+  left: 5px;
   height: 20px;
-  width: 200px;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-    border:none;
+  width: 190px;
+  border: none;
 }
 
 #allShow:focus {
@@ -258,7 +254,7 @@ a#escape-note {
 	background-color: white;
 	top: 73px;
 	left: 0;
-	height: 200px;
+	height: 220px;
 	border-radius:8px;
 }
 
