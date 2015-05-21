@@ -5,6 +5,7 @@ import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
 import org.nhnnext.guinness.exception.FailedDeleteGroupException;
 import org.nhnnext.guinness.exception.FailedLoginException;
 import org.nhnnext.guinness.exception.FailedMakingGroupException;
+import org.nhnnext.guinness.exception.GroupUpdateException;
 import org.nhnnext.guinness.exception.NotExistedUserIdException;
 import org.nhnnext.guinness.exception.SendMailException;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
@@ -64,6 +65,15 @@ public class ControllerExceptionHandler {
 		ModelAndView mav = new ModelAndView(rv);
 		mav.addObject("message", e.getMessage());
 		logger.debug("UserUpdateException:{}", e.getMessage());
+		return mav;
+	}
+	
+	
+	// 그룹정보 수정시 예외처리
+	@ExceptionHandler(GroupUpdateException.class)
+	public ModelAndView groupUpdateException(UserUpdateException e) {
+		ModelAndView mav = new ModelAndView("/illegal");
+		mav.addObject("errorMessage", e.getMessage());
 		return mav;
 	}
 	
