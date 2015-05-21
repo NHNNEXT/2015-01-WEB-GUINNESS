@@ -9,13 +9,19 @@ var appendMarkList = function (json) {
     for (var i = 0; i < json.length; i++) {
         attentionList = json[i].attentionList.replace("[", "").replace("]", "").replace(", ", ",").split(",");
         for (var j = 0; j < attentionList.length; j++) {
+        	if(attentionList[j] === "")
+        		continue;
             newEl = document.createElement("li");
+            newEl.setAttribute("class", "mark-list");
             newEl.innerHTML = attentionList[j];
             attentionListElement.appendChild(newEl);
         }
         questionList = json[i].questionList.replace("[", "").replace("]", "").replace(", ", ",").split(",");
         for (var j = 0; j < questionList.length; j++) {
+        	if(questionList[j] === "")
+        		continue;
             newEl = document.createElement("li");
+            newEl.setAttribute("class", "mark-list");
             newEl.innerHTML = questionList[j];
             questionListElement.appendChild(newEl);
         }
@@ -55,12 +61,12 @@ function appendNoteList(json) {
         var attention = obj.attentionList.replace("[", "").replace("]", "").replace(", ", ",").split(",");
         var question = obj.questionList.replace("[", "").replace("]", "").replace(", ", ",").split(",");
 
-        newEl = document.createElement("a");
-        newEl.setAttribute("id", obj.note.noteId);
-        newEl.setAttribute("href", "#");
-        out = "";
-        out += "<li><img class='avatar' class='avatar' src='/img/profile/"
-            + obj.user.userImage + "'>";
+		newEl = document.createElement("a");
+		newEl.setAttribute("id", obj.note.noteId);
+		newEl.setAttribute("href", "#");
+		out = "";
+		out += "<li><img class='avatar' class='avatar' src='/img/profile/"
+				+ obj.user.userImage + "'>";
 
         var userId = document.getElementById("sessionUserId").value;
         if (userId === obj.user.userId) {
@@ -152,7 +158,8 @@ function showNoteModal(obj) {
         body: bodyTemplate,
         defaultCloseEvent: false,
         whenCloseEvent: function () {
-            reloadNoteList();
+        	//TODO 해당 노트의 코멘트 갯수만 받아와서 수정해주기
+//            reloadNoteList();
             clearInterval(commentTimeUpdate);
         }
     });
@@ -382,11 +389,17 @@ function readMember(groupId) {
 
 var memberTemplate = document.querySelector("#member-template").content;
 function appendMember(obj) {
-    var newMember = document.importNode(memberTemplate, true);
-    newMember.querySelector(".memberChk").value = obj.userId;
-    newMember.querySelector(".member-name").innerHTML = obj.userName;
-    newMember.querySelector(".member-id").innerHTML = obj.userId;
-    document.querySelector("#group-member").appendChild(newMember);
+	var newMember = document.importNode(memberTemplate, true);
+	newMember.querySelector(".member-info").setAttribute("id", obj.userId);
+	newMember.querySelector(".memberChk").value = obj.userId;
+	newMember.querySelector(".member-name").innerHTML = obj.userName;
+	newMember.querySelector(".member-id").innerHTML = obj.userId;
+	newMember.querySelector('.fa-times').addEventListener("mousedown",
+			function(e) {
+				e.preventDefault();
+				guinness.confirmDeleteUser(obj.userId, obj.userName);
+			}, false);
+	document.querySelector("#group-member").appendChild(newMember);
 }
 
 function appendMembers(json) {
@@ -416,7 +429,7 @@ function OnOffMemberAllClickBtn() {
 }
 
 function deleteNoteList() {
-    el = document.querySelectorAll(".note-list");
+    var el = document.querySelectorAll(".note-list");
     var elLength = el.length;
     if (el != undefined) {
         for (var i = elLength - 1; i >= 0; i--) {
@@ -424,6 +437,11 @@ function deleteNoteList() {
         }
     }
 }
+function deleteMarkList() {
+	var el = document.querySelectorAll(".mark-list");
+	el.remove();
+}
+
 
 function reloadNoteList(noteTargetDate) {
     var groupId = window.location.pathname.split("/")[2];
@@ -435,7 +453,9 @@ function reloadNoteList(noteTargetDate) {
             var result = JSON.parse(req.responseText);
             if (result.success) {
                 deleteNoteList();
+                deleteMarkList();
                 appendNoteList(result.objectValues);
+                appendMarkList(result.objectValues);
             }
         }
     });
@@ -472,6 +492,7 @@ var reloadWithoutDeleteNoteList = function (noteTargetDate) {
             var result = JSON.parse(req.responseText);
             if (result.success) {
                 appendNoteList(result.objectValues);
+                appendMarkList(result.objectValues);
             }
         }
     });

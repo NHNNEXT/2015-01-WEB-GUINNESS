@@ -43,7 +43,7 @@ public class UserService {
 	}
 
 	private void createConfirm(User user, User existedUser) throws SendMailException {
-		if("R".equals(existedUser.getStatus())) {
+		if("R".equals(existedUser.getUserStatus())) {
 			confirmDao.deleteConfirmByUserId(user.getUserId());
 		}
 		String keyAddress = createKeyAddress();
@@ -68,7 +68,7 @@ public class UserService {
 	
 	public User login(String userId, String userPassword) throws FailedLoginException {
 		User user = userDao.findUserByUserId(userId);
-		if (user == null || !user.isCorrectPassword(userPassword) || !user.checkStatus("E")) {
+		if (user == null || !user.isCorrectPassword(userPassword) || !user.checkUserStatus("E")) {
 			throw new FailedLoginException();
 		}
 		return user;
