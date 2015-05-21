@@ -3,13 +3,14 @@ package org.nhnnext.guinness.util;
 import java.util.List;
 import java.util.Map;
 
-public class JsonResult {
+public class JsonResult<T> {
 	private boolean success;
 	private String message;
 	private String locationWhenFail;
 	private Object object;
+	private List<T> objectValues;
 	private List<Map<String, Object>> mapValues;
-	
+
 	public JsonResult() {
 	}
 	
@@ -30,6 +31,11 @@ public class JsonResult {
 	
 	public JsonResult setObject(Object object) {
 		this.object = object;
+		return this;
+	}
+
+	public JsonResult setObjectValues(List<T> objectValues) {
+		this.objectValues = objectValues;
 		return this;
 	}
 	
@@ -53,16 +59,20 @@ public class JsonResult {
 	public Object getObject() {
 		return object;
 	}
-
+	
+	public List<T> getObjectValues() {
+		return objectValues;
+	}
+	
 	public List<Map<String, Object>> getMapValues() {
 		return mapValues;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "JsonResult [success=" + success + ", message=" + message
 				+ ", locationWhenFail=" + locationWhenFail + ", object="
-				+ object + ", mapValues=" + mapValues + "]";
+				+ object + ", objectValues=" + objectValues + ", mapValues="
+				+ mapValues + "]";
 	}
-	
 }

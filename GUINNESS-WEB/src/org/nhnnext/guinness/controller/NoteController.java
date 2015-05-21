@@ -2,13 +2,13 @@ package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.model.Note;
+import org.nhnnext.guinness.model.Preview;
 import org.nhnnext.guinness.service.GroupService;
 import org.nhnnext.guinness.service.NoteService;
 import org.nhnnext.guinness.util.DateTimeUtil;
@@ -44,15 +44,15 @@ public class NoteController {
 	}
 
 	@RequestMapping("/notes/reload")
-	protected @ResponseBody JsonResult reloadNotes(
-			@RequestParam String groupId, @RequestParam long noteTargetDate) {
+	protected @ResponseBody JsonResult<Preview> reloadNotes(
+			@RequestParam String groupId, @RequestParam String noteTargetDate) {
 		logger.debug("noteTargetDate:{}",noteTargetDate);
 		if(groupId == null) {
-			return new JsonResult().setSuccess(false).setMapValues(new ArrayList<Map<String, Object>>());
+			return new JsonResult().setSuccess(false).setMapValues(new ArrayList<Preview>());
 		}
 		if("undefined".equals(noteTargetDate))
-			noteTargetDate = 0;
-		return new JsonResult().setSuccess(true).setMapValues(noteService.reloadPreviews(groupId, noteTargetDate));
+			noteTargetDate = null;
+		return new JsonResult().setSuccess(true).setObjectValues(noteService.reloadPreviews(groupId, noteTargetDate));
 	}
 
 	//여기.

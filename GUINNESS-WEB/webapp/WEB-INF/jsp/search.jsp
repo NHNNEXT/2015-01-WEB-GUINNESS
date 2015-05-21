@@ -13,7 +13,6 @@
 <link rel="stylesheet" href="/css/datepickr.css">
 <link rel="stylesheet" href="/css/markdown.css">
 <script src="/js/datepickr.js"></script>
-<script src="/js/markdown.js"></script>
 <script src="/js/pComment.js"></script>
 <script src="/js/${functionSelect}"></script>
 </head>
