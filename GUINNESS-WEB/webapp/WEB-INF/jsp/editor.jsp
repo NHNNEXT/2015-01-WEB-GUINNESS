@@ -19,11 +19,10 @@
 </head>
 <body>
 	<%@ include file="./commons/_topnav.jspf"%>
-	<input type="hidden" id="sessionUserId" name="sessionUserId"
-		value="${sessionUser.userId}">
+	<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUser.userId}">
 	<div id='note-edit-container' class='content wrap'>
 	<div id='note-edit-group-name' >
-		<a href="/g/${groupId}"><span id="group-name"></span></a></div>
+		<a href="/g/${groupId}"><span id="group-name"> ${groupName} </span></a></div>
 		<form id="noteForm" action="/notes" method="post">
 			<input type="hidden" id="hiddenGroupId" name="groupId" value="${groupId}">
 			<c:if test="${not empty noteId}">
