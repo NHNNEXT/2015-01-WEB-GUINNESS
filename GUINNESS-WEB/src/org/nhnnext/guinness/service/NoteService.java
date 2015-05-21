@@ -17,6 +17,8 @@ import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -24,7 +26,8 @@ import com.google.gson.Gson;
 
 @Service
 public class NoteService {
-	
+	private static final Logger logger = LoggerFactory
+			.getLogger(NoteService.class);
 	@Resource
 	private GroupDao groupDao;
 	@Resource
@@ -34,13 +37,13 @@ public class NoteService {
 	@Resource
 	private PreviewDao previewDao;
 	
-	public void initNotes(Model model, String sessionUserId, String groupId) throws UnpermittedAccessGroupException {
+	public List<Map<String, Object>> initNotes(String sessionUserId, String groupId) throws UnpermittedAccessGroupException {
 		Group group = groupDao.readGroup(groupId);
 		if (!group.isPublicOfStatus() && !groupDao.checkJoinedGroup(sessionUserId, groupId)) {
 			throw new UnpermittedAccessGroupException("비정상적 접근시도.");
 		}
-		model.addAttribute("groupName", group.getGroupName());
-		model.addAttribute("noteList", new Gson().toJson(getNoteListFromDao(groupId, null, null)));
+		
+		return previewDao.readPreviewsForMap(groupId);
 	}
 	
 	public List<Map<String, Object>> reloadNotes(String groupId, String noteTargetDate, String userIds) {
@@ -50,6 +53,7 @@ public class NoteService {
 	private List<Map<String, Object>> getNoteListFromDao(String groupId, String noteTargetDate, String userIds) {
 		// targetDate의 포맷을 위한 변경
 		List<Map<String, Object>> list = noteDao.readNotes(groupId, noteTargetDate, userIds);
+		logger.debug("List: {}", list);
 		for (Map<String, Object> map : list)
 			map.replace("noteTargetDate", map.get("noteTargetDate").toString());
 		return list;
@@ -111,7 +115,8 @@ public class NoteService {
 	}
 
 	public void update(String noteText, String noteId, String noteTargetDate) {
-		noteDao.updateNote(noteText, noteId, noteTargetDate);		
+		noteDao.updateNote(noteText, noteId, noteTargetDate);
+		previewDao.update(noteId, noteTargetDate, extractText(noteText, '!'), extractText(noteText, '?'));
 	}
 
 	public int delete(String noteId) {

@@ -26,6 +26,28 @@ function leaveGroup() {
 	
 }
 
+var appendMarkList = function(json) {
+	var attentionListElement = document.querySelector("#attention-list");
+	var questionListElement = document.querySelector("#question-list");
+	var attentionList;
+	var questionList;
+	var newEl = undefined;
+	for (var i = 0; i < json.length; i++) {
+		attentionList = JSON.parse(json[i].attentionText);
+		for(var j = 0; j< attentionList.length; j++) {
+			newEl = document.createElement("li");
+			newEl.innerHTML = attentionList[j];
+			attentionListElement.appendChild(newEl);
+		}
+		questionList = JSON.parse(json[i].questionText);
+		for(var j = 0; j< questionList.length; j++) {
+			newEl = document.createElement("li");
+			newEl.innerHTML = questionList[j];
+			questionListElement.appendChild(newEl);
+		}
+	}
+}
+
 function appendNoteList(json) {
 	var el = document.querySelector("#empty-message");
 	if (el != undefined) {
@@ -35,36 +57,29 @@ function appendNoteList(json) {
 	var obj = undefined;
 	var out = "";
 	for (var i = 0; i < json.length; i++) {
-		obj = json[i];
-		var noteTargetDate = obj.noteTargetDate;
-		noteTargetDate = noteTargetDate.split(" ");
-		noteTargetDate = noteTargetDate[0];
-		noteTargetDate = noteTargetDate.replace(/'-'/g, '');
-		el = document.querySelector("#day-" + noteTargetDate);
+		obj = json[i];		
+
+		// Long date to ISO date, May 21, 2015 2:37:31 PM -> 2015-05-21T05:37:31.000Z
+		var createDate = new Date(obj.createDate).toISOString();
+		
+		createDate = createDate.split("T");
+		createDate = createDate[0];
+		el = document.querySelector("#day-" + createDate); // #day-2015-05-21
+		
 		if (el == undefined) {
 			el = document.createElement("ul");
-			el.setAttribute("id", "day-" + noteTargetDate);
+			el.setAttribute("id", "day-" + createDate);
 			el.setAttribute("class", "note-list");
 			newEl = document.createElement("div");
 			newEl.setAttribute("class", "note-date");
-			newEl.innerHTML = "<span>" + noteTargetDate + "</span>";
+			newEl.innerHTML = "<span>" + createDate + "</span>";
 			el.appendChild(newEl);
 			document.querySelector('#note-list-container').appendChild(el);
 		}
-		var noteText = obj.noteText;
-		var attention = noteText
-				.match(/<span class='attention'>.{1,}<\/span>/g);
-		if (attention !== null) {
-			attention = attention.join('<br />');
-		}
-		var question = noteText.match(/<span class="question">.{1,}<\/span>/g);
-		if (question !== null) {
-			question = question.join('<br />');
-		}
-		var tag = noteText.match(/<span class="tag">.{1,}<\/span>/g);
-		if (tag !== null) {
-			tag = tag.join(' ');
-		}
+		
+		var attention = JSON.parse(obj.attentionText);
+		var question = JSON.parse(obj.questionText);
+		
 		newEl = document.createElement("a");
 		newEl.setAttribute("id", obj.noteId);
 		newEl.setAttribute("href", "#");
@@ -74,21 +89,18 @@ function appendNoteList(json) {
 
 		var userId = document.getElementById("sessionUserId").value;
 		if (userId === obj.userId) {
-			out += "<div class='note-util'><div><span>삭제</span><i class='fa fa-trash'></i></div><div><span>수정</span><i class='fa fa-pencil'></i></div></div>";
+			out += "<div class='note-util'><div><div><span>수정</span><i class='fa fa-pencil'></i></div><span>삭제</span><i class='fa fa-trash'></i></div></div>";
 		}
 		out += "<div class='content-container'>";
 		out += "<div><span class='userName'>" + obj.userName
 				+ "</span><span class='userId'>" + obj.userId + "</span></div>";
-		out += "<div><span class='note-date'>" + obj.noteTargetDate
+		out += "<div><span class='note-date'>" + obj.createDate
 				+ "</span></div>";
-		if (attention !== null) {
-			out += attention + '<br />'
+		if (attention.length) {
+			out += "<span class='attention'>" + attention + "</span><br />";
 		}
-		if (question !== null) {
-			out += question + '<br />'
-		}
-		if (tag !== null) {
-			out += tag + '<br />'
+		if (question.length) {
+			out += "<span class='question'>" + question + "</span><br />";
 		}
 		out += "<div class='comment-div'><i class='fa fa-comments'> " + obj.commentCount
 				+ "</i></div></div></li>";

@@ -37,9 +37,18 @@
 		</div>
 
 		<div id="left-menu-container">
-			<input class="inputBtn" id="allShow" type="submit" value="전체보기" onclick="reloadNoteList()" />
 			<div id='calendar-container'>
 				<div id="defaultCalendar" ></div>
+			</div>
+			<div id='summary-container' style=" position: absolute; top: 320px;">
+				<span id="summaryShow">공지 모음</span>
+				<div class='leftsideContainer' id='attention-container'>
+					<ul id='attention-list'></ul>
+				</div>
+				<span id="summaryShow" style="margin-top: 3px;">질문 모음</span>
+				<div class='leftsideContainer' id='question-container' style=" margin-top: 23px;">
+					<ul id='question-list'></ul>
+				</div>
 			</div>
 		</div>
 
@@ -109,8 +118,8 @@
     </script>    
     
 	<script>
-	document.title = "${groupName}";
-	var groupName = ("${groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
+	document.title = "${group.groupName}";
+	var groupName = ("${group.groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 	document.querySelector('#group-name').innerHTML = groupName;
 	var bJoinedUser = false;
 	const groupId = window.location.pathname.split("/")[2];
@@ -118,17 +127,19 @@
 		document.querySelector("#addMemberForm input[name='groupId']").value = groupId;
 		readMember(groupId);
 		document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
-		document.title = "${groupName}";
-		var groupName = ("${groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
+		document.title = "${group.groupName}";
+		var groupName = ("${group.groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 		document.querySelector('#group-name').innerHTML = groupName;
 
 		appendNoteList(${noteList});
+		appendMarkList(${noteList});
 		var elCreateBtn = document.querySelector("#create-new-button");
 	}, false);
 	
 	window.addEventListener('scroll', function() {
 		infiniteScroll();
 	}, false);
+	
 	
 	</script>
 	<script src="/js/note.js"></script>
@@ -141,10 +152,23 @@
 		    function(start, end, label) {
 		    	console.log(start.toISOString(), end.toISOString(), label);
 		        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-		    }); 
+		    });
+		    //<input id="allShow" type="submit" value="전체노트 보기" onclick="reloadNoteList()" />
+		    var allShowButton = guinness.createElement({
+		    	name : "input",
+				attrs : {
+					id : "allShow",
+					type : "submit",
+					value : "전체보기",
+					onclick : "reloadNoteList()"
+				}
+		    });
+		    $("#calendar-container").append(allShowButton);
 		});
 
 		document.querySelector('#calendar-container').addEventListener("click", function(e) {
+			if (e.target.getAttribute("class") === null || e.target.getAttribute("class").indexOf("available") === -1)
+				return;
 			var noteTargetDate = $('#defaultCalendar').data('daterangepicker').startDate._d.toISOString().substring(0,10);
 			reloadNoteList(noteTargetDate);
 		}, false);
