@@ -42,6 +42,11 @@ public class GroupDao extends JdbcDaoSupport {
 		String sql = "insert into GROUPS_USERS values(?,?)";
 		getJdbcTemplate().update(sql, userId, groupId);
 	}
+	
+	public void deleteGroupUser(String userId, String groupId) {
+		String sql = "delete from GROUPS_USERS where userId=? and groupId=?";
+		getJdbcTemplate().update(sql, userId, groupId);
+	}
 
 	public Group readGroup(String groupId) {
 		String sql = "select * from GROUPS where groupId=?";
