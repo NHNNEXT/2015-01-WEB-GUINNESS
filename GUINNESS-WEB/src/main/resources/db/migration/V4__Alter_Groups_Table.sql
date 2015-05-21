@@ -1,0 +1,1 @@
+ALERT TABLE GROUPS ADD groupImage varchar(50)) NULL;
