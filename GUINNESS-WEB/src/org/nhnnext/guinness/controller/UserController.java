@@ -14,9 +14,10 @@ import org.nhnnext.guinness.exception.UserUpdateException;
 import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.service.UserService;
-import org.nhnnext.guinness.util.JsonResult;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -73,18 +74,20 @@ public class UserController {
 	}
 
 	@RequestMapping("/form")
-	protected String updateForm(Model model) {
-		model.addAttribute("user", new User());
-		return "updateUser";
+	protected String updateForm() {
+		return "updateUserCheck";
 	}
 	
 	@RequestMapping(value = "/update/check", method = RequestMethod.POST)
-	protected @ResponseBody JsonResult updateUserCheck(@RequestParam String userPassword, HttpSession session){
+	protected String updateUserCheck(@RequestParam String userPassword, HttpSession session, Model model){
 		SessionUser sessionUser = (SessionUser)session.getAttribute("sessionUser");
 		boolean result = userService.checkUpdatePassword(sessionUser.getUserId(), userPassword);
-		if(!result)
-			return new JsonResult().setSuccess(result).setMessage("비밀번호를 확인해주세요");
-		return new JsonResult().setSuccess(result); 
+		if (!result) {
+			model.addAttribute("errorMessage", "비밀번호가 다릅니다.");
+			return "updateUserCheck";
+		}
+		model.addAttribute("user", new User());
+		return "updateUser";
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)

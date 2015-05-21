@@ -1,0 +1,1 @@
+alter table PREVIEWS drop column createDate;

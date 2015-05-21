@@ -39,6 +39,8 @@
 	font-size: 15px;
 	border-radius: 4px;
 	margin-bottom: 4px;
+	transition-property:background-color;
+	transition-duration:.5s;
 }
 
 #editProfile-form input[name='userPhoneNumber'] {
@@ -54,41 +56,6 @@
 #editProfile-form span.info strong {
 	color: #ff5a5a;
 }
-#profile-check-password {
-  outline: 1px solid #dadada;
-  width: 400px;
-  margin: 0 auto;
-  padding: 30px;
-}
-
-#profile-check-password label {
-    display: block;
-    margin-bottom: 30px;
-    font-weight: bold;
-    font-size: 20px;
-}
-
-#profile-check-password input {
-	width: 100%;
-	height: 30px;
-	outline: 1px solid #dadada;
-	border-radius: 5px;
-	font-size: 15px;
-}
-
-#profile-check-password button {
-    display: block;
-    margin-top: 30px;
-    width: 100%;
-    min-height: 40px;
-    border: none;
-    border-radius: 5px;
-    height: 30px;
-    font-size: 15px;
-    color: white;
-    background-color: rgb(116, 175, 173);
-}
-
 </style>
 <body>
 	<%@ include file="./commons/_topnav.jspf"%>
@@ -96,14 +63,7 @@
 		<h1>
 			<i class='fa fa-user'></i><span style='margin-left: 10px;'>회원정보수정</span>
 		</h1>
-		<div id='profile-check-password' class='panel'>
-			<label>비밀번호 재확인 </label>
-			<input value="${sessionUser.userId}" readonly> 
-			<input id="check-password" type="password" name="password" autofocus>
-			<button id="profile-check-password-button">확인</button>
-			<label id="checkPasswordErrorMessage"></label>
-		</div>
-		<div id='profile-panel' class='panel' hidden="true">
+		<div id='profile-panel' class='panel'>
 			<form:form modelAttribute="user" id='editProfile-form'
 				enctype='multipart/form-data' method='post' action='/user/update'>
 				<table id='editProfile-panel-body' class='panel-body'
@@ -114,15 +74,15 @@
 							class='avatar' src="/img/profile/${sessionUser.userImage}"> <input
 							type="file" name="profileImage"
 							accept="image/x-png, image/gif, image/jpeg" /></td>
-						<td valign=top id='editProfile-profileArea'
-							style='padding-left: 25px;'><form:hidden path="userId"
-								value="${sessionUser.userId}" />
+						<td valign=top id='editProfile-profileArea' style='padding-left: 25px;'>
+							<form:hidden path="userId" value="${sessionUser.userId}" />
 							<p>
 								<label for="userName">사용자 이름</label>
-								<form:input path="userName" autocomplete="off"
-									required="required" value="${sessionUser.userName}" />
-								<span class="info"><strong>[필수사항]</strong>스터디메이트들과의 소통을
-									위한 이름을 입력하세요.</span>
+								<form:input path="userName" autocomplete="off" required="required" value="${sessionUser.userName}" />
+								<span class="info">
+									<strong>[필수사항]</strong>스터디메이트들과의 소통을 위한 이름을 입력하세요.
+								</span>
+								<span class="errorMessage"></span><br/>
 							</p>
 							<p>
 								<label for="userPassword">비밀번호 변경</label>
@@ -130,55 +90,52 @@
 								<span class="info">비밀번호를 변경하시려면 새로운 비밀번호를 입력하세요.</span>
 							</p>
 							<p>
-								<label for="userAgainPassword">비밀번호 확인</label> <input
-									name="userAgainPassword" type="password" placeholder='' /> <span
-									class="info">비밀번호를 확인하기 위해 한번 더 입력하세요.</span>
-							</p> <c:if test="${not empty signValidErrorMessage}">
-								<span class="errorMessage"> ${signValidErrorMessage} <br /></span>
-							</c:if>
+								<label for="userAgainPassword">비밀번호 확인</label> 
+								<input name="userAgainPassword" type="password" placeholder='' />
+								<span class="info">비밀번호를 확인하기 위해 한번 더 입력하세요.</span>
+								<span class="errorMessage"></span><br/>
+							</p> 
 							<hr />
-							<button type="submit" class="btn btn-pm">수정</button></td>
+							<input type="button" value="수정" class="btn btn-pm" onclick="validCheck()"/>
+						</td>
 					</tr>
 				</table>
 			</form:form>
 		</div>
 	</div>
-	<script type="text/javascript">
-		window.addEventListener('load', function() {
-			document.querySelector('#profile-check-password-button')
-					.addEventListener("click", function(e) {
-						passwordCheck(e);
-					}, false);
-			var checkPasswordBox = document.querySelector('#check-password');
-			
-			checkPasswordBox.addEventListener("keyup", function(e) {
-				if (e.keyCode === 13) {
-					passwordCheck(e);
-				}
-			}, false);
-			
-			checkPasswordBox.focus();
-		}, false);
-
-		function passwordCheck(e) {
-			guinness
-					.ajax({
-						method : "post",
-						url : "/user/update/check",
-						param : "userPassword="
-								+ document.querySelector('#check-password').value,
-						success : function(req) {
-							if (JSON.parse(req.responseText).success === false) {
-								document
-										.querySelector('#checkPasswordErrorMessage').innerHTML = JSON
-										.parse(req.responseText).message;
-								return;
-							}
-							document.querySelector('#profile-panel').hidden = false;
-							document.querySelector('#profile-check-password').hidden = true;
-						}
-					});
+	<script>
+	function validCheck() {
+		var userName = document.querySelector("input[name='userName']").value;
+		var userPassword = document.querySelector("input[name='userPassword']").value;
+		var userAgainPassword = document.querySelector("input[name='userAgainPassword']").value;
+		var isValid = true;
+		if (userName === "") {
+			document.querySelector("input[name='userName']").style.backgroundColor="#ff5a5a";
+			document.querySelector("input[name='userName']~span.errorMessage").innerHTML = "이름은 필수사항 입니다.";
+			isValid = false;
 		}
+		if (userName.length > 25) {
+			document.querySelector("input[name='userName']").style.backgroundColor="#ff5a5a";
+			document.querySelector("input[name='userName']~span.errorMessage").innerHTML = "이름은 25자 이하만 가능합니다."
+			isValid = false;
+		}
+		if (!(userPassword === "" && userAgainPassword === "") && (userPassword !== userAgainPassword)) {
+			document.querySelector("input[name='userAgainPassword']").style.backgroundColor="#ff5a5a";
+			document.querySelector("input[name='userAgainPassword']~span.errorMessage").innerHTML = "비밀번호가 다릅니다!";
+			isValid = false;
+		}
+		if (!(isValid)) return;
+		document.querySelector("#editProfile-form").submit();
+	}
+	
+	document.querySelector("input[name='userName']").addEventListener('click',function(){
+		this.style.backgroundColor="#fff";
+		this.parentNode.querySelector("span.errorMessage").innerHTML = "";
+	});
+	document.querySelector("input[name='userAgainPassword']").addEventListener('click',function(){
+		this.style.backgroundColor="#fff";
+		this.parentNode.querySelector("span.errorMessage").innerHTML = "";
+	});
 	</script>
 </body>
 </html>

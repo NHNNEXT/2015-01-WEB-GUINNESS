@@ -104,7 +104,7 @@ public class GroupService {
 			throw new GroupUpdateException("그룹멤버가 아닙니다.");
 		}
 		if (userId.equals(group.getGroupCaptainUserId())) {
-			throw new GroupUpdateException("그룹장은 추방/탈퇴가 불가능합니다.");
+			throw new GroupUpdateException("그룹장은 탈퇴가 불가능합니다.");
 		}
 	}
 

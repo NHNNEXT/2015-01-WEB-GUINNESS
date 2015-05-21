@@ -110,12 +110,12 @@ function appendGroup(obj) {
 	newEl.querySelector(".group-card").setAttribute("id", obj.groupId);
 	newEl.querySelector(".group-card").setAttribute("href", "/g/" + obj.groupId);
 	newEl.querySelector(".group-name").innerHTML = groupName;
-	newEl.querySelector('.deleteGroup-btn').addEventListener("mousedown",
+	newEl.querySelector('.leaveGroup-btn').addEventListener("mousedown",
 		function(e) {
 			e.preventDefault();
 			var groupId = e.currentTarget.parentElement.parentElement.getAttribute("href").split("/")[2];
 			var groupName = e.currentTarget.parentElement.querySelector(".group-name").innerHTML;
-			confirmDelete(groupId, groupName);
+			guinness.confirmLeave(groupId, groupName);
 		}, false);
 	if (obj.isPublic === 'T') {
 		newEl.querySelector('.fa-lock').setAttribute('class','fa fa-unlock');

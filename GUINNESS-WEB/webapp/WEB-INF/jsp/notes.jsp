@@ -64,7 +64,7 @@
 				</table>
 			</div>
 			<div style="padding:10px;">
-				<a href="#"><span id="leave-group" style="font-weight:bold;" onclick="confirmLeave()">그룹탈퇴하기</span></a>
+				<a href="#"><span id="leave-group" style="font-weight:bold;">그룹탈퇴하기</span></a>
 			</div>
 		</div>
 	</div>
@@ -132,6 +132,12 @@
 		appendNoteList(json);
 		appendMarkList(json);
 		var elCreateBtn = document.querySelector("#create-new-button");
+		
+		document.querySelector('#leave-group').addEventListener("mousedown",
+				function(e) {
+					e.preventDefault();
+					guinness.confirmLeave(groupId, groupName);
+				}, false);
 	}, false);
 	
 	window.addEventListener('scroll', function() {

@@ -9,19 +9,6 @@ function cancelNoteCreate(e) {
 	document.querySelector('.modal-cover').remove();
 }
 
-function confirmLeave() {
-	var message = "그룹을 탈퇴하시겠습니까?";
-	guinness.util.alert("그룹 탈퇴", message,
-		function() {
-			window.location.href = "/group/leave/" + sessionUserId.value;
-		},
-		function() {
-			document.body.style.overflow = "auto";
-            return;
-		}
-	);
-}
-
 var appendMarkList = function(json) {
 	if(json === null)
 		return;

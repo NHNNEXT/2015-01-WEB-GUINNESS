@@ -75,11 +75,11 @@ public class GroupController {
 		return new JsonResult().setSuccess(true).setObject(user);
 	}
 
-	@RequestMapping(value = "/members/leave", method = RequestMethod.DELETE)
-	protected String leave(@RequestParam String sessionUserId, @RequestParam String groupId)
+	@RequestMapping(value = "/members/leave", method = RequestMethod.POST)
+	protected @ResponseBody JsonResult leave(@RequestParam String sessionUserId, @RequestParam String groupId)
 			throws GroupUpdateException {
 		groupService.leaveGroup(sessionUserId, groupId);
-		return "/groups";
+		return new JsonResult().setSuccess(true);
 	}
 
 	@RequestMapping(value = "/members/delete", method = RequestMethod.DELETE)
