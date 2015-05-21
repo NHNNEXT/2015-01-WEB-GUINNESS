@@ -8,6 +8,11 @@ html, body {
 	background-color: #e9eaed;
 }
 
+ul {
+	margin:0;
+	padding:0;
+}
+
 #allShow {
   position:relative;
   border: 0;
@@ -237,7 +242,7 @@ form#notes-create-form {
 .side-menu-container {
 	position:absolute;
 	width:200px;
-	top:50px;
+	top:0px;
 	background-color:#fff;
 	font-size:12px;
 	padding-bottom:20px;
@@ -271,6 +276,10 @@ form#notes-create-form {
 #left-menu-container #summary-container #attention-list {
 	border-bottom:1px solid #ccc;
 	padding-bottom:5px;
+}
+
+#left-menu-container #summary-container ul {
+	display:block;
 }
 
 #left-menu-container #summary-container ul li {
@@ -309,7 +318,7 @@ form#notes-create-form {
 }
 
 #group-member-container #group-member-list #group-member td.member-util ul li .info {
-	position:absolute;i
+	position:absolute;
 	font-size:8px;
 	margin-left:-20px;
 	margin-top:-30px;
@@ -353,12 +362,6 @@ a {
 .errorMessage {
 	font-size: 10px;
 	color: red;
-}
-
-ul {
-	margin: 0 auto;
-	padding: 0px;
-	display: table;
 }
 
 #header {
@@ -661,13 +664,12 @@ textarea#commentText {
 }
 
 #group-name {
-	font-weight: 500;
-	font-size: 25px;
-	border-left: 5px solid rgb(93, 129, 128);
-	color: rgb(93, 129, 128);
-	display: block;
-	margin-bottom: 20px;
-	padding-left: 10px;
+	font-weight:500;
+	font-size:25px;
+	border-left:5px solid rgb(93, 129, 128);
+	color:rgb(93, 129, 128);
+	padding-left:10px;
+	both:clean;
 }
 
 .group-list li {
@@ -707,8 +709,8 @@ textarea#commentText {
  * note page
  */
 #note-list-container {
-	margin-top: 53px;
 	float: none;
+	margin-top:20px;
 }
 
 .note-date {
@@ -716,6 +718,12 @@ textarea#commentText {
 	margin-top: 10px;
 	font-weight: bold;
 	color: #454545;
+}
+
+.note-list {
+	display:table;
+	margin:0 auto;
+	padding:0;
 }
 
 .note-list a {
@@ -897,12 +905,11 @@ textarea#commentText {
 }
 
 #create-new-button {
-	margin: 0 auto;
-	width: 520px;
-	height: 100%;
-	font-size: 70px;
-	margin-top:3px;
-	margin-bottom: 10px;
+	margin:0 auto;
+	width:520px;
+	height:100%;
+	font-size:70px;
+	margin-bottom:10px;
 	color: #B4B4B4;
 	text-align: center;
 	background-color: #eeeff2;
