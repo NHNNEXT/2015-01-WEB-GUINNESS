@@ -12,12 +12,10 @@ import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.util.JsonResult;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.WebRequest;
 
 @Controller
 @RequestMapping("/alarms")
@@ -36,13 +34,13 @@ public class AlarmController {
 	}
 
 	@RequestMapping(value = "/note/{alarmId}", method = RequestMethod.DELETE)
-	protected @ResponseBody JsonResult deleteNote(@PathVariable String alarmId, WebRequest req, Model model) {
+	protected @ResponseBody JsonResult deleteNote(@PathVariable String alarmId) {
 		alarmDao.deleteNote(alarmId);
 		return new JsonResult().setSuccess(true);
 	}
 	
 	@RequestMapping(value = "/group/{alarmId}", method = RequestMethod.DELETE)
-	protected @ResponseBody JsonResult deleteGroup(@PathVariable String alarmId, WebRequest req, Model model) {
+	protected @ResponseBody JsonResult deleteGroup(@PathVariable String alarmId) {
 		alarmDao.deleteGroup(alarmId);
 		return new JsonResult().setSuccess(true);
 	}

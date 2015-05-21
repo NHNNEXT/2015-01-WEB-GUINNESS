@@ -55,28 +55,32 @@
 </script>
 
 <script>
-(function(){
+getAlarms();
+
+function getAlarms(){
 	guinness.ajax({
 		method:"get",
 		url:"/alarms",
 		success: function(req) {
-			
 			var noteAlarmList = JSON.parse(req.responseText).note.mapValues;
 			var groupAlarmList = JSON.parse(req.responseText).group.mapValues;
-			
 			if (noteAlarmList.length + groupAlarmList.length !== 0) {
 				document.querySelector(".alarm-count").style.display = "block";
 				document.querySelector(".alarm-count").innerHTML = noteAlarmList.length + groupAlarmList.length;
 			}
 			var alarmListContainer = document.querySelector(".alarm-list");
+			alarmListContainer.innerHTML = "";
 			for (alarm of groupAlarmList) {
-				var alarmContent;
-				if(alarm.alarmStatus === "I")
+				var alarmContent = "";
+				if(alarm.alarmStatus === "I") {
 					alarmContent = "<a href='#'>"+alarm.userName+"님이 \""+ alarm.groupName + "\"그룹에 초대하였습니다."+ "</a>";
-				/* if(alarm.alarmStatus === "A")
+				}
+				/* if(alarm.alarmStatus === "A") {
 						alarmContent = "<a href='#'>"+alarm.userName+"님이 \""+ alarm.groupName + "\"그룹 초대를 수락하였습니다."+ "</a>";
-				if(alarm.alarmStatus === "R")
-						alarmContent = "<a href='#'>"+alarm.userName+"님이 \""+ alarm.groupName + "\"그룹 초대를 거절하였습니다."+ "</a>"; */
+				}
+				if(alarm.alarmStatus === "R") {
+						alarmContent = "<a href='#'>"+alarm.userName+"님이 \""+ alarm.groupName + "\"그룹 초대를 거절하였습니다."+ "</a>";
+				} */
 				alarmListContainer.appendChild(
 						guinness.createElement({
 							name: "li",
@@ -107,7 +111,7 @@
 			}
 		}
 	});
-})();
+}
 
 function noteAlarmSelect(t, noteId, alarmStatus){
 	guinness.ajax({
@@ -133,15 +137,35 @@ function groupAlarmSelect(t, userId, groupId, alarmStatus){
 				return;
 			}
 		 	if(alarmStatus === "I"){
-		 		debugger;
 		 		guinness.util.alert("그룹 멤버 초대", "초대를 수락하시겠습니까?", function(){
 		 			joinGroupMember(userId, groupId);
 		 		}, function(){
 		 			// 신청한 사람에게 거부 의사 알리기.
 		 		});
 		 	}
+		 	getAlarms();
 		}
 	});	
+}
+
+function appendGroupCard(groupId){
+	guinness.ajax({
+		method : "get",
+		url : "/groups",
+		success : function(req) {
+			var result = JSON.parse(req.responseText);
+			if (result.success) {
+				var json = result.mapValues;
+				debugger;
+				for (var i = 0; i < json.length; i++) {
+					if(json[i].groupId === groupId){
+						appendGroup(json[i]);
+						return;
+					}
+				}
+			}
+        }
+	});
 }
 
 function joinGroupMember(userId, groupId) {
@@ -154,9 +178,13 @@ function joinGroupMember(userId, groupId) {
 				if (json.success === false) {
 					guinness.util.alert("멤버초대 실패", json.message);
 				} else {
-					guinness.util.alert("알림", "그룹에 가입되었습니다.");
+					if(document.querySelector('#group-container') !== null){
+						appendGroupCard(groupId);
+					}
+		 			guinness.util.alert("알림", "그룹에 가입되었습니다.");
 				}
 			}
 		});
 }
+
 </script>
