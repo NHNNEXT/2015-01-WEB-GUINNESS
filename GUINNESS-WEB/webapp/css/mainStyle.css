@@ -42,18 +42,14 @@ html, body {
 }
 
 #allShow {
-	position: absolute;
-  background-color: #74AFAD;
-  color: white;
-  top: 185px;
-  left: 5px;
-  height: 20px;
-  width: 190px;
-  border: none;
-}
-
-#allShow:focus {
-	outline:none;	
+  position:relative;	
+  border: 0;
+  top:-10px;
+  border-bottom:2px solid black;
+  background-color:#74AFAD;
+  border-bottom:2px solid #619493;
+  color:white;
+  outline:none;
 }
 
 #allShow:hover {
@@ -257,7 +253,7 @@ a#escape-note {
 	background-color: white;
 	top:50px;
 	left: 0;
-	height: 220px;
+	text-align:center;
 	border-radius:2px;
 }
 
