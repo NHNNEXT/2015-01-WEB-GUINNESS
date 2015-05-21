@@ -26,8 +26,10 @@
 	<h1 id="empty-message"
 		style="position: absolute; color: #888; top: 300px; width: 100%; text-align: center;">새
 		노트를 작성해주세요</h1>
+	<div id='group-header' class="content wrap" style="margin-top:50px; padding:10px 0;">
+			<a style="display:inline-block" href="/g/${groupId}"><span id="group-name"></span></a>
+	</div>
 	<div id='note-list-container' class='content wrap'>
-		<a href="/g/${groupId}"><span id="group-name"></span></a>
 		<div id='create-note'>
 			<a href='/notes/editor/g/${groupId}'>
 				<button id='create-new-button'>
@@ -36,23 +38,19 @@
 			</a>
 		</div>
 
-		<div id="left-menu-container">
+		<div id="left-menu-container" class="side-menu-container">
 			<div id='calendar-container'>
 				<div id="defaultCalendar" ></div>
 			</div>
-			<div id='summary-container' style=" position: absolute; top: 320px;">
-				<span id="summaryShow">공지 모음</span>
-				<div class='leftsideContainer' id='attention-container'>
-					<ul id='attention-list'></ul>
-				</div>
-				<span id="summaryShow" style="margin-top: 3px;">질문 모음</span>
-				<div class='leftsideContainer' id='question-container' style=" margin-top: 23px;">
-					<ul id='question-list'></ul>
-				</div>
+			<div id='summary-container'>
+				<span class="menu-title"><i class='fa fa-bullhorn'></i>  공지</span>
+				<ul id='attention-list' style="list-style:none; margin:5px 0 10px 0;"></ul>
+				<span class="menu-title"><i class='fa fa-question-circle'></i>  질문</span>
+				<ul id='question-list' style="list-style:none;"></ul>
 			</div>
 		</div>
 
-		<div id='group-member-container'>
+		<div id='group-member-container' class="side-menu-container">
 			<form id="addMemberForm">
 				<span style="font-weight:bold;">멤버추가</span><br/>
 				<input type="hidden" name="groupId">

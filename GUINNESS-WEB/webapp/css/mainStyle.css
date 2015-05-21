@@ -8,41 +8,13 @@ html, body {
 	background-color: #e9eaed;
 }
 
-.leftsideContainer {
-	margin-top: 20px; 
-	background-color: white; 
-	width: 200px; 
-	height: 100px; 
-	overflow: scroll;
-}
-
-.leftsideContainer ul {
-	list-style: none;
-	margin: 0;
-	padding: 0px 10px;
-	font-size: 13px;
-	font-weight: bold;
-	display: block;
-}
-.leftsideContainer li {
-	padding: 3px 0;
-	border-bottom: 1px solid;
-  	border-bottom-color: lightgray;
-}
-
-#summaryShow {
-  position: absolute;
-  background-color: #74AFAD;
-  color: white;
-  width: 200px;
-  padding: 2px 0;
-  border: none;
-  text-align: center;
-  font: normal normal normal 11px/normal '.HelveticaNeueDeskInterface-Regular';"
+ul {
+	margin:0;
+	padding:0;
 }
 
 #allShow {
-  position:relative;	
+  position:relative;
   border: 0;
   top:-10px;
   border-bottom:2px solid black;
@@ -248,21 +220,12 @@ a#escape-note {
     border:none;
 }
 
-#calendar-container {
-	position: absolute;
-	background-color: white;
-	top:50px;
-	left: 0;
-	text-align:center;
-	border-radius:2px;
-}
-
 form#notes-create-form {
-	text-align: center;
+	text-align:center;
 }
 
 #create-note {
-	text-align: center;
+	text-align:center;
 }
 
 #create-new-button:focus, textarea#noteTextBox:focus {
@@ -276,16 +239,57 @@ form#notes-create-form {
 	margin: 0 auto;
 }
 
-#group-member-container {
-	width: 200px;
-	max-height:500px;
+.side-menu-container {
 	position:absolute;
-	top: 50px;
-	left: 100%;
-	padding-bottom:20px;
-	margin-left: -200px;
-	background-color: white;
+	width:200px;
+	top:0px;
+	background-color:#fff;
 	font-size:12px;
+	padding-bottom:20px;
+	border-radius:2px;
+	border-bottom:1px solid #ccc;
+}
+
+#left-menu-container {
+	background-color:white;
+	border-radius:2px;
+	font-size:12px;
+}
+
+#left-menu-container #calendar-container {
+	position:relative;
+	text-align:center;
+	border-bottom:1px solid #ccc;
+}
+
+#left-menu-container #summary-container {
+	position:relative;
+	padding:5px 0;
+}
+
+#left-menu-container span.menu-title {
+	position:relative;
+	font-weight:bold;
+	margin-left:15px;
+}
+
+#left-menu-container #summary-container #attention-list {
+	border-bottom:1px solid #ccc;
+	padding-bottom:5px;
+}
+
+#left-menu-container #summary-container ul {
+	display:block;
+}
+
+#left-menu-container #summary-container ul li {
+	padding:2px 5px 2px 30px;
+}
+
+#group-member-container {
+	left:100%;
+	max-height:500px;
+	margin-left:-200px;
 	overflow:hidden;
 }
 
@@ -314,7 +318,7 @@ form#notes-create-form {
 }
 
 #group-member-container #group-member-list #group-member td.member-util ul li .info {
-	position:absolute;i
+	position:absolute;
 	font-size:8px;
 	margin-left:-20px;
 	margin-top:-30px;
@@ -358,12 +362,6 @@ a {
 .errorMessage {
 	font-size: 10px;
 	color: red;
-}
-
-ul {
-	margin: 0 auto;
-	padding: 0px;
-	display: table;
 }
 
 #header {
@@ -666,13 +664,12 @@ textarea#commentText {
 }
 
 #group-name {
-	font-weight: 500;
-	font-size: 25px;
-	border-left: 5px solid rgb(93, 129, 128);
-	color: rgb(93, 129, 128);
-	display: block;
-	margin-bottom: 20px;
-	padding-left: 10px;
+	font-weight:500;
+	font-size:25px;
+	border-left:5px solid rgb(93, 129, 128);
+	color:rgb(93, 129, 128);
+	padding-left:10px;
+	both:clean;
 }
 
 .group-list li {
@@ -712,8 +709,8 @@ textarea#commentText {
  * note page
  */
 #note-list-container {
-	margin-top: 53px;
 	float: none;
+	margin-top:20px;
 }
 
 .note-date {
@@ -721,6 +718,12 @@ textarea#commentText {
 	margin-top: 10px;
 	font-weight: bold;
 	color: #454545;
+}
+
+.note-list {
+	display:table;
+	margin:0 auto;
+	padding:0;
 }
 
 .note-list a {
@@ -736,8 +739,9 @@ textarea#commentText {
 	list-style: none;
 	color: #454545;
 	margin-bottom: 10px;
-	background-color: #fff;
+	background-color:#fff;
 	border-radius: 2px;
+	border-bottom:1px solid #ccc;
 }
 
 .note-list li:hover {
@@ -901,12 +905,11 @@ textarea#commentText {
 }
 
 #create-new-button {
-	margin: 0 auto;
-	width: 520px;
-	height: 100%;
-	font-size: 70px;
-	margin-top:3px;
-	margin-bottom: 10px;
+	margin:0 auto;
+	width:520px;
+	height:100%;
+	font-size:70px;
+	margin-bottom:10px;
 	color: #B4B4B4;
 	text-align: center;
 	background-color: #eeeff2;
