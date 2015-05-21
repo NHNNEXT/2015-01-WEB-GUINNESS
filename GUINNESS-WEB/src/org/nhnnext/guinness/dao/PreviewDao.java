@@ -62,4 +62,9 @@ public class PreviewDao extends JdbcDaoSupport {
 			return new ArrayList<Map<String, Object>>();
 		}
 	}
+
+	public int update(String noteId, String updateDate, ArrayList<String> attentionList, ArrayList<String> questionList) {
+		String sql = "update PREVIEWS set attentionText = ?, questionText = ?, createDate = ? where noteId = ?";
+		return getJdbcTemplate().update(sql, new Gson().toJson(attentionList), new Gson().toJson(questionList), updateDate, noteId);
+	}
 }
