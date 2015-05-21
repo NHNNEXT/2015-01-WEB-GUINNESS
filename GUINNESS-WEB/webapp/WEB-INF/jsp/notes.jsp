@@ -143,7 +143,7 @@
 		document.querySelector('#leave-group').addEventListener("mousedown",
 				function(e) {
 					e.preventDefault();
-					guinness.confirmLeave(groupId, groupName);
+					guinness.confirmLeave(groupId, groupName,"/groups/form");
 				}, false);
 	}, false);
 	
