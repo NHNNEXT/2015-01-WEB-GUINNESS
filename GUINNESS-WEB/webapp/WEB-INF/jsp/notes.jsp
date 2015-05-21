@@ -157,6 +157,8 @@
 		});
 
 		document.querySelector('#calendar-container').addEventListener("click", function(e) {
+			if (e.target.getAttribute("class") === null || e.target.getAttribute("class").indexOf("available") === -1)
+				return;
 			var noteTargetDate = $('#defaultCalendar').data('daterangepicker').startDate._d.toISOString().substring(0,10);
 			reloadNoteList(noteTargetDate);
 		}, false);
