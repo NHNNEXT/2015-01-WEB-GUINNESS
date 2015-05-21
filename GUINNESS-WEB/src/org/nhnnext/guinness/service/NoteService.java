@@ -17,6 +17,8 @@ import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -24,7 +26,8 @@ import com.google.gson.Gson;
 
 @Service
 public class NoteService {
-	
+	private static final Logger logger = LoggerFactory
+			.getLogger(NoteService.class);
 	@Resource
 	private GroupDao groupDao;
 	@Resource
@@ -50,6 +53,7 @@ public class NoteService {
 	private List<Map<String, Object>> getNoteListFromDao(String groupId, String noteTargetDate, String userIds) {
 		// targetDate의 포맷을 위한 변경
 		List<Map<String, Object>> list = noteDao.readNotes(groupId, noteTargetDate, userIds);
+		logger.debug("List: {}", list);
 		for (Map<String, Object> map : list)
 			map.replace("noteTargetDate", map.get("noteTargetDate").toString());
 		return list;
