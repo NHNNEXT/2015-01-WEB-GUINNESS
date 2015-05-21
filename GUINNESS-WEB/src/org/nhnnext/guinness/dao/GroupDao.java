@@ -28,7 +28,7 @@ public class GroupDao extends JdbcDaoSupport {
 	}
 
 	public void createGroup(Group group) {
-		String sql = "insert into GROUPS values(?,?,?,DEFAULT,?)";
+		String sql = "insert into GROUPS values(?,?,?,DEFAULT,?,DEFAULT)";
 		getJdbcTemplate().update(sql, group.getGroupId(), group.getGroupName(), group.getGroupCaptainUserId(),
 				group.getStatus());
 	}
@@ -111,7 +111,7 @@ public class GroupDao extends JdbcDaoSupport {
 	}
 
 	public void updateGroup(Group group) {
-		String sql = "update GROUPS set groupName = ?, groupCaptainUserId = ?, isPublic = ? where groupId = ?";
-		getJdbcTemplate().update(sql, group.getGroupName(), group.getGroupCaptainUserId(), group.getStatus(), group.getGroupId());
+		String sql = "update GROUPS set groupName = ?, groupCaptainUserId = ?, isPublic = ?, groupImage = ? where groupId = ?";
+		getJdbcTemplate().update(sql, group.getGroupName(), group.getGroupCaptainUserId(), group.getStatus(), group.getGroupImage(), group.getGroupId());
 	}
 }

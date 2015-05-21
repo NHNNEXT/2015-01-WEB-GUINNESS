@@ -2,7 +2,6 @@ package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -96,7 +95,7 @@ public class NoteController {
 	private String createForm(@PathVariable String groupId, Model model, HttpSession session) throws UnpermittedAccessGroupException, IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		noteService.checkJoinedGroup(groupId, sessionUserId);
-		model.addAttribute(groupService.readGroup(groupId));
+		model.addAttribute("group",groupService.readGroup(groupId));
 		return "editor";
 	}
 

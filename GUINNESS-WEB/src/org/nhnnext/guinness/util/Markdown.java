@@ -5,14 +5,29 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.markdown4j.Markdown4jProcessor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class Markdown {
+	
+	private static final Logger logger = LoggerFactory.getLogger(Markdown.class);
+	
 	public String toHTML(String markdownText) throws IOException {
 		markdownText = attention(markdownText);
 		markdownText = question(markdownText);
-		return new Markdown4jProcessor().process(markdownText);
+		return pIdNumbering(new Markdown4jProcessor().process(markdownText));
 	}
 	
+	private String pIdNumbering(String textHtml) {
+		int idNumber = 1;
+		while(textHtml.indexOf("<p>")!=-1){
+			textHtml = textHtml.replaceFirst("<p>", "<p id='pId-"+idNumber+"'>");
+			idNumber++;
+		}
+		return textHtml;
+	}
+
 	private String attention(String markdownText) {
 		Pattern pattern = Pattern.compile("!{3}[^\n]{1,}!{3}");
 		Matcher matcher = pattern.matcher(markdownText);
@@ -34,4 +49,7 @@ public class Markdown {
 		}
 		return markdownText;
 	}
+	
+	
+	
 }

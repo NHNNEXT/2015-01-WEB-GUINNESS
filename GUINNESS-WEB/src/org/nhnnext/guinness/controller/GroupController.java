@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/groups")
@@ -82,11 +83,11 @@ public class GroupController {
 		return new JsonResult().setSuccess(true);
 	}
 
-	@RequestMapping(value = "/members/delete", method = RequestMethod.DELETE)
-	protected String delete(@RequestParam String sessionUserId, @RequestParam String userId,
+	@RequestMapping(value = "/members/delete", method = RequestMethod.POST)
+	protected @ResponseBody JsonResult delete(@RequestParam String sessionUserId, @RequestParam String userId,
 			@RequestParam String groupId) throws GroupUpdateException {
 		groupService.deleteGroupMember(sessionUserId, userId, groupId);
-		return "/g/" + groupId;
+		return new JsonResult().setSuccess(true);
 	}
 
 	@RequestMapping("/members/{groupId}")
@@ -94,12 +95,20 @@ public class GroupController {
 		return new JsonResult().setSuccess(true).setMapValues(groupService.groupMembers(groupId));
 	}
 
+	@RequestMapping("/update/form/{groupId}")
+	protected String updateForm(@PathVariable String groupId, Model model) {
+		Group group = groupService.readGroup(groupId);
+		model.addAttribute("group", group);
+		return "updateGroup";
+	}
+	
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	protected String updateUser(@RequestParam String sessionUserId, Group group) throws GroupUpdateException {
+	protected String updateUser(@RequestParam String sessionUserId, @RequestParam("backgroundImage") MultipartFile backgroundImage, HttpSession session,Group group) throws GroupUpdateException {
 		if (group.getGroupName().equals("")) {
 			throw new GroupUpdateException("그룹명이 공백입니다.");
 		}
-		groupService.update(sessionUserId, group);
-		return "/g/" + group.getGroupId();
+		String rootPath = session.getServletContext().getRealPath("/");
+		groupService.update(sessionUserId, group, rootPath, backgroundImage);
+		return "redirect:/g/" + group.getGroupId();
 	}
 }

@@ -262,14 +262,14 @@ guinness.ajax = function(o) {
 	req.send(o.param);
 };
 
-guinness.confirmLeave = function(groupId, groupName) {
+guinness.confirmLeave = function(groupId, groupName, location) {
 	groupName = (groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 	var message = "그룹을 탈퇴하시겠습니까?";
 	guinness.util.alert(groupName, message,
 		function() {
 			document.body.style.overflow = "auto";
 			var sessionUserId = document.getElementById("sessionUserId").value;
-			guinness.leaveGroup(sessionUserId, groupId);
+			guinness.leaveGroup(sessionUserId, groupId, location);
 		},
 		function() {
 			document.body.style.overflow = "auto";
@@ -278,7 +278,7 @@ guinness.confirmLeave = function(groupId, groupName) {
 	);
 }
 
-guinness.leaveGroup = function(sessionUserId, groupId) {
+guinness.leaveGroup = function(sessionUserId, groupId, location) {
 	var param = "sessionUserId="+sessionUserId+"&groupId="+groupId;
 	guinness.ajax({
 		method:"post",
@@ -289,7 +289,42 @@ guinness.leaveGroup = function(sessionUserId, groupId) {
 				guinness.util.alert('경고', JSON.parse(req.responseText).message);
 				return;
 			}
+			if(location !== undefined){
+				window.location.href = "/groups/form";
+			}
 			document.querySelector('#' + groupId).remove();
 		}
 	});
 }
+
+guinness.confirmDeleteUser = function(userId, userName) {
+	var message = userName + "을/를 멤버에서 제외 하시겠습니까?";
+	guinness.util.alert("멤버 강퇴", message,
+		function() {
+			document.body.style.overflow = "auto";
+			var sessionUserId = document.getElementById("sessionUserId").value;
+			guinness.deleteMember(sessionUserId, userId, groupId);
+		},
+		function() {
+			document.body.style.overflow = "auto";
+            return;
+		}
+	);
+}
+
+guinness.deleteMember = function(sessionUserId, userId, groupId) {
+	var param = "sessionUserId="+sessionUserId+"&userId="+userId+"&groupId="+groupId;
+	guinness.ajax({
+		method:"post",
+		url:"/groups/members/delete",
+		param: param,
+		success: function(req) {
+			if(JSON.parse(req.responseText).success !== true) {
+				guinness.util.alert('경고', JSON.parse(req.responseText).message);
+				return;
+			}
+			(document.getElementById(userId)).parentElement.remove();
+		}
+	});
+}
+

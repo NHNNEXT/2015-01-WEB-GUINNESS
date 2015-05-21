@@ -3,6 +3,7 @@ package org.nhnnext.guinness.service;
 import static org.junit.Assert.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +26,8 @@ public class GroupServiceTest {
 	public void update() throws GroupUpdateException {
 		String sessionUserId = "a@a.a";
 		Group group = new Group("cneih", "public", "d@d.d", "T");
-		groupService.update(sessionUserId, group);
+//		String rootPath = (new HttpSession()).getServletContext().getRealPath("/");
+		groupService.update(sessionUserId, group, null, null);
 	}
 	
 	@Test

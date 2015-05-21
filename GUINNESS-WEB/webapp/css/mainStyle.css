@@ -379,7 +379,7 @@ form#notes-create-form {
 	display:inline;
 }
 
-#addMemberForm .inputBtn {
+.inputBtn {
 	position:relative;
 	display:inline;
 	color: white;
