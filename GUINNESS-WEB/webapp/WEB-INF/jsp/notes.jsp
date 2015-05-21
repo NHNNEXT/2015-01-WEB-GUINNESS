@@ -128,7 +128,7 @@
 		document.title = "${group.groupName}";
 		var groupName = ("${group.groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 		document.querySelector('#group-name').innerHTML = groupName;
-		var json = JSON.parse("${noteList}");
+		var json = ${noteList};
 		appendNoteList(json);
 		appendMarkList(json);
 		var elCreateBtn = document.querySelector("#create-new-button");

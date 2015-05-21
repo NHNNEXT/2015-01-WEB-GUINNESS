@@ -10,6 +10,8 @@ import javax.sql.DataSource;
 
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
+import org.nhnnext.guinness.model.Preview;
+import org.nhnnext.guinness.model.User;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -32,18 +34,24 @@ public class PreviewDao extends JdbcDaoSupport {
 				attentionList.toString(), questionList.toString());
 	}
 	
-	public List<Map<String, Object>> initReadPreviews(String groupId) {
-		String sql = "select p.*, n.commentCount, u.userId, u.userName, u.userImage "
+	public List<Preview> initReadPreviews(String groupId) {
+		String sql = "select p.*, n.noteTargetDate, n.commentCount, u.userId, u.userName, u.userImage "
 				+ "from previews p "
 				+ "join notes n on p.noteId = n.noteId "
 				+ "join users u on u.userId = n.userId "
 				+ "where p.groupId = ? "
 				+ "and n.noteTargetDate < now() "
-				+ "order by createDate desc limit 10";
+				+ "order by n.noteTargetDate desc limit 10";
 		try {
-			return getJdbcTemplate().queryForList(sql, groupId);
+			return getJdbcTemplate().query(sql, (rs, rowNum) -> new Preview(
+					new Note(rs.getString("noteId"), rs.getString("noteTargetDate"), rs.getInt("commentCount")),
+					new User(rs.getString("userId"), rs.getString("userName"), rs.getString("userImage")),
+					new Group(rs.getString("groupId")),
+					rs.getString("attentionText"), 
+					rs.getString("questionText")
+					), groupId);
 		} catch (EmptyResultDataAccessException e) {
-			return new ArrayList<Map<String, Object>>();
+			return null;
 		}
 	}
 	

@@ -14,6 +14,7 @@ import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.model.Alarm;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
+import org.nhnnext.guinness.model.Preview;
 import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
@@ -34,7 +35,7 @@ public class NoteService {
 	private PreviewDao previewDao;
 	
 	//TODO previewService로 옮겨야 함
-	public List<Map<String, Object>> initNotes(String sessionUserId, String groupId) throws UnpermittedAccessGroupException {
+	public List<Preview> initNotes(String sessionUserId, String groupId) throws UnpermittedAccessGroupException {
 		Group group = groupDao.readGroup(groupId);
 		if (!group.isPublicOfStatus() && !groupDao.checkJoinedGroup(sessionUserId, groupId)) {
 			throw new UnpermittedAccessGroupException("비정상적 접근시도.");

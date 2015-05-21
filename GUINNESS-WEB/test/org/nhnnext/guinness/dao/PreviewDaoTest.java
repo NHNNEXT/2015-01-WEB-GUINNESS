@@ -4,14 +4,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.nhnnext.guinness.model.Preview;
 import org.nhnnext.guinness.util.RandomFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -46,8 +47,8 @@ public class PreviewDaoTest {
 	
 	@Test
 	public void read() {
-		List<Map<String, Object>> previews = previewDao.initReadPreviews("DEaAd");
-		for (Map<String, Object> preview : previews) {
+		List<Preview> previews = previewDao.initReadPreviews("DEaAd");
+		for (Preview preview : previews) {
 			System.out.println(preview);
 		}
 		assertNotNull(previews);
@@ -55,8 +56,8 @@ public class PreviewDaoTest {
 	
 	@Test
 	public void readAndConvertJson() {
-		List<Map<String, Object>> previews = previewDao.initReadPreviews("DEaAd");
-		for (Map<String, Object> preview : previews) {
+		List<Preview> previews = previewDao.initReadPreviews("DEaAd");
+		for (Preview preview : previews) {
 			System.out.println(new Gson().toJson(preview));
 		}
 		assertNotNull(previews);
@@ -69,10 +70,19 @@ public class PreviewDaoTest {
 		attentionList.add("수정된 강조");
 		questionList.add("수정된 궁금증");
 		int result = previewDao.update("6", "2015-05-21 14:00:00.0", attentionList, questionList);
-		List<Map<String, Object>> previews = previewDao.initReadPreviews("DEaAd");
-		for (Map<String, Object> preview : previews) {
+		List<Preview> previews = previewDao.initReadPreviews("DEaAd");
+		for (Preview preview : previews) {
 			System.out.println(new Gson().toJson(preview));
 		}
 		assertEquals(1, result);
+	}
+	
+	@Test
+	public void testName() throws Exception {
+		String str = "[111,222,333]";
+		List<String> list = Arrays.asList(str.substring(1, str.length()-1).split(","));
+		for (String string : list) {
+			System.out.println(string);
+		}
 	}
 }
