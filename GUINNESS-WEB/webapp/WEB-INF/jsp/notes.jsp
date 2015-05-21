@@ -133,7 +133,7 @@
 		document.querySelector('#group-name').innerHTML = groupName;
 
 		appendNoteList(${noteList});
-		appendMarkList(${markList});
+		appendMarkList(${noteList});
 		var elCreateBtn = document.querySelector("#create-new-button");
 	}, false);
 	

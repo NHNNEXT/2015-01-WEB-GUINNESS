@@ -62,13 +62,4 @@ public class PreviewDao extends JdbcDaoSupport {
 			return new ArrayList<Map<String, Object>>();
 		}
 	}
-	
-	public List<Map<String, Object>> readPreviews(String groupId) {
-		String sql = "select attentionText, questionText from PREVIEWS, NOTES where PREVIEWS.noteId = NOTES.noteId and NOTES.groupId = ? order by NOTES.noteTargetDate desc";
-		try {
-			return getJdbcTemplate().queryForList(sql, groupId);
-		} catch (EmptyResultDataAccessException e) {
-			return new ArrayList<Map<String, Object>>();
-		}
-	}
 }
