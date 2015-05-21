@@ -23,6 +23,8 @@ function confirmLeave() {
 }
 
 var appendMarkList = function(json) {
+	if(json === null)
+		return;
 	var attentionListElement = document.querySelector("#attention-list");
 	var questionListElement = document.querySelector("#question-list");
 	var attentionList;
@@ -45,6 +47,8 @@ var appendMarkList = function(json) {
 }
 
 function appendNoteList(json) {
+	if(json === null)
+		return;
 	var el = document.querySelector("#empty-message");
 	if (el != undefined) {
 		el.parentNode.removeChild(el);
@@ -453,7 +457,7 @@ function reloadNoteList(noteTargetDate) {
 			var result = JSON.parse(req.responseText);
 			if (result.success) {
 				deleteNoteList();
-				appendNoteList(result.mapValues);
+				appendNoteList(result.objectValues);
 			}
 		}
 	});
@@ -490,7 +494,7 @@ var reloadWithoutDeleteNoteList = function(noteTargetDate) {
 		success : function(req) {
 			var result = JSON.parse(req.responseText);
 			if (result.success) {
-				appendNoteList(result.mapValues);
+				appendNoteList(result.objectValues);
 			}
 		}
 	});
