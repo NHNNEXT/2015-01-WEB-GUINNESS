@@ -43,6 +43,15 @@ public class NoteService {
 		model.addAttribute("noteList", new Gson().toJson(getNoteListFromDao(groupId, null, null)));
 	}
 	
+	public List<Map<String, Object>> initNotes(String sessionUserId, String groupId) throws UnpermittedAccessGroupException {
+		Group group = groupDao.readGroup(groupId);
+		if (!group.isPublicOfStatus() && !groupDao.checkJoinedGroup(sessionUserId, groupId)) {
+			throw new UnpermittedAccessGroupException("비정상적 접근시도.");
+		}
+		
+		return previewDao.readPreviewsForMap(groupId);
+	}
+	
 	public List<Map<String, Object>> reloadNotes(String groupId, String noteTargetDate, String userIds) {
 		return getNoteListFromDao(groupId, noteTargetDate, userIds);
 	}	

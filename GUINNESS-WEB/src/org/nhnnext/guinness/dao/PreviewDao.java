@@ -10,8 +10,6 @@ import javax.sql.DataSource;
 
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
-import org.nhnnext.guinness.model.Preview;
-import org.nhnnext.guinness.model.User;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 
@@ -32,9 +30,19 @@ public class PreviewDao extends JdbcDaoSupport {
 		return getJdbcTemplate().update(sql, note.getNoteId(), group.getGroupId(), 
 				new Gson().toJson(attentionList), new Gson().toJson(questionList));
 	}
+	
+	public int create(String noteId, String groupId, ArrayList<String> attentionList, ArrayList<String> questionList) {
+		String sql = "insert into PREVIEWS (noteId, groupId, attentionText, questionText) values(?, ?, ?, ?)";
+		return getJdbcTemplate().update(sql, noteId, groupId, 
+				new Gson().toJson(attentionList), new Gson().toJson(questionList));
+	}
 
 	public List<Map<String, Object>> readPreviewsForMap(String groupId) {
-		String sql = "select *from PREVIEWS where groupId = ? order by createDate desc";
+		String sql = "select p.*, n.commentCount, u.userId, u.userName, u.userImage "
+				+ "from previews p "
+				+ "join notes n on p.noteId = n.noteId "
+				+ "join users u on u.userId = n.userId "
+				+ "where p.groupId = ? order by createDate desc";
 		return getJdbcTemplate().queryForList(sql, groupId);
 	}
 }

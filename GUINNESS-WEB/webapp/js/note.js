@@ -36,35 +36,25 @@ function appendNoteList(json) {
 	var out = "";
 	for (var i = 0; i < json.length; i++) {
 		obj = json[i];
-		var noteTargetDate = obj.noteTargetDate;
-		noteTargetDate = noteTargetDate.split(" ");
-		noteTargetDate = noteTargetDate[0];
-		noteTargetDate = noteTargetDate.replace(/'-'/g, '');
-		el = document.querySelector("#day-" + noteTargetDate);
+		var createDate = obj.createDate;
+		createDate = createDate.split(" ");
+		createDate = createDate[0];
+		createDate = createDate.replace(/'-'/g, '');
+		el = document.querySelector("#day-" + createDate);
 		if (el == undefined) {
 			el = document.createElement("ul");
-			el.setAttribute("id", "day-" + noteTargetDate);
+			el.setAttribute("id", "day-" + createDate);
 			el.setAttribute("class", "note-list");
 			newEl = document.createElement("div");
 			newEl.setAttribute("class", "note-date");
-			newEl.innerHTML = "<span>" + noteTargetDate + "</span>";
+			newEl.innerHTML = "<span>" + createDate + "</span>";
 			el.appendChild(newEl);
 			document.querySelector('#note-list-container').appendChild(el);
 		}
 		var noteText = obj.noteText;
-		var attention = noteText
-				.match(/<span class='attention'>.{1,}<\/span>/g);
-		if (attention !== null) {
-			attention = attention.join('<br />');
-		}
-		var question = noteText.match(/<span class="question">.{1,}<\/span>/g);
-		if (question !== null) {
-			question = question.join('<br />');
-		}
-		var tag = noteText.match(/<span class="tag">.{1,}<\/span>/g);
-		if (tag !== null) {
-			tag = tag.join(' ');
-		}
+		var attention = obj.attentionText;
+		var question = obj.questionText;
+		
 		newEl = document.createElement("a");
 		newEl.setAttribute("id", obj.noteId);
 		newEl.setAttribute("href", "#");
@@ -74,21 +64,18 @@ function appendNoteList(json) {
 
 		var userId = document.getElementById("sessionUserId").value;
 		if (userId === obj.userId) {
-			out += "<div class='note-util'><div><span>삭제</span><i class='fa fa-trash'></i></div><div><span>수정</span><i class='fa fa-pencil'></i></div></div>";
+			out += "<div class='note-util'><div><div><span>수정</span><i class='fa fa-pencil'></i></div><span>삭제</span><i class='fa fa-trash'></i></div></div>";
 		}
 		out += "<div class='content-container'>";
 		out += "<div><span class='userName'>" + obj.userName
 				+ "</span><span class='userId'>" + obj.userId + "</span></div>";
-		out += "<div><span class='note-date'>" + obj.noteTargetDate
+		out += "<div><span class='note-date'>" + obj.createDate
 				+ "</span></div>";
 		if (attention !== null) {
 			out += attention + '<br />'
 		}
 		if (question !== null) {
 			out += question + '<br />'
-		}
-		if (tag !== null) {
-			out += tag + '<br />'
 		}
 		out += "<div class='comment-div'><i class='fa fa-comments'> " + obj.commentCount
 				+ "</i></div></div></li>";
