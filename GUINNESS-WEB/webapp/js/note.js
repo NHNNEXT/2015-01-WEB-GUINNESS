@@ -22,10 +22,6 @@ function confirmLeave() {
 	);
 }
 
-function leaveGroup() {
-	
-}
-
 var appendMarkList = function(json) {
 	var attentionListElement = document.querySelector("#attention-list");
 	var questionListElement = document.querySelector("#question-list");
@@ -448,15 +444,9 @@ function deleteNoteList() {
 function reloadNoteList(noteTargetDate) {
 	var groupId = window.location.pathname.split("/")[2];
 	var objs = document.querySelectorAll(".memberChk");
-	var array = [];
-	for (var i = 0; i < objs.length; i++) {
-		if (objs[i].checked === true)
-			array.push("'" + objs[i].value + "'");
-	}
 	guinness.ajax({
 		method : "get",
-		url : '/notes/reload/?groupId=' + groupId + '&noteTargetDate='
-				+ noteTargetDate + '&checkedUserId=' + array,
+		url : '/notes/reload/?groupId=' + groupId + '&noteTargetDate=' + noteTargetDate,
 		success : function(req) {
 			var result = JSON.parse(req.responseText);
 			if (result.success) {
@@ -492,15 +482,9 @@ var infiniteScroll = function() {
 var reloadWithoutDeleteNoteList = function(noteTargetDate) {
 	var groupId = window.location.pathname.split("/")[2];
 	var objs = document.querySelectorAll(".memberChk");
-	var array = [];
-	for (var i = 0; i < objs.length; i++) {
-		if (objs[i].checked === true)
-			array.push("'" + objs[i].value + "'");
-	}
 	guinness.ajax({
 		method : "get",
-		url : '/notes/reload/?groupId=' + groupId + '&noteTargetDate='
-				+ noteTargetDate + '&checkedUserId=' + array,
+		url : '/notes/reload/?groupId=' + groupId + '&noteTargetDate=' + noteTargetDate,
 		success : function(req) {
 			var result = JSON.parse(req.responseText);
 			if (result.success) {

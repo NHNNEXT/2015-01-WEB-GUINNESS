@@ -32,12 +32,6 @@ public class PreviewDao extends JdbcDaoSupport {
 				new Gson().toJson(attentionList), new Gson().toJson(questionList));
 	}
 	
-	public int create(String noteId, String groupId, ArrayList<String> attentionList, ArrayList<String> questionList) {
-		String sql = "insert into PREVIEWS (noteId, groupId, attentionText, questionText) values(?, ?, ?, ?)";
-		return getJdbcTemplate().update(sql, noteId, groupId, 
-				new Gson().toJson(attentionList), new Gson().toJson(questionList));
-	}
-
 	public List<Map<String, Object>> readPreviewsForMap(String groupId) {
 		String sql = "select p.*, n.commentCount, u.userId, u.userName, u.userImage "
 				+ "from previews p "
@@ -47,15 +41,12 @@ public class PreviewDao extends JdbcDaoSupport {
 		return getJdbcTemplate().queryForList(sql, groupId);
 	}
 	
-	public List<Map<String, Object>> readNotes(String groupId, String noteTargetDate, String userIds) {
+	public List<Map<String, Object>> reloadPreviews(String groupId, String noteTargetDate) {
 		String sql = "select * from NOTES, USERS where NOTES.groupId = ? and NOTES.userId = USERS.userId ";
-		if (userIds != null && userIds != "null" && userIds != "" ) {
-			sql += "and NOTES.userId in (" + userIds + ") ";
-		}
 		if ( noteTargetDate != null) {
 			sql += "and NOTES.noteTargetDate < '"+ noteTargetDate + "' ";
 		}
-		sql += "order by NOTES.noteTargetDate desc limit 10";
+		sql += "order by NOTES.noteTargetDate desc limit 3";
 		try {
 			return getJdbcTemplate().queryForList(sql, groupId);
 		} catch (EmptyResultDataAccessException e) {

@@ -1,6 +1,5 @@
 package org.nhnnext.guinness.dao;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
@@ -40,10 +39,6 @@ public class PreviewDaoTest {
 		ArrayList<String> questionList = new ArrayList<String>();
 		attentionList.add("중요한 내용");
 		questionList.add("궁금한 내용");
-		
-		int result = previewDao.create("3", "DEaAd", attentionList, questionList);
-		
-		assertEquals(1, result);
 	}
 	
 	@Test
