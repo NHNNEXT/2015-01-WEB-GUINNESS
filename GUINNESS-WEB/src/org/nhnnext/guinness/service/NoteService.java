@@ -14,11 +14,10 @@ import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.model.Alarm;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
+import org.nhnnext.guinness.model.Preview;
 import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -26,8 +25,6 @@ import com.google.gson.Gson;
 
 @Service
 public class NoteService {
-	private static final Logger logger = LoggerFactory
-			.getLogger(NoteService.class);
 	@Resource
 	private GroupDao groupDao;
 	@Resource
@@ -37,26 +34,18 @@ public class NoteService {
 	@Resource
 	private PreviewDao previewDao;
 	
-	public List<Map<String, Object>> initNotes(String sessionUserId, String groupId) throws UnpermittedAccessGroupException {
+	//TODO previewService로 옮겨야 함
+	public List<Preview> initNotes(String sessionUserId, String groupId) throws UnpermittedAccessGroupException {
 		Group group = groupDao.readGroup(groupId);
 		if (!group.isPublicOfStatus() && !groupDao.checkJoinedGroup(sessionUserId, groupId)) {
 			throw new UnpermittedAccessGroupException("비정상적 접근시도.");
 		}
-		
-		return previewDao.readPreviewsForMap(groupId);
+		return previewDao.initReadPreviews(groupId);
 	}
 	
-	public List<Map<String, Object>> reloadNotes(String groupId, String noteTargetDate, String userIds) {
-		return getNoteListFromDao(groupId, noteTargetDate, userIds);
-	}	
-	
-	private List<Map<String, Object>> getNoteListFromDao(String groupId, String noteTargetDate, String userIds) {
-		// targetDate의 포맷을 위한 변경
-		List<Map<String, Object>> list = noteDao.readNotes(groupId, noteTargetDate, userIds);
-		logger.debug("List: {}", list);
-		for (Map<String, Object> map : list)
-			map.replace("noteTargetDate", map.get("noteTargetDate").toString());
-		return list;
+	//TODO previewService로 옮겨야 함
+	public List<Map<String, Object>> reloadPreviews(String groupId, long noteTargetDate) {
+		return previewDao.reloadPreviews(groupId, noteTargetDate);
 	}
 	
 	public Note readNote(String noteId) {
@@ -116,7 +105,7 @@ public class NoteService {
 
 	public void update(String noteText, String noteId, String noteTargetDate) {
 		noteDao.updateNote(noteText, noteId, noteTargetDate);
-		previewDao.update(noteId, noteTargetDate, extractText(noteText, '!'), extractText(noteText, '?'));
+		previewDao.update(noteId, extractText(noteText, '!'), extractText(noteText, '?'));
 	}
 
 	public int delete(String noteId) {

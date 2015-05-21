@@ -961,9 +961,9 @@ textarea#commentText {
 	background-color: #355856;
 }
 
-.deleteGroup-btn {
+.leaveGroup-btn {
 	position: relative;
-	font-size: 25px;
+	font-size: 15px;
 	cursor: pointer;
 	float: right;
 	left: 16px;

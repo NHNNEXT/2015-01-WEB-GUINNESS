@@ -5,14 +5,12 @@ import java.io.IOException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
-import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
 import org.nhnnext.guinness.exception.FailedDeleteGroupException;
 import org.nhnnext.guinness.exception.FailedMakingGroupException;
 import org.nhnnext.guinness.exception.GroupUpdateException;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.exception.UnpermittedDeleteGroupException;
-import org.nhnnext.guinness.exception.UserUpdateException;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.service.GroupService;
@@ -44,47 +42,64 @@ public class GroupController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	protected @ResponseBody JsonResult create(@RequestParam String isPublic, @RequestParam String groupName, HttpSession session, Model model) throws IOException, FailedMakingGroupException {
+	protected @ResponseBody JsonResult create(@RequestParam String isPublic, @RequestParam String groupName,
+			HttpSession session, Model model) throws IOException, FailedMakingGroupException {
 		String groupCaptainUserId = ServletRequestUtil.getUserIdFromSession(session);
 		Group group = groupService.create(groupName, groupCaptainUserId, isPublic);
 		return new JsonResult().setSuccess(true).setObject(group);
 	}
-	
-	@RequestMapping(value = "/{groupId}", method = RequestMethod.DELETE )
-	protected @ResponseBody JsonResult delete(@PathVariable String groupId, HttpSession session, Model model) throws FailedDeleteGroupException, IOException, UnpermittedDeleteGroupException {
+
+	@RequestMapping(value = "/{groupId}", method = RequestMethod.DELETE)
+	protected @ResponseBody JsonResult delete(@PathVariable String groupId, HttpSession session, Model model)
+			throws FailedDeleteGroupException, IOException, UnpermittedDeleteGroupException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		groupService.delete(groupId, sessionUserId);
 		return new JsonResult().setSuccess(true);
 	}
-	
+
 	@RequestMapping(value = "/members/invite", method = RequestMethod.POST)
-	protected @ResponseBody JsonResult inviteGroupMember(@RequestParam String userId, @RequestParam String groupId, @RequestParam String sessionUserId) throws FailedAddGroupMemberException {
+	protected @ResponseBody JsonResult inviteGroupMember(@RequestParam String userId, @RequestParam String groupId,
+			@RequestParam String sessionUserId) throws FailedAddGroupMemberException {
 		try {
 			groupService.inviteGroupMember(sessionUserId, userId, groupId);
 		} catch (UnpermittedAccessGroupException e) {
 			return new JsonResult().setSuccess(false).setMessage(e.getMessage());
-		}		
+		}
 		return new JsonResult().setSuccess(true);
 	}
-	
+
 	@RequestMapping(value = "/members/accept", method = RequestMethod.POST)
-	protected @ResponseBody JsonResult acceptGroupMember(@RequestParam String userId, @RequestParam String groupId) throws FailedAddGroupMemberException {
-		User user = groupService.addGroupMember(userId, groupId);		
+	protected @ResponseBody JsonResult acceptGroupMember(@RequestParam String userId, @RequestParam String groupId)
+			throws FailedAddGroupMemberException {
+		User user = groupService.addGroupMember(userId, groupId);
 		return new JsonResult().setSuccess(true).setObject(user);
+	}
+
+	@RequestMapping(value = "/members/leave", method = RequestMethod.POST)
+	protected @ResponseBody JsonResult leave(@RequestParam String sessionUserId, @RequestParam String groupId)
+			throws GroupUpdateException {
+		groupService.leaveGroup(sessionUserId, groupId);
+		return new JsonResult().setSuccess(true);
+	}
+
+	@RequestMapping(value = "/members/delete", method = RequestMethod.DELETE)
+	protected String delete(@RequestParam String sessionUserId, @RequestParam String userId,
+			@RequestParam String groupId) throws GroupUpdateException {
+		groupService.deleteGroupMember(sessionUserId, userId, groupId);
+		return "/g/" + groupId;
 	}
 
 	@RequestMapping("/members/{groupId}")
 	protected @ResponseBody JsonResult listGroupMember(@PathVariable String groupId) {
 		return new JsonResult().setSuccess(true).setMapValues(groupService.groupMembers(groupId));
 	}
-	
+
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	protected String updateUser(@RequestParam String sessionUserId, Group group) throws GroupUpdateException{
-		if(group.getGroupName().equals("")){
+	protected String updateUser(@RequestParam String sessionUserId, Group group) throws GroupUpdateException {
+		if (group.getGroupName().equals("")) {
 			throw new GroupUpdateException("그룹명이 공백입니다.");
 		}
 		groupService.update(sessionUserId, group);
-		
-		return "/g/"+group.getGroupId();
+		return "/g/" + group.getGroupId();
 	}
 }
