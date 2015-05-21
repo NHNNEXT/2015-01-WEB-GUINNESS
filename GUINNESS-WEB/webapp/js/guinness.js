@@ -293,3 +293,35 @@ guinness.leaveGroup = function(sessionUserId, groupId) {
 		}
 	});
 }
+
+guinness.confirmDeleteUser = function(userId, userName) {
+	var message = userName + "을/를 멤버에서 제외 하시겠습니까?";
+	guinness.util.alert("멤버 강퇴", message,
+		function() {
+			document.body.style.overflow = "auto";
+			var sessionUserId = document.getElementById("sessionUserId").value;
+			guinness.deleteMember(sessionUserId, userId, groupId);
+		},
+		function() {
+			document.body.style.overflow = "auto";
+            return;
+		}
+	);
+}
+
+guinness.deleteMember = function(sessionUserId, userId, groupId) {
+	var param = "sessionUserId="+sessionUserId+"&userId="+userId+"&groupId="+groupId;
+	guinness.ajax({
+		method:"post",
+		url:"/groups/members/delete",
+		param: param,
+		success: function(req) {
+			if(JSON.parse(req.responseText).success !== true) {
+				guinness.util.alert('경고', JSON.parse(req.responseText).message);
+				return;
+			}
+			(document.getElementById(userId)).parentElement.remove();
+		}
+	});
+}
+

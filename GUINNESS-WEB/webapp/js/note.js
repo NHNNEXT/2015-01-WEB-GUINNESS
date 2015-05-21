@@ -72,12 +72,12 @@ function appendNoteList(json) {
         var attention = obj.attentionList.replace("[", "").replace("]", "").replace(", ", ",").split(",");
         var question = obj.questionList.replace("[", "").replace("]", "").replace(", ", ",").split(",");
 
-        newEl = document.createElement("a");
-        newEl.setAttribute("id", obj.note.noteId);
-        newEl.setAttribute("href", "#");
-        out = "";
-        out += "<li><img class='avatar' class='avatar' src='/img/profile/"
-            + obj.user.userImage + "'>";
+		newEl = document.createElement("a");
+		newEl.setAttribute("id", obj.note.noteId);
+		newEl.setAttribute("href", "#");
+		out = "";
+		out += "<li><img class='avatar' class='avatar' src='/img/profile/"
+				+ obj.user.userImage + "'>";
 
         var userId = document.getElementById("sessionUserId").value;
         if (userId === obj.user.userId) {
@@ -400,11 +400,17 @@ function readMember(groupId) {
 
 var memberTemplate = document.querySelector("#member-template").content;
 function appendMember(obj) {
-    var newMember = document.importNode(memberTemplate, true);
-    newMember.querySelector(".memberChk").value = obj.userId;
-    newMember.querySelector(".member-name").innerHTML = obj.userName;
-    newMember.querySelector(".member-id").innerHTML = obj.userId;
-    document.querySelector("#group-member").appendChild(newMember);
+	var newMember = document.importNode(memberTemplate, true);
+	newMember.querySelector(".member-info").setAttribute("id", obj.userId);
+	newMember.querySelector(".memberChk").value = obj.userId;
+	newMember.querySelector(".member-name").innerHTML = obj.userName;
+	newMember.querySelector(".member-id").innerHTML = obj.userId;
+	newMember.querySelector('.fa-times').addEventListener("mousedown",
+			function(e) {
+				e.preventDefault();
+				guinness.confirmDeleteUser(obj.userId, obj.userName);
+			}, false);
+	document.querySelector("#group-member").appendChild(newMember);
 }
 
 function appendMembers(json) {
