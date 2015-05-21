@@ -94,12 +94,19 @@ public class GroupController {
 		return new JsonResult().setSuccess(true).setMapValues(groupService.groupMembers(groupId));
 	}
 
+	@RequestMapping("/update/form/{groupId}")
+	protected String updateForm(@PathVariable String groupId, Model model) {
+		Group group = groupService.readGroup(groupId);
+		model.addAttribute("group", group);
+		return "updateGroup";
+	}
+	
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	protected String updateUser(@RequestParam String sessionUserId, Group group) throws GroupUpdateException {
 		if (group.getGroupName().equals("")) {
 			throw new GroupUpdateException("그룹명이 공백입니다.");
 		}
 		groupService.update(sessionUserId, group);
-		return "/g/" + group.getGroupId();
+		return "redirect:/g/" + group.getGroupId();
 	}
 }
