@@ -81,6 +81,16 @@ public class GroupService {
 		groupDao.createGroupUser(userId, groupId);
 		return userDao.findUserByUserId(userId);
 	}
+	
+	public void deleteGroupMember(String userId, String groupId) throws GroupUpdateException {
+		if(!groupDao.checkJoinedGroup(userId, groupId)){
+			throw new GroupUpdateException("그룹멤버가 아닙니다.");
+		}
+		if(userId.equals(groupDao.readGroup(groupId).getGroupCaptainUserId())){
+			throw new GroupUpdateException("그룹장은 추방/탈퇴가 불가능합니다.");
+		}
+		groupDao.deleteGroupUser(userId, groupId);
+	}
 
 	public List<Map<String, Object>> groupMembers(String groupId) {
 		return groupDao.readGroupMemberForMap(groupId);
@@ -103,12 +113,10 @@ public class GroupService {
 		if(!sessionUserId.equals(dbGroup.getGroupCaptainUserId())){
 			throw new GroupUpdateException("그룹장만이 그룹설정이 가능합니다.");
 		}
-		List<User> userList = groupDao.readGroupMember(group.getGroupId());
-		User newCaptionuser = userDao.findUserByUserId(group.getGroupCaptainUserId());
-		if(newCaptionuser == null){
+		if(userDao.findUserByUserId(group.getGroupCaptainUserId()) == null){
 			throw new GroupUpdateException("존재하지 않는 사용자입니다.");
 		}
-		if(!userList.contains(newCaptionuser)){
+		if(!groupDao.checkJoinedGroup(group.getGroupCaptainUserId(), group.getGroupId())){
 			throw new GroupUpdateException("그룹멤버가 아닙니다.");
 		}
 		groupDao.updateGroup(group);

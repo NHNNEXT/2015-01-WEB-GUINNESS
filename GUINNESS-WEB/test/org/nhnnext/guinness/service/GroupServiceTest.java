@@ -27,5 +27,15 @@ public class GroupServiceTest {
 		Group group = new Group("cneih", "public", "d@d.d", "T");
 		groupService.update(sessionUserId, group);
 	}
+	
+	@Test
+	public void 그룹장_탈퇴시도() throws Exception {
+		groupService.deleteGroupMember("d@d.d", "cneih");
+	}
+	
+	@Test
+	public void 그룹멤버_아닐때_탈퇴시도() throws Exception {
+		groupService.deleteGroupMember("a@a.a", "cneih");
+	}
 
 }
