@@ -64,8 +64,15 @@
 			<i class='fa fa-user'></i><span style='margin-left: 10px;'>그룹정보수정</span>
 		</h1>
 		<div id='profile-panel' class='panel'>
-			<form:form modelAttribute="group" cssClass="temp"
+			<form:form modelAttribute="group" cssClass="temp" enctype='multipart/form-data'
 				action="/groups/update" method="post">
+				
+				<td valign=top id='editBackgroundImage-photoArea'
+							style='width: 200px; text-align: center;'><img
+							class='background' src="/img/group/${group.groupImage}"> <input
+							type="file" name="backgroundImage"
+							accept="image/x-png, image/gif, image/jpeg" /></td>
+				
 				<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUser.userId}" readonly>
 				<form:hidden path="groupId" value="${group.groupId}" readonly="true"/>
 				<div class="control-group">

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/groups")
@@ -102,11 +103,13 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	protected String updateUser(@RequestParam String sessionUserId, Group group) throws GroupUpdateException {
+	protected String updateUser(@RequestParam String sessionUserId, @RequestParam("backgroundImage") MultipartFile backgroundImage, HttpSession session,Group group) throws GroupUpdateException {
 		if (group.getGroupName().equals("")) {
 			throw new GroupUpdateException("그룹명이 공백입니다.");
 		}
-		groupService.update(sessionUserId, group);
+		System.out.println("hello world");
+		String rootPath = session.getServletContext().getRealPath("/");
+		groupService.update(sessionUserId, group, rootPath, backgroundImage);
 		return "redirect:/g/" + group.getGroupId();
 	}
 }
