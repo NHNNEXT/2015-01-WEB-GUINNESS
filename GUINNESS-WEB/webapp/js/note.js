@@ -87,7 +87,7 @@ function appendNoteList(json) {
 		out += "<div class='content-container'>";
 		out += "<div><span class='userName'>" + obj.userName
 				+ "</span><span class='userId'>" + obj.userId + "</span></div>";
-		out += "<div><span class='note-date'>" + obj.createDate
+		out += "<div><span class='note-date'>" + new Date(obj.createDate)
 				+ "</span></div>";
 		if (attention !== null) {
 			out += attention + '<br />'

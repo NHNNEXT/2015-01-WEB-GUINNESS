@@ -17,8 +17,6 @@ import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -26,7 +24,6 @@ import com.google.gson.Gson;
 
 @Service
 public class NoteService {
-	private static final Logger logger = LoggerFactory.getLogger(NoteService.class);
 	@Resource
 	private GroupDao groupDao;
 	@Resource
@@ -42,17 +39,12 @@ public class NoteService {
 		if (!group.isPublicOfStatus() && !groupDao.checkJoinedGroup(sessionUserId, groupId)) {
 			throw new UnpermittedAccessGroupException("비정상적 접근시도.");
 		}
-		return previewDao.readPreviewsForMap(groupId);
+		return previewDao.initReadPreviews(groupId);
 	}
 	
 	//TODO previewService로 옮겨야 함
-	public List<Map<String, Object>> reloadPreviews(String groupId, String noteTargetDate) {
-		// targetDate의 포맷을 위한 변경
-		List<Map<String, Object>> list = previewDao.reloadPreviews(groupId, noteTargetDate);
-		logger.debug("List: {}", list);
-		for (Map<String, Object> map : list)
-			map.replace("noteTargetDate", map.get("noteTargetDate").toString());
-		return list;
+	public List<Map<String, Object>> reloadPreviews(String groupId, long noteTargetDate) {
+		return previewDao.reloadPreviews(groupId, noteTargetDate);
 	}
 	
 	public Note readNote(String noteId) {

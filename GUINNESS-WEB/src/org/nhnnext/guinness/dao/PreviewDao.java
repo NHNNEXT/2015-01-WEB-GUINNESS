@@ -29,26 +29,36 @@ public class PreviewDao extends JdbcDaoSupport {
 	public int create(Note note, Group group, ArrayList<String> attentionList, ArrayList<String> questionList) {
 		String sql = "insert into PREVIEWS (noteId, groupId, attentionText, questionText) values(?, ?, ?, ?)";
 		return getJdbcTemplate().update(sql, note.getNoteId(), group.getGroupId(), 
-				new Gson().toJson(attentionList), new Gson().toJson(questionList));
+				attentionList.toString(), questionList.toString());
 	}
 	
-	public List<Map<String, Object>> readPreviewsForMap(String groupId) {
+	public List<Map<String, Object>> initReadPreviews(String groupId) {
 		String sql = "select p.*, n.commentCount, u.userId, u.userName, u.userImage "
 				+ "from previews p "
 				+ "join notes n on p.noteId = n.noteId "
 				+ "join users u on u.userId = n.userId "
-				+ "where p.groupId = ? order by createDate desc";
-		return getJdbcTemplate().queryForList(sql, groupId);
-	}
-	
-	public List<Map<String, Object>> reloadPreviews(String groupId, String noteTargetDate) {
-		String sql = "select * from NOTES, USERS where NOTES.groupId = ? and NOTES.userId = USERS.userId ";
-		if ( noteTargetDate != null) {
-			sql += "and NOTES.noteTargetDate < '"+ noteTargetDate + "' ";
-		}
-		sql += "order by NOTES.noteTargetDate desc limit 3";
+				+ "where p.groupId = ? "
+				+ "and n.noteTargetDate < now() "
+				+ "order by createDate desc limit 10";
 		try {
 			return getJdbcTemplate().queryForList(sql, groupId);
+		} catch (EmptyResultDataAccessException e) {
+			return new ArrayList<Map<String, Object>>();
+		}
+	}
+	
+	public List<Map<String, Object>> reloadPreviews(String groupId, long noteTargetDate) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select p.*, n.commentCount, u.userId, u.userName, u.userImage ");
+		sql.append("from previews p ");
+		sql.append("join notes n on p.noteId = n.noteId ");
+		sql.append("join users u on u.userId = n.userId ");
+		sql.append("where p.groupId = ? ");
+		sql.append("and n.noteTargetDate < now() ");
+		if ( noteTargetDate != 0) sql.append("and n.noteTargetDate < '"+ noteTargetDate + "' ");
+		sql.append("order by createDate desc limit 10");
+		try {
+			return getJdbcTemplate().queryForList(sql.toString(), groupId);
 		} catch (EmptyResultDataAccessException e) {
 			return new ArrayList<Map<String, Object>>();
 		}
