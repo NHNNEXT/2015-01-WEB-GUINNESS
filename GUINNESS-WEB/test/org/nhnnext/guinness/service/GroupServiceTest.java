@@ -30,12 +30,12 @@ public class GroupServiceTest {
 	
 	@Test
 	public void 그룹장_탈퇴시도() throws Exception {
-		groupService.deleteGroupMember("d@d.d", "cneih");
+		groupService.leaveGroup("d@d.d", "cneih");
 	}
 	
 	@Test
 	public void 그룹멤버_아닐때_탈퇴시도() throws Exception {
-		groupService.deleteGroupMember("a@a.a", "cneih");
+		groupService.leaveGroup("a@a.a", "cneih");
 	}
 
 }

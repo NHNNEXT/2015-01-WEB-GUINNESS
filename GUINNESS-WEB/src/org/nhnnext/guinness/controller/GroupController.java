@@ -78,12 +78,16 @@ public class GroupController {
 	@RequestMapping(value = "/members/leave", method = RequestMethod.DELETE)
 	protected String leave(@RequestParam String sessionUserId, @RequestParam String groupId)
 			throws GroupUpdateException {
-		groupService.deleteGroupMember(sessionUserId, groupId);
+		groupService.leaveGroup(sessionUserId, groupId);
 		return "/groups";
 	}
 
-	// TODO 그룹멤버 추방 구현.
-	//
+	@RequestMapping(value = "/members/delete", method = RequestMethod.DELETE)
+	protected String delete(@RequestParam String sessionUserId, @RequestParam String userId,
+			@RequestParam String groupId) throws GroupUpdateException {
+		groupService.deleteGroupMember(sessionUserId, userId, groupId);
+		return "/g/" + groupId;
+	}
 
 	@RequestMapping("/members/{groupId}")
 	protected @ResponseBody JsonResult listGroupMember(@PathVariable String groupId) {
