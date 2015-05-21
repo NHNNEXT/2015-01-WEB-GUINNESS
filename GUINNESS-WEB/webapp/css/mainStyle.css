@@ -9,7 +9,7 @@ html, body {
 }
 
 .leftsideContainer {
-	margin-top: 22px; 
+	margin-top: 20px; 
 	background-color: white; 
 	width: 200px; 
 	height: 100px; 
@@ -19,20 +19,23 @@ html, body {
 .leftsideContainer ul {
 	list-style: none;
 	margin: 0;
-	padding-left: 10px;
+	padding: 0px 10px;
 	font-size: 13px;
 	font-weight: bold;
+	display: block;
 }
 .leftsideContainer li {
-	padding-bottom: 3px;
+	padding: 3px 0;
+	border-bottom: 1px solid;
+  	border-bottom-color: lightgray;
 }
 
 #summaryShow {
   position: absolute;
   background-color: #74AFAD;
   color: white;
-  height: 20px;
   width: 200px;
+  padding: 2px 0;
   border: none;
   text-align: center;
   font: normal normal normal 11px/normal '.HelveticaNeueDeskInterface-Regular';"
