@@ -61,7 +61,7 @@ public class PreviewDao extends JdbcDaoSupport {
 		sql.append("where p.groupId = ? ");
 		sql.append("and n.noteTargetDate < now() ");
 		if ( noteTargetDate != null) sql.append("and n.noteTargetDate < '"+ noteTargetDate + "' ");
-		sql.append("order by createDate desc limit 3");
+		sql.append("order by n.noteTargetDate desc limit 3");
 		try {
 			return getJdbcTemplate().query(sql.toString(), (rs, rowNum) -> new Preview(
 					new Note(rs.getString("noteId"), rs.getString("noteTargetDate"), rs.getInt("commentCount")),
