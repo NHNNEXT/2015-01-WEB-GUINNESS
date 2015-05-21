@@ -1,5 +1,7 @@
 package org.nhnnext.guinness.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +15,7 @@ import org.nhnnext.guinness.exception.FailedDeleteGroupException;
 import org.nhnnext.guinness.exception.GroupUpdateException;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.exception.UnpermittedDeleteGroupException;
+import org.nhnnext.guinness.exception.UserUpdateException;
 import org.nhnnext.guinness.model.Alarm;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.User;
@@ -20,6 +23,7 @@ import org.nhnnext.guinness.util.RandomFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class GroupService {
@@ -124,7 +128,8 @@ public class GroupService {
 		return alarmId;
 	}
 
-	public void update(String sessionUserId, Group group) throws GroupUpdateException {
+	public void update(String sessionUserId, Group group, String rootPath, MultipartFile groupImage)
+			throws GroupUpdateException {
 		Group dbGroup = groupDao.readGroup(group.getGroupId());
 		if (!sessionUserId.equals(dbGroup.getGroupCaptainUserId())) {
 			throw new GroupUpdateException("그룹장만이 그룹설정이 가능합니다.");
@@ -135,6 +140,17 @@ public class GroupService {
 		if (!groupDao.checkJoinedGroup(group.getGroupCaptainUserId(), group.getGroupId())) {
 			throw new GroupUpdateException("그룹멤버가 아닙니다.");
 		}
+		try {
+			group.setGroupImage(dbGroup.getGroupImage());
+			if (!groupImage.isEmpty()) {
+				String fileName = group.getGroupId();
+				groupImage.transferTo(new File(rootPath + "img/group/" + fileName));
+				group.setGroupImage(fileName);
+			}
+		} catch (IOException e) {
+			throw new GroupUpdateException("잘못된 형식입니다.");
+		}
+
 		groupDao.updateGroup(group);
 	}
 }

@@ -8,6 +8,7 @@ public class Group {
 	private String groupName;
 	private String groupCaptainUserId;
 	private String status;
+	private String groupImage;
 	
 	public Group() {
 	}
@@ -42,6 +43,10 @@ public class Group {
 	public String getStatus() {
 		return status;
 	}
+	
+	public String getGroupImage() {
+		return groupImage;
+	}
 
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
@@ -53,6 +58,10 @@ public class Group {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	public void setGroupImage(String groupImage) {
+		this.groupImage = groupImage;
 	}
 
 	public boolean checkStatus() {
