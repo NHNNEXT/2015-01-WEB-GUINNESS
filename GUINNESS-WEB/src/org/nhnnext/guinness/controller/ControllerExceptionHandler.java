@@ -71,10 +71,8 @@ public class ControllerExceptionHandler {
 	
 	// 그룹정보 수정시 예외처리
 	@ExceptionHandler(GroupUpdateException.class)
-	public ModelAndView groupUpdateException(UserUpdateException e) {
-		ModelAndView mav = new ModelAndView("/illegal");
-		mav.addObject("errorMessage", e.getMessage());
-		return mav;
+	public @ResponseBody JsonResult groupUpdateException(GroupUpdateException e) {
+		return new JsonResult().setSuccess(false).setMessage(e.getMessage());
 	}
 	
 	// 그룹 생성시 그룹명 길 경우 예외처리

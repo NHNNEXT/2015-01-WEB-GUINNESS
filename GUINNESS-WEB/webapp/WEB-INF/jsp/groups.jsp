@@ -18,6 +18,7 @@
 	}
 	</script>
 	<%@ include file="./commons/_topnav.jspf"%>
+	<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUser.userId}">
 	<div class='content wrap' style='margin-top: 100px'>
 		<ul id='group-container' class='group-list'>
 			<li id='create-new' style=' text-align:center;'><i class='fa fa-plus-circle' style='font-size:60px; margin-top:25px;'></i></li>
@@ -25,8 +26,8 @@
 	</div>
 	<template id='group-card-template'> <a class='group-card' href='#'>
 		<li><span class='group-name'></span>
-			<div class='deleteGroup-btn'>
-				<i class='fa fa-remove'></i>
+			<div class='leaveGroup-btn'>
+				<i class='fa fa-user-times'></i>
 			</div> <i class='fa fa-lock'></i><input name=groupId type='hidden' /></li>
 	</a> </template>
 	<template id='create-group-template'>
