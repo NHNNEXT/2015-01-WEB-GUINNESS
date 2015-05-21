@@ -147,42 +147,49 @@
 				}, false);
 	}, false);
 	
-	window.addEventListener('scroll', function() {
+	window.addEventListener('scroll', function(e) {
 		infiniteScroll();
+		sideMenuFlow();
 	}, false);
 	
+	$(function() {
+	    $("#defaultCalendar").daterangepicker({
+	        singleDatePicker: true,
+	        showDropdowns: true
+	    },
+	    function(start, end, label) {
+	    	console.log(start.toISOString(), end.toISOString(), label);
+	        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+	    });
+	    //<input id="allShow" type="submit" value="전체노트 보기" onclick="reloadNoteList()" />
+	    var allShowButton = guinness.createElement({
+	    	name : "input",
+			attrs : {
+				id : "allShow",
+				type : "submit",
+				value : "전체보기",
+				onclick : "reloadNoteList()"
+			}
+	    });
+	    $("#calendar-container").append(allShowButton);
+	});
+
+	document.querySelector('#calendar-container').addEventListener("click", function(e) {
+		if (e.target.getAttribute("class") === null || e.target.getAttribute("class").indexOf("available") === -1)
+			return;
+		var noteTargetDate = $('#defaultCalendar').data('daterangepicker').startDate._d.toISOString().substring(0,10)+ " 23:59:59";
+		reloadNoteList(noteTargetDate);
+	}, false);
 	
+	var sideMenuContainers = document.querySelectorAll(".side-menu-container");
+	function sideMenuFlow() {
+		if (window.scrollY > 70) {
+			sideMenuContainers[0].style.top = sideMenuContainers[1].style.top = (window.scrollY - 70)+"px";
+		} else {
+			sideMenuContainers[0].style.top = sideMenuContainers[1].style.top = "0px";
+		}
+	}
 	</script>
 	<script src="/js/note.js"></script>
-	<script type="text/javascript">
-		$(function() {
-		    $("#defaultCalendar").daterangepicker({
-		        singleDatePicker: true,
-		        showDropdowns: true
-		    },
-		    function(start, end, label) {
-		    	console.log(start.toISOString(), end.toISOString(), label);
-		        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-		    });
-		    //<input id="allShow" type="submit" value="전체노트 보기" onclick="reloadNoteList()" />
-		    var allShowButton = guinness.createElement({
-		    	name : "input",
-				attrs : {
-					id : "allShow",
-					type : "submit",
-					value : "전체보기",
-					onclick : "reloadNoteList()"
-				}
-		    });
-		    $("#calendar-container").append(allShowButton);
-		});
-
-		document.querySelector('#calendar-container').addEventListener("click", function(e) {
-			if (e.target.getAttribute("class") === null || e.target.getAttribute("class").indexOf("available") === -1)
-				return;
-			var noteTargetDate = $('#defaultCalendar').data('daterangepicker').startDate._d.toISOString().substring(0,10)+ " 23:59:59";
-			reloadNoteList(noteTargetDate);
-		}, false);
-	</script>
 </body>
 </html>

@@ -1,14 +1,3 @@
-function cancelNoteCreate(e) {
-    if (document.querySelector(".modal-cover #noteText").value != "") {
-        guinness.util.alert("취소", "작성중인 노트 기록을 취소하시겠습니까?", function () {
-            document.querySelector('.modal-cover').remove();
-        }, function () {
-        });
-        return;
-    }
-    document.querySelector('.modal-cover').remove();
-}
-
 var appendMarkList = function (json) {
     if (json === null)
         return;
