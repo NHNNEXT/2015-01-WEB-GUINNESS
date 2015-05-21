@@ -37,7 +37,7 @@ public class NoteService {
 	//TODO previewService로 옮겨야 함
 	public List<Preview> initNotes(String sessionUserId, String groupId) throws UnpermittedAccessGroupException {
 		Group group = groupDao.readGroup(groupId);
-		if (!group.isPublicOfStatus() && !groupDao.checkJoinedGroup(sessionUserId, groupId)) {
+		if (!group.checkStatus() && !groupDao.checkJoinedGroup(sessionUserId, groupId)) {
 			throw new UnpermittedAccessGroupException("비정상적 접근시도.");
 		}
 		return previewDao.initReadPreviews(groupId);
