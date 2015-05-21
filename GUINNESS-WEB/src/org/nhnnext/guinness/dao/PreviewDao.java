@@ -2,7 +2,6 @@ package org.nhnnext.guinness.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -39,7 +38,7 @@ public class PreviewDao extends JdbcDaoSupport {
 				+ "join users u on u.userId = n.userId "
 				+ "where p.groupId = ? "
 				+ "and n.noteTargetDate < now() "
-				+ "order by n.noteTargetDate desc limit 10";
+				+ "order by n.noteTargetDate desc limit 3";
 		try {
 			return getJdbcTemplate().query(sql, (rs, rowNum) -> new Preview(
 					new Note(rs.getString("noteId"), rs.getString("noteTargetDate"), rs.getInt("commentCount")),
@@ -53,20 +52,26 @@ public class PreviewDao extends JdbcDaoSupport {
 		}
 	}
 	
-	public List<Map<String, Object>> reloadPreviews(String groupId, long noteTargetDate) {
+	public List<Preview> reloadPreviews(String groupId, String noteTargetDate) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("select p.*, n.commentCount, u.userId, u.userName, u.userImage ");
+		sql.append("select p.*, n.noteTargetDate, n.commentCount, u.userId, u.userName, u.userImage ");
 		sql.append("from previews p ");
 		sql.append("join notes n on p.noteId = n.noteId ");
 		sql.append("join users u on u.userId = n.userId ");
 		sql.append("where p.groupId = ? ");
 		sql.append("and n.noteTargetDate < now() ");
-		if ( noteTargetDate != 0) sql.append("and n.noteTargetDate < '"+ noteTargetDate + "' ");
-		sql.append("order by createDate desc limit 10");
+		if ( noteTargetDate != null) sql.append("and n.noteTargetDate < '"+ noteTargetDate + "' ");
+		sql.append("order by createDate desc limit 3");
 		try {
-			return getJdbcTemplate().queryForList(sql.toString(), groupId);
+			return getJdbcTemplate().query(sql.toString(), (rs, rowNum) -> new Preview(
+					new Note(rs.getString("noteId"), rs.getString("noteTargetDate"), rs.getInt("commentCount")),
+					new User(rs.getString("userId"), rs.getString("userName"), rs.getString("userImage")),
+					new Group(rs.getString("groupId")),
+					rs.getString("attentionText"), 
+					rs.getString("questionText")
+					), groupId);
 		} catch (EmptyResultDataAccessException e) {
-			return new ArrayList<Map<String, Object>>();
+			return null;
 		}
 	}
 

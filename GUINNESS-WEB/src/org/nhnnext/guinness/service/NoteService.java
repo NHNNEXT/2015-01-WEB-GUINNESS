@@ -2,7 +2,6 @@ package org.nhnnext.guinness.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -18,6 +17,8 @@ import org.nhnnext.guinness.model.Preview;
 import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -25,6 +26,8 @@ import com.google.gson.Gson;
 
 @Service
 public class NoteService {
+	private static final Logger logger = LoggerFactory
+			.getLogger(NoteService.class);
 	@Resource
 	private GroupDao groupDao;
 	@Resource
@@ -44,8 +47,10 @@ public class NoteService {
 	}
 	
 	//TODO previewService로 옮겨야 함
-	public List<Map<String, Object>> reloadPreviews(String groupId, long noteTargetDate) {
-		return previewDao.reloadPreviews(groupId, noteTargetDate);
+	public List<Preview> reloadPreviews(String groupId, String noteTargetDate) {
+		List<Preview> list = previewDao.reloadPreviews(groupId, noteTargetDate);
+		logger.debug("list: {}", list.size());
+		return list;
 	}
 	
 	public Note readNote(String noteId) {
