@@ -108,7 +108,7 @@ html, body {
 	width: 392px;
 	height: 62px;
 	margin-bottom: 2px;
-	border-radius: 3px;
+	border-radius: 2px;
 	padding: 4px;
 	float: left;
     background-color: lightsteelblue;
@@ -124,7 +124,7 @@ html, body {
 	border: 1px solid gray;
 	margin-bottom: 2px;
 	margin-right: 5px;
-	border-radius: 3px;
+	border-radius: 2px;
 	padding: 4px;
 	background-color: white;
 	float: left;
@@ -162,7 +162,7 @@ html, body {
 	color: #454545;
 	margin-bottom: 10px;
 	background-color: #fff;
-	border-radius: 10px;
+	border-radius: 2px;
 }
 
 .search-note-list img.avatar{
@@ -170,7 +170,7 @@ html, body {
 	float: left;
 	width: 45px;
 	height: 45px;
-	border-radius: 22px;
+	border-radius: 2px;
 	overflow: hidden;
 	background-color: #558;
 }
@@ -255,10 +255,10 @@ a#escape-note {
 #calendar-container {
 	position: absolute;
 	background-color: white;
-	top: 73px;
+	top:50px;
 	left: 0;
 	height: 220px;
-	border-radius:8px;
+	border-radius:2px;
 }
 
 form#notes-create-form {
@@ -389,7 +389,7 @@ ul {
 	width: 28px;
 	height: 28px;
 	float: left;
-	border-radius: 22px;
+	border-radius:2px;
 	overflow: hidden;
 	margin-top: 6px;
 	background-color: #558;
@@ -477,7 +477,7 @@ ul {
 	width: 230px;
 	height: 23px;
 	margin-top: 8px;
-	border-radius: 5px;
+	border-radius: 2px;
 	background: white;
 	border: none;
 	outline-style: none;
@@ -490,7 +490,7 @@ ul {
 		width: 130px;
 		height: 23px;
 		margin-top: 8px;
-		border-radius: 5px;
+		border-radius: 2px;
 		background: white;
 		border: none;
 		outline-style: none;
@@ -502,7 +502,7 @@ ul {
 		width:230px;
 		height:23px;
 		margin-top:8px;
-		border-radius:5px;
+		border-radius:2px;
 		background:white;
 		border:none;
 		outline-style:none;
@@ -515,7 +515,7 @@ ul {
 	width: 130px;
 	height: 23px;
 	margin-top: 8px;
-	border-radius: 5px;
+	border-radius: 2px;
 	background: #7FBEBC;
 	border: none;
 	outline-style: none;
@@ -549,7 +549,7 @@ div#leftTopBox {
 	width: 360px;
 	padding: 25px;
 	background-color: rgba(45, 45, 45, .6);
-	border-radius: 5px;
+	border-radius: 2px;
 	color: white;
 	margin-top: 100px;
 }
@@ -617,7 +617,7 @@ input.text {
 	height: 26px;
 	margin-bottom: 6px;
 	font-size: 14px;
-	border-radius: 4px;
+	border-radius: 2px;
 }
 
 .btn {
@@ -685,7 +685,7 @@ textarea#commentText {
 	width: 310px;
 	padding: 20px;
 	height: 110px;
-	border-radius: 4px;
+	border-radius: 2px;
 	margin: 5px;
 	cursor: pointer;
 	background-color: #454545;
@@ -741,7 +741,7 @@ textarea#commentText {
 	color: #454545;
 	margin-bottom: 10px;
 	background-color: #fff;
-	border-radius: 10px;
+	border-radius: 2px;
 }
 
 .note-list li:hover {
@@ -775,7 +775,7 @@ textarea#commentText {
 	float: left;
 	width: 45px;
 	height: 45px;
-	border-radius: 22px;
+	border-radius: 2px;
 	overflow: hidden;
 	background-color: #558;
 }
@@ -868,7 +868,7 @@ textarea#commentText {
 	z-index: 25;
 	margin: 0 auto;
 	background-color: white;
-	border-radius: 10px;
+	border-radius: 2px;
 	overflow: hidden;
     top:400%;
 }
@@ -915,7 +915,7 @@ textarea#commentText {
 	text-align: center;
 	background-color: #eeeff2;
 	border: 3px dotted #B4B4B4;
-	border-radius: 12px;
+	border-radius: 2px;
 }
 
 #create-new-button:hover {
@@ -974,7 +974,7 @@ textarea#commentText {
 .panel {
 	position: relative;
 	width: 100%;
-	border-radius: 5px;
+	border-radius: 2px;
 	overflow: hidden;
 	margin-bottom: 20px;
 }
