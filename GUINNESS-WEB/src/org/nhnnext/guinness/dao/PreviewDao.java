@@ -31,6 +31,22 @@ public class PreviewDao extends JdbcDaoSupport {
 		return getJdbcTemplate().update(sql, note.getNoteId(), group.getGroupId(), 
 				new Gson().toJson(attentionList), new Gson().toJson(questionList));
 	}
+	
+	public int create(String noteId, String groupId, ArrayList<String> attentionList, ArrayList<String> questionList) {
+		String sql = "insert into PREVIEWS (noteId, groupId, attentionText, questionText) values(?, ?, ?, ?)";
+		return getJdbcTemplate().update(sql, noteId, groupId, 
+				new Gson().toJson(attentionList), new Gson().toJson(questionList));
+	}
+
+	public List<Map<String, Object>> readPreviewsForMap(String groupId) {
+		String sql = "select p.*, n.commentCount, u.userId, u.userName, u.userImage "
+				+ "from previews p "
+				+ "join notes n on p.noteId = n.noteId "
+				+ "join users u on u.userId = n.userId "
+				+ "where p.groupId = ? order by createDate desc";
+		return getJdbcTemplate().queryForList(sql, groupId);
+	}
+	
 	public List<Map<String, Object>> readNotes(String groupId, String noteTargetDate, String userIds) {
 		String sql = "select * from NOTES, USERS where NOTES.groupId = ? and NOTES.userId = USERS.userId ";
 		if (userIds != null && userIds != "null" && userIds != "" ) {
@@ -40,15 +56,6 @@ public class PreviewDao extends JdbcDaoSupport {
 			sql += "and NOTES.noteTargetDate < '"+ noteTargetDate + "' ";
 		}
 		sql += "order by NOTES.noteTargetDate desc limit 10";
-		try {
-			return getJdbcTemplate().queryForList(sql, groupId);
-		} catch (EmptyResultDataAccessException e) {
-			return new ArrayList<Map<String, Object>>();
-		}
-	}
-	
-	public List<Map<String, Object>> readPreviews(String groupId) {
-		String sql = "select attentionText, questionText from PREVIEWS, NOTES where PREVIEWS.noteId = NOTES.noteId and NOTES.groupId = ? order by NOTES.noteTargetDate desc";
 		try {
 			return getJdbcTemplate().queryForList(sql, groupId);
 		} catch (EmptyResultDataAccessException e) {

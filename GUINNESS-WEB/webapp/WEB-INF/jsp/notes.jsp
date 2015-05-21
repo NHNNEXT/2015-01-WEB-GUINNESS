@@ -118,8 +118,8 @@
     </script>    
     
 	<script>
-	document.title = "${groupName}";
-	var groupName = ("${groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
+	document.title = "${group.groupName}";
+	var groupName = ("${group.groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 	document.querySelector('#group-name').innerHTML = groupName;
 	var bJoinedUser = false;
 	const groupId = window.location.pathname.split("/")[2];
@@ -127,12 +127,12 @@
 		document.querySelector("#addMemberForm input[name='groupId']").value = groupId;
 		readMember(groupId);
 		document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
-		document.title = "${groupName}";
-		var groupName = ("${groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
+		document.title = "${group.groupName}";
+		var groupName = ("${group.groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 		document.querySelector('#group-name').innerHTML = groupName;
 
 		appendNoteList(${noteList});
-		appendMarkList(${markList});
+		appendMarkList(${noteList});
 		var elCreateBtn = document.querySelector("#create-new-button");
 	}, false);
 	

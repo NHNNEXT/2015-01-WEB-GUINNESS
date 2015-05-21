@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
+import com.google.gson.Gson;
+
 @Controller
 public class NoteController {
 	private static final Logger logger = LoggerFactory.getLogger(NoteController.class);
@@ -38,7 +40,8 @@ public class NoteController {
 	@RequestMapping("/g/{groupId}")
 	protected String initReadNoteList(@PathVariable String groupId, HttpSession session, Model model) throws IOException, UnpermittedAccessGroupException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
-		noteService.initNotes(model, sessionUserId, groupId);
+		model.addAttribute("group", groupService.readGroup(groupId));
+		model.addAttribute("noteList", new Gson().toJson(noteService.initNotes(sessionUserId, groupId)));
 		return "notes";
 	}
 
