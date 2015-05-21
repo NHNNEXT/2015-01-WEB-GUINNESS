@@ -104,4 +104,9 @@ public class GroupDao extends JdbcDaoSupport {
 			return null;
 		}
 	}
+
+	public void updateGroup(Group group) {
+		String sql = "update GROUPS set groupName = ?, groupCaptainUserId = ?, isPublic = ? where groupId = ?";
+		getJdbcTemplate().update(sql, group.getGroupName(), group.getGroupCaptainUserId(), group.getStatus(), group.getGroupId());
+	}
 }
