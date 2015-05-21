@@ -9,7 +9,16 @@ html, body {
 }
 
 .leftsideContainer {
-	margin-top: 22px; background-color: white; width: 200px; height: 100px; overflow: scroll;
+	margin-top: 22px; 
+	background-color: white; 
+	width: 200px; 
+	height: 100px; 
+	overflow: scroll;
+}
+
+.leftsideContainer ul {
+	list-style: none;
+	margin: 0;
 }
 
 #summaryShow {

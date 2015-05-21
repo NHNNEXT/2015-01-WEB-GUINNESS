@@ -41,6 +41,7 @@ public class NoteService {
 		}
 		model.addAttribute("groupName", group.getGroupName());
 		model.addAttribute("noteList", new Gson().toJson(getNoteListFromDao(groupId, null, null)));
+		model.addAttribute("markList", new Gson().toJson(previewDao.readPreviews(groupId)));
 	}
 	
 	public List<Map<String, Object>> reloadNotes(String groupId, String noteTargetDate, String userIds) {
