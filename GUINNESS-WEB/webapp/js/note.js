@@ -22,10 +22,6 @@ function confirmLeave() {
 	);
 }
 
-function leaveGroup() {
-	
-}
-
 var appendMarkList = function(json) {
 	var attentionListElement = document.querySelector("#attention-list");
 	var questionListElement = document.querySelector("#question-list");
@@ -33,13 +29,13 @@ var appendMarkList = function(json) {
 	var questionList;
 	var newEl = undefined;
 	for (var i = 0; i < json.length; i++) {
-		attentionList = JSON.parse(json[i].attentionText);
+		attentionList = json[i].attentionList.replace("[","").replace("]","").replace(", ",",").split(",");
 		for(var j = 0; j< attentionList.length; j++) {
 			newEl = document.createElement("li");
 			newEl.innerHTML = attentionList[j];
 			attentionListElement.appendChild(newEl);
 		}
-		questionList = JSON.parse(json[i].questionText);
+		questionList = json[i].questionList.replace("[","").replace("]","").replace(", ",",").split(",");
 		for(var j = 0; j< questionList.length; j++) {
 			newEl = document.createElement("li");
 			newEl.innerHTML = questionList[j];
@@ -59,10 +55,9 @@ function appendNoteList(json) {
 	for (var i = 0; i < json.length; i++) {
 		obj = json[i];		
 
-		// Long date to ISO date, May 21, 2015 2:37:31 PM -> 2015-05-21T05:37:31.000Z
-		var createDate = new Date(obj.createDate).toISOString();
+		var createDate = obj.note.noteTargetDate;
 		
-		createDate = createDate.split("T");
+		createDate = createDate.split(" ");
 		createDate = createDate[0];
 		el = document.querySelector("#day-" + createDate); // #day-2015-05-21
 		
@@ -77,24 +72,24 @@ function appendNoteList(json) {
 			document.querySelector('#note-list-container').appendChild(el);
 		}
 		
-		var attention = JSON.parse(obj.attentionText);
-		var question = JSON.parse(obj.questionText);
+		var attention = obj.attentionList.replace("[","").replace("]","").replace(", ",",").split(",");
+		var question = obj.questionList.replace("[","").replace("]","").replace(", ",",").split(",");
 		
 		newEl = document.createElement("a");
-		newEl.setAttribute("id", obj.noteId);
+		newEl.setAttribute("id", obj.note.noteId);
 		newEl.setAttribute("href", "#");
 		out = "";
 		out += "<li><img class='avatar' class='avatar' src='/img/profile/"
-				+ obj.userImage + "'>";
+				+ obj.user.userImage + "'>";
 
 		var userId = document.getElementById("sessionUserId").value;
-		if (userId === obj.userId) {
+		if (userId === obj.user.userId) {
 			out += "<div class='note-util'><div><div><span>수정</span><i class='fa fa-pencil'></i></div><span>삭제</span><i class='fa fa-trash'></i></div></div>";
 		}
 		out += "<div class='content-container'>";
-		out += "<div><span class='userName'>" + obj.userName
-				+ "</span><span class='userId'>" + obj.userId + "</span></div>";
-		out += "<div><span class='note-date'>" + obj.createDate
+		out += "<div><span class='userName'>" + obj.user.userName
+				+ "</span><span class='userId'>" + obj.user.userId + "</span></div>";
+		out += "<div><span class='note-date'>" + obj.note.noteTargetDate
 				+ "</span></div>";
 		if (attention.length) {
 			out += "<span class='attention'>" + attention + "</span><br />";
@@ -102,11 +97,11 @@ function appendNoteList(json) {
 		if (question.length) {
 			out += "<span class='question'>" + question + "</span><br />";
 		}
-		out += "<div class='comment-div'><i class='fa fa-comments'> " + obj.commentCount
+		out += "<div class='comment-div'><i class='fa fa-comments'> " + obj.note.commentCount
 				+ "</i></div></div></li>";
 		newEl.innerHTML = out;
 		el.appendChild(newEl);
-		document.getElementById(obj.noteId).addEventListener(
+		document.getElementById(obj.note.noteId).addEventListener(
 				"click",
 				function(e) {
 					if (e.target.className === "fa fa-trash") {
@@ -451,15 +446,9 @@ function deleteNoteList() {
 function reloadNoteList(noteTargetDate) {
 	var groupId = window.location.pathname.split("/")[2];
 	var objs = document.querySelectorAll(".memberChk");
-	var array = [];
-	for (var i = 0; i < objs.length; i++) {
-		if (objs[i].checked === true)
-			array.push("'" + objs[i].value + "'");
-	}
 	guinness.ajax({
 		method : "get",
-		url : '/notes/reload/?groupId=' + groupId + '&noteTargetDate='
-				+ noteTargetDate + '&checkedUserId=' + array,
+		url : '/notes/reload/?groupId=' + groupId + '&noteTargetDate=' + noteTargetDate,
 		success : function(req) {
 			var result = JSON.parse(req.responseText);
 			if (result.success) {
@@ -495,15 +484,9 @@ var infiniteScroll = function() {
 var reloadWithoutDeleteNoteList = function(noteTargetDate) {
 	var groupId = window.location.pathname.split("/")[2];
 	var objs = document.querySelectorAll(".memberChk");
-	var array = [];
-	for (var i = 0; i < objs.length; i++) {
-		if (objs[i].checked === true)
-			array.push("'" + objs[i].value + "'");
-	}
 	guinness.ajax({
 		method : "get",
-		url : '/notes/reload/?groupId=' + groupId + '&noteTargetDate='
-				+ noteTargetDate + '&checkedUserId=' + array,
+		url : '/notes/reload/?groupId=' + groupId + '&noteTargetDate=' + noteTargetDate,
 		success : function(req) {
 			var result = JSON.parse(req.responseText);
 			if (result.success) {

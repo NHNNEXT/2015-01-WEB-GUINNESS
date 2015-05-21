@@ -29,6 +29,10 @@ public class Note {
 	public Note(String noteId) {
 		this(noteId, null, null, null, null, 0);
 	}
+	
+	public Note(String noteId, String noteTargetDate, int commentCount) {
+		this(noteId, null, noteTargetDate, null, null, commentCount);
+	}
 
 	public String getNoteId() {
 		return noteId;
