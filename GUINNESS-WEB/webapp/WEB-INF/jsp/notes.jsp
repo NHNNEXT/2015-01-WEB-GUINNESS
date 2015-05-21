@@ -67,6 +67,9 @@
 			<div style="padding:10px;">
 				<a href="#"><span id="leave-group" style="font-weight:bold;">그룹탈퇴하기</span></a>
 			</div>
+			<div>
+				<input class="inputBtn" style="cursor: default; width: 30%; float:right;" type="submit" value="그룹설정" onclick="groupUpdate()">
+			</div>
 		</div>
 	</div>
 	<template id="view-note-template">
@@ -188,6 +191,10 @@
 		} else {
 			sideMenuContainers[0].style.top = sideMenuContainers[1].style.top = "0px";
 		}
+	}
+	
+	function groupUpdate() {
+		window.location.href = "/groups/update/form/"+groupId;
 	}
 	</script>
 	<script src="/js/note.js"></script>
