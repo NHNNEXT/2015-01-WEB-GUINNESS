@@ -69,7 +69,7 @@
 				
 				<td valign=top id='editBackgroundImage-photoArea'
 							style='width: 200px; text-align: center;'><img
-							class='background' src="/img/group/${group.groupImage}"> <input
+							class='background' src="/img/group/${group.groupId}"> <input
 							type="file" name="backgroundImage"
 							accept="image/x-png, image/gif, image/jpeg" /></td>
 				
