@@ -105,7 +105,7 @@ public class NoteService {
 
 	public void update(String noteText, String noteId, String noteTargetDate) {
 		noteDao.updateNote(noteText, noteId, noteTargetDate);
-		previewDao.update(noteId, noteTargetDate, extractText(noteText, '!'), extractText(noteText, '?'));
+		previewDao.update(noteId, extractText(noteText, '!'), extractText(noteText, '?'));
 	}
 
 	public int delete(String noteId) {

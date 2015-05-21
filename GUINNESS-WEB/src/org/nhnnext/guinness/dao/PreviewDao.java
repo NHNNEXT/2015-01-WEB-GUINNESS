@@ -16,8 +16,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 
-import com.google.gson.Gson;
-
 @Repository
 public class PreviewDao extends JdbcDaoSupport {
 	@Resource
@@ -72,8 +70,8 @@ public class PreviewDao extends JdbcDaoSupport {
 		}
 	}
 
-	public int update(String noteId, String updateDate, ArrayList<String> attentionList, ArrayList<String> questionList) {
-		String sql = "update PREVIEWS set attentionText = ?, questionText = ?, createDate = ? where noteId = ?";
-		return getJdbcTemplate().update(sql, new Gson().toJson(attentionList), new Gson().toJson(questionList), updateDate, noteId);
+	public int update(String noteId, ArrayList<String> attentionList, ArrayList<String> questionList) {
+		String sql = "update PREVIEWS set attentionText = ?, questionText = ? where noteId = ?";
+		return getJdbcTemplate().update(sql, attentionList.toString(), questionList.toString(), noteId);
 	}
 }
