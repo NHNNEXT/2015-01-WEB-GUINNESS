@@ -57,11 +57,11 @@ function appendNoteList(json) {
 	var obj = undefined;
 	var out = "";
 	for (var i = 0; i < json.length; i++) {
-		obj = json[i];
-		var createDate = obj.createDate;
-		createDate = createDate.split(" ");
+		obj = json[i];		
+
+		var createDate = new Date(obj.createDate).toISOString();
+		createDate = createDate.split("T");
 		createDate = createDate[0];
-		createDate = createDate.replace(/'-'/g, '');
 		el = document.querySelector("#day-" + createDate);
 		if (el == undefined) {
 			el = document.createElement("ul");

@@ -16,6 +16,8 @@ import org.nhnnext.guinness.util.RandomFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.google.gson.Gson;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/applicationContext.xml")
 public class PreviewDaoTest {
@@ -49,6 +51,15 @@ public class PreviewDaoTest {
 		List<Map<String, Object>> previews = previewDao.readPreviewsForMap("DEaAd");
 		for (Map<String, Object> preview : previews) {
 			System.out.println(preview);
+		}
+		assertNotNull(previews);
+	}
+	
+	@Test
+	public void readAndConvertJson() {
+		List<Map<String, Object>> previews = previewDao.readPreviewsForMap("DEaAd");
+		for (Map<String, Object> preview : previews) {
+			System.out.println(new Gson().toJson(preview));
 		}
 		assertNotNull(previews);
 	}
