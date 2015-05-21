@@ -59,7 +59,6 @@ public class PreviewDao extends JdbcDaoSupport {
 		sql.append("join notes n on p.noteId = n.noteId ");
 		sql.append("join users u on u.userId = n.userId ");
 		sql.append("where p.groupId = ? ");
-		sql.append("and n.noteTargetDate < now() ");
 		if ( noteTargetDate != null) sql.append("and n.noteTargetDate < '"+ noteTargetDate + "' ");
 		sql.append("order by n.noteTargetDate desc limit 3");
 		try {
