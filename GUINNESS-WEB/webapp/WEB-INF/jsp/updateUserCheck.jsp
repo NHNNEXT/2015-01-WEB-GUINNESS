@@ -14,46 +14,6 @@
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 </head>
 <style>
-#editProfile-photoArea img.avatar {
-	width: 200px;
-	height: 200px;
-	background-color: #558;
-	border-radius: 5px;
-	overflow: hidden;
-	margin-bottom: 10px;
-}
-
-#editProfile-form p {
-	margin-top: 0px;
-}
-
-#editProfile-form label {
-	display: block;
-	font-weight: bold;
-}
-
-#editProfile-form input[type='text'], #editProfile-form input[type='password']
-	{
-	width: 200px;
-	padding: 10px;
-	font-size: 15px;
-	border-radius: 4px;
-	margin-bottom: 4px;
-}
-
-#editProfile-form input[name='userPhoneNumber'] {
-	width: 150px;
-}
-
-#editProfile-form span.info {
-	display: block;
-	font-size: 12px;
-	color: #9e9ea6;
-}
-
-#editProfile-form span.info strong {
-	color: #ff5a5a;
-}
 #profile-check-password {
   outline: 1px solid #dadada;
   width: 400px;

@@ -56,41 +56,6 @@
 #editProfile-form span.info strong {
 	color: #ff5a5a;
 }
-#profile-check-password {
-  outline: 1px solid #dadada;
-  width: 400px;
-  margin: 0 auto;
-  padding: 30px;
-}
-
-#profile-check-password label {
-    display: block;
-    margin-bottom: 30px;
-    font-weight: bold;
-    font-size: 20px;
-}
-
-#profile-check-password input {
-	width: 100%;
-	height: 30px;
-	outline: 1px solid #dadada;
-	border-radius: 5px;
-	font-size: 15px;
-}
-
-#profile-check-password button {
-    display: block;
-    margin-top: 30px;
-    width: 100%;
-    min-height: 40px;
-    border: none;
-    border-radius: 5px;
-    height: 30px;
-    font-size: 15px;
-    color: white;
-    background-color: rgb(116, 175, 173);
-}
-
 </style>
 <body>
 	<%@ include file="./commons/_topnav.jspf"%>
@@ -147,6 +112,11 @@
 		if (userName === "") {
 			document.querySelector("input[name='userName']").style.backgroundColor="#ff5a5a";
 			document.querySelector("input[name='userName']~span.errorMessage").innerHTML = "이름은 필수사항 입니다.";
+			isValid = false;
+		}
+		if (userName.length > 25) {
+			document.querySelector("input[name='userName']").style.backgroundColor="#ff5a5a";
+			document.querySelector("input[name='userName']~span.errorMessage").innerHTML = "이름은 25자 이하만 가능합니다."
 			isValid = false;
 		}
 		if (!(userPassword === "" && userAgainPassword === "") && (userPassword !== userAgainPassword)) {

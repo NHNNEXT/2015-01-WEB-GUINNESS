@@ -18,6 +18,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="/js/moment.js"></script>
 <script src="/js/daterangepicker.js"></script>
+<script src="/js/pComment.js"></script>
 
 </head>
 <body>
@@ -113,7 +114,13 @@
         
     <script type="template" >
             
-    </script>    
+    </script>
+    
+    <script type="template" id="popupCommentBtnTemplate">
+    	<div class="popupCommentBtn">
+        	댓글 달기
+    	</div>
+	</script>
     
 	<script>
 	document.title = "${group.groupName}";
@@ -173,7 +180,7 @@
 		document.querySelector('#calendar-container').addEventListener("click", function(e) {
 			if (e.target.getAttribute("class") === null || e.target.getAttribute("class").indexOf("available") === -1)
 				return;
-			var noteTargetDate = $('#defaultCalendar').data('daterangepicker').startDate._d.toISOString().substring(0,10);
+			var noteTargetDate = $('#defaultCalendar').data('daterangepicker').startDate._d.toISOString().substring(0,10)+ " 23:59:59";
 			reloadNoteList(noteTargetDate);
 		}, false);
 	</script>

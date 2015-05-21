@@ -17,7 +17,7 @@ public class User{
 	
 	@NotNull
 	@Pattern(regexp = "([a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣].*)", message = "이름은 한글, 영문, 숫자만 가능합니다.")
-	@Size(max = 50, message = "이름은 25 글자 이하만 사용 가능합니다.")
+	@Size(max = 25, message = "이름은 25 글자 이하만 사용 가능합니다.")
 	@Expose
 	private String userName;
 	
@@ -27,7 +27,7 @@ public class User{
 	@Expose(serialize=false)
 	private String userPassword;
 	
-	private String status;
+	private String userStatus;
 	
 	@Expose
 	private String userImage;
@@ -36,16 +36,16 @@ public class User{
 	 public User() {
 	}
 
-	public User(String userId, String userName, String userPassword, String status, String userImage) {
+	public User(String userId, String userName, String userPassword, String userStatus, String userImage) {
 		this.userId = userId;
 		this.userName = userName;
 		this.userPassword = userPassword;
-		this.status = status;
+		this.userStatus = userStatus;
 		this.userImage = userImage;
 	}
 	
-	public User(String userId, String userName, String userPassword, String status) {
-		this(userId, userName, userPassword, status, "avatar-default.png");
+	public User(String userId, String userName, String userPassword, String userStatus) {
+		this(userId, userName, userPassword, userStatus, "avatar-default.png");
 	}
 	public User(String userId, String userName, String userImage) {
 		this(userId, userName, null, null, userImage);
@@ -79,12 +79,12 @@ public class User{
 		this.userPassword = userPassword;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getUserStatus() {
+		return userStatus;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setUserStatus(String userStatus) {
+		this.userStatus = userStatus;
 	}
 
 	public String getUserImage() {
@@ -99,8 +99,8 @@ public class User{
 		return this.userPassword.equals(userPassword);
 	}
 
-	public boolean checkStatus(String status) {
-		return this.status.equals(status);
+	public boolean checkUserStatus(String userStatus) {
+		return this.userStatus.equals(userStatus);
 	}
 
 	public SessionUser createSessionUser() {
@@ -127,7 +127,7 @@ public class User{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((userStatus == null) ? 0 : userStatus.hashCode());
 		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		result = prime * result + ((userImage == null) ? 0 : userImage.hashCode());
 		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
@@ -144,10 +144,10 @@ public class User{
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (status == null) {
-			if (other.status != null)
+		if (userStatus == null) {
+			if (other.userStatus != null)
 				return false;
-		} else if (!status.equals(other.status))
+		} else if (!userStatus.equals(other.userStatus))
 			return false;
 		if (userId == null) {
 			if (other.userId != null)
@@ -174,7 +174,7 @@ public class User{
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", userName=" + userName + ", userPassword=" + userPassword + ", status="
-				+ status + ", userImage=" + userImage + "]";
+		return "User [userId=" + userId + ", userName=" + userName + ", userPassword=" + userPassword + ", userStatus="
+				+ userStatus + ", userImage=" + userImage + "]";
 	}
 }
