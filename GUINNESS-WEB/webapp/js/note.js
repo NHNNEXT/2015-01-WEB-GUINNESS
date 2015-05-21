@@ -457,7 +457,6 @@ var infiniteScroll = function () {
     var documentHeight = document.body.scrollHeight;
 
     if (scrollHeight == documentHeight) {
-        console.log("hit");
         var list = document.querySelectorAll(".note-list");
         if (list.length == 0)
             return;
