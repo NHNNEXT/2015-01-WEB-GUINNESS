@@ -163,7 +163,8 @@ function showNoteModal(obj) {
         body: bodyTemplate,
         defaultCloseEvent: false,
         whenCloseEvent: function () {
-            reloadNoteList();
+        	//TODO 해당 노트의 코멘트 갯수만 받아와서 수정해주기
+//            reloadNoteList();
             clearInterval(commentTimeUpdate);
         }
     });
