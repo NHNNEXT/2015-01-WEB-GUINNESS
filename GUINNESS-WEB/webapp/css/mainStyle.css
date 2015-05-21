@@ -33,6 +33,20 @@ input.text {
 	height: 25px;
 }
 
+.popupCommentBtn {
+	background: black;
+	color: white;
+	position: fixed;
+	display: none;
+	padding : 5px;
+	border-radius: 2px;
+	font-size:13px;
+}
+
+.highlighted {
+	background: rgba(113, 252, 159, 0.8);
+}
+
 #allShow {
   position:relative;
   border: 0;
