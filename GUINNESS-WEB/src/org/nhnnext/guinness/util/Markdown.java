@@ -21,11 +21,31 @@ public class Markdown {
 	
 	private String pIdNumbering(String textHtml) {
 		int idNumber = 1;
-		while(textHtml.indexOf("<p>")!=-1){
-			textHtml = textHtml.replaceFirst("<p>", "<p id='pId-"+idNumber+"'>");
+		int pIndex=0, preIndex=0;
+		while(true) {
+			pIndex = textHtml.indexOf("<p>");
+			preIndex = textHtml.indexOf("<pre>");
+			
+			if( pIndex == -1 && preIndex == -1 ) {
+				return textHtml;
+			}
+			
+			if( pIndex == -1 && preIndex >= 0){
+				textHtml = textHtml.replaceFirst("<pre>", "<pre id='pId-"+idNumber+"'>");
+			}
+			if( pIndex >= 0 && preIndex == -1 ){
+				textHtml = textHtml.replaceFirst("<p>", "<p id='pId-"+idNumber+"'>");
+			}
+			if( pIndex >= 0 && preIndex >= 0 ){
+				if( pIndex < preIndex ){
+					textHtml = textHtml.replaceFirst("<p>", "<p id='pId-"+idNumber+"'>");
+				}
+				else {
+					textHtml = textHtml.replaceFirst("<pre>", "<pre id='pId-"+idNumber+"'>");
+				}
+			}
 			idNumber++;
 		}
-		return textHtml;
 	}
 
 	private String attention(String markdownText) {
