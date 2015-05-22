@@ -41,6 +41,7 @@ function createPopupPCommentBtn() {
         e.target.style.display = "none";
         // 코멘트 입력 창을 나타나게 하고
         // 이 코멘트 입력창에서 pComment 객체를 가져다가 서버와 통신하게 할 것.
+
     }, false);
 }
 
@@ -83,9 +84,8 @@ function setPopupPCommentBtn() {
 }
 
 function getNoteInfo() {
-    var elNote = document.querySelector("note-content");
-    pComment.userId = "";
-    pComment.noteId = 0;
+    pComment.userId = document.querySelector(".hiddenUserId").value;
+    pComment.noteId = document.querySelector(".hiddenNoteId").value;
 }
 
 function getPid (selectedElClass) {
@@ -99,11 +99,9 @@ function getSameSentence (pComment, selectedText, selection) {
     var selectRange = selection.getRangeAt(0);
     var pId = pComment.pId;
     var pText = document.body.querySelector("#"+pId).innerText;
-
     var sameIndex = 1;
     var sameTexts = new Array();
     var sameText = pText.indexOf(selectedText);
-
     selectRange.insertNode(document.createTextNode("`'`ran"));
     var tempText = document.body.querySelector("#"+pId).innerText;
     var searchPrefix = tempText.indexOf("`'`ran");
@@ -112,7 +110,6 @@ function getSameSentence (pComment, selectedText, selection) {
     if (sameText === searchPrefix) {
         pComment.sameSenIndex = sameIndex;
     }
-
     while(sameText !== -1){
         sameIndex += 1;
         sameTexts.push(sameText);

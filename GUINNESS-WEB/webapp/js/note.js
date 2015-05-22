@@ -165,6 +165,10 @@ function showNoteModal(obj) {
         defaultCloseEvent: false,
         whenCloseEvent: function () {
             clearInterval(commentTimeUpdate);
+            var elPopupBtn = document.querySelector(".popupCommentBtn");
+            if (elPopupBtn !== undefined ){
+                elPopupBtn.remove();
+            }
         }
     });
     document.querySelector('.modal-body').setAttribute('class', 'modal-body note-modal');
