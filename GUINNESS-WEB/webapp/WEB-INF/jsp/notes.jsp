@@ -76,6 +76,8 @@
 	</div>
 	<template id="view-note-template">
 	<div class="markdown-body">
+		<input type="hidden" class="hiddenUserId" value=""/>
+		<input type="hidden" class="hiddenNoteId" value=""/>
 		<div class="note-content"></div>
 		<div id="commentListUl"></div>
 		<form id="commentForm" method="post">

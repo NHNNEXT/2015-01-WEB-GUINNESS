@@ -70,9 +70,8 @@ function setPopupPCommentBtn() {
             elPopupBtn.style.display = "block";
             pComment.selectedText = selectedText;
             pComment.pId = getPid(selectedElClass);
-            setSameSentence(pComment, selectedText, window.getSelection());
-            pComment.userId = "";
-            pComment.noteId = 0;
+            getSameSentence(pComment, selectedText, window.getSelection());
+            getNoteInfo();
         } else {
             elPopupBtn.style.display = "none";
         }
@@ -83,6 +82,12 @@ function setPopupPCommentBtn() {
     // 이후, 해당 클래스에 색을 없게 주고, 코멘트에 hover 시, 색이 있게 한다.
 }
 
+function getNoteInfo() {
+    var elNote = document.querySelector("note-content");
+    pComment.userId = "";
+    pComment.noteId = 0;
+}
+
 function getPid (selectedElClass) {
     while (selectedElClass.tagName !== "P" && selectedElClass.tagName !== "PRE") {
         selectedElClass = selectedElClass.parentNode;
@@ -90,18 +95,31 @@ function getPid (selectedElClass) {
     return selectedElClass.id;
 }
 
-function setSameSentence (pComment, selectedText, selection) {
+function getSameSentence (pComment, selectedText, selection) {
+    var selectRange = selection.getRangeAt(0);
     var pId = pComment.pId;
     var pText = document.body.querySelector("#"+pId).innerText;
 
+    var sameIndex = 1;
     var sameTexts = new Array();
     var sameText = pText.indexOf(selectedText);
+
+    selectRange.insertNode(document.createTextNode("`'`ran"));
+    var tempText = document.body.querySelector("#"+pId).innerText;
+    var searchPrefix = tempText.indexOf("`'`ran");
+    selectRange.deleteContents();
+    selectRange.insertNode(document.createTextNode(selectedText));
+    if (sameText === searchPrefix) {
+        pComment.sameSenIndex = sameIndex;
+    }
+
     while(sameText !== -1){
+        sameIndex += 1;
         sameTexts.push(sameText);
         sameText = pText.indexOf(selectedText, sameText + selectedText.length);
+        if (sameText === searchPrefix) {
+            pComment.sameSenIndex = sameIndex;
+        }
     }
     pComment.sameSenCount = sameTexts.length;
-    pComment.sameSenIndex = 0;
-
-    var t = selection;
 }
