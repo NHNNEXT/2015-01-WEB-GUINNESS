@@ -64,55 +64,51 @@
 			<i class='fa fa-user'></i><span style='margin-left: 10px;'>그룹정보수정</span>
 		</h1>
 		<div id='profile-panel' class='panel'>
-			<form:form modelAttribute="group" cssClass="temp" enctype='multipart/form-data'
+			<form:form modelAttribute="group" id="editProfile-form" cssClass="temp" enctype='multipart/form-data'
 				action="/groups/update" method="post">
-				
-				<td valign=top id='editBackgroundImage-photoArea'
-							style='width: 200px; text-align: center;'><img
-							class='background' src="/img/group/${group.groupId}"> <input
-							type="file" name="backgroundImage"
-							accept="image/x-png, image/gif, image/jpeg" /></td>
-				
-				<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUser.userId}" readonly>
-				<form:hidden path="groupId" value="${group.groupId}" readonly="true"/>
-				<div class="control-group">
-					<label class="control-label" for="groupName">그룹명 변경</label>
-					<div class="controls">
-						<form:input path="groupName" autocomplete="off"
-							required="required" value="${group.groupName}" />
-					</div>
-					<span class="info">그룹명을 입력하세요.</span>
-				</div>
-				<div class="control-group">
-					<label class="control-label" for="status">공개 설정</label>
-					<div class="controls">
-						<form:radiobutton path="status" value="F" />
-						<label>비공개</label>
-						<form:radiobutton path="status" value="T" />
-						<label>공개</label>
-					</div>
-					<span class="info">공개 설정시 그룹원이 아니어도 입장이 가능합니다.</span>
-				</div>
-				<div class="control-group">
-					<label class="control-label" for="groupCaptainUserId">그룹장
-						위임</label>
-					<div class="controls">
-						<form:input path="groupCaptainUserId" />
-					</div>
-					<span class="info">그룹장만이 위임이 가능합니다.</span>
-				</div>
-				<%-- <div class="control-group">
-						<label class="control-label" for="email">그룹 삭제</label>
-						<div class="controls">
-							<form:input path="email" />
-						</div>
-						<span class="info">그룹장만이 삭제가 가능합니다.</span>
-					</div> --%>
-				<div class="control-group">
-					<div class="controls">
-						<button type="submit" class="btn btn-primary">수정</button>
-					</div>
-				</div>
+				<table class='panel-body' style='width:100%'>
+					<tr>
+						<td valign=top id='editBackgroundImage-photoArea'
+									style='width: 200px; text-align: center;'><img
+									class='background' src="/img/group/${group.groupId}"> 
+							<input type="file" name="backgroundImage" accept="image/x-png, image/gif, image/jpeg" />
+						</td>
+						
+						<td style='padding-left: 25px;'>
+							<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUser.userId}" readonly>
+							<form:hidden path="groupId" value="${group.groupId}" readonly="true"/>
+							<p>
+								<label class="control-label" for="groupName">그룹명 변경</label>
+								<form:input path="groupName" autocomplete="off"
+											required="required" value="${group.groupName}" />
+								<span class="info">그룹명을 입력하세요.</span>
+							</p>
+							<p>
+								<label class="control-label" for="status">공개 설정</label>
+								<form:radiobutton path="status" value="F" />
+								<span>비공개(<i class="fa fa-lock"></i>)</span>
+								<form:radiobutton path="status" value="T" />
+								<span>공개(<i class="fa fa-unlock"></i>)</span>
+								<span class="info">공개 설정시 그룹원이 아니어도 입장이 가능합니다.</span>
+							</p>
+							<p>
+								<label class="control-label" for="groupCaptainUserId">그룹장
+										위임</label>
+								<form:input path="groupCaptainUserId" />
+								<span class="info">그룹장만이 위임이 가능합니다.</span>
+							</p>
+							<%-- <div class="control-group">
+									<label class="control-label" for="email">그룹 삭제</label>
+									<div class="controls">
+										<form:input path="email" />
+									</div>
+									<span class="info">그룹장만이 삭제가 가능합니다.</span>
+								</div> --%>
+							<hr />
+							<button type="submit" class="btn btn-pm">수정</button>
+						</td>
+					</tr>
+				</table>
 			</form:form>
 		</div>
 	</div>
