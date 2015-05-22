@@ -38,6 +38,9 @@ public class ReconnectPComments {
 		for (Map<String, Object> pComment : pCommentList) {
 			Map<Integer, Double> score = new HashMap<Integer, Double>();
 			int pId = (int) pComment.get("pId");
+			if(pId == -1){
+				continue;
+			}
 			for (int k = 0; k < editedParagraph.length; k++) {
 				score.put(k, cosineSimilarity(editedParagraphWrodVector[k], originParagraphWrodVector[pId - 1]));
 			}
