@@ -37,6 +37,7 @@
 	margin-bottom: 4px;
 	transition-property: background-color;
 	transition-duration: .5s;
+	
 }
 
 #editProfile-form input[name='userPhoneNumber'] {
@@ -57,7 +58,7 @@
 	<%@ include file="./commons/_topnav.jspf"%>
 	<div class='content wrap' style='margin-top: 80px'>
 		<h1>
-			<i class='fa fa-user'></i><span style='margin-left: 10px;'>그룹정보수정</span>
+			<i class='fa fa-users'></i><span style='margin-left: 10px;'>그룹정보수정</span>
 		</h1>
 		<div id='profile-panel' class='panel'>
 			<form:form modelAttribute="group" id="editProfile-form" cssClass="temp" enctype='multipart/form-data'
@@ -93,13 +94,10 @@
 								<form:input path="groupCaptainUserId" />
 								<span class="info">그룹장만이 위임이 가능합니다.</span>
 							</p>
-							<%-- <div class="control-group">
-									<label class="control-label" for="email">그룹 삭제</label>
-									<div class="controls">
-										<form:input path="email" />
-									</div>
-									<span class="info">그룹장만이 삭제가 가능합니다.</span>
-								</div> --%>
+							<p>
+								<span id="delete-group" style="background: red;width: 70px; margin: 0px; padding: 7px"class="btn">그룹삭제</span>
+								<span class="info" style="margin-top: 12px;"><strong>[주의]</strong>해당 그룹과 관련된 모든 정보가 삭제됩니다.</span>
+							</p>
 							<hr />
 							<button type="submit" class="btn btn-pm">수정</button>
 						</td>
@@ -109,7 +107,7 @@
 		</div>
 	</div>
 	<script>
-		function validCheck() {
+		/* function validCheck() {
 			var userName = document.querySelector("input[name='userName']").value;
 			var userPassword = document.querySelector("input[name='userPassword']").value;
 			var userAgainPassword = document.querySelector("input[name='userAgainPassword']").value;
@@ -141,7 +139,43 @@
 		document.querySelector("input[name='userAgainPassword']").addEventListener('click', function() {
 			this.style.backgroundColor = "#fff";
 			this.parentNode.querySelector("span.errorMessage").innerHTML = "";
-		});
+		}); */
+		
+		document.querySelector('#delete-group').addEventListener("mousedown",
+				function(e) {
+					e.preventDefault();
+					var groupId = "${group.groupId}";
+					var groupName = "${group.groupName}";
+					confirmDelete(groupId, groupName)
+				}, false);
+		function confirmDelete(groupId, groupName) {
+			groupName = (groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
+			var message = "그룹을 삭제하시겠습니까?";
+			guinness.util.alert(groupName, message,
+				function() {
+					document.body.style.overflow = "auto";
+					deleteGroup(groupId);
+				},
+				function() {
+					document.body.style.overflow = "auto";
+		            return;
+				}
+			);
+		}
+
+		function deleteGroup(groupId) {
+			guinness.ajax({
+				method:"delete",
+				url:"/groups/" + groupId,
+				success: function(req) {
+					if(JSON.parse(req.responseText).success !== true) {
+						guinness.util.alert('경고', '삭제할 권한이 없습니다.');
+						return;
+					}
+					window.location.href = "/groups/form";
+				}
+			});
+		}
 	</script>
 </body>
 </html>
