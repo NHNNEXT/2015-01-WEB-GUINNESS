@@ -81,8 +81,6 @@ function searchResult(json){
     var elDiv = document.querySelector(".searchResultNoteId:last-child");
     jsonList = json.mapValues[i];
     elDiv.id = "searchResultNoteId" + jsonList.noteId;
-    //TODO 검색뷰개선
-//    document.querySelector("#searchResultNoteId" + jsonList.noteId).href="/search/n/"+jsonList.noteId;
     var elsearchResultText = document.querySelector("#searchResultNoteId" + jsonList.noteId+" > .searchResultText");
     elsearchResultText.innerHTML = jsonList.noteText;
     var elsearchResultName = document.querySelector("#searchResultNoteId" + jsonList.noteId+" > .searchResultName");
@@ -91,7 +89,6 @@ function searchResult(json){
     elsearchResultDate.innerHTML = guinness.util.koreaDate(jsonList.noteTargetDate);
     var elsearchResultGroup = document.querySelector("#searchResultNoteId" + jsonList.noteId+ " > .searchResultGroup");
     elsearchResultGroup.innerHTML = jsonList.groupName;
-    //TODO 검색뷰개선
     elDiv.addEventListener("mousedown", function(e) {
     	var noteId;
     	if(e.target.getAttribute("id") == null)

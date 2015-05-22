@@ -324,7 +324,9 @@ function createComment(obj) {
                 }
                 appendComment(result.mapValues);
                 document.querySelector('#commentText').value = "";
-                document.getElementById(noteId).querySelector(".fa.fa-comments").innerHTML = " "+document.querySelector("#commentListUl").childElementCount;
+                //노트 리스트에서 댓글 수 수정(노트 에디트 화면에서는 필요없음)
+                if(document.getElementById(noteId) !== null)
+                	document.getElementById(noteId).querySelector(".fa.fa-comments").innerHTML = " "+document.querySelector("#commentListUl").childElementCount;
             }
         });
     }
@@ -400,7 +402,9 @@ function readMember(groupId) {
     });
 }
 
-var memberTemplate = document.querySelector("#member-template").content;
+var memberTemplate;
+if(document.querySelector("#member-template") !== null)
+	memberTemplate = document.querySelector("#member-template").content;
 function appendMember(obj) {
 	var userId = document.getElementById("sessionUserId").value;
 	var newMember = document.importNode(memberTemplate, true);

@@ -6,10 +6,6 @@ import java.util.ArrayList;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.Preview;

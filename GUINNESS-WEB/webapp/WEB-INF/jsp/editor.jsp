@@ -46,5 +46,36 @@
 		</form>
 	</div>
 	<input id="hiddenGroupName" type="hidden" value="${groupName}" />
+	<script src="/js/note.js"></script>
+	<script src="/js/pComment.js"></script>
+	<!-- 검색뷰개선 -->
+	<template id="view-note-template">
+	<div class="markdown-body">
+		<input type="hidden" class="hiddenUserId" value=""/>
+		<input type="hidden" class="hiddenNoteId" value=""/>
+		<div class="note-content"></div>
+		<div id="commentListUl"></div>
+		<form id="commentForm" method="post">
+			<textarea id='commentText' name='commentText' rows='5' cols='50'></textarea>
+			<br>
+			<button id='submitComment' class='btn btn-pm'>확인</button>
+		</form>
+	</div>
+	</template>
+	<template id="comment-template">
+	<li><img class='avatar' class='avatar' src='/img/profile/avatar-default.png'>
+		<div class='comment-container'>
+			<div class='comment-info'>
+				<span class='comment-user'></span> <span class='comment-date'></span>
+			</div>
+			<div class='comment'></div>
+			<div class='comment-util'></div>
+		</div></li>
+	</template>
+	<script type="template" id="popupCommentBtnTemplate">
+    	<div class="popupCommentBtn">
+        	댓글 달기
+    	</div>
+	</script>
 </body>
 </html>
