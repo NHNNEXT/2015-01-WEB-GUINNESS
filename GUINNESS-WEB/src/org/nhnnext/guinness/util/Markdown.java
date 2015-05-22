@@ -25,23 +25,21 @@ public class Markdown {
 		while(true) {
 			pIndex = textHtml.indexOf("<p>");
 			preIndex = textHtml.indexOf("<pre>");
-			
 			if( pIndex == -1 && preIndex == -1 ) {
 				return textHtml;
 			}
-			
 			if( pIndex == -1 && preIndex >= 0){
-				textHtml = textHtml.replaceFirst("<pre>", "<pre id='pId-"+idNumber+"'>");
+				textHtml = textHtml.replaceFirst("<pre>", "<pre id='pId-"+idNumber+"' class='pCommentText' >");
 			}
 			if( pIndex >= 0 && preIndex == -1 ){
-				textHtml = textHtml.replaceFirst("<p>", "<p id='pId-"+idNumber+"'>");
+				textHtml = textHtml.replaceFirst("<p>", "<p id='pId-"+idNumber+"' class='pCommentText' >");
 			}
 			if( pIndex >= 0 && preIndex >= 0 ){
 				if( pIndex < preIndex ){
-					textHtml = textHtml.replaceFirst("<p>", "<p id='pId-"+idNumber+"'>");
+					textHtml = textHtml.replaceFirst("<p>", "<p id='pId-"+idNumber+"' class='pCommentText' >");
 				}
 				else {
-					textHtml = textHtml.replaceFirst("<pre>", "<pre id='pId-"+idNumber+"'>");
+					textHtml = textHtml.replaceFirst("<pre>", "<pre id='pId-"+idNumber+"' class='pCommentText' >");
 				}
 			}
 			idNumber++;
