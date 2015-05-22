@@ -13,6 +13,7 @@ var appendMarkList = function (json) {
         		continue;
             newEl = document.createElement("li");
             newEl.setAttribute("class", "mark-list");
+            newEl.setAttribute("value", json[i].note.noteId);
             newEl.innerHTML = attentionList[j];
             attentionListElement.appendChild(newEl);
         }
@@ -22,6 +23,7 @@ var appendMarkList = function (json) {
         		continue;
             newEl = document.createElement("li");
             newEl.setAttribute("class", "mark-list");
+            newEl.setAttribute("value", json[i].note.noteId);
             newEl.innerHTML = questionList[j];
             questionListElement.appendChild(newEl);
         }
@@ -122,6 +124,12 @@ function deleteNote(noteId) {
                     t.parentElement.remove();
                 } else {
                     t.remove();
+                }
+                var list = document.querySelectorAll("#summary-container>ul>li");
+                for(var i=0; i<list.length; i++) {
+                	if( list[i].getAttribute("value") === noteId ) {
+                		list[i].remove();
+                	}
                 }
             }
         }
