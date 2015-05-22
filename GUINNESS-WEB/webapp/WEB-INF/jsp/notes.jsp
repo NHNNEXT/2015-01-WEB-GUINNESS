@@ -153,6 +153,7 @@
 	window.addEventListener('scroll', function(e) {
 		infiniteScroll();
 		sideMenuFlow();
+		refreshCalendar();
 	}, false);
 	
 	$(function() {
@@ -191,6 +192,13 @@
 		} else {
 			sideMenuContainers[0].style.top = sideMenuContainers[1].style.top = "0px";
 		}
+	}
+	
+	function refreshCalendar() {
+		var noteDates = document.querySelectorAll("div.note-date");
+		for (var i = 0; i < noteDates.length; i++) {
+		}
+		console.log(noteDates[0].offsetTop);
 	}
 	
 	function groupUpdate() {
