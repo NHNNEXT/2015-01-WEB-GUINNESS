@@ -7,6 +7,7 @@
 	<c:redirect url="/" />
 </c:if>
 <div id="header">
+	<div class="headerBackground"></div>
 	<div class='content wrap'>
 		<div id="leftTopBox">
 			<a href='/' id='brand'> <img src='/img/pm_white.png'> </a>
@@ -44,14 +45,14 @@
 </script>
 
 <script type="template" class="searchResultTemplate">
-	<a class="searchResultNoteId" href="#">
+	<div class="searchResultNoteId" href="#">
 		<div class="searchResultText"></div>
 		<span class="searchResultName"></span>
 		<br />
 		<span class="searchResultDate"></span>
 		<br /><span class="spanOnSearch"> on </span>
 		<span class="searchResultGroup"></span>
-	</a>
+	</div>
 </script>
 
 <script>

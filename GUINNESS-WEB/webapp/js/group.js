@@ -133,32 +133,3 @@ function appendGroups(json) {
 		appendGroup(json[i])
 	}
 }
-
-function confirmDelete(groupId, groupName) {
-	groupName = (groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
-	var message = "그룹을 삭제하시겠습니까?";
-	guinness.util.alert(groupName, message,
-		function() {
-			document.body.style.overflow = "auto";
-			deleteGroup(groupId);
-		},
-		function() {
-			document.body.style.overflow = "auto";
-            return;
-		}
-	);
-}
-
-function deleteGroup(groupId) {
-	guinness.ajax({
-		method:"delete",
-		url:"/groups/" + groupId,
-		success: function(req) {
-			if(JSON.parse(req.responseText).success !== true) {
-				guinness.util.alert('경고', '삭제할 권한이 없습니다.');
-				return;
-			}
-			document.querySelector('#' + groupId).remove();
-		}
-	});		
-}

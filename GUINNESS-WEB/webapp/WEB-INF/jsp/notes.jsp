@@ -22,6 +22,8 @@
 
 </head>
 <body>
+	<div id="backImg" style="background-repeat:no-repeat; margin-top: -50px;
+	 background-size:cover; position:fixed; width:100%; height:100%;"></div>
 	<%@ include file="./commons/_topnav.jspf"%>
 	<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUser.userId}">
 	<h1 id="empty-message"
@@ -68,12 +70,14 @@
 				<a href="#"><span id="leave-group" style="font-weight:bold;">그룹탈퇴하기</span></a>
 			</div>
 			<div>
-				<input class="inputBtn" style="cursor: default; width: 30%; float:right;" type="submit" value="그룹설정" onclick="groupUpdate()">
+				<input id="groupSettingBtn"class="inputBtn" style="visibility:hidden; cursor: default; width: 30%; float:right;" type="submit" value="그룹설정" onclick="groupUpdate()">
 			</div>
 		</div>
 	</div>
 	<template id="view-note-template">
 	<div class="markdown-body">
+		<input type="hidden" class="hiddenUserId" value=""/>
+		<input type="hidden" class="hiddenNoteId" value=""/>
 		<div class="note-content"></div>
 		<div id="commentListUl"></div>
 		<form id="commentForm" method="post">
@@ -106,7 +110,7 @@
 						<span class="info">노트 숨기기</span>
 					</li>
 					<input style="display:none;" type='checkbox' class='memberChk' checked=true value="">
-					<li>
+					<li class="member-delete" style="visibility:hidden;">
 						<i class="fa fa-times"></i>
 						<span class="info">멤버제외</span>
 					</li>
@@ -130,13 +134,22 @@
 	var groupName = ("${group.groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 	document.querySelector('#group-name').innerHTML = groupName;
 	var bJoinedUser = false;
+	var groupCaptainUserId = "${group.groupCaptainUserId}";
 	const groupId = window.location.pathname.split("/")[2];
 	window.addEventListener('load', function() {
+		var groupImage = "${group.groupImage}";
+		
+		var userId = document.getElementById("sessionUserId").value;
+		if(userId === groupCaptainUserId){
+			document.getElementById("groupSettingBtn").style.visibility = "visible";
+		}
+		if (groupImage !== "") {
+			window.document.body.querySelector("#backImg").style.backgroundImage="url('/img/group/"+groupImage+"')";
+		}
 		document.querySelector("#addMemberForm input[name='groupId']").value = groupId;
 		readMember(groupId);
 		document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
 		document.title = "${group.groupName}";
-		var groupName = ("${group.groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 		document.querySelector('#group-name').innerHTML = groupName;
 		var json = ${noteList};
 		appendNoteList(json);
@@ -194,11 +207,34 @@
 		}
 	}
 	
+	var prevDay = "";
 	function refreshCalendar() {
 		var noteDates = document.querySelectorAll("div.note-date");
+		var currDay;
 		for (var i = 0; i < noteDates.length; i++) {
+			if(window.scrollY > noteDates[i].parentNode.offsetTop && window.scrollY < noteDates[i].parentNode.offsetTop+noteDates[i].parentNode.clientHeight){
+				currDay = noteDates[i].textContent;
+			}
 		}
-		console.log(noteDates[0].offsetTop);
+		if (prevDay !== currDay && currDay !== undefined) {
+			var date = currDay.split("-");
+			//yearChange
+			if ($(".calendar.first .yearselect option[selected='selected']").attr("value") !== date[0]) {
+				$(".calendar.first .yearselect").val(date[0]).trigger('change');
+			}
+			//monthChange
+			if ($(".calendar.first .monthselect option[selected='selected']").attr("value") !== date[1]-1+"") {
+				$(".calendar.first .monthselect").val(date[1]-1).trigger('change');
+			}
+			//dayChange
+			$(".calendar.first table tbody td.active").removeClass("active");
+			var days = $(".calendar.first table tbody td.available");
+			for (var i = 0; i < days.length; i++) {
+				if (days[i].textContent === date[2]) {
+					days[i].className += " active";
+				}
+			}
+		}
 	}
 	
 	function groupUpdate() {

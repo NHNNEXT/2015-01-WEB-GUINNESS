@@ -15,7 +15,7 @@ public class MailService {
 	@Resource
 	private JavaMailSender javaMailSender;
 
-	public void sendMailforSignUp(String keyAddress, String userId) throws SendMailException  {
+	public void sendMailforSignUp(String keyAddress, String userId) throws SendMailException {
 		try {
 			MimeMessage message = javaMailSender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message, false, "utf-8");
@@ -37,7 +37,7 @@ public class MailService {
 		}
 	}
 	
-	public void sendMailforInitPassword(String tempPassword, String userId) throws SendMailException  {
+	public void sendMailforInitPassword(String tempPassword, String userId) throws SendMailException {
 		try {
 			MimeMessage message = javaMailSender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");

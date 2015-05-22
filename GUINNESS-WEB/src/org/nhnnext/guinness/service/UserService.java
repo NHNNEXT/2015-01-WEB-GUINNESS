@@ -33,8 +33,6 @@ public class UserService {
 	}
 	
 	private User createUser(User user) throws AlreadyExistedUserIdException {
-//		TODO 코드리뷰
-//		if(null != userDao.findUserByUserId(user.getUserId())) {
 		if(userDao.findUserByUserId(user.getUserId()) != null) {
 			throw new AlreadyExistedUserIdException("이미 존재하는 계정입니다.");
 		}

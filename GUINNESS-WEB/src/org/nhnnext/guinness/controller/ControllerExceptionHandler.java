@@ -6,6 +6,7 @@ import org.nhnnext.guinness.exception.FailedDeleteGroupException;
 import org.nhnnext.guinness.exception.FailedLoginException;
 import org.nhnnext.guinness.exception.FailedMakingGroupException;
 import org.nhnnext.guinness.exception.GroupUpdateException;
+import org.nhnnext.guinness.exception.GroupUpdateExceptionIllegalPage;
 import org.nhnnext.guinness.exception.NotExistedUserIdException;
 import org.nhnnext.guinness.exception.SendMailException;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
@@ -68,11 +69,18 @@ public class ControllerExceptionHandler {
 		return mav;
 	}
 	
-	
-	// 그룹정보 수정시 예외처리
+	// 그룹정보 수정시 예외처리 API전달
 	@ExceptionHandler(GroupUpdateException.class)
 	public @ResponseBody JsonResult groupUpdateException(GroupUpdateException e) {
 		return new JsonResult().setSuccess(false).setMessage(e.getMessage());
+	}
+	
+	// 그룹정보 수정시 예외처리 페이지 포워딩
+	@ExceptionHandler(GroupUpdateExceptionIllegalPage.class)
+	public ModelAndView groupUpdateExceptionIllegalPage(GroupUpdateExceptionIllegalPage e) {
+		ModelAndView mav = new ModelAndView("/illegal");
+		mav.addObject("errorMessage", e.getMessage());
+		return mav;
 	}
 	
 	// 그룹 생성시 그룹명 길 경우 예외처리

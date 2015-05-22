@@ -9,6 +9,7 @@ import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
 import org.nhnnext.guinness.exception.FailedDeleteGroupException;
 import org.nhnnext.guinness.exception.FailedMakingGroupException;
 import org.nhnnext.guinness.exception.GroupUpdateException;
+import org.nhnnext.guinness.exception.GroupUpdateExceptionIllegalPage;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.exception.UnpermittedDeleteGroupException;
 import org.nhnnext.guinness.model.Group;
@@ -96,8 +97,12 @@ public class GroupController {
 	}
 
 	@RequestMapping("/update/form/{groupId}")
-	protected String updateForm(@PathVariable String groupId, Model model) {
+	protected String updateForm(@PathVariable String groupId, Model model, HttpSession session) throws IOException, GroupUpdateException, GroupUpdateExceptionIllegalPage {
 		Group group = groupService.readGroup(groupId);
+		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
+		if (!sessionUserId.equals(group.getGroupCaptainUserId())) {
+			throw new GroupUpdateExceptionIllegalPage("그룹장만이 그룹설정이 가능합니다.");
+		}
 		model.addAttribute("group", group);
 		return "updateGroup";
 	}

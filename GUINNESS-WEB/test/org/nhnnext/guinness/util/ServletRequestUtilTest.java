@@ -5,6 +5,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,6 +25,12 @@ public class ServletRequestUtilTest {
 		
 		Boolean bool = ServletRequestUtil.existedUserIdFromSession(session);
 		assertEquals(true, bool);
+	}
+	
+	@Test
+	public void getIP() throws UnknownHostException {
+		System.out.println(InetAddress.getLocalHost().getHostAddress());
+		System.out.println(InetAddress.getLocalHost().getHostAddress().equals("10.73.43.171"));
 	}
 
 }

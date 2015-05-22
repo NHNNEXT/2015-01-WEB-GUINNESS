@@ -41,6 +41,7 @@ input.text {
 	padding : 5px;
 	border-radius: 2px;
 	font-size:13px;
+	z-index : 1000;
 }
 
 .highlighted {
@@ -403,9 +404,17 @@ a {
 	z-index: 9;
 	top: 0px;
 	width: 100%;
-	background-color: #74afad;
-    height: 40px
+    height: 40px;
 }
+
+.headerBackground {
+  background-color: black;
+  opacity: .4;
+  width: 100%;
+  height: 39px;
+  position:fixed;
+}
+
 
 #header .util {
 	list-style: none;
@@ -429,7 +438,8 @@ a {
 }
 
 #header .util .menu:hover {
-	background-color: #619493;
+	background-color: black;
+	opacity:.8;
 }
 
 #header .util a {
@@ -478,14 +488,14 @@ a {
 .searchForm i.fa.fa-search {
 	left: -28px;
 	position: relative;
-	color: white;
+	color: black;
 }
 
 .onSearchForm i.fa.fa-external-link {
 	left: -28px;
 	top: 2px;
 	position: relative;
-	color:gray;
+	color:black;
 }
 
 .searchResult {
@@ -544,7 +554,6 @@ a {
 	height: 23px;
 	margin-top: 8px;
 	border-radius: 2px;
-	background: #7FBEBC;
 	border: none;
 	outline-style: none;
 	padding-left: 5px;
@@ -681,9 +690,19 @@ textarea#commentText {
 	font-weight:500;
 	font-size:25px;
 	border-left:5px solid rgb(93, 129, 128);
-	color:rgb(93, 129, 128);
+	color:white;
 	padding-left:10px;
-	both:clean;
+	background-color: rgba(0, 0, 0, .18);
+    border-radius: 2px;
+    padding: 2px 12px 5px 12px;
+}
+
+span.sDate {
+  color: white;
+  padding-left: 10px;
+  background-color: rgba(0, 0, 0, .18);
+  border-radius: 2px;
+  padding: 2px 6px 5px 6px;
 }
 
 .group-list li {
@@ -869,7 +888,7 @@ textarea#commentText {
 .modal-cover {
 	position: fixed;
 	top: 0px;
-	z-index: 20;
+	z-index: 250;
 	display: block;
 	width: 100%;
 	height: 100%;
@@ -928,6 +947,7 @@ textarea#commentText {
 	color: #B4B4B4;
 	text-align: center;
 	background-color: #eeeff2;
+	opacity:.6;
 	border: 3px dotted #B4B4B4;
 	border-radius: 2px;
 }
@@ -962,7 +982,8 @@ textarea#commentText {
 	width: 100px;
 	color: #fff;
 	cursor: pointer;
-	background-color: #619493;
+	background-color: black;
+	opacity:10;
 }
 
 .drop-down ul li a {
@@ -972,7 +993,8 @@ textarea#commentText {
 }
 
 .drop-down ul li:hover {
-	background-color: #355856;
+	background:linear-gradient( to bottom, gray, black);
+	opacity:.8;
 }
 
 .leaveGroup-btn {

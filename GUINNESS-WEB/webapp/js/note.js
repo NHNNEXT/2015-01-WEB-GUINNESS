@@ -13,6 +13,7 @@ var appendMarkList = function (json) {
         		continue;
             newEl = document.createElement("li");
             newEl.setAttribute("class", "mark-list");
+            newEl.setAttribute("value", json[i].note.noteId);
             newEl.innerHTML = attentionList[j];
             attentionListElement.appendChild(newEl);
         }
@@ -22,6 +23,7 @@ var appendMarkList = function (json) {
         		continue;
             newEl = document.createElement("li");
             newEl.setAttribute("class", "mark-list");
+            newEl.setAttribute("value", json[i].note.noteId);
             newEl.innerHTML = questionList[j];
             questionListElement.appendChild(newEl);
         }
@@ -31,9 +33,9 @@ var appendMarkList = function (json) {
 function appendNoteList(json) {
     if (json === null)
         return;
-    var el = document.querySelector("#empty-message");
-    if (el != undefined) {
-        el.parentNode.removeChild(el);
+    if (json.length !== 0) {
+    	var el = document.querySelector("#empty-message");
+    	el.style.visibility = "hidden";
     }
     var newEl = undefined;
     var obj = undefined;
@@ -51,7 +53,7 @@ function appendNoteList(json) {
             el.setAttribute("class", "note-list");
             newEl = document.createElement("div");
             newEl.setAttribute("class", "note-date");
-            newEl.innerHTML = "<span>" + createDate + "</span>";
+            newEl.innerHTML = "<span class='sDate'>" + createDate + "</span>";
             el.appendChild(newEl);
             document.querySelector('#note-list-container').appendChild(el);
         }
@@ -120,8 +122,15 @@ function deleteNote(noteId) {
                 var t = document.getElementById(noteId);
                 if (t.parentElement.childElementCount <= 2) {
                     t.parentElement.remove();
+                    document.querySelector("#empty-message").style.visibility = "visible";
                 } else {
                     t.remove();
+                }
+                var list = document.querySelectorAll("#summary-container>ul>li");
+                for(var i=0; i<list.length; i++) {
+                	if( list[i].getAttribute("value") === noteId ) {
+                		list[i].remove();
+                	}
                 }
             }
         }
@@ -156,14 +165,17 @@ function showNoteModal(obj) {
         body: bodyTemplate,
         defaultCloseEvent: false,
         whenCloseEvent: function () {
-        	//TODO 해당 노트의 코멘트 갯수만 받아와서 수정해주기
-//            reloadNoteList();
             clearInterval(commentTimeUpdate);
+            var elPopupBtn = document.querySelector(".popupCommentBtn");
+            if (elPopupBtn !== undefined ){
+                elPopupBtn.remove();
+            }
         }
     });
-    document.querySelector('.modal-body').setAttribute('class',
-        'modal-body note-modal');
+    document.querySelector('.modal-body').setAttribute('class', 'modal-body note-modal');
     document.querySelector('.note-content').innerHTML = obj.noteText;
+    document.querySelector('.hiddenUserId').value = obj.user.userId;
+    document.querySelector('.hiddenNoteId').value = obj.noteId;
     document.querySelector('#commentForm').addEventListener('submit',
         function (e) {
             e.preventDefault();
@@ -250,8 +262,10 @@ function deleteComment(commentId) {
         method: "delete",
         url: "/comments/" + commentId,
         success: function (req) {
-            if (JSON.parse(req.responseText).success === true)
-                document.querySelector('#cmt-' + commentId).remove();
+            if (JSON.parse(req.responseText).success === true) {
+            	document.querySelector('#cmt-' + commentId).remove();
+            	document.getElementById(noteId).querySelector(".fa.fa-comments").innerHTML = " "+document.querySelector("#commentListUl").childElementCount;
+            }
         }
     });
 }
@@ -310,6 +324,7 @@ function createComment(obj) {
                 }
                 appendComment(result.mapValues);
                 document.querySelector('#commentText').value = "";
+                document.getElementById(noteId).querySelector(".fa.fa-comments").innerHTML = " "+document.querySelector("#commentListUl").childElementCount;
             }
         });
     }
@@ -387,7 +402,11 @@ function readMember(groupId) {
 
 var memberTemplate = document.querySelector("#member-template").content;
 function appendMember(obj) {
+	var userId = document.getElementById("sessionUserId").value;
 	var newMember = document.importNode(memberTemplate, true);
+	if(userId === groupCaptainUserId){
+		newMember.querySelector(".member-delete").style.visibility = "visible";
+	}
 	newMember.querySelector(".member-info").setAttribute("id", obj.userId);
 	newMember.querySelector(".memberChk").value = obj.userId;
 	newMember.querySelector(".member-name").innerHTML = obj.userName;
@@ -486,7 +505,7 @@ var reloadWithoutDeleteNoteList = function (noteTargetDate) {
         url: '/notes/reload/?groupId=' + groupId + '&noteTargetDate=' + noteTargetDate,
         success: function (req) {
             var result = JSON.parse(req.responseText);
-            if (result.success) {
+            if (result.success && result.objectValues.length !== 0) {
                 appendNoteList(result.objectValues);
                 appendMarkList(result.objectValues);
             }
