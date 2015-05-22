@@ -444,7 +444,6 @@ function deleteMarkList() {
 
 
 function reloadNoteList(noteTargetDate) {
-    var groupId = window.location.pathname.split("/")[2];
     var objs = document.querySelectorAll(".memberChk");
     guinness.ajax({
         method: "get",
@@ -483,7 +482,6 @@ var infiniteScroll = function () {
 };
 
 var reloadWithoutDeleteNoteList = function (noteTargetDate) {
-    var groupId = window.location.pathname.split("/")[2];
     var objs = document.querySelectorAll(".memberChk");
     guinness.ajax({
         method: "get",
