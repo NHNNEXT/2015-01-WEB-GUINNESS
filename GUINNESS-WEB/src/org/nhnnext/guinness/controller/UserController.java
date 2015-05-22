@@ -37,7 +37,7 @@ public class UserController {
 	@Resource
 	private UserService userService;
 
-	@RequestMapping(value = "/user", method = RequestMethod.POST)
+	@RequestMapping(value = "", method = RequestMethod.POST)
 	protected String create(@Valid User user, BindingResult result, Model model) throws AlreadyExistedUserIdException, SendMailException {
 		// 유효성 검사
 		if(result.hasErrors()) {
