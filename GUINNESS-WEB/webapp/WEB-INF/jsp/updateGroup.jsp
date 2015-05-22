@@ -37,6 +37,7 @@
 	margin-bottom: 4px;
 	transition-property: background-color;
 	transition-duration: .5s;
+	
 }
 
 #editProfile-form input[name='userPhoneNumber'] {
@@ -57,7 +58,7 @@
 	<%@ include file="./commons/_topnav.jspf"%>
 	<div class='content wrap' style='margin-top: 80px'>
 		<h1>
-			<i class='fa fa-user'></i><span style='margin-left: 10px;'>그룹정보수정</span>
+			<i class='fa fa-users'></i><span style='margin-left: 10px;'>그룹정보수정</span>
 		</h1>
 		<div id='profile-panel' class='panel'>
 			<form:form modelAttribute="group" id="editProfile-form" cssClass="temp" enctype='multipart/form-data'
@@ -68,9 +69,7 @@
 									style='width: 200px; text-align: center;'>
 							<img class='background' src="/img/group/${group.groupId}"> 
 							<input type="file" name="backgroundImage" accept="image/x-png, image/gif, image/jpeg" />
-						</td>
-						<td>
-						<span id="delete-group" style="background: red;"class="btn btn-pm">그룹삭제</span>
+							<span id="delete-group" style="background: red;width: 70px;"class="btn btn-pm">그룹삭제</span>
 						</td>
 						
 						<td style='padding-left: 25px;'>
