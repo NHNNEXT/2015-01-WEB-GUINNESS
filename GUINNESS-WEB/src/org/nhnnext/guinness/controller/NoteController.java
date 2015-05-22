@@ -11,6 +11,7 @@ import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.Preview;
 import org.nhnnext.guinness.service.GroupService;
 import org.nhnnext.guinness.service.NoteService;
+import org.nhnnext.guinness.service.PreviewService;
 import org.nhnnext.guinness.util.DateTimeUtil;
 import org.nhnnext.guinness.util.JsonResult;
 import org.nhnnext.guinness.util.Markdown;
@@ -34,12 +35,14 @@ public class NoteController {
 	private NoteService noteService;
 	@Resource
 	private GroupService groupService;
+	@Resource
+	private PreviewService previewService;
 	
 	@RequestMapping("/g/{groupId}")
 	protected String initReadNoteList(@PathVariable String groupId, HttpSession session, Model model) throws IOException, UnpermittedAccessGroupException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		model.addAttribute("group", groupService.readGroup(groupId));
-		model.addAttribute("noteList", new Gson().toJson(noteService.initNotes(sessionUserId, groupId)));
+		model.addAttribute("noteList", new Gson().toJson(previewService.initNotes(sessionUserId, groupId)));
 		return "notes";
 	}
 
@@ -52,7 +55,7 @@ public class NoteController {
 		}
 		if("undefined".equals(noteTargetDate))
 			noteTargetDate = null;
-		return new JsonResult().setSuccess(true).setObjectValues(noteService.reloadPreviews(groupId, noteTargetDate));
+		return new JsonResult().setSuccess(true).setObjectValues(previewService.reloadPreviews(groupId, noteTargetDate));
 	}
 
 	//여기.
