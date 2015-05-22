@@ -21,7 +21,7 @@
 <script src="/js/pComment.js"></script>
 
 </head>
-<body>
+<body style="background-repeat:no-repeat; background-size:cover;">
 	<%@ include file="./commons/_topnav.jspf"%>
 	<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUser.userId}">
 	<h1 id="empty-message"
@@ -132,6 +132,11 @@
 	var bJoinedUser = false;
 	const groupId = window.location.pathname.split("/")[2];
 	window.addEventListener('load', function() {
+		debugger;
+		var groupImage = "${group.groupImage}";
+		if (groupImage !== "") {
+			window.document.body.style.backgroundImage="url('/img/group/"+groupImage+"')";
+		}
 		document.querySelector("#addMemberForm input[name='groupId']").value = groupId;
 		readMember(groupId);
 		document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);

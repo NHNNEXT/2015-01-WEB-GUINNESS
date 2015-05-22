@@ -13,15 +13,16 @@ public class Group {
 	public Group() {
 	}
 
-	public Group(String groupId, String groupName, String groupCaptainUserId, String status) {
+	public Group(String groupId, String groupName, String groupCaptainUserId, String status, String groupImage) {
 		this.groupId = groupId;
 		this.groupName = groupName;
 		this.groupCaptainUserId = groupCaptainUserId;
 		this.status = status;
+		this.groupImage = groupImage;
 	}
 
 	public Group(String groupId) {
-		this(groupId, null, null, "A");
+		this(groupId, null, null, "A", null);
 	}
 
 	public void setGroupId(String groupId) {
