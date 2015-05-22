@@ -33,9 +33,9 @@ public class PreviewDao extends JdbcDaoSupport {
 	
 	public List<Preview> initReadPreviews(String groupId) {
 		String sql = "select p.*, n.noteTargetDate, n.commentCount, u.userId, u.userName, u.userImage "
-				+ "from previews p "
-				+ "join notes n on p.noteId = n.noteId "
-				+ "join users u on u.userId = n.userId "
+				+ "from PREVIEWS p "
+				+ "join NOTES n on p.noteId = n.noteId "
+				+ "join USERS u on u.userId = n.userId "
 				+ "where p.groupId = ? "
 				+ "and n.noteTargetDate < date_add(now(), interval 1 minute) "
 				+ "order by n.noteTargetDate desc limit 3";
@@ -55,9 +55,9 @@ public class PreviewDao extends JdbcDaoSupport {
 	public List<Preview> reloadPreviews(String groupId, String noteTargetDate) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("select p.*, n.noteTargetDate, n.commentCount, u.userId, u.userName, u.userImage ");
-		sql.append("from previews p ");
-		sql.append("join notes n on p.noteId = n.noteId ");
-		sql.append("join users u on u.userId = n.userId ");
+		sql.append("from PREVIEWS p ");
+		sql.append("join NOTES n on p.noteId = n.noteId ");
+		sql.append("join USERS u on u.userId = n.userId ");
 		sql.append("where p.groupId = ? ");
 		if ( noteTargetDate != null) sql.append("and n.noteTargetDate < '"+ noteTargetDate + "' ");
 		sql.append("order by n.noteTargetDate desc limit 3");

@@ -1,5 +1,8 @@
 package org.nhnnext.guinness.service;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -15,12 +18,16 @@ public class MailService {
 	@Resource
 	private JavaMailSender javaMailSender;
 
-	public void sendMailforSignUp(String keyAddress, String userId) throws SendMailException  {
+	public void sendMailforSignUp(String keyAddress, String userId) throws SendMailException, UnknownHostException  {
+		String IPAddress = "localhost:8080";
+		if(InetAddress.getLocalHost().getHostAddress().equals("125.209.193.185")) {
+			IPAddress = InetAddress.getLocalHost().getHostAddress();
+		}
 		try {
 			MimeMessage message = javaMailSender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message, false, "utf-8");
 			String htmlMsg = "<h3>페이퍼민트에 가입해주셔서 감사합니다.</h3>" +
-		    "<a href='http://localhost:8080/user/confirm/" + keyAddress + "' style='font-size: 15px;"
+		    "<a href='http://" + IPAddress + "/user/confirm/" + keyAddress + "' style='font-size: 15px;"
 		    		+ "color: white; text-decoration:none'>"
 		    		+ "<div style='padding: 10px; border: 0px; width: 150px;"
 		    		+ "margin: 15px 5px; background-color: #74afad; "

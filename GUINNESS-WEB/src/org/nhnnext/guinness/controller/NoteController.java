@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.Preview;
@@ -62,7 +66,6 @@ public class NoteController {
 	@RequestMapping("/notes/{noteId}")
 	protected @ResponseBody JsonResult show(@PathVariable String noteId) throws IOException {
 		Note note = noteService.readNote(noteId);
-		logger.debug("note: {}", note);
 		note.setNoteText(new Markdown().toHTML(note.getNoteText()));
 		return new JsonResult().setSuccess(true).setObject(note);
 	}
@@ -77,13 +80,14 @@ public class NoteController {
 		noteService.create(sessionUserId, groupId, noteText, DateTimeUtil.addCurrentTime(noteTargetDate));
 		return "redirect:/g/" + groupId;
 	}
-
+	
 	@RequestMapping(value = "/notes", method = RequestMethod.PUT)
 	private String update(@RequestParam String groupId, @RequestParam String noteId, 
-			@RequestParam String noteTargetDate, @RequestParam String noteText) {
+			@RequestParam String noteTargetDate, @RequestParam String noteText) throws IOException {
 		noteService.update(noteText, noteId, DateTimeUtil.addCurrentTime(noteTargetDate));
 		return "redirect:/g/" + groupId;
 	}
+	
 
 	@RequestMapping(value = "/notes/{noteId}", method = RequestMethod.DELETE)
 	protected @ResponseBody JsonResult delete(@PathVariable String noteId) {

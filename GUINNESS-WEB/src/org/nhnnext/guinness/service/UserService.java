@@ -2,6 +2,7 @@ package org.nhnnext.guinness.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.UnknownHostException;
 
 import javax.annotation.Resource;
 
@@ -27,14 +28,12 @@ public class UserService {
 	@Resource
 	private MailService mailService;
 	
-	public void join(User user) throws AlreadyExistedUserIdException, SendMailException {
+	public void join(User user) throws AlreadyExistedUserIdException, SendMailException, UnknownHostException {
 		User existedUser = createUser(user);
 		createConfirm(user, existedUser);
 	}
 	
 	private User createUser(User user) throws AlreadyExistedUserIdException {
-//		TODO 코드리뷰
-//		if(null != userDao.findUserByUserId(user.getUserId())) {
 		if(userDao.findUserByUserId(user.getUserId()) != null) {
 			throw new AlreadyExistedUserIdException("이미 존재하는 계정입니다.");
 		}
@@ -42,7 +41,7 @@ public class UserService {
 		return userDao.findUserByUserId(user.getUserId());
 	}
 
-	private void createConfirm(User user, User existedUser) throws SendMailException {
+	private void createConfirm(User user, User existedUser) throws SendMailException, UnknownHostException {
 		if("R".equals(existedUser.getUserStatus())) {
 			confirmDao.deleteConfirmByUserId(user.getUserId());
 		}
