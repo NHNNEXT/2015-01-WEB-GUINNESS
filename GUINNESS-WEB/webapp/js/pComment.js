@@ -35,13 +35,26 @@ function selectText() {
 function createPopupPCommentBtn() {
     var templatePopupBtn = document.querySelector("#popupCommentBtnTemplate").text;
     document.body.insertAdjacentHTML("afterend", templatePopupBtn);
+    var pCommentTemplate = document.querySelector(".pCommentTemplate").text;
+    document.body.insertAdjacentHTML("afterend", pCommentTemplate);
 
     var popupCommentBtn = document.querySelector(".popupCommentBtn");
     popupCommentBtn.addEventListener('click', function (e) {
         e.target.style.display = "none";
-        // 코멘트 입력 창을 나타나게 하고
-        // 이 코멘트 입력창에서 pComment 객체를 가져다가 서버와 통신하게 할 것.
 
+        // 코멘트 입력 창을 나타나게 하고
+        // 셀렉션에 하이라이팅을 해줄 것.
+        // 코멘트 입력 창은 드래그해서 움직일 수 있게 할 것.
+        // 이 코멘트 입력창에서 pComment 객체를 가져다가 서버와 통신하게 할 것.
+        var pCommentBox = document.querySelector(".pCommentBox");
+        pCommentBox.style.display = "block";
+        pCommentBox.style.top = e.target.style.top;
+        pCommentBox.style.left = "1"+e.target.style.left;
+
+        pCommentBox.querySelector(".inputP").focus();
+        pCommentBox.addEventListener('focusout', function(e) {
+            e.target.parentNode.style.display = "none";
+        }, false);
     }, false);
 }
 

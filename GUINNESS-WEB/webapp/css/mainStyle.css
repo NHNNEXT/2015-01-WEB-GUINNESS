@@ -100,6 +100,7 @@ input.text {
     height: 80px;
     padding: 10px;
     position: fixed;
+	z-index: 250;
 }
 
 .pCommentBox .inputP {
@@ -888,7 +889,7 @@ span.sDate {
 .modal-cover {
 	position: fixed;
 	top: 0px;
-	z-index: 20;
+	z-index: 250;
 	display: block;
 	width: 100%;
 	height: 100%;

@@ -15,9 +15,9 @@ searchForm.prototype.init = function() {
     elIcon.className = "fa fa-external-link";
   }, true);
 
-  this.elSearch.addEventListener("blur", function(e) {
-    focusOut(e)
-  }, true);
+  this.elSearch.addEventListener("focusout", function(e) {
+	  focusOut(e);
+  }, false);
 }
 
 var focusOut = function(e) {
@@ -25,8 +25,8 @@ var focusOut = function(e) {
       document.querySelector(".onSearchForm").className = "searchForm";
       var elResult = document.querySelector(".searchResult");
       elResult.style.display="none";
-      document.querySelector(".searchForm > input").value="";
-      document.querySelector(".searchResult").innerHTML="<a></a>";
+//      document.querySelector(".searchForm > input").value="";
+//      document.querySelector(".searchResult").innerHTML="<div></div>";
       var elIcon = document.querySelector(".searchForm i");
       elIcon.className = "fa fa-search";
     }
@@ -65,7 +65,7 @@ window.addEventListener('load', function() {
           success : function(req) {
             json = JSON.parse(req.responseText);
             var elSearchResult=document.querySelector(".searchResult");
-            elSearchResult.innerHTML="<a></a>"
+            elSearchResult.innerHTML="<div></div>"
             searchResult(json);
           }
       });
@@ -75,13 +75,12 @@ window.addEventListener('load', function() {
 
 function searchResult(json){
   for(var i = 0; i < json.mapValues.length; i++){
-    var elSearchResult=document.querySelector(".searchResult > a:last-child");
+    var elSearchResult=document.querySelector(".searchResult > div:last-child");
     var hlSearchResultTemplate = document.querySelector(".searchResultTemplate").text;
     elSearchResult.insertAdjacentHTML("afterend", hlSearchResultTemplate);
     var elDiv = document.querySelector(".searchResultNoteId:last-child");
     jsonList = json.mapValues[i];
     elDiv.id = "searchResultNoteId" + jsonList.noteId;
-    document.querySelector("#searchResultNoteId" + jsonList.noteId).href="/search/n/"+jsonList.noteId;
     var elsearchResultText = document.querySelector("#searchResultNoteId" + jsonList.noteId+" > .searchResultText");
     elsearchResultText.innerHTML = jsonList.noteText;
     var elsearchResultName = document.querySelector("#searchResultNoteId" + jsonList.noteId+" > .searchResultName");
@@ -90,5 +89,13 @@ function searchResult(json){
     elsearchResultDate.innerHTML = guinness.util.koreaDate(jsonList.noteTargetDate);
     var elsearchResultGroup = document.querySelector("#searchResultNoteId" + jsonList.noteId+ " > .searchResultGroup");
     elsearchResultGroup.innerHTML = jsonList.groupName;
+    elDiv.addEventListener("mousedown", function(e) {
+    	var noteId;
+    	if(e.target.getAttribute("id") == null)
+    		noteId = e.target.parentElement.getAttribute("id").split("searchResultNoteId")[1];
+    	else 
+    		noteId = e.target.getAttribute("id").split("searchResultNoteId")[1];
+    	readNoteContents(noteId);
+    }, false)
   }
 }

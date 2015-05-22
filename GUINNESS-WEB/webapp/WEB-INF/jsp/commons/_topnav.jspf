@@ -45,14 +45,14 @@
 </script>
 
 <script type="template" class="searchResultTemplate">
-	<a class="searchResultNoteId" href="#">
+	<div class="searchResultNoteId" href="#">
 		<div class="searchResultText"></div>
 		<span class="searchResultName"></span>
 		<br />
 		<span class="searchResultDate"></span>
 		<br /><span class="spanOnSearch"> on </span>
 		<span class="searchResultGroup"></span>
-	</a>
+	</div>
 </script>
 
 <script>
