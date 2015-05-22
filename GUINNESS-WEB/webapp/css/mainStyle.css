@@ -404,10 +404,17 @@ a {
 	z-index: 9;
 	top: 0px;
 	width: 100%;
-	background-color: black;
     height: 40px;
-    opacity:.3;
 }
+
+.headerBackground {
+  background-color: black;
+  opacity: .4;
+  width: 100%;
+  height: 39px;
+  position:fixed;
+}
+
 
 #header .util {
 	list-style: none;
@@ -431,7 +438,8 @@ a {
 }
 
 #header .util .menu:hover {
-	background-color: #619493;
+	background-color: black;
+	opacity:.8;
 }
 
 #header .util a {
@@ -974,7 +982,8 @@ span.sDate {
 	width: 100px;
 	color: #fff;
 	cursor: pointer;
-	background-color: #619493;
+	background-color: black;
+	opacity:10;
 }
 
 .drop-down ul li a {
@@ -984,7 +993,8 @@ span.sDate {
 }
 
 .drop-down ul li:hover {
-	background-color: #355856;
+	background:linear-gradient( to bottom, gray, black);
+	opacity:.8;
 }
 
 .leaveGroup-btn {
