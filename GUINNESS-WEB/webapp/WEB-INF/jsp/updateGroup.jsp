@@ -14,12 +14,8 @@
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 </head>
 <style>
-#editProfile-photoArea img.avatar {
+#editBackgroundImage-photoArea img.background {
 	width: 200px;
-	height: 200px;
-	background-color: #558;
-	border-radius: 5px;
-	overflow: hidden;
 	margin-bottom: 10px;
 }
 
@@ -69,8 +65,8 @@
 				<table class='panel-body' style='width:100%'>
 					<tr>
 						<td valign=top id='editBackgroundImage-photoArea'
-									style='width: 200px; text-align: center;'><img
-									class='background' src="/img/group/${group.groupId}"> 
+									style='width: 200px; text-align: center;'>
+							<img class='background' src="/img/group/${group.groupId}"> 
 							<input type="file" name="backgroundImage" accept="image/x-png, image/gif, image/jpeg" />
 						</td>
 						

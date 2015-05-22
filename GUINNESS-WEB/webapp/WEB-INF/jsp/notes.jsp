@@ -22,7 +22,7 @@
 
 </head>
 <body>
-	<div id="backImg" style="background-repeat:no-repeat; margin-top: -10px;
+	<div id="backImg" style="background-repeat:no-repeat; margin-top: -50px;
 	 background-size:cover; position:fixed; width:100%; height:100%;"></div>
 	<%@ include file="./commons/_topnav.jspf"%>
 	<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUser.userId}">
