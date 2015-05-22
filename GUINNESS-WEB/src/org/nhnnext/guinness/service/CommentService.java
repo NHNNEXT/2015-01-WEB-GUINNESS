@@ -32,8 +32,6 @@ public class CommentService {
 
 	public List<Map<String, Object>> create(SessionUser sessionUser, Note note, Comment comment) throws UnpermittedAccessGroupException {
 		Group group = groupDao.readGroupByNoteId(note.getNoteId());
-		System.out.println(sessionUser.getUserId());
-		System.out.println(group);
 		if (!groupDao.checkJoinedGroup(sessionUser.getUserId(), group.getGroupId())) {
 			throw new UnpermittedAccessGroupException("권한이 없습니다. 그룹 가입을 요청하세요.");
 		}
