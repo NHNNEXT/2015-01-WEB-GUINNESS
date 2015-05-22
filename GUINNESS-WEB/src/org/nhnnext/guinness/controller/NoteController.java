@@ -2,6 +2,8 @@ package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -11,10 +13,12 @@ import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.Preview;
 import org.nhnnext.guinness.service.GroupService;
 import org.nhnnext.guinness.service.NoteService;
+import org.nhnnext.guinness.service.PCommentService;
 import org.nhnnext.guinness.service.PreviewService;
 import org.nhnnext.guinness.util.DateTimeUtil;
 import org.nhnnext.guinness.util.JsonResult;
 import org.nhnnext.guinness.util.Markdown;
+import org.nhnnext.guinness.util.ReconnectPComments;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,9 +41,13 @@ public class NoteController {
 	private GroupService groupService;
 	@Resource
 	private PreviewService previewService;
+	@Resource
+	private PCommentService pCommentService;
+	
 	
 	@RequestMapping("/g/{groupId}")
-	protected String initReadNoteList(@PathVariable String groupId, HttpSession session, Model model) throws IOException, UnpermittedAccessGroupException {
+	protected String initReadNoteList(@PathVariable String groupId, HttpSession session, Model model)
+			throws IOException, UnpermittedAccessGroupException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		model.addAttribute("group", groupService.readGroup(groupId));
 		model.addAttribute("noteList", new Gson().toJson(previewService.initNotes(sessionUserId, groupId)));
@@ -47,18 +55,19 @@ public class NoteController {
 	}
 
 	@RequestMapping("/notes/reload")
-	protected @ResponseBody JsonResult<Preview> reloadNotes(
-			@RequestParam String groupId, @RequestParam String noteTargetDate) {
-		logger.debug("noteTargetDate:{}",noteTargetDate);
-		if(groupId == null) {
+	protected @ResponseBody JsonResult<Preview> reloadNotes(@RequestParam String groupId,
+			@RequestParam String noteTargetDate) {
+		logger.debug("noteTargetDate:{}", noteTargetDate);
+		if (groupId == null) {
 			return new JsonResult().setSuccess(false).setMapValues(new ArrayList<Preview>());
 		}
-		if("undefined".equals(noteTargetDate))
+		if ("undefined".equals(noteTargetDate))
 			noteTargetDate = null;
-		return new JsonResult().setSuccess(true).setObjectValues(previewService.reloadPreviews(groupId, noteTargetDate));
+		return new JsonResult().setSuccess(true)
+				.setObjectValues(previewService.reloadPreviews(groupId, noteTargetDate));
 	}
 
-	//여기.
+	// 여기.
 	@RequestMapping("/notes/{noteId}")
 	protected @ResponseBody JsonResult show(@PathVariable String noteId) throws IOException {
 		Note note = noteService.readNote(noteId);
@@ -67,8 +76,9 @@ public class NoteController {
 	}
 
 	@RequestMapping(value = "/notes", method = RequestMethod.POST)
-	protected String create(@RequestParam String groupId, @RequestParam String noteText, 
-			@RequestParam String noteTargetDate, HttpSession session, Model model) throws IOException, UnpermittedAccessGroupException {
+	protected String create(@RequestParam String groupId, @RequestParam String noteText,
+			@RequestParam String noteTargetDate, HttpSession session, Model model) throws IOException,
+			UnpermittedAccessGroupException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		if (noteText.equals("")) {
 			return "redirect:/notes/editor/g/" + groupId;
@@ -76,14 +86,35 @@ public class NoteController {
 		noteService.create(sessionUserId, groupId, noteText, DateTimeUtil.addCurrentTime(noteTargetDate));
 		return "redirect:/g/" + groupId;
 	}
-	
+
 	@RequestMapping(value = "/notes", method = RequestMethod.PUT)
-	private String update(@RequestParam String groupId, @RequestParam String noteId, 
+	private String update(@RequestParam String groupId, @RequestParam String noteId,
 			@RequestParam String noteTargetDate, @RequestParam String noteText) throws IOException {
+		String editedNoteTextToMarkdown = new Markdown().toHTML(noteText);
+		String originNoteTextToMarkdown = new Markdown().toHTML(noteService.readNote(noteId).getNoteText());
+
+		Document editedDoc = Jsoup.parse(editedNoteTextToMarkdown);
+		Document originDoc = Jsoup.parse(originNoteTextToMarkdown);
+
+		Elements editedpTags = editedDoc.getElementsByClass("pCommentText");
+		Elements originpTags = originDoc.getElementsByClass("pCommentText");
+
+		String[] editedTextParagraph = new String[editedpTags.size()];
+		String[] originTextParagraph = new String[originpTags.size()];
+
+		int i = 0, k = 0;
+		for (Element pTag : editedpTags) {
+			editedTextParagraph[i++] = pTag.text();
+		}
+		for (Element pTag : originpTags) {
+			originTextParagraph[k++] = pTag.text();
+		}
+		List<Map<String, Object>> pCommentList = pCommentService.list(noteId);
+		pCommentList = ReconnectPComments.UpdateParagraphId(originTextParagraph, editedTextParagraph, pCommentList);
+		pCommentService.updateParagraphId(pCommentList);
 		noteService.update(noteText, noteId, DateTimeUtil.addCurrentTime(noteTargetDate));
 		return "redirect:/g/" + groupId;
 	}
-	
 
 	@RequestMapping(value = "/notes/{noteId}", method = RequestMethod.DELETE)
 	protected @ResponseBody JsonResult delete(@PathVariable String noteId) {
@@ -93,12 +124,13 @@ public class NoteController {
 		}
 		return new JsonResult().setSuccess(false);
 	}
-	
+
 	@RequestMapping("/notes/editor/g/{groupId}")
-	private String createForm(@PathVariable String groupId, Model model, HttpSession session) throws UnpermittedAccessGroupException, IOException {
+	private String createForm(@PathVariable String groupId, Model model, HttpSession session)
+			throws UnpermittedAccessGroupException, IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		noteService.checkJoinedGroup(groupId, sessionUserId);
-		model.addAttribute("group",groupService.readGroup(groupId));
+		model.addAttribute("group", groupService.readGroup(groupId));
 		return "editor";
 	}
 
@@ -107,8 +139,8 @@ public class NoteController {
 		noteService.updateForm(noteId, model);
 		return "editor";
 	}
-	
-	@RequestMapping(value="/notes/editor/preview", method=RequestMethod.POST)
+
+	@RequestMapping(value = "/notes/editor/preview", method = RequestMethod.POST)
 	private @ResponseBody JsonResult preview(@RequestParam String markdown) throws IOException {
 		String html = new Markdown().toHTML(markdown);
 		return new JsonResult().setSuccess(true).setMessage(html);
