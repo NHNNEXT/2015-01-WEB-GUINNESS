@@ -69,6 +69,9 @@
 							<img class='background' src="/img/group/${group.groupId}"> 
 							<input type="file" name="backgroundImage" accept="image/x-png, image/gif, image/jpeg" />
 						</td>
+						<td>
+						<span id="delete-group" style="background: red;"class="btn btn-pm">그룹삭제</span>
+						</td>
 						
 						<td style='padding-left: 25px;'>
 							<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUser.userId}" readonly>
@@ -109,7 +112,7 @@
 		</div>
 	</div>
 	<script>
-		function validCheck() {
+		/* function validCheck() {
 			var userName = document.querySelector("input[name='userName']").value;
 			var userPassword = document.querySelector("input[name='userPassword']").value;
 			var userAgainPassword = document.querySelector("input[name='userAgainPassword']").value;
@@ -141,7 +144,43 @@
 		document.querySelector("input[name='userAgainPassword']").addEventListener('click', function() {
 			this.style.backgroundColor = "#fff";
 			this.parentNode.querySelector("span.errorMessage").innerHTML = "";
-		});
+		}); */
+		
+		document.querySelector('#delete-group').addEventListener("mousedown",
+				function(e) {
+					e.preventDefault();
+					var groupId = "${group.groupId}";
+					var groupName = "${group.groupName}";
+					confirmDelete(groupId, groupName)
+				}, false);
+		function confirmDelete(groupId, groupName) {
+			groupName = (groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
+			var message = "그룹을 삭제하시겠습니까?";
+			guinness.util.alert(groupName, message,
+				function() {
+					document.body.style.overflow = "auto";
+					deleteGroup(groupId);
+				},
+				function() {
+					document.body.style.overflow = "auto";
+		            return;
+				}
+			);
+		}
+
+		function deleteGroup(groupId) {
+			guinness.ajax({
+				method:"delete",
+				url:"/groups/" + groupId,
+				success: function(req) {
+					if(JSON.parse(req.responseText).success !== true) {
+						guinness.util.alert('경고', '삭제할 권한이 없습니다.');
+						return;
+					}
+					window.location.href = "/groups/form";
+				}
+			});
+		}
 	</script>
 </body>
 </html>
