@@ -94,19 +94,11 @@
 								<form:input path="groupCaptainUserId" />
 								<span class="info">그룹장만이 위임이 가능합니다.</span>
 							</p>
-							<%-- <div class="control-group">
-									<label class="control-label" for="email">그룹 삭제</label>
-									<div class="controls">
-										<form:input path="email" />
-									</div>
-									<span class="info">그룹장만이 삭제가 가능합니다.</span>
-								</div> --%>
 							<p>
 								<span id="delete-group" style="background: red;width: 70px; margin: 0px; padding: 7px"class="btn">그룹삭제</span>
 								<span class="info" style="margin-top: 12px;"><strong>[주의]</strong>해당 그룹과 관련된 모든 정보가 삭제됩니다.</span>
 							</p>
 							<hr />
-							
 							<button type="submit" class="btn btn-pm">수정</button>
 						</td>
 					</tr>

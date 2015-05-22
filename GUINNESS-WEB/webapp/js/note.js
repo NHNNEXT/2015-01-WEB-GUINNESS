@@ -33,9 +33,9 @@ var appendMarkList = function (json) {
 function appendNoteList(json) {
     if (json === null)
         return;
-    var el = document.querySelector("#empty-message");
-    if (el != undefined) {
-        el.parentNode.removeChild(el);
+    if (json.length !== 0) {
+    	var el = document.querySelector("#empty-message");
+    	el.style.visibility = "hidden";
     }
     var newEl = undefined;
     var obj = undefined;
@@ -122,6 +122,7 @@ function deleteNote(noteId) {
                 var t = document.getElementById(noteId);
                 if (t.parentElement.childElementCount <= 2) {
                     t.parentElement.remove();
+                    document.querySelector("#empty-message").style.visibility = "visible";
                 } else {
                     t.remove();
                 }
