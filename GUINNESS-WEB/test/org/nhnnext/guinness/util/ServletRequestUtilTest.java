@@ -30,6 +30,7 @@ public class ServletRequestUtilTest {
 	@Test
 	public void getIP() throws UnknownHostException {
 		System.out.println(InetAddress.getLocalHost().getHostAddress());
+		System.out.println(InetAddress.getLocalHost().getHostAddress().equals("10.73.43.171"));
 	}
 
 }

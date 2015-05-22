@@ -25,7 +25,7 @@ public class GroupServiceTest {
 	@Test
 	public void update() throws GroupUpdateException {
 		String sessionUserId = "a@a.a";
-		Group group = new Group("cneih", "public", "d@d.d", "T");
+		Group group = new Group("cneih", "public", "d@d.d", "T", null);
 //		String rootPath = (new HttpSession()).getServletContext().getRealPath("/");
 		groupService.update(sessionUserId, group, null, null);
 	}
