@@ -8,6 +8,9 @@ import javax.annotation.Resource;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.nhnnext.guinness.dao.PreviewDao;
+import org.nhnnext.guinness.model.Group;
+import org.nhnnext.guinness.model.Note;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -17,7 +20,11 @@ public class NoteServiceTest {
 	
 	@Resource
 	NoteService noteService;
-
+	@Resource
+	PreviewService previewService;
+	@Resource
+	PreviewDao previewDao;
+	
 	@Test
 	public void refine() {
 		//given
@@ -27,9 +34,9 @@ public class NoteServiceTest {
 		ArrayList<String> questionList = new ArrayList<String>();
 		
 		//when
-		attentionList = noteService.extractText(givenText, '!');
-		questionList = noteService.extractText(givenText, '?');
-		noteService.createPreview("31", "Lnomi", attentionList, questionList);
+		attentionList = previewService.extractText(givenText, '!');
+		questionList = previewService.extractText(givenText, '?');
+		previewDao.create(new Note("31"), new Group("Lonmi"), attentionList, questionList);
 		
 		// then
 		System.out.println(attentionList);
