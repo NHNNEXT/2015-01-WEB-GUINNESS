@@ -69,7 +69,6 @@
 									style='width: 200px; text-align: center;'>
 							<img class='background' src="/img/group/${group.groupId}"> 
 							<input type="file" name="backgroundImage" accept="image/x-png, image/gif, image/jpeg" />
-							<span id="delete-group" style="background: red;width: 70px;"class="btn btn-pm">그룹삭제</span>
 						</td>
 						
 						<td style='padding-left: 25px;'>
@@ -102,7 +101,12 @@
 									</div>
 									<span class="info">그룹장만이 삭제가 가능합니다.</span>
 								</div> --%>
+							<p>
+								<span id="delete-group" style="background: red;width: 70px; margin: 0px; padding: 7px"class="btn">그룹삭제</span>
+								<span class="info" style="margin-top: 12px;"><strong>[주의]</strong>해당 그룹과 관련된 모든 정보가 삭제됩니다.</span>
+							</p>
 							<hr />
+							
 							<button type="submit" class="btn btn-pm">수정</button>
 						</td>
 					</tr>
