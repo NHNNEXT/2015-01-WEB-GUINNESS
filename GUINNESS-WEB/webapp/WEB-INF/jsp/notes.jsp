@@ -44,9 +44,9 @@
 				<div id="defaultCalendar" ></div>
 			</div>
 			<div id='summary-container'>
-				<span class="menu-title"><i class='fa fa-bullhorn'></i>  공지</span>
+				<span class="menu-title attention"><i class='fa fa-exclamation'></i>  정보</span>
 				<ul id='attention-list' style="list-style:none; margin:5px 0 10px 0;"></ul>
-				<span class="menu-title"><i class='fa fa-question-circle'></i>  질문</span>
+				<span class="menu-title question"><i class='fa fa-question'></i>  질문</span>
 				<ul id='question-list' style="list-style:none;"></ul>
 			</div>
 		</div>
@@ -153,6 +153,7 @@
 	window.addEventListener('scroll', function(e) {
 		infiniteScroll();
 		sideMenuFlow();
+		refreshCalendar();
 	}, false);
 	
 	$(function() {
@@ -191,6 +192,13 @@
 		} else {
 			sideMenuContainers[0].style.top = sideMenuContainers[1].style.top = "0px";
 		}
+	}
+	
+	function refreshCalendar() {
+		var noteDates = document.querySelectorAll("div.note-date");
+		for (var i = 0; i < noteDates.length; i++) {
+		}
+		console.log(noteDates[0].offsetTop);
 	}
 	
 	function groupUpdate() {
