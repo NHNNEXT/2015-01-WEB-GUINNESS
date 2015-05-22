@@ -26,9 +26,6 @@ public class ReconnectPComments {
 		int[][] originParagraphWrodVector = new int[originParagraph.length][];
 		int[][] editedParagraphWrodVector = new int[editedParagraph.length][];
 
-		logger.debug("원본 문단 갯수 : {}", originParagraph.length);
-		logger.debug("수정 문단 갯수 : {}", editedParagraph.length);
-
 		for (int i = 0; i < originParagraph.length; i++) {
 			String[] originWords = splitWord(originParagraph[i]);
 			originParagraphWrodVector[i] = getVector(wordDic, originWords);
