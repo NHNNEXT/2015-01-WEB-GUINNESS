@@ -682,9 +682,19 @@ textarea#commentText {
 	font-weight:500;
 	font-size:25px;
 	border-left:5px solid rgb(93, 129, 128);
-	color:rgb(93, 129, 128);
+	color:white;
 	padding-left:10px;
-	both:clean;
+	background-color: rgba(0, 0, 0, .18);
+    border-radius: 2px;
+    padding: 2px 12px 5px 12px;
+}
+
+span.sDate {
+  color: white;
+  padding-left: 10px;
+  background-color: rgba(0, 0, 0, .18);
+  border-radius: 2px;
+  padding: 2px 6px 5px 6px;
 }
 
 .group-list li {
@@ -929,6 +939,7 @@ textarea#commentText {
 	color: #B4B4B4;
 	text-align: center;
 	background-color: #eeeff2;
+	opacity:.6;
 	border: 3px dotted #B4B4B4;
 	border-radius: 2px;
 }

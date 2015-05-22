@@ -53,7 +53,7 @@ function appendNoteList(json) {
             el.setAttribute("class", "note-list");
             newEl = document.createElement("div");
             newEl.setAttribute("class", "note-date");
-            newEl.innerHTML = "<span>" + createDate + "</span>";
+            newEl.innerHTML = "<span class='sDate'>" + createDate + "</span>";
             el.appendChild(newEl);
             document.querySelector('#note-list-container').appendChild(el);
         }
