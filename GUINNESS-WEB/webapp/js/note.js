@@ -40,9 +40,7 @@ function appendNoteList(json) {
     var out = "";
     for (var i = 0; i < json.length; i++) {
         obj = json[i];
-
         var createDate = obj.note.noteTargetDate;
-
         createDate = createDate.split(" ");
         createDate = createDate[0];
         el = document.querySelector("#day-" + createDate); // #day-2015-05-21
