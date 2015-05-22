@@ -108,7 +108,7 @@
 						<span class="info">노트 숨기기</span>
 					</li>
 					<input style="display:none;" type='checkbox' class='memberChk' checked=true value="">
-					<li>
+					<li class="member-delete" style="visibility:hidden;">
 						<i class="fa fa-times"></i>
 						<span class="info">멤버제외</span>
 					</li>
@@ -132,6 +132,7 @@
 	var groupName = ("${group.groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 	document.querySelector('#group-name').innerHTML = groupName;
 	var bJoinedUser = false;
+	var groupCaptainUserId = "${group.groupCaptainUserId}";
 	const groupId = window.location.pathname.split("/")[2];
 	window.addEventListener('load', function() {
 		var groupImage = "${group.groupImage}";

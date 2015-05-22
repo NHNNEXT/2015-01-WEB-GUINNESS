@@ -396,7 +396,11 @@ function readMember(groupId) {
 
 var memberTemplate = document.querySelector("#member-template").content;
 function appendMember(obj) {
+	var userId = document.getElementById("sessionUserId").value;
 	var newMember = document.importNode(memberTemplate, true);
+	if(userId === groupCaptainUserId){
+		newMember.querySelector(".member-delete").style.visibility = "visible";
+	}
 	newMember.querySelector(".member-info").setAttribute("id", obj.userId);
 	newMember.querySelector(".memberChk").value = obj.userId;
 	newMember.querySelector(".member-name").innerHTML = obj.userName;
