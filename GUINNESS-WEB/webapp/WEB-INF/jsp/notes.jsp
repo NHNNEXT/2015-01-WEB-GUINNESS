@@ -132,7 +132,6 @@
 	var bJoinedUser = false;
 	const groupId = window.location.pathname.split("/")[2];
 	window.addEventListener('load', function() {
-		debugger;
 		var groupImage = "${group.groupImage}";
 		if (groupImage !== "") {
 			window.document.body.style.backgroundImage="url('/img/group/"+groupImage+"')";
