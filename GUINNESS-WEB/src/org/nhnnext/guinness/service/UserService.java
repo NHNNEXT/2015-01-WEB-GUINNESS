@@ -2,7 +2,6 @@ package org.nhnnext.guinness.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.UnknownHostException;
 
 import javax.annotation.Resource;
 
@@ -28,7 +27,7 @@ public class UserService {
 	@Resource
 	private MailService mailService;
 	
-	public void join(User user) throws AlreadyExistedUserIdException, SendMailException, UnknownHostException {
+	public void join(User user) throws AlreadyExistedUserIdException, SendMailException {
 		User existedUser = createUser(user);
 		createConfirm(user, existedUser);
 	}
@@ -41,7 +40,7 @@ public class UserService {
 		return userDao.findUserByUserId(user.getUserId());
 	}
 
-	private void createConfirm(User user, User existedUser) throws SendMailException, UnknownHostException {
+	private void createConfirm(User user, User existedUser) throws SendMailException {
 		if("R".equals(existedUser.getUserStatus())) {
 			confirmDao.deleteConfirmByUserId(user.getUserId());
 		}
