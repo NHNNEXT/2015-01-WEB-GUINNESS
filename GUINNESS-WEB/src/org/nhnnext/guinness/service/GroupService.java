@@ -41,7 +41,7 @@ public class GroupService {
 	}
 
 	public Group create(String groupName, String groupCaptainUserId, String isPublic) {
-		Group group = new Group(createGroupId(), groupName, groupCaptainUserId, isPublic);
+		Group group = new Group(createGroupId(), groupName, groupCaptainUserId, isPublic, null);
 		groupDao.createGroup(group);
 		groupDao.createGroupUser(group.getGroupCaptainUserId(), group.getGroupId());
 		return group;

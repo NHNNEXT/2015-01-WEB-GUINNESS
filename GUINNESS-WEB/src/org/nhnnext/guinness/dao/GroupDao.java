@@ -55,7 +55,7 @@ public class GroupDao extends JdbcDaoSupport {
 			return getJdbcTemplate().queryForObject(
 					sql,
 					(rs, rowNum) -> new Group(rs.getString("groupId"), rs.getString("groupName"), rs
-							.getString("groupCaptainUserId"), rs.getString("isPublic")), groupId);
+							.getString("groupCaptainUserId"), rs.getString("isPublic"), rs.getString("groupImage")), groupId);
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
@@ -104,7 +104,7 @@ public class GroupDao extends JdbcDaoSupport {
 			return getJdbcTemplate().queryForObject(
 					sql,
 					(rs, rowNum) -> new Group(rs.getString("groupId"), rs.getString("groupName"), rs
-							.getString("groupCaptainUserId"), rs.getString("isPublic")), noteId);
+							.getString("groupCaptainUserId"), rs.getString("isPublic"), rs.getString("groupImage")), noteId);
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
