@@ -1,7 +1,5 @@
 window.addEventListener('load', function() {
-	var groupName = document.body.querySelector("input#hiddenGroupName").value;
 	document.title = groupName;
-	var groupName = (groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 	document.querySelector('#group-name').innerHTML = groupName;
 	
 	document.querySelector("#noteTargetDate").value = guinness.util.today("-");

@@ -22,9 +22,10 @@
 	<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUser.userId}">
 	<div id='note-edit-container' class='content wrap'>
 	<div id='note-edit-group-name' >
-		<a href="/g/${groupId}"><span id="group-name"> ${groupName} </span></a></div>
+		<a href="/g/${group.groupId}"><span id="group-name"></span></a>
+	</div>
 		<form id="noteForm" action="/notes" method="post">
-			<input type="hidden" id="hiddenGroupId" name="groupId" value="${groupId}">
+			<input type="hidden" id="hiddenGroupId" name="groupId" value="${group.groupId}">
 			<c:if test="${not empty noteId}">
 				<input type="hidden" name="_method" value="put" >
 				<input type="hidden" name="noteId" value="${noteId}">
@@ -46,5 +47,9 @@
 		</form>
 	</div>
 	<input id="hiddenGroupName" type="hidden" value="${groupName}" />
+	
+<script>
+var groupName = ("${group.groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
+</script>
 </body>
 </html>
