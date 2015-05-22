@@ -1,5 +1,6 @@
 package org.nhnnext.guinness.controller;
 
+import java.net.UnknownHostException;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -14,10 +15,8 @@ import org.nhnnext.guinness.exception.UserUpdateException;
 import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.service.UserService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,7 +37,7 @@ public class UserController {
 	private UserService userService;
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	protected String create(@Valid User user, BindingResult result, Model model) throws AlreadyExistedUserIdException, SendMailException {
+	protected String create(@Valid User user, BindingResult result, Model model) throws AlreadyExistedUserIdException, SendMailException, UnknownHostException {
 		// 유효성 검사
 		if(result.hasErrors()) {
             List<ObjectError> list = result.getAllErrors();
