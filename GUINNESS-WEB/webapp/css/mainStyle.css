@@ -404,8 +404,9 @@ a {
 	z-index: 9;
 	top: 0px;
 	width: 100%;
-	background-color: #74afad;
-    height: 40px
+	background-color: black;
+    height: 40px;
+    opacity:.3;
 }
 
 #header .util {
@@ -479,14 +480,14 @@ a {
 .searchForm i.fa.fa-search {
 	left: -28px;
 	position: relative;
-	color: white;
+	color: black;
 }
 
 .onSearchForm i.fa.fa-external-link {
 	left: -28px;
 	top: 2px;
 	position: relative;
-	color:gray;
+	color:black;
 }
 
 .searchResult {
@@ -545,7 +546,6 @@ a {
 	height: 23px;
 	margin-top: 8px;
 	border-radius: 2px;
-	background: #7FBEBC;
 	border: none;
 	outline-style: none;
 	padding-left: 5px;
