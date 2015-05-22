@@ -70,7 +70,7 @@
 				<a href="#"><span id="leave-group" style="font-weight:bold;">그룹탈퇴하기</span></a>
 			</div>
 			<div>
-				<input class="inputBtn" style="cursor: default; width: 30%; float:right;" type="submit" value="그룹설정" onclick="groupUpdate()">
+				<input id="groupSettingBtn"class="inputBtn" style="visibility:hidden; cursor: default; width: 30%; float:right;" type="submit" value="그룹설정" onclick="groupUpdate()">
 			</div>
 		</div>
 	</div>
@@ -136,6 +136,11 @@
 	const groupId = window.location.pathname.split("/")[2];
 	window.addEventListener('load', function() {
 		var groupImage = "${group.groupImage}";
+		
+		var userId = document.getElementById("sessionUserId").value;
+		if(userId === groupCaptainUserId){
+			document.getElementById("groupSettingBtn").style.visibility = "visible";
+		}
 		if (groupImage !== "") {
 			window.document.body.querySelector("#backImg").style.backgroundImage="url('/img/group/"+groupImage+"')";
 		}
@@ -143,7 +148,6 @@
 		readMember(groupId);
 		document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
 		document.title = "${group.groupName}";
-		var groupName = ("${group.groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 		document.querySelector('#group-name').innerHTML = groupName;
 		var json = ${noteList};
 		appendNoteList(json);
