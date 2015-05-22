@@ -265,6 +265,7 @@
   border-radius: 4px;
   cursor: pointer;
   white-space: nowrap;
+  transition-duration:.3s;
 }
 
 .daterangepicker td.off {
@@ -305,8 +306,10 @@
 }
 
 .daterangepicker td.active, .daterangepicker td.active:hover {
-  background-color: #357ebd;
-  border-color: #3071a9;
+  /*background-color: #357ebd;
+  border-color: #3071a9;*/
+  background-color:#74afad;
+  border-color:#619493;
   color: #fff;
 }
 
