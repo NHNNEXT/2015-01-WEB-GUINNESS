@@ -2,6 +2,8 @@ package org.nhnnext.guinness.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
@@ -39,36 +41,24 @@ public class PreviewService {
 	}
 	
 	public void createPreview(String noteId, String groupId, String noteText) {
-		previewDao.create(new Note(noteId), new Group(groupId), extractText(noteText, '!'), extractText(noteText, '?'));
+		previewDao.create(new Note(noteId), new Group(groupId), match(noteText, "!{3}[^\n]{1,}!{3}", "!{3}"), 
+				match(noteText, "\\?{3}[^\n]{1,}\\?{3}", "\\?{3}"));
 	}
 	
 	public void updatePreview(String noteId, String noteText) {
-		previewDao.update(noteId, extractText(noteText, '!'), extractText(noteText, '?'));
+		previewDao.update(noteId, match(noteText, "!{3}[^\n]{1,}!{3}", "!{3}"), match(noteText, "\\?{3}[^\n]{1,}\\?{3}", "\\?{3}"));
 	}
 	
-	public ArrayList<String> extractText(String givenText, char ch) {
+	public ArrayList<String> match(String givenText, String regex, String regexToBeRemoved) {
 		givenText = givenText.trim();
-		int flag = 0;
-		int len = givenText.length();
-		int beginIndex = 0;
-		int endIndex = 0;
 		ArrayList<String> list = new ArrayList<String>();
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(givenText);
 		
-		for(int i = 0; i < len; i++) {
-			if(givenText.charAt(i) == ch) {
-				flag++;
-			}
-			if(flag == 3 && beginIndex == 0) {
-				beginIndex = i + 1;
-			}
-			if(flag == 6) {
-				endIndex = i - 2;
-				list.add(givenText.substring(beginIndex, endIndex));
-				flag = 0;
-				beginIndex = 0;
-				endIndex = 0;
-			}
+		while(matcher.find()) {
+			list.add(matcher.group().replaceAll(regexToBeRemoved, " "));
 		}
+		
 		return list;
 	}
 }
