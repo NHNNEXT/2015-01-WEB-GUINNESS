@@ -13,9 +13,6 @@
 <link rel="stylesheet" href="/css/datepickr.css">
 <link rel="stylesheet" href="/css/markdown.css">
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-<script src="/js/datepickr.js"></script>
-<script src="/js/markdown.js"></script>
-<script src="/js/editor.js"></script>
 </head>
 <body>
 
@@ -88,6 +85,8 @@
 		var groupName = "${group.groupName}";
 	</script>
 	<script src="/js/note.js"></script>
+	<script src="/js/datepickr.js"></script>
+	<script src="/js/editor.js"></script>
 	<script src="/js/pComment.js"></script>
 </body>
 </html>
