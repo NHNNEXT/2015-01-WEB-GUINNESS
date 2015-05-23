@@ -11,49 +11,9 @@
 <link rel="stylesheet"
 	href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
 <link rel="stylesheet" href="/css/mainStyle.css">
+<link rel="stylesheet" href="/css/update.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 </head>
-<style>
-#editBackgroundImage-photoArea img.background {
-	width: 200px;
-	margin-bottom: 10px;
-}
-
-#editProfile-form p {
-	margin-top: 0px;
-}
-
-#editProfile-form label {
-	display: block;
-	font-weight: bold;
-}
-
-#editProfile-form input[type="text"], #editProfile-form input[type="password"]
-	{
-	width: 200px;
-	padding: 10px;
-	font-size: 15px;
-	border-radius: 4px;
-	margin-bottom: 4px;
-	transition-property: background-color;
-	transition-duration: .5s;
-	
-}
-
-#editProfile-form input[name="userPhoneNumber"] {
-	width: 150px;
-}
-
-#editProfile-form span.info {
-	display: block;
-	font-size: 12px;
-	color: #9e9ea6;
-}
-
-#editProfile-form span.info strong {
-	color: #ff5a5a;
-}
-</style>
 <body>
 
 	<%@ include file="./commons/_topnav.jspf"%>
@@ -63,13 +23,12 @@
 			<i class="fa fa-users"></i><span style="margin-left: 10px;">그룹정보수정</span>
 		</h1>
 		<div id="profile-panel" class="panel">
-			<form:form modelAttribute="group" id="editProfile-form" cssClass="temp" enctype="multipart/form-data"
+			<form:form modelAttribute="group" class="update-form" enctype="multipart/form-data"
 				action="/groups/update" method="post">
 				<table class="panel-body" style="width:100%">
 					<tr>
-						<td valign=top id="editBackgroundImage-photoArea"
-									style="width: 200px; text-align: center;">
-							<img class="background" src="/img/group/${group.groupId}"> 
+						<td valign=top id="editBackgroundImage-photoArea">
+							<img src="/img/group/${group.groupId}"> 
 							<input type="file" name="backgroundImage" accept="image/x-png, image/gif, image/jpeg" />
 						</td>
 						
@@ -91,14 +50,13 @@
 								<span class="info">공개 설정시 그룹원이 아니어도 입장이 가능합니다.</span>
 							</p>
 							<p>
-								<label class="control-label" for="groupCaptainUserId">그룹장
-										위임</label>
+								<label class="control-label" for="groupCaptainUserId">그룹장 위임</label>
 								<form:input path="groupCaptainUserId" />
 								<span class="info">그룹장만이 위임이 가능합니다.</span>
 							</p>
 							<p>
-								<span id="delete-group" style="background: red;width: 70px; margin: 0px; padding: 7px"class="btn">그룹삭제</span>
-								<span class="info" style="margin-top: 12px;"><strong>[주의]</strong>해당 그룹과 관련된 모든 정보가 삭제됩니다.</span>
+								<button id="delete-group-btn" class="btn">그룹삭제</button>
+								<span class="info"><strong>[주의]</strong>해당 그룹과 관련된 모든 정보가 삭제됩니다.</span>
 							</p>
 							<hr />
 							<button type="submit" class="btn btn-pm">수정</button>
@@ -144,7 +102,7 @@
 			this.parentNode.querySelector("span.errorMessage").innerHTML = "";
 		}); */
 		
-		document.querySelector("#delete-group").addEventListener("mousedown",
+		document.querySelector("#delete-group-btn").addEventListener("mousedown",
 				function(e) {
 					e.preventDefault();
 					var groupId = "${group.groupId}";
