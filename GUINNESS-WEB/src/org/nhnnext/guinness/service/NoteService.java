@@ -15,11 +15,13 @@ import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.google.gson.Gson;
 
 @Service
+@Transactional
 public class NoteService {
 	@Resource
 	private GroupDao groupDao;

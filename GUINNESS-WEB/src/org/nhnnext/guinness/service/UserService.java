@@ -16,9 +16,11 @@ import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
+@Transactional
 public class UserService {
 	@Resource
 	private UserDao userDao;

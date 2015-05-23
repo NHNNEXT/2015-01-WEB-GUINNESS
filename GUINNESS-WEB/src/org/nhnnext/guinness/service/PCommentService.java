@@ -15,8 +15,10 @@ import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.PComment;
 import org.nhnnext.guinness.model.SessionUser;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class PCommentService {
 	@Resource
 	private PCommentDao pCommentDao;

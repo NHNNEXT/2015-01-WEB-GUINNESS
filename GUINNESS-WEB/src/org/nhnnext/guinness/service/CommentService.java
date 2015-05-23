@@ -18,8 +18,10 @@ import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class CommentService {
 	@Resource
 	private CommentDao commentDao;
