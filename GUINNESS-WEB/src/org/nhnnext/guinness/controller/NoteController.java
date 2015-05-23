@@ -140,7 +140,9 @@ public class NoteController {
 
 	@RequestMapping("/notes/editor/{noteId}")
 	private String updateEditor(@PathVariable String noteId, Model model) {
-		noteService.updateForm(noteId, model);
+		Note note = noteService.readNote(noteId);
+		model.addAttribute("note", note);
+		model.addAttribute("group", groupService.readGroup(note.getGroup().getGroupId()));
 		return "editor";
 	}
 

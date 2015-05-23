@@ -24,7 +24,7 @@
 		value="${sessionUser.userId}">
 	<div id='note-edit-container' class='content wrap'>
 		<div id='note-edit-group-name'>
-			<a href="/g/${group.groupId}"><span id="group-name"></span></a>
+			<a href="/g/${group.groupId}"><span id="group-name">${group.groupName}</span></a>
 		</div>
 		<form id="noteForm" action="/notes" method="post">
 			<input type="hidden" id="hiddenGroupId" name="groupId"
@@ -41,16 +41,16 @@
 					</div>
 				</div>
 				<textarea id="noteTextBox" rows="28" cols="28" name="noteText"
-					form="noteForm">${noteText}</textarea>
+					form="noteForm">${note.noteText}</textarea>
 				<div id="view-preview-template">
 					<div id="previewBox" class="markdown-body"></div>
 				</div>
 			</div>
-			<a id="escape-note" class="btn btn-pm" href="/g/${groupId}">취소</a> <input
+			<a id="escape-note" class="btn btn-pm" href="/g/${group.groupId}">취소</a> <input
 				type="submit" class="btn btn-pm" value="작성" />
 		</form>
 	</div>
-	<input id="hiddenGroupName" type="hidden" value="${groupName}" />
+	<input id="hiddenGroupName" type="hidden" value="${group.groupName}" />
 
 	<script src="/js/note.js"></script>
 	<script src="/js/pComment.js"></script>
@@ -85,7 +85,7 @@
     	</div>
 	</script>
 	<script>
-		var groupName = ("${group.groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
+		var groupName = "${group.groupName}";
 	</script>
 </body>
 </html>

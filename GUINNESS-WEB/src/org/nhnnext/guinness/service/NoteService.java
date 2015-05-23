@@ -69,15 +69,6 @@ public class NoteService {
 	public int delete(String noteId) {
 		return noteDao.deleteNote(noteId);
 	}
-
-	public void updateForm(String noteId, Model model) {
-		Note note = noteDao.readNote(noteId);
-		Group group = groupDao.readGroup(note.getGroup().getGroupId());
-		model.addAttribute("noteText", note.getNoteText());
-		model.addAttribute("groupId", group.getGroupId());
-		model.addAttribute("groupName", new Gson().toJson(group.getGroupName()));
-		model.addAttribute("noteId", noteId);
-	}
 	
 	public boolean checkJoinedGroup(String groupId, String sessionUserId) throws UnpermittedAccessGroupException {
 		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
