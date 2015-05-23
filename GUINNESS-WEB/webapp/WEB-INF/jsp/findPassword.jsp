@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="/css/datepickr.css">
 </head>
 <body>
+
 	<%@ include file="./commons/_guest_topnav.jspf"%>
 
 	<div class="modal-container" style="top: 132.5px;">
@@ -39,6 +40,7 @@
 		</div>
 	</div>
 </body>
+
 <script type="text/javascript" src="/js/joinCheck.js"></script>
 <script>
 	window.addEventListener('load', function() {

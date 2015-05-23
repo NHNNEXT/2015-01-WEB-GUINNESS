@@ -28,7 +28,7 @@
 	font-weight: bold;
 }
 
-#editProfile-form input[type='text'], #editProfile-form input[type='password']
+#editProfile-form input[type="text"], #editProfile-form input[type="password"]
 	{
 	width: 200px;
 	padding: 10px;
@@ -40,7 +40,7 @@
 	
 }
 
-#editProfile-form input[name='userPhoneNumber'] {
+#editProfile-form input[name="userPhoneNumber"] {
 	width: 150px;
 }
 
@@ -55,23 +55,25 @@
 }
 </style>
 <body>
+
 	<%@ include file="./commons/_topnav.jspf"%>
-	<div class='content wrap' style='margin-top: 80px'>
+
+	<div class="content wrap" style="margin-top: 80px">
 		<h1>
-			<i class='fa fa-users'></i><span style='margin-left: 10px;'>그룹정보수정</span>
+			<i class="fa fa-users"></i><span style="margin-left: 10px;">그룹정보수정</span>
 		</h1>
-		<div id='profile-panel' class='panel'>
-			<form:form modelAttribute="group" id="editProfile-form" cssClass="temp" enctype='multipart/form-data'
+		<div id="profile-panel" class="panel">
+			<form:form modelAttribute="group" id="editProfile-form" cssClass="temp" enctype="multipart/form-data"
 				action="/groups/update" method="post">
-				<table class='panel-body' style='width:100%'>
+				<table class="panel-body" style="width:100%">
 					<tr>
-						<td valign=top id='editBackgroundImage-photoArea'
-									style='width: 200px; text-align: center;'>
-							<img class='background' src="/img/group/${group.groupId}"> 
+						<td valign=top id="editBackgroundImage-photoArea"
+									style="width: 200px; text-align: center;">
+							<img class="background" src="/img/group/${group.groupId}"> 
 							<input type="file" name="backgroundImage" accept="image/x-png, image/gif, image/jpeg" />
 						</td>
 						
-						<td style='padding-left: 25px;'>
+						<td style="padding-left: 25px;">
 							<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUser.userId}" readonly>
 							<form:hidden path="groupId" value="${group.groupId}" readonly="true"/>
 							<p>
@@ -106,6 +108,7 @@
 			</form:form>
 		</div>
 	</div>
+	
 	<script>
 		/* function validCheck() {
 			var userName = document.querySelector("input[name='userName']").value;
@@ -141,7 +144,7 @@
 			this.parentNode.querySelector("span.errorMessage").innerHTML = "";
 		}); */
 		
-		document.querySelector('#delete-group').addEventListener("mousedown",
+		document.querySelector("#delete-group").addEventListener("mousedown",
 				function(e) {
 					e.preventDefault();
 					var groupId = "${group.groupId}";
@@ -169,7 +172,7 @@
 				url:"/groups/" + groupId,
 				success: function(req) {
 					if(JSON.parse(req.responseText).success !== true) {
-						guinness.util.alert('경고', '삭제할 권한이 없습니다.');
+						guinness.util.alert("경고", "삭제할 권한이 없습니다.");
 						return;
 					}
 					window.location.href = "/groups/form";

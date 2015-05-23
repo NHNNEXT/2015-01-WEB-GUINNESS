@@ -32,7 +32,7 @@
 	font-weight: bold;
 }
 
-#editProfile-form input[type='text'], #editProfile-form input[type='password']
+#editProfile-form input[type="text"], #editProfile-form input[type="password"]
 	{
 	width: 200px;
 	padding: 10px;
@@ -43,7 +43,7 @@
 	transition-duration:.5s;
 }
 
-#editProfile-form input[name='userPhoneNumber'] {
+#editProfile-form input[name="userPhoneNumber"] {
 	width: 150px;
 }
 
@@ -58,23 +58,25 @@
 }
 </style>
 <body>
+
 	<%@ include file="./commons/_topnav.jspf"%>
-	<div class='content wrap' style='margin-top: 80px'>
+
+	<div class="content wrap" style="margin-top: 80px">
 		<h1>
-			<i class='fa fa-user'></i><span style='margin-left: 10px;'>회원정보수정</span>
+			<i class="fa fa-user"></i><span style="margin-left: 10px;">회원정보수정</span>
 		</h1>
-		<div id='profile-panel' class='panel'>
-			<form:form modelAttribute="user" id='editProfile-form'
-				enctype='multipart/form-data' method='post' action='/user/update'>
-				<table id='editProfile-panel-body' class='panel-body'
-					style='width: 100%'>
+		<div id="profile-panel" class="panel">
+			<form:form modelAttribute="user" id="editProfile-form"
+				enctype="multipart/form-data" method="post" action="/user/update">
+				<table id="editProfile-panel-body" class="panel-body"
+					style="width: 100%">
 					<tr>
-						<td valign=top id='editProfile-photoArea'
-							style='width: 200px; text-align: center;'><img
-							class='avatar' src="/img/profile/${sessionUser.userImage}"> <input
+						<td valign=top id="editProfile-photoArea"
+							style="width: 200px; text-align: center;"><img
+							class="avatar" src="/img/profile/${sessionUser.userImage}"> <input
 							type="file" name="profileImage"
 							accept="image/x-png, image/gif, image/jpeg" /></td>
-						<td valign=top id='editProfile-profileArea' style='padding-left: 25px;'>
+						<td valign=top id="editProfile-profileArea" style="padding-left: 25px;">
 							<form:hidden path="userId" value="${sessionUser.userId}" />
 							<p>
 								<label for="userName">사용자 이름</label>
@@ -86,12 +88,12 @@
 							</p>
 							<p>
 								<label for="userPassword">비밀번호 변경</label>
-								<form:password path="userPassword" placeholder='' />
+								<form:password path="userPassword" placeholder="" />
 								<span class="info">비밀번호를 변경하시려면 새로운 비밀번호를 입력하세요.</span>
 							</p>
 							<p>
 								<label for="userAgainPassword">비밀번호 확인</label> 
-								<input name="userAgainPassword" type="password" placeholder='' />
+								<input name="userAgainPassword" type="password" placeholder="" />
 								<span class="info">비밀번호를 확인하기 위해 한번 더 입력하세요.</span>
 								<span class="errorMessage"></span><br/>
 							</p> 
@@ -103,6 +105,7 @@
 			</form:form>
 		</div>
 	</div>
+	
 	<script>
 	function validCheck() {
 		var userName = document.querySelector("input[name='userName']").value;
@@ -128,11 +131,11 @@
 		document.querySelector("#editProfile-form").submit();
 	}
 	
-	document.querySelector("input[name='userName']").addEventListener('click',function(){
+	document.querySelector("input[name='userName']").addEventListener("click",function(){
 		this.style.backgroundColor="#fff";
 		this.parentNode.querySelector("span.errorMessage").innerHTML = "";
 	});
-	document.querySelector("input[name='userAgainPassword']").addEventListener('click',function(){
+	document.querySelector("input[name='userAgainPassword']").addEventListener("click",function(){
 		this.style.backgroundColor="#fff";
 		this.parentNode.querySelector("span.errorMessage").innerHTML = "";
 	});

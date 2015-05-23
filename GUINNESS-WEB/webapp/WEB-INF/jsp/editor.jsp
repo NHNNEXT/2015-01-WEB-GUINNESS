@@ -7,8 +7,7 @@
 <meta charset="utf-8">
 <title>스터디의 시작, 페이퍼민트</title>
 <%@ include file="./commons/_favicon.jspf"%>
-<link rel="stylesheet"
-	href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
+<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
 <link rel="stylesheet" href="/css/mainStyle.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/datepickr.css">
@@ -19,11 +18,13 @@
 <script src="/js/editor.js"></script>
 </head>
 <body>
+
 	<%@ include file="./commons/_topnav.jspf"%>
+
 	<input type="hidden" id="sessionUserId" name="sessionUserId"
 		value="${sessionUser.userId}">
-	<div id='note-edit-container' class='content wrap'>
-		<div id='note-edit-group-name'>
+	<div id="note-edit-container" class="content wrap">
+		<div id="note-edit-group-name">
 			<a href="/g/${group.groupId}"><span id="group-name">${group.groupName}</span></a>
 		</div>
 		<form id="noteForm" action="/notes" method="post">
@@ -52,40 +53,41 @@
 	</div>
 	<input id="hiddenGroupName" type="hidden" value="${group.groupName}" />
 
-	<script src="/js/note.js"></script>
-	<script src="/js/pComment.js"></script>
-	<!-- 검색뷰개선 -->
 	<template id="view-note-template">
-	<div class="markdown-body">
-		<input type="hidden" class="hiddenUserId" value="" /> <input
-			type="hidden" class="hiddenNoteId" value="" />
-		<div class="note-content"></div>
-		<div id="commentListUl"></div>
-		<form id="commentForm" method="post">
-			<textarea id='commentText' name='commentText' rows='5' cols='50'></textarea>
-			<br>
-			<button id='submitComment' class='btn btn-pm'>확인</button>
-		</form>
-	</div>
+		<div class="markdown-body">
+			<input type="hidden" class="hiddenUserId" value="" /> <input
+				type="hidden" class="hiddenNoteId" value="" />
+			<div class="note-content"></div>
+			<div id="commentListUl"></div>
+			<form id="commentForm" method="post">
+				<textarea id="commentText" name="commentText" rows="5" cols="50"></textarea>
+				<br>
+				<button id="submitComment" class="btn btn-pm">확인</button>
+			</form>
+		</div>
 	</template>
 	<template id="comment-template">
-	<li><img class='avatar' class='avatar'
-		src='/img/profile/avatar-default.png'>
-		<div class='comment-container'>
-			<div class='comment-info'>
-				<span class='comment-user'></span> <span class='comment-date'></span>
+		<li>
+			<img class="avatar" class="avatar" src="/img/profile/avatar-default.png">
+			<div class="comment-container">
+				<div class="comment-info">
+					<span class="comment-user"></span> <span class="comment-date"></span>
+				</div>
+				<div class="comment"></div>
+				<div class="comment-util"></div>
 			</div>
-			<div class='comment'></div>
-			<div class='comment-util'></div>
-		</div></li>
+		</li>
 	</template>
 	<script type="template" id="popupCommentBtnTemplate">
     	<div class="popupCommentBtn">
         	댓글 달기
     	</div>
 	</script>
+
 	<script>
 		var groupName = "${group.groupName}";
 	</script>
+	<script src="/js/note.js"></script>
+	<script src="/js/pComment.js"></script>
 </body>
 </html>

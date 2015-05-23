@@ -51,9 +51,11 @@
 
 </style>
 <body>
+
 	<%@ include file="./commons/_topnav.jspf"%>
-	<div class='content wrap' style='margin-top: 80px'>
-		<form id='profile-check-password' action="/user/update/check" method="post" class='panel'>
+  
+	<div class="content wrap" style="margin-top: 80px">
+		<form id="profile-check-password" action="/user/update/check" method="post" class="panel">
 			<label>비밀번호 재확인 </label> 
 			<input id="check-password" type="password" name="userPassword" autofocus>
 			<span class="errorMessage" id="checkPasswordErrorMessage">${errorMessage}</span>

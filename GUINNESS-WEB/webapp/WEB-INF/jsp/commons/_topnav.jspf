@@ -8,31 +8,31 @@
 </c:if>
 <div id="header">
 	<div class="headerBackground"></div>
-	<div class='content wrap'>
+	<div class="content wrap">
 		<div id="leftTopBox">
-			<a href='/' id='brand'> <img src='/img/pm_white.png'> </a>
+			<a href="/" id="brand"> <img src="/img/pm_white.png"> </a>
 			<div class="searchForm">
 				<input id="searchText" type="text"> <i class="fa fa-search"></i>
 			</div>
 		</div>
-		<ul class='util'>
-			<li class='menu drop-down'><img class='avatar'
-				src='/img/profile/${sessionUser.userImage}'
-				style='margin-left: 15px;'>
-				<div class='label'>
+		<ul class="util">
+			<li class="menu drop-down"><img class="avatar"
+				src="/img/profile/${sessionUser.userImage}"
+				style="margin-left: 15px;">
+				<div class="label">
 					<a href="#">${sessionUser.userName}</a>
 				</div>
 				<ul>
 					<li><a href="/user/form"><span>내 정보</span></a></li>
 					<li><a href="/user/logout"><span>로그아웃</span></a></li>
 				</ul></li>
-			<li class='menu drop-down'>
-				<div class='label' style="position: relative;">
-					<div class='alarm-count' style="display: none;">2</div>
-					<a href="#"> <i class='fa fa-bell'></i>
+			<li class="menu drop-down">
+				<div class="label" style="position: relative;">
+					<div class="alarm-count" style="display: none;">2</div>
+					<a href="#"> <i class="fa fa-bell"></i>
 					</a>
 				</div>
-				<ul class='alarm-list'>
+				<ul class="alarm-list">
 				</ul>
 			</li>
 		</ul>
@@ -179,7 +179,7 @@ function joinGroupMember(userId, groupId) {
 				if (json.success === false) {
 					guinness.util.alert("멤버초대 실패", json.message);
 				} else {
-					if(document.querySelector('#group-container') !== null){
+					if(document.querySelector("#group-container") !== null){
 						appendGroupCard(groupId);
 					}
 		 			guinness.util.alert("알림", "그룹에 가입되었습니다.");
