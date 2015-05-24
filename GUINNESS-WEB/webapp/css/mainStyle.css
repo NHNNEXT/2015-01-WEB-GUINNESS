@@ -111,6 +111,11 @@ input.text {
 }
 
 .pCommentBox .inputP {
+	-webkit-user-select: text;
+	-khtml-user-select: text;
+	-moz-user-select: text;
+	-o-user-select: text;
+	user-select: text;
 	border: 1px solid #99CDE1;
 	overflow-y: auto;
 	width: 232px;
@@ -541,6 +546,10 @@ a {
 	color:black;
 }
 
+*[contenteditable] {
+	-webkit-user-select: auto !important;
+}
+
 .searchResult {
 	position: fixed;
 	background: #F6F6F6;
@@ -549,6 +558,8 @@ a {
 	z-index: 200;
 	overflow-y: scroll;
 	display: none;
+	top : 0px;
+	left: 0px;
 }
 
 .onSearchForm>input {
