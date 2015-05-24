@@ -95,20 +95,53 @@ input.text {
 
 .pCommentBox {
     background-color: white;
-    border: 1px solid darkgray;
-    width: 100px;
-    height: 80px;
+    width: 240px;
+    height: 126px;
     padding: 10px;
     position: fixed;
 	display: none;
     top:0;
 	left:0;
 	z-index: 250;
+	cursor:move;
+	border-radius: 2px;
+	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 }
 
 .pCommentBox .inputP {
-    border-bottom: 1px solid darkgray;
-    border-left: 1px solid darkgray;
+	border: 1px solid #99CDE1;
+	overflow-y: auto;
+	width: 232px;
+	height: 70px;
+	cursor:text;
+	padding: 3px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 15px;
+}
+
+.pCommentBox .inputP:focus {
+	outline:none;
+}
+
+
+#pCommentCancel {
+	float: right;
+	position: relative;
+	top: -5px;
+	right: -5px;
+	cursor:pointer;
+}
+
+.setUp {
+	float: right;
+	background-color: #7CAFAC;
+	color: white;
+	padding: 5px 10px 5px 10px;
+	margin-top: 5px;
+	font-size: 13px;
+	cursor:pointer;
 }
 
 .searchResultNoteId {

@@ -120,8 +120,11 @@
         
     <script type="template" class="pCommentTemplate">
 		<div class="pCommentBox" draggable="true">
-			<p class="inputP" contenteditable="true"></p>
-			<p><span>확인</span><span>취소</span></p>
+			<div id="pCommentCancel">
+				<i class="fa fa-remove"></i>
+			</div>
+			<div class="inputP" contenteditable="true"></div>
+			<div class="setUp">확인</div>
 		</div>
     </script>
     
