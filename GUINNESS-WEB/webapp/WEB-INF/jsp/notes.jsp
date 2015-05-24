@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="/css/mainStyle.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/datepickr.css">
+<link rel="stylesheet" href="/css/markdown.css">
 
 <!-- 노트 캘린더 -->
 <link rel="stylesheet" href="/css/dateRangePickerForBootstrap.css">

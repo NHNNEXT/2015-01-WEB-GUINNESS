@@ -43,6 +43,9 @@ function createPopupPCommentBtn() {
     _createPCommentBox();
 
     var popupCommentBtn = document.querySelector(".popupCommentBtn");
+
+    mutateObserver(popupCommentBtn);
+
     popupCommentBtn.addEventListener('click', function (e) {
         e.target.style.display = "none";
         var pCommentBox = document.querySelector(".pCommentBox");
@@ -53,6 +56,27 @@ function createPopupPCommentBtn() {
         pCommentBox.querySelector(".inputP").focus();
         pCommentBox.addEventListener('dragend', dragEnd, false);
     }, false);
+}
+
+function mutateObserver (popupCommentBtn) {
+    var target = popupCommentBtn;
+    var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === "attributes" && mutation.attributeName === "style") {
+                if (mutation.target.style.display === "none" ) {
+                    var pCommentBoxDisplay = document.body.querySelector(".pCommentBox").style.display;
+                    if (pCommentBoxDisplay === "" || pCommentBoxDisplay === "none" ) {
+                        document.body.querySelector(".note-content").innerHTML = document.body.querySelector(".hidden-note-content").value;
+                    }
+                }
+            }
+        });
+    });
+    var config = { attributes: true, childList: true, characterData: true };
+    observer.observe(target, config);
+    //if () {
+    //    observer.disconnect();
+    //}
 }
 
 function _createPCommentBox () {
@@ -79,8 +103,12 @@ function createPComment () {
     document.body.querySelector(".highlighted").className = "none";
     document.body.querySelector(".note-content").innerHTML = document.body.querySelector(".hidden-note-content").value;
 
+    if(pComment.pCommentText.length < 1) {
+        return false;
+    }
+
     //TODO pComment 객체를 서버에 전송하여 pComment를 저장할 것.
-    console.log(pComment);
+
 }
 
 function dragEnd(e) {
@@ -108,11 +136,12 @@ function setPopupPCommentBtn() {
 
         var elPopupBtn = document.querySelector(".popupCommentBtn");
         var selectedText = selectText();
-        //var selectedRect = window.getSelection().getRangeAt(0).getBoundingClientRect();
         var selectedElClass = window.getSelection().getRangeAt(0).commonAncestorContainer;
         if (selectedText && selectedElClass.className !== "note-content") {
-//            elPopupBtn.style.top = (selectedRect.top-30) + "px";
-//            elPopupBtn.style.left = ((selectedRect.left+selectedRect.right)/2)-31 + "px";
+            //medium style 코멘트 팝업 버튼 위치 선정. <- 이것이 더 나은지?
+            //var selectedRect = window.getSelection().getRangeAt(0).getBoundingClientRect();
+            //elPopupBtn.style.top = (selectedRect.top-30) + "px";
+            //elPopupBtn.style.left = ((selectedRect.left+selectedRect.right)/2)-31 + "px";
             
             elPopupBtn.style.top = top + "px";
             elPopupBtn.style.left = left + "px";
@@ -126,10 +155,6 @@ function setPopupPCommentBtn() {
             elPopupBtn.style.display = "none";
         }
     }, false);
-
-    // <span class="highlighted"></span> 를 document.body.innerText.search("") 를
-    // 사용해 찾고, 각 뒤, 앞 순서로 삽입한다.
-    // 이후, 해당 클래스에 색을 없게 주고, 코멘트에 hover 시, 색이 있게 한다.
 }
 
 function getNoteInfo() {
