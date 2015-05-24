@@ -100,6 +100,9 @@ input.text {
     height: 80px;
     padding: 10px;
     position: fixed;
+	display: none;
+    top:0;
+	left:0;
 	z-index: 250;
 }
 

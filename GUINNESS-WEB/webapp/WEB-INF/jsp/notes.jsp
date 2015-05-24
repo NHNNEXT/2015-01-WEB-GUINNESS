@@ -119,7 +119,7 @@
 	</template>
         
     <script type="template" class="pCommentTemplate">
-		<div class="pCommentBox">
+		<div class="pCommentBox" draggable="true">
 			<p class="inputP" contenteditable="true"></p>
 			<p><span>확인</span><span>취소</span></p>
 		</div>

@@ -167,8 +167,12 @@ function showNoteModal(obj) {
         whenCloseEvent: function () {
             clearInterval(commentTimeUpdate);
             var elPopupBtn = document.querySelector(".popupCommentBtn");
-            if (elPopupBtn !== undefined ){
+            if (elPopupBtn !== null ){
                 elPopupBtn.remove();
+            }
+            var elPopupBox = document.querySelector(".pCommentBox");
+            if (elPopupBox !== null ){
+                elPopupBox.remove();
             }
         }
     });

@@ -8,6 +8,11 @@ mousePosition.upPoint = {
     y: 0
 };
 
+dragBox = {
+    top : 0,
+    left: 0
+}
+
 var pComment = {
     pCommentText: null,
     selectedText: null,
@@ -49,38 +54,49 @@ function createPopupPCommentBtn() {
         var pCommentBox = document.querySelector(".pCommentBox");
         pCommentBox.style.display = "block";
         pCommentBox.style.top = e.target.style.top;
-        pCommentBox.style.left = "1"+e.target.style.left;
+        pCommentBox.style.left = e.target.style.left;
 
         pCommentBox.querySelector(".inputP").focus();
-        pCommentBox.addEventListener('focusout', function(e) {
-            e.target.parentNode.style.display = "none";
-        }, false);
+        pCommentBox.addEventListener('dragend', dragEnd, false);
+        
+        
     }, false);
+}
+
+function dragEnd(e) {
+    e.preventDefault();
+    var elTarget = document.querySelector(".pCommentBox");
+    elTarget.style.left = e.clientX + "px";
+    elTarget.style.top = e.clientY - e.target.clientHeight + "px";
 }
 
 function setPopupPCommentBtn() {
     var elNoteText = document.body.querySelector(".note-content");
 
-    //elNoteText.addEventListener('mousedown', function (e) {
-    //    mousePosition.downPoint.x = e.clientX;
-    //    mousePosition.downPoint.y = e.clientY;
-    //}, false);
+    elNoteText.addEventListener('mousedown', function (e) {
+        mousePosition.downPoint.x = e.clientX;
+        mousePosition.downPoint.y = e.clientY;
+    }, false);
 
     elNoteText.addEventListener('mouseup', function (e) {
-        //mousePosition.upPoint.x = e.clientX;
-        //mousePosition.upPoint.y = e.clientY;
+        mousePosition.upPoint.x = e.clientX;
+        mousePosition.upPoint.y = e.clientY;
 
-        //var left = mousePosition.upPoint.x < mousePosition.downPoint.x ? mousePosition.upPoint.x : mousePosition.downPoint.x;
-        //left += Math.abs(mousePosition.upPoint.x - mousePosition.downPoint.x);
-        //var top = mousePosition.upPoint.y;
+        var left = mousePosition.upPoint.x < mousePosition.downPoint.x ? mousePosition.upPoint.x : mousePosition.downPoint.x;
+        left += Math.abs(mousePosition.upPoint.x - mousePosition.downPoint.x);
+        var top = mousePosition.upPoint.y;
 
         var elPopupBtn = document.querySelector(".popupCommentBtn");
         var selectedText = selectText();
-        var selectedRect = window.getSelection().getRangeAt(0).getBoundingClientRect();
+        //var selectedRect = window.getSelection().getRangeAt(0).getBoundingClientRect();
         var selectedElClass = window.getSelection().getRangeAt(0).commonAncestorContainer;
         if (selectedText && selectedElClass.className !== "note-content") {
-            elPopupBtn.style.top = (selectedRect.top-30) + "px";
-            elPopupBtn.style.left = ((selectedRect.left+selectedRect.right)/2)-31 + "px";
+//            elPopupBtn.style.top = (selectedRect.top-30) + "px";
+//            elPopupBtn.style.left = ((selectedRect.left+selectedRect.right)/2)-31 + "px";
+            
+            elPopupBtn.style.top = top + "px";
+            elPopupBtn.style.left = left + "px";
+
             elPopupBtn.style.display = "block";
             pComment.selectedText = selectedText;
             pComment.pId = getPid(selectedElClass);
