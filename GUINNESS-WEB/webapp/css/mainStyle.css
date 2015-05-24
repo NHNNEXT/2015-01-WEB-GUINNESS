@@ -290,6 +290,9 @@ form#notes-create-form {
 	background-color:white;
 	border-radius:2px;
 	font-size:12px;
+	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 }
 
 #left-menu-container #calendar-container {
@@ -327,6 +330,9 @@ form#notes-create-form {
 	max-height:500px;
 	margin-left:-200px;
 	overflow:hidden;
+	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 }
 
 #group-member-container div#group-member-list {
@@ -766,6 +772,9 @@ span.sDate {
 }
 
 .note-list li {
+	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 	position: relative;
 	width: 480px;
 	margin: 0 auto;
