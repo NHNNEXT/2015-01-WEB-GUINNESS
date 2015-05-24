@@ -20,7 +20,7 @@ var pComment = {
     sameSenIndex: 0,
     userId: null,
     pId: null,
-    noteId: null
+    noteId: null,
 };
 
 function selectText() {
@@ -39,18 +39,12 @@ function selectText() {
 
 function createPopupPCommentBtn() {
     var templatePopupBtn = document.querySelector("#popupCommentBtnTemplate").text;
-    document.body.insertAdjacentHTML("afterend", templatePopupBtn);
-    var pCommentTemplate = document.querySelector(".pCommentTemplate").text;
-    document.body.insertAdjacentHTML("afterend", pCommentTemplate);
+    document.body.insertAdjacentHTML("beforeend", templatePopupBtn);
+    _createPCommentBox();
 
     var popupCommentBtn = document.querySelector(".popupCommentBtn");
     popupCommentBtn.addEventListener('click', function (e) {
         e.target.style.display = "none";
-
-        // 코멘트 입력 창을 나타나게 하고
-        // 셀렉션에 하이라이팅을 해줄 것.
-        // 코멘트 입력 창은 드래그해서 움직일 수 있게 할 것.
-        // 이 코멘트 입력창에서 pComment 객체를 가져다가 서버와 통신하게 할 것.
         var pCommentBox = document.querySelector(".pCommentBox");
         pCommentBox.style.display = "block";
         pCommentBox.style.top = e.target.style.top;
@@ -58,9 +52,35 @@ function createPopupPCommentBtn() {
 
         pCommentBox.querySelector(".inputP").focus();
         pCommentBox.addEventListener('dragend', dragEnd, false);
-        
-        
     }, false);
+}
+
+function _createPCommentBox () {
+    var pCommentTemplate = document.querySelector(".pCommentTemplate").text;
+    document.body.insertAdjacentHTML("beforeend", pCommentTemplate);
+    var pCommentBox = document.body.querySelector(".pCommentBox");
+
+    pCommentBox.querySelector(".setUp").addEventListener("click", createPComment, false);
+
+    pCommentBox.querySelector("#pCommentCancel").addEventListener("click", function (e) {
+        e.target.parentElement.parentElement.style.display = "none";
+        document.body.querySelector(".inputP").innerText = "";
+        document.body.querySelector(".highlighted").className = "none";
+        document.body.querySelector(".note-content").innerHTML = document.body.querySelector(".hidden-note-content").value;
+    }, false);
+
+}
+
+function createPComment () {
+    document.body.querySelector(".pCommentBox").style.display = "none";
+    var inputP = document.body.querySelector(".inputP");
+    pComment.pCommentText = inputP.innerText;
+    inputP.innerText = "";
+    document.body.querySelector(".highlighted").className = "none";
+    document.body.querySelector(".note-content").innerHTML = document.body.querySelector(".hidden-note-content").value;
+
+    //TODO pComment 객체를 서버에 전송하여 pComment를 저장할 것.
+    console.log(pComment);
 }
 
 function dragEnd(e) {
@@ -148,4 +168,11 @@ function getSameSentence (pComment, selectedText, selection) {
         }
     }
     pComment.sameSenCount = sameTexts.length;
+
+    //TODO selection에 하일라이팅 하기.
+    var span = document.createElement("SPAN");
+    span.innerHTML = getSelection();
+    span.className = "highlighted";
+    selectRange.deleteContents();
+    selectRange.insertNode(span);
 }

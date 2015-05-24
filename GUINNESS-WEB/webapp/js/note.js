@@ -178,6 +178,7 @@ function showNoteModal(obj) {
     });
     document.querySelector('.modal-body').setAttribute('class', 'modal-body note-modal');
     document.querySelector('.note-content').innerHTML = obj.noteText;
+    document.querySelector('.hidden-note-content').value = obj.noteText;
     document.querySelector('.hiddenUserId').value = obj.user.userId;
     document.querySelector('.hiddenNoteId').value = obj.noteId;
     document.querySelector('#commentForm').addEventListener('submit',

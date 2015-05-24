@@ -76,6 +76,7 @@
 			<input type="hidden" class="hiddenUserId" value=""/>
 			<input type="hidden" class="hiddenNoteId" value=""/>
 			<div class="note-content"></div>
+			<input class="hidden-note-content" type="hidden" value="" />
 			<div id="commentListUl"></div>
 			<form id="commentForm" method="post">
 				<textarea id="commentText" name="commentText" rows="5" cols="50"></textarea>
