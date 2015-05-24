@@ -145,7 +145,8 @@
 			document.getElementById("groupSettingBtn").style.visibility = "visible";
 		}
 		if (groupImage !== "") {
-			window.document.body.querySelector("#backImg").style.backgroundImage="url('/img/group/' + groupImage + ')'";
+			window.document.body.querySelector("#backImg").style.backgroundImage=
+			"url('/img/group/" + groupImage + "')";
 		}
 		document.querySelector("#addMemberForm input[name='groupId']").value = groupId;
 		readMember(groupId);
