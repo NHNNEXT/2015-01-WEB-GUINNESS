@@ -64,6 +64,8 @@ function appendNoteList(json) {
 		newEl = document.createElement("a");
 		newEl.setAttribute("id", obj.note.noteId);
 		newEl.setAttribute("href", "#");
+        newEl.setAttribute("class", "preview-note");
+        newEl.setAttribute("data-id", obj.user.userId);
 		out = "";
 		out += "<li><img class='avatar' class='avatar' src='/img/profile/"
 				+ obj.user.userImage + "'>";
@@ -420,7 +422,18 @@ function appendMember(obj) {
 	newMember.querySelector(".memberChk").value = obj.userId;
 	newMember.querySelector(".member-name").innerHTML = obj.userName;
 	newMember.querySelector(".member-id").innerHTML = obj.userId;
-	newMember.querySelector('.fa-times').addEventListener("mousedown",
+	newMember.querySelector(".fa-eye").setAttribute("data-id", obj.userId);
+    newMember.querySelector(".fa-eye").addEventListener("mousedown", 
+        function(e) {
+            if(e.target.className === "fa fa-eye") {
+                e.target.setAttribute("class", "fa fa-eye-slash");
+                onOffMemberNotes(false, obj.userId);
+            } else {
+                e.target.setAttribute("class", "fa fa-eye");
+                onOffMemberNotes(true, obj.userId);
+            }
+        }, false);
+    newMember.querySelector(".fa-times").addEventListener("mousedown",
 			function(e) {
 				e.preventDefault();
 				guinness.confirmDeleteUser(obj.userId, obj.userName);
@@ -437,22 +450,39 @@ function appendMembers(json) {
     }
 }
 
-function OnOffMemberAllClickBtn() {
-    var objs = document.querySelectorAll(".memberChk");
-    var allchk = document.querySelector(".memberAllClick");
-    var existUnchecked = false;
-    for (var i = 0; i < objs.length; i++) {
-        if (objs[i].checked === false) {
-            existUnchecked = true;
-            break;
+function onOffMemberNotes(flag, userId) {
+    console.log("userId: " + userId);
+    var previewNotes = document.querySelectorAll(".preview-note");
+    for(var i = 0; i < previewNotes.length; i++) {
+        if(previewNotes[i].dataset.id === userId && !flag) {
+            previewNotes[i].setAttribute("style", "display: none");
+        }
+        if(previewNotes[i].dataset.id === userId && flag) {
+            previewNotes[i].setAttribute("style", "display: ");
         }
     }
-    if (existUnchecked === false) {
-        allchk.checked = true;
-    } else {
-        allchk.checked = false;
-    }
 }
+
+/*
+ * 주석 처리 한 사람 : ybin
+ * 이유 : 현재 이 메소드 사용하는 곳이 안보임
+ */
+// function OnOffMemberAllClickBtn() {
+//     var objs = document.querySelectorAll(".memberChk");
+//     var allchk = document.querySelector(".memberAllClick");
+//     var existUnchecked = false;
+//     for (var i = 0; i < objs.length; i++) {
+//         if (objs[i].checked === false) {
+//             existUnchecked = true;
+//             break;
+//         }
+//     }
+//     if (existUnchecked === false) {
+//         allchk.checked = true;
+//     } else {
+//         allchk.checked = false;
+//     }
+// }
 
 function deleteNoteList() {
     var el = document.querySelectorAll(".note-list");
