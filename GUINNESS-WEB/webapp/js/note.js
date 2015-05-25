@@ -1,4 +1,4 @@
-var appendMarkList = function (json) {
+function appendMarkList(json) {
     if (json === null)
         return;
     var attentionListElement = document.querySelector("#attention-list");
