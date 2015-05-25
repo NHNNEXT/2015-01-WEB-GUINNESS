@@ -29,15 +29,15 @@ public class PCommentService {
 	@Resource
 	private GroupDao groupDao;
 
-	public List<Map<String, Object>> create(SessionUser sessionUser, Note note, PComment pComment) throws UnpermittedAccessGroupException {
+	public PComment create(SessionUser sessionUser, Note note, PComment pComment) throws UnpermittedAccessGroupException {
 		Group group = groupDao.readGroupByNoteId(note.getNoteId());
 		if (!groupDao.checkJoinedGroup(sessionUser.getUserId(), group.getGroupId())) {
 			throw new UnpermittedAccessGroupException("권한이 없습니다. 그룹 가입을 요청하세요.");
 		}
-		pCommentDao.createPComment(pComment);
+		String pCommentId = pCommentDao.createPComment(pComment);
 		noteDao.increaseCommentCount(pComment.getNote().getNoteId());
 		//createAlarm(pComment);
-		return pCommentDao.readPCommentListByNoteId(pComment.getNote().getNoteId());
+		return pCommentDao.readByPCommentId(pCommentId);
 	}
 
 //	private void createAlarm(PComment pComment) {
@@ -58,12 +58,12 @@ public class PCommentService {
 //	}
 
 	public List<Map<String, Object>> list(String noteId) {
-		return pCommentDao.readPCommentListByNoteId(noteId);
+		return pCommentDao.readListByNoteId(noteId);
 	}
 
 	public Object update(String commentId, String commentText) {
 		pCommentDao.updatePComment(commentId, commentText);
-		return pCommentDao.readPCommentByPCommentId(commentId);
+		return pCommentDao.readByPCommentId(commentId);
 	}
 
 	public void delete(String pCommentId) {

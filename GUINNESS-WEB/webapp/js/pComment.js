@@ -118,7 +118,7 @@ function createPComment () {
             if (result.success !== true) {
                 return;
             }
-            pComment.appendPComment(result.mapValues);
+            pComment.appendPComment(result.object);
         }
     });
 }

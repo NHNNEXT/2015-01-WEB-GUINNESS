@@ -33,15 +33,13 @@ public class PCommentController {
 			@RequestParam String sameSenCount, @RequestParam String sameSenIndex, @RequestParam String pCommentText,
 			@RequestParam String selectedText, @RequestParam String noteId) throws IOException {
 		SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
-		Note note = new Note(noteId);
-		if (pCommentText.equals(""))
+		if (pCommentText.equals("")) {
 			return new JsonResult().setSuccess(false);
-
-		PComment pComment = new PComment(pId, sameSenCount, sameSenIndex, pCommentText, selectedText, sessionUser, note);
+		}
 		try {
-			//TODO pComment가 현재 noteId 기준으로 모두 내려받아지고 있음. 신규 생성만 json으로.
-			//TODO userPassword 정보가 함께 가고 있음 수정 필요.
-			return new JsonResult().setSuccess(true).setMapValues(pCommentService.create(sessionUser, note, pComment));
+			Note note = new Note(noteId);
+			PComment pComment = new PComment(pId, sameSenCount, sameSenIndex, pCommentText, selectedText, sessionUser, note);
+			return new JsonResult().setSuccess(true).setObject(pCommentService.create(sessionUser, note, pComment));
 		} catch (UnpermittedAccessGroupException e) {
 			return new JsonResult().setSuccess(false).setMessage(e.getMessage()).setLocationWhenFail("/illegal");
 		}

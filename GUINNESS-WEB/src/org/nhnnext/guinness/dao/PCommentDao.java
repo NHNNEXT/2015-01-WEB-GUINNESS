@@ -1,5 +1,8 @@
 package org.nhnnext.guinness.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +13,10 @@ import javax.sql.DataSource;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.PComment;
 import org.nhnnext.guinness.model.SessionUser;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -23,34 +29,41 @@ public class PCommentDao extends JdbcDaoSupport {
 		setDataSource(dataSource);
 	}
 
-	public void createPComment(PComment pComment) {
+	public String createPComment(PComment pComment) {
 		String sql = "insert into PCOMMENTS (pId, userId, noteId, sameSenCount, sameSenIndex, pCommentText, selectedText) values(?, ?, ?, ?, ?, ?, ?)";
-		getJdbcTemplate().update(sql, pComment.getpId(), pComment.getSessionUser().getUserId(),
-				pComment.getNote().getNoteId(), pComment.getSameSenCount(), pComment.getSameSenIndex(),
-				pComment.getpCommentText(), pComment.getSelectedText());
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		getJdbcTemplate().update(new PreparedStatementCreator() {
+			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+				PreparedStatement ps = connection.prepareStatement(sql, new String[] { "pCommentId" });
+				ps.setString(1, pComment.getpId());
+				ps.setString(2, pComment.getSessionUser().getUserId());
+				ps.setString(3, pComment.getNote().getNoteId());
+				ps.setString(4, pComment.getSameSenCount());
+				ps.setString(5, pComment.getSameSenIndex());
+				ps.setString(6, pComment.getpCommentText());
+				ps.setString(7, pComment.getSelectedText());
+				return ps;
+			}
+		}, keyHolder);
+		return keyHolder.getKey().toString();
 	}
-	
-	public List<Map<String, Object>> readPCommentListByNoteId(String noteId) {
+
+	public List<Map<String, Object>> readListByNoteId(String noteId) {
 		String sql = "select * from PCOMMENTS, USERS where PCOMMENTS.userId = USERS.userId AND noteId = ?";
 		return getJdbcTemplate().queryForList(sql, noteId);
 	}
 
-	public PComment readPCommentByPCommentId(String pCommentId) {
+	public PComment readByPCommentId(String pCommentId) {
 		String sql = "select * from PCOMMENTS, USERS where PCOMMENTS.userId = USERS.userId AND pCommentId = ?";
-
-		return getJdbcTemplate().queryForObject(sql,(rs, rowNum) -> new PComment(
-						rs.getString("pCommentId"), 
-						rs.getString("pId"), 
-						rs.getString("sameSenCount"), 
-						rs.getString("sameSenIndex"), 
-						rs.getString("pCommentText"), 
-						rs.getString("selectedText"), 
-						rs.getString("commentCreateDate"), 
-						new SessionUser(rs.getString("userId"), rs.getString("userName"), rs.getString("userImage")),
-						new Note(rs.getString("noteId"))
-						), pCommentId);
+		return getJdbcTemplate().queryForObject(
+				sql,
+				(rs, rowNum) -> new PComment(rs.getString("pCommentId"), rs.getString("pId"), rs
+						.getString("sameSenCount"), rs.getString("sameSenIndex"), rs.getString("pCommentText"), rs
+						.getString("selectedText"), rs.getString("pCommentCreateDate"), new SessionUser(rs
+						.getString("userId"), rs.getString("userName"), rs.getString("userImage")), new Note(rs
+						.getString("noteId"))), pCommentId);
 	}
-	
+
 	public void deleteAllPCommentsByNoteId(String noteId) {
 		String sql = "delete from PCOMMENTS where noteId = ?";
 		getJdbcTemplate().update(sql, noteId);
@@ -60,7 +73,7 @@ public class PCommentDao extends JdbcDaoSupport {
 		String sql = "delete from PCOMMENTS where pCommentId = ?";
 		getJdbcTemplate().update(sql, pCommentId);
 	}
-	
+
 	public void updatePComment(String pCommentId, String pCommentText) {
 		String sql = "update PCOMMENTS set pCommentText = ? where pCommentId = ?";
 		getJdbcTemplate().update(sql, pCommentText, pCommentId);
