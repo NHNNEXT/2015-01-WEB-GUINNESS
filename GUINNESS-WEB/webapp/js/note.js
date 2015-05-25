@@ -457,7 +457,6 @@ function appendMembers(json) {
 }
 
 function onOffMemberNotes(flag, userId) {
-    console.log("userId: " + userId);
     var previewNotes = document.querySelectorAll(".preview-note");
     for(var i = 0; i < previewNotes.length; i++) {
         if(previewNotes[i].dataset.id === userId && flag === "off") {
