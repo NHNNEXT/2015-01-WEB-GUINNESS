@@ -157,7 +157,6 @@ function appendGroupCard(groupId){
 			var result = JSON.parse(req.responseText);
 			if (result.success) {
 				var json = result.mapValues;
-				debugger;
 				for (var i = 0; i < json.length; i++) {
 					if(json[i].groupId === groupId){
 						appendGroup(json[i]);
