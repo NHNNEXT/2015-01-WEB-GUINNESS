@@ -66,6 +66,9 @@ function appendNoteList(json) {
 		newEl.setAttribute("href", "#");
         newEl.setAttribute("class", "preview-note");
         newEl.setAttribute("data-id", obj.user.userId);
+        if(onOffMemberList[obj.user.userId] === "off" && onOffMemberList[obj.user.userId] !== undefined) {
+            newEl.setAttribute("style", "display: none");
+        }
 		out = "";
 		out += "<li><img class='avatar' class='avatar' src='/img/profile/"
 				+ obj.user.userImage + "'>";
@@ -410,6 +413,7 @@ function readMember(groupId) {
 }
 
 var memberTemplate;
+var onOffMemberList = [];
 if(document.querySelector("#member-template") !== null)
 	memberTemplate = document.querySelector("#member-template").content;
 function appendMember(obj) {
@@ -427,10 +431,12 @@ function appendMember(obj) {
         function(e) {
             if(e.target.className === "fa fa-eye") {
                 e.target.setAttribute("class", "fa fa-eye-slash");
-                onOffMemberNotes(false, obj.userId);
+                onOffMemberNotes("off", obj.userId);
+                onOffMemberList[obj.userId] = "off";
             } else {
                 e.target.setAttribute("class", "fa fa-eye");
-                onOffMemberNotes(true, obj.userId);
+                onOffMemberNotes("on", obj.userId);
+                onOffMemberList[obj.userId] = "on";
             }
         }, false);
     newMember.querySelector(".fa-times").addEventListener("mousedown",
@@ -454,10 +460,10 @@ function onOffMemberNotes(flag, userId) {
     console.log("userId: " + userId);
     var previewNotes = document.querySelectorAll(".preview-note");
     for(var i = 0; i < previewNotes.length; i++) {
-        if(previewNotes[i].dataset.id === userId && !flag) {
+        if(previewNotes[i].dataset.id === userId && flag === "off") {
             previewNotes[i].setAttribute("style", "display: none");
         }
-        if(previewNotes[i].dataset.id === userId && flag) {
+        if(previewNotes[i].dataset.id === userId && flag === "on") {
             previewNotes[i].setAttribute("style", "display: ");
         }
     }
