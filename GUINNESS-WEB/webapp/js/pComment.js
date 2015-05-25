@@ -20,8 +20,12 @@ var pComment = {
     sameSenIndex: 0,
     userId: null,
     pId: null,
-    noteId: null,
+    noteId: null
 };
+
+pComment.appendPComment = function (json) {
+    console.log(json);
+}
 
 function selectText() {
     var select = "";
@@ -74,9 +78,6 @@ function mutateObserver (popupCommentBtn) {
     });
     var config = { attributes: true, childList: true, characterData: true };
     observer.observe(target, config);
-    //if () {
-    //    observer.disconnect();
-    //}
 }
 
 function _createPCommentBox () {
@@ -102,13 +103,24 @@ function createPComment () {
     inputP.innerText = "";
     document.body.querySelector(".highlighted").className = "none";
     document.body.querySelector(".note-content").innerHTML = document.body.querySelector(".hidden-note-content").value;
-
     if(pComment.pCommentText.length < 1) {
         return false;
     }
-
-    //TODO pComment 객체를 서버에 전송하여 pComment를 저장할 것.
-
+    var pId = pComment.pId.replace("pId-", "");
+    guinness.ajax({
+        method : "post",
+        url : "/pComments",
+        param : "pId="+pId+"&sameSenCount="+pComment.sameSenCount+"&sameSenIndex="+pComment.sameSenIndex
+                +"&pCommentText="+pComment.pCommentText+"&selectedText="+pComment.selectedText
+                +"&noteId="+pComment.noteId,
+        success: function (req) {
+            var result = JSON.parse(req.responseText);
+            if (result.success !== true) {
+                return;
+            }
+            pComment.appendPComment(result.mapValues);
+        }
+    });
 }
 
 function dragEnd(e) {
