@@ -533,10 +533,7 @@ var infiniteScroll = function () {
         var last = date.childNodes.item(date.childNodes.length - 1);
         if (date.childNodes.length == 0)
             return;
-        var li = last.childNodes.item(0);
-        var div = li.childNodes.item(2);
-        var timeDiv = div.childNodes.item(1);
-        var noteTargetDate = timeDiv.childNodes.item(0).innerHTML;
+        var noteTargetDate = last.querySelector(".note-date").innerHTML;
         noteTargetDate = noteTargetDate.substring(0, noteTargetDate.length - 2);
         reloadWithoutDeleteNoteList(noteTargetDate);
     }

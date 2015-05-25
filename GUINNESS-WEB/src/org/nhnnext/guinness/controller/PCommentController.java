@@ -9,7 +9,6 @@ import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.PComment;
 import org.nhnnext.guinness.model.SessionUser;
-import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.service.PCommentService;
 import org.nhnnext.guinness.util.JsonResult;
 import org.springframework.stereotype.Controller;
