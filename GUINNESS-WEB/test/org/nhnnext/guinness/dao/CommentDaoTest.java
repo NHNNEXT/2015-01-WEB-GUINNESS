@@ -36,7 +36,7 @@ public class CommentDaoTest {
 	@Before
 	public void before() throws MakingObjectListFromJdbcException, ClassNotFoundException {
 		commentDao.deleteAllCommentsByNoteId("9");
-		comment = new Comment("unit test", "A", new User("admin@guinness.com").createSessionUser(), new Note("9"));
+		comment = new Comment("unit test", new User("admin@guinness.com").createSessionUser(), new Note("9"));
 		commentDao.createComment(comment);
 		comments2 = commentDao.readCommentListByNoteId(comment.getNote().getNoteId());
 	}

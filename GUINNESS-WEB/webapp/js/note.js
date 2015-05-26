@@ -333,12 +333,10 @@ function createComment(obj) {
     if (commentText !== "") {
         var userId = document.getElementById("sessionUserId").value;
         var noteId = obj.noteId;
-        var commentType = "A";
         guinness.ajax({
             method: "post",
             url: "/comments/",
-            param: "commentText=" + commentText + "&commentType="
-            + commentType + "&noteId=" + noteId,
+            param: "commentText=" + commentText + "&noteId=" + noteId,
             success: function (req) {
                 var result = JSON.parse(req.responseText);
                 if (result.success !== true) {
