@@ -168,6 +168,8 @@
 					e.preventDefault();
 					guinness.confirmLeave(groupId, groupName,"/groups/form");
 				}, false);
+		
+		getDateExistNotes(); //test
 	}, false);
 	
 	window.addEventListener("scroll", function(e) {
@@ -246,6 +248,20 @@
 	
 	function groupUpdate() {
 		window.location.href = "/groups/update/form/"+groupId;
+	}
+	
+	function getDateExistNotes(){ //;; select null exist notes day
+		var lastDate = ( new Date( 2015, 5, 1) ).toISOString().substring(0,10)+ " 23:59:59";
+		guinness.ajax({
+	        method: "get",
+	        url: "/notes/getNullDay/" + groupId + "/" + lastDate,
+	        success: function (req) {
+	            var json = JSON.parse(req.responseText);
+	            if (json.success === true) {
+	            	
+	            }
+	        }
+	    });
 	}
 	</script>
 	<script src="/js/note.js"></script>
