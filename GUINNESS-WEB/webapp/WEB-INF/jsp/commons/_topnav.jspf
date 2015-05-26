@@ -54,9 +54,9 @@
 	<div class="searchResultBody">
 		<div class="searchResultText"></div>
 		<span class="searchResultName"></span>
-		<br />
+		<br/>
 		<span class="searchResultDate"></span>
-		<br /><span class="spanOnSearch"> on </span>
+		<br/><span class="spanOnSearch"> on </span>
 		<span class="searchResultGroup"></span>
 	</div>
 </template>
@@ -64,7 +64,12 @@
 <template type="template" id="groupResultTemplate">
 	<div class="searchResultBody">
 		<span class="searchResultName"></span>
-		<br />
+		<br/>
+		<div>
+			그룹관리자:
+			<span class="searchResultCaptain"></span>
+		</div>
+		<br/>
 		<span class="searchResultDate"></span>
 	</div>
 </template>

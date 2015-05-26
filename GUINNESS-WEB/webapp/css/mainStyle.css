@@ -254,23 +254,25 @@ input.text {
 	margin-bottom: 2px;
 	border-radius: 2px;
 	padding: 4px;
-    background-color: lightsteelblue;
+	font-size:12px;
+    background-color: white;
     cursor:pointer;
 }
 
 .searchResultBody:hover {
-	background-color: #E8FB90;
+	background-color: rgb(156, 209, 199);
 }
 
 .searchResultText {
 	width: 200px;
 	height: 52px;
-	border: 1px solid gray;
+	border-top:1px solid #ccc;
+	border-left:1px solid #ccc;
 	margin-bottom: 2px;
 	margin-right: 5px;
 	border-radius: 2px;
 	padding: 4px;
-	background-color: white;
+	background-color: #fafafa;
 	float: left;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -286,7 +288,6 @@ input.text {
 }
 
 .searchResultDate {
-    font-size: 11px; 
     color:darkslategray;
     font-weight: 200;
 }
