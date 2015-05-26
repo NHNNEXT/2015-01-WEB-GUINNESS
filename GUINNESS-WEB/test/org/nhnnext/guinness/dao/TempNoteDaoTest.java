@@ -1,6 +1,6 @@
 package org.nhnnext.guinness.dao;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -34,5 +34,19 @@ public class TempNoteDaoTest {
 			System.out.println(note);
 		}
 		assertNotNull(tempNoteList);
+	}
+	
+	@Test
+	public void update() {
+		TempNote beforeUpdateTempNote = tempNoteDao.readByNoteId(9);
+		System.out.println(beforeUpdateTempNote);
+		
+		String createDate = LocalDate.now().toString();
+		assertNotEquals(0, tempNoteDao.update(new TempNote(9, "수정된 내용", createDate)));
+		
+		TempNote afterUpdateTempNote = tempNoteDao.readByNoteId(9);
+		System.out.println(afterUpdateTempNote);
+		
+		assertNotEquals(beforeUpdateTempNote, afterUpdateTempNote);
 	}
 }

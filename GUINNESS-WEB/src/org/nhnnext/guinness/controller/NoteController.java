@@ -168,8 +168,19 @@ public class NoteController {
 	}
 	
 	@RequestMapping("/notes/temp/{noteId}")
-	protected @ResponseBody JsonResult<Preview> tempNoteRead(@PathVariable String noteId) {
+	protected @ResponseBody JsonResult<Preview> tempNoteRead(@PathVariable long noteId) {
 		logger.debug("noteId:{}", noteId);
 		return new JsonResult().setSuccess(true).setObject(tempNoteService.readByNoteId(noteId));
+	}
+	
+	@RequestMapping(value = "/notes/temp", method = RequestMethod.PUT)
+	protected @ResponseBody JsonResult<Preview> tempNoteUpdate(@RequestParam long noteId, @RequestParam String noteText, 
+			@RequestParam String createDate) {
+		logger.debug("noteId:{}", noteId);
+		if(tempNoteService.update(noteId, noteText, DateTimeUtil.addCurrentTime(createDate))) {
+			return new JsonResult().setSuccess(true).setObject(tempNoteService.readByNoteId(noteId));
+		}
+		
+		return new JsonResult().setSuccess(false);
 	}
 }

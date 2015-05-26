@@ -558,25 +558,41 @@ var reloadWithoutDeleteNoteList = function (noteTargetDate) {
 
 function tempSave() {
     console.log("임시저장");
+    var noteId = document.querySelector("#hiddenTempNoteId").value;
     var noteText = document.querySelector("#noteTextBox").value;
     var createDate = new Date().toISOString().slice(0, 10);
-    guinness.ajax({
-        method: "post",
-        url: '/notes/temp',
-        param: "noteText=" + noteText + "&createDate=" + createDate,
-        success: function (req) {
-            var result = JSON.parse(req.responseText);
-            console.log("tempNoteId : " + result.object);
-            var tempNote = result.object;
-            var dropdownMenu = document.querySelector(".dropdown-menu");
-            var el = document.createElement("li");
-            el.innerHTML = "<a href='#' data-id='" + tempNote.noteId + "'>" + new Date() + "에 저장된 글이 있습니다</a>";
-            el.addEventListener("mousedown", function(e) {
-                console.log(e.target.dataset.id);
-            }, false);
-            dropdownMenu.appendChild(el);
-        }
-    });
+
+    if(noteId === "") {
+        guinness.ajax({
+            method: "post",
+            url: '/notes/temp',
+            param: "noteText=" + noteText + "&createDate=" + createDate,
+            success: function (req) {
+                var result = JSON.parse(req.responseText);
+                console.log("tempNoteId : " + result.object);
+                var tempNote = result.object;
+                var dropdownMenu = document.querySelector(".dropdown-menu");
+                var el = document.createElement("li");
+                el.innerHTML = "<a href='#' data-id='" + tempNote.noteId + "'>" + new Date() + "에 저장된 글이 있습니다</a>";
+                el.addEventListener("mousedown", function(e) {
+                    console.log(e.target.dataset.id);
+                }, false);
+                dropdownMenu.appendChild(el);
+            }
+        }); 
+    } else {
+        guinness.ajax({
+            method: "put",
+            url: '/notes/temp',
+            param: "noteId=" + noteId + "&noteText=" + noteText + "&createDate=" + createDate,
+            success: function (req) {
+                var result = JSON.parse(req.responseText);
+                console.log("tempNoteId : " + result.object);
+                var el = document.querySelector("a[data-id='" + result.object.noteId + "']");
+                el.innerText = result.object.createDate + "에 저장된 글이 있습니다";
+            }
+        }); 
+    }
 }
 
 function appendTempNoteList(tempNotes) {

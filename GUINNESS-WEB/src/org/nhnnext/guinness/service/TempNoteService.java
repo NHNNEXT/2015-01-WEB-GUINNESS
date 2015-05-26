@@ -22,11 +22,18 @@ public class TempNoteService {
 		return tempNoteDao.read(userId);
 	}
 
-	public Object readByNoteId(String noteId) {
+	public Object readByNoteId(long noteId) {
 		return tempNoteDao.readByNoteId(noteId);
 	}
 
 	public void delete(String noteId) {
 		tempNoteDao.delete(noteId);
+	}
+
+	public boolean update(long noteId, String noteText, String createDate) {
+		if(tempNoteDao.update(new TempNote(noteId, noteText, createDate)) == 1) {
+			return true;
+		}
+		return false;
 	}
 }

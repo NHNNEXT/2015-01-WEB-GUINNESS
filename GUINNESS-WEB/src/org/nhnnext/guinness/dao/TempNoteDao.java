@@ -51,7 +51,7 @@ public class TempNoteDao extends JdbcDaoSupport {
 				new User(rs.getString("userId"))), userId);
 	}
 
-	public TempNote readByNoteId(String noteId) {
+	public TempNote readByNoteId(long noteId) {
 		String sql = "select * from TEMP_NOTES where noteId = ?";
 		return getJdbcTemplate().queryForObject(sql, (rs, rowNum) -> new TempNote(
 				rs.getLong("noteId"), 
@@ -63,5 +63,10 @@ public class TempNoteDao extends JdbcDaoSupport {
 	public void delete(String noteId) {
 		String sql = "delete from TEMP_NOTES where noteId = ?";
 		getJdbcTemplate().update(sql, noteId);
+	}
+
+	public int update(TempNote tempNote) {
+		String sql = "update TEMP_NOTES SET noteText = ?, createDate = ? where noteId = ?";
+		return getJdbcTemplate().update(sql, tempNote.getNoteText(), tempNote.getCreateDate(), tempNote.getNoteId());
 	}
 }
