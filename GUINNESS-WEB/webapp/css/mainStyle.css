@@ -365,6 +365,11 @@ a#escape-note {
 	background: gray;
 }
 
+.btn-temp {
+	float: left;
+	margin-top: -60px;
+}
+
 #previewBox {
   margin: 0px;
   padding: 0px;
@@ -1309,4 +1314,36 @@ span.tag {
 	font-size: 20px;
 	font-weight: bold;
 	color: rgb(116, 175, 173);
+}
+
+#temp-note-list {
+	position: absolute;
+	width: 940px;
+	margin: 0 auto;
+	text-align: right;
+	list-style: none;
+	font-size: 12px;
+}
+
+#temp-note-list ul li {
+	list-style: none;
+	font-size: 12px;
+}
+
+.dropdown-menu {
+	position: absolute;
+	right: 0px;
+	background-color: white;
+	margin-top: 5px;
+}
+
+.dropdown-menu li {
+	margin-bottom: 12px;
+}
+.dropdown > a:link, .dropdown a:visited {
+	color: gray;
+}
+
+.dropdown-menu > a:link, .dropdown-menu a:visited {
+	color: gray;
 }

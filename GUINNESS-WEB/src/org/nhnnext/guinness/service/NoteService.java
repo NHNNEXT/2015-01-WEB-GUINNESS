@@ -77,6 +77,7 @@ public class NoteService {
 	}
 
 	public int delete(String noteId) {
+		alarmDao.deleteGroupByNoteId(noteId);
 		return noteDao.deleteNote(noteId);
 	}
 

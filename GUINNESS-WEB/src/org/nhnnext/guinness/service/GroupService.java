@@ -67,6 +67,7 @@ public class GroupService {
 			throw new UnpermittedDeleteGroupException();
 		}
 		groupDao.deleteGroup(groupId);
+		alarmDao.deleteGroupByGroupId(groupId);
 	}
 
 	public void inviteGroupMember(String sessionUserId, String userId, String groupId)
