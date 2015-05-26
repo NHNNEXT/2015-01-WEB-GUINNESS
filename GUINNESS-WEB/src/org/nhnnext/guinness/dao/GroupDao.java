@@ -129,4 +129,14 @@ public class GroupDao extends JdbcDaoSupport {
 			return new ArrayList<Map<String, Object>>();
 		}
 	}
+
+	public String findGroupCaptianUserId(String groupId) {
+		String sql = "select * from GROUPS where groupId = ?";
+		try {
+			return getJdbcTemplate().queryForObject(sql, (rs, rowNum) -> new Group(rs.getString("groupId"), rs.getString("groupName"), rs
+					.getString("groupCaptainUserId"), rs.getString("isPublic"), rs.getString("groupImage")), groupId).getGroupCaptainUserId();
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
 }

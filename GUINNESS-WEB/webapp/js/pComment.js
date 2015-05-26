@@ -25,16 +25,32 @@ var pComment = {
 
 pComment.appendPComment = function (json) {
     console.log(json);
+    var date = guinness.util.koreaDate(Number(new Date(json.pCommentCreateDate)));
+    var pCommentList = document.body.querySelector(".pCommentList");
+        
+    var elPComment = document.querySelector(".aPCommentTemplate").text;
+    
+    elPComment = elPComment.replace("pId", json.pId)
+                .replace("pCommentId", json.pCommentId)
+                .replace("sameSenCount", json.sameSenCount)
+                .replace("sameSenIndex", json.sameSenIndex)
+                .replace("userImage", "/img/profile/"+json.sessionUser.userImage)
+                .replace("userId", "("+json.sessionUser.userId+")")
+                .replace("userName", json.sessionUser.userName)
+                .replace("pCommentText", json.pCommentText)
+                .replace("createDate", json.pCommentCreateDate);
+    //.replace("selectedText", json.selectedText)
+    
+    pCommentList.insertAdjacentHTML("beforeend", elPComment);
 }
 
 function selectText() {
-    var select = "";
-    if (document.getSelection) {
-        select = document.getSelection();
-    } else if (document.selection) {
-        select = document.selection.createRange().text;
-    }
-    var selectedText = select.toString();
+    var select = document.getSelection();
+    var range = select.getRangeAt(0);
+    var content = range.cloneContents();
+    var span = document.createElement('SPAN');
+    span.appendChild(content);
+    var selectedText = span.innerHTML;
     if (selectedText.length > 0) {
         return selectedText;
     }
@@ -56,9 +72,12 @@ function createPopupPCommentBtn() {
         pCommentBox.style.display = "block";
         pCommentBox.style.top = e.target.style.top;
         pCommentBox.style.left = e.target.style.left;
-
         pCommentBox.querySelector(".inputP").focus();
         pCommentBox.addEventListener('dragend', dragEnd, false);
+        
+        var noteContent = document.body.querySelector(".markdown-body .note-content");
+        noteContent.style.float = "left";
+        createPCommentListBox(pComment.pId, noteContent);
     }, false);
 }
 
@@ -92,8 +111,20 @@ function _createPCommentBox () {
         document.body.querySelector(".inputP").innerText = "";
         document.body.querySelector(".highlighted").className = "none";
         document.body.querySelector(".note-content").innerHTML = document.body.querySelector(".hidden-note-content").value;
+        pCommentListRemover();
     }, false);
+}
 
+function createPCommentListBox (pId, noteContent) {
+    var pCommentList = document.querySelector(".pCommentListTemplate").text;
+    noteContent.insertAdjacentHTML("afterend", pCommentList);
+    document.body.querySelector("#pCommentBoxCancel").addEventListener('click', pCommentListRemover, false);
+}
+
+function pCommentListRemover() {
+    document.body.querySelector(".pCommentListBox").remove();
+    var noteContent = document.body.querySelector(".markdown-body .note-content");
+    noteContent.style.float = "";
 }
 
 function createPComment () {
@@ -150,11 +181,6 @@ function setPopupPCommentBtn() {
         var selectedText = selectText();
         var selectedElClass = window.getSelection().getRangeAt(0).commonAncestorContainer;
         if (selectedText && selectedElClass.className !== "note-content") {
-            //medium style 코멘트 팝업 버튼 위치 선정. <- 이것이 더 나은지?
-            //var selectedRect = window.getSelection().getRangeAt(0).getBoundingClientRect();
-            //elPopupBtn.style.top = (selectedRect.top-30) + "px";
-            //elPopupBtn.style.left = ((selectedRect.left+selectedRect.right)/2)-31 + "px";
-            
             elPopupBtn.style.top = top + "px";
             elPopupBtn.style.left = left + "px";
 
@@ -206,7 +232,6 @@ function getSameSentence (pComment, selectedText, selection) {
     }
     pComment.sameSenCount = sameTexts.length;
 
-    //TODO selection에 하일라이팅 하기.
     var span = document.createElement("SPAN");
     span.innerHTML = getSelection();
     span.className = "highlighted";

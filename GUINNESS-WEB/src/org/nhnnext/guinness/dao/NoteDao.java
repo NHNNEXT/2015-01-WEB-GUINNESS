@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
+import org.nhnnext.guinness.model.Preview;
 import org.nhnnext.guinness.model.User;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -101,5 +102,10 @@ public class NoteDao extends JdbcDaoSupport {
 		} catch (EmptyResultDataAccessException e) {
 			return new ArrayList<Map<String, Object>>();
 		}
+	}
+
+	public List<String> readNotesByDate(String groupId, String startDate, String lastDate) {
+		String sql = "SELECT * FROM NOTES WHERE groupId = ? and noteTargetDate >= ? and noteTargetDate <= ?";
+		return getJdbcTemplate().query(sql, (rs, rowNum) -> new String(rs.getString("noteTargetDate").substring(0, 19)), groupId, startDate, lastDate);
 	}
 }

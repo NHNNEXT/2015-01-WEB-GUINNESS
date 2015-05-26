@@ -2,10 +2,10 @@ html, body {
 	margin:0;
 	padding:0;
 	font-family:'Nanum Gothic';
-	color:#454545;
+	color:dimgrey;
 	height:100%;
 	transition-duration:.3s;
-	background-color: #e9eaed;
+	background-color: rgb(250, 250, 250);
 }
 
 ul {
@@ -48,14 +48,86 @@ input.text {
 	background: #A0FF00;
 }
 
+.note-content {
+    width: 640px;
+    margin: 0 auto;
+    padding: 5px;
+    min-height: 260px;
+}
+
+#pCommentBoxCancel {
+  float: left;
+  margin-left: 10px;
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.pCommentCreateDate {
+  font-size: 10px !important;
+  color: gray;
+  font-weight: 100;
+  top: -7px !important;
+}
+
+.controll {
+  font-size: 13px;
+  position: relative;
+  top: 4px;
+  left: 172px;
+}
+
+.controll > a.update {
+  margin-right: 5px;
+}
+
+.pComment-text {
+    outline: 1px solid #96CEDF;
+  width: 235px;
+  display: block;
+  max-width: 228px;
+  clear: both;
+  position: relative;
+  top: 4px;
+  padding: 3px;
+  font-size: 14px;
+  font-family: serif;
+}
+
+.pCommentList {
+    list-style: none;
+}
+
+.aPComment .userProfile > img {
+  width: 35px;
+  height: 35px;
+  border-radius: 2px;
+    float: left;
+}
+
+.userProfile > div span {
+  font-size: 13px;
+  color: gray;
+}
+
+.userProfile > div {
+  float: left;
+  margin-left: 4px;
+  margin-right: 4px;
+  font-size: 15px;
+  position: relative;
+  top: -4px;
+  font-weight: 400;
+}
+
+.pCommentListBox {
+  width: 240px;
+  max-height: 500px;
+  background: aliceblue;
+  float: right;
+}
+
 #allShow {
-  position:relative;
-  border: 0;
   top:-10px;
-  border-bottom:2px solid black;
-  background-color:#74AFAD;
-  border-bottom:2px solid #619493;
-  color:white;
   outline:none;
 }
 
@@ -66,6 +138,8 @@ input.text {
 #allShow:active {
     background-color:cadetblue;
 }
+
+
 
 .code {
     color:darkgreen;
@@ -108,6 +182,25 @@ input.text {
 	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 	box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+}
+
+.userProfile {
+  float: left;
+  width: 230px;
+}
+
+.aPComment {
+  width: 238px;
+  display: block;
+  float: left;
+  clear: both;
+  margin-left: -31px;
+  background-color: white;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+  padding: 4px;
 }
 
 .pCommentBox .inputP {
@@ -286,11 +379,11 @@ a#escape-note {
 }
 
 .attention {
-	color: red;
+	color: rgb(255, 133, 133);
 }
 
 .question {
-	color: #FFA500;
+	color: #FFD68B;
 }
 
 #noteTextBox {
@@ -317,7 +410,7 @@ form#notes-create-form {
 
 #editorTools {
 	width: 100%;
-	background-color: gray;
+	background-color: rgb(124, 196, 181);
 	text-align: left;
 	margin: 0 auto;
 }
@@ -437,10 +530,10 @@ form#notes-create-form {
 	position:relative;
 	display:inline;
 	color: white;
-	background-color:#74AFAD;
+	background-color:rgb(124, 196, 181);
 	top:-2px;
 	border:0;
-	border-bottom:2px solid #619493;
+	border-bottom:2px solid rgb(124, 196, 181);
 	width:20%;
 }
 
@@ -462,8 +555,7 @@ a {
 }
 
 .headerBackground {
-  background-color: black;
-  opacity: .4;
+  background-color: rgb(124, 196, 181);
   width: 100%;
   height: 39px;
   position:fixed;
@@ -708,7 +800,7 @@ div#calendar {
 }
 
 .btn-pm {
-	background-color: #74afad;
+	background-color: rgb(124, 196, 181);
 	float: right;
 }
 
@@ -748,10 +840,10 @@ textarea#commentText {
 #group-name {
 	font-weight:500;
 	font-size:25px;
-	border-left:5px solid rgb(93, 129, 128);
+	border-left:5px solid rgb(124, 196, 181);
 	color:white;
 	padding-left:10px;
-	background-color: rgba(0, 0, 0, .18);
+	background-color: rgb(156, 209, 199);
     border-radius: 2px;
     padding: 2px 12px 5px 12px;
 }
@@ -759,7 +851,7 @@ textarea#commentText {
 span.sDate {
   color: white;
   padding-left: 10px;
-  background-color: rgba(0, 0, 0, .18);
+  background-color: rgb(156, 209, 199);
   border-radius: 2px;
   padding: 2px 6px 5px 6px;
 }
@@ -773,13 +865,13 @@ span.sDate {
 	border-radius: 2px;
 	margin: 5px;
 	cursor: pointer;
-	background-color: #454545;
+	background-color: rgb(156, 209, 199);
 	color: white;
 	position: relative;
 }
 
 .group-list li:hover {
-	background-color: #615F5F;
+	background-color: rgb(190, 226, 219);
 }
 
 .group-list li#create-new {
@@ -1124,6 +1216,7 @@ span.sDate {
 	list-style: none;
 	border-top: 2px solid #f8f8f8;
 	font-size: 13px;
+    clear: both;
 }
 
 #commentListUl li {

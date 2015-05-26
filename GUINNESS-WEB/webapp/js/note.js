@@ -351,29 +351,38 @@ function isJoinedUser() {
             return true;
         }
     }
+    document.querySelector(".addMemberTitle").style.display="none";
+    document.querySelector("#addMemberForm .inputText").style.display="none";
+    document.querySelector("#addMemberForm .inputText").value=sessionUserId;
+    document.querySelector("#addMemberForm .inputBtn").value="가입하기";
     return false;
 }
 
 function addMember() {
-    var sessionUserId = document.getElementById("sessionUserId").value;
-    var userId = document.querySelector('#addMemberForm input[name="userId"]').value;
+	var sessionUserId = document.getElementById("sessionUserId").value;
+	var userId = document.querySelector('#addMemberForm input[name="userId"]').value;
     var alert = document.querySelector(".addMemberAlert");
     alert.style.visibility = "hidden";
     alert.style.color = "#ff5a5a";
     alert.style.fontSize = "11px";
-    if (!bJoinedUser) {
-        alert.style.visibility = "visible";
-        alert.innerHTML = "권한이 없습니다. </br>그룹 가입을 요청하세요.";
-        return;
-    }
     if (userId.trim() === "") {
         alert.style.visibility = "visible";
         alert.innerHTML = "초대할 멤버의 아이디를 입력하세요.";
         return;
     }
+
+    if(!bJoinedUser){
+    	var url = "/groups/members/join";
+    	var message = "가입 요청을 보냈습니다.";
+    }
+    else{
+    	var url = "/groups/members/invite";
+    	var message = "초대 요청을 보냈습니다.";
+    }
+    
     guinness.ajax({
         method: "post",
-        url: "/groups/members/invite",
+        url: url,
         param: "userId=" + userId + "&groupId=" + groupId + "&sessionUserId=" + sessionUserId,
         success: function (req) {
             var json = JSON.parse(req.responseText);
@@ -382,19 +391,24 @@ function addMember() {
                 alert.style.color = "#ff5a5a";
                 alert.style.fontSize = "11px";
                 alert.innerHTML = json.message;
-                document.querySelector('#addMemberForm input[name="userId"]').value = "";
+                if(bJoinedUser){
+                	document.querySelector('#addMemberForm input[name="userId"]').value = "";
+                }
                 return;
             } else {
                 alert.style.visibility = "visible";
                 alert.style.color = "#86E57F";
                 alert.style.fontSize = "11px";
-                alert.innerHTML = "초대 요청을 보냈습니다.";
-                document.querySelector('#addMemberForm input[name="userId"]').value = "";
+                alert.innerHTML = message;
+                if(bJoinedUser){
+                	document.querySelector('#addMemberForm input[name="userId"]').value = "";
+                }
                 return;
             }
         }
     });
 }
+
 
 var member;
 
