@@ -1,5 +1,6 @@
 package org.nhnnext.guinness.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -113,5 +114,29 @@ public class GroupDao extends JdbcDaoSupport {
 	public void updateGroup(Group group) {
 		String sql = "update GROUPS set groupName = ?, groupCaptainUserId = ?, isPublic = ?, groupImage = ? where groupId = ?";
 		getJdbcTemplate().update(sql, group.getGroupName(), group.getGroupCaptainUserId(), group.getStatus(), group.getGroupImage(), group.getGroupId());
+	}
+	
+	public List<Map<String, Object>> searchQueryForMap (String... keywords) {
+		String query = "";
+		for (String keyword : keywords) {
+			query += " OR groupName like \"%" + keyword + "%\"";
+		}
+		
+		String sql = "SELECT * FROM GROUPS AS G WHERE ("+ query.substring(3) +") AND isPublic = 'T'";
+		try {
+			return getJdbcTemplate().queryForList(sql);
+		} catch (EmptyResultDataAccessException e) {
+			return new ArrayList<Map<String, Object>>();
+		}
+	}
+
+	public String findGroupCaptianUserId(String groupId) {
+		String sql = "select * from GROUPS where groupId = ?";
+		try {
+			return getJdbcTemplate().queryForObject(sql, (rs, rowNum) -> new Group(rs.getString("groupId"), rs.getString("groupName"), rs
+					.getString("groupCaptainUserId"), rs.getString("isPublic"), rs.getString("groupImage")), groupId).getGroupCaptainUserId();
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 }

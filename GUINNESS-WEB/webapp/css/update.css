@@ -41,6 +41,7 @@
 	display: block;
 	font-size: 12px;
 	color: #9e9ea6;
+	padding-top: 5px;
 }
 
 .update-form span.info strong {
@@ -48,6 +49,6 @@
 }
 
 #delete-group-btn {
-	background: red; 
+	background: rgb(255, 128, 128); 
 	margin: 0px;
 }

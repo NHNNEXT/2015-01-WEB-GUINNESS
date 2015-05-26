@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script src="/js/search.js"></script>
+<script src="/js/note.js"></script>
 <script src="/js/guinness.js"></script>
 <c:if test="${empty sessionUser.userId}">
 	<c:redirect url="/" />
@@ -41,23 +42,41 @@
 
 <script type="template" class="searchFormTemplate">
   <section>
+	<div id='search-groups-container' style='display:none; border-bottom:1px solid #ccc; padding-bottom:2px;'>
+		<span class='label'>그룹</span><ul class='search-groups'></ul>
+	</div>
+	<div id='search-notes-container' style='display:none;'>
+		<span class='label'>노트</span><ul class='search-notes'></ul>
+	</div>
   </section>
 </script>
 
-<script type="template" class="searchResultTemplate">
-	<div class="searchResultNoteId" href="#">
+<template type="template" id="searchResultTemplate">
+	<div class="searchResultBody">
 		<div class="searchResultText"></div>
 		<span class="searchResultName"></span>
-		<br />
+		<br/>
 		<span class="searchResultDate"></span>
-		<br /><span class="spanOnSearch"> on </span>
+		<br/><span class="spanOnSearch"> on </span>
 		<span class="searchResultGroup"></span>
 	</div>
-</script>
+</template>
+
+<template type="template" id="groupResultTemplate">
+	<div class="searchResultBody">
+		<span class="searchResultName"></span>
+		<br/>
+		<div>
+			그룹관리자:
+			<span class="searchResultCaptain"></span>
+		</div>
+		<br/>
+		<span class="searchResultDate"></span>
+	</div>
+</template>
 
 <script>
 getAlarms();
-
 function getAlarms(){
 	guinness.ajax({
 		method:"get",
@@ -65,29 +84,35 @@ function getAlarms(){
 		success: function(req) {
 			var noteAlarmList = JSON.parse(req.responseText).note.mapValues;
 			var groupAlarmList = JSON.parse(req.responseText).group.mapValues;
-			if (noteAlarmList.length + groupAlarmList.length !== 0) {
-				document.querySelector(".alarm-count").style.display = "block";
-				document.querySelector(".alarm-count").innerHTML = noteAlarmList.length + groupAlarmList.length;
+			if(noteAlarmList.length + groupAlarmList.length === 0) {
+				document.querySelector(".alarm-count").style.display = "none";
+				if(document.querySelector(".group-card .alarm-count") !== null) {
+					document.querySelector(".group-card .alarm-count").style.display = "none";
+				}
+				return;
 			}
+			
+			document.querySelector(".alarm-count").style.display = "block";
+			document.querySelector(".alarm-count").innerHTML = noteAlarmList.length + groupAlarmList.length;
 			var alarmListContainer = document.querySelector(".alarm-list");
 			alarmListContainer.innerHTML = "";
 			for (alarm of groupAlarmList) {
 				var alarmContent = "";
+				var onclickFunction = "";
 				if(alarm.alarmStatus === "I") {
 					alarmContent = "<a href='#'>"+alarm.userName+"님이 \""+ alarm.groupName + "\"그룹에 초대하였습니다."+ "</a>";
+					onclickFunction = "groupAlarmSelect(this, \""+alarm.calleeId+"\", \""+alarm.groupId+"\", \""+alarm.alarmStatus+"\")";
 				}
-				/* if(alarm.alarmStatus === "A") {
-						alarmContent = "<a href='#'>"+alarm.userName+"님이 \""+ alarm.groupName + "\"그룹 초대를 수락하였습니다."+ "</a>";
+				if(alarm.alarmStatus === "J") {
+					alarmContent = "<a href='#'>"+alarm.userName+"님이 \""+ alarm.groupName + "\"그룹에 가입 요청하였습니다."+ "</a>";
+					onclickFunction = "groupAlarmSelect(this, \""+alarm.callerId+"\", \""+alarm.groupId+"\", \""+alarm.alarmStatus+"\")";
 				}
-				if(alarm.alarmStatus === "R") {
-						alarmContent = "<a href='#'>"+alarm.userName+"님이 \""+ alarm.groupName + "\"그룹 초대를 거절하였습니다."+ "</a>";
-				} */
 				alarmListContainer.appendChild(
 						guinness.createElement({
 							name: "li",
 							attrs: {
 								id:"alarm-"+alarm.alarmId,
-								onclick: "groupAlarmSelect(this, \""+alarm.calleeId+"\", \""+alarm.groupId+"\", \""+alarm.alarmStatus+"\")"
+								onclick: onclickFunction
 							},
 							content: alarmContent
 						})
@@ -123,7 +148,9 @@ function noteAlarmSelect(t, noteId, alarmStatus){
 			if (result.success !== true) {
 				return;
 			}
-			window.location.href="/search/n/" + noteId;
+			getAlarms();
+			readNoteContents(noteId);
+			guinness.util.setModalPosition();
 		}
 	});
 }
@@ -139,9 +166,14 @@ function groupAlarmSelect(t, userId, groupId, alarmStatus){
 			}
 		 	if(alarmStatus === "I"){
 		 		guinness.util.alert("그룹 멤버 초대", "초대를 수락하시겠습니까?", function(){
-		 			joinGroupMember(userId, groupId);
+		 			joinGroupMember(userId, groupId, alarmStatus);
 		 		}, function(){
-		 			// 신청한 사람에게 거부 의사 알리기.
+		 		});
+		 	}
+		 	if(alarmStatus === "J"){
+		 		guinness.util.alert("그룹 가입 승인", "그룹 가입을 승인하시겠습니까?", function(){
+		 			joinGroupMember(userId, groupId, alarmStatus);
+		 		}, function(){
 		 		});
 		 	}
 		 	getAlarms();
@@ -168,7 +200,7 @@ function appendGroupCard(groupId){
 	});
 }
 
-function joinGroupMember(userId, groupId) {
+function joinGroupMember(userId, groupId, alarmStatus) {
 	guinness.ajax({
 			method : "post",
 			url : "/groups/members/accept",
@@ -178,13 +210,17 @@ function joinGroupMember(userId, groupId) {
 				if (json.success === false) {
 					guinness.util.alert("멤버초대 실패", json.message);
 				} else {
-					if(document.querySelector("#group-container") !== null){
-						appendGroupCard(groupId);
+					if(alarmStatus === 'I'){
+						if(document.querySelector("#group-container") !== null){
+							appendGroupCard(groupId);
+						}
+		 				guinness.util.alert("알림", "그룹에 가입되었습니다.");
 					}
-		 			guinness.util.alert("알림", "그룹에 가입되었습니다.");
+					if(alarmStatus === 'J'){
+		 				guinness.util.alert("알림", "그룹 가입이 승인되었습니다.");
+					}
 				}
 			}
 		});
 }
-
 </script>

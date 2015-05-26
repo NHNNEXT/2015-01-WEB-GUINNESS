@@ -76,7 +76,9 @@
         this.container.find('.calendar')
             .on('click.daterangepicker', '.prev', $.proxy(this.clickPrev, this))
             .on('click.daterangepicker', '.next', $.proxy(this.clickNext, this))
-            .on('click.daterangepicker', 'td.available', $.proxy(this.clickDate, this))
+            .on('click.daterangepicker', 'td.existNote', $.proxy(this.clickDate, this))
+//            .on('click.daterangepicker', 'td.off', $.proxy(this.clickDate, this))
+//            .on('click.daterangepicker', 'td.available', $.proxy(this.clickDate, this))
             .on('mouseenter.daterangepicker', 'td.available', $.proxy(this.hoverDate, this))
             .on('mouseleave.daterangepicker', 'td.available', $.proxy(this.updateFormInputs, this))
             .on('change.daterangepicker', 'select.yearselect', $.proxy(this.updateMonthYear, this))
@@ -764,6 +766,7 @@
                 this.rightCalendar.month.subtract(1, 'month');
             }
             this.updateCalendars();
+            getDateExistNotes(this.rightCalendar.month.year(), this.rightCalendar.month.month());
         },
 
         clickNext: function (e) {
@@ -774,6 +777,7 @@
                 this.rightCalendar.month.add(1, 'month');
             }
             this.updateCalendars();
+            getDateExistNotes(this.rightCalendar.month.year(), this.rightCalendar.month.month());
         },
 
         hoverDate: function (e) {
@@ -849,6 +853,9 @@
 
             if (this.singleDatePicker && !this.timePicker)
                 this.clickApply();
+            
+//            getDateExistNotes();
+            setNullCheck(nullCheckMonth);
         },
 
         clickApply: function (e) {
@@ -900,6 +907,7 @@
 
             this[leftOrRight+'Calendar'].month.month(month).year(year);
             this.updateCalendars();
+            getDateExistNotes(this.rightCalendar.month.year(), this.rightCalendar.month.month());
         },
 
         updateTime: function(e) {

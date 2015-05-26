@@ -272,6 +272,11 @@
   color: #999;
 }
 
+.daterangepicker td.noNote {
+  color: #eee;
+  cursor: no-drop;
+}
+
 .daterangepicker td.disabled, .daterangepicker option.disabled {
   color: #999;
 }
@@ -308,7 +313,7 @@
 .daterangepicker td.active, .daterangepicker td.active:hover {
   /*background-color: #357ebd;
   border-color: #3071a9;*/
-  background-color:#74afad;
+  background-color:#7CC4B5;
   border-color:#619493;
   color: #fff;
 }

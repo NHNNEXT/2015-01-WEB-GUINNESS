@@ -71,9 +71,6 @@ public class GroupService {
 
 	public void inviteGroupMember(String sessionUserId, String userId, String groupId)
 			throws FailedAddGroupMemberException, UnpermittedAccessGroupException {
-		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
-			throw new UnpermittedAccessGroupException("권한이 없습니다. 그룹 가입을 요청하세요.");
-		}
 		if (userDao.findUserByUserId(userId) == null)
 			throw new FailedAddGroupMemberException("사용자를 찾을 수 없습니다!");
 		if (groupDao.checkJoinedGroup(userId, groupId))
@@ -85,6 +82,16 @@ public class GroupService {
 		alarmDao.createGroupInvitation(alarm);
 	}
 
+	public void joinGroupMember(String sessionUserId, String groupId)
+			throws FailedAddGroupMemberException, UnpermittedAccessGroupException {
+		if (alarmDao.checkJoinedGroupAlarms(sessionUserId, groupId))
+			throw new FailedAddGroupMemberException("가입 승인 대기중 입니다!");
+		String groupUserCaptionId = groupDao.findGroupCaptianUserId(groupId);
+		Alarm alarm = new Alarm(createAlarmId(), "J", (new User(sessionUserId)).createSessionUser(), new User(groupUserCaptionId),
+				new Group(groupId));
+		alarmDao.createGroupInvitation(alarm);
+	}
+	
 	public User addGroupMember(String userId, String groupId) throws FailedAddGroupMemberException {
 		groupDao.createGroupUser(userId, groupId);
 		return userDao.findUserByUserId(userId);

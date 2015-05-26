@@ -43,7 +43,7 @@ public class AlarmDao extends JdbcDaoSupport {
 	}
 
 	public List<Map<String, Object>> listNotes(String calleeId) {
-		String sql = "select A.*, U.userName, G.groupName from NOTE_ALARMS as A, USERS as U, NOTES as N, GROUPS as G where A.calleeId=? and A.callerId=U.userId and A.noteId = N.noteId and N.groupId = G.groupId order by A.alarmCreateDate desc;";
+		String sql = "select A.*, U.userName, G.groupName, G.groupId from NOTE_ALARMS as A, USERS as U, NOTES as N, GROUPS as G where A.calleeId=? and A.callerId=U.userId and A.noteId = N.noteId and N.groupId = G.groupId order by A.alarmCreateDate desc;";
 		return getJdbcTemplate().queryForList(sql, calleeId);
 	}
 	
@@ -69,6 +69,12 @@ public class AlarmDao extends JdbcDaoSupport {
 
 	public boolean checkGroupAlarms(String userId, String groupId) {
 		String sql = "select count(*) from GROUP_ALARMS where calleeId = ? and groupId = ?";
+		if (getJdbcTemplate().queryForObject(sql, Integer.class, new Object[] { userId, groupId }) > 0)
+			return true;
+		return false;
+	}
+	public boolean checkJoinedGroupAlarms(String userId, String groupId) {
+		String sql = "select count(*) from GROUP_ALARMS where callerId = ? and groupId = ?";
 		if (getJdbcTemplate().queryForObject(sql, Integer.class, new Object[] { userId, groupId }) > 0)
 			return true;
 		return false;

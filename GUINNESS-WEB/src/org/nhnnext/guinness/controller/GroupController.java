@@ -17,6 +17,8 @@ import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.service.GroupService;
 import org.nhnnext.guinness.util.JsonResult;
 import org.nhnnext.guinness.util.ServletRequestUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @RequestMapping("/groups")
 public class GroupController {
+	private static final Logger logger = LoggerFactory.getLogger(GroupController.class);
 	@Resource
 	private GroupService groupService;
 
@@ -69,6 +72,18 @@ public class GroupController {
 		}
 		return new JsonResult().setSuccess(true);
 	}
+	
+	@RequestMapping(value = "/members/join", method = RequestMethod.POST)
+	protected @ResponseBody JsonResult joinGroupMember(@RequestParam String groupId,
+			@RequestParam String sessionUserId) throws FailedAddGroupMemberException {
+		try {
+			groupService.joinGroupMember(sessionUserId, groupId);
+		} catch (UnpermittedAccessGroupException e) {
+			return new JsonResult().setSuccess(false).setMessage(e.getMessage());
+		}
+		return new JsonResult().setSuccess(true);
+	}
+	
 
 	@RequestMapping(value = "/members/accept", method = RequestMethod.POST)
 	protected @ResponseBody JsonResult acceptGroupMember(@RequestParam String userId, @RequestParam String groupId)
@@ -104,6 +119,7 @@ public class GroupController {
 			throw new GroupUpdateExceptionIllegalPage("그룹장만이 그룹설정이 가능합니다.");
 		}
 		model.addAttribute("group", group);
+		model.addAttribute("members", groupService.groupMembers(groupId));
 		return "updateGroup";
 	}
 	

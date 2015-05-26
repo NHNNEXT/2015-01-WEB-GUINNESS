@@ -51,23 +51,22 @@
 		</div>
 
 		<div id="group-member-container" class="side-menu-container">
+			
 			<form id="addMemberForm">
-				<span style="font-weight:bold;">멤버추가</span><br/>
+				<span class="addMemberTitle" style="font-weight:bold;">멤버추가</span><br/>	
 				<input type="hidden" name="groupId">
 				<input class="inputText" type="text" name="userId">
 				<input class="inputBtn" type="submit" value="초대">
 				<span class="addMemberAlert" style="visibility:hidden;">멤버추가메세지</span>
 			</form>
+			
 			<div id="group-member-list">
 				<span style="font-weight:bold;">멤버관리</span><br/>
 				<table id="group-member">
 				</table>
 			</div>
-			<div style="padding:10px;">
-				<a href="#"><span id="leave-group" style="font-weight:bold;">그룹탈퇴하기</span></a>
-			</div>
 			<div>
-				<input id="groupSettingBtn"class="inputBtn" style="visibility:hidden; cursor: default; width: 30%; float:right;" type="submit" value="그룹설정" onclick="groupUpdate()">
+				<input id="groupSettingBtn"class="inputBtn" style="right: 10px; visibility:hidden; cursor: default; width: 30%; float:right;" type="submit" value="그룹설정" onclick="groupUpdate()">
 			</div>
 		</div>
 	</div>
@@ -129,6 +128,29 @@
 			<div class="setUp">확인</div>
 		</div>
     </script>
+        
+    <script type="template" class="pCommentListTemplate">
+        <div class="pCommentListBox">
+            <div id="pCommentBoxCancel"><i class="fa fa-thumb-tack"></i></div>
+            <ul class="pCommentList"></ul>
+        </div>
+    </script>
+        
+    <script type="template" class="aPCommentTemplate">
+        <li class="aPComment" id="pCommentId">
+            <input type="hidden" p-id="pId" sameCount="sameSenCount" sameIndex="sameSenIndex"/ selectText="selectedText">
+            <div class="userProfile">
+                <img src="userImage">
+                <div>userName<span>userId</span></div><br>
+                <div class="pCommentCreateDate">createDate</div>
+            </div>
+            <div class="pComment-text">pCommentText</div>
+            <div class="controll">
+                <a href="#" class="update">수정</a>
+                <a href="#" class="delete">삭제</a>
+            </div>
+        </li>
+    </script>
     
     <script type="template" id="popupCommentBtnTemplate">
     	<div class="popupCommentBtn">
@@ -162,12 +184,9 @@
 		appendNoteList(json);
 		appendMarkList(json);
 		var elCreateBtn = document.querySelector("#create-new-button");
+
 		
-		document.querySelector("#leave-group").addEventListener("mousedown",
-				function(e) {
-					e.preventDefault();
-					guinness.confirmLeave(groupId, groupName,"/groups/form");
-				}, false);
+		getDateExistNotes(); //test
 	}, false);
 	
 	window.addEventListener("scroll", function(e) {
@@ -190,8 +209,9 @@
 	    	name : "input",
 			attrs : {
 				id : "allShow",
+				class : "inputBtn",
 				type : "submit",
-				value : "전체보기",
+				value : "오늘",
 				onclick : "reloadNoteList()"
 			}
 	    });
@@ -199,7 +219,7 @@
 	});
 
 	document.querySelector("#calendar-container").addEventListener("click", function(e) {
-		if (e.target.getAttribute("class") === null || e.target.getAttribute("class").indexOf("available") === -1)
+		if (e.target.getAttribute("class") === null || e.target.getAttribute("class").indexOf("available") === -1 || e.target.getAttribute("class").indexOf("noNote") !== -1)
 			return;
 		var noteTargetDate = $("#defaultCalendar").data("daterangepicker").startDate._d.toISOString().substring(0,10)+ " 23:59:59";
 		reloadNoteList(noteTargetDate);
@@ -235,9 +255,10 @@
 			}
 			//dayChange
 			$(".calendar.first table tbody td.active").removeClass("active");
-			var days = $(".calendar.first table tbody td.available");
+			var days = $(".calendar.first table tbody td.existNote");
 			for (var i = 0; i < days.length; i++) {
-				if (days[i].textContent === date[2]) {
+				var day = (date[2] < 10) ? date[2].substring(1,2) : date[2];
+				if (days[i].textContent === day) {
 					days[i].className += " active";
 				}
 			}
@@ -247,6 +268,51 @@
 	function groupUpdate() {
 		window.location.href = "/groups/update/form/"+groupId;
 	}
+	
+	var nullCheckMonth;
+	function getDateExistNotes(year,month){ //;; select null exist notes day
+		var noteTargetYear = $("#defaultCalendar").data("daterangepicker").startDate._d.toISOString().substring(0,4);
+		var noteTargetMonth = $("#defaultCalendar").data("daterangepicker").startDate._d.toISOString().substring(5,7);
+		if(year !== undefined)
+			noteTargetYear = year;
+		if(month !== undefined)
+			noteTargetMonth = month+1;
+		var lastDate = ( new Date( noteTargetYear,noteTargetMonth, 1) ).toISOString().substring(0,10)+ " 23:59:59";
+		console.log(lastDate);
+		guinness.ajax({
+	        method: "get",
+	        url: "/notes/getNullDay/" + groupId + "/" + lastDate,
+	        success: function (req) {
+	            var json = JSON.parse(req.responseText);
+	            nullCheckMonth = json.objectValues;
+	            if (json.success === true) {
+	            	setNullCheck(nullCheckMonth);
+	            }
+	        }
+	    });
+	}
+	function setNullCheck(nullCheckMonth){
+		var td = document.querySelectorAll(".available");
+		var flagStart = false;
+		var i = 0;
+		for(t in td) {
+			   if(td[t].innerText === "1"){
+				   flagStart = true;
+			   }
+			   if(flagStart === true){
+				   if(nullCheckMonth[i] === true){
+					   td[t].className = td[t].className+" noNote";
+				   }
+				   else{
+					   td[t].className = td[t].className+" existNote";
+				   }
+				   i++;
+				  if(nullCheckMonth.length === i)
+					   break;
+			   }
+		}
+	}
+	
 	</script>
 	<script src="/js/note.js"></script>
 	<script src="/js/datepickr.js"></script>

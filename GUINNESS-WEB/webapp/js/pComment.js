@@ -24,17 +24,28 @@ var pComment = {
 };
 
 pComment.appendPComment = function (json) {
-    console.log(json);
+    var date = guinness.util.koreaDate(Number(new Date(json.pCommentCreateDate)));
+    var pCommentList = document.body.querySelector(".pCommentList");
+    var elPComment = document.querySelector(".aPCommentTemplate").text;
+    elPComment = elPComment.replace("pId", json.pId)
+                .replace("pCommentId", json.pCommentId)
+                .replace("sameSenCount", json.sameSenCount)
+                .replace("sameSenIndex", json.sameSenIndex)
+                .replace("userImage", "/img/profile/"+json.sessionUser.userImage)
+                .replace("userId", "("+json.sessionUser.userId+")")
+                .replace("userName", json.sessionUser.userName)
+                .replace("pCommentText", json.pCommentText)
+                .replace("createDate", json.pCommentCreateDate);
+    pCommentList.insertAdjacentHTML("beforeend", elPComment);
 }
 
 function selectText() {
-    var select = "";
-    if (document.getSelection) {
-        select = document.getSelection();
-    } else if (document.selection) {
-        select = document.selection.createRange().text;
-    }
-    var selectedText = select.toString();
+    var select = document.getSelection();
+    var range = select.getRangeAt(0);
+    var content = range.cloneContents();
+    var span = document.createElement('SPAN');
+    span.appendChild(content);
+    var selectedText = span.innerHTML;
     if (selectedText.length > 0) {
         return selectedText;
     }
@@ -45,20 +56,20 @@ function createPopupPCommentBtn() {
     var templatePopupBtn = document.querySelector("#popupCommentBtnTemplate").text;
     document.body.insertAdjacentHTML("beforeend", templatePopupBtn);
     _createPCommentBox();
-
     var popupCommentBtn = document.querySelector(".popupCommentBtn");
-
     mutateObserver(popupCommentBtn);
-
     popupCommentBtn.addEventListener('click', function (e) {
+        pCommentListRemover();
         e.target.style.display = "none";
         var pCommentBox = document.querySelector(".pCommentBox");
         pCommentBox.style.display = "block";
         pCommentBox.style.top = e.target.style.top;
         pCommentBox.style.left = e.target.style.left;
-
         pCommentBox.querySelector(".inputP").focus();
         pCommentBox.addEventListener('dragend', dragEnd, false);
+        var noteContent = document.body.querySelector(".markdown-body .note-content");
+        noteContent.style.float = "left";
+        createPCommentListBox(pComment.pId, noteContent, pComment.noteId);
     }, false);
 }
 
@@ -84,16 +95,42 @@ function _createPCommentBox () {
     var pCommentTemplate = document.querySelector(".pCommentTemplate").text;
     document.body.insertAdjacentHTML("beforeend", pCommentTemplate);
     var pCommentBox = document.body.querySelector(".pCommentBox");
-
     pCommentBox.querySelector(".setUp").addEventListener("click", createPComment, false);
-
     pCommentBox.querySelector("#pCommentCancel").addEventListener("click", function (e) {
         e.target.parentElement.parentElement.style.display = "none";
         document.body.querySelector(".inputP").innerText = "";
         document.body.querySelector(".highlighted").className = "none";
         document.body.querySelector(".note-content").innerHTML = document.body.querySelector(".hidden-note-content").value;
+        pCommentListRemover();
     }, false);
+}
 
+function createPCommentListBox (pId, noteContent, noteId) {
+    var pCommentList = document.querySelector(".pCommentListTemplate").text;
+    noteContent.insertAdjacentHTML("afterend", pCommentList);
+    document.body.querySelector("#pCommentBoxCancel").addEventListener('click', pCommentListRemover, false);
+    guinness.ajax({
+        method : "GET",
+        url : "/pComments?pId="+pId+"&noteId="+noteId,
+        success: function (req) {
+            var result = JSON.parse(req.responseText);
+            if (result.success !== true) {
+                return;
+            }
+            for(var index in result.objectValues ) {
+                pComment.appendPComment(result.objectValues[index]);
+            }
+        }
+    });
+}
+
+function pCommentListRemover() {
+    var pCommentListBox = document.body.querySelector(".pCommentListBox");
+    if (pCommentListBox !== null ) {
+        pCommentListBox.remove();
+    }
+    var noteContent = document.body.querySelector(".markdown-body .note-content");
+    noteContent.style.float = "";
 }
 
 function createPComment () {
@@ -150,11 +187,6 @@ function setPopupPCommentBtn() {
         var selectedText = selectText();
         var selectedElClass = window.getSelection().getRangeAt(0).commonAncestorContainer;
         if (selectedText && selectedElClass.className !== "note-content") {
-            //medium style 코멘트 팝업 버튼 위치 선정. <- 이것이 더 나은지?
-            //var selectedRect = window.getSelection().getRangeAt(0).getBoundingClientRect();
-            //elPopupBtn.style.top = (selectedRect.top-30) + "px";
-            //elPopupBtn.style.left = ((selectedRect.left+selectedRect.right)/2)-31 + "px";
-            
             elPopupBtn.style.top = top + "px";
             elPopupBtn.style.left = left + "px";
 
@@ -206,7 +238,6 @@ function getSameSentence (pComment, selectedText, selection) {
     }
     pComment.sameSenCount = sameTexts.length;
 
-    //TODO selection에 하일라이팅 하기.
     var span = document.createElement("SPAN");
     span.innerHTML = getSelection();
     span.className = "highlighted";
