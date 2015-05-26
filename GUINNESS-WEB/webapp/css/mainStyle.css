@@ -52,6 +52,7 @@ input.text {
     width: 640px;
     margin: 0 auto;
     padding: 5px;
+    min-height: 260px;
 }
 
 #pCommentBoxCancel {
@@ -59,6 +60,63 @@ input.text {
   margin-left: 10px;
   margin-top: 10px;
   font-size: 18px;
+}
+
+.pCommentCreateDate {
+  font-size: 10px !important;
+  color: gray;
+  font-weight: 100;
+  top: -7px !important;
+}
+
+.controll {
+  font-size: 13px;
+  position: relative;
+  top: 4px;
+  left: 172px;
+}
+
+.controll > a.update {
+  margin-right: 5px;
+}
+
+.pComment-text {
+    outline: 1px solid #96CEDF;
+  width: 235px;
+  display: block;
+  max-width: 228px;
+  clear: both;
+  position: relative;
+  top: 4px;
+  padding: 3px;
+  font-size: 14px;
+  font-family: serif;
+}
+
+.pCommentList {
+    list-style: none;
+}
+
+.aPComment .userProfile > img {
+  width: 35px;
+  height: 35px;
+  border-radius: 2px;
+    float: left;
+}
+
+.userProfile > div span {
+  font-size: 13px;
+  color: gray;
+}
+
+.userProfile > div {
+  float: left;
+  margin-left: 4px;
+  margin-right: 4px;
+  font-size: 15px;
+  position: relative;
+  top: -4px;
+  font-weight: 400;
 }
 
 .pCommentListBox {
@@ -80,6 +138,8 @@ input.text {
 #allShow:active {
     background-color:cadetblue;
 }
+
+
 
 .code {
     color:darkgreen;
@@ -124,6 +184,25 @@ input.text {
 	box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 }
 
+.userProfile {
+  float: left;
+  width: 230px;
+}
+
+.aPComment {
+  width: 238px;
+  display: block;
+  float: left;
+  clear: both;
+  margin-left: -31px;
+  background-color: white;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+  padding: 4px;
+}
+
 .pCommentBox .inputP {
 	-webkit-user-select: text;
 	-khtml-user-select: text;
@@ -163,29 +242,37 @@ input.text {
 	cursor:pointer;
 }
 
-.searchResultNoteId {
+.searchResult .label {
+	font-size:12px;
+	font-weight:bold;
+	padding:4px;
+}
+
+.searchResultBody {
 	width: 392px;
 	height: 62px;
 	margin-bottom: 2px;
 	border-radius: 2px;
 	padding: 4px;
-	float: left;
-    background-color: lightsteelblue;
+	font-size:12px;
+    background-color: white;
+    cursor:pointer;
 }
 
-.searchResultNoteId:hover {
-	background-color: #E8FB90;
+.searchResultBody:hover {
+	background-color: rgb(156, 209, 199);
 }
 
 .searchResultText {
 	width: 200px;
 	height: 52px;
-	border: 1px solid gray;
+	border-top:1px solid #ccc;
+	border-left:1px solid #ccc;
 	margin-bottom: 2px;
 	margin-right: 5px;
 	border-radius: 2px;
 	padding: 4px;
-	background-color: white;
+	background-color: #fafafa;
 	float: left;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -201,7 +288,6 @@ input.text {
 }
 
 .searchResultDate {
-    font-size: 11px; 
     color:darkslategray;
     font-weight: 200;
 }
@@ -566,13 +652,12 @@ a {
 .searchResult {
 	position: fixed;
 	background: #F6F6F6;
-	width: 416px;
 	max-height: 390px;
 	z-index: 200;
 	overflow-y: scroll;
 	display: none;
-	top : 0px;
-	left: 0px;
+	top : 0;
+	left: 0;
 }
 
 .onSearchForm>input {

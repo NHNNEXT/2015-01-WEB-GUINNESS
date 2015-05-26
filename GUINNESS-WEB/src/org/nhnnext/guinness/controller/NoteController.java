@@ -1,7 +1,9 @@
 package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -113,7 +115,7 @@ public class NoteController {
 		for (Element pTag : originpTags) {
 			originTextParagraph[k++] = pTag.text();
 		}
-		List<Map<String, Object>> pCommentList = pCommentService.list(noteId);
+		List<Map<String, Object>> pCommentList = pCommentService.listByNoteId( noteId);
 		pCommentList = ReconnectPComments.UpdateParagraphId(originTextParagraph, editedTextParagraph, pCommentList);
 		pCommentService.updateParagraphId(pCommentList);
 		noteService.update(noteText, noteId, DateTimeUtil.addCurrentTime(noteTargetDate));
@@ -150,5 +152,10 @@ public class NoteController {
 	private @ResponseBody JsonResult preview(@RequestParam String markdown) throws IOException {
 		String html = new Markdown().toHTML(markdown);
 		return new JsonResult().setSuccess(true).setMessage(html);
+	}
+	
+	@RequestMapping(value = "/notes/getNullDay/{groupId}/{lastDate}")
+	private @ResponseBody JsonResult readNullDay(@PathVariable String groupId, @PathVariable String lastDate) throws IOException, ParseException {
+		return new JsonResult().setSuccess(true).setObjectValues(noteService.readNullDay(groupId, lastDate));
 	}
 }

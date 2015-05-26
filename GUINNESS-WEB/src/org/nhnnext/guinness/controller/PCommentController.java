@@ -45,9 +45,9 @@ public class PCommentController {
 		}
 	}
 
-	@RequestMapping("/{noteId}")
-	protected @ResponseBody JsonResult list(@PathVariable String noteId) {
-		return new JsonResult().setSuccess(true).setMapValues(pCommentService.list(noteId));
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	protected @ResponseBody JsonResult list(@PathVariable String pId, @PathVariable String noteId) {
+		return new JsonResult().setSuccess(true).setMapValues(pCommentService.list(pId, noteId));
 	}
 
 	@RequestMapping(value = "/{pCommentId}", method = RequestMethod.PUT)

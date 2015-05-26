@@ -24,7 +24,6 @@ var pComment = {
 };
 
 pComment.appendPComment = function (json) {
-    console.log(json);
     var date = guinness.util.koreaDate(Number(new Date(json.pCommentCreateDate)));
     var pCommentList = document.body.querySelector(".pCommentList");
         
@@ -35,11 +34,10 @@ pComment.appendPComment = function (json) {
                 .replace("sameSenCount", json.sameSenCount)
                 .replace("sameSenIndex", json.sameSenIndex)
                 .replace("userImage", "/img/profile/"+json.sessionUser.userImage)
-                .replace("userId", json.sessionUser.userId)
+                .replace("userId", "("+json.sessionUser.userId+")")
                 .replace("userName", json.sessionUser.userName)
-                .replace("pCommentText", json.pCommentText);
-    //.replace("selectedText", json.selectedText)
-    
+                .replace("pCommentText", json.pCommentText)
+                .replace("createDate", json.pCommentCreateDate);
     pCommentList.insertAdjacentHTML("beforeend", elPComment);
 }
 
@@ -66,6 +64,7 @@ function createPopupPCommentBtn() {
     mutateObserver(popupCommentBtn);
 
     popupCommentBtn.addEventListener('click', function (e) {
+        pCommentListRemover();
         e.target.style.display = "none";
         var pCommentBox = document.querySelector(".pCommentBox");
         pCommentBox.style.display = "block";
@@ -102,9 +101,7 @@ function _createPCommentBox () {
     var pCommentTemplate = document.querySelector(".pCommentTemplate").text;
     document.body.insertAdjacentHTML("beforeend", pCommentTemplate);
     var pCommentBox = document.body.querySelector(".pCommentBox");
-
     pCommentBox.querySelector(".setUp").addEventListener("click", createPComment, false);
-
     pCommentBox.querySelector("#pCommentCancel").addEventListener("click", function (e) {
         e.target.parentElement.parentElement.style.display = "none";
         document.body.querySelector(".inputP").innerText = "";
@@ -118,10 +115,21 @@ function createPCommentListBox (pId, noteContent) {
     var pCommentList = document.querySelector(".pCommentListTemplate").text;
     noteContent.insertAdjacentHTML("afterend", pCommentList);
     document.body.querySelector("#pCommentBoxCancel").addEventListener('click', pCommentListRemover, false);
+    //TODO pId에 해당하는 모든 코멘트 불러오기.
+    guinness.ajax({
+        method : "GET",
+        url : "/pComments?pId="+pid+"&noteId=",
+    });
+    
+    // 가져온 코멘트 리스트를 화면에 뿌려준다.
+    //pComment.appendPComment
 }
 
 function pCommentListRemover() {
-    document.body.querySelector(".pCommentListBox").remove();
+    var pCommentListBox = document.body.querySelector(".pCommentListBox");
+    if (pCommentListBox !== null ) {
+        pCommentListBox.remove();
+    }
     var noteContent = document.body.querySelector(".markdown-body .note-content");
     noteContent.style.float = "";
 }

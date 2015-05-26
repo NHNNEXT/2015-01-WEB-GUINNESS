@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
+import org.nhnnext.guinness.model.Preview;
 import org.nhnnext.guinness.model.User;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -88,10 +89,10 @@ public class NoteDao extends JdbcDaoSupport {
 		getJdbcTemplate().update(sql, text, noteTargetDate, noteId);
 	}
 
-	public List<Map<String, Object>> searchQueryForMap(String userId, String... words) {
+	public List<Map<String, Object>> searchQueryForMap(String userId, String... keywords) {
 		String query = "";
-		for (String word : words) {
-			query += " OR N.noteText like \"%" + word + "%\"";
+		for (String keyword : keywords) {
+			query += " OR N.noteText like \"%" + keyword + "%\"";
 		}
 		String sql = "SELECT distinct noteId, noteText, noteTargetDate, N.userId, N.groupId, U.userName, G.groupName, N.commentCount FROM NOTES N LEFT JOIN USERS U ON N.userId = U.userId LEFT JOIN GROUPS G ON N.groupId = G.groupId LEFT JOIN GROUPS_USERS GU on GU.groupId = N.groupId WHERE "
 				+ query.substring(3)
@@ -101,5 +102,10 @@ public class NoteDao extends JdbcDaoSupport {
 		} catch (EmptyResultDataAccessException e) {
 			return new ArrayList<Map<String, Object>>();
 		}
+	}
+
+	public List<String> readNotesByDate(String groupId, String startDate, String lastDate) {
+		String sql = "SELECT * FROM NOTES WHERE groupId = ? and noteTargetDate >= ? and noteTargetDate <= ?";
+		return getJdbcTemplate().query(sql, (rs, rowNum) -> new String(rs.getString("noteTargetDate").substring(0, 19)), groupId, startDate, lastDate);
 	}
 }

@@ -48,6 +48,11 @@ public class PCommentDao extends JdbcDaoSupport {
 		return keyHolder.getKey().toString();
 	}
 
+	public List<Map<String, Object>> readListByPId(String pId, String noteId) {
+		String sql = "select * from PCOMMENTS, USERS where PCOMMENTS.userId = USERS.userId AND pId = ? AND noteId = ?";
+		return getJdbcTemplate().queryForList(sql, pId, noteId);
+	}
+	
 	public List<Map<String, Object>> readListByNoteId(String noteId) {
 		String sql = "select * from PCOMMENTS, USERS where PCOMMENTS.userId = USERS.userId AND noteId = ?";
 		return getJdbcTemplate().queryForList(sql, noteId);

@@ -94,10 +94,6 @@ function createGroup() {
 }
 
 function cancelGroupCreate() {
-	if (document.querySelector(".modal-cover input[name='groupName']").value != "") {
-		guinness.util.alert("취소","그룹 만들기를 취소하시겠습니까?", function(){ document.querySelector('.modal-cover').remove(); }, function(){});
-		return;
-	}
 	document.querySelector('.modal-cover').remove();
 }
 

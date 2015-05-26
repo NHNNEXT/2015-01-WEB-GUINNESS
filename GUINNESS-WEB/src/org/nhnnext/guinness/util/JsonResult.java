@@ -10,6 +10,7 @@ public class JsonResult<T> {
 	private Object object;
 	private List<T> objectValues;
 	private List<Map<String, Object>> mapValues;
+	private Map<String, List<Map<String, Object>>> listValues;
 
 	public JsonResult() {
 	}
@@ -44,6 +45,13 @@ public class JsonResult<T> {
 		return this;
 	}
 	
+	public JsonResult setListValues(Map<String, List<Map<String, Object>>> listValues) {
+		this.listValues = listValues;
+		return this;
+	}
+	
+	
+	
 	public boolean isSuccess() {
 		return success;
 	}
@@ -66,6 +74,10 @@ public class JsonResult<T> {
 	
 	public List<Map<String, Object>> getMapValues() {
 		return mapValues;
+	}
+	
+	public Map<String, List<Map<String, Object>>> getListValues() {
+		return listValues;
 	}
 
 	@Override
