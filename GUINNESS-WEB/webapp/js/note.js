@@ -233,7 +233,7 @@ function appendComment(json) {
         commentEl.querySelector('.avatar').setAttribute("src",
             "/img/profile/" + obj.userImage);
         if (userId === obj.userId) {
-            commentEl.querySelector('.comment-util').innerHTML = "<div class='default-utils'><a href='#' onclick='showEditInputBox(obj.commentId)'>수정</a><a href='#' onclick='deleteComment(obj.commentId)'>삭제</a></div>"
+            commentEl.querySelector('.comment-util').innerHTML = "<div class='default-utils'><a href='#' onclick='showEditInputBox("+obj.commentId+")'>수정</a><a href='#' onclick='deleteComment(obj.commentId)'>삭제</a></div>"
         }
     }
 

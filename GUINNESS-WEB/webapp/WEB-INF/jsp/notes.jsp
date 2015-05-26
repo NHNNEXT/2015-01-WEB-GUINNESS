@@ -131,6 +131,14 @@
 			<div class="setUp">확인</div>
 		</div>
     </script>
+        
+    <script type="template" class="pCommentListTemplate">
+        <div class="pCommentListBox">
+            <input type="hidden" pId="" />
+            <div id="pCommentBoxCancel"><i class="fa fa-toggle-off"></i></div>
+            <ul class="pCommentList"></ul>
+        </div>
+    </script>
     
     <script type="template" id="popupCommentBtnTemplate">
     	<div class="popupCommentBtn">
