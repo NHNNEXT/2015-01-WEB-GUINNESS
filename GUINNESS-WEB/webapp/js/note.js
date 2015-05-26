@@ -533,6 +533,7 @@ function reloadNoteList(noteTargetDate) {
             }
         }
     });
+    getDateExistNotes();
 }
 
 var infiniteScroll = function () {
