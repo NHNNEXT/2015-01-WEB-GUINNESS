@@ -24,7 +24,6 @@ var pComment = {
 };
 
 pComment.appendPComment = function (json) {
-    console.log(json);
     var date = guinness.util.koreaDate(Number(new Date(json.pCommentCreateDate)));
     var pCommentList = document.body.querySelector(".pCommentList");
         
@@ -39,7 +38,6 @@ pComment.appendPComment = function (json) {
                 .replace("userName", json.sessionUser.userName)
                 .replace("pCommentText", json.pCommentText)
                 .replace("createDate", json.pCommentCreateDate);
-    //.replace("selectedText", json.selectedText)
     
     pCommentList.insertAdjacentHTML("beforeend", elPComment);
 }
@@ -67,6 +65,7 @@ function createPopupPCommentBtn() {
     mutateObserver(popupCommentBtn);
 
     popupCommentBtn.addEventListener('click', function (e) {
+        pCommentListRemover();
         e.target.style.display = "none";
         var pCommentBox = document.querySelector(".pCommentBox");
         pCommentBox.style.display = "block";
@@ -103,9 +102,7 @@ function _createPCommentBox () {
     var pCommentTemplate = document.querySelector(".pCommentTemplate").text;
     document.body.insertAdjacentHTML("beforeend", pCommentTemplate);
     var pCommentBox = document.body.querySelector(".pCommentBox");
-
     pCommentBox.querySelector(".setUp").addEventListener("click", createPComment, false);
-
     pCommentBox.querySelector("#pCommentCancel").addEventListener("click", function (e) {
         e.target.parentElement.parentElement.style.display = "none";
         document.body.querySelector(".inputP").innerText = "";
@@ -122,7 +119,10 @@ function createPCommentListBox (pId, noteContent) {
 }
 
 function pCommentListRemover() {
-    document.body.querySelector(".pCommentListBox").remove();
+    var pCommentListBox = document.body.querySelector(".pCommentListBox");
+    if (pCommentListBox !== null ) {
+        pCommentListBox.remove();
+    }
     var noteContent = document.body.querySelector(".markdown-body .note-content");
     noteContent.style.float = "";
 }
