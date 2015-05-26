@@ -149,6 +149,7 @@ function noteAlarmSelect(t, noteId, alarmStatus){
 			if (result.success !== true) {
 				return;
 			}
+			loadGroupAlarm();
 			getAlarms();
 			readNoteContents(noteId);
 			guinness.util.setModalPosition();
