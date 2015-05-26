@@ -56,9 +56,12 @@ function createPopupPCommentBtn() {
         pCommentBox.style.display = "block";
         pCommentBox.style.top = e.target.style.top;
         pCommentBox.style.left = e.target.style.left;
-
         pCommentBox.querySelector(".inputP").focus();
         pCommentBox.addEventListener('dragend', dragEnd, false);
+        
+        var noteContent = document.body.querySelector(".markdown-body .note-content");
+        noteContent.style.float = "left";
+        createPCommentListBox(pComment.pId, noteContent);
     }, false);
 }
 
@@ -92,8 +95,16 @@ function _createPCommentBox () {
         document.body.querySelector(".inputP").innerText = "";
         document.body.querySelector(".highlighted").className = "none";
         document.body.querySelector(".note-content").innerHTML = document.body.querySelector(".hidden-note-content").value;
+        var noteContent = document.body.querySelector(".markdown-body .note-content");
+        noteContent.style.float = "";
+        document.body.querySelector(".pCommentListBox").remove();
     }, false);
+}
 
+function createPCommentListBox (pId, noteContent) {
+    console.log(11);
+    var pCommentList = document.querySelector(".pCommentListTemplate").text;
+    noteContent.insertAdjacentHTML("afterend", pCommentList);
 }
 
 function createPComment () {
