@@ -854,8 +854,8 @@
             if (this.singleDatePicker && !this.timePicker)
                 this.clickApply();
             
-//            getDateExistNotes();
-            setNullCheck(nullCheckMonth);
+            getDateExistNotes();
+//            setNullCheck(nullCheckMonth);
         },
 
         clickApply: function (e) {
