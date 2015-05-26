@@ -132,10 +132,24 @@
         
     <script type="template" class="pCommentListTemplate">
         <div class="pCommentListBox">
-            <input type="hidden" pId="" />
             <div id="pCommentBoxCancel"><i class="fa fa-toggle-off"></i></div>
             <ul class="pCommentList"></ul>
         </div>
+    </script>
+        
+    <script type="template" class="aPCommentTemplate">
+        <li class="aPComment" id="pCommentId">
+            <input type="hidden" p-id="pId" sameCount="sameSenCount" sameIndex="sameSenIndex"/ selectText="selectedText">
+            <div class="userPorofile">
+                <img src="userImage">
+                <div>userName<span>userId</span></div>
+            </div>
+            <div>pCommentText</div>
+            <div class="controll">
+                <span class="update">수정</span>
+                <span class="delete">삭제</span>
+            </div>
+        </li>
     </script>
     
     <script type="template" id="popupCommentBtnTemplate">

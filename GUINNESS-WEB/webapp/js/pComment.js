@@ -26,6 +26,21 @@ var pComment = {
 pComment.appendPComment = function (json) {
     console.log(json);
     var date = guinness.util.koreaDate(Number(new Date(json.pCommentCreateDate)));
+    var pCommentList = document.body.querySelector(".pCommentList");
+        
+    var elPComment = document.querySelector(".aPCommentTemplate").text;
+    
+    elPComment = elPComment.replace("pId", json.pId)
+                .replace("pCommentId", json.pCommentId)
+                .replace("sameSenCount", json.sameSenCount)
+                .replace("sameSenIndex", json.sameSenIndex)
+                .replace("userImage", "/img/profile/"+json.sessionUser.userImage)
+                .replace("userId", json.sessionUser.userId)
+                .replace("userName", json.sessionUser.userName)
+                .replace("pCommentText", json.pCommentText);
+    //.replace("selectedText", json.selectedText)
+    
+    pCommentList.insertAdjacentHTML("beforeend", elPComment);
 }
 
 function selectText() {
@@ -95,16 +110,20 @@ function _createPCommentBox () {
         document.body.querySelector(".inputP").innerText = "";
         document.body.querySelector(".highlighted").className = "none";
         document.body.querySelector(".note-content").innerHTML = document.body.querySelector(".hidden-note-content").value;
-        var noteContent = document.body.querySelector(".markdown-body .note-content");
-        noteContent.style.float = "";
-        document.body.querySelector(".pCommentListBox").remove();
+        pCommentListRemover();
     }, false);
 }
 
 function createPCommentListBox (pId, noteContent) {
-    console.log(11);
     var pCommentList = document.querySelector(".pCommentListTemplate").text;
     noteContent.insertAdjacentHTML("afterend", pCommentList);
+    document.body.querySelector("#pCommentBoxCancel").addEventListener('click', pCommentListRemover, false);
+}
+
+function pCommentListRemover() {
+    document.body.querySelector(".pCommentListBox").remove();
+    var noteContent = document.body.querySelector(".markdown-body .note-content");
+    noteContent.style.float = "";
 }
 
 function createPComment () {
