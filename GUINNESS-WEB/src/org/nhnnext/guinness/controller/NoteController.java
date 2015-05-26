@@ -21,6 +21,7 @@ import org.nhnnext.guinness.service.GroupService;
 import org.nhnnext.guinness.service.NoteService;
 import org.nhnnext.guinness.service.PCommentService;
 import org.nhnnext.guinness.service.PreviewService;
+import org.nhnnext.guinness.service.TempNoteService;
 import org.nhnnext.guinness.util.DateTimeUtil;
 import org.nhnnext.guinness.util.JsonResult;
 import org.nhnnext.guinness.util.Markdown;
@@ -49,7 +50,8 @@ public class NoteController {
 	private PreviewService previewService;
 	@Resource
 	private PCommentService pCommentService;
-	
+	@Resource
+	private TempNoteService tempNoteService;
 	
 	@RequestMapping("/g/{groupId}")
 	protected String initReadNoteList(@PathVariable String groupId, HttpSession session, Model model)
@@ -83,13 +85,15 @@ public class NoteController {
 
 	@RequestMapping(value = "/notes", method = RequestMethod.POST)
 	protected String create(@RequestParam String groupId, @RequestParam String noteText,
-			@RequestParam String noteTargetDate, HttpSession session, Model model) throws IOException,
+			@RequestParam String noteTargetDate, @RequestParam String tempNoteId, HttpSession session, Model model) throws IOException,
 			UnpermittedAccessGroupException {
+		logger.debug("tempNoteId : {}", tempNoteId);
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		if (noteText.equals("")) {
 			return "redirect:/notes/editor/g/" + groupId;
 		}
 		noteService.create(sessionUserId, groupId, noteText, DateTimeUtil.addCurrentTime(noteTargetDate));
+		tempNoteService.delete(tempNoteId);
 		return "redirect:/g/" + groupId;
 	}
 
@@ -137,6 +141,7 @@ public class NoteController {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		noteService.checkJoinedGroup(groupId, sessionUserId);
 		model.addAttribute("group", groupService.readGroup(groupId));
+		model.addAttribute("tempNotes", new Gson().toJson(tempNoteService.read(sessionUserId)));
 		return "editor";
 	}
 
@@ -145,6 +150,7 @@ public class NoteController {
 		Note note = noteService.readNote(noteId);
 		model.addAttribute("note", note);
 		model.addAttribute("group", groupService.readGroup(note.getGroup().getGroupId()));
+		model.addAttribute("tempNotes", new Gson().toJson(tempNoteService.read(note.getUser().getUserId())));
 		return "editor";
 	}
 
@@ -158,4 +164,30 @@ public class NoteController {
 	private @ResponseBody JsonResult readNullDay(@PathVariable String groupId, @PathVariable String lastDate) throws IOException, ParseException {
 		return new JsonResult().setSuccess(true).setObjectValues(noteService.readNullDay(groupId, lastDate));
 	}
+	
+	@RequestMapping(value = "/notes/temp", method = RequestMethod.POST)
+	private @ResponseBody JsonResult tempNoteCreate(@RequestParam String noteText,
+			@RequestParam String createDate, HttpSession session) throws IOException {
+		logger.debug("noteText : {}, createDate : {}", noteText, createDate);
+		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
+		long tempNoteId = tempNoteService.create(noteText, DateTimeUtil.addCurrentTime(createDate), sessionUserId);
+		return new JsonResult().setSuccess(true).setObject(tempNoteId);
+	}
+	
+	@RequestMapping("/notes/temp/{noteId}")
+	protected @ResponseBody JsonResult<Preview> tempNoteRead(@PathVariable long noteId) {
+		logger.debug("noteId:{}", noteId);
+		return new JsonResult().setSuccess(true).setObject(tempNoteService.readByNoteId(noteId));
+	}
+	
+	@RequestMapping(value = "/notes/temp", method = RequestMethod.PUT)
+	protected @ResponseBody JsonResult<Preview> tempNoteUpdate(@RequestParam long noteId, @RequestParam String noteText, 
+			@RequestParam String createDate) {
+		logger.debug("noteId:{}", noteId);
+		if(tempNoteService.update(noteId, noteText, DateTimeUtil.addCurrentTime(createDate))) {
+			return new JsonResult().setSuccess(true).setObject(tempNoteService.readByNoteId(noteId));
+		}
+		
+		return new JsonResult().setSuccess(false);
+	}	
 }

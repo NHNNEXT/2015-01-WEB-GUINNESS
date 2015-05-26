@@ -81,7 +81,6 @@ input.text {
 }
 
 .pComment-text {
-    outline: 1px solid #96CEDF;
   width: 235px;
   display: block;
   max-width: 228px;
@@ -120,11 +119,13 @@ input.text {
 }
 
 .pCommentListBox {
-  width: 240px;
-  max-height: 500px;
-  background: aliceblue;
-  float: right;
-    overflow: auto;
+    width: 240px;
+    max-height: 500px;
+    min-height: 200px;
+    background: aliceblue;
+    float: right;
+    overflow-y: auto;
+    overflow-x:hidden;
 }
 
 #allShow {
@@ -183,6 +184,7 @@ input.text {
 	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 	box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+    margin-bottom: 2px;
 }
 
 .userProfile {
@@ -360,6 +362,10 @@ a#escape-note {
 	width: 99px;
 	height: 19px;
 	background: gray;
+}
+
+.btn-temp {
+	float: left;
 }
 
 #previewBox {
