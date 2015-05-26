@@ -374,7 +374,7 @@ function addMember() {
 
     if(!bJoinedUser){
     	var url = "/groups/members/join";
-    	var message = "<br/>가입 요청을 보냈습니다.";
+    	var message = "가입 요청을 보냈습니다.";
     }
     else{
     	var url = "/groups/members/invite";
@@ -400,7 +400,7 @@ function addMember() {
                 alert.style.visibility = "visible";
                 alert.style.color = "#86E57F";
                 alert.style.fontSize = "11px";
-                alert.innerHTML = message;
+                alert.innerHTML = "<br/>"+message;
                 if(bJoinedUser){
                 	document.querySelector('#addMemberForm input[name="userId"]').value = "";
                 }
@@ -468,9 +468,6 @@ function appendMembers(json) {
     for (var i = 0; i < json.length; i++) {
         appendMember(json[i]);
     }
-//    if (!bJoinedUser) {
-//        document.getElementById("leave-group").style.visibility = "hidden";
-//    }
 }
 
 function onOffMemberNotes(flag, userId) {
