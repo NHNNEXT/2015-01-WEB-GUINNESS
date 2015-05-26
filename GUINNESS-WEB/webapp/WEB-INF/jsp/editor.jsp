@@ -50,6 +50,7 @@
 		<form id="noteForm" action="/notes" method="post">
 			<input type="hidden" id="hiddenGroupId" name="groupId"
 				value="${group.groupId}">
+			<input type="hidden" id="hiddenTempNoteId" name="tempNoteId">
 			<c:if test="${not empty noteId}">
 				<input type="hidden" name="_method" value="put">
 				<input type="hidden" name="noteId" value="${noteId}">

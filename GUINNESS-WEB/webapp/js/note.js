@@ -601,6 +601,7 @@ function loadTempNote(tempNoteId) {
             var result = JSON.parse(req.responseText);
             console.log(result.object);
             document.querySelector("#noteTextBox").value = result.object.noteText;
+            document.querySelector("#hiddenTempNoteId").value = result.object.noteId;
         }
     });
 }

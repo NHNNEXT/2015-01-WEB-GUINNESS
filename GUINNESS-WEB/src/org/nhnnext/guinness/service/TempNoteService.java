@@ -25,4 +25,8 @@ public class TempNoteService {
 	public Object readByNoteId(String noteId) {
 		return tempNoteDao.readByNoteId(noteId);
 	}
+
+	public void delete(String noteId) {
+		tempNoteDao.delete(noteId);
+	}
 }

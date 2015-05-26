@@ -83,13 +83,15 @@ public class NoteController {
 
 	@RequestMapping(value = "/notes", method = RequestMethod.POST)
 	protected String create(@RequestParam String groupId, @RequestParam String noteText,
-			@RequestParam String noteTargetDate, HttpSession session, Model model) throws IOException,
+			@RequestParam String noteTargetDate, @RequestParam String tempNoteId, HttpSession session, Model model) throws IOException,
 			UnpermittedAccessGroupException {
+		logger.debug("tempNoteId : {}", tempNoteId);
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		if (noteText.equals("")) {
 			return "redirect:/notes/editor/g/" + groupId;
 		}
 		noteService.create(sessionUserId, groupId, noteText, DateTimeUtil.addCurrentTime(noteTargetDate));
+		tempNoteService.delete(tempNoteId);
 		return "redirect:/g/" + groupId;
 	}
 
