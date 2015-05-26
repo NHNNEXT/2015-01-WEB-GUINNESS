@@ -45,7 +45,7 @@ public class TempNoteDao extends JdbcDaoSupport {
 	public List<TempNote> read(String userId) {
 		String sql = "select *from TEMP_NOTES where userId = ?";
 		return getJdbcTemplate().query(sql, (rs, rowNum) -> new TempNote(
-				rs.getString("noteId"), 
+				rs.getLong("noteId"), 
 				rs.getString("noteText"), 
 				rs.getString("createDate"), 
 				new User(rs.getString("userId"))), userId);

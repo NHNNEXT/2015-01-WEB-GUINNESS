@@ -1,24 +1,23 @@
 package org.nhnnext.guinness.model;
 
 public class TempNote {
-	private String noteId;
+	private long noteId;
 	private String noteText;
 	private String createDate;
 	private User user;
 	
-	public TempNote(String noteId, String noteText, String createDate, User user) {
+	public TempNote(long noteId, String noteText, String createDate, User user) {
 		this.noteId = noteId;
 		this.noteText = noteText;
 		this.createDate = createDate;
 		this.user = user;
 	}
 
-	public TempNote(String noteText, User user) {
-		this.noteText = noteText;
-		this.user = user;
+	public TempNote(String noteText, String createDate, User user) {
+		this(0, noteText, createDate, user);
 	}
 
-	public String getNoteId() {
+	public long getNoteId() {
 		return noteId;
 	}
 
@@ -34,7 +33,7 @@ public class TempNote {
 		return user;
 	}
 
-	public void setNoteId(String noteId) {
+	public void setNoteId(long noteId) {
 		this.noteId = noteId;
 	}
 

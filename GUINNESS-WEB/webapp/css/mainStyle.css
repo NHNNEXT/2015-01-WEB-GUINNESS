@@ -261,6 +261,10 @@ a#escape-note {
 	background: gray;
 }
 
+.btn-temp {
+	float: left;
+}
+
 #previewBox {
   margin: 0px;
   padding: 0px;

@@ -19,6 +19,7 @@ import org.nhnnext.guinness.service.GroupService;
 import org.nhnnext.guinness.service.NoteService;
 import org.nhnnext.guinness.service.PCommentService;
 import org.nhnnext.guinness.service.PreviewService;
+import org.nhnnext.guinness.service.TempNoteService;
 import org.nhnnext.guinness.util.DateTimeUtil;
 import org.nhnnext.guinness.util.JsonResult;
 import org.nhnnext.guinness.util.Markdown;
@@ -47,7 +48,8 @@ public class NoteController {
 	private PreviewService previewService;
 	@Resource
 	private PCommentService pCommentService;
-	
+	@Resource
+	private TempNoteService tempNoteService;
 	
 	@RequestMapping("/g/{groupId}")
 	protected String initReadNoteList(@PathVariable String groupId, HttpSession session, Model model)
@@ -150,5 +152,14 @@ public class NoteController {
 	private @ResponseBody JsonResult preview(@RequestParam String markdown) throws IOException {
 		String html = new Markdown().toHTML(markdown);
 		return new JsonResult().setSuccess(true).setMessage(html);
+	}
+	
+	@RequestMapping(value = "/notes/temp", method = RequestMethod.POST)
+	private @ResponseBody JsonResult tempSave(@RequestParam String noteText,
+			@RequestParam String createDate, HttpSession session) throws IOException {
+		logger.debug("noteText : {}, createDate : {}", noteText, createDate);
+		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
+		long tempNoteId = tempNoteService.create(noteText, DateTimeUtil.addCurrentTime(createDate), sessionUserId);
+		return new JsonResult().setSuccess(true).setObject(tempNoteId);
 	}
 }

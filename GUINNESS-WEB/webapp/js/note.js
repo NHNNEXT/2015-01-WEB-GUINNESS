@@ -555,3 +555,19 @@ var reloadWithoutDeleteNoteList = function (noteTargetDate) {
         }
     });
 }
+
+function tempSave() {
+    console.log("임시저장");
+    var noteText = document.querySelector("#noteTextBox").value;
+    var createDate = new Date().toISOString().slice(0, 10);
+    guinness.ajax({
+        method: "post",
+        url: '/notes/temp',
+        param: "noteText=" + noteText + "&createDate=" + createDate,
+        success: function (req) {
+            var result = JSON.parse(req.responseText);
+            console.log("tempNoteId : " + result.object);
+        }
+    });
+}
+

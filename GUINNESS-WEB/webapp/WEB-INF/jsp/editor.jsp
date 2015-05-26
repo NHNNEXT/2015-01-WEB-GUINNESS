@@ -47,6 +47,7 @@
 			<a id="escape-note" class="btn btn-pm" href="/g/${group.groupId}">취소</a> <input
 				type="submit" class="btn btn-pm" value="작성" />
 		</form>
+		<button class="btn btn-temp" onclick="tempSave();">임시저장</button>
 	</div>
 	<input id="hiddenGroupName" type="hidden" value="${group.groupName}" />
 

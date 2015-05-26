@@ -2,6 +2,7 @@ package org.nhnnext.guinness.dao;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -20,7 +21,8 @@ public class TempNoteDaoTest {
 
 	@Test
 	public void create() {
-		long tempNoteId = tempNoteDao.create((new TempNote("test", new User("y@y.y"))));
+		String createDate = LocalDate.now().toString();
+		long tempNoteId = tempNoteDao.create((new TempNote("test", createDate, new User("y@y.y"))));
 		System.out.println(tempNoteId);
 		assertNotNull(tempNoteId);
 	}
