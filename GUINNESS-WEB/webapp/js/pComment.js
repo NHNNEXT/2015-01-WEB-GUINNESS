@@ -38,7 +38,6 @@ pComment.appendPComment = function (json) {
                 .replace("userName", json.sessionUser.userName)
                 .replace("pCommentText", json.pCommentText)
                 .replace("createDate", json.pCommentCreateDate);
-    
     pCommentList.insertAdjacentHTML("beforeend", elPComment);
 }
 
@@ -116,6 +115,14 @@ function createPCommentListBox (pId, noteContent) {
     var pCommentList = document.querySelector(".pCommentListTemplate").text;
     noteContent.insertAdjacentHTML("afterend", pCommentList);
     document.body.querySelector("#pCommentBoxCancel").addEventListener('click', pCommentListRemover, false);
+    //TODO pId에 해당하는 모든 코멘트 불러오기.
+    guinness.ajax({
+        method : "GET",
+        url : "/pComments?pId="+pid+"&noteId=",
+    });
+    
+    // 가져온 코멘트 리스트를 화면에 뿌려준다.
+    //pComment.appendPComment
 }
 
 function pCommentListRemover() {
