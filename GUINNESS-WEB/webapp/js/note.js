@@ -575,7 +575,7 @@ function tempSave() {
                 var el = document.createElement("li");
                 el.innerHTML = "<a href='#' data-id='" + tempNote.noteId + "'>" + new Date() + "에 저장된 글이 있습니다</a>";
                 el.addEventListener("mousedown", function(e) {
-                    console.log(e.target.dataset.id);
+                    loadTempNote(e.target.dataset.id);
                 }, false);
                 dropdownMenu.appendChild(el);
             }
