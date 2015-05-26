@@ -1,0 +1,1 @@
+alter table COMMENTS drop column commentType;
