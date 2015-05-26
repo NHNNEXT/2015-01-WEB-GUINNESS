@@ -233,7 +233,7 @@ function appendComment(json) {
         commentEl.querySelector('.avatar').setAttribute("src",
             "/img/profile/" + obj.userImage);
         if (userId === obj.userId) {
-            commentEl.querySelector('.comment-util').innerHTML = "<div class='default-utils'><a href='#' onclick='showEditInputBox()'>수정</a><a href='#' onclick='deleteComment()'>삭제</a></div>"
+            commentEl.querySelector('.comment-util').innerHTML = "<div class='default-utils'><a href='#' onclick='showEditInputBox("+obj.commentId+")'>수정</a><a href='#' onclick='deleteComment(obj.commentId)'>삭제</a></div>"
         }
     }
 
@@ -274,6 +274,8 @@ function deleteComment(commentId) {
         success: function (req) {
             if (JSON.parse(req.responseText).success === true) {
             	document.querySelector('#cmt-' + commentId).remove();
+                // 주석 단 사람 : ybin
+                // TODO : 이곳에 noteId를 받아오는 부분이 없음.
             	document.getElementById(noteId).querySelector(".fa.fa-comments").innerHTML = " "+document.querySelector("#commentListUl").childElementCount;
             }
         }
