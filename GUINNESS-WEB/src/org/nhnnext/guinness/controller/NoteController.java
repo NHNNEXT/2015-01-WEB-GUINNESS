@@ -115,7 +115,7 @@ public class NoteController {
 		for (Element pTag : originpTags) {
 			originTextParagraph[k++] = pTag.text();
 		}
-		List<Map<String, Object>> pCommentList = pCommentService.list(noteId);
+		List<Map<String, Object>> pCommentList = pCommentService.listByNoteId( noteId);
 		pCommentList = ReconnectPComments.UpdateParagraphId(originTextParagraph, editedTextParagraph, pCommentList);
 		pCommentService.updateParagraphId(pCommentList);
 		noteService.update(noteText, noteId, DateTimeUtil.addCurrentTime(noteTargetDate));

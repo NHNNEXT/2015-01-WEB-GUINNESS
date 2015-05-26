@@ -119,6 +119,7 @@ public class GroupController {
 			throw new GroupUpdateExceptionIllegalPage("그룹장만이 그룹설정이 가능합니다.");
 		}
 		model.addAttribute("group", group);
+		model.addAttribute("members", groupService.groupMembers(groupId));
 		return "updateGroup";
 	}
 	

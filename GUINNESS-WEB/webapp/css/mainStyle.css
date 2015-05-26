@@ -124,6 +124,7 @@ input.text {
   max-height: 500px;
   background: aliceblue;
   float: right;
+    overflow: auto;
 }
 
 #allShow {
@@ -242,29 +243,37 @@ input.text {
 	cursor:pointer;
 }
 
-.searchResultNoteId {
+.searchResult .label {
+	font-size:12px;
+	font-weight:bold;
+	padding:4px;
+}
+
+.searchResultBody {
 	width: 392px;
 	height: 62px;
 	margin-bottom: 2px;
 	border-radius: 2px;
 	padding: 4px;
-	float: left;
-    background-color: lightsteelblue;
+	font-size:12px;
+    background-color: white;
+    cursor:pointer;
 }
 
-.searchResultNoteId:hover {
-	background-color: #E8FB90;
+.searchResultBody:hover {
+	background-color: rgb(156, 209, 199);
 }
 
 .searchResultText {
 	width: 200px;
 	height: 52px;
-	border: 1px solid gray;
+	border-top:1px solid #ccc;
+	border-left:1px solid #ccc;
 	margin-bottom: 2px;
 	margin-right: 5px;
 	border-radius: 2px;
 	padding: 4px;
-	background-color: white;
+	background-color: #fafafa;
 	float: left;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -280,7 +289,6 @@ input.text {
 }
 
 .searchResultDate {
-    font-size: 11px; 
     color:darkslategray;
     font-weight: 200;
 }
@@ -645,13 +653,12 @@ a {
 .searchResult {
 	position: fixed;
 	background: #F6F6F6;
-	width: 416px;
 	max-height: 390px;
 	z-index: 200;
 	overflow-y: scroll;
 	display: none;
-	top : 0px;
-	left: 0px;
+	top : 0;
+	left: 0;
 }
 
 .onSearchForm>input {

@@ -51,7 +51,11 @@
 							</p>
 							<p>
 								<label class="control-label" for="groupCaptainUserId">그룹장 위임</label>
-								<form:input path="groupCaptainUserId" />
+								<form:select path="groupCaptainUserId">
+		                             <c:forEach items="${members}" var="member">
+		                                   <form:option value="${member.userId}" label="${member.userName} ( ${member.userId} )" />
+		                             </c:forEach>
+		                        </form:select>
 								<span class="info">그룹장만이 위임이 가능합니다.</span>
 							</p>
 							<p>

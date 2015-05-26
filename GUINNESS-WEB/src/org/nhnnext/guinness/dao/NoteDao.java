@@ -89,10 +89,10 @@ public class NoteDao extends JdbcDaoSupport {
 		getJdbcTemplate().update(sql, text, noteTargetDate, noteId);
 	}
 
-	public List<Map<String, Object>> searchQueryForMap(String userId, String... words) {
+	public List<Map<String, Object>> searchQueryForMap(String userId, String... keywords) {
 		String query = "";
-		for (String word : words) {
-			query += " OR N.noteText like \"%" + word + "%\"";
+		for (String keyword : keywords) {
+			query += " OR N.noteText like \"%" + keyword + "%\"";
 		}
 		String sql = "SELECT distinct noteId, noteText, noteTargetDate, N.userId, N.groupId, U.userName, G.groupName, N.commentCount FROM NOTES N LEFT JOIN USERS U ON N.userId = U.userId LEFT JOIN GROUPS G ON N.groupId = G.groupId LEFT JOIN GROUPS_USERS GU on GU.groupId = N.groupId WHERE "
 				+ query.substring(3)
