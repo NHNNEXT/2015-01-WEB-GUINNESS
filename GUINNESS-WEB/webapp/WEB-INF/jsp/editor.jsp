@@ -41,12 +41,12 @@
 		console.log(button);
 	</script>
 
-	<input type="hidden" id="sessionUserId" name="sessionUserId"
-		value="${sessionUser.userId}">
+	<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUser.userId}">
+	<div id="group-header" class="content wrap" style="margin-top:50px; padding:10px 0;">
+		<a style="display:inline-block" href="/g/${group.groupId}">
+		<span id="group-name">${group.groupName}</span></a>
+	</div>
 	<div id="note-edit-container" class="content wrap">
-		<div id="note-edit-group-name">
-			<a href="/g/${group.groupId}"><span id="group-name">${group.groupName}</span></a>
-		</div>
 		<form id="noteForm" action="/notes" method="post">
 			<input type="hidden" id="hiddenGroupId" name="groupId"
 				value="${group.groupId}">
