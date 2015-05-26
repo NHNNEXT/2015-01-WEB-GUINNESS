@@ -82,10 +82,10 @@ public class GroupService {
 		alarmDao.createGroupInvitation(alarm);
 	}
 
-	public void joinGroupMember(String sessionUserId, String userId, String groupId)
+	public void joinGroupMember(String sessionUserId, String groupId)
 			throws FailedAddGroupMemberException, UnpermittedAccessGroupException {
-		if (alarmDao.checkGroupAlarms(userId, groupId))
-			throw new FailedAddGroupMemberException("가입 요청 대기중 입니다!");
+		if (alarmDao.checkJoinedGroupAlarms(sessionUserId, groupId))
+			throw new FailedAddGroupMemberException("가입 승인 대기중 입니다!");
 		String groupUserCaptionId = groupDao.findGroupCaptianUserId(groupId);
 		Alarm alarm = new Alarm(createAlarmId(), "J", (new User(sessionUserId)).createSessionUser(), new User(groupUserCaptionId),
 				new Group(groupId));

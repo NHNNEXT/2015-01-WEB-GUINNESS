@@ -359,8 +359,8 @@ function isJoinedUser() {
 }
 
 function addMember() {
-    var sessionUserId = document.getElementById("sessionUserId").value;
-    var userId = document.querySelector('#addMemberForm input[name="userId"]').value;
+	var sessionUserId = document.getElementById("sessionUserId").value;
+	var userId = document.querySelector('#addMemberForm input[name="userId"]').value;
     var alert = document.querySelector(".addMemberAlert");
     alert.style.visibility = "hidden";
     alert.style.color = "#ff5a5a";
@@ -370,15 +370,17 @@ function addMember() {
         alert.innerHTML = "초대할 멤버의 아이디를 입력하세요.";
         return;
     }
-    if(!bJoinedUser){
-    	addMemberAjax("/groups/members/join", "가입 요청을 보냈습니다.");
-    	return;
-    }
-    addMemberAjax("/groups/members/invite", "초대 요청을 보냈습니다.");
-}
 
-function addMemberAjax(url, message) {
-	guinness.ajax({
+    if(!bJoinedUser){
+    	var url = "/groups/members/join";
+    	var message = "가입 요청을 보냈습니다.";
+    }
+    else{
+    	var url = "/groups/members/invite";
+    	var message = "초대 요청을 보냈습니다.";
+    }
+    
+    guinness.ajax({
         method: "post",
         url: url,
         param: "userId=" + userId + "&groupId=" + groupId + "&sessionUserId=" + sessionUserId,
@@ -389,19 +391,24 @@ function addMemberAjax(url, message) {
                 alert.style.color = "#ff5a5a";
                 alert.style.fontSize = "11px";
                 alert.innerHTML = json.message;
-                document.querySelector('#addMemberForm input[name="userId"]').value = "";
+                if(bJoinedUser){
+                	document.querySelector('#addMemberForm input[name="userId"]').value = "";
+                }
                 return;
             } else {
                 alert.style.visibility = "visible";
                 alert.style.color = "#86E57F";
                 alert.style.fontSize = "11px";
                 alert.innerHTML = message;
-                document.querySelector('#addMemberForm input[name="userId"]').value = "";
+                if(bJoinedUser){
+                	document.querySelector('#addMemberForm input[name="userId"]').value = "";
+                }
                 return;
             }
         }
     });
 }
+
 
 var member;
 
