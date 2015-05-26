@@ -122,7 +122,7 @@ public class GroupDao extends JdbcDaoSupport {
 			query += " OR groupName like \"%" + keyword + "%\"";
 		}
 		
-		String sql = "SELECT * FROM GROUPS AS G WHERE ("+ query.substring(3) +")";
+		String sql = "SELECT * FROM GROUPS AS G WHERE ("+ query.substring(3) +") AND isPublic = 'T'";
 		try {
 			return getJdbcTemplate().queryForList(sql);
 		} catch (EmptyResultDataAccessException e) {
