@@ -1,0 +1,6 @@
+CREATE TABLE TEMP_NOTES(
+ noteId bigint PRIMARY KEY AUTO_INCREMENT,
+ noteText text Not Null,
+ createDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+ userId varchar(50)
+);
