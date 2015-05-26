@@ -1,0 +1,1 @@
+alter table groups change column isPublic status char(1) default 'F';
