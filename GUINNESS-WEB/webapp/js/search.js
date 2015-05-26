@@ -20,11 +20,26 @@ searchForm.prototype.init = function() {
   }, false);
 }
 
+
+searchForm.prototype._createResultBox = function() {
+	  document.body.insertAdjacentHTML("beforeend", this.searchResultBox);
+	  this.elResult = document.querySelector("body > section:last-child");
+	  this.elResult.className = "searchResult";
+}
+
+searchForm.prototype._setPosition = function() {
+	  var elInputBox = document.querySelector("#searchText");
+	  var rect = elInputBox.getBoundingClientRect();
+	  var elResult = document.querySelector(".searchResult");
+	  elResult.style.top = rect.bottom+"px";
+	  elResult.style.left = rect.left+"px";
+}
+
 var focusOut = function(e) {
     if(e.relatedTarget===null) {
       document.querySelector(".onSearchForm").className = "searchForm";
       var elResult = document.querySelector(".searchResult");
-      elResult.style.display="none";
+//      elResult.style.display="none";
 //      document.querySelector(".searchForm > input").value="";
 //      document.querySelector(".searchResult").innerHTML="<div></div>";
       var elIcon = document.querySelector(".searchForm i");
@@ -32,19 +47,6 @@ var focusOut = function(e) {
     }
 }
 
-searchForm.prototype._createResultBox = function() {
-  document.body.insertAdjacentHTML("beforeend", this.searchResultBox);
-  this.elResult = document.querySelector("body > section:last-child");
-  this.elResult.className = "searchResult";
-}
-
-searchForm.prototype._setPosition = function() {
-  var elInputBox = document.querySelector("#searchText");
-  var rect = elInputBox.getBoundingClientRect();
-  var elResult = document.querySelector(".searchResult");
-  elResult.style.top = rect.bottom+"px";
-  elResult.style.left = rect.left+"px";
-}
 
 window.addEventListener('resize', function() {
   new searchForm()._setPosition();
@@ -57,15 +59,16 @@ window.addEventListener('load', function() {
 
   elSearch.addEventListener("keyup", function(ev) {
     var sText = document.querySelector("#searchText").value;
+    document.querySelectorAll(".searchResultBody").remove();
+    document.querySelector("#search-notes-container").style.display="none"; 
+    document.querySelector("#search-groups-container").style.display="none";
     if (sText.replace(/\s/gm, "").length>0) {
       sText = sText.replace(/^\s{1,}|\s{1,}$/, "");
       guinness.ajax({
           method:"get",
           url : "/search?words=" + sText,
-          success : function(req) {
+          success : function(req) {  
             json = JSON.parse(req.responseText);
-            var elSearchResult=document.querySelector(".searchResult");
-            elSearchResult.innerHTML="<div></div>"
             searchResult(json);
           }
       });
@@ -74,28 +77,33 @@ window.addEventListener('load', function() {
 }, false);
 
 function searchResult(json){
-  for(var i = 0; i < json.mapValues.length; i++){
-    var elSearchResult=document.querySelector(".searchResult > div:last-child");
-    var hlSearchResultTemplate = document.querySelector(".searchResultTemplate").text;
-    elSearchResult.insertAdjacentHTML("afterend", hlSearchResultTemplate);
-    var elDiv = document.querySelector(".searchResultNoteId:last-child");
-    jsonList = json.mapValues[i];
-    elDiv.id = "searchResultNoteId" + jsonList.noteId;
-    var elsearchResultText = document.querySelector("#searchResultNoteId" + jsonList.noteId+" > .searchResultText");
-    elsearchResultText.innerHTML = jsonList.noteText;
-    var elsearchResultName = document.querySelector("#searchResultNoteId" + jsonList.noteId+" > .searchResultName");
-    elsearchResultName.innerHTML = jsonList.userName;
-    var elsearchResultDate = document.querySelector("#searchResultNoteId" + jsonList.noteId+" > .searchResultDate");
-    elsearchResultDate.innerHTML = guinness.util.koreaDate(jsonList.noteTargetDate);
-    var elsearchResultGroup = document.querySelector("#searchResultNoteId" + jsonList.noteId+ " > .searchResultGroup");
-    elsearchResultGroup.innerHTML = jsonList.groupName;
-    elDiv.addEventListener("mousedown", function(e) {
-    	var noteId;
-    	if(e.target.getAttribute("id") == null)
-    		noteId = e.target.parentElement.getAttribute("id").split("searchResultNoteId")[1];
-    	else 
-    		noteId = e.target.getAttribute("id").split("searchResultNoteId")[1];
-    	readNoteContents(noteId);
+  var noteTemplate = document.querySelector("#searchResultTemplate").content;
+  var groupTemplate = document.querySelector("#groupResultTemplate").content;
+  var elDiv;
+  for (var i = 0; i < json.listValues.groups.length; i++) {
+	var group = json.listValues.groups[i];
+	document.querySelector("#search-groups-container").style.display="table";
+	elDiv = document.importNode(groupTemplate, true);
+	elDiv.querySelector(".searchResultBody").id = "searchResultGroup-"+group.groupId;
+	elDiv.querySelector(".searchResultName").innerHTML = group.groupName;
+	elDiv.querySelector(".searchResultBody").addEventListener("click",function(){
+		location.href="/g/"+this.id.split("-")[1];
+	},false);
+	document.querySelector(".search-groups").appendChild(elDiv);
+  }
+  
+  for (var i = 0; i < json.listValues.notes.length; i++) {
+	var note = json.listValues.notes[i];
+	document.querySelector("#search-notes-container").style.display="table";  
+	elDiv = document.importNode(noteTemplate, true);
+    elDiv.querySelector(".searchResultBody").id = "searchResultNoteId-" + note.noteId;
+    elDiv.querySelector(".searchResultText").innerHTML = note.noteText;
+    elDiv.querySelector(".searchResultName").innerHTML = note.userName;
+    elDiv.querySelector(".searchResultDate").innerHTML = guinness.util.koreaDate(note.noteTargetDate);
+    elDiv.querySelector(".searchResultGroup").innerHTML = note.groupName;
+    elDiv.querySelector(".searchResultBody").addEventListener("click", function(e) {
+    	readNoteContents(this.id.split("-")[1]);
     }, false)
+    document.querySelector('.search-notes').appendChild(elDiv);
   }
 }
