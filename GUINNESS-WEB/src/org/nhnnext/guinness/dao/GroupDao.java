@@ -1,5 +1,6 @@
 package org.nhnnext.guinness.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -115,6 +116,20 @@ public class GroupDao extends JdbcDaoSupport {
 		getJdbcTemplate().update(sql, group.getGroupName(), group.getGroupCaptainUserId(), group.getStatus(), group.getGroupImage(), group.getGroupId());
 	}
 	
+	public List<Map<String, Object>> searchQueryForMap (String... keywords) {
+		String query = "";
+		for (String keyword : keywords) {
+			query += " OR groupName like \"%" + keyword + "%\"";
+		}
+		
+		String sql = "SELECT * FROM GROUPS AS G WHERE ("+ query.substring(3) +") AND isPublic = 'T'";
+		try {
+			return getJdbcTemplate().queryForList(sql);
+		} catch (EmptyResultDataAccessException e) {
+			return new ArrayList<Map<String, Object>>();
+		}
+	}
+
 	public String findGroupCaptianUserId(String groupId) {
 		String sql = "select * from GROUPS where groupId = ?";
 		try {
@@ -124,5 +139,4 @@ public class GroupDao extends JdbcDaoSupport {
 			return null;
 		}
 	}
-	
 }

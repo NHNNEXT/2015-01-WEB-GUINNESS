@@ -41,11 +41,17 @@
 
 <script type="template" class="searchFormTemplate">
   <section>
+	<div id='search-groups-container' style='display:none; border-bottom:1px solid #ccc; padding-bottom:2px;'>
+		<span class='label'>그룹</span><ul class='search-groups'></ul>
+	</div>
+	<div id='search-notes-container' style='display:none;'>
+		<span class='label'>노트</span><ul class='search-notes'></ul>
+	</div>
   </section>
 </script>
 
-<script type="template" class="searchResultTemplate">
-	<div class="searchResultNoteId" href="#">
+<template type="template" id="searchResultTemplate">
+	<div class="searchResultBody">
 		<div class="searchResultText"></div>
 		<span class="searchResultName"></span>
 		<br />
@@ -53,7 +59,15 @@
 		<br /><span class="spanOnSearch"> on </span>
 		<span class="searchResultGroup"></span>
 	</div>
-</script>
+</template>
+
+<template type="template" id="groupResultTemplate">
+	<div class="searchResultBody">
+		<span class="searchResultName"></span>
+		<br />
+		<span class="searchResultDate"></span>
+	</div>
+</template>
 
 <script>
 getAlarms();
