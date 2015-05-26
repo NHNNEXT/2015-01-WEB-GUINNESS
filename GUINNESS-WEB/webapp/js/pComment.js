@@ -35,9 +35,10 @@ pComment.appendPComment = function (json) {
                 .replace("sameSenCount", json.sameSenCount)
                 .replace("sameSenIndex", json.sameSenIndex)
                 .replace("userImage", "/img/profile/"+json.sessionUser.userImage)
-                .replace("userId", json.sessionUser.userId)
+                .replace("userId", "("+json.sessionUser.userId+")")
                 .replace("userName", json.sessionUser.userName)
-                .replace("pCommentText", json.pCommentText);
+                .replace("pCommentText", json.pCommentText)
+                .replace("createDate", json.pCommentCreateDate);
     //.replace("selectedText", json.selectedText)
     
     pCommentList.insertAdjacentHTML("beforeend", elPComment);

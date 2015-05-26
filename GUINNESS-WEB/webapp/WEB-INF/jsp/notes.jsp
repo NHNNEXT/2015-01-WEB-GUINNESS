@@ -131,7 +131,7 @@
         
     <script type="template" class="pCommentListTemplate">
         <div class="pCommentListBox">
-            <div id="pCommentBoxCancel"><i class="fa fa-toggle-off"></i></div>
+            <div id="pCommentBoxCancel"><i class="fa fa-thumb-tack"></i></div>
             <ul class="pCommentList"></ul>
         </div>
     </script>
@@ -139,14 +139,15 @@
     <script type="template" class="aPCommentTemplate">
         <li class="aPComment" id="pCommentId">
             <input type="hidden" p-id="pId" sameCount="sameSenCount" sameIndex="sameSenIndex"/ selectText="selectedText">
-            <div class="userPorofile">
+            <div class="userProfile">
                 <img src="userImage">
-                <div>userName<span>userId</span></div>
+                <div>userName<span>userId</span></div><br>
+                <div class="pCommentCreateDate">createDate</div>
             </div>
-            <div>pCommentText</div>
+            <div class="pComment-text">pCommentText</div>
             <div class="controll">
-                <span class="update">수정</span>
-                <span class="delete">삭제</span>
+                <a href="#" class="update">수정</a>
+                <a href="#" class="delete">삭제</a>
             </div>
         </li>
     </script>
