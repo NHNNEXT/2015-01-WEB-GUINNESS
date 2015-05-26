@@ -585,7 +585,7 @@ function tempSave() {
                 var tempNote = result.object;
                 var dropdownMenu = document.querySelector(".dropdown-menu");
                 var el = document.createElement("li");
-                el.innerHTML = "<a href='#' data-id='" + tempNote.noteId + "'>" + new Date() + "에 저장된 글이 있습니다</a>";
+                el.innerHTML = "<a href='#' data-id='" + tempNote.noteId + "'>" + guinness.util.koreaDate(new Date()) + "에 저장된 글이 있습니다</a>";
                 el.addEventListener("mousedown", function(e) {
                     loadTempNote(e.target.dataset.id);
                 }, false);
@@ -601,7 +601,7 @@ function tempSave() {
                 var result = JSON.parse(req.responseText);
                 console.log("tempNoteId : " + result.object);
                 var el = document.querySelector("a[data-id='" + result.object.noteId + "']");
-                el.innerText = result.object.createDate + "에 저장된 글이 있습니다";
+                el.innerText = guinness.util.koreaDate(result.object.createDate) + "에 저장된 글이 있습니다";
             }
         }); 
     }
