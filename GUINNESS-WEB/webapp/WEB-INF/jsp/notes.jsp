@@ -65,11 +65,8 @@
 				<table id="group-member">
 				</table>
 			</div>
-			<div style="padding:10px;">
-				<a href="#"><span id="leave-group" style="font-weight:bold;">그룹탈퇴하기</span></a>
-			</div>
 			<div>
-				<input id="groupSettingBtn"class="inputBtn" style="visibility:hidden; cursor: default; width: 30%; float:right;" type="submit" value="그룹설정" onclick="groupUpdate()">
+				<input id="groupSettingBtn"class="inputBtn" style="right: 10px; visibility:hidden; cursor: default; width: 30%; float:right;" type="submit" value="그룹설정" onclick="groupUpdate()">
 			</div>
 		</div>
 	</div>
@@ -134,10 +131,24 @@
         
     <script type="template" class="pCommentListTemplate">
         <div class="pCommentListBox">
-            <input type="hidden" pId="" />
             <div id="pCommentBoxCancel"><i class="fa fa-toggle-off"></i></div>
             <ul class="pCommentList"></ul>
         </div>
+    </script>
+        
+    <script type="template" class="aPCommentTemplate">
+        <li class="aPComment" id="pCommentId">
+            <input type="hidden" p-id="pId" sameCount="sameSenCount" sameIndex="sameSenIndex"/ selectText="selectedText">
+            <div class="userPorofile">
+                <img src="userImage">
+                <div>userName<span>userId</span></div>
+            </div>
+            <div>pCommentText</div>
+            <div class="controll">
+                <span class="update">수정</span>
+                <span class="delete">삭제</span>
+            </div>
+        </li>
     </script>
     
     <script type="template" id="popupCommentBtnTemplate">
@@ -172,12 +183,7 @@
 		appendNoteList(json);
 		appendMarkList(json);
 		var elCreateBtn = document.querySelector("#create-new-button");
-		
-		document.querySelector("#leave-group").addEventListener("mousedown",
-				function(e) {
-					e.preventDefault();
-					guinness.confirmLeave(groupId, groupName,"/groups/form");
-				}, false);
+
 	}, false);
 	
 	window.addEventListener("scroll", function(e) {
@@ -200,8 +206,9 @@
 	    	name : "input",
 			attrs : {
 				id : "allShow",
+				class : "inputBtn",
 				type : "submit",
-				value : "전체보기",
+				value : "오늘",
 				onclick : "reloadNoteList()"
 			}
 	    });
