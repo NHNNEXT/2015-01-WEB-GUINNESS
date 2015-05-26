@@ -79,4 +79,14 @@ public class AlarmDao extends JdbcDaoSupport {
 			return true;
 		return false;
 	}
+
+	public void deleteGroupByGroupId(String groupId) {
+		String sql = "delete from GROUP_ALARMS where groupId = ?";
+		getJdbcTemplate().update(sql, groupId);
+	}
+
+	public void deleteGroupByNoteId(String noteId) {
+		String sql = "delete from NOTE_ALARMS where noteId = ?";
+		getJdbcTemplate().update(sql, noteId);
+	}
 }
