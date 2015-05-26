@@ -907,6 +907,7 @@
 
             this[leftOrRight+'Calendar'].month.month(month).year(year);
             this.updateCalendars();
+            getDateExistNotes(this.rightCalendar.month.year(), this.rightCalendar.month.month());
         },
 
         updateTime: function(e) {
