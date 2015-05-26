@@ -69,6 +69,18 @@ public class GroupController {
 		}
 		return new JsonResult().setSuccess(true);
 	}
+	
+	@RequestMapping(value = "/members/join", method = RequestMethod.POST)
+	protected @ResponseBody JsonResult joinGroupMember(@RequestParam String userId, @RequestParam String groupId,
+			@RequestParam String sessionUserId) throws FailedAddGroupMemberException {
+		try {
+			groupService.joinGroupMember(sessionUserId, userId, groupId);
+		} catch (UnpermittedAccessGroupException e) {
+			return new JsonResult().setSuccess(false).setMessage(e.getMessage());
+		}
+		return new JsonResult().setSuccess(true);
+	}
+	
 
 	@RequestMapping(value = "/members/accept", method = RequestMethod.POST)
 	protected @ResponseBody JsonResult acceptGroupMember(@RequestParam String userId, @RequestParam String groupId)

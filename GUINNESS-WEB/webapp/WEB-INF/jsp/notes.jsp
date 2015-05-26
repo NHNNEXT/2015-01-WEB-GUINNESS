@@ -51,13 +51,15 @@
 		</div>
 
 		<div id="group-member-container" class="side-menu-container">
+			
 			<form id="addMemberForm">
-				<span style="font-weight:bold;">멤버추가</span><br/>
+				<span class="addMemberTitle" style="font-weight:bold;">멤버추가</span><br/>	
 				<input type="hidden" name="groupId">
 				<input class="inputText" type="text" name="userId">
 				<input class="inputBtn" type="submit" value="초대">
 				<span class="addMemberAlert" style="visibility:hidden;">멤버추가메세지</span>
 			</form>
+			
 			<div id="group-member-list">
 				<span style="font-weight:bold;">멤버관리</span><br/>
 				<table id="group-member">
