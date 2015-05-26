@@ -18,35 +18,18 @@
 
 	<%@ include file="./commons/_topnav.jspf"%>
 
-	<ul style="margin-top: 100px;">
-		<li class="dropdown"><a href="#" data-toggle="dropdown">임시저장<i class="fa fa-sort-desc"></i></li>
-		<ul class="dropdown-menu" style="display:none">
-		</ul>
-	</ul>
-	<script>
-		var el = document.querySelector(".dropdown");
-		var button = document.querySelector("a[data-toggle='dropdown']");
-		var menu = document.querySelector(".dropdown-menu");
-		var arrow = button.querySelector(".fa-sort-desc");
-
-		button.onclick = function(event) {
-			if(arrow.className === "fa fa-sort-desc") {
-				menu.setAttribute("style", "display: ");
-				arrow.setAttribute("class", "fa fa-sort-up");
-			} else {
-				menu.setAttribute("style", "display: none");
-				arrow.setAttribute("class", "fa fa-sort-desc");
-			}
-		};
-		console.log(button);
-	</script>
-
 	<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUser.userId}">
 	<div id="group-header" class="content wrap" style="margin-top:50px; padding:10px 0;">
 		<a style="display:inline-block" href="/g/${group.groupId}">
 		<span id="group-name">${group.groupName}</span></a>
 	</div>
+
 	<div id="note-edit-container" class="content wrap">
+		<ul id="temp-note-list">
+			<li class="dropdown"><a href="#" data-toggle="dropdown">저장된 노트<i class="fa fa-sort-desc"></i></a></li>
+			<ul class="dropdown-menu" style="display:none">
+			</ul>
+		</ul>
 		<form id="noteForm" action="/notes" method="post">
 			<input type="hidden" id="hiddenGroupId" name="groupId"
 				value="${group.groupId}">
@@ -68,10 +51,10 @@
 					<div id="previewBox" class="markdown-body"></div>
 				</div>
 			</div>
-			<a id="escape-note" class="btn btn-pm" href="/g/${group.groupId}">취소</a> <input
-				type="submit" class="btn btn-pm" value="작성" />
+			<a id="escape-note" class="btn btn-pm" href="/g/${group.groupId}">취소</a> 
+			<input type="submit" class="btn btn-pm" value="작성" />
 		</form>
-		<button class="btn btn-temp" onclick="tempSave();">임시저장</button>
+		<button class="btn btn-temp" style="margin-top: -60px;" onclick="tempSave();">임시저장</button>
 	</div>
 	<input id="hiddenGroupName" type="hidden" value="${group.groupName}" />
 
@@ -111,6 +94,21 @@
 		window.addEventListener("load", function() {
 			appendTempNoteList(${tempNotes});
 		});
+
+		var el = document.querySelector(".dropdown");
+		var button = document.querySelector("a[data-toggle='dropdown']");
+		var menu = document.querySelector(".dropdown-menu");
+		var arrow = button.querySelector(".fa-sort-desc");
+
+		button.onclick = function(event) {
+			if(arrow.className === "fa fa-sort-desc") {
+				menu.setAttribute("style", "display: ");
+				arrow.setAttribute("class", "fa fa-sort-up");
+			} else {
+				menu.setAttribute("style", "display: none");
+				arrow.setAttribute("class", "fa fa-sort-desc");
+			}
+		};
 	</script>
 	<script src="/js/note.js"></script>
 	<script src="/js/datepickr.js"></script>

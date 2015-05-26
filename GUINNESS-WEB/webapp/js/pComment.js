@@ -37,6 +37,7 @@ pComment.appendPComment = function (json) {
                 .replace("pCommentText", json.pCommentText)
                 .replace("createDate", json.pCommentCreateDate);
     pCommentList.insertAdjacentHTML("beforeend", elPComment);
+    pCommentList.scrollTop = pCommentList.scrollHeight;
 }
 
 function selectText() {
@@ -171,6 +172,7 @@ function setPopupPCommentBtn() {
     var elNoteText = document.body.querySelector(".note-content");
 
     elNoteText.addEventListener('mousedown', function (e) {
+        document.body.querySelector(".note-content").innerHTML = document.body.querySelector(".hidden-note-content").value;
         mousePosition.downPoint.x = e.clientX;
         mousePosition.downPoint.y = e.clientY;
     }, false);
@@ -237,7 +239,7 @@ function getSameSentence (pComment, selectedText, selection) {
         }
     }
     pComment.sameSenCount = sameTexts.length;
-
+    
     var span = document.createElement("SPAN");
     span.innerHTML = getSelection();
     span.className = "highlighted";

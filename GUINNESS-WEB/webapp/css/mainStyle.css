@@ -119,13 +119,14 @@ input.text {
 }
 
 .pCommentListBox {
-    width: 240px;
+    width: 243px;
     max-height: 500px;
     min-height: 200px;
     background: aliceblue;
     float: right;
     overflow-y: auto;
-    overflow-x:hidden;
+    overflow-x: hidden;
+    padding-left: 2px;
 }
 
 #allShow {
@@ -366,6 +367,7 @@ a#escape-note {
 
 .btn-temp {
 	float: left;
+	margin-top: -60px;
 }
 
 #previewBox {
@@ -762,7 +764,7 @@ input#targetDate {
 }
 
 #note-edit-container {
-	margin-top: 20px;
+	margin-top: 100px;
 	float: none;
 	text-align: center;
 	height: 80%;
@@ -1078,7 +1080,7 @@ span.sDate {
 	width: 100%;
 	display: table;
 	color: white;
-	background-color: rgb(93, 129, 128);
+	background-color: #77C4B6;
 }
 
 .modal-title {
@@ -1305,4 +1307,36 @@ span.tag {
 	font-size: 20px;
 	font-weight: bold;
 	color: rgb(116, 175, 173);
+}
+
+#temp-note-list {
+	position: absolute;
+	width: 940px;
+	margin: 0 auto;
+	text-align: right;
+	list-style: none;
+	font-size: 12px;
+}
+
+#temp-note-list ul li {
+	list-style: none;
+	font-size: 12px;
+}
+
+.dropdown-menu {
+	position: absolute;
+	right: 0px;
+	background-color: white;
+	margin-top: 5px;
+}
+
+.dropdown-menu li {
+	margin-bottom: 12px;
+}
+.dropdown > a:link, .dropdown a:visited {
+	color: gray;
+}
+
+.dropdown-menu > a:link, .dropdown-menu a:visited {
+	color: gray;
 }
