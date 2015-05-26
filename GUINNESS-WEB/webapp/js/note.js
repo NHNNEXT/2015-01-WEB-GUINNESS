@@ -354,6 +354,7 @@ function isJoinedUser() {
     document.querySelector(".addMemberTitle").style.display="none";
     document.querySelector("#addMemberForm .inputText").style.display="none";
     document.querySelector("#addMemberForm .inputText").value=sessionUserId;
+    document.querySelector("#addMemberForm .inputBtn").style.width="30%";
     document.querySelector("#addMemberForm .inputBtn").value="가입하기";
     return false;
 }
@@ -390,7 +391,7 @@ function addMember() {
                 alert.style.visibility = "visible";
                 alert.style.color = "#ff5a5a";
                 alert.style.fontSize = "11px";
-                alert.innerHTML = json.message;
+                alert.innerHTML = "<br/>"+json.message;
                 if(bJoinedUser){
                 	document.querySelector('#addMemberForm input[name="userId"]').value = "";
                 }
@@ -399,7 +400,7 @@ function addMember() {
                 alert.style.visibility = "visible";
                 alert.style.color = "#86E57F";
                 alert.style.fontSize = "11px";
-                alert.innerHTML = message;
+                alert.innerHTML = "<br/>"+message;
                 if(bJoinedUser){
                 	document.querySelector('#addMemberForm input[name="userId"]').value = "";
                 }
@@ -466,9 +467,6 @@ function appendMember(obj) {
 function appendMembers(json) {
     for (var i = 0; i < json.length; i++) {
         appendMember(json[i]);
-    }
-    if (!bJoinedUser) {
-        document.getElementById("leave-group").style.visibility = "hidden";
     }
 }
 

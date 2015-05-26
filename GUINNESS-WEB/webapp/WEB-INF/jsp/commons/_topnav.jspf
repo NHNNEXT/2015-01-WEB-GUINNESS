@@ -86,9 +86,8 @@ function getAlarms(){
 			var groupAlarmList = JSON.parse(req.responseText).group.mapValues;
 			if(noteAlarmList.length + groupAlarmList.length === 0) {
 				document.querySelector(".alarm-count").style.display = "none";
-				if(document.body.querySelector('#group-container') !== null) {
-					debugger;
-					loadGroupAlarm();
+				if(document.querySelector(".group-card .alarm-count") !== null) {
+					document.querySelector(".group-card .alarm-count").style.display = "none";
 				}
 				return;
 			}
@@ -150,9 +149,6 @@ function noteAlarmSelect(t, noteId, alarmStatus){
 				return;
 			}
 			getAlarms();
-			if(document.body.querySelector('#group-container') !== null) {
-				loadGroupAlarm();
-			}
 			readNoteContents(noteId);
 			guinness.util.setModalPosition();
 		}
@@ -184,7 +180,6 @@ function groupAlarmSelect(t, userId, groupId, alarmStatus){
 		}
 	});	
 }
-
 
 function appendGroupCard(groupId){
 	guinness.ajax({

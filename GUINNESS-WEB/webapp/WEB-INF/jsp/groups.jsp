@@ -80,7 +80,7 @@
 		</li>
 	</template>
 	<!-- 노트 알람 모달을 위한 템플릿 end -->
-
 	<script src="/js/group.js"></script>
+	<script src="/js/pComment.js"></script>
 </body>
 </html>
