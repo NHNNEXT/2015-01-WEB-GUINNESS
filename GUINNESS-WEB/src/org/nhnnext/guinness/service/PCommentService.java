@@ -57,7 +57,7 @@ public class PCommentService {
 //		return alarmId;
 //	}
 
-	public List<Map<String, Object>> list(String pId, String noteId) {
+	public List<PComment> list(String pId, String noteId) {
 		return pCommentDao.readListByPId(pId, noteId);
 	}
 	

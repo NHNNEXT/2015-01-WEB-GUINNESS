@@ -26,9 +26,7 @@ var pComment = {
 pComment.appendPComment = function (json) {
     var date = guinness.util.koreaDate(Number(new Date(json.pCommentCreateDate)));
     var pCommentList = document.body.querySelector(".pCommentList");
-        
     var elPComment = document.querySelector(".aPCommentTemplate").text;
-    
     elPComment = elPComment.replace("pId", json.pId)
                 .replace("pCommentId", json.pCommentId)
                 .replace("sameSenCount", json.sameSenCount)
@@ -58,11 +56,8 @@ function createPopupPCommentBtn() {
     var templatePopupBtn = document.querySelector("#popupCommentBtnTemplate").text;
     document.body.insertAdjacentHTML("beforeend", templatePopupBtn);
     _createPCommentBox();
-
     var popupCommentBtn = document.querySelector(".popupCommentBtn");
-
     mutateObserver(popupCommentBtn);
-
     popupCommentBtn.addEventListener('click', function (e) {
         pCommentListRemover();
         e.target.style.display = "none";
@@ -72,10 +67,9 @@ function createPopupPCommentBtn() {
         pCommentBox.style.left = e.target.style.left;
         pCommentBox.querySelector(".inputP").focus();
         pCommentBox.addEventListener('dragend', dragEnd, false);
-        
         var noteContent = document.body.querySelector(".markdown-body .note-content");
         noteContent.style.float = "left";
-        createPCommentListBox(pComment.pId, noteContent);
+        createPCommentListBox(pComment.pId, noteContent, pComment.noteId);
     }, false);
 }
 
@@ -111,18 +105,23 @@ function _createPCommentBox () {
     }, false);
 }
 
-function createPCommentListBox (pId, noteContent) {
+function createPCommentListBox (pId, noteContent, noteId) {
     var pCommentList = document.querySelector(".pCommentListTemplate").text;
     noteContent.insertAdjacentHTML("afterend", pCommentList);
     document.body.querySelector("#pCommentBoxCancel").addEventListener('click', pCommentListRemover, false);
-    //TODO pId에 해당하는 모든 코멘트 불러오기.
     guinness.ajax({
         method : "GET",
-        url : "/pComments?pId="+pid+"&noteId=",
+        url : "/pComments?pId="+pId+"&noteId="+noteId,
+        success: function (req) {
+            var result = JSON.parse(req.responseText);
+            if (result.success !== true) {
+                return;
+            }
+            for(var index in result.objectValues ) {
+                pComment.appendPComment(result.objectValues[index]);
+            }
+        }
     });
-    
-    // 가져온 코멘트 리스트를 화면에 뿌려준다.
-    //pComment.appendPComment
 }
 
 function pCommentListRemover() {

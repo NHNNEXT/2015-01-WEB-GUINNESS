@@ -124,6 +124,7 @@ input.text {
   max-height: 500px;
   background: aliceblue;
   float: right;
+    overflow: auto;
 }
 
 #allShow {
