@@ -156,7 +156,6 @@ public class NoteController {
 	
 	@RequestMapping(value = "/notes/getNullDay/{groupId}/{lastDate}")
 	private @ResponseBody JsonResult readNullDay(@PathVariable String groupId, @PathVariable String lastDate) throws IOException, ParseException {
-		System.out.println(lastDate);
 		return new JsonResult().setSuccess(true).setObjectValues(noteService.readNullDay(groupId, lastDate));
 	}
 }

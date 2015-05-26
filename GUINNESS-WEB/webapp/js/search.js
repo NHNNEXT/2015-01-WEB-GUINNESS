@@ -86,6 +86,8 @@ function searchResult(json){
 	elDiv = document.importNode(groupTemplate, true);
 	elDiv.querySelector(".searchResultBody").id = "searchResultGroup-"+group.groupId;
 	elDiv.querySelector(".searchResultName").innerHTML = group.groupName;
+	elDiv.querySelector(".searchResultCaptain").innerHTML = group.groupCaptainUserId;
+	elDiv.querySelector(".searchResultDate").innerHTML = guinness.util.koreaDate(group.groupCreateDate);;
 	elDiv.querySelector(".searchResultBody").addEventListener("click",function(){
 		location.href="/g/"+this.id.split("-")[1];
 	},false);
