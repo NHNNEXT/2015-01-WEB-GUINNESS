@@ -182,8 +182,20 @@ function showNoteModal(obj) {
         }
     });
     document.querySelector('.modal-body').setAttribute('class', 'modal-body note-modal');
-    document.querySelector('.note-content').innerHTML = obj.noteText;
-    document.querySelector('.hidden-note-content').value = obj.noteText;
+    var noteContent = document.querySelector('.note-content');
+    var viewContent = document.createElement('DIV');
+    viewContent.innerHTML = obj.noteText;
+    //TODO 노트의 각 문단별 코멘트 카운트 가져오기.
+    var arShowP = viewContent.querySelectorAll(".ShowPComment");
+    for(var index in arShowP) {
+        if (index === "length") {
+            break;
+        }
+        arShowP[index].innerHTML = "<i class='fa fa-lightbulb-o'></i>";
+    }
+    document.querySelector('.hidden-note-content').value = viewContent.innerHTML;
+    refresh();
+    viewContent.remove();
     document.querySelector('.hiddenUserId').value = obj.user.userId;
     document.querySelector('.hiddenNoteId').value = obj.noteId;
     document.querySelector('#commentForm').addEventListener('submit',
@@ -191,7 +203,6 @@ function showNoteModal(obj) {
             e.preventDefault();
             createComment(obj);
         }, false);
-
     readComments(obj);
 }
 
