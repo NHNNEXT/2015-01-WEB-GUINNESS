@@ -73,4 +73,10 @@ public class AlarmDao extends JdbcDaoSupport {
 			return true;
 		return false;
 	}
+	public boolean checkJoinedGroupAlarms(String userId, String groupId) {
+		String sql = "select count(*) from GROUP_ALARMS where callerId = ? and groupId = ?";
+		if (getJdbcTemplate().queryForObject(sql, Integer.class, new Object[] { userId, groupId }) > 0)
+			return true;
+		return false;
+	}
 }

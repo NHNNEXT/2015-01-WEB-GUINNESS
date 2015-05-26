@@ -73,21 +73,24 @@ function getAlarms(){
 			alarmListContainer.innerHTML = "";
 			for (alarm of groupAlarmList) {
 				var alarmContent = "";
+				var onclickFunction = "";
 				if(alarm.alarmStatus === "I") {
 					alarmContent = "<a href='#'>"+alarm.userName+"님이 \""+ alarm.groupName + "\"그룹에 초대하였습니다."+ "</a>";
+					onclickFunction = "groupAlarmSelect(this, \""+alarm.calleeId+"\", \""+alarm.groupId+"\", \""+alarm.alarmStatus+"\")";
 				}
-				/* if(alarm.alarmStatus === "A") {
-						alarmContent = "<a href='#'>"+alarm.userName+"님이 \""+ alarm.groupName + "\"그룹 초대를 수락하였습니다."+ "</a>";
+				if(alarm.alarmStatus === "J") {
+					alarmContent = "<a href='#'>"+alarm.userName+"님이 \""+ alarm.groupName + "\"그룹에 가입 요청하였습니다."+ "</a>";
+					onclickFunction = "groupAlarmSelect(this, \""+alarm.callerId+"\", \""+alarm.groupId+"\", \""+alarm.alarmStatus+"\")";
 				}
-				if(alarm.alarmStatus === "R") {
-						alarmContent = "<a href='#'>"+alarm.userName+"님이 \""+ alarm.groupName + "\"그룹 초대를 거절하였습니다."+ "</a>";
-				} */
+				// 주석작성자 : giyatto
+				// 그룹 초대 및 가입 요청에 대한 수락 알람을 처리해야 한다. 
+				
 				alarmListContainer.appendChild(
 						guinness.createElement({
 							name: "li",
 							attrs: {
 								id:"alarm-"+alarm.alarmId,
-								onclick: "groupAlarmSelect(this, \""+alarm.calleeId+"\", \""+alarm.groupId+"\", \""+alarm.alarmStatus+"\")"
+								onclick: onclickFunction
 							},
 							content: alarmContent
 						})
@@ -139,15 +142,21 @@ function groupAlarmSelect(t, userId, groupId, alarmStatus){
 			}
 		 	if(alarmStatus === "I"){
 		 		guinness.util.alert("그룹 멤버 초대", "초대를 수락하시겠습니까?", function(){
-		 			joinGroupMember(userId, groupId);
+		 			joinGroupMember(userId, groupId, alarmStatus);
 		 		}, function(){
-		 			// 신청한 사람에게 거부 의사 알리기.
+		 		});
+		 	}
+		 	if(alarmStatus === "J"){
+		 		guinness.util.alert("그룹 가입 승인", "그룹 가입을 승인하시겠습니까?", function(){
+		 			joinGroupMember(userId, groupId, alarmStatus);
+		 		}, function(){
 		 		});
 		 	}
 		 	getAlarms();
 		}
 	});	
 }
+
 
 function appendGroupCard(groupId){
 	guinness.ajax({
@@ -168,7 +177,7 @@ function appendGroupCard(groupId){
 	});
 }
 
-function joinGroupMember(userId, groupId) {
+function joinGroupMember(userId, groupId, alarmStatus) {
 	guinness.ajax({
 			method : "post",
 			url : "/groups/members/accept",
@@ -178,10 +187,17 @@ function joinGroupMember(userId, groupId) {
 				if (json.success === false) {
 					guinness.util.alert("멤버초대 실패", json.message);
 				} else {
-					if(document.querySelector("#group-container") !== null){
-						appendGroupCard(groupId);
+					if(alarmStatus === 'I'){
+						if(document.querySelector("#group-container") !== null){
+							appendGroupCard(groupId);
+						}
+		 				guinness.util.alert("알림", "그룹에 가입되었습니다.");
 					}
-		 			guinness.util.alert("알림", "그룹에 가입되었습니다.");
+					if(alarmStatus === 'J'){
+		 				guinness.util.alert("알림", "그룹 가입이 승인되었습니다.");
+		 				// 주석작성자 : giyatto
+		 				//가입이 승인되었음을 가입 요청자에게 알려주는 알람 필요.
+					}
 				}
 			}
 		});

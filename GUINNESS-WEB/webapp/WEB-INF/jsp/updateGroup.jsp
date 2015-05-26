@@ -60,6 +60,7 @@
 							</p>
 							<hr />
 							<button type="submit" class="btn btn-pm">수정</button>
+							<input type="button" class="btn btn-pm" onclick ="backToNoteList()" value="취소"></button>
 						</td>
 					</tr>
 				</table>
@@ -68,39 +69,9 @@
 	</div>
 	
 	<script>
-		/* function validCheck() {
-			var userName = document.querySelector("input[name='userName']").value;
-			var userPassword = document.querySelector("input[name='userPassword']").value;
-			var userAgainPassword = document.querySelector("input[name='userAgainPassword']").value;
-			var isValid = true;
-			if (userName === "") {
-				document.querySelector("input[name='userName']").style.backgroundColor = "#ff5a5a";
-				document.querySelector("input[name='userName']~span.errorMessage").innerHTML = "이름은 필수사항 입니다.";
-				isValid = false;
-			}
-			if (userName.length > 25) {
-				document.querySelector("input[name='userName']").style.backgroundColor = "#ff5a5a";
-				document.querySelector("input[name='userName']~span.errorMessage").innerHTML = "이름은 25자 이하만 가능합니다."
-				isValid = false;
-			}
-			if (!(userPassword === "" && userAgainPassword === "") && (userPassword !== userAgainPassword)) {
-				document.querySelector("input[name='userAgainPassword']").style.backgroundColor = "#ff5a5a";
-				document.querySelector("input[name='userAgainPassword']~span.errorMessage").innerHTML = "비밀번호가 다릅니다!";
-				isValid = false;
-			}
-			if (!(isValid))
-				return;
-			document.querySelector("#editProfile-form").submit();
+		function backToNoteList() {
+			window.location.href = "/g/"+group.groupId.value;
 		}
-
-		document.querySelector("input[name='userName']").addEventListener('click', function() {
-			this.style.backgroundColor = "#fff";
-			this.parentNode.querySelector("span.errorMessage").innerHTML = "";
-		});
-		document.querySelector("input[name='userAgainPassword']").addEventListener('click', function() {
-			this.style.backgroundColor = "#fff";
-			this.parentNode.querySelector("span.errorMessage").innerHTML = "";
-		}); */
 		
 		document.querySelector("#delete-group-btn").addEventListener("mousedown",
 				function(e) {
