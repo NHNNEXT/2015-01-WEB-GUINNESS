@@ -81,7 +81,6 @@ input.text {
 }
 
 .pComment-text {
-    outline: 1px solid #96CEDF;
   width: 235px;
   display: block;
   max-width: 228px;
@@ -120,11 +119,14 @@ input.text {
 }
 
 .pCommentListBox {
-  width: 240px;
-  max-height: 500px;
-  background: aliceblue;
-  float: right;
-    overflow: auto;
+    width: 243px;
+    max-height: 500px;
+    min-height: 200px;
+    background: aliceblue;
+    float: right;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-left: 2px;
 }
 
 #allShow {
@@ -183,6 +185,7 @@ input.text {
 	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 	box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+    margin-bottom: 2px;
 }
 
 .userProfile {
@@ -761,7 +764,7 @@ input#targetDate {
 }
 
 #note-edit-container {
-	margin-top: 20px;
+	margin-top: 100px;
 	float: none;
 	text-align: center;
 	height: 80%;
@@ -1077,7 +1080,7 @@ span.sDate {
 	width: 100%;
 	display: table;
 	color: white;
-	background-color: rgb(93, 129, 128);
+	background-color: #77C4B6;
 }
 
 .modal-title {
