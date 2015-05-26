@@ -119,6 +119,6 @@ public class Group {
 	@Override
 	public String toString() {
 		return "Group [groupId=" + groupId + ", groupName=" + groupName + ", groupCaptainUserId=" + groupCaptainUserId
-				+ ", isPublic=" + status + "]";
+				+ ", status=" + status + "]";
 	}
 }

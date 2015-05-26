@@ -56,7 +56,7 @@ public class GroupDao extends JdbcDaoSupport {
 			return getJdbcTemplate().queryForObject(
 					sql,
 					(rs, rowNum) -> new Group(rs.getString("groupId"), rs.getString("groupName"), rs
-							.getString("groupCaptainUserId"), rs.getString("isPublic"), rs.getString("groupImage")), groupId);
+							.getString("groupCaptainUserId"), rs.getString("status"), rs.getString("groupImage")), groupId);
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
@@ -105,14 +105,14 @@ public class GroupDao extends JdbcDaoSupport {
 			return getJdbcTemplate().queryForObject(
 					sql,
 					(rs, rowNum) -> new Group(rs.getString("groupId"), rs.getString("groupName"), rs
-							.getString("groupCaptainUserId"), rs.getString("isPublic"), rs.getString("groupImage")), noteId);
+							.getString("groupCaptainUserId"), rs.getString("status"), rs.getString("groupImage")), noteId);
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
 	}
 
 	public void updateGroup(Group group) {
-		String sql = "update GROUPS set groupName = ?, groupCaptainUserId = ?, isPublic = ?, groupImage = ? where groupId = ?";
+		String sql = "update GROUPS set groupName = ?, groupCaptainUserId = ?, status = ?, groupImage = ? where groupId = ?";
 		getJdbcTemplate().update(sql, group.getGroupName(), group.getGroupCaptainUserId(), group.getStatus(), group.getGroupImage(), group.getGroupId());
 	}
 	
@@ -122,7 +122,7 @@ public class GroupDao extends JdbcDaoSupport {
 			query += " OR groupName like \"%" + keyword + "%\"";
 		}
 		
-		String sql = "SELECT * FROM GROUPS AS G WHERE ("+ query.substring(3) +") AND isPublic = 'T'";
+		String sql = "SELECT * FROM GROUPS AS G WHERE ("+ query.substring(3) +") AND status = 'T'";
 		try {
 			return getJdbcTemplate().queryForList(sql);
 		} catch (EmptyResultDataAccessException e) {
@@ -134,7 +134,7 @@ public class GroupDao extends JdbcDaoSupport {
 		String sql = "select * from GROUPS where groupId = ?";
 		try {
 			return getJdbcTemplate().queryForObject(sql, (rs, rowNum) -> new Group(rs.getString("groupId"), rs.getString("groupName"), rs
-					.getString("groupCaptainUserId"), rs.getString("isPublic"), rs.getString("groupImage")), groupId).getGroupCaptainUserId();
+					.getString("groupCaptainUserId"), rs.getString("status"), rs.getString("groupImage")), groupId).getGroupCaptainUserId();
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
