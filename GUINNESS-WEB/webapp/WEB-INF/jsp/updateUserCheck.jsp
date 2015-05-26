@@ -46,7 +46,7 @@
     height: 30px;
     font-size: 15px;
     color: white;
-    background-color: rgb(116, 175, 173);
+    background-color: rgb(124, 196, 181);
 }
 
 </style>
