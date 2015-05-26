@@ -14,6 +14,7 @@ window.addEventListener('load', function() {
 }, false);
 
 function loadGroupAlarm() {
+	debugger;
     guinness.ajax({
         method:"get",
         url:"/alarms/count",

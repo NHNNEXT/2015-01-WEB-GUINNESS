@@ -53,7 +53,6 @@
 			<button class="btn btn-pm">만들기</button>
 		</form>
 	</template>
-	
 	<script src="/js/group.js"></script>
 </body>
 </html>
