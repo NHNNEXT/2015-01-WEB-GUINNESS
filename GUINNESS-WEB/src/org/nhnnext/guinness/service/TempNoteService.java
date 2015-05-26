@@ -1,5 +1,7 @@
 package org.nhnnext.guinness.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.nhnnext.guinness.dao.TempNoteDao;
@@ -14,5 +16,13 @@ public class TempNoteService {
 	
 	public long create(String noteText, String createDate, String sessionUserId) {
 		return tempNoteDao.create(new TempNote(noteText, createDate, new User(sessionUserId)));
+	}
+
+	public List<TempNote> read(String userId) {
+		return tempNoteDao.read(userId);
+	}
+
+	public Object readByNoteId(String noteId) {
+		return tempNoteDao.readByNoteId(noteId);
 	}
 }

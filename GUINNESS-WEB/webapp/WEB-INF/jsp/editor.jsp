@@ -18,6 +18,29 @@
 
 	<%@ include file="./commons/_topnav.jspf"%>
 
+	<ul style="margin-top: 100px;">
+		<li class="dropdown"><a href="#" data-toggle="dropdown">임시저장<i class="fa fa-sort-desc"></i></li>
+		<ul class="dropdown-menu" style="display:none">
+		</ul>
+	</ul>
+	<script>
+		var el = document.querySelector(".dropdown");
+		var button = document.querySelector("a[data-toggle='dropdown']");
+		var menu = document.querySelector(".dropdown-menu");
+		var arrow = button.querySelector(".fa-sort-desc");
+
+		button.onclick = function(event) {
+			if(arrow.className === "fa fa-sort-desc") {
+				menu.setAttribute("style", "display: ");
+				arrow.setAttribute("class", "fa fa-sort-up");
+			} else {
+				menu.setAttribute("style", "display: none");
+				arrow.setAttribute("class", "fa fa-sort-desc");
+			}
+		};
+		console.log(button);
+	</script>
+
 	<input type="hidden" id="sessionUserId" name="sessionUserId"
 		value="${sessionUser.userId}">
 	<div id="note-edit-container" class="content wrap">
@@ -84,6 +107,9 @@
 
 	<script>
 		var groupName = "${group.groupName}";
+		window.addEventListener("load", function() {
+			appendTempNoteList(${tempNotes});
+		});
 	</script>
 	<script src="/js/note.js"></script>
 	<script src="/js/datepickr.js"></script>

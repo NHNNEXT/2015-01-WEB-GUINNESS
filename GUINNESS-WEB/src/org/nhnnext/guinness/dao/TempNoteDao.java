@@ -50,4 +50,13 @@ public class TempNoteDao extends JdbcDaoSupport {
 				rs.getString("createDate"), 
 				new User(rs.getString("userId"))), userId);
 	}
+
+	public TempNote readByNoteId(String noteId) {
+		String sql = "select * from TEMP_NOTES where noteId = ?";
+		return getJdbcTemplate().queryForObject(sql, (rs, rowNum) -> new TempNote(
+				rs.getLong("noteId"), 
+				rs.getString("noteText"), 
+				rs.getString("createDate"), 
+				new User(rs.getString("userId"))), noteId);
+	}
 }

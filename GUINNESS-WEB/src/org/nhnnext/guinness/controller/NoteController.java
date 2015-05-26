@@ -137,6 +137,7 @@ public class NoteController {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		noteService.checkJoinedGroup(groupId, sessionUserId);
 		model.addAttribute("group", groupService.readGroup(groupId));
+		model.addAttribute("tempNotes", new Gson().toJson(tempNoteService.read(sessionUserId)));
 		return "editor";
 	}
 
@@ -145,6 +146,7 @@ public class NoteController {
 		Note note = noteService.readNote(noteId);
 		model.addAttribute("note", note);
 		model.addAttribute("group", groupService.readGroup(note.getGroup().getGroupId()));
+		model.addAttribute("tempNotes", new Gson().toJson(tempNoteService.read(note.getUser().getUserId())));
 		return "editor";
 	}
 
@@ -155,11 +157,17 @@ public class NoteController {
 	}
 	
 	@RequestMapping(value = "/notes/temp", method = RequestMethod.POST)
-	private @ResponseBody JsonResult tempSave(@RequestParam String noteText,
+	private @ResponseBody JsonResult tempNoteCreate(@RequestParam String noteText,
 			@RequestParam String createDate, HttpSession session) throws IOException {
 		logger.debug("noteText : {}, createDate : {}", noteText, createDate);
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		long tempNoteId = tempNoteService.create(noteText, DateTimeUtil.addCurrentTime(createDate), sessionUserId);
 		return new JsonResult().setSuccess(true).setObject(tempNoteId);
+	}
+	
+	@RequestMapping("/notes/temp/{noteId}")
+	protected @ResponseBody JsonResult<Preview> tempNoteRead(@PathVariable String noteId) {
+		logger.debug("noteId:{}", noteId);
+		return new JsonResult().setSuccess(true).setObject(tempNoteService.readByNoteId(noteId));
 	}
 }
