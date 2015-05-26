@@ -99,9 +99,14 @@ public class NoteController {
 
 	@RequestMapping(value = "/notes", method = RequestMethod.PUT)
 	private String update(@RequestParam String groupId, @RequestParam String noteId,
-			@RequestParam String noteTargetDate, @RequestParam String noteText) throws IOException {
+			@RequestParam String noteTargetDate, @RequestParam String noteText, HttpSession session) throws IOException {
+		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
+		Note note = noteService.readNote(noteId);
+		if(!sessionUserId.equals(note.getUser().getUserId())){
+			return "redirect:/g/" + groupId;
+		}
 		String editedNoteTextToMarkdown = new Markdown().toHTML(noteText);
-		String originNoteTextToMarkdown = new Markdown().toHTML(noteService.readNote(noteId).getNoteText());
+		String originNoteTextToMarkdown = new Markdown().toHTML(note.getNoteText());
 
 		Document editedDoc = Jsoup.parse(editedNoteTextToMarkdown);
 		Document originDoc = Jsoup.parse(originNoteTextToMarkdown);
