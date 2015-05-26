@@ -86,6 +86,7 @@ function getAlarms(){
 			var groupAlarmList = JSON.parse(req.responseText).group.mapValues;
 			if(noteAlarmList.length + groupAlarmList.length === 0) {
 				document.querySelector(".alarm-count").style.display = "none";
+				document.querySelector(".alarm-list").style.display = "none";
 				if(document.querySelector(".group-card .alarm-count") !== null) {
 					document.querySelector(".group-card .alarm-count").style.display = "none";
 				}

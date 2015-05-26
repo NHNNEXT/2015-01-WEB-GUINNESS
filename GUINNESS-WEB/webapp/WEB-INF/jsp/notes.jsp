@@ -186,7 +186,7 @@
 		var elCreateBtn = document.querySelector("#create-new-button");
 
 		
-		getDateExistNotes(); //test
+		getDateExistNotes();
 	}, false);
 	
 	window.addEventListener("scroll", function(e) {
@@ -219,7 +219,7 @@
 	});
 
 	document.querySelector("#calendar-container").addEventListener("click", function(e) {
-		if (e.target.getAttribute("class") === null || e.target.getAttribute("class").indexOf("available") === -1 || e.target.getAttribute("class").indexOf("noNote") !== -1)
+		if (e.target.getAttribute("class") === null || e.target.getAttribute("class").indexOf("available") === -1 || e.target.getAttribute("class").indexOf("existNote") === -1)
 			return;
 		var noteTargetDate = $("#defaultCalendar").data("daterangepicker").startDate._d.toISOString().substring(0,10)+ " 23:59:59";
 		reloadNoteList(noteTargetDate);
