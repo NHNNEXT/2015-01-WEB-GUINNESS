@@ -255,9 +255,10 @@
 			}
 			//dayChange
 			$(".calendar.first table tbody td.active").removeClass("active");
-			var days = $(".calendar.first table tbody td.available");
+			var days = $(".calendar.first table tbody td.existNote");
 			for (var i = 0; i < days.length; i++) {
-				if (days[i].textContent === date[2]) {
+				var day = (date[2] < 10) ? date[2].substring(1,2) : date[2];
+				if (days[i].textContent === day) {
 					days[i].className += " active";
 				}
 			}
