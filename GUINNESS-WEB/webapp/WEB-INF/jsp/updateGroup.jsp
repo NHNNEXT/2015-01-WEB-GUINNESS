@@ -86,7 +86,7 @@
 				}, false);
 		function confirmDelete(groupId, groupName) {
 			groupName = (groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
-			var message = "그룹을 삭제하시겠습니까?";
+			var message = "그룹 관련 정보가 모두 삭제됩니다. <br> 그래도 삭제하시겠습니까?";
 			guinness.util.alert(groupName, message,
 				function() {
 					document.body.style.overflow = "auto";

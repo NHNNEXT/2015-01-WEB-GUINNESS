@@ -48,7 +48,7 @@ function selectText() {
     span.appendChild(content);
     var selectedText = span.innerHTML;
     if (selectedText.length > 0) {
-        return selectedText;
+        return selectedText.replace(/^<span class="ShowPComment">.{1,}<\/span>/, "");
     }
     return false;
 }
@@ -152,6 +152,8 @@ function createPCommentListBox(pId, noteContent, noteId) {
             for(var index in result.objectValues ) {
                 pComment.appendPComment(result.objectValues[index]);
             }
+            var pCommentList = document.body.querySelector(".pCommentList");
+            pCommentList.scrollTop = 0;
         }
     });
 }
