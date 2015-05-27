@@ -65,6 +65,7 @@
 				<table id="group-member">
 				</table>
 			</div>
+			<div onclick="leaveGroup()" style="margin:10px; cursor:pointer;"> <span>그룹 탈퇴하기</span> </div>
 		</div>
 	</div>
 
@@ -113,7 +114,15 @@
 		readMember(groupId);
 		appendNoteList(json);
 		appendMarkList(json);
+		var elCreateBtn = document.querySelector("#create-new-button");
 		getDateExistNotes();
+		if(document.querySelector("#member-template") !== null)
+			memberTemplate = document.querySelector("#member-template").content;
+		document.querySelector("#escape-group-btn").addEventListener("click", function() {
+			guinness.confirmLeave(groupId, groupName);
+			
+		}, false);
+		
 	}, false);
 	
 	window.addEventListener("scroll", function(e) {
@@ -241,6 +250,26 @@
 					   break;
 			   }
 		}
+	}
+	
+	function leaveGroup() {
+		guinness.util.alert(groupName, "그룹을 탈퇴하시겠습니까?", function(){
+			var param = "sessionUserId="+document.querySelector("#sessionUserId").value+"&groupId="+groupId;
+			guinness.ajax({
+				method:"post",
+				url:"/groups/members/leave",
+				param: param,
+				success: function(req) {
+					if (JSON.parse(req.responseText).success !== true) {
+						guinness.util.alert('경고', JSON.parse(req.responseText).message);
+						return;
+					}
+					if (location !== undefined) {
+						window.location.href = "/groups/form";
+					}
+				}
+			});
+		}, function(){});
 	}
 	
 	</script>

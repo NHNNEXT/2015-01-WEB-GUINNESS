@@ -195,6 +195,10 @@ div#pCommentBoxCancel {
     line-height:20px;
 }
 
+.selected {
+       background:#FC43BA;
+}
+
 .pCommentBox {
     background-color:#fff;
     width: 240px;

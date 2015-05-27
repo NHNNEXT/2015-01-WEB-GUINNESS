@@ -88,8 +88,7 @@ function appendNoteList(json) {
         if (question.length) {
             out += "<span class='question'>" + question + "</span><br />";
         }
-        out += "<div class='comment-div'><i class='fa fa-comments'> " + obj.note.commentCount
-            + "</i></div></div></li>";
+        out += "<div class='comment-div'><i class='fa fa-comments'></i><span>"+obj.note.commentCount+"</span></div></div></li>";
         newEl.innerHTML = out;
         el.appendChild(newEl);
         document.getElementById(obj.note.noteId).addEventListener(
