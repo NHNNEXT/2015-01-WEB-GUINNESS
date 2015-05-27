@@ -600,6 +600,8 @@ function tempSave() {
                  "<i class='fa fa-close' onclick='deleteTempNote(" + tempNoteId + ");'></i>";
 
                 dropdownMenu.appendChild(el);
+
+                document.querySelector("#hiddenTempNoteId").value = tempNoteId;
             }
         }); 
     } else {
