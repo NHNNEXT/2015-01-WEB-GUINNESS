@@ -815,7 +815,7 @@ div#calendar {
 
 textarea#commentText {
 	width:99%;
-	height:150px;
+	height:80px;
 	resize:none;
 	position:relative;
 }

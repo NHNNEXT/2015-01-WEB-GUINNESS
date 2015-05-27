@@ -171,7 +171,9 @@ function noteAlarmSelect(t, noteId, alarmStatus){
 			if (result.success !== true) {
 				return;
 			}
-			loadGroupAlarm();
+			if(document.querySelector(".group-card .alarm-count") !== null) {
+				loadGroupAlarm();
+			}
 			getAlarms();
 			readNoteContents(noteId);
 		}
