@@ -1200,9 +1200,11 @@ span.ShowPComment:hover {
 	font-size: 15px;
 	cursor: pointer;
 	float: right;
-	left: 16px;
-	top: -16px;
-	color: white;
+	color: #fff;
+}
+
+.leaveGroup-btn:hover {
+	color: rgb(255, 133, 133);
 }
 
 .panel {
