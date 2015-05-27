@@ -1371,3 +1371,11 @@ span.tag {
 	margin-left:10px;
 	cursor:pointer;
 }
+
+#deleteAlarm {
+	background-color: #619493;
+	width: 200px;
+	border-bottom: 3px solid #94BDBC;
+	color: white;
+	margin: 5px 0px;
+}

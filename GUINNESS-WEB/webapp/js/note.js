@@ -280,7 +280,10 @@ function deleteComment(commentId, noteId) {
             	document.querySelector('#cmt-' + commentId).remove();
                 // 주석 단 사람 : ybin
                 // TODO : 이곳에 noteId를 받아오는 부분이 없음.
-            	document.getElementById(noteId).querySelector(".fa.fa-comments").innerHTML = " "+document.querySelector("#commentListUl").childElementCount;
+            	var noteEl = document.getElementById(noteId);
+            	if(noteEl === null)
+            		return;
+            	noteEl.querySelector(".fa.fa-comments").innerHTML = " "+document.querySelector("#commentListUl").childElementCount;
             }
         }
     });
@@ -336,7 +339,7 @@ function createComment(obj) {
                     document.querySelector('#commentText').value = result.message;
                     return;
                 }
-                appendComment(result.mapValues);
+                appendComment(result.mapValues, noteId);
                 document.querySelector('#commentText').value = "";
                 //노트 리스트에서 댓글 수 수정(노트 에디트 화면에서는 필요없음)
                 if(document.getElementById(noteId) !== null)
