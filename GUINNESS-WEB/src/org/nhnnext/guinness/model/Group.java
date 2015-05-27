@@ -20,13 +20,21 @@ public class Group {
 		this.status = status;
 		this.groupImage = groupImage;
 	}
-
-	public Group(String groupId) {
-		this(groupId, null, null, "A", null);
+	
+	public Group(String groupId, String groupName, String groupCaptainUserId, String status) {
+		this(groupId, groupName, groupCaptainUserId, status, "background-default.png");
 	}
 
-	public void setGroupId(String groupId) {
-		this.groupId = groupId;
+	public Group(String groupId) {
+		this(groupId, null, null, "A");
+	}
+	
+	public boolean checkStatus() {
+		return status.equals("T");
+	}
+	
+	public boolean checkCaptain(String userId) {
+		return this.groupCaptainUserId.equals(userId);
 	}
 
 	public String getGroupId() {
@@ -44,9 +52,13 @@ public class Group {
 	public String getStatus() {
 		return status;
 	}
-	
+
 	public String getGroupImage() {
 		return groupImage;
+	}
+
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
 	}
 
 	public void setGroupName(String groupName) {
@@ -60,17 +72,9 @@ public class Group {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
+
 	public void setGroupImage(String groupImage) {
 		this.groupImage = groupImage;
-	}
-
-	public boolean checkStatus() {
-		return status.equals("T");
-	}
-	
-	public boolean checkCaptain(String userId) {
-		return this.groupCaptainUserId.equals(userId);
 	}
 
 	@Override
@@ -79,6 +83,7 @@ public class Group {
 		int result = 1;
 		result = prime * result + ((groupCaptainUserId == null) ? 0 : groupCaptainUserId.hashCode());
 		result = prime * result + ((groupId == null) ? 0 : groupId.hashCode());
+		result = prime * result + ((groupImage == null) ? 0 : groupImage.hashCode());
 		result = prime * result + ((groupName == null) ? 0 : groupName.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
@@ -103,6 +108,11 @@ public class Group {
 				return false;
 		} else if (!groupId.equals(other.groupId))
 			return false;
+		if (groupImage == null) {
+			if (other.groupImage != null)
+				return false;
+		} else if (!groupImage.equals(other.groupImage))
+			return false;
 		if (groupName == null) {
 			if (other.groupName != null)
 				return false;
@@ -119,6 +129,6 @@ public class Group {
 	@Override
 	public String toString() {
 		return "Group [groupId=" + groupId + ", groupName=" + groupName + ", groupCaptainUserId=" + groupCaptainUserId
-				+ ", status=" + status + "]";
+				+ ", status=" + status + ", groupImage=" + groupImage + "]";
 	}
 }
