@@ -1036,6 +1036,16 @@ span.sDate {
 	margin-left:0px;
 }
 
+.fa.fa-cog {
+	font-size : 30px;
+	margin-left: 10px;
+	visibility: none;
+}
+
+.fa-cog:hover {
+	cursor: pointer;
+}
+
 .switchForm:hover {
 	color: #BCBCBC;
 	text-decoration: underline;
