@@ -40,17 +40,34 @@ pComment.appendPComment = function (json) {
     pCommentList.insertAdjacentHTML("beforeend", elPComment);
     var PCommentCard = document.body.querySelector(".pCommentList #pCId"+json.pCommentId);
     PCommentCard.addEventListener('mouseover', pComment.highlite, false);
-    PCommentCard.addEventListener('mouseleave', refresh, false);
+    PCommentCard.addEventListener('mouseleave', function(e) {
+        var info = e.target.closest("li").querySelector("input[type=hidden]");
+        var p = document.body.querySelector('#pId-'+info.getAttribute('ptagid'));
+        var highlighted = p.querySelector('.highlighted');
+        p.innerHTML = p.innerHTML.replace(/<span class="highlighted">.+<\/span>/, highlighted.innerHTML);
+    }, false);
     pCommentList.scrollTop = pCommentList.scrollHeight;
 }
 
 pComment.highlite = function (e) {
     var info = e.target.closest("li").querySelector("input[type=hidden]");
-    var pId = info.p-id;
-    var sameSenCount = info.samecount;
-    var sameSenIndex = info.sameindex;
-    var selectedText = info.selecttext;
-    debugger;
+    var pId = info.getAttribute('ptagid');
+    var sameSenCount = info.getAttribute('samecount');
+    var sameSenIndex = Number(info.getAttribute('sameindex'));
+    var selectedText = info.getAttribute('selecttext');
+    var p = document.body.querySelector('#pId-'+pId);
+    
+    var count = 0;
+    var index = 0;
+    do {
+        count++;
+        index = p.innerHTML.indexOf(selectedText);
+    } while(index !== -1 && count < sameSenIndex);
+    
+    if (p.innerHTML.search('<span class="highlighted">') < 0) {
+        p.innerHTML = p.innerHTML.slice(0, index)+"<span class='highlighted'>"+selectedText
+            +"</span>"+p.innerHTML.slice(index+selectedText.length);
+    }
 }
 
 function selectText() {
@@ -116,7 +133,7 @@ function _createPCommentBox () {
     pCommentBox.querySelector("#pCommentCancel").addEventListener("click", function (e) {
         e.target.parentElement.parentElement.style.display = "none";
         document.body.querySelector(".inputP").innerText = "";
-        document.body.querySelector(".highlighted").className = "none";
+        document.body.querySelector(".selected").className = "none";
         refresh();
         pCommentListRemover();
     }, false);
@@ -206,7 +223,7 @@ function createPComment () {
     var inputP = document.body.querySelector(".inputP");
     pComment.pCommentText = inputP.innerText;
     inputP.innerText = "";
-    document.body.querySelector(".highlighted").className = "none";
+    document.body.querySelector(".selected").className = "none";
     refresh();
     if(pComment.pCommentText.length < 1) {
         return false;
@@ -309,7 +326,7 @@ function getSameSentence (pComment, selectedText, selection) {
     
     var span = document.createElement("SPAN");
     span.innerHTML = getSelection();
-    span.className = "highlighted";
+    span.className = "selected";
     selectRange.deleteContents();
     selectRange.insertNode(span);
 }
