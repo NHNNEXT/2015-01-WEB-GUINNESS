@@ -50,4 +50,12 @@ public class AlarmController {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		return new JsonResult().setSuccess(true).setMapValues(alarmDao.readNoteAlarm(sessionUserId));
 	}
+	
+	@RequestMapping(value = "/all", method = RequestMethod.DELETE)
+	protected @ResponseBody JsonResult deleteAlarmAll(HttpSession session) throws IOException {
+		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
+		alarmDao.deleteNoteAlarm(sessionUserId);
+		alarmDao.deleteGroupAlarm(sessionUserId);
+		return new JsonResult().setSuccess(true);
+	}
 }

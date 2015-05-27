@@ -196,7 +196,7 @@ div#pCommentBoxCancel {
 }
 
 .selected {
-       background:#FC43BA;
+       background:#FAED8D;
 }
 
 .pCommentBox {
@@ -815,7 +815,7 @@ div#calendar {
 
 textarea#commentText {
 	width:99%;
-	height:150px;
+	height:80px;
 	resize:none;
 	position:relative;
 }
@@ -915,6 +915,7 @@ span.sDate {
 	display:table;
 	margin:0 auto;
 	padding:0;
+	width: 520px;
 }
 
 .note-list a {
@@ -1079,12 +1080,12 @@ span.sDate {
     box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 }
 
-span.ShowPComment {
+.ShowPComment {
   position:relative;
   left:630px;
 }
 
-span.ShowPComment:hover {
+.ShowPComment:hover {
   color:orange;
 }
 
@@ -1408,4 +1409,12 @@ span.tag {
 #quickAlarm div{
 	float:left;
 	margin:5px;
+}
+
+#deleteAlarm {
+	background-color: #619493;
+	width: 200px;
+	border-bottom: 3px solid #94BDBC;
+	color: white;
+	margin: 5px 0px;
 }
