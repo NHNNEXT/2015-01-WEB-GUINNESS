@@ -579,7 +579,7 @@ function tempSave() {
     var noteText = document.querySelector("#noteTextBox").value;
     var createDate = new Date().toISOString().slice(0, 10);
 
-    if(noteId === "") {
+    if(noteId === "0") {
         guinness.ajax({
             method: "post",
             url: '/notes/temp',
