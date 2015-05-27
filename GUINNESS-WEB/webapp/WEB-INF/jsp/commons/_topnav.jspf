@@ -50,7 +50,7 @@
   </section>
 </script>
 
-<template type="template" id="searchResultTemplate">
+<template id="searchResultTemplate">
 	<div class="searchResultBody">
 		<div class="searchResultText"></div>
 		<span class="searchResultName"></span>
@@ -61,7 +61,7 @@
 	</div>
 </template>
 
-<template type="template" id="groupResultTemplate">
+<template id="groupResultTemplate">
 	<div class="searchResultBody">
 		<span class="searchResultName"></span>
 		<br/>
