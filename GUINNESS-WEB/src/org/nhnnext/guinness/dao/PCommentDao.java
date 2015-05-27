@@ -66,6 +66,12 @@ public class PCommentDao extends JdbcDaoSupport {
 		String sql = "select * from PCOMMENTS, USERS where PCOMMENTS.userId = USERS.userId AND noteId = ?";
 		return getJdbcTemplate().queryForList(sql, noteId);
 	}
+	
+	public List<Map<String, Object>> countByPGroupPCommnent(String noteId) {
+		String sql = "select pId, count(1) from PCOMMENTS, USERS where PCOMMENTS.userId = USERS.userId AND noteId = ? GROUP BY pId";
+		return getJdbcTemplate().queryForList(sql, noteId);
+	}
+
 
 	public PComment readByPCommentId(String pCommentId) {
 		String sql = "select * from PCOMMENTS, USERS where PCOMMENTS.userId = USERS.userId AND pCommentId = ?";

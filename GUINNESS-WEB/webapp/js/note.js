@@ -186,6 +186,7 @@ function showNoteModal(obj) {
     var viewContent = document.createElement('DIV');
     viewContent.innerHTML = obj.noteText;
     //TODO 노트의 각 문단별 코멘트 카운트 가져오기.
+    // 가져온 카온트가 0보다 큰 경우만 벌브 아이콘 달기.
     var arShowP = viewContent.querySelectorAll(".ShowPComment");
     for(var index in arShowP) {
         if (index === "length") {
