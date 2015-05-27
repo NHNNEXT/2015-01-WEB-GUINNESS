@@ -623,19 +623,16 @@ a {
 }
 
 .drop-down .alarm-list {
-  float: right;
-  right: 0px;
-  top: 25px;
-  background-image: none;
+  float:right;
+  right:0px;
+  max-height:450px;
+  overflow-y:scroll;
+  padding:0;
 }
 
 .drop-down .alarm-list li {
   width: 200px;
   border-bottom: 3px solid #94BDBC;
-}
-
-.drop-down .alarm-list li a {
-  width: auto;
 }
 
 #header .util .label {
@@ -1160,7 +1157,6 @@ span.ShowPComment:hover {
 	color:#fff;
 	cursor:pointer;
 	background-color:#619493;
-	opacity:10;
 }
 
 .drop-down ul li a {
