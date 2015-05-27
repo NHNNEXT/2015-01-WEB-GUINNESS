@@ -622,7 +622,7 @@ a {
   margin-right:0 6px;
 }
 
-.drop-down .alarm-list {
+#header .alarm-list {
   float:right;
   right:0px;
   max-height:450px;
@@ -630,7 +630,7 @@ a {
   padding:0;
 }
 
-.drop-down .alarm-list li {
+#header .alarm-list li {
   width: 200px;
   border-bottom: 3px solid #94BDBC;
 }
@@ -1388,7 +1388,6 @@ span.tag {
 	right:0;
 	background-color:#fff;
 	margin-top:10px;
-	border: 1px solid #ccc;
 }
 
 .dropdown-menu li {
@@ -1405,6 +1404,29 @@ span.tag {
 .dropdown-menu .fa-close {
 	margin-left:10px;
 	cursor:pointer;
+}
+
+#quickAlarm {
+	position:fixed;
+	top:50px;
+	display:none;
+	color:#fff;
+	padding:10px;
+	background-color:#ff5a5a;
+	border-radius:4px;
+	font-size:12px;
+	opacity:1;
+	transition-property:opacity;
+	transition-duration:2s;
+}
+
+#quickAlarm.fade{
+	opacity:0;
+}
+
+#quickAlarm div{
+	float:left;
+	margin:5px;
 }
 
 #deleteAlarm {

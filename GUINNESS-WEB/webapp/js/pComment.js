@@ -44,7 +44,9 @@ pComment.appendPComment = function (json) {
         var info = e.target.closest("li").querySelector("input[type=hidden]");
         var p = document.body.querySelector('#pId-'+info.getAttribute('ptagid'));
         var highlighted = p.querySelector('.highlighted');
-        p.innerHTML = p.innerHTML.replace(/<span class="highlighted">.+<\/span>/, highlighted.innerHTML);
+        if (null !== highlighted) {
+            p.innerHTML = p.innerHTML.replace(/<span class="highlighted">.+<\/span>/, highlighted.innerHTML);
+        }
     }, false);
     pCommentList.scrollTop = pCommentList.scrollHeight;
     pCommentCountByP(document.querySelector('.hiddenNoteId').value);
@@ -70,7 +72,6 @@ pComment.highlite = function (e) {
     } while(index !== -1 && count < sameSenIndex);
     
     if (p.innerHTML.search('<span class="highlighted">') < 0 && index !== -1) {
-        debugger;
         p.innerHTML = p.innerHTML.slice(0, index)+"<span class='highlighted'>"
             + cloneSeletedText + "</span>"+p.innerHTML.slice(index+cloneSeletedText.length);
     }
@@ -161,15 +162,23 @@ function pCommentCountByP(noteId) {
                 return false;
             }
             var arShowP = document.body.querySelectorAll(".ShowPComment");
-            for(var index in arShowP) {
-                if (index === "length") {
-                    break;
+            if (arShowP.length<=0) {
+                return false;
+            }
+            for(var index=0; index < arShowP.length; index++) {
+                var count = 0;
+                var json = null;
+                for (var jndex=0; jndex < result.mapValues.length; jndex++) {
+                    json = result.mapValues[jndex];
+                    var bulb = arShowP[index].closest('P');
+                    if (bulb === null) {
+                        continue;   
+                    }
+                    if (json.pId === bulb.id.replace("pId-","")*1) {
+                        count = json['count(1)'];
+                    }
                 }
-                var count = result.mapValues[index];
-                if (count === undefined ){
-                    return false;
-                }
-                if (count['count(1)'] > 0) {
+                if (count > 0) {
                     arShowP[index].innerHTML = "<i class='fa fa-lightbulb-o'></i>";
                     arShowP[index].addEventListener('click', function (e) {
                         e.preventDefault;
@@ -209,7 +218,6 @@ function createPCommentListBox(pId, noteContent, noteId) {
             var pCommentList = document.body.querySelector(".pCommentList");
             pCommentList.innerHTML = "";
             for(var index in result.objectValues ) {
-            	debugger;
                 pComment.appendPComment(result.objectValues[index]);
             }
             var pCommentList = document.body.querySelector(".pCommentList");
