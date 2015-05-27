@@ -118,10 +118,13 @@
 		getDateExistNotes();
 		if(document.querySelector("#member-template") !== null)
 			memberTemplate = document.querySelector("#member-template").content;
+<<<<<<< HEAD
 		document.querySelector("#escape-group-btn").addEventListener("click", function() {
 			guinness.confirmLeave(groupId, groupName);
 		}, false);
 		
+=======
+>>>>>>> branch 'master' of https://github.com/NHNNEXT/2015-01-WEB-GUINNESS.git
 	}, false);
 	
 	window.addEventListener("scroll", function() {

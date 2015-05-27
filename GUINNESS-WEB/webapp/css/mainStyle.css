@@ -196,7 +196,7 @@ div#pCommentBoxCancel {
 }
 
 .selected {
-       background:#FC43BA;
+       background:#FAED8D;
 }
 
 .pCommentBox {
@@ -1079,12 +1079,12 @@ span.sDate {
     box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 }
 
-span.ShowPComment {
+.ShowPComment {
   position:relative;
   left:630px;
 }
 
-span.ShowPComment:hover {
+.ShowPComment:hover {
   color:orange;
 }
 
