@@ -29,17 +29,17 @@ public class Markdown {
 				return textHtml;
 			}
 			if( pIndex == -1 && preIndex >= 0){
-				textHtml = textHtml.replaceFirst("<pre>", "<pre id='pId-"+idNumber+"' class='pCommentText' ><span class='ShowPComment'></span>");
+				textHtml = textHtml.replaceFirst("<pre>", "<pre id='pId-"+idNumber+"' class='pCommentText' ><strong class='ShowPComment'></strong>");
 			}
 			if( pIndex >= 0 && preIndex == -1 ){
-				textHtml = textHtml.replaceFirst("<p>", "<p id='pId-"+idNumber+"' class='pCommentText' ><span class='ShowPComment'></span>");
+				textHtml = textHtml.replaceFirst("<p>", "<p id='pId-"+idNumber+"' class='pCommentText' ><strong class='ShowPComment'></strong>");
 			}
 			if( pIndex >= 0 && preIndex >= 0 ){
 				if( pIndex < preIndex ){
-					textHtml = textHtml.replaceFirst("<p>", "<p id='pId-"+idNumber+"' class='pCommentText' ><span class='ShowPComment'></span>");
+					textHtml = textHtml.replaceFirst("<p>", "<p id='pId-"+idNumber+"' class='pCommentText' ><strong class='ShowPComment'></strong>");
 				}
 				else {
-					textHtml = textHtml.replaceFirst("<pre>", "<pre id='pId-"+idNumber+"' class='pCommentText' ><span class='ShowPComment'></span>");
+					textHtml = textHtml.replaceFirst("<pre>", "<pre id='pId-"+idNumber+"' class='pCommentText' ><strong class='ShowPComment'></strong>");
 				}
 			}
 			idNumber++;
@@ -50,8 +50,8 @@ public class Markdown {
 		Pattern pattern = Pattern.compile("!{3}[^\n]{1,}!{3}");
 		Matcher matcher = pattern.matcher(markdownText);
 		while (matcher.find()) {
-			String change = matcher.group().replaceAll("^!!!", "<span class='attention'><i class='fa fa-exclamation-circle'></i>")
-					.replaceAll("!!!$", "</span>");
+			String change = matcher.group().replaceAll("^!!!", "<strong class='attention'><i class='fa fa-exclamation-circle'></i>")
+					.replaceAll("!!!$", "</strong>");
 			markdownText = markdownText.replace(matcher.group(), change);
 		}
 		return markdownText;
@@ -61,8 +61,8 @@ public class Markdown {
 		Pattern pattern = Pattern.compile("\\?{3}[^\n]{1,}\\?{3}");
 		Matcher matcher = pattern.matcher(markdownText);
 		while (matcher.find()) {
-			String change = matcher.group().replaceAll("^\\?\\?\\?", "<span class='question'><i class='fa fa-question-circle'></i>")
-					.replaceAll("\\?\\?\\?$", "</span>");
+			String change = matcher.group().replaceAll("^\\?\\?\\?", "<strong class='question'><i class='fa fa-question-circle'></i>")
+					.replaceAll("\\?\\?\\?$", "</strong>");
 			markdownText = markdownText.replace(matcher.group(), change);
 		}
 		return markdownText;
