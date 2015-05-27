@@ -216,13 +216,13 @@ function readComments(obj) {
             var result = JSON.parse(req.responseText);
             if (result.success !== true)
                 return;
-            appendComment(result.mapValues);
+            appendComment(result.mapValues, noteId);
             guinness.util.setModalPosition();
         }
     });
 }
 
-function appendComment(json) {
+function appendComment(json, noteId) {
     var el = document.querySelector('#commentListUl');
     var userId = document.getElementById("sessionUserId").value;
     while (el.hasChildNodes()) {
@@ -244,7 +244,7 @@ function appendComment(json) {
         commentEl.querySelector('.avatar').setAttribute("src",
             "/img/profile/" + obj.userImage);
         if (userId === obj.userId) {
-            commentEl.querySelector('.comment-util').innerHTML = "<div class='default-utils'><a href='#' onclick='showEditInputBox("+obj.commentId+")'>수정</a><a href='#' onclick='deleteComment(obj.commentId)'>삭제</a></div>"
+            commentEl.querySelector('.comment-util').innerHTML = "<div class='default-utils'><a href='#' onclick='showEditInputBox("+obj.commentId+")'>수정</a><a href='#' onclick='deleteComment("+obj.commentId+", "+noteId+")'>삭제</a></div>"
         }
     }
 
@@ -278,7 +278,7 @@ function updateComment(commentId, commentText) {
         });
 }
 
-function deleteComment(commentId) {
+function deleteComment(commentId, noteId) {
     guinness.ajax({
         method: "delete",
         url: "/comments/" + commentId,

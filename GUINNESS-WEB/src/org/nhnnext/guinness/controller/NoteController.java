@@ -151,8 +151,12 @@ public class NoteController {
 	}
 
 	@RequestMapping("/notes/editor/{noteId}")
-	private String updateEditor(@PathVariable String noteId, Model model) {
+	private String updateEditor(@PathVariable String noteId, Model model, HttpSession session) throws Exception {
+		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		Note note = noteService.readNote(noteId);
+		if(!sessionUserId.equals(note.getUser().getUserId())){
+			throw new Exception("노트 작성자, 수정자 불일치 예외.");
+		}
 		model.addAttribute("note", note);
 		model.addAttribute("group", groupService.readGroup(note.getGroup().getGroupId()));
 		model.addAttribute("tempNotes", new Gson().toJson(tempNoteService.read(note.getUser().getUserId())));
