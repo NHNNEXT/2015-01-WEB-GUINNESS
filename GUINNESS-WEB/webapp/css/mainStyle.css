@@ -469,10 +469,14 @@ form#notes-create-form {
 
 #left-menu-container #summary-container ul {
 	display:block;
+	overflow-y:scroll;
 }
 
 #left-menu-container #summary-container ul li {
-	padding:2px 5px 2px 30px;
+	padding:2px 5px 2px 20px;
+	overflow-x:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
 }
 
 #group-member-container {
@@ -493,6 +497,7 @@ form#notes-create-form {
 
 #group-member-container div#group-member-list #group-member {
 	margin-top:10px;
+	overflow-y:scroll;
 }
 
 #group-member-container #group-member-list #group-member td {

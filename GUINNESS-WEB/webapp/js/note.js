@@ -643,3 +643,13 @@ function loadTempNote(tempNoteId) {
         }
     });
 }
+
+function resizeSideMenu(e) {
+	document.querySelector("#group-member").style.maxHeight = document.body.clientHeight - 241 +"px";
+	if (document.body.clientHeight < 420) {
+		document.querySelector("#summary-container").hide();
+		return;
+	}
+	document.querySelector("#summary-container").show();
+	document.querySelector("#question-list").style.maxHeight = document.querySelector("#attention-list").style.maxHeight = Math.floor((document.body.clientHeight - 395) / 2)+"px";
+}

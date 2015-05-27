@@ -46,7 +46,7 @@
 				<span class="menu-title attention"><i class="fa fa-exclamation"></i>  정보</span>
 				<ul id="attention-list" style="list-style:none; margin:5px 0 10px 0;"></ul>
 				<span class="menu-title question"><i class="fa fa-question"></i>  질문</span>
-				<ul id="question-list" style="list-style:none;"></ul>
+				<ul id="question-list" style="list-style:none; margin:5px 0 10px 0;"></ul>
 			</div>
 		</div>
 
@@ -192,8 +192,15 @@
 	window.addEventListener("scroll", function(e) {
 		infiniteScroll();
 		sideMenuFlow();
+		resizeSideMenu();
 		refreshCalendar();
 	}, false);
+	
+
+	window.addEventListener('resize',function(){
+		console.log("resize");
+		resizeSideMenu();
+	},false);
 	
 	$(function() {
 	    $("#defaultCalendar").daterangepicker({
