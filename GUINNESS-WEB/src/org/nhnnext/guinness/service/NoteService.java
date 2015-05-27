@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -40,6 +41,8 @@ public class NoteService {
 	private PreviewService previewService;
 	@Resource
 	private TempNoteService tempNoteService;
+	@Resource
+	private PCommentService pCommentService;
 
 	public Note readNote(String noteId) {
 		return noteDao.readNote(noteId);
@@ -73,9 +76,10 @@ public class NoteService {
 		tempNoteService.delete(Long.parseLong(tempNoteId));
 	}
 
-	public void update(String noteText, String noteId, String noteTargetDate) {
+	public void update(String noteText, String noteId, String noteTargetDate, List<Map<String, Object>> pCommentList) {
 		noteDao.updateNote(noteText, noteId, noteTargetDate);
 		previewService.updatePreview(noteId, noteText);
+		pCommentService.updateParagraphId(pCommentList);
 	}
 
 	public int delete(String noteId) {

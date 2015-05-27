@@ -107,8 +107,7 @@ function appendNoteList(json) {
 }
 
 function confirmDeleteNote(noteId) {
-    var message = "노트를 삭제하시겠습니까?";
-    guinness.util.alert("노트 삭제", message, function () {
+    guinness.util.alert("노트 삭제", "노트를 삭제하시겠습니까?", function () {
         document.body.style.overflow = "auto";
         deleteNote(noteId);
     }, function () {
@@ -201,7 +200,6 @@ function showNoteModal(obj) {
 }
 
 function readComments(obj) {
-    var userId = document.getElementById("sessionUserId").value;
     var noteId = obj.noteId;
     guinness.ajax({
         method: "get",
@@ -433,10 +431,10 @@ function readMember(groupId) {
     });
 }
 
-var memberTemplate;
 var onOffMemberList = [];
 function appendMember(obj) {
 	var userId = document.getElementById("sessionUserId").value;
+	var memberTemplate = memberTemplate = document.querySelector("#member-template").content;
 	var newMember = document.importNode(memberTemplate, true);
 	if(userId === groupCaptainUserId){
 		newMember.querySelector(".member-delete").style.visibility = "visible";
@@ -446,7 +444,7 @@ function appendMember(obj) {
 	newMember.querySelector(".member-name").innerHTML = obj.userName;
 	newMember.querySelector(".member-id").innerHTML = obj.userId;
 	newMember.querySelector(".fa-eye").setAttribute("data-id", obj.userId);
-    newMember.querySelector(".fa-eye").addEventListener("mousedown", 
+    newMember.querySelector(".fa-eye").addEventListener("click", 
         function(e) {
             if(e.target.className === "fa fa-eye") {
                 e.target.setAttribute("class", "fa fa-eye-slash");
@@ -458,7 +456,7 @@ function appendMember(obj) {
                 onOffMemberList[obj.userId] = "on";
             }
         }, false);
-    newMember.querySelector(".fa-times").addEventListener("mousedown",
+    newMember.querySelector(".fa-times").addEventListener("click",
 			function(e) {
 				e.preventDefault();
 				guinness.confirmDeleteUser(obj.userId, obj.userName);
@@ -484,27 +482,6 @@ function onOffMemberNotes(flag, userId) {
     }
 }
 
-/*
- * 주석 처리 한 사람 : ybin
- * 이유 : 현재 이 메소드 사용하는 곳이 안보임
- */
-// function OnOffMemberAllClickBtn() {
-//     var objs = document.querySelectorAll(".memberChk");
-//     var allchk = document.querySelector(".memberAllClick");
-//     var existUnchecked = false;
-//     for (var i = 0; i < objs.length; i++) {
-//         if (objs[i].checked === false) {
-//             existUnchecked = true;
-//             break;
-//         }
-//     }
-//     if (existUnchecked === false) {
-//         allchk.checked = true;
-//     } else {
-//         allchk.checked = false;
-//     }
-// }
-
 function deleteNoteList() {
     var el = document.querySelectorAll(".note-list");
     var elLength = el.length;
@@ -514,14 +491,12 @@ function deleteNoteList() {
         }
     }
 }
+
 function deleteMarkList() {
-	var el = document.querySelectorAll(".mark-list");
-	el.remove();
+	document.querySelectorAll(".mark-list").remove();
 }
 
-
-function reloadNoteList(noteTargetDate) {
-    var objs = document.querySelectorAll(".memberChk");
+function readNoteList(noteTargetDate) {
     guinness.ajax({
         method: "get",
         url: '/notes/reload/?groupId=' + groupId + '&noteTargetDate=' + noteTargetDate,
@@ -572,7 +547,6 @@ var reloadWithoutDeleteNoteList = function (noteTargetDate) {
 }
 
 function tempSave() {
-    console.log("임시저장");
     var noteId = document.querySelector("#hiddenTempNoteId").value;
     var noteText = document.querySelector("#noteTextBox").value;
     var createDate = new Date().toISOString().slice(0, 10);
@@ -620,7 +594,6 @@ function tempSave() {
 }
 
 function appendTempNoteList(tempNotes) {
-    console.log(tempNotes);
     var dropdownMenu = document.querySelector(".dropdown-menu");
     for(var i = 0; i < tempNotes.length; i++) {
         var el = document.createElement("li");
@@ -632,7 +605,6 @@ function appendTempNoteList(tempNotes) {
 }
 
 function loadTempNote(tempNoteId) {
-    console.log(tempNoteId);
     guinness.ajax({
         method: "get",
         url: '/notes/temp/' + tempNoteId,
@@ -645,7 +617,6 @@ function loadTempNote(tempNoteId) {
 }
 
 function deleteTempNote(tempNoteId) {
-    console.log(tempNoteId);
     guinness.ajax({
         method: "delete",
         url: '/notes/temp/' + tempNoteId,

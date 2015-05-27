@@ -27,7 +27,7 @@
 		style="position: absolute; color: #888; top: 300px; width: 100%; text-align: center;">새
 		노트를 작성해주세요</h1>
 	<div id="group-header" class="content wrap" style="margin-top:50px; padding:10px 0;">
-			<a style="display:inline-block" href="/g/${groupId}"><span id="group-name"></span></a><i class="fa fa-cog" onclick="groupUpdate();"></i>
+			<a style="display:inline-block" href="/g/${groupId}"><span id="group-name"></span></a><i class="fa fa-cog" style="font-size:20px;" onclick="groupUpdate();"></i>
 	</div>
 	<div id="note-list-container" class="content wrap">
 		<div id="create-note">
@@ -104,19 +104,16 @@
 	var groupCaptainUserId = "${group.groupCaptainUserId}";
 	const groupId = window.location.pathname.split("/")[2];
 	window.addEventListener("load", function() {
-		var groupImage = "${group.groupImage}";
-		
-		var userId = document.getElementById("sessionUserId").value;
+		var groupImage = "${group.groupImage}";	
 		if (groupImage !== "") {
 			window.document.body.querySelector("#backImg").style.backgroundImage=
 			"url('/img/group/" + groupImage + "')";
 		}
 		document.querySelector("#addMemberForm input[name='groupId']").value = groupId;
-		readMember(groupId);
 		document.querySelector("#addMemberForm").addEventListener("submit", function(e) { e.preventDefault(); addMember(); }, false);
 		document.title = "${group.groupName}";
-		document.querySelector("#group-name").innerHTML = groupName;
 		var json = ${noteList};
+		readMember(groupId);
 		appendNoteList(json);
 		appendMarkList(json);
 		var elCreateBtn = document.querySelector("#create-new-button");
@@ -125,6 +122,7 @@
 			memberTemplate = document.querySelector("#member-template").content;
 		document.querySelector("#escape-group-btn").addEventListener("click", function() {
 			guinness.confirmLeave(groupId, groupName);
+			
 		}, false);
 		
 	}, false);
@@ -136,9 +134,7 @@
 		refreshCalendar();
 	}, false);
 	
-
 	window.addEventListener('resize',function(){
-		console.log("resize");
 		resizeSideMenu();
 	},false);
 	
@@ -148,10 +144,8 @@
 	        showDropdowns: false
 	    },
 	    function(start, end, label) {
-	    	console.log(start.toISOString(), end.toISOString(), label);
 	        $("#reportrange span").html(start.format("MMMM D, YYYY") + " - " + end.format("MMMM D, YYYY"));
 	    });
-	    //<input id="allShow" type="submit" value="전체노트 보기" onclick="reloadNoteList()" />
 	    var allShowButton = guinness.createElement({
 	    	name : "input",
 			attrs : {
@@ -159,7 +153,7 @@
 				class : "inputBtn",
 				type : "submit",
 				value : "오늘",
-				onclick : "reloadNoteList()"
+				onclick : "readNoteList()"
 			}
 	    });
 	    $("#calendar-container").append(allShowButton);
@@ -169,7 +163,7 @@
 		if (e.target.getAttribute("class") === null || e.target.getAttribute("class").indexOf("available") === -1 || e.target.getAttribute("class").indexOf("existNote") === -1)
 			return;
 		var noteTargetDate = $("#defaultCalendar").data("daterangepicker").startDate._d.toISOString().substring(0,10)+ " 23:59:59";
-		reloadNoteList(noteTargetDate);
+		readNoteList(noteTargetDate);
 	}, false);
 	
 	var sideMenuContainers = document.querySelectorAll(".side-menu-container");
@@ -225,7 +219,6 @@
 		if(month !== undefined)
 			noteTargetMonth = month+1;
 		var lastDate = ( new Date( noteTargetYear,noteTargetMonth, 1) ).toISOString().substring(0,10)+ " 23:59:59";
-		console.log(lastDate);
 		guinness.ajax({
 	        method: "get",
 	        url: "/notes/getNullDay/" + groupId + "/" + lastDate,
@@ -238,11 +231,12 @@
 	        }
 	    });
 	}
+	
 	function setNullCheck(nullCheckMonth){
 		var td = document.querySelectorAll(".available");
 		var flagStart = false;
 		var i = 0;
-		for(t in td) {
+		for (t in td) {
 			   if(td[t].innerText === "1"){
 				   flagStart = true;
 			   }

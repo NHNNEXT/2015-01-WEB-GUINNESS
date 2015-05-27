@@ -56,9 +56,8 @@ window.addEventListener('load', function() {
       guinness.ajax({
           method:"get",
           url : "/search?words=" + sText,
-          success : function(req) {  
-            json = JSON.parse(req.responseText);
-            searchResult(json);
+          success : function(req) {
+            searchResult(JSON.parse(req.responseText));
           }
       });
     }

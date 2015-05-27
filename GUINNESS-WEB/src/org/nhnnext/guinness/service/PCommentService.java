@@ -10,16 +10,24 @@ import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.NoteDao;
 import org.nhnnext.guinness.dao.PCommentDao;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
+import org.nhnnext.guinness.model.Alarm;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.PComment;
 import org.nhnnext.guinness.model.SessionUser;
+import org.nhnnext.guinness.model.User;
+import org.nhnnext.guinness.util.RandomFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
 @Transactional
 public class PCommentService {
+	private static final Logger logger = LoggerFactory.getLogger(PCommentService.class);
+	
 	@Resource
 	private PCommentDao pCommentDao;
 	@Resource
@@ -34,28 +42,23 @@ public class PCommentService {
 		if (!groupDao.checkJoinedGroup(sessionUser.getUserId(), group.getGroupId())) {
 			throw new UnpermittedAccessGroupException("권한이 없습니다. 그룹 가입을 요청하세요.");
 		}
+		User noteWriter = noteDao.readNote(note.getNoteId()).getUser();
 		String pCommentId = pCommentDao.createPComment(pComment);
 		noteDao.increaseCommentCount(pComment.getNote().getNoteId());
-		//createAlarm(pComment);
+		
+		if(!sessionUser.getUserId().equals(noteWriter.getUserId())){
+			alarmDao.createNewNotes(new Alarm(createAlarmId(), "P", pComment.getSessionUser(), noteWriter, pComment.getNote()));
+		}
 		return pCommentDao.readByPCommentId(pCommentId);
 	}
 
-//	private void createAlarm(PComment pComment) {
-//		Note note = pComment.getNote();
-//		User noteWriter = noteDao.readNote(note.getNoteId()).getUser();
-//		
-//		if (!pComment.checkWriter(noteWriter)) {
-//			alarmDao.createNewNotes(new Alarm(createAlarmId(), "P", pComment.getUser(), noteWriter, note));
-//		}
-//	}
-//
-//	private String createAlarmId() {
-//		String alarmId = RandomFactory.getRandomId(10);
-//		if(alarmDao.isExistAlarmId(alarmId)) {
-//			return createAlarmId();
-//		}
-//		return alarmId;
-//	}
+	private String createAlarmId() {
+		String alarmId = RandomFactory.getRandomId(10);
+		if(alarmDao.isExistAlarmId(alarmId)) {
+			return createAlarmId();
+		}
+		return alarmId;
+	}
 
 	public List<PComment> list(String pId, String noteId) {
 		return pCommentDao.readListByPId(pId, noteId);
