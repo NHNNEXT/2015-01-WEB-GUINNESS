@@ -51,7 +51,7 @@
         
     <script type="template" class="aPCommentTemplate">
         <li class="aPComment" id="pCommentId">
-            <input type="hidden" p-id="pId" sameCount="sameSenCount" sameIndex="sameSenIndex"/ selectText="selectedText">
+            <input type="hidden" ptagid="pId" sameCount="sameSenCount" sameIndex="sameSenIndex"/ selectText="selectedText">
             <div class="userProfile">
                 <img src="userImage">
                 <div>userName<span>userId</span></div><br>

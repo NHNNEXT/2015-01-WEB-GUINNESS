@@ -33,7 +33,7 @@
 		<form id="noteForm" action="/notes" method="post">
 			<input type="hidden" id="hiddenGroupId" name="groupId"
 				value="${group.groupId}">
-			<input type="hidden" id="hiddenTempNoteId" name="tempNoteId">
+			<input type="hidden" id="hiddenTempNoteId" name="tempNoteId" value="0">
 			<c:if test="${not empty noteId}">
 				<input type="hidden" name="_method" value="put">
 				<input type="hidden" name="noteId" value="${noteId}">
@@ -41,8 +41,8 @@
 			<div id="editorBox">
 				<div id="editorTools">
 					<div id="calendar">
-						<i id="datepickr" class="fa fa-calendar"></i> <input
-							id="noteTargetDate" name="noteTargetDate" value="" readonly>
+						<i id="datepickr" class="fa fa-calendar"></i>
+						<input id="noteTargetDate" name="noteTargetDate" value="">
 					</div>
 				</div>
 				<textarea id="noteTextBox" rows="28" cols="28" name="noteText"
@@ -63,6 +63,7 @@
 	<%@ include file="./commons/_note_popup.jspf"%>
 
 	<script>
+		var noteTargetDate = "${note.noteTargetDate}";
 		var groupName = "${group.groupName}";
 		window.addEventListener("load", function() {
 			appendTempNoteList(${tempNotes});
