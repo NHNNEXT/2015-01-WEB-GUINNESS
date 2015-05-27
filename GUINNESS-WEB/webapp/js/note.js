@@ -183,7 +183,7 @@ function showNoteModal(obj) {
     var noteContent = document.querySelector('.note-content');
     var viewContent = document.createElement('DIV');
     viewContent.innerHTML = obj.noteText;
-    pCommentCountByP(obj.noteId);
+    pComment.countByP(obj.noteId);
     
     document.querySelector('.hidden-note-content').value = viewContent.innerHTML;
     refresh();
