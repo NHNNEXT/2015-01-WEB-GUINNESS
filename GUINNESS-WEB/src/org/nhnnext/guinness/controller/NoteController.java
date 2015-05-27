@@ -87,6 +87,8 @@ public class NoteController {
 			@RequestParam String noteTargetDate, @RequestParam String tempNoteId, HttpSession session, Model model) throws IOException,
 			UnpermittedAccessGroupException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
+		
+		
 		if (noteText.equals("")) {
 			return "redirect:/notes/editor/g/" + groupId;
 		}
@@ -194,7 +196,6 @@ public class NoteController {
 		if(tempNoteService.update(noteId, noteText, DateTimeUtil.addCurrentTime(createDate))) {
 			return new JsonResult().setSuccess(true).setObject(tempNoteService.readByNoteId(noteId));
 		}
-		
 		return new JsonResult().setSuccess(false);
 	}
 	
