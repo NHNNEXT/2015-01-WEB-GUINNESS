@@ -68,32 +68,6 @@
 		</div>
 	</div>
 
-	<template id="view-note-template">
-		<div class="markdown-body">
-			<input type="hidden" class="hiddenUserId" value=""/>
-			<input type="hidden" class="hiddenNoteId" value=""/>
-			<div class="note-content"></div>
-			<input class="hidden-note-content" type="hidden" value="" />
-			<div id="commentListUl"></div>
-			<form id="commentForm" method="post">
-				<textarea id="commentText" name="commentText" rows="5" cols="50"></textarea>
-				<br>
-				<button id="submitComment" class="btn btn-pm">확인</button>
-			</form>
-		</div>
-	</template>
-	<template id="comment-template">
-		<li>
-			<img class="avatar" class="avatar" src="/img/profile/avatar-default.png">
-			<div class="comment-container">
-				<div class="comment-info">
-					<span class="comment-user"></span> <span class="comment-date"></span>
-				</div>
-				<div class="comment"></div>
-				<div class="comment-util"></div>
-			</div>
-		</li>
-	</template>
 	<template id="member-template">
 		<tr>
 			<td class="member-info" style="width:140px; display:inline-block;">
@@ -115,45 +89,10 @@
 			</td>
 		</tr>
 	</template>
-        
-    <script type="template" class="pCommentTemplate">
-		<div class="pCommentBox" draggable="true">
-			<div id="pCommentCancel">
-				<i class="fa fa-remove"></i>
-			</div>
-			<div class="inputP" contenteditable="true"></div>
-			<div class="setUp">확인</div>
-		</div>
-    </script>
-        
-    <script type="template" class="pCommentListTemplate">
-        <div class="pCommentListBox">
-            <div id="pCommentBoxCancel"><i class="fa fa-thumb-tack"></i></div>
-            <ul class="pCommentList"></ul>
-        </div>
-    </script>
-        
-    <script type="template" class="aPCommentTemplate">
-        <li class="aPComment" id="pCommentId">
-            <input type="hidden" p-id="pId" sameCount="sameSenCount" sameIndex="sameSenIndex"/ selectText="selectedText">
-            <div class="userProfile">
-                <img src="userImage">
-                <div>userName<span>userId</span></div><br>
-                <div class="pCommentCreateDate">createDate</div>
-            </div>
-            <div class="pComment-text">pCommentText</div>
-            <div class="controll">
-                <a href="#" class="update">수정</a>
-                <a href="#" class="delete">삭제</a>
-            </div>
-        </li>
-    </script>
+	
+    <!-- 노트 모달을 위한 템플릿 -->
+	<%@ include file="./commons/_note_popup.jspf"%> 
     
-    <script type="template" id="popupCommentBtnTemplate">
-    	<div class="popupCommentBtn">
-        	댓글 달기
-    	</div>
-	</script>  
 	<script>
 	document.title = "${group.groupName}";
 	var groupName = ("${group.groupName}".replace(/</g, "&lt;")).replace(/>/g, "&gt;");
@@ -319,6 +258,5 @@
 	<script src="/js/datepickr.js"></script>
 	<script src="/js/moment.js"></script>
 	<script src="/js/daterangepicker.js"></script>
-	<script src="/js/pComment.js"></script>
 </body>
 </html>
