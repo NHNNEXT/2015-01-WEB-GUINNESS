@@ -481,6 +481,9 @@ form#notes-create-form {
 }
 
 #left-menu-container #summary-container ul li {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 	padding:2px 5px 2px 30px;
 }
 
