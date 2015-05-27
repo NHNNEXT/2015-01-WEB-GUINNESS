@@ -17,12 +17,16 @@ import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
 public class CommentService {
+	private static final Logger logger = LoggerFactory.getLogger(CommentService.class);
+	
 	@Resource
 	private CommentDao commentDao;
 	@Resource
@@ -37,7 +41,8 @@ public class CommentService {
 		if (!groupDao.checkJoinedGroup(sessionUser.getUserId(), group.getGroupId())) {
 			throw new UnpermittedAccessGroupException("권한이 없습니다. 그룹 가입을 요청하세요.");
 		}
-		commentDao.createComment(comment);
+		comment = new Comment(comment.getCommentText(), sessionUser, note);
+		comment.setCommentId(""+commentDao.createComment(comment));
 		noteDao.increaseCommentCount(comment.getNote().getNoteId());
 		createAlarm(comment);
 		return commentDao.readCommentListByNoteId(comment.getNote().getNoteId());
@@ -46,9 +51,8 @@ public class CommentService {
 	private void createAlarm(Comment comment) {
 		Note note = comment.getNote();
 		User noteWriter = noteDao.readNote(note.getNoteId()).getUser();
-		
 		if (!comment.checkWriter(noteWriter)) {
-			alarmDao.createNewNotes(new Alarm(createAlarmId(), "C", comment.getUser(), noteWriter, note));
+			alarmDao.createNewComments(new Alarm(createAlarmId(), "C", comment.getUser(), noteWriter, note, comment));
 		}
 	}
 
