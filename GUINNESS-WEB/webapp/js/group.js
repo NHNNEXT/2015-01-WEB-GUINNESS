@@ -105,7 +105,7 @@ function appendGroup(obj) {
 	newEl.querySelector(".group-card").setAttribute("id", obj.groupId);
 	newEl.querySelector(".group-card").setAttribute("href", "/g/" + obj.groupId);
 	newEl.querySelector(".group-name").innerHTML = groupName;
-	newEl.querySelector('.leaveGroup-btn').addEventListener("mousedown",
+	newEl.querySelector('.leaveGroup-btn').addEventListener("click",
 		function(e) {
 			e.preventDefault();
 			var groupId = e.currentTarget.parentElement.parentElement.getAttribute("href").split("/")[2];

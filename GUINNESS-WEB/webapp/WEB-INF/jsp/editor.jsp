@@ -26,7 +26,7 @@
 
 	<div id="note-edit-container" class="content wrap">
 		<ul id="temp-note-list">
-			<li class="dropdown"><a href="#" data-toggle="dropdown">저장된 노트<i class="fa fa-sort-desc"></i></a></li>
+			<li class="dropdown"><i class="fa fa-archive"></i><a href="#" data-toggle="dropdown">저장된 노트</a><i class="fa fa-sort-desc"></i></li>
 			<ul class="dropdown-menu" style="display:none">
 			</ul>
 		</ul>
@@ -51,7 +51,7 @@
 					<div id="previewBox" class="markdown-body"></div>
 				</div>
 			</div>
-			<a id="escape-note" class="btn btn-pm" href="/g/${group.groupId}">취소</a> 
+			<a id="escape-note" class="btn btn-pm-cancle" href="/g/${group.groupId}">취소</a> 
 			<input type="submit" class="btn btn-pm" value="작성" />
 			<input type="button" class="btn btn-temp" onclick="tempSave();" value="임시저장" />
 			<span id="temp-save-message"></span>
@@ -69,10 +69,10 @@
 			appendTempNoteList(${tempNotes});
 		});
 
-		var el = document.querySelector(".dropdown");
-		var button = document.querySelector("a[data-toggle='dropdown']");
-		var menu = document.querySelector(".dropdown-menu");
-		var arrow = button.querySelector(".fa-sort-desc");
+		var el = document.querySelector("#temp-note-list");
+		var button = el.querySelector("a[data-toggle='dropdown']");
+		var menu = el.querySelector(".dropdown-menu");
+		var arrow = el.querySelector(".fa-sort-desc");
 
 		button.onclick = function(event) {
 			if(arrow.className === "fa fa-sort-desc") {
