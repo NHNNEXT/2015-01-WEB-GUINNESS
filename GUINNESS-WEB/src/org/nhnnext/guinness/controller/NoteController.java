@@ -3,7 +3,6 @@ package org.nhnnext.guinness.controller;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -92,7 +91,7 @@ public class NoteController {
 			return "redirect:/notes/editor/g/" + groupId;
 		}
 		noteService.create(sessionUserId, groupId, noteText, DateTimeUtil.addCurrentTime(noteTargetDate));
-		tempNoteService.delete(tempNoteId);
+		tempNoteService.delete(Long.parseLong(tempNoteId));
 		return "redirect:/g/" + groupId;
 	}
 
@@ -197,5 +196,14 @@ public class NoteController {
 		}
 		
 		return new JsonResult().setSuccess(false);
-	}	
+	}
+	
+	@RequestMapping(value = "/notes/temp/{noteId}", method = RequestMethod.DELETE)
+	protected @ResponseBody JsonResult<Preview> tempNotedelete(@PathVariable long noteId) {
+		logger.debug("noteId:{}", noteId);
+		if(tempNoteService.delete(noteId)) {
+			return new JsonResult().setSuccess(true);
+		}
+		return new JsonResult().setSuccess(false);
+	}
 }

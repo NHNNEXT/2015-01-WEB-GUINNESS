@@ -72,7 +72,7 @@ public class CommentDao extends JdbcDaoSupport {
 	}
 
 	public void updateComment(String commentId, String commentText) {
-		String sql = "update COMMENTS set commentText = ? where commentId = ?";
+		String sql = "update COMMENTS set commentText = ?, commentCreateDate = now() where commentId = ?";
 		getJdbcTemplate().update(sql, commentText, commentId);
 	}
 }

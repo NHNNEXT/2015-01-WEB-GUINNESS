@@ -186,6 +186,7 @@ function showNoteModal(obj) {
     var viewContent = document.createElement('DIV');
     viewContent.innerHTML = obj.noteText;
     //TODO 노트의 각 문단별 코멘트 카운트 가져오기.
+    // 가져온 카온트가 0보다 큰 경우만 벌브 아이콘 달기.
     var arShowP = viewContent.querySelectorAll(".ShowPComment");
     for(var index in arShowP) {
         if (index === "length") {
@@ -270,6 +271,7 @@ function updateComment(commentId, commentText) {
                 var el = document.querySelector("#cmt-" + commentId);
                 el.querySelector('.comment').innerHTML = json.commentText.replace(/\n/g, '<br/>');
                 el.querySelector('.comment-date').innerHTML = json.commentCreateDate;
+                el.querySelector('.comment-date').id = Number(new Date(json.commentCreateDate));
                 el.querySelector('.comment').setAttribute(
                     'contentEditable', false);
                 el.querySelectorAll('.comment-update').remove();
@@ -312,15 +314,15 @@ function showEditInputBox(commentId) {
         },
         content: "취소"
     });
-    updateButton.addEventListener('click', function () {
-        var el = document.querySelector('#cmt-' + obj.commentId);
+    updateButton.addEventListener('click', function(e) {
+        var el = document.querySelector('#cmt-' + commentId);
         var commentText = el.querySelector('.comment').innerText;
-        updateComment(obj.commentId, commentText);
+        updateComment(commentId, commentText);
     }, false);
-    cancelButton.addEventListener('click', function () {
-        var el = document.querySelector('#cmt-' + obj.commentId);
+    cancelButton.addEventListener('click', function(e) {
+        var el = document.querySelector('#cmt-' + commentId);
         el.querySelector('.comment').setAttribute('contentEditable', false);
-        el.querySelector('.comment').innerHTML = (obj.commentText).replace(/\n/g, '\n<br/>');
+        el.querySelector('.comment').innerHTML = (commentText).replace(/\n/g, '\n<br/>');
         el.querySelectorAll('.comment-update').remove();
         el.querySelector('.default-utils').show();
     }, false);
@@ -591,15 +593,16 @@ function tempSave() {
             param: "noteText=" + noteText + "&createDate=" + createDate,
             success: function (req) {
                 var result = JSON.parse(req.responseText);
-                console.log("tempNoteId : " + result.object);
-                var tempNote = result.object;
+                var tempNoteId = result.object;
                 var dropdownMenu = document.querySelector(".dropdown-menu");
                 var el = document.createElement("li");
-                el.innerHTML = "<a href='#' data-id='" + tempNote.noteId + "'>" + guinness.util.koreaDate(new Date()) + "에 저장된 글이 있습니다</a>";
-                el.addEventListener("mousedown", function(e) {
-                    loadTempNote(e.target.dataset.id);
-                }, false);
+
+                el.innerHTML = "<a href='#' data-id='" + tempNoteId + "' onclick='loadTempNote(" + tempNoteId + ")'>" + guinness.util.koreaDate(new Date()) + "에 저장된 글이 있습니다</a>" +
+                 "<i class='fa fa-close' onclick='deleteTempNote(" + tempNoteId + ");'></i>";
+
                 dropdownMenu.appendChild(el);
+
+                document.querySelector("#hiddenTempNoteId").value = tempNoteId;
             }
         }); 
     } else {
@@ -609,7 +612,6 @@ function tempSave() {
             param: "noteId=" + noteId + "&noteText=" + noteText + "&createDate=" + createDate,
             success: function (req) {
                 var result = JSON.parse(req.responseText);
-                console.log("tempNoteId : " + result.object);
                 var el = document.querySelector("a[data-id='" + result.object.noteId + "']");
                 el.innerText = guinness.util.koreaDate(result.object.createDate) + "에 저장된 글이 있습니다";
             }
@@ -622,10 +624,9 @@ function appendTempNoteList(tempNotes) {
     var dropdownMenu = document.querySelector(".dropdown-menu");
     for(var i = 0; i < tempNotes.length; i++) {
         var el = document.createElement("li");
-        el.innerHTML = "<a href='#' data-id='" + tempNotes[i].noteId + "'>" + tempNotes[i].createDate + "에 저장된 글이 있습니다</a>"
-        el.addEventListener("mousedown", function(e) {
-                loadTempNote(e.target.dataset.id);
-            }, false);
+        el.innerHTML = "<a href='#' data-id='" + tempNotes[i].noteId + "' onclick='loadTempNote(" + tempNotes[i].noteId + ")'>" + tempNotes[i].createDate + "에 저장된 글이 있습니다</a>" +
+        "<i class='fa fa-close' onclick='deleteTempNote(" + tempNotes[i].noteId + ");'></i>";
+
         dropdownMenu.appendChild(el);
     }
 }
@@ -637,9 +638,33 @@ function loadTempNote(tempNoteId) {
         url: '/notes/temp/' + tempNoteId,
         success: function (req) {
             var result = JSON.parse(req.responseText);
-            console.log(result.object);
             document.querySelector("#noteTextBox").value = result.object.noteText;
             document.querySelector("#hiddenTempNoteId").value = result.object.noteId;
         }
     });
+}
+
+function deleteTempNote(tempNoteId) {
+    console.log(tempNoteId);
+    guinness.ajax({
+        method: "delete",
+        url: '/notes/temp/' + tempNoteId,
+        success: function (req) {
+            var result = JSON.parse(req.responseText);
+            if(result.success) {
+                document.querySelector("a[data-id='" + tempNoteId + "']").parentElement.remove();
+                document.querySelector("#hiddenTempNoteId").value = "";
+            }
+        }
+    });
+}
+
+function resizeSideMenu(e) {
+	document.querySelector("#group-member").style.maxHeight = document.body.clientHeight - 241 +"px";
+	if (document.body.clientHeight < 420) {
+		document.querySelector("#summary-container").hide();
+		return;
+	}
+	document.querySelector("#summary-container").show();
+	document.querySelector("#question-list").style.maxHeight = document.querySelector("#attention-list").style.maxHeight = Math.floor((document.body.clientHeight - 395) / 2)+"px";
 }

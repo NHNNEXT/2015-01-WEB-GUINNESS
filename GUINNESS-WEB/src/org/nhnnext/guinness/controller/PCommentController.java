@@ -1,7 +1,6 @@
 package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -49,6 +48,11 @@ public class PCommentController {
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	protected @ResponseBody JsonResult list(@RequestParam String pId, @RequestParam String noteId) {
 		return new JsonResult().setSuccess(true).setObjectValues(pCommentService.list(pId.replace("pId-", ""), noteId));
+	}
+	
+	@RequestMapping(value = "/readCountByP", method = RequestMethod.GET)
+	protected @ResponseBody JsonResult readCountByP(@RequestParam String noteId) {
+		return new JsonResult().setSuccess(true).setMapValues(pCommentService.countByPGroupPCommnent(noteId));
 	}
 
 	@RequestMapping(value = "/{pCommentId}", method = RequestMethod.PUT)

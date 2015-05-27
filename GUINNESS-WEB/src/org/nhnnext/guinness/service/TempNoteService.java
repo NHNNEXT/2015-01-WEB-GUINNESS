@@ -26,8 +26,11 @@ public class TempNoteService {
 		return tempNoteDao.readByNoteId(noteId);
 	}
 
-	public void delete(String noteId) {
-		tempNoteDao.delete(noteId);
+	public boolean delete(long noteId) {
+		if(tempNoteDao.delete(noteId) == 1) {
+			return true;
+		}
+		return false;
 	}
 
 	public boolean update(long noteId, String noteText, String createDate) {

@@ -68,7 +68,7 @@ public class CommentService {
 		return commentDao.readCommentListByNoteId(noteId);
 	}
 
-	public Object update(String commentId, String commentText) {
+	public Comment update(String commentId, String commentText) {
 		commentDao.updateComment(commentId, commentText);
 		return commentDao.readCommentByCommentId(commentId);
 	}

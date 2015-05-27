@@ -1,6 +1,7 @@
 package org.nhnnext.guinness.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -48,5 +49,12 @@ public class TempNoteDaoTest {
 		System.out.println(afterUpdateTempNote);
 		
 		assertNotEquals(beforeUpdateTempNote, afterUpdateTempNote);
+	}
+	
+	@Test
+	public void delete() {
+		TempNote tempNote = tempNoteDao.readByNoteId(2);
+		System.out.println(tempNote);
+		assertEquals(1, tempNoteDao.delete(2));
 	}
 }
