@@ -11,7 +11,9 @@ window.addEventListener('load', function() {
 	});
     
 	var textBox = document.querySelector("#noteTextBox");
-	textBox.addEventListener('keyup', function() {
+	textBox.addEventListener('keyup', loadPreviewText, false);
+
+    function loadPreviewText() {
         var markdown = document.querySelector('#noteTextBox').value;
         guinness.ajax({
             method:"post",
@@ -20,11 +22,13 @@ window.addEventListener('load', function() {
             success : function(req) {
                 var json = JSON.parse(req.responseText);
                 if (json.length != 0) {
-				    previewText(json);
+                    previewText(json);
                 }
             }
         });
-	}, false);
+    }
+
+    loadPreviewText(); // editor.jsp가 로드 되었을 때, preview 텍스트 최초 로드
     
     function previewText(json) {
         var previewBox = document.querySelector('#previewBox');
