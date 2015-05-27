@@ -66,14 +66,12 @@ search.note.pCommentHover = function (event) {
 
 search.note.pComment.create = function(template) {
     document.body.insertAdjacentHTML("beforeend", template);
-    var elpCommentBox = document.body.querySelector(".pCommentBox");
-    elpCommentBox.style.display="none";
+    document.body.querySelector(".pCommentBox").hide();
 }
 
 search.note.pComment.show = function(target) {
     search.note.pComment.targetI = target;
     search.note.pComment._setPosition(target);
-    var elpCommentBox = document.body.querySelector(".pCommentBox");
     window.addEventListener('resize', function() {
         if (document.body.querySelector(".pCommentBox").style.display !== "none" ) {
             search.note.pComment._setPosition(search.note.pComment.targetI);
@@ -84,7 +82,7 @@ search.note.pComment.show = function(target) {
 search.note.pComment._setPosition = function (target) {
     var rect = target.getBoundingClientRect();
     var elpCommentBox = document.body.querySelector(".pCommentBox");
-    elpCommentBox.style.display="block";
+    elpCommentBox.show();
     elpCommentBox.style.top = rect.top+"px";
     elpCommentBox.style.left = rect.left+"px";
 }
