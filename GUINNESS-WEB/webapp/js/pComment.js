@@ -44,7 +44,9 @@ pComment.appendPComment = function (json) {
         var info = e.target.closest("li").querySelector("input[type=hidden]");
         var p = document.body.querySelector('#pId-'+info.getAttribute('ptagid'));
         var highlighted = p.querySelector('.highlighted');
-        p.innerHTML = p.innerHTML.replace(/<span class="highlighted">.+<\/span>/, highlighted.innerHTML);
+        if (null !== highlighted) {
+            p.innerHTML = p.innerHTML.replace(/<span class="highlighted">.+<\/span>/, highlighted.innerHTML);
+        }
     }, false);
     pCommentList.scrollTop = pCommentList.scrollHeight;
     pCommentCountByP(document.querySelector('.hiddenNoteId').value);
@@ -168,9 +170,12 @@ function pCommentCountByP(noteId) {
                 var json = null;
                 for (var jndex=0; jndex < result.mapValues.length; jndex++) {
                     json = result.mapValues[jndex];
-                    if (json.pId === arShowP[index].closest('P').id.replace("pId-","")*1) {
+                    var bulb = arShowP[index].closest('P');
+                    if (bulb === null) {
+                        continue;   
+                    }
+                    if (json.pId === bulb.id.replace("pId-","")*1) {
                         count = json['count(1)'];
-                        console.log(count, json.pId);
                     }
                 }
                 if (count > 0) {
@@ -213,7 +218,6 @@ function createPCommentListBox(pId, noteContent, noteId) {
             var pCommentList = document.body.querySelector(".pCommentList");
             pCommentList.innerHTML = "";
             for(var index in result.objectValues ) {
-            	debugger;
                 pComment.appendPComment(result.objectValues[index]);
             }
             var pCommentList = document.body.querySelector(".pCommentList");
