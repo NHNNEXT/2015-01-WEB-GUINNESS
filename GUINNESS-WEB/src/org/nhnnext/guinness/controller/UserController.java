@@ -95,7 +95,8 @@ public class UserController {
 		String rootPath = session.getServletContext().getRealPath("/");
 		userService.update(user, rootPath, profileImage);
 		session.setAttribute("sessionUser", user.createSessionUser());
-		return "redirect:/groups/form";
+		model.addAttribute("infoMessage", "회원정보수정에 성공하였습니다.");
+		return "/groups";
 	}
 
 	@RequestMapping("/findPasswordForm")

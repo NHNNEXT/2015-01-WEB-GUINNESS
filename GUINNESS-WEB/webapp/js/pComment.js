@@ -213,6 +213,7 @@ function createPCommentListBox(pId, noteContent, noteId) {
             var pCommentList = document.body.querySelector(".pCommentList");
             pCommentList.innerHTML = "";
             for(var index in result.objectValues ) {
+            	debugger;
                 pComment.appendPComment(result.objectValues[index]);
             }
             var pCommentList = document.body.querySelector(".pCommentList");
