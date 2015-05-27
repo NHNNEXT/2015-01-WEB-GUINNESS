@@ -46,8 +46,7 @@ public class CommentController {
 
 	@RequestMapping(value = "/{commentId}", method = RequestMethod.PUT)
 	protected @ResponseBody JsonResult update(@PathVariable String commentId, @RequestParam String commentText) {
-		return new JsonResult().setSuccess(true).setObject(
-				(Comment) commentService.update(commentId, commentText));
+		return new JsonResult().setSuccess(true).setObject(commentService.update(commentId, commentText));
 	}
 
 	@RequestMapping(value = "/{commentId}", method = RequestMethod.DELETE)

@@ -13,7 +13,6 @@ import javax.sql.DataSource;
 
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
-import org.nhnnext.guinness.model.Preview;
 import org.nhnnext.guinness.model.User;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;

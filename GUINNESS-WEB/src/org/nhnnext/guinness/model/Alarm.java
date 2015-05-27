@@ -7,24 +7,30 @@ public class Alarm {
 	private SessionUser writer;
 	private User reader;
 	private Note note;
+	private Comment comment;
 	private Group group;
 
-	public Alarm(String alarmId, String alarmStatus, SessionUser writer, User reader, Note note, Group group) {
+	public Alarm(String alarmId, String alarmStatus, SessionUser writer, User reader, Note note, Comment comment, Group group) {
 		super();
 		this.alarmId = alarmId;
 		this.alarmStatus = alarmStatus;
 		this.writer = writer;
 		this.reader = reader;
 		this.note = note;
+		this.comment = comment;
 		this.group = group;
 	}
 	
 	public Alarm(String alarmId, String alarmStatus, SessionUser writer, User reader, Note note) {
-		this(alarmId, alarmStatus, writer, reader, note, null);
+		this(alarmId, alarmStatus, writer, reader, note, null, null);
+	}
+	
+	public Alarm(String alarmId, String alarmStatus, SessionUser writer, User reader, Note note, Comment comment) {
+		this(alarmId, alarmStatus, writer, reader, note, comment, null);
 	}
 	
 	public Alarm(String alarmId, String alarmStatus, SessionUser writer, User reader, Group group) {
-		this(alarmId, alarmStatus, writer, reader, null, group);
+		this(alarmId, alarmStatus, writer, reader, null, null, group);
 	}
 
 	public String getAlarmId() {
@@ -49,6 +55,10 @@ public class Alarm {
 
 	public Note getNote() {
 		return note;
+	}
+
+	public Comment getComment() {
+		return comment;
 	}
 
 	public Group getGroup() {
@@ -79,6 +89,10 @@ public class Alarm {
 		this.note = note;
 	}
 
+	public void setComment(Comment comment) {
+		this.comment = comment;
+	}
+
 	public void setGroup(Group group) {
 		this.group = group;
 	}
@@ -90,6 +104,7 @@ public class Alarm {
 		result = prime * result + ((alarmCreateDate == null) ? 0 : alarmCreateDate.hashCode());
 		result = prime * result + ((alarmId == null) ? 0 : alarmId.hashCode());
 		result = prime * result + ((alarmStatus == null) ? 0 : alarmStatus.hashCode());
+		result = prime * result + ((comment == null) ? 0 : comment.hashCode());
 		result = prime * result + ((group == null) ? 0 : group.hashCode());
 		result = prime * result + ((note == null) ? 0 : note.hashCode());
 		result = prime * result + ((reader == null) ? 0 : reader.hashCode());
@@ -121,6 +136,11 @@ public class Alarm {
 				return false;
 		} else if (!alarmStatus.equals(other.alarmStatus))
 			return false;
+		if (comment == null) {
+			if (other.comment != null)
+				return false;
+		} else if (!comment.equals(other.comment))
+			return false;
 		if (group == null) {
 			if (other.group != null)
 				return false;
@@ -147,6 +167,7 @@ public class Alarm {
 	@Override
 	public String toString() {
 		return "Alarm [alarmId=" + alarmId + ", alarmStatus=" + alarmStatus + ", alarmCreateDate=" + alarmCreateDate
-				+ ", writer=" + writer + ", reader=" + reader + ", note=" + note + ", group=" + group + "]";
+				+ ", writer=" + writer + ", reader=" + reader + ", note=" + note + ", comment=" + comment + ", group="
+				+ group + "]";
 	}
 }
