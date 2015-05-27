@@ -254,7 +254,6 @@
 	}
 	
 	</script>
-	<script src="/js/note.js"></script>
 	<script src="/js/datepickr.js"></script>
 	<script src="/js/moment.js"></script>
 	<script src="/js/daterangepicker.js"></script>

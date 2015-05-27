@@ -83,7 +83,6 @@
 			}
 		};
 	</script>
-	<script src="/js/note.js"></script>
 	<script src="/js/datepickr.js"></script>
 	<script src="/js/editor.js"></script>
 </body>

@@ -54,6 +54,7 @@
 	
 	<!-- 노트 모달을 위한 템플릿 -->
 	<%@ include file="./commons/_note_popup.jspf"%>
+	
 	<script src="/js/group.js"></script>
 </body>
 </html>
