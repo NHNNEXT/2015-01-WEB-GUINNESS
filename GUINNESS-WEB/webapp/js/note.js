@@ -80,7 +80,7 @@ function appendNoteList(json) {
         out += "<div class='content-container'>";
         out += "<div><span class='userName'>" + obj.user.userName
             + "</span><span class='userId'>" + obj.user.userId + "</span></div>";
-        out += "<div><span class='note-date'>" + obj.note.noteTargetDate
+        out += "<div><span class='note-date'>" + (obj.note.noteTargetDate).substring(0,19)
             + "</span></div>";
         if (attention.length) {
             out += "<span class='attention'>" + attention + "</span><br />";
@@ -563,7 +563,6 @@ function tempSave() {
                 var tempNoteId = result.object;
                 var dropdownMenu = document.querySelector(".dropdown-menu");
                 var el = document.createElement("li");
-
                 el.innerHTML = "<a href='#' data-id='" + tempNoteId + "' onclick='loadTempNote(" + tempNoteId + ")'>" + guinness.util.koreaDate(new Date()) + "에 저장된 글이 있습니다</a>" +
                  "<i class='fa fa-close' onclick='deleteTempNote(" + tempNoteId + ");'></i>";
 
@@ -599,7 +598,8 @@ function appendTempNoteList(tempNotes) {
     var dropdownMenu = document.querySelector(".dropdown-menu");
     for(var i = 0; i < tempNotes.length; i++) {
         var el = document.createElement("li");
-        el.innerHTML = "<a href='#' data-id='" + tempNotes[i].noteId + "' onclick='loadTempNote(" + tempNotes[i].noteId + ")'>" + tempNotes[i].createDate + "에 저장된 글이 있습니다</a>" +
+        debugger;
+        el.innerHTML = "<a href='#' data-id='" + tempNotes[i].noteId + "' onclick='loadTempNote(" + tempNotes[i].noteId + ")'>" + guinness.util.koreaDate(new Date(tempNotes[i].createDate)) + "에 저장된 글이 있습니다</a>" +
         "<i class='fa fa-close' onclick='deleteTempNote(" + tempNotes[i].noteId + ");'></i>";
 
         dropdownMenu.appendChild(el);
