@@ -965,11 +965,20 @@ span.sDate {
     background-color:#fff!important;
 }
 
-.note-list img.avatar, #commentListUl img.avatar {
+.note-list img.avatar {
 	display:block;
 	float:left;
 	width:45px;
 	height:45px;
+	border-radius:2px;
+	overflow:hidden;
+}
+
+#commentListUl img.avatar {
+	display:block;
+	float:left;
+	width:30px;
+	height:30px;
 	border-radius:2px;
 	overflow:hidden;
 }
@@ -1252,7 +1261,7 @@ span.sDate {
 
 #commentListUl .comment-container {
 	position:relative;
-	padding-left:50px;
+	padding-left:40px;
 }
 
 #commentListUl .comment-info {
@@ -1263,13 +1272,19 @@ span.sDate {
 #commentListUl .comment-date {
 	display:block;
 	font-size:12px;
-	padding-top:5px;
 	color: #9a9f9b;
+	float : left;
+}
+
+#commentListUl .comment-user {
+	float : left;
+	padding-right : 10px;
 }
 
 #commentListUl .comment {
 	margin-top:5px;
-	padding:15px 0;
+	padding-top:30px;
+	padding-bottom:20px;
 	font-size:15px;
 	outline:2px solid #fff;
 	transition-property:outline;
@@ -1278,6 +1293,10 @@ span.sDate {
 
 #commentListUl .comment[contenteditable=true] {
 	outline:2px solid #eee;
+}
+
+#commentListUl .comment-util{
+	float : right;
 }
 
 #commentListUl .comment-util a {
