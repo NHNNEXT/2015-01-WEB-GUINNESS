@@ -242,7 +242,6 @@ guinness.util.alert.choose = function(c) {
 
 guinness.ajax = function(o) {
 	if (o.method === undefined || o.url === undefined || o.success === undefined) {
-		console.log("error: insufficient parameters supplied");
 		return;
 	}
 	var req = new XMLHttpRequest();

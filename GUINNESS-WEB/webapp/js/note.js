@@ -433,12 +433,10 @@ function readMember(groupId) {
     });
 }
 
-var memberTemplate;
 var onOffMemberList = [];
-if(document.querySelector("#member-template") !== null)
-	memberTemplate = document.querySelector("#member-template").content;
 function appendMember(obj) {
 	var userId = document.getElementById("sessionUserId").value;
+	var memberTemplate = memberTemplate = document.querySelector("#member-template").content;
 	var newMember = document.importNode(memberTemplate, true);
 	if(userId === groupCaptainUserId){
 		newMember.querySelector(".member-delete").style.visibility = "visible";
@@ -574,7 +572,6 @@ var reloadWithoutDeleteNoteList = function (noteTargetDate) {
 }
 
 function tempSave() {
-    console.log("임시저장");
     var noteId = document.querySelector("#hiddenTempNoteId").value;
     var noteText = document.querySelector("#noteTextBox").value;
     var createDate = new Date().toISOString().slice(0, 10);
@@ -622,7 +619,6 @@ function tempSave() {
 }
 
 function appendTempNoteList(tempNotes) {
-    console.log(tempNotes);
     var dropdownMenu = document.querySelector(".dropdown-menu");
     for(var i = 0; i < tempNotes.length; i++) {
         var el = document.createElement("li");
@@ -634,7 +630,6 @@ function appendTempNoteList(tempNotes) {
 }
 
 function loadTempNote(tempNoteId) {
-    console.log(tempNoteId);
     guinness.ajax({
         method: "get",
         url: '/notes/temp/' + tempNoteId,
@@ -647,7 +642,6 @@ function loadTempNote(tempNoteId) {
 }
 
 function deleteTempNote(tempNoteId) {
-    console.log(tempNoteId);
     guinness.ajax({
         method: "delete",
         url: '/notes/temp/' + tempNoteId,

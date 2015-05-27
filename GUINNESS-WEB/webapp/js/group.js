@@ -62,7 +62,6 @@ function createGroup() {
 	document.querySelector('.modal-cover').setAttribute('tabindex',0);
 	document.querySelector('.modal-cover').addEventListener('keydown',function(e){
 		if(e.keyCode === 27){
-			console.log('key');
 			cancelGroupCreate();
 		}
 	},false);

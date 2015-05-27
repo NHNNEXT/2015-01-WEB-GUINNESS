@@ -50,7 +50,6 @@ pComment.highlite = function (e) {
     var sameSenCount = info.samecount;
     var sameSenIndex = info.sameindex;
     var selectedText = info.selecttext;
-    debugger;
 }
 
 function selectText() {

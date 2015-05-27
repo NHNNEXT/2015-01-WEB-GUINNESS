@@ -131,7 +131,6 @@
 	
 
 	window.addEventListener('resize',function(){
-		console.log("resize");
 		resizeSideMenu();
 	},false);
 	
@@ -141,7 +140,6 @@
 	        showDropdowns: false
 	    },
 	    function(start, end, label) {
-	    	console.log(start.toISOString(), end.toISOString(), label);
 	        $("#reportrange span").html(start.format("MMMM D, YYYY") + " - " + end.format("MMMM D, YYYY"));
 	    });
 	    //<input id="allShow" type="submit" value="전체노트 보기" onclick="reloadNoteList()" />
@@ -218,7 +216,6 @@
 		if(month !== undefined)
 			noteTargetMonth = month+1;
 		var lastDate = ( new Date( noteTargetYear,noteTargetMonth, 1) ).toISOString().substring(0,10)+ " 23:59:59";
-		console.log(lastDate);
 		guinness.ajax({
 	        method: "get",
 	        url: "/notes/getNullDay/" + groupId + "/" + lastDate,

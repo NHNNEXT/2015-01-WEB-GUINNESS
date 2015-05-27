@@ -75,7 +75,6 @@ search.note.pComment.show = function(target) {
     search.note.pComment._setPosition(target);
     var elpCommentBox = document.body.querySelector(".pCommentBox");
     window.addEventListener('resize', function() {
-        console.log("dd");
         if (document.body.querySelector(".pCommentBox").style.display !== "none" ) {
             search.note.pComment._setPosition(search.note.pComment.targetI);
         }
