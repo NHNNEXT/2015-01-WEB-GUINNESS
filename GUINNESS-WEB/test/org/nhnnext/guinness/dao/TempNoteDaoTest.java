@@ -1,7 +1,6 @@
 package org.nhnnext.guinness.dao;
 
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.time.LocalDate;
 import java.util.List;
