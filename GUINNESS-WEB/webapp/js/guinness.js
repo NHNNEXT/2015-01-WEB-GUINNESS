@@ -46,8 +46,8 @@ guinness.util.koreaDate = function (date) {
 	if (distance >= 1000 * 60 * 60) {
 		var week = new Array('일', '월', '화', '수', '목', '금', '토');
 		var date = new Date(date);
-		var result = date.getFullYear() + "년 " + date.getMonth() + "월 "
-				+ date.getDay() + "일(" + week[date.getDay()] + ") ";
+		var result = date.getFullYear() + "년 " + (date.getMonth()+1) + "월 "
+		+ date.getDate() + "일(" + week[date.getDay()] + ") ";
 		var hour = date.getHours();
 		if (hour > 12) {
 			result = result + "PM " + (hour - 12);
