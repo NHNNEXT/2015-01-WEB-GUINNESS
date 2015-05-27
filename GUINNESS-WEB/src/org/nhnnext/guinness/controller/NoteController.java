@@ -123,8 +123,7 @@ public class NoteController {
 		}
 		List<Map<String, Object>> pCommentList = pCommentService.listByNoteId( noteId);
 		pCommentList = ReconnectPComments.UpdateParagraphId(originTextParagraph, editedTextParagraph, pCommentList);
-		pCommentService.updateParagraphId(pCommentList);
-		noteService.update(noteText, noteId, DateTimeUtil.addCurrentTime(noteTargetDate));
+		noteService.update(noteText, noteId, DateTimeUtil.addCurrentTime(noteTargetDate), pCommentList);
 		return "redirect:/g/" + groupId;
 	}
 
@@ -190,6 +189,8 @@ public class NoteController {
 	protected @ResponseBody JsonResult<Preview> tempNoteUpdate(@RequestParam long noteId, @RequestParam String noteText, 
 			@RequestParam String createDate) {
 		logger.debug("noteId:{}", noteId);
+		
+		
 		if(tempNoteService.update(noteId, noteText, DateTimeUtil.addCurrentTime(createDate))) {
 			return new JsonResult().setSuccess(true).setObject(tempNoteService.readByNoteId(noteId));
 		}
