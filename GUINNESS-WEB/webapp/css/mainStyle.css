@@ -122,11 +122,20 @@ input.text {
     width: 243px;
     max-height: 500px;
     min-height: 200px;
-    background: aliceblue;
+    background: #F9EE7A;
     float: right;
+    padding-left: 2px;
+}
+
+ul.pCommentList {
+    clear:both;
     overflow-y: auto;
     overflow-x: hidden;
-    padding-left: 2px;
+    max-height: 450px;
+}
+
+div#pCommentBoxCancel {
+  color: red;
 }
 
 #allShow {

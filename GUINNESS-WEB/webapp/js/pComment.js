@@ -77,14 +77,16 @@ function mutateObserver (popupCommentBtn) {
     var target = popupCommentBtn;
     var observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
-            if (mutation.type === "attributes" && mutation.attributeName === "style") {
-                if (mutation.target.style.display === "none" ) {
-                    var pCommentBoxDisplay = document.body.querySelector(".pCommentBox").style.display;
-                    if (pCommentBoxDisplay === "" || pCommentBoxDisplay === "none" ) {
-                        if (event.target.className !== "fa fa-lightbulb-o" && event.target.className !== "ShowPComment") {
-                            refresh();
-                        }
-                    }
+            if (mutation.type !== "attributes" || mutation.attributeName !== "style") {
+                return;
+            }
+            if (mutation.target.style.display !== "none" ) {
+                return;   
+            }
+            var pCommentBoxDisplay = document.body.querySelector(".pCommentBox").style.display;
+            if (pCommentBoxDisplay === "" || pCommentBoxDisplay === "none" ) {
+                if (event.target.className !== "fa fa-lightbulb-o" && event.target.className !== "ShowPComment") {
+                    refresh();
                 }
             }
         });
