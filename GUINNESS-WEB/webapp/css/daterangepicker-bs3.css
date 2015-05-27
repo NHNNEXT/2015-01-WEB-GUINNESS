@@ -272,6 +272,11 @@
   color: #999;
 }
 
+.daterangepicker td.noNote {
+  color: #eee;
+  cursor: no-drop;
+}
+
 .daterangepicker td.disabled, .daterangepicker option.disabled {
   color: #999;
 }

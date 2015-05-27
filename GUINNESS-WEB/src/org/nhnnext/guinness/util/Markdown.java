@@ -29,17 +29,17 @@ public class Markdown {
 				return textHtml;
 			}
 			if( pIndex == -1 && preIndex >= 0){
-				textHtml = textHtml.replaceFirst("<pre>", "<pre id='pId-"+idNumber+"' class='pCommentText' >");
+				textHtml = textHtml.replaceFirst("<pre>", "<pre id='pId-"+idNumber+"' class='pCommentText' ><span class='ShowPComment'></span>");
 			}
 			if( pIndex >= 0 && preIndex == -1 ){
-				textHtml = textHtml.replaceFirst("<p>", "<p id='pId-"+idNumber+"' class='pCommentText' >");
+				textHtml = textHtml.replaceFirst("<p>", "<p id='pId-"+idNumber+"' class='pCommentText' ><span class='ShowPComment'></span>");
 			}
 			if( pIndex >= 0 && preIndex >= 0 ){
 				if( pIndex < preIndex ){
-					textHtml = textHtml.replaceFirst("<p>", "<p id='pId-"+idNumber+"' class='pCommentText' >");
+					textHtml = textHtml.replaceFirst("<p>", "<p id='pId-"+idNumber+"' class='pCommentText' ><span class='ShowPComment'></span>");
 				}
 				else {
-					textHtml = textHtml.replaceFirst("<pre>", "<pre id='pId-"+idNumber+"' class='pCommentText' >");
+					textHtml = textHtml.replaceFirst("<pre>", "<pre id='pId-"+idNumber+"' class='pCommentText' ><span class='ShowPComment'></span>");
 				}
 			}
 			idNumber++;

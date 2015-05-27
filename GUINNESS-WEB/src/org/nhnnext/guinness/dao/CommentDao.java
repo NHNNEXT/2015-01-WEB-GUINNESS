@@ -24,8 +24,8 @@ public class CommentDao extends JdbcDaoSupport {
 	}
 	
 	public void createComment(Comment comment) {
-		String sql = "insert into COMMENTS (commentText, commentType, userId, noteId) values(?, ?, ?, ?)";
-		getJdbcTemplate().update(sql, comment.getCommentText(), comment.getCommentType(), comment.getUser().getUserId(), comment.getNote().getNoteId());
+		String sql = "insert into COMMENTS (commentText, userId, noteId) values(?, ?, ?, ?)";
+		getJdbcTemplate().update(sql, comment.getCommentText(), comment.getUser().getUserId(), comment.getNote().getNoteId());
 	}
 
 	public List<Map<String, Object>> readCommentListByNoteId(String noteId) {
@@ -39,7 +39,6 @@ public class CommentDao extends JdbcDaoSupport {
 		return getJdbcTemplate().queryForObject(sql, (rs, rowNum) -> new Comment(
 				rs.getString("commentId"),
 				rs.getString("commentText"), 
-				rs.getString("commentType"), 
 				rs.getString("commentCreateDate"), 
 				new SessionUser(rs.getString("userId"),
 						rs.getString("userName"), 

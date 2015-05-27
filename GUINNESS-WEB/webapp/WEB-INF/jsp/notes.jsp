@@ -186,7 +186,7 @@
 		var elCreateBtn = document.querySelector("#create-new-button");
 
 		
-		getDateExistNotes(); //test
+		getDateExistNotes();
 	}, false);
 	
 	window.addEventListener("scroll", function(e) {
@@ -219,7 +219,7 @@
 	});
 
 	document.querySelector("#calendar-container").addEventListener("click", function(e) {
-		if (e.target.getAttribute("class") === null || e.target.getAttribute("class").indexOf("available") === -1)
+		if (e.target.getAttribute("class") === null || e.target.getAttribute("class").indexOf("available") === -1 || e.target.getAttribute("class").indexOf("existNote") === -1)
 			return;
 		var noteTargetDate = $("#defaultCalendar").data("daterangepicker").startDate._d.toISOString().substring(0,10)+ " 23:59:59";
 		reloadNoteList(noteTargetDate);
@@ -255,9 +255,10 @@
 			}
 			//dayChange
 			$(".calendar.first table tbody td.active").removeClass("active");
-			var days = $(".calendar.first table tbody td.available");
+			var days = $(".calendar.first table tbody td.existNote");
 			for (var i = 0; i < days.length; i++) {
-				if (days[i].textContent === date[2]) {
+				var day = (date[2] < 10) ? date[2].substring(1,2) : date[2];
+				if (days[i].textContent === day) {
 					days[i].className += " active";
 				}
 			}
@@ -268,19 +269,50 @@
 		window.location.href = "/groups/update/form/"+groupId;
 	}
 	
-	function getDateExistNotes(){ //;; select null exist notes day
-		var lastDate = ( new Date( 2015, 5, 1) ).toISOString().substring(0,10)+ " 23:59:59";
+	var nullCheckMonth;
+	function getDateExistNotes(year,month){ //;; select null exist notes day
+		var noteTargetYear = $("#defaultCalendar").data("daterangepicker").startDate._d.toISOString().substring(0,4);
+		var noteTargetMonth = $("#defaultCalendar").data("daterangepicker").startDate._d.toISOString().substring(5,7);
+		if(year !== undefined)
+			noteTargetYear = year;
+		if(month !== undefined)
+			noteTargetMonth = month+1;
+		var lastDate = ( new Date( noteTargetYear,noteTargetMonth, 1) ).toISOString().substring(0,10)+ " 23:59:59";
+		console.log(lastDate);
 		guinness.ajax({
 	        method: "get",
 	        url: "/notes/getNullDay/" + groupId + "/" + lastDate,
 	        success: function (req) {
 	            var json = JSON.parse(req.responseText);
+	            nullCheckMonth = json.objectValues;
 	            if (json.success === true) {
-	            	
+	            	setNullCheck(nullCheckMonth);
 	            }
 	        }
 	    });
 	}
+	function setNullCheck(nullCheckMonth){
+		var td = document.querySelectorAll(".available");
+		var flagStart = false;
+		var i = 0;
+		for(t in td) {
+			   if(td[t].innerText === "1"){
+				   flagStart = true;
+			   }
+			   if(flagStart === true){
+				   if(nullCheckMonth[i] === true){
+					   td[t].className = td[t].className+" noNote";
+				   }
+				   else{
+					   td[t].className = td[t].className+" existNote";
+				   }
+				   i++;
+				  if(nullCheckMonth.length === i)
+					   break;
+			   }
+		}
+	}
+	
 	</script>
 	<script src="/js/note.js"></script>
 	<script src="/js/datepickr.js"></script>

@@ -41,8 +41,8 @@ public class GroupService {
 		return groupDao.readGroupListForMap(userId);
 	}
 
-	public Group create(String groupName, String groupCaptainUserId, String isPublic) {
-		Group group = new Group(createGroupId(), groupName, groupCaptainUserId, isPublic, null);
+	public Group create(String groupName, String groupCaptainUserId, String status) {
+		Group group = new Group(createGroupId(), groupName, groupCaptainUserId, status, null);
 		groupDao.createGroup(group);
 		groupDao.createGroupUser(group.getGroupCaptainUserId(), group.getGroupId());
 		return group;
@@ -67,6 +67,7 @@ public class GroupService {
 			throw new UnpermittedDeleteGroupException();
 		}
 		groupDao.deleteGroup(groupId);
+		alarmDao.deleteGroupByGroupId(groupId);
 	}
 
 	public void inviteGroupMember(String sessionUserId, String userId, String groupId)

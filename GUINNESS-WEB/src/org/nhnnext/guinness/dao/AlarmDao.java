@@ -43,7 +43,7 @@ public class AlarmDao extends JdbcDaoSupport {
 	}
 
 	public List<Map<String, Object>> listNotes(String calleeId) {
-		String sql = "select A.*, U.userName, G.groupName from NOTE_ALARMS as A, USERS as U, NOTES as N, GROUPS as G where A.calleeId=? and A.callerId=U.userId and A.noteId = N.noteId and N.groupId = G.groupId order by A.alarmCreateDate desc;";
+		String sql = "select A.*, U.userName, G.groupName, G.groupId from NOTE_ALARMS as A, USERS as U, NOTES as N, GROUPS as G where A.calleeId=? and A.callerId=U.userId and A.noteId = N.noteId and N.groupId = G.groupId order by A.alarmCreateDate desc;";
 		return getJdbcTemplate().queryForList(sql, calleeId);
 	}
 	
@@ -78,5 +78,15 @@ public class AlarmDao extends JdbcDaoSupport {
 		if (getJdbcTemplate().queryForObject(sql, Integer.class, new Object[] { userId, groupId }) > 0)
 			return true;
 		return false;
+	}
+
+	public void deleteGroupByGroupId(String groupId) {
+		String sql = "delete from GROUP_ALARMS where groupId = ?";
+		getJdbcTemplate().update(sql, groupId);
+	}
+
+	public void deleteGroupByNoteId(String noteId) {
+		String sql = "delete from NOTE_ALARMS where noteId = ?";
+		getJdbcTemplate().update(sql, noteId);
 	}
 }

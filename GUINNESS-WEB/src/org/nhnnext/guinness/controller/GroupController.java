@@ -47,10 +47,10 @@ public class GroupController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	protected @ResponseBody JsonResult create(@RequestParam String isPublic, @RequestParam String groupName,
+	protected @ResponseBody JsonResult create(@RequestParam String status, @RequestParam String groupName,
 			HttpSession session, Model model) throws IOException, FailedMakingGroupException {
 		String groupCaptainUserId = ServletRequestUtil.getUserIdFromSession(session);
-		Group group = groupService.create(groupName, groupCaptainUserId, isPublic);
+		Group group = groupService.create(groupName, groupCaptainUserId, status);
 		return new JsonResult().setSuccess(true).setObject(group);
 	}
 

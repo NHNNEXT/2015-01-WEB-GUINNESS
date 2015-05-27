@@ -182,8 +182,20 @@ function showNoteModal(obj) {
         }
     });
     document.querySelector('.modal-body').setAttribute('class', 'modal-body note-modal');
-    document.querySelector('.note-content').innerHTML = obj.noteText;
-    document.querySelector('.hidden-note-content').value = obj.noteText;
+    var noteContent = document.querySelector('.note-content');
+    var viewContent = document.createElement('DIV');
+    viewContent.innerHTML = obj.noteText;
+    //TODO 노트의 각 문단별 코멘트 카운트 가져오기.
+    var arShowP = viewContent.querySelectorAll(".ShowPComment");
+    for(var index in arShowP) {
+        if (index === "length") {
+            break;
+        }
+        arShowP[index].innerHTML = "<i class='fa fa-lightbulb-o'></i>";
+    }
+    document.querySelector('.hidden-note-content').value = viewContent.innerHTML;
+    refresh();
+    viewContent.remove();
     document.querySelector('.hiddenUserId').value = obj.user.userId;
     document.querySelector('.hiddenNoteId').value = obj.noteId;
     document.querySelector('#commentForm').addEventListener('submit',
@@ -191,7 +203,6 @@ function showNoteModal(obj) {
             e.preventDefault();
             createComment(obj);
         }, false);
-
     readComments(obj);
 }
 
@@ -322,12 +333,10 @@ function createComment(obj) {
     if (commentText !== "") {
         var userId = document.getElementById("sessionUserId").value;
         var noteId = obj.noteId;
-        var commentType = "A";
         guinness.ajax({
             method: "post",
             url: "/comments/",
-            param: "commentText=" + commentText + "&commentType="
-            + commentType + "&noteId=" + noteId,
+            param: "commentText=" + commentText + "&noteId=" + noteId,
             success: function (req) {
                 var result = JSON.parse(req.responseText);
                 if (result.success !== true) {
@@ -354,6 +363,7 @@ function isJoinedUser() {
     document.querySelector(".addMemberTitle").style.display="none";
     document.querySelector("#addMemberForm .inputText").style.display="none";
     document.querySelector("#addMemberForm .inputText").value=sessionUserId;
+    document.querySelector("#addMemberForm .inputBtn").style.width="30%";
     document.querySelector("#addMemberForm .inputBtn").value="가입하기";
     return false;
 }
@@ -390,7 +400,7 @@ function addMember() {
                 alert.style.visibility = "visible";
                 alert.style.color = "#ff5a5a";
                 alert.style.fontSize = "11px";
-                alert.innerHTML = json.message;
+                alert.innerHTML = "<br/>"+json.message;
                 if(bJoinedUser){
                 	document.querySelector('#addMemberForm input[name="userId"]').value = "";
                 }
@@ -399,7 +409,7 @@ function addMember() {
                 alert.style.visibility = "visible";
                 alert.style.color = "#86E57F";
                 alert.style.fontSize = "11px";
-                alert.innerHTML = message;
+                alert.innerHTML = "<br/>"+message;
                 if(bJoinedUser){
                 	document.querySelector('#addMemberForm input[name="userId"]').value = "";
                 }
@@ -467,9 +477,6 @@ function appendMembers(json) {
     for (var i = 0; i < json.length; i++) {
         appendMember(json[i]);
     }
-    if (!bJoinedUser) {
-        document.getElementById("leave-group").style.visibility = "hidden";
-    }
 }
 
 function onOffMemberNotes(flag, userId) {
@@ -535,6 +542,7 @@ function reloadNoteList(noteTargetDate) {
             }
         }
     });
+    getDateExistNotes();
 }
 
 var infiniteScroll = function () {
@@ -566,6 +574,72 @@ var reloadWithoutDeleteNoteList = function (noteTargetDate) {
                 appendNoteList(result.objectValues);
                 appendMarkList(result.objectValues);
             }
+        }
+    });
+}
+
+function tempSave() {
+    console.log("임시저장");
+    var noteId = document.querySelector("#hiddenTempNoteId").value;
+    var noteText = document.querySelector("#noteTextBox").value;
+    var createDate = new Date().toISOString().slice(0, 10);
+
+    if(noteId === "") {
+        guinness.ajax({
+            method: "post",
+            url: '/notes/temp',
+            param: "noteText=" + noteText + "&createDate=" + createDate,
+            success: function (req) {
+                var result = JSON.parse(req.responseText);
+                console.log("tempNoteId : " + result.object);
+                var tempNote = result.object;
+                var dropdownMenu = document.querySelector(".dropdown-menu");
+                var el = document.createElement("li");
+                el.innerHTML = "<a href='#' data-id='" + tempNote.noteId + "'>" + guinness.util.koreaDate(new Date()) + "에 저장된 글이 있습니다</a>";
+                el.addEventListener("mousedown", function(e) {
+                    loadTempNote(e.target.dataset.id);
+                }, false);
+                dropdownMenu.appendChild(el);
+            }
+        }); 
+    } else {
+        guinness.ajax({
+            method: "put",
+            url: '/notes/temp',
+            param: "noteId=" + noteId + "&noteText=" + noteText + "&createDate=" + createDate,
+            success: function (req) {
+                var result = JSON.parse(req.responseText);
+                console.log("tempNoteId : " + result.object);
+                var el = document.querySelector("a[data-id='" + result.object.noteId + "']");
+                el.innerText = guinness.util.koreaDate(result.object.createDate) + "에 저장된 글이 있습니다";
+            }
+        }); 
+    }
+}
+
+function appendTempNoteList(tempNotes) {
+    console.log(tempNotes);
+    var dropdownMenu = document.querySelector(".dropdown-menu");
+    for(var i = 0; i < tempNotes.length; i++) {
+        var el = document.createElement("li");
+        el.innerHTML = "<a href='#' data-id='" + tempNotes[i].noteId + "'>" + tempNotes[i].createDate + "에 저장된 글이 있습니다</a>"
+        el.addEventListener("mousedown", function(e) {
+                loadTempNote(e.target.dataset.id);
+            }, false);
+        dropdownMenu.appendChild(el);
+    }
+}
+
+function loadTempNote(tempNoteId) {
+    console.log(tempNoteId);
+    guinness.ajax({
+        method: "get",
+        url: '/notes/temp/' + tempNoteId,
+        success: function (req) {
+            var result = JSON.parse(req.responseText);
+            console.log(result.object);
+            document.querySelector("#noteTextBox").value = result.object.noteText;
+            document.querySelector("#hiddenTempNoteId").value = result.object.noteId;
         }
     });
 }

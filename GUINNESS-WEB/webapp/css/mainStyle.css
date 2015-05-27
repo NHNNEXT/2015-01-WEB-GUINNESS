@@ -81,7 +81,6 @@ input.text {
 }
 
 .pComment-text {
-    outline: 1px solid #96CEDF;
   width: 235px;
   display: block;
   max-width: 228px;
@@ -120,10 +119,14 @@ input.text {
 }
 
 .pCommentListBox {
-  width: 240px;
-  max-height: 500px;
-  background: aliceblue;
-  float: right;
+    width: 243px;
+    max-height: 500px;
+    min-height: 200px;
+    background: aliceblue;
+    float: right;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-left: 2px;
 }
 
 #allShow {
@@ -182,6 +185,7 @@ input.text {
 	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 	box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+    margin-bottom: 2px;
 }
 
 .userProfile {
@@ -359,6 +363,11 @@ a#escape-note {
 	width: 99px;
 	height: 19px;
 	background: gray;
+}
+
+.btn-temp {
+	float: left;
+	margin-top: -60px;
 }
 
 #previewBox {
@@ -1065,13 +1074,20 @@ span.sDate {
     box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 }
 
+span.ShowPComment {
+  position: relative;
+  left: 630px;
+}
 
+span.ShowPComment:hover {
+  color: orange;
+}
 
 .modal-header {
 	width: 100%;
 	display: table;
 	color: white;
-	background-color: rgb(93, 129, 128);
+	background-color: #77C4B6;
 }
 
 .modal-title {
@@ -1298,4 +1314,36 @@ span.tag {
 	font-size: 20px;
 	font-weight: bold;
 	color: rgb(116, 175, 173);
+}
+
+#temp-note-list {
+	position: absolute;
+	width: 940px;
+	margin: 0 auto;
+	text-align: right;
+	list-style: none;
+	font-size: 12px;
+}
+
+#temp-note-list ul li {
+	list-style: none;
+	font-size: 12px;
+}
+
+.dropdown-menu {
+	position: absolute;
+	right: 0px;
+	background-color: white;
+	margin-top: 5px;
+}
+
+.dropdown-menu li {
+	margin-bottom: 12px;
+}
+.dropdown > a:link, .dropdown a:visited {
+	color: gray;
+}
+
+.dropdown-menu > a:link, .dropdown-menu a:visited {
+	color: gray;
 }

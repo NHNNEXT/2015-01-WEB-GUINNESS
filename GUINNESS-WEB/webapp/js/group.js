@@ -72,7 +72,7 @@ function createGroup() {
 		var form = document.querySelector('#create-group-form');
 
 		if(document.querySelector('.modal-cover input[name="groupName"]').value != ""){
-			var param = "groupName="+form.groupName.value+"&isPublic="+form.isPublic.value;
+			var param = "groupName="+form.groupName.value+"&status="+form.status.value;
 			guinness.ajax({
 				method : "post",
 				url : "/groups",
@@ -113,7 +113,7 @@ function appendGroup(obj) {
 			var groupName = e.currentTarget.parentElement.querySelector(".group-name").innerHTML;
 			guinness.confirmLeave(groupId, groupName);
 		}, false);
-	if (obj.isPublic === 'T') {
+	if (obj.status === 'T') {
 		newEl.querySelector('.fa-lock').setAttribute('class','fa fa-unlock');
 	}
 	newEl.querySelector('input').setAttribute("value", obj.groupId);
