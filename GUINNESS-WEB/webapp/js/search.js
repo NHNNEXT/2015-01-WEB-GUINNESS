@@ -6,15 +6,11 @@ function searchForm(elSearch, searchResultBox) {
 searchForm.prototype.init = function() {
   this._createResultBox();
   this._setPosition();
-
   this.elSearch.addEventListener("focus", function(e) {
-    e.target.parentElement.className = "onSearchForm";
-    var elResult = document.querySelector(".searchResult");
-    elResult.style.display="block";
-    var elIcon = document.querySelector(".onSearchForm i");
-    elIcon.className = "fa fa-external-link";
+    this.className = "onSearchForm";
+    document.querySelector(".searchResult").style.display="block";
+    document.querySelector(".onSearchForm i").elIcon.className = "fa fa-external-link";
   }, true);
-
   this.elSearch.addEventListener("focusout", function(e) {
 	  focusOut(e);
   }, false);
@@ -28,25 +24,18 @@ searchForm.prototype._createResultBox = function() {
 }
 
 searchForm.prototype._setPosition = function() {
-	  var elInputBox = document.querySelector("#searchText");
-	  var rect = elInputBox.getBoundingClientRect();
+	  var rect = document.querySelector("#searchText").getBoundingClientRect();
 	  var elResult = document.querySelector(".searchResult");
 	  elResult.style.top = rect.bottom+"px";
 	  elResult.style.left = rect.left+"px";
 }
 
-var focusOut = function(e) {
-    if(e.relatedTarget===null) {
-      document.querySelector(".onSearchForm").className = "searchForm";
-      var elResult = document.querySelector(".searchResult");
-//      elResult.style.display="none";
-//      document.querySelector(".searchForm > input").value="";
-//      document.querySelector(".searchResult").innerHTML="<div></div>";
-      var elIcon = document.querySelector(".searchForm i");
-      elIcon.className = "fa fa-search";
-    }
+function focusOut(e) {
+  if (e.relatedTarget===null) {
+    document.querySelector(".onSearchForm").className = "searchForm";
+	document.querySelector(".searchForm i").className = "fa fa-search";
+  }
 }
-
 
 window.addEventListener('resize', function() {
   new searchForm()._setPosition();
@@ -54,7 +43,7 @@ window.addEventListener('resize', function() {
 
 window.addEventListener('load', function() {
   var elSearch = document.querySelector(".searchForm");
-    var searchResultBox = document.querySelector(".searchFormTemplate").text;
+  var searchResultBox = document.querySelector(".searchFormTemplate").text;
   new searchForm(elSearch, searchResultBox).init();
 
   elSearch.addEventListener("keyup", function(ev) {
