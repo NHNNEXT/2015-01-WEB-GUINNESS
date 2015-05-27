@@ -1103,13 +1103,18 @@ span.sDate {
     box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 }
 
-.ShowPComment {
-  position:relative;
-  left:630px;
+.showPComment {
+	position:relative;
+	left:632px;
+	display: none;
 }
 
-.ShowPComment:hover {
+.showPComment:hover {
   color:orange;
+}
+
+.markdown-body p {
+	word-break: break-all;
 }
 
 .modal-header {
