@@ -48,7 +48,7 @@ function selectText() {
     span.appendChild(content);
     var selectedText = span.innerHTML;
     if (selectedText.length > 0) {
-        return selectedText.replace(/^<span class="ShowPComment"><i class.{1,}><\/i><\/span>/, "");
+        return selectedText.replace(/^<span class="ShowPComment">.{1,}<\/span>/, "");
     }
     return false;
 }
