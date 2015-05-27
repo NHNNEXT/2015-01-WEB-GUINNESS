@@ -33,7 +33,7 @@
 		<form id="noteForm" action="/notes" method="post">
 			<input type="hidden" id="hiddenGroupId" name="groupId"
 				value="${group.groupId}">
-			<input type="hidden" id="hiddenTempNoteId" name="tempNoteId">
+			<input type="hidden" id="hiddenTempNoteId" name="tempNoteId" value="0">
 			<c:if test="${not empty noteId}">
 				<input type="hidden" name="_method" value="put">
 				<input type="hidden" name="noteId" value="${noteId}">
@@ -41,8 +41,8 @@
 			<div id="editorBox">
 				<div id="editorTools">
 					<div id="calendar">
-						<i id="datepickr" class="fa fa-calendar"></i> <input
-							id="noteTargetDate" name="noteTargetDate" value="" readonly>
+						<i id="datepickr" class="fa fa-calendar"></i>
+						<input id="noteTargetDate" name="noteTargetDate" value="">
 					</div>
 				</div>
 				<textarea id="noteTextBox" rows="28" cols="28" name="noteText"
@@ -59,38 +59,11 @@
 	</div>
 	<input id="hiddenGroupName" type="hidden" value="${group.groupName}" />
 
-	<template id="view-note-template">
-		<div class="markdown-body">
-			<input type="hidden" class="hiddenUserId" value="" /> <input
-				type="hidden" class="hiddenNoteId" value="" />
-			<div class="note-content"></div>
-			<div id="commentListUl"></div>
-			<form id="commentForm" method="post">
-				<textarea id="commentText" name="commentText" rows="5" cols="50"></textarea>
-				<br>
-				<button id="submitComment" class="btn btn-pm">확인</button>
-			</form>
-		</div>
-	</template>
-	<template id="comment-template">
-		<li>
-			<img class="avatar" class="avatar" src="/img/profile/avatar-default.png">
-			<div class="comment-container">
-				<div class="comment-info">
-					<span class="comment-user"></span> <span class="comment-date"></span>
-				</div>
-				<div class="comment"></div>
-				<div class="comment-util"></div>
-			</div>
-		</li>
-	</template>
-	<script type="template" id="popupCommentBtnTemplate">
-    	<div class="popupCommentBtn">
-        	댓글 달기
-    	</div>
-	</script>
+	<!-- 노트 모달을 위한 템플릿 -->
+	<%@ include file="./commons/_note_popup.jspf"%>
 
 	<script>
+		var noteTargetDate = "${note.noteTargetDate}";
 		var groupName = "${group.groupName}";
 		window.addEventListener("load", function() {
 			appendTempNoteList(${tempNotes});
@@ -111,9 +84,7 @@
 			}
 		};
 	</script>
-	<script src="/js/note.js"></script>
 	<script src="/js/datepickr.js"></script>
 	<script src="/js/editor.js"></script>
-	<script src="/js/pComment.js"></script>
 </body>
 </html>

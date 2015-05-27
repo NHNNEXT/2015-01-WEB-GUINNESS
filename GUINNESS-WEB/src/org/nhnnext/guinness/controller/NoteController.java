@@ -92,8 +92,7 @@ public class NoteController {
 		if (noteText.equals("")) {
 			return "redirect:/notes/editor/g/" + groupId;
 		}
-		noteService.create(sessionUserId, groupId, noteText, DateTimeUtil.addCurrentTime(noteTargetDate));
-		tempNoteService.delete(Long.parseLong(tempNoteId));
+		noteService.create(sessionUserId, groupId, noteText, DateTimeUtil.addCurrentTime(noteTargetDate), tempNoteId);
 		return "redirect:/g/" + groupId;
 	}
 

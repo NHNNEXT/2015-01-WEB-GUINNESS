@@ -38,12 +38,14 @@ public class NoteService {
 	private AlarmDao alarmDao;
 	@Resource
 	private PreviewService previewService;
+	@Resource
+	private TempNoteService tempNoteService;
 
 	public Note readNote(String noteId) {
 		return noteDao.readNote(noteId);
 	}
 
-	public void create(String sessionUserId, String groupId, String noteText, String noteTargetDate)
+	public void create(String sessionUserId, String groupId, String noteText, String noteTargetDate, String tempNoteId)
 			throws UnpermittedAccessGroupException {
 		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
 			throw new UnpermittedAccessGroupException();
@@ -68,6 +70,7 @@ public class NoteService {
 			alarmDao.createNewNotes(alarm);
 		}
 		previewService.createPreview(noteId, groupId, noteText);
+		tempNoteService.delete(Long.parseLong(tempNoteId));
 	}
 
 	public void update(String noteText, String noteId, String noteTargetDate) {
