@@ -972,6 +972,7 @@ span.sDate {
 	height:45px;
 	border-radius:2px;
 	overflow:hidden;
+	background-color : #558;
 }
 
 #commentListUl img.avatar {
