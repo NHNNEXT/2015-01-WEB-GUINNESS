@@ -13,13 +13,6 @@
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 </head>
 <body>
-	<script>
-		var errorMessage = '${errorMessage}';
-		if (errorMessage !== '') {
-			guinness.util.alert("비정상적인 접근!", errorMessage);
-		}
-	</script>
-
 	<%@ include file="./commons/_topnav.jspf"%>
 
 	<input type="hidden" id="sessionUserId" name="sessionUserId"

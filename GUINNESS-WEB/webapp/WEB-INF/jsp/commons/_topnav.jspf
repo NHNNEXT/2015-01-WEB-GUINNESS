@@ -7,6 +7,9 @@
 <c:if test="${empty sessionUser.userId}">
 	<c:redirect url="/" />
 </c:if>
+<script>
+		
+</script>
 <div id="header">
 	<div class="headerBackground"></div>
 	<div class="content wrap">
@@ -38,6 +41,11 @@
 			</li>
 		</ul>
 	</div>
+</div>
+
+<div id="quickAlarm">
+	<div class="fa fa-exclamation-triangle"></div>
+	<div id="quickAlarmMessage">회원정보수정에 성공하였습니다.</div>
 </div>
 
 <script type="template" class="searchFormTemplate">
@@ -74,7 +82,6 @@
 		<span class="searchResultDate"></span>
 	</div>
 </template>
-
 <script>
 getAlarms();
 function getAlarms(){
@@ -225,5 +232,36 @@ function joinGroupMember(userId, groupId, alarmStatus) {
 				}
 			}
 		});
+}
+
+function showQuickAlarm(o){
+	var quickAlarm = document.querySelector("#quickAlarm");
+	switch (o.type) {
+	  case "warn" : quickAlarm.style.backgroundColor="#ffd68d";
+	  				quickAlarm.querySelector(".fa").className="fa fa-warning";
+	  				break;
+	  case "error" : quickAlarm.style.backgroundColor="#ff5a5a";
+	  				quickAlarm.querySelector(".fa").className="fa fa-warning";
+	  				break;
+	  default : quickAlarm.style.backgroundColor="#7cc4b5";
+	  			quickAlarm.querySelector(".fa").className="fa fa-leaf";
+	  			break;
+	}
+	quickAlarm.querySelector("#quickAlarmMessage").innerHTML = o.message;
+	quickAlarm.style.right = ((document.body.clientWidth - document.querySelector("div.content.wrap").clientWidth ) / 2)+"px";
+	quickAlarm.style.display = "block";
+	setTimeout(function(){
+		quickAlarm.className = "fade";
+	}, 1500);
+}
+
+var infoMessage = '${infoMessage}';
+var errorMessage = '${errorMessage}';
+
+if (errorMessage !== '') {
+	showQuickAlarm({type:"error", message:errorMessage});
+}
+if (infoMessage !== '') {
+	showQuickAlarm({type:"info", message:infoMessage});
 }
 </script>
