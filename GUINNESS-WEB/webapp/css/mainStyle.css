@@ -1,11 +1,28 @@
+/*
+*	=== Design Convention ===
+*
+*   === Basic Convention
+*	position: absolute; (x) -> position:absolute;
+*	padding-top:5px; padding-bottom:5px ... (x) -> padding:5px 0px 2px 5px;
+*
+*   === Color Convention
+*	Black: #454545
+*	White: #fff
+*	Red / Error: #ff5a5a
+*	Mint: #7cc4b5
+*   DarkMint: #619493
+*	Gray: #888
+*   Gray for Border: #ccc
+*	Yellow / Warning: #FFD68B
+*
+*/
 html, body {
 	margin:0;
 	padding:0;
 	font-family:'Nanum Gothic';
-	color:dimgrey;
+	color:#454545;
 	height:100%;
-	transition-duration:.3s;
-	background-color: rgb(250, 250, 250);
+	background-color:rgb(250, 250, 250);
 }
 
 ul {
@@ -29,34 +46,34 @@ input {
 }
 
 input.text {
-	width: 250px;
-	height: 25px;
+	width:250px;
+	height:25px;
 }
 
 .popupCommentBtn {
-	background: black;
-	color: white;
-	position: fixed;
-	display: none;
-	padding : 5px;
-	border-radius: 2px;
+	background:#454545;
+	color:#fff;
+	position:fixed;
+	display:none;
+	padding:5px;
+	border-radius:2px;
 	font-size:13px;
-	z-index : 1000;
+	z-index:1000;
 }
 
 .highlighted {
-	background: #A0FF00;
+	background:#A0FF00;
 }
 
 .note-content {
-    width: 640px;
-    margin: 0 auto;
-    padding: 5px;
-    min-height: 260px;
+    width:640px;
+    margin:0 auto;
+    padding:5px;
+    min-height:260px;
 }
 
 #pCommentBoxCancel {
-  float: left;
+  float:left;
   margin-left: 10px;
   margin-top: 10px;
   font-size: 18px;
@@ -64,7 +81,7 @@ input.text {
 
 .pCommentCreateDate {
   font-size: 10px !important;
-  color: gray;
+  color:gray;
   font-weight: 100;
   top: -7px !important;
 }
@@ -77,15 +94,15 @@ input.text {
 }
 
 .controll > a.update {
-  margin-right: 5px;
+  margin-right:5px;
 }
 
 .pComment-text {
   width: 235px;
   display: block;
   max-width: 228px;
-  clear: both;
-  position: relative;
+  clear:both;
+  position:relative;
   top: 4px;
   padding: 3px;
   font-size: 14px;
@@ -100,7 +117,7 @@ input.text {
   width: 35px;
   height: 35px;
   border-radius: 2px;
-    float: left;
+  float: left;
 }
 
 .userProfile > div span {
@@ -150,8 +167,6 @@ div#pCommentBoxCancel {
 #allShow:active {
     background-color:cadetblue;
 }
-
-
 
 .code {
     color:darkgreen;
@@ -368,15 +383,10 @@ div#pCommentBoxCancel {
 }
 
 a#escape-note {
-	margin-right: 31px;
+	margin-right: 0;
 	width: 99px;
 	height: 19px;
 	background: gray;
-}
-
-.btn-temp {
-	float: left;
-	margin-top: -60px;
 }
 
 #previewBox {
@@ -1340,6 +1350,23 @@ span.tag {
 	font-size: 20px;
 	font-weight: bold;
 	color: rgb(116, 175, 173);
+}
+
+
+/*
+ * 임시 저장 관련 Style
+ */
+
+.btn-temp {
+	float: left;
+	margin-left: 0;
+}
+
+#temp-save-message {
+	float: left;
+	font-size: 12px;
+	color: orange;
+	margin: 25px 0px 0px 10px;
 }
 
 #temp-note-list {

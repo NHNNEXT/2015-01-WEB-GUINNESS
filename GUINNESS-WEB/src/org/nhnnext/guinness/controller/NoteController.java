@@ -86,8 +86,6 @@ public class NoteController {
 	protected String create(@RequestParam String groupId, @RequestParam String noteText,
 			@RequestParam String noteTargetDate, @RequestParam String tempNoteId, HttpSession session, Model model) throws IOException,
 			UnpermittedAccessGroupException {
-		logger.debug("tempNoteId : {}", tempNoteId);
-		
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		if (noteText.equals("")) {
 			return "redirect:/notes/editor/g/" + groupId;
