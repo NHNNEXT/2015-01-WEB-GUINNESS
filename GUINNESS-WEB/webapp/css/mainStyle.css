@@ -478,13 +478,14 @@ form#notes-create-form {
 
 #left-menu-container #summary-container ul {
 	display:block;
+	overflow-y:scroll;
 }
 
 #left-menu-container #summary-container ul li {
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	overflow: hidden;
-	padding:2px 5px 2px 30px;
+	padding:2px 5px 2px 20px;
+	overflow-x:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
 }
 
 #group-member-container {
@@ -505,6 +506,7 @@ form#notes-create-form {
 
 #group-member-container div#group-member-list #group-member {
 	margin-top:10px;
+	overflow-y:scroll;
 }
 
 #group-member-container #group-member-list #group-member td {
@@ -1198,9 +1200,11 @@ span.ShowPComment:hover {
 	font-size: 15px;
 	cursor: pointer;
 	float: right;
-	left: 16px;
-	top: -16px;
-	color: white;
+	color: #fff;
+}
+
+.leaveGroup-btn:hover {
+	color: rgb(255, 133, 133);
 }
 
 .panel {
@@ -1368,4 +1372,9 @@ span.tag {
 
 .dropdown-menu > a:link, .dropdown-menu a:visited {
 	color: gray;
+}
+
+.dropdown-menu .fa-close {
+	margin-left: 10px;
+	cursor: pointer;
 }

@@ -64,6 +64,10 @@ public class PCommentService {
 	public List<Map<String, Object>> listByNoteId( String noteId) {
 		return pCommentDao.readListByNoteId(noteId);
 	}
+	
+	public List<Map<String, Object>> countByPGroupPCommnent(String noteId) {
+		return pCommentDao.countByPGroupPCommnent(noteId);
+	}
 
 	public Object update(String commentId, String commentText) {
 		pCommentDao.updatePComment(commentId, commentText);

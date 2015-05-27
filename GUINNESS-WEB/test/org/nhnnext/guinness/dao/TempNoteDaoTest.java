@@ -50,4 +50,11 @@ public class TempNoteDaoTest {
 		
 		assertNotEquals(beforeUpdateTempNote, afterUpdateTempNote);
 	}
+	
+	@Test
+	public void delete() {
+		TempNote tempNote = tempNoteDao.readByNoteId(2);
+		System.out.println(tempNote);
+		assertEquals(1, tempNoteDao.delete(2));
+	}
 }

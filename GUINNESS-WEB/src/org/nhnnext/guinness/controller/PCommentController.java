@@ -49,6 +49,11 @@ public class PCommentController {
 	protected @ResponseBody JsonResult list(@RequestParam String pId, @RequestParam String noteId) {
 		return new JsonResult().setSuccess(true).setObjectValues(pCommentService.list(pId.replace("pId-", ""), noteId));
 	}
+	
+	@RequestMapping(value = "/readCountByP", method = RequestMethod.GET)
+	protected @ResponseBody JsonResult readCountByP(@RequestParam String noteId) {
+		return new JsonResult().setSuccess(true).setMapValues(pCommentService.countByPGroupPCommnent(noteId));
+	}
 
 	@RequestMapping(value = "/{pCommentId}", method = RequestMethod.PUT)
 	protected @ResponseBody JsonResult update(@PathVariable String commentId, @RequestParam String commentText) {

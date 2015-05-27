@@ -87,12 +87,13 @@ public class NoteController {
 			@RequestParam String noteTargetDate, @RequestParam String tempNoteId, HttpSession session, Model model) throws IOException,
 			UnpermittedAccessGroupException {
 		logger.debug("tempNoteId : {}", tempNoteId);
+		
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		if (noteText.equals("")) {
 			return "redirect:/notes/editor/g/" + groupId;
 		}
 		noteService.create(sessionUserId, groupId, noteText, DateTimeUtil.addCurrentTime(noteTargetDate));
-		tempNoteService.delete(tempNoteId);
+		tempNoteService.delete(Long.parseLong(tempNoteId));
 		return "redirect:/g/" + groupId;
 	}
 
@@ -197,5 +198,14 @@ public class NoteController {
 		}
 		
 		return new JsonResult().setSuccess(false);
-	}	
+	}
+	
+	@RequestMapping(value = "/notes/temp/{noteId}", method = RequestMethod.DELETE)
+	protected @ResponseBody JsonResult<Preview> tempNotedelete(@PathVariable long noteId) {
+		logger.debug("noteId:{}", noteId);
+		if(tempNoteService.delete(noteId)) {
+			return new JsonResult().setSuccess(true);
+		}
+		return new JsonResult().setSuccess(false);
+	}
 }
