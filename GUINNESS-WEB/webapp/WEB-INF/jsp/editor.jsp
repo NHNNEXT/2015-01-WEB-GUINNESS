@@ -41,8 +41,8 @@
 			<div id="editorBox">
 				<div id="editorTools">
 					<div id="calendar">
-						<i id="datepickr" class="fa fa-calendar"></i> <input
-							id="noteTargetDate" name="noteTargetDate" value="" readonly>
+						<i id="datepickr" class="fa fa-calendar"></i>
+						<input id="noteTargetDate" name="noteTargetDate" value="">
 					</div>
 				</div>
 				<textarea id="noteTextBox" rows="28" cols="28" name="noteText"
@@ -90,6 +90,7 @@
 	</script>
 
 	<script>
+		var noteTargetDate = "${note.noteTargetDate}";
 		var groupName = "${group.groupName}";
 		window.addEventListener("load", function() {
 			appendTempNoteList(${tempNotes});
