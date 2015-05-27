@@ -152,7 +152,7 @@ function readNoteContents(noteId) {
                 return;
             showNoteModal(result.object);
             document.body.scrollTop = currScrollTop;
-            createPopupPCommentBtn();
+            pComment.createPopupPCommentBtn();
         	setPopupPCommentBtn();
         }
     });
@@ -185,8 +185,8 @@ function showNoteModal(obj) {
     viewContent.innerHTML = obj.noteText;
     pComment.countByP(obj.noteId);
     
-    document.querySelector('.hidden-note-content').value = viewContent.innerHTML;
-    refresh();
+    document.querySelector('.note-content').innerHTML = viewContent.innerHTML;
+    pComment.refresh();
     viewContent.remove();
     document.querySelector('.hiddenUserId').value = obj.user.userId;
     document.querySelector('.hiddenNoteId').value = obj.noteId;

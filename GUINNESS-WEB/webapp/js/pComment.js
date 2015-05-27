@@ -34,20 +34,20 @@ pComment.appendPComment = function (json) {
         .replace("selectedText", json.selectedText);
     pCommentList.insertAdjacentHTML("beforeend", elPComment);
     var PCommentCard = document.body.querySelector(".pCommentList #pCId" + json.pCommentId);
-    PCommentCard.addEventListener('mouseover', pComment.highlite, false);
-    PCommentCard.addEventListener('mouseleave', function (e) {
-        var info = e.target.closest("li").querySelector("input[type=hidden]");
-        var p = document.body.querySelector('#pId-' + info.getAttribute('ptagid'));
-        var highlighted = p.querySelector('.highlighted');
-        if (null !== highlighted) {
-            p.innerHTML = p.innerHTML.replace(/<span class="highlighted">.+<\/span>/, highlighted.innerHTML);
-        }
-    }, false);
+    PCommentCard.addEventListener('mouseover', pComment.highlight, false);
+    PCommentCard.addEventListener('mouseleave', pComment.clearHighlight, false);
     pCommentList.scrollTop = pCommentList.scrollHeight;
     pComment.countByP(document.querySelector('.hiddenNoteId').value);
 }
 
-pComment.highlite = function (e) {
+pComment.clearHighlight = function (e) {
+    var info = e.target.closest("li").querySelector("input[type=hidden]");
+    var p = document.body.querySelector('#pId-' + info.getAttribute('ptagid'));
+    var highlighted = p.querySelector('.highlighted');
+    pComment.refresh.removeHighlighting(highlighted, p);
+}
+
+pComment.highlight = function (e) {
     var info = e.target.closest("li").querySelector("input[type=hidden]");
     var pId = info.getAttribute('ptagid');
     var sameSenCount = info.getAttribute('samecount');
@@ -89,33 +89,55 @@ pComment.countByP.createBulbBtn = function (json) {
     for (var index in json) {
         var pCommentCount = (json[index])['count(1)'];
         var showBtn = pComment.countByP.createBulbBtn.getShowBtnByPId(json[index].pId);
-        if (showBtn === false) { return false; }
+        if (showBtn === false) {
+            return false;
+        }
         showBtn.style.display = "block";
-        showBtn.addEventListener('mouseup', function(e) {
-            e.preventDefault;
-            var noteId = document.body.querySelector(".hiddenNoteId").value;
-            var pOrPreId = e.target.closest('P') !== null ? e.target.closest('P').id : e.target.closest('PRE').id;
-            var noteContent = document.querySelector('.note-content');
-            createPCommentListBox(pOrPreId, noteContent, noteId);
-        }, false);
+        showBtn.querySelector("i").textContent = pCommentCount;
+        pComment.countByP.setShowBtnEvent(showBtn);
     }
+}
+
+pComment.countByP.setShowBtnEvent = function (showBtn) {
+    showBtn.addEventListener('mouseup', function (e) {
+        e.preventDefault;
+        var noteId = document.body.querySelector(".hiddenNoteId").value;
+        var pOrPreId = pComment.getPid(e.target);
+        var noteContent = document.querySelector('.note-content');
+        createPCommentListBox(pOrPreId, noteContent, noteId);
+    }, false);
 }
 
 pComment.countByP.createBulbBtn.getShowBtnByPId = function (pId) {
     var showBtns = document.body.querySelectorAll(".showPComment");
-    if (showBtns.length <= 0) { return false; }
-    for (var index=0; index < showBtns.length; index++) {
-        if (showBtns[index] === null) { break }
-        var pOrPreId = showBtns[index].closest('P') !== null ? showBtns[index].closest('P').id : showBtns[index].closest('PRE').id;
-        if (pOrPreId === "pId-"+pId) {
+    if (showBtns.length <= 0) {
+        return false;
+    }
+    for (var index = 0; index < showBtns.length; index++) {
+        if (showBtns[index] === null) {
+            break
+        }
+        var pOrPreId = pComment.getPid(showBtns[index]);
+        if (pOrPreId === "pId-" + pId) {
             return showBtns[index];
         }
     }
     return false;
 }
 
+pComment.getPid = function (selectedEl) {
+    if (selectedEl === null) {
+        console.error("nullError");
+        return false;
+    }
+    return selectedEl.closest('P') !== null ? selectedEl.closest('P').id : selectedEl.closest('PRE').id;
+}
+
 pComment.selectText = function () {
     var range = document.getSelection().getRangeAt(0);
+    if (range.endContainer.className === "fa fa-lightbulb-o" ||  range.endContainer.className === "showPComment") {
+        return false;
+    }
     var content = range.cloneContents();
     var elTemp = document.createElement('SPAN');
     elTemp.appendChild(content);
@@ -126,7 +148,7 @@ pComment.selectText = function () {
     return false;
 }
 
-function createPopupPCommentBtn() {
+pComment.createPopupPCommentBtn = function () {
     var templatePopupBtn = document.querySelector("#popupCommentBtnTemplate").text;
     document.body.insertAdjacentHTML("beforeend", templatePopupBtn);
     _createPCommentBox();
@@ -158,8 +180,8 @@ function mutateObserver(popupCommentBtn) {
             }
             var pCommentBoxDisplay = document.body.querySelector(".pCommentBox").style.display;
             if (pCommentBoxDisplay === "" || pCommentBoxDisplay === "none") {
-                if (event.target.className !== "fa fa-lightbulb-o" && event.target.className !== "ShowPComment") {
-                    refresh();
+                if (event.target.className !== "fa fa-lightbulb-o" && event.target.className !== "showPComment") {
+                    pComment.refresh();
                 }
             }
         });
@@ -176,16 +198,28 @@ function _createPCommentBox() {
     pCommentBox.querySelector("#pCommentCancel").addEventListener("click", function (e) {
         e.target.parentElement.parentElement.style.display = "none";
         document.body.querySelector(".inputP").innerText = "";
-        document.body.querySelector(".selected").className = "none";
-        refresh();
+        pComment.refresh();
         pComment.listRemover();
     }, false);
 }
 
-function refresh() {
+pComment.refresh = function () {
     var noteContent = document.body.querySelector(".note-content");
-    noteContent.innerHTML = document.body.querySelector(".hidden-note-content").value;
+    var highlighteds = noteContent.querySelectorAll(".selected");
+    for (var index in highlighteds) {
+        index = index*1;
+        if (typeof(index) !== "number") {
+            break;
+        }
+        pComment.refresh.removeHighlighting(highlighteds[index], noteContent);
+    }
     pComment.countByP(document.querySelector('.hiddenNoteId').value);
+}
+
+pComment.refresh.removeHighlighting = function (element, targetContent) {
+    if (undefined !== element) {
+        targetContent.innerHTML = targetContent.innerHTML.replace(element.outerHTML, element.innerHTML);
+    }
 }
 
 function createPCommentListBox(pId, noteContent, noteId) {
@@ -232,7 +266,7 @@ pComment.createPComment = function () {
     pComment.pCommentText = inputP.innerText;
     inputP.innerText = "";
     document.body.querySelector(".selected").className = "none";
-    refresh();
+    pComment.refresh();
     if (pComment.pCommentText.length < 1) {
         return false;
     }
@@ -264,7 +298,7 @@ function setPopupPCommentBtn() {
     var elNoteText = document.body.querySelector(".note-content");
 
     elNoteText.addEventListener('mousedown', function (e) {
-
+        pComment.refresh();
         mousePosition.downPoint.x = e.clientX;
         mousePosition.downPoint.y = e.clientY;
     }, false);
@@ -279,17 +313,19 @@ function setPopupPCommentBtn() {
 
         var elPopupBtn = document.querySelector(".popupCommentBtn");
         var selectedText = pComment.selectText();
-        var selectedElClass = window.getSelection().getRangeAt(0).commonAncestorContainer;
-        if (selectedText && selectedElClass.className !== "note-content") {
-            elPopupBtn.style.top = top + "px";
-            elPopupBtn.style.left = left + "px";
-            elPopupBtn.style.display = "block";
-            pComment.selectedText = selectedText;
-            pComment.pId = getPid(selectedElClass);
-            getSameSentence(pComment, selectedText, window.getSelection());
-            getNoteInfo();
-        } else {
-            elPopupBtn.style.display = "none";
+        if (selectedText !== false) {
+            var selectedEl = window.getSelection().getRangeAt(0).commonAncestorContainer;
+            if (selectedText && selectedEl.className !== "note-content") {
+                elPopupBtn.style.top = top + "px";
+                elPopupBtn.style.left = left + "px";
+                elPopupBtn.style.display = "block";
+                pComment.selectedText = selectedText;
+                pComment.pId = pComment.getPid(selectedEl.parentElement);
+                getSameSentence(pComment, selectedText, window.getSelection());
+                getNoteInfo();
+            } else {
+                elPopupBtn.style.display = "none";
+            }
         }
     }, false);
 }
@@ -297,13 +333,6 @@ function setPopupPCommentBtn() {
 function getNoteInfo() {
     pComment.userId = document.querySelector(".hiddenUserId").value;
     pComment.noteId = document.querySelector(".hiddenNoteId").value;
-}
-
-function getPid(selectedElClass) {
-    while (selectedElClass.tagName !== "P" && selectedElClass.tagName !== "PRE") {
-        selectedElClass = selectedElClass.parentNode;
-    }
-    return selectedElClass.id;
 }
 
 function getSameSentence(pComment, selectedText, selection) {

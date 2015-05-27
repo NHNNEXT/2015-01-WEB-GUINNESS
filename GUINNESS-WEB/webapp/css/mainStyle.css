@@ -1093,8 +1093,13 @@ span.sDate {
 
 .showPComment {
 	position:relative;
-	left:632px;
 	display: none;
+	text-align : right;
+}
+
+.showPComment::after {
+	content : "";
+	clear:both;
 }
 
 .showPComment:hover {
