@@ -80,7 +80,7 @@ function appendNoteList(json) {
         out += "<div class='content-container'>";
         out += "<div><span class='userName'>" + obj.user.userName
             + "</span><span class='userId'>" + obj.user.userId + "</span></div>";
-        out += "<div><span class='note-date'>" + obj.note.noteTargetDate
+        out += "<div><span class='note-date'>" + (obj.note.noteTargetDate).substring(0,19)
             + "</span></div>";
         if (attention.length) {
             out += "<span class='attention'>" + attention + "</span><br />";
@@ -277,6 +277,9 @@ function deleteComment(commentId, noteId) {
         success: function (req) {
             if (JSON.parse(req.responseText).success === true) {
             	document.querySelector('#cmt-' + commentId).remove();
+            	var noteEl = document.getElementById(noteId);
+            	if(noteEl === null)
+            		return;
             	var commentCount = document.getElementById(noteId).querySelector(".comment-div span").innerText;
             	document.getElementById(noteId).querySelector(".comment-div span").innerText = commentCount*1 - 1;
             }
@@ -334,7 +337,7 @@ function createComment(obj) {
                     document.querySelector('#commentText').value = result.message;
                     return;
                 }
-                appendComment(result.mapValues);
+                appendComment(result.mapValues, noteId);
                 document.querySelector('#commentText').value = "";
                 //노트 리스트에서 댓글 수 수정(노트 에디트 화면에서는 필요없음)
                 if(document.getElementById(noteId) !== null){
@@ -561,7 +564,6 @@ function tempSave() {
                 var tempNoteId = result.object;
                 var dropdownMenu = document.querySelector(".dropdown-menu");
                 var el = document.createElement("li");
-
                 el.innerHTML = "<a href='#' data-id='" + tempNoteId + "' onclick='loadTempNote(" + tempNoteId + ")'>" + guinness.util.koreaDate(new Date()) + "에 저장된 글이 있습니다</a>" +
                  "<i class='fa fa-close' onclick='deleteTempNote(" + tempNoteId + ");'></i>";
 
@@ -597,7 +599,7 @@ function appendTempNoteList(tempNotes) {
     var dropdownMenu = document.querySelector(".dropdown-menu");
     for(var i = 0; i < tempNotes.length; i++) {
         var el = document.createElement("li");
-        el.innerHTML = "<a href='#' data-id='" + tempNotes[i].noteId + "' onclick='loadTempNote(" + tempNotes[i].noteId + ")'>" + tempNotes[i].createDate + "에 저장된 글이 있습니다</a>" +
+        el.innerHTML = "<a href='#' data-id='" + tempNotes[i].noteId + "' onclick='loadTempNote(" + tempNotes[i].noteId + ")'>" + guinness.util.koreaDate(new Date(tempNotes[i].createDate)) + "에 저장된 글이 있습니다</a>" +
         "<i class='fa fa-close' onclick='deleteTempNote(" + tempNotes[i].noteId + ");'></i>";
 
         dropdownMenu.appendChild(el);

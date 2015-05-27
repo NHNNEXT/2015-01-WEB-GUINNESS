@@ -47,6 +47,7 @@ pComment.appendPComment = function (json) {
         p.innerHTML = p.innerHTML.replace(/<span class="highlighted">.+<\/span>/, highlighted.innerHTML);
     }, false);
     pCommentList.scrollTop = pCommentList.scrollHeight;
+    pCommentCountByP(document.querySelector('.hiddenNoteId').value);
 }
 
 pComment.highlite = function (e) {
@@ -57,16 +58,21 @@ pComment.highlite = function (e) {
     var selectedText = info.getAttribute('selecttext');
     var p = document.body.querySelector('#pId-'+pId);
     
+    var cloneSeletedText = selectedText;
+    cloneSeletedText = cloneSeletedText.replace(/^<strong class="attention">/, "");
+    cloneSeletedText = cloneSeletedText.replace(/^<strong class="question">/, "");
+    cloneSeletedText = cloneSeletedText.replace(/<\/strong>$/, "");
     var count = 0;
     var index = 0;
     do {
         count++;
-        index = p.innerHTML.indexOf(selectedText);
+        index = p.innerHTML.indexOf(cloneSeletedText);
     } while(index !== -1 && count < sameSenIndex);
     
-    if (p.innerHTML.search('<span class="highlighted">') < 0) {
-        p.innerHTML = p.innerHTML.slice(0, index)+"<span class='highlighted'>"+selectedText
-            +"</span>"+p.innerHTML.slice(index+selectedText.length);
+    if (p.innerHTML.search('<span class="highlighted">') < 0 && index !== -1) {
+        debugger;
+        p.innerHTML = p.innerHTML.slice(0, index)+"<span class='highlighted'>"
+            + cloneSeletedText + "</span>"+p.innerHTML.slice(index+cloneSeletedText.length);
     }
 }
 
@@ -78,7 +84,7 @@ function selectText() {
     span.appendChild(content);
     var selectedText = span.innerHTML;
     if (selectedText.length > 0) {
-        return selectedText.replace(/^<span class="ShowPComment">.{1,}<\/span>/, "");
+        return selectedText.replace(/^<strong class="ShowPComment">.{1,}<\/strong>/, "");
     }
     return false;
 }
@@ -200,6 +206,8 @@ function createPCommentListBox(pId, noteContent, noteId) {
             if (result.success !== true) {
                 return;
             }
+            var pCommentList = document.body.querySelector(".pCommentList");
+            pCommentList.innerHTML = "";
             for(var index in result.objectValues ) {
             	debugger;
                 pComment.appendPComment(result.objectValues[index]);

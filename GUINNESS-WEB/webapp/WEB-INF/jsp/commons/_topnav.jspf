@@ -12,7 +12,7 @@
 	<div class="content wrap">
 		<div id="leftTopBox">
 			<a href="/" id="brand"> <img src="/img/pm_white.png"> </a>
-			<div class="searchForm">
+			<div class="searchForm" style="display: none">
 				<input id="searchText" type="text"> <i class="fa fa-search"></i>
 			</div>
 		</div>
@@ -33,8 +33,9 @@
 					<a href="#"> <i class="fa fa-bell"></i>
 					</a>
 				</div>
-				<ul class="alarm-list">
-				</ul>
+				<div>
+					<ul class="alarm-list"></ul>
+				</div>
 			</li>
 		</ul>
 	</div>
@@ -97,6 +98,25 @@ function getAlarms(){
 			document.querySelector(".alarm-count").innerHTML = noteAlarmList.length + groupAlarmList.length;
 			var alarmListContainer = document.querySelector(".alarm-list");
 			alarmListContainer.innerHTML = "";
+			var deleteButton = guinness.createElement({
+		        name: "button",
+		        attrs: {
+		            'id': "deleteAlarm"
+		        },
+		        content: "전체삭제"
+		    });
+			deleteButton.addEventListener('click', function(){
+				guinness.ajax({
+			        method:"delete",
+			        url:"/alarms/all",
+			        success : function(req) {
+			        	alarmListContainer.innerHTML = "";
+			        	document.querySelector(".alarm-count").style.display = "none";
+						document.querySelector(".alarm-list").style.display = "none";
+			        }
+			    })
+			},false);
+			alarmListContainer.appendChild(deleteButton);
 			for (alarm of groupAlarmList) {
 				var alarmContent = "";
 				var onclickFunction = "";
@@ -106,7 +126,7 @@ function getAlarms(){
 				}
 				if(alarm.alarmStatus === "J") {
 					alarmContent = "<a href='#'>"+alarm.userName+"님이 \""+ alarm.groupName + "\"그룹에 가입 요청하였습니다."+ "</a>";
-					onclickFunction = "groupAlarmSelect(this, \""+alarm.callerId+"\", \""+alarm.groupId+"\", \""+alarm.alarmStatus+"\")";
+					onclickFunction = "groupAlarmSelect(this, \""+alarm.callerId+"\", \""+alarm.groupId+"\", \""+alarm.alarmStatus+"\", \""+alarm.groupName+"\")";
 				}
 				alarmListContainer.appendChild(
 						guinness.createElement({
@@ -154,12 +174,11 @@ function noteAlarmSelect(t, noteId, alarmStatus){
 			loadGroupAlarm();
 			getAlarms();
 			readNoteContents(noteId);
-			guinness.util.setModalPosition();
 		}
 	});
 }
  
-function groupAlarmSelect(t, userId, groupId, alarmStatus){
+function groupAlarmSelect(t, userId, groupId, alarmStatus, groupName){
 	guinness.ajax({
 		method:"delete",
 		url:"/alarms/group/"+t.id.split("alarm-")[1],
@@ -175,7 +194,7 @@ function groupAlarmSelect(t, userId, groupId, alarmStatus){
 		 		});
 		 	}
 		 	if(alarmStatus === "J"){
-		 		guinness.util.alert("그룹 가입 승인", "그룹 가입을 승인하시겠습니까?", function(){
+		 		guinness.util.alert("\"" +groupName+"\" 그룹 가입 승인", "\"" +userId+"\"의 가입을 승인하시겠습니까?", function(){
 		 			joinGroupMember(userId, groupId, alarmStatus);
 		 		}, function(){
 		 		});
