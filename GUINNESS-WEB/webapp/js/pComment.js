@@ -70,7 +70,6 @@ pComment.highlite = function (e) {
     } while(index !== -1 && count < sameSenIndex);
     
     if (p.innerHTML.search('<span class="highlighted">') < 0 && index !== -1) {
-        debugger;
         p.innerHTML = p.innerHTML.slice(0, index)+"<span class='highlighted'>"
             + cloneSeletedText + "</span>"+p.innerHTML.slice(index+cloneSeletedText.length);
     }
@@ -161,15 +160,20 @@ function pCommentCountByP(noteId) {
                 return false;
             }
             var arShowP = document.body.querySelectorAll(".ShowPComment");
-            for(var index in arShowP) {
-                if (index === "length") {
-                    break;
+            if (arShowP.length<=0) {
+                return false;
+            }
+            for(var index=0; index < arShowP.length; index++) {
+                var count = 0;
+                var json = null;
+                for (var jndex=0; jndex < result.mapValues.length; jndex++) {
+                    json = result.mapValues[jndex];
+                    if (json.pId === arShowP[index].closest('P').id.replace("pId-","")*1) {
+                        count = json['count(1)'];
+                        console.log(count, json.pId);
+                    }
                 }
-                var count = result.mapValues[index];
-                if (count === undefined ){
-                    return false;
-                }
-                if (count['count(1)'] > 0) {
+                if (count > 0) {
                     arShowP[index].innerHTML = "<i class='fa fa-lightbulb-o'></i>";
                     arShowP[index].addEventListener('click', function (e) {
                         e.preventDefault;

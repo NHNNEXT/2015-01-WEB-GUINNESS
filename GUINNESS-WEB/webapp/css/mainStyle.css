@@ -1388,6 +1388,29 @@ span.tag {
 	cursor:pointer;
 }
 
+#quickAlarm {
+	position:fixed;
+	top:50px;
+	display:none;
+	color:#fff;
+	padding:10px;
+	background-color:#ff5a5a;
+	border-radius:4px;
+	font-size:12px;
+	opacity:1;
+	transition-property:opacity;
+	transition-duration:2s;
+}
+
+#quickAlarm.fade{
+	opacity:0;
+}
+
+#quickAlarm div{
+	float:left;
+	margin:5px;
+}
+
 #deleteAlarm {
 	background-color: #619493;
 	width: 200px;
