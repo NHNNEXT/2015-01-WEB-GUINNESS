@@ -379,7 +379,7 @@ div#pCommentBoxCancel {
 }
 
 a#escape-note {
-	margin-right:31px;
+	margin-right:0;
 	width:99px;
 	height:19px;
 	background:#888;
@@ -808,6 +808,11 @@ div#calendar {
 
 .btn-pm {
 	background-color:#7cc4b5;
+	float:right;
+}
+
+.btn-pm-cancle {
+	background-color:#888;
 	float:right;
 }
 

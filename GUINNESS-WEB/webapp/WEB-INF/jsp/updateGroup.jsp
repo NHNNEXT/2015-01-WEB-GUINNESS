@@ -63,8 +63,8 @@
 								<span class="info"><strong>[주의]</strong>해당 그룹과 관련된 모든 정보가 삭제됩니다.</span>
 							</p>
 							<hr />
+							<input type="button" class="btn btn-pm-cancle" onclick ="backToNoteList()" value="취소"/>
 							<button type="submit" class="btn btn-pm">수정</button>
-							<input type="button" class="btn btn-pm" onclick ="backToNoteList()" value="취소"/>
 						</td>
 					</tr>
 				</table>

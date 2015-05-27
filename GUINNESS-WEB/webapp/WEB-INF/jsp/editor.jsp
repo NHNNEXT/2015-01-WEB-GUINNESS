@@ -51,7 +51,7 @@
 					<div id="previewBox" class="markdown-body"></div>
 				</div>
 			</div>
-			<a id="escape-note" class="btn btn-pm" href="/g/${group.groupId}">취소</a> 
+			<a id="escape-note" class="btn btn-pm-cancle" href="/g/${group.groupId}">취소</a> 
 			<input type="submit" class="btn btn-pm" value="작성" />
 			<input type="button" class="btn btn-temp" onclick="tempSave();" value="임시저장" />
 			<span id="temp-save-message"></span>
