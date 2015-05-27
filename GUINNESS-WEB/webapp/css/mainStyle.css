@@ -759,7 +759,7 @@ input#targetDate {
 }
 
 #note-edit-container {
-	margin-top:100px;
+	margin-top:50px;
 	float:none;
 	text-align:center;
 	height:80%;
@@ -1349,22 +1349,32 @@ span.tag {
 	font-size:12px;
 }
 
+.dropdown {
+	margin-top: 10px;
+	color: #fff;
+}
+
+.dropdown a {
+	padding: 5px;
+}
+
 .dropdown-menu {
 	position:absolute;
 	right:0;
 	background-color:#fff;
-	margin-top:5px;
+	margin-top:10px;
+	border: 1px solid #ccc;
 }
 
 .dropdown-menu li {
 	margin-bottom:12px;
 }
 .dropdown > a:link, .dropdown a:visited {
-	color:#888;
+	color:#fff;
 }
 
 .dropdown-menu > a:link, .dropdown-menu a:visited {
-	color:#888;
+	color:#454545;
 }
 
 .dropdown-menu .fa-close {
