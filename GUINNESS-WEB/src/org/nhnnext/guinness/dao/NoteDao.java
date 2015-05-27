@@ -96,7 +96,7 @@ public class NoteDao extends JdbcDaoSupport {
 		}
 		String sql = "SELECT distinct noteId, noteText, noteTargetDate, N.userId, N.groupId, U.userName, G.groupName, N.commentCount FROM NOTES N LEFT JOIN USERS U ON N.userId = U.userId LEFT JOIN GROUPS G ON N.groupId = G.groupId LEFT JOIN GROUPS_USERS GU on GU.groupId = N.groupId WHERE "
 				+ query.substring(3)
-				+ " and N.groupId in (select groupId from GROUPS_USERS where userId = ?) AND N.userId = GU.userId order by N.noteCreateDate desc";
+				+ " and N.groupId in (select groupId from GROUPS_USERS where userId = ?) AND N.userId = GU.userId order by N.noteTargetDate desc";
 		try {
 			return getJdbcTemplate().queryForList(sql, userId);
 		} catch (EmptyResultDataAccessException e) {

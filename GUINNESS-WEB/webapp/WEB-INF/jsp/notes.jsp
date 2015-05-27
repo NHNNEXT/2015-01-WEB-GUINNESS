@@ -198,7 +198,7 @@
 	$(function() {
 	    $("#defaultCalendar").daterangepicker({
 	        singleDatePicker: true,
-	        showDropdowns: true
+	        showDropdowns: false
 	    },
 	    function(start, end, label) {
 	    	console.log(start.toISOString(), end.toISOString(), label);
