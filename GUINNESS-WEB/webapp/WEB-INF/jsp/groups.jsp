@@ -51,36 +51,9 @@
 		<button class="btn btn-pm">만들기</button>
 	</form>
 	</template>
-
-	<!-- 노트 알람 모달을 위한 템플릿 start -->
-	<template id="view-note-template">
-		<div class="markdown-body">
-			<input type="hidden" class="hiddenUserId" value=""/>
-			<input type="hidden" class="hiddenNoteId" value=""/>
-			<div class="note-content"></div>
-			<input class="hidden-note-content" type="hidden" value="" />
-			<div id="commentListUl"></div>
-			<form id="commentForm" method="post">
-				<textarea id="commentText" name="commentText" rows="5" cols="50"></textarea>
-				<br>
-				<button id="submitComment" class="btn btn-pm">확인</button>
-			</form>
-		</div>
-	</template>
-	<template id="comment-template">
-		<li>
-			<img class="avatar" class="avatar" src="/img/profile/avatar-default.png">
-			<div class="comment-container">
-				<div class="comment-info">
-					<span class="comment-user"></span> <span class="comment-date"></span>
-				</div>
-				<div class="comment"></div>
-				<div class="comment-util"></div>
-			</div>
-		</li>
-	</template>
-	<!-- 노트 알람 모달을 위한 템플릿 end -->
+	
+	<!-- 노트 모달을 위한 템플릿 -->
+	<%@ include file="./commons/_note_popup.jspf"%>
 	<script src="/js/group.js"></script>
-	<script src="/js/pComment.js"></script>
 </body>
 </html>

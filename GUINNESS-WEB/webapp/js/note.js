@@ -596,6 +596,10 @@ function tempSave() {
                 dropdownMenu.appendChild(el);
 
                 document.querySelector("#hiddenTempNoteId").value = tempNoteId;
+                document.querySelector("#temp-save-message").innerText = "임시 저장 되었습니다.";
+                setTimeout(function() {
+                    document.querySelector("#temp-save-message").innerText = "";
+                }, 3000);
             }
         }); 
     } else {
@@ -607,6 +611,11 @@ function tempSave() {
                 var result = JSON.parse(req.responseText);
                 var el = document.querySelector("a[data-id='" + result.object.noteId + "']");
                 el.innerText = guinness.util.koreaDate(result.object.createDate) + "에 저장된 글이 있습니다";
+
+                document.querySelector("#temp-save-message").innerText = "임시 저장 되었습니다.";
+                setTimeout(function() {
+                    document.querySelector("#temp-save-message").innerText = "";
+                }, 3000);
             }
         }); 
     }

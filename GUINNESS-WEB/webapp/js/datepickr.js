@@ -86,6 +86,9 @@ datepickr.init = function (element, instanceConfig) {
         destroy,
         init;
 
+    if(noteTargetDate !== "") {
+    	currentDate = new Date(noteTargetDate);
+    }
     calendarContainer.className = 'datepickr-calendar';
     navigationCurrentMonth.className = 'datepickr-current-month';
     instanceConfig = instanceConfig || {};

@@ -3,6 +3,8 @@ window.addEventListener('load', function() {
 	document.querySelector('#group-name').innerHTML = groupName;
 	
 	document.querySelector("#noteTargetDate").value = guinness.util.today("-");
+	if(noteTargetDate !== "")
+		document.querySelector("#noteTargetDate").value = noteTargetDate.substring(0,10);
 	datepickr('#calendar', {
 		dateFormat : 'Y-m-d',
 		altInput : document.querySelector('#noteTargetDate')
