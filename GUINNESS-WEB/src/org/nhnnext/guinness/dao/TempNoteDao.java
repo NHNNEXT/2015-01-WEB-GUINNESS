@@ -60,9 +60,9 @@ public class TempNoteDao extends JdbcDaoSupport {
 				new User(rs.getString("userId"))), noteId);
 	}
 
-	public void delete(String noteId) {
+	public int delete(long noteId) {
 		String sql = "delete from TEMP_NOTES where noteId = ?";
-		getJdbcTemplate().update(sql, noteId);
+		return getJdbcTemplate().update(sql, noteId);
 	}
 
 	public int update(TempNote tempNote) {
