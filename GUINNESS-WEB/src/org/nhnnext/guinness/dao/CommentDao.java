@@ -24,7 +24,7 @@ public class CommentDao extends JdbcDaoSupport {
 	}
 	
 	public void createComment(Comment comment) {
-		String sql = "insert into COMMENTS (commentText, userId, noteId) values(?, ?, ?, ?)";
+		String sql = "insert into COMMENTS (commentText, userId, noteId) values(?, ?, ?)";
 		getJdbcTemplate().update(sql, comment.getCommentText(), comment.getUser().getUserId(), comment.getNote().getNoteId());
 	}
 
