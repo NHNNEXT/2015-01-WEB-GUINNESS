@@ -48,7 +48,7 @@ function selectText() {
     span.appendChild(content);
     var selectedText = span.innerHTML;
     if (selectedText.length > 0) {
-        return selectedText;
+        return selectedText.replace(/^<span class="ShowPComment"><i class.{1,}><\/i><\/span>/, "");
     }
     return false;
 }
@@ -77,14 +77,16 @@ function mutateObserver (popupCommentBtn) {
     var target = popupCommentBtn;
     var observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
-            if (mutation.type === "attributes" && mutation.attributeName === "style") {
-                if (mutation.target.style.display === "none" ) {
-                    var pCommentBoxDisplay = document.body.querySelector(".pCommentBox").style.display;
-                    if (pCommentBoxDisplay === "" || pCommentBoxDisplay === "none" ) {
-                        if (event.target.className !== "fa fa-lightbulb-o" && event.target.className !== "ShowPComment") {
-                            refresh();
-                        }
-                    }
+            if (mutation.type !== "attributes" || mutation.attributeName !== "style") {
+                return;
+            }
+            if (mutation.target.style.display !== "none" ) {
+                return;   
+            }
+            var pCommentBoxDisplay = document.body.querySelector(".pCommentBox").style.display;
+            if (pCommentBoxDisplay === "" || pCommentBoxDisplay === "none" ) {
+                if (event.target.className !== "fa fa-lightbulb-o" && event.target.className !== "ShowPComment") {
+                    refresh();
                 }
             }
         });
@@ -150,6 +152,8 @@ function createPCommentListBox(pId, noteContent, noteId) {
             for(var index in result.objectValues ) {
                 pComment.appendPComment(result.objectValues[index]);
             }
+            var pCommentList = document.body.querySelector(".pCommentList");
+            pCommentList.scrollTop = 0;
         }
     });
 }
