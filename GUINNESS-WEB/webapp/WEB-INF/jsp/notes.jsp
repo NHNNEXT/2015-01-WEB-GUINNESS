@@ -65,6 +65,9 @@
 				<table id="group-member">
 				</table>
 			</div>
+			<div >			
+				<button id="escape-group-btn" class="btn" style="background: rgb(255, 128, 128); margin: 5px 40px;">그룹탈퇴</button>
+			</div>
 		</div>
 	</div>
 
@@ -117,9 +120,13 @@
 		appendNoteList(json);
 		appendMarkList(json);
 		var elCreateBtn = document.querySelector("#create-new-button");
-
-		
 		getDateExistNotes();
+		if(document.querySelector("#member-template") !== null)
+			memberTemplate = document.querySelector("#member-template").content;
+		document.querySelector("#escape-group-btn").addEventListener("click", function() {
+			guinness.confirmLeave(groupId, groupName);
+		}, false);
+		
 	}, false);
 	
 	window.addEventListener("scroll", function(e) {

@@ -435,8 +435,6 @@ function readMember(groupId) {
 
 var memberTemplate;
 var onOffMemberList = [];
-if(document.querySelector("#member-template") !== null)
-	memberTemplate = document.querySelector("#member-template").content;
 function appendMember(obj) {
 	var userId = document.getElementById("sessionUserId").value;
 	var newMember = document.importNode(memberTemplate, true);
