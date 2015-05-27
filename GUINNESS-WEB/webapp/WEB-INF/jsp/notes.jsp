@@ -27,7 +27,7 @@
 		style="position: absolute; color: #888; top: 300px; width: 100%; text-align: center;">새
 		노트를 작성해주세요</h1>
 	<div id="group-header" class="content wrap" style="margin-top:50px; padding:10px 0;">
-			<a style="display:inline-block" href="/g/${groupId}"><span id="group-name"></span></a><i class="fa fa-cog" onclick="groupUpdate();"></i>
+			<a style="display:inline-block" href="/g/${groupId}"><span id="group-name"></span></a><i class="fa fa-cog" style="font-size:20px;" onclick="groupUpdate();"></i>
 	</div>
 	<div id="note-list-container" class="content wrap">
 		<div id="create-note">

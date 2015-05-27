@@ -9,7 +9,7 @@ searchForm.prototype.init = function() {
   this.elSearch.addEventListener("focus", function(e) {
     this.className = "onSearchForm";
     document.querySelector(".searchResult").style.display="block";
-    document.querySelector(".onSearchForm i").elIcon.className = "fa fa-external-link";
+    document.querySelector(".onSearchForm i").className = "fa fa-external-link";
   }, true);
   this.elSearch.addEventListener("focusout", function(e) {
 	  focusOut(e);
@@ -56,9 +56,8 @@ window.addEventListener('load', function() {
       guinness.ajax({
           method:"get",
           url : "/search?words=" + sText,
-          success : function(req) {  
-            json = JSON.parse(req.responseText);
-            searchResult(json);
+          success : function(req) {
+            searchResult(JSON.parse(req.responseText));
           }
       });
     }
