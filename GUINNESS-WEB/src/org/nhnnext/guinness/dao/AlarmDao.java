@@ -96,4 +96,14 @@ public class AlarmDao extends JdbcDaoSupport {
 		String sql = "delete from NOTE_ALARMS where noteId = ?";
 		getJdbcTemplate().update(sql, noteId);
 	}
+
+	public void deleteNoteAlarm(String sessionUserId) {
+		String sql = "delete from NOTE_ALARMS where calleeId = ?";
+		getJdbcTemplate().update(sql, sessionUserId);
+	}
+
+	public void deleteGroupAlarm(String sessionUserId) {
+		String sql = "delete from GROUP_ALARMS where calleeId = ?";
+		getJdbcTemplate().update(sql, sessionUserId);
+	}
 }

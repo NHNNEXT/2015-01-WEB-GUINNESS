@@ -196,7 +196,7 @@ div#pCommentBoxCancel {
 }
 
 .selected {
-       background:#FC43BA;
+       background:#FAED8D;
 }
 
 .pCommentBox {
@@ -623,19 +623,16 @@ a {
 }
 
 .drop-down .alarm-list {
-  float: right;
-  right: 0px;
-  top: 25px;
-  background-image: none;
+  float:right;
+  right:0px;
+  max-height:450px;
+  overflow-y:scroll;
+  padding:0;
 }
 
 .drop-down .alarm-list li {
   width: 200px;
   border-bottom: 3px solid #94BDBC;
-}
-
-.drop-down .alarm-list li a {
-  width: auto;
 }
 
 #header .util .label {
@@ -1082,12 +1079,12 @@ span.sDate {
     box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 }
 
-span.ShowPComment {
+.ShowPComment {
   position:relative;
   left:630px;
 }
 
-span.ShowPComment:hover {
+.ShowPComment:hover {
   color:orange;
 }
 
@@ -1165,7 +1162,6 @@ span.ShowPComment:hover {
 	color:#fff;
 	cursor:pointer;
 	background-color:#619493;
-	opacity:10;
 }
 
 .drop-down ul li a {
@@ -1389,4 +1385,12 @@ span.tag {
 .dropdown-menu .fa-close {
 	margin-left:10px;
 	cursor:pointer;
+}
+
+#deleteAlarm {
+	background-color: #619493;
+	width: 200px;
+	border-bottom: 3px solid #94BDBC;
+	color: white;
+	margin: 5px 0px;
 }

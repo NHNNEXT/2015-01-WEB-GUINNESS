@@ -33,8 +33,9 @@
 					<a href="#"> <i class="fa fa-bell"></i>
 					</a>
 				</div>
-				<ul class="alarm-list">
-				</ul>
+				<div>
+					<ul class="alarm-list"></ul>
+				</div>
 			</li>
 		</ul>
 	</div>
@@ -97,6 +98,25 @@ function getAlarms(){
 			document.querySelector(".alarm-count").innerHTML = noteAlarmList.length + groupAlarmList.length;
 			var alarmListContainer = document.querySelector(".alarm-list");
 			alarmListContainer.innerHTML = "";
+			var deleteButton = guinness.createElement({
+		        name: "button",
+		        attrs: {
+		            'id': "deleteAlarm"
+		        },
+		        content: "전체삭제"
+		    });
+			deleteButton.addEventListener('click', function(){
+				guinness.ajax({
+			        method:"delete",
+			        url:"/alarms/all",
+			        success : function(req) {
+			        	alarmListContainer.innerHTML = "";
+			        	document.querySelector(".alarm-count").style.display = "none";
+						document.querySelector(".alarm-list").style.display = "none";
+			        }
+			    })
+			},false);
+			alarmListContainer.appendChild(deleteButton);
 			for (alarm of groupAlarmList) {
 				var alarmContent = "";
 				var onclickFunction = "";
@@ -154,7 +174,6 @@ function noteAlarmSelect(t, noteId, alarmStatus){
 			loadGroupAlarm();
 			getAlarms();
 			readNoteContents(noteId);
-			guinness.util.setModalPosition();
 		}
 	});
 }
