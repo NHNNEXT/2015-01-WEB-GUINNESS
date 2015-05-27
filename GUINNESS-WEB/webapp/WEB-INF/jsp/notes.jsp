@@ -125,7 +125,7 @@
 		
 	}, false);
 	
-	window.addEventListener("scroll", function(e) {
+	window.addEventListener("scroll", function() {
 		infiniteScroll();
 		sideMenuFlow();
 		resizeSideMenu();

@@ -154,7 +154,6 @@ function noteAlarmSelect(t, noteId, alarmStatus){
 			loadGroupAlarm();
 			getAlarms();
 			readNoteContents(noteId);
-			guinness.util.setModalPosition();
 		}
 	});
 }

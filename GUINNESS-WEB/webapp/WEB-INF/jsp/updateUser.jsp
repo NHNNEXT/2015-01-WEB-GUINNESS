@@ -54,8 +54,8 @@
 								<span class="errorMessage"></span><br/>
 							</p> 
 							<hr />
+							<input type="button" class="btn btn-pm-cancle" onclick ="backToNoteList()" value="취소"/>
 							<input type="button" class="btn btn-pm" onclick="validCheck()" value="수정" />
-							<input type="button" class="btn btn-pm" onclick ="backToNoteList()" value="취소"/>
 						</td>
 					</tr>
 				</table>
