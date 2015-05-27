@@ -142,6 +142,7 @@ input.text {
     background: #F9EE7A;
     float: right;
     padding-left: 2px;
+    position: relative;
 }
 
 ul.pCommentList {

@@ -28,16 +28,29 @@ pComment.appendPComment = function (json) {
     var pCommentList = document.body.querySelector(".pCommentList");
     var elPComment = document.querySelector(".aPCommentTemplate").text;
     elPComment = elPComment.replace("pId", json.pId)
-                .replace("pCommentId", json.pCommentId)
+                .replace("pCommentId", "pCId"+json.pCommentId)
                 .replace("sameSenCount", json.sameSenCount)
                 .replace("sameSenIndex", json.sameSenIndex)
                 .replace("userImage", "/img/profile/"+json.sessionUser.userImage)
                 .replace("userId", "("+json.sessionUser.userId+")")
                 .replace("userName", json.sessionUser.userName)
                 .replace("pCommentText", json.pCommentText)
-                .replace("createDate", json.pCommentCreateDate);
+                .replace("createDate", json.pCommentCreateDate)
+                .replace("selectedText", json.selectedText);
     pCommentList.insertAdjacentHTML("beforeend", elPComment);
+    var PCommentCard = document.body.querySelector(".pCommentList #pCId"+json.pCommentId);
+    PCommentCard.addEventListener('mouseover', pComment.highlite, false);
+    PCommentCard.addEventListener('mouseleave', refresh, false);
     pCommentList.scrollTop = pCommentList.scrollHeight;
+}
+
+pComment.highlite = function (e) {
+    var info = e.target.closest("li").querySelector("input[type=hidden]");
+    var pId = info.p-id;
+    var sameSenCount = info.samecount;
+    var sameSenIndex = info.sameindex;
+    var selectedText = info.selecttext;
+    debugger;
 }
 
 function selectText() {
