@@ -64,7 +64,7 @@
 							</p>
 							<hr />
 							<button type="submit" class="btn btn-pm">수정</button>
-							<input type="button" class="btn btn-pm" onclick ="backToNoteList()" value="취소"></button>
+							<input type="button" class="btn btn-pm" onclick ="backToNoteList()" value="취소"/>
 						</td>
 					</tr>
 				</table>

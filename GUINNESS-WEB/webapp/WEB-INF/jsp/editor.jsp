@@ -33,7 +33,7 @@
 		<form id="noteForm" action="/notes" method="post">
 			<input type="hidden" id="hiddenGroupId" name="groupId"
 				value="${group.groupId}">
-			<input type="hidden" id="hiddenTempNoteId" name="tempNoteId">
+			<input type="hidden" id="hiddenTempNoteId" name="tempNoteId" value="0">
 			<c:if test="${not empty noteId}">
 				<input type="hidden" name="_method" value="put">
 				<input type="hidden" name="noteId" value="${noteId}">
@@ -84,7 +84,6 @@
 			}
 		};
 	</script>
-	<script src="/js/note.js"></script>
 	<script src="/js/datepickr.js"></script>
 	<script src="/js/editor.js"></script>
 </body>

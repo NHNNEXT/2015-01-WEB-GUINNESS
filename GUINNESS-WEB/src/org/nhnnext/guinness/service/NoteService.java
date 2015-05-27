@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -38,12 +39,16 @@ public class NoteService {
 	private AlarmDao alarmDao;
 	@Resource
 	private PreviewService previewService;
+	@Resource
+	private TempNoteService tempNoteService;
+	@Resource
+	private PCommentService pCommentService;
 
 	public Note readNote(String noteId) {
 		return noteDao.readNote(noteId);
 	}
 
-	public void create(String sessionUserId, String groupId, String noteText, String noteTargetDate)
+	public void create(String sessionUserId, String groupId, String noteText, String noteTargetDate, String tempNoteId)
 			throws UnpermittedAccessGroupException {
 		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
 			throw new UnpermittedAccessGroupException();
@@ -68,11 +73,13 @@ public class NoteService {
 			alarmDao.createNewNotes(alarm);
 		}
 		previewService.createPreview(noteId, groupId, noteText);
+		tempNoteService.delete(Long.parseLong(tempNoteId));
 	}
 
-	public void update(String noteText, String noteId, String noteTargetDate) {
+	public void update(String noteText, String noteId, String noteTargetDate, List<Map<String, Object>> pCommentList) {
 		noteDao.updateNote(noteText, noteId, noteTargetDate);
 		previewService.updatePreview(noteId, noteText);
+		pCommentService.updateParagraphId(pCommentList);
 	}
 
 	public int delete(String noteId) {

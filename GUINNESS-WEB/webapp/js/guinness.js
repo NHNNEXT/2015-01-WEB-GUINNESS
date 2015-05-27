@@ -242,7 +242,6 @@ guinness.util.alert.choose = function(c) {
 
 guinness.ajax = function(o) {
 	if (o.method === undefined || o.url === undefined || o.success === undefined) {
-		console.log("error: insufficient parameters supplied");
 		return;
 	}
 	var req = new XMLHttpRequest();
@@ -266,7 +265,7 @@ guinness.ajax = function(o) {
 guinness.confirmLeave = function(groupId, groupName, location) {
 	groupName = (groupName.replace(/</g, "&lt;")).replace(/>/g, "&gt;");
 	var message = "그룹을 탈퇴하시겠습니까?";
-	guinness.util.alert(groupName, message,
+	guinness.util.alert(groupName + " 탈퇴 확인", message,
 		function() {
 			document.body.style.overflow = "auto";
 			var sessionUserId = document.getElementById("sessionUserId").value;
@@ -293,7 +292,12 @@ guinness.leaveGroup = function(sessionUserId, groupId, location) {
 			if(location !== undefined){
 				window.location.href = "/groups/form";
 			}
-			document.querySelector('#' + groupId).remove();
+			var groupCard = document.querySelector('#' + groupId);
+			if(groupCard === null) { 
+				window.location.href = "/";
+				return;
+			}
+				groupCard.remove();
 		}
 	});
 }
