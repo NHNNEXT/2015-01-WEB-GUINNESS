@@ -1310,7 +1310,9 @@ span.sDate {
 .comment-div { 
     position:relative;
     float:right;
-    width:30px;
+    width:40px;
+    top : -10px;
+    left : 10px;
 }
 
 span.italic {
