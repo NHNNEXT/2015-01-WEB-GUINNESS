@@ -27,7 +27,7 @@
 		style="position: absolute; color: #888; top: 300px; width: 100%; text-align: center;">새
 		노트를 작성해주세요</h1>
 	<div id="group-header" class="content wrap" style="margin-top:50px; padding:10px 0;">
-			<a style="display:inline-block" href="/g/${groupId}"><span id="group-name"></span></a>
+			<a style="display:inline-block" href="/g/${groupId}"><span id="group-name"></span></a><i class="fa fa-cog" onclick="groupUpdate();"></i>
 	</div>
 	<div id="note-list-container" class="content wrap">
 		<div id="create-note">
@@ -64,9 +64,6 @@
 				<span style="font-weight:bold;">멤버관리</span><br/>
 				<table id="group-member">
 				</table>
-			</div>
-			<div>
-				<input id="groupSettingBtn"class="inputBtn" style="right: 10px; visibility:hidden; cursor: default; width: 30%; float:right;" type="submit" value="그룹설정" onclick="groupUpdate()">
 			</div>
 		</div>
 	</div>
@@ -168,9 +165,6 @@
 		var groupImage = "${group.groupImage}";
 		
 		var userId = document.getElementById("sessionUserId").value;
-		if(userId === groupCaptainUserId){
-			document.getElementById("groupSettingBtn").style.visibility = "visible";
-		}
 		if (groupImage !== "") {
 			window.document.body.querySelector("#backImg").style.backgroundImage=
 			"url('/img/group/" + groupImage + "')";
