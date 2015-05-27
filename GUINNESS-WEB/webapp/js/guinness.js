@@ -255,7 +255,8 @@ guinness.ajax = function(o) {
 			}
 		}
 	};
-	req.open(o.method, o.url, true);
+	if (o.async === undefined) o.async = true;
+	req.open(o.method, o.url, o.async);
 	if (o.method.toLowerCase() == "post" || o.method.toLowerCase() == "put") {
 		req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	}
