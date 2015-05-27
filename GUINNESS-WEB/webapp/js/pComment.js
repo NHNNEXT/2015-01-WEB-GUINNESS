@@ -112,24 +112,45 @@ function _createPCommentBox () {
 function refresh() {
     var noteContent = document.body.querySelector(".note-content");
     noteContent.innerHTML = document.body.querySelector(".hidden-note-content").value;
-    arShowP = noteContent.querySelectorAll(".ShowPComment");
-    for(var index in arShowP) {
-        if (index === "length") {
-            return;
-        }
-        arShowP[index].innerHTML = "<i class='fa fa-lightbulb-o'></i>";
-        
-        arShowP[index].addEventListener('click', function (e) {
-            e.preventDefault;
-            var noteId = document.body.querySelector(".hiddenNoteId").value;
-            var pId = e.target.closest("P").id;
-            if (pId.indexOf("pId-") === -1) {
-                pId = e.target.closest("PRE").id;
-            }
-            createPCommentListBox(pId, noteContent, noteId);
-        }, false);
-    }
+    pCommentCountByP(document.querySelector('.hiddenNoteId').value);
 }
+
+function pCommentCountByP(noteId) {
+    guinness.ajax({
+        method : "get",
+        url : "/pComments/readCountByP?noteId="+noteId,
+        success : function (req) {
+            var result = JSON.parse(req.responseText);
+            if (result.success !== true) {
+                return false;
+            }
+            var arShowP = document.body.querySelectorAll(".ShowPComment");
+            for(var index in arShowP) {
+                if (index === "length") {
+                    break;
+                }
+                var count = result.mapValues[index];
+                if (count === undefined ){
+                    return false;
+                }
+                if (count['count(1)'] > 0) {
+                    arShowP[index].innerHTML = "<i class='fa fa-lightbulb-o'></i>";
+                    arShowP[index].addEventListener('click', function (e) {
+                        e.preventDefault;
+                        var noteId = document.body.querySelector(".hiddenNoteId").value;
+                        var pId = e.target.closest("P").id;
+                        if (pId.indexOf("pId-") === -1) {
+                            pId = e.target.closest("PRE").id;
+                        }
+                        var noteContent = document.querySelector('.note-content');
+                        createPCommentListBox(pId, noteContent, noteId);
+                    }, false);
+                }
+            }
+        }
+    });
+}
+
 
 function createPCommentListBox(pId, noteContent, noteId) {
     var regacyBox = document.body.querySelector(".pCommentListBox");
