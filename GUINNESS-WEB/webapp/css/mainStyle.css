@@ -915,6 +915,7 @@ span.sDate {
 	display:table;
 	margin:0 auto;
 	padding:0;
+	width: 520px;
 }
 
 .note-list a {
