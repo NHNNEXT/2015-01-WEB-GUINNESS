@@ -80,39 +80,38 @@ pComment.countByP = function (noteId) {
             if (result.success !== true) {
                 return false;
             }
-            var arShowP = document.body.querySelectorAll(".ShowPComment");
-            if (arShowP.length <= 0) {
-                return false;
-            }
-            for (var index = 0; index < arShowP.length; index++) {
-                var count = 0;
-                var json = null;
-                for (var jndex = 0; jndex < result.mapValues.length; jndex++) {
-                    json = result.mapValues[jndex];
-                    var bulb = arShowP[index].closest('P');
-                    if (bulb === null) {
-                        continue;
-                    }
-                    if (json.pId === bulb.id.replace("pId-", "") * 1) {
-                        count = json['count(1)'];
-                    }
-                }
-                if (count > 0) {
-                    arShowP[index].innerHTML = "<i class='fa fa-lightbulb-o'></i>";
-                    arShowP[index].addEventListener('click', function (e) {
-                        e.preventDefault;
-                        var noteId = document.body.querySelector(".hiddenNoteId").value;
-                        var pId = e.target.closest("P").id;
-                        if (pId.indexOf("pId-") === -1) {
-                            pId = e.target.closest("PRE").id;
-                        }
-                        var noteContent = document.querySelector('.note-content');
-                        createPCommentListBox(pId, noteContent, noteId);
-                    }, false);
-                }
-            }
+            pComment.countByP.createBulbBtn(result.mapValues);
         }
     });
+}
+
+pComment.countByP.createBulbBtn = function (json) {
+    for (var index in json) {
+        var pCommentCount = (json[index])['count(1)'];
+        var showBtn = pComment.countByP.createBulbBtn.getShowBtnByPId(json[index].pId);
+        if (showBtn === false) { return false; }
+        showBtn.style.display = "block";
+        showBtn.addEventListener('mouseup', function(e) {
+            e.preventDefault;
+            var noteId = document.body.querySelector(".hiddenNoteId").value;
+            var pOrPreId = e.target.closest('P') !== null ? e.target.closest('P').id : e.target.closest('PRE').id;
+            var noteContent = document.querySelector('.note-content');
+            createPCommentListBox(pOrPreId, noteContent, noteId);
+        }, false);
+    }
+}
+
+pComment.countByP.createBulbBtn.getShowBtnByPId = function (pId) {
+    var showBtns = document.body.querySelectorAll(".showPComment");
+    if (showBtns.length <= 0) { return false; }
+    for (var index=0; index < showBtns.length; index++) {
+        if (showBtns[index] === null) { break }
+        var pOrPreId = showBtns[index].closest('P') !== null ? showBtns[index].closest('P').id : showBtns[index].closest('PRE').id;
+        if (pOrPreId === "pId-"+pId) {
+            return showBtns[index];
+        }
+    }
+    return false;
 }
 
 pComment.selectText = function () {
