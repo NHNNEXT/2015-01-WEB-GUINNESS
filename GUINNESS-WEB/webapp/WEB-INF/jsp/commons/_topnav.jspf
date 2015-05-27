@@ -87,6 +87,7 @@ function getAlarms(){
 			if(noteAlarmList.length + groupAlarmList.length === 0) {
 				document.querySelector(".alarm-count").style.display = "none";
 				document.querySelector(".alarm-list").style.display = "none";
+				debugger;
 				if(document.querySelector(".group-card .alarm-count") !== null) {
 					document.querySelector(".group-card .alarm-count").style.display = "none";
 				}
@@ -125,6 +126,8 @@ function getAlarms(){
 					alarmContent = "<a href='#'>"+alarm.userName+"님이 \""+alarm.groupName+"\"에 새 글을 작성하였습니다."+ "</a>";
 				if(alarm.alarmStatus === "C")
 					alarmContent = "<a href='#'>"+alarm.userName+"님이 "+ "내 글에 댓글을 작성하였습니다."+ "</a>";
+				if(alarm.alarmStatus === "P")
+						alarmContent = "<a href='#'>"+alarm.userName+"님이 "+ "내 글에 문단 댓글을 작성하였습니다."+ "</a>";
 				alarmListContainer.appendChild(
 						guinness.createElement({
 							name: "li",
