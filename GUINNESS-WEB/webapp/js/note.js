@@ -187,13 +187,8 @@ function showNoteModal(obj) {
     viewContent.innerHTML = obj.noteText;
     //TODO 노트의 각 문단별 코멘트 카운트 가져오기.
     // 가져온 카온트가 0보다 큰 경우만 벌브 아이콘 달기.
-    var arShowP = viewContent.querySelectorAll(".ShowPComment");
-    for(var index in arShowP) {
-        if (index === "length") {
-            break;
-        }
-        arShowP[index].innerHTML = "<i class='fa fa-lightbulb-o'></i>";
-    }
+    pCommentCountByP(obj.noteId);
+    
     document.querySelector('.hidden-note-content').value = viewContent.innerHTML;
     refresh();
     viewContent.remove();
@@ -271,6 +266,7 @@ function updateComment(commentId, commentText) {
                 var el = document.querySelector("#cmt-" + commentId);
                 el.querySelector('.comment').innerHTML = json.commentText.replace(/\n/g, '<br/>');
                 el.querySelector('.comment-date').innerHTML = json.commentCreateDate;
+                el.querySelector('.comment-date').id = Number(new Date(json.commentCreateDate));
                 el.querySelector('.comment').setAttribute(
                     'contentEditable', false);
                 el.querySelectorAll('.comment-update').remove();
@@ -313,15 +309,15 @@ function showEditInputBox(commentId) {
         },
         content: "취소"
     });
-    updateButton.addEventListener('click', function () {
-        var el = document.querySelector('#cmt-' + obj.commentId);
+    updateButton.addEventListener('click', function(e) {
+        var el = document.querySelector('#cmt-' + commentId);
         var commentText = el.querySelector('.comment').innerText;
-        updateComment(obj.commentId, commentText);
+        updateComment(commentId, commentText);
     }, false);
-    cancelButton.addEventListener('click', function () {
-        var el = document.querySelector('#cmt-' + obj.commentId);
+    cancelButton.addEventListener('click', function(e) {
+        var el = document.querySelector('#cmt-' + commentId);
         el.querySelector('.comment').setAttribute('contentEditable', false);
-        el.querySelector('.comment').innerHTML = (obj.commentText).replace(/\n/g, '\n<br/>');
+        el.querySelector('.comment').innerHTML = (commentText).replace(/\n/g, '\n<br/>');
         el.querySelectorAll('.comment-update').remove();
         el.querySelector('.default-utils').show();
     }, false);

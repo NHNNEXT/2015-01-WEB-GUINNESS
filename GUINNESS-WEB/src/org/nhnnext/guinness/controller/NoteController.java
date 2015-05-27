@@ -3,7 +3,6 @@ package org.nhnnext.guinness.controller;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -87,8 +86,6 @@ public class NoteController {
 	protected String create(@RequestParam String groupId, @RequestParam String noteText,
 			@RequestParam String noteTargetDate, @RequestParam String tempNoteId, HttpSession session, Model model) throws IOException,
 			UnpermittedAccessGroupException {
-		logger.debug("tempNoteId : {}", tempNoteId);
-		
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		if (noteText.equals("")) {
 			return "redirect:/notes/editor/g/" + groupId;

@@ -16,22 +16,28 @@ public class AlarmDao extends JdbcDaoSupport {
 
 	@Resource
 	private DataSource dataSource;
- 
+
 	@PostConstruct
 	private void initialize() {
 		setDataSource(dataSource);
 	}
-	
+
 	public void createNewNotes(Alarm alarm) {
 		String sql = "insert into NOTE_ALARMS (alarmId, calleeId, callerId, noteId, alarmStatus, alarmCreateDate) values(?, ?, ?, ?, ?, default)";
-		getJdbcTemplate().update(sql, alarm.getAlarmId(), alarm.getReader().getUserId(), alarm.getWriter().getUserId(), alarm.getNote().getNoteId(),
-				alarm.getAlarmStatus());
+		getJdbcTemplate().update(sql, alarm.getAlarmId(), alarm.getReader().getUserId(), alarm.getWriter().getUserId(),
+				alarm.getNote().getNoteId(), alarm.getAlarmStatus());
 	}
-	
+
+	public void createNewComments(Alarm alarm) {
+		String sql = "insert into NOTE_ALARMS (alarmId, calleeId, callerId, noteId, commentId, alarmStatus, alarmCreateDate) values(?, ?, ?, ?, ?, ?, default)";
+		getJdbcTemplate().update(sql, alarm.getAlarmId(), alarm.getReader().getUserId(), alarm.getWriter().getUserId(),
+				alarm.getNote().getNoteId(), alarm.getComment().getCommentId(), alarm.getAlarmStatus());
+	}
+
 	public void createGroupInvitation(Alarm alarm) {
 		String sql = "insert into GROUP_ALARMS (alarmId, calleeId, callerId, groupId, alarmStatus, alarmCreateDate) values(?, ?, ?, ?, ?, default)";
-		getJdbcTemplate().update(sql, alarm.getAlarmId(), alarm.getReader().getUserId(), alarm.getWriter().getUserId(), alarm.getGroup().getGroupId(),
-				alarm.getAlarmStatus());
+		getJdbcTemplate().update(sql, alarm.getAlarmId(), alarm.getReader().getUserId(), alarm.getWriter().getUserId(),
+				alarm.getGroup().getGroupId(), alarm.getAlarmStatus());
 	}
 
 	public boolean isExistAlarmId(String alarmId) {
@@ -46,7 +52,7 @@ public class AlarmDao extends JdbcDaoSupport {
 		String sql = "select A.*, U.userName, G.groupName, G.groupId from NOTE_ALARMS as A, USERS as U, NOTES as N, GROUPS as G where A.calleeId=? and A.callerId=U.userId and A.noteId = N.noteId and N.groupId = G.groupId order by A.alarmCreateDate desc;";
 		return getJdbcTemplate().queryForList(sql, calleeId);
 	}
-	
+
 	public List<Map<String, Object>> listGroups(String calleeId) {
 		String sql = "select A.*, U.userName, G.groupName from GROUP_ALARMS as A, USERS as U, GROUPS as G where A.calleeId=? and A.callerId=U.userId and A.groupId = G.groupId order by A.alarmCreateDate desc;";
 		return getJdbcTemplate().queryForList(sql, calleeId);
@@ -56,7 +62,7 @@ public class AlarmDao extends JdbcDaoSupport {
 		String sql = "delete from NOTE_ALARMS where alarmId = ?";
 		getJdbcTemplate().update(sql, alarmId);
 	}
-	
+
 	public void deleteGroup(String alarmId) {
 		String sql = "delete from GROUP_ALARMS where alarmId = ?";
 		getJdbcTemplate().update(sql, alarmId);
@@ -73,6 +79,7 @@ public class AlarmDao extends JdbcDaoSupport {
 			return true;
 		return false;
 	}
+
 	public boolean checkJoinedGroupAlarms(String userId, String groupId) {
 		String sql = "select count(*) from GROUP_ALARMS where callerId = ? and groupId = ?";
 		if (getJdbcTemplate().queryForObject(sql, Integer.class, new Object[] { userId, groupId }) > 0)
