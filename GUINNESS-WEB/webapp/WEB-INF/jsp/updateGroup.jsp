@@ -28,10 +28,10 @@
 				<table class="panel-body" style="width:100%">
 					<tr>
 						<td valign=top id="editBackgroundImage-photoArea">
-							<img src="/img/group/${group.groupId}"> 
-							<input type="file" name="backgroundImage" accept="image/x-png, image/gif, image/jpeg" />
+							<img src="/img/group/${group.groupImage}" style="border: solid 1px rgb(191, 191, 191);"> 
+							<input type="file" id="imageFile" name="backgroundImage" accept="image/x-png, image/gif, image/jpeg" />
+							<!-- <input type="button" class ="background-default" name="background-default" value="배경 삭제" onclick="defaultGroupImage();"> -->
 						</td>
-						
 						<td style="padding-left: 25px;">
 							<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUser.userId}" readonly>
 							<form:hidden path="groupId" value="${group.groupId}" readonly="true"/>
@@ -112,6 +112,10 @@
 				}
 			});
 		}
+		
+		/* function defaultGroupImage(){
+			//TODO 배경을 기본 이미지로 바꿔주는 기능 구현.
+		} */
 	</script>
 </body>
 </html>

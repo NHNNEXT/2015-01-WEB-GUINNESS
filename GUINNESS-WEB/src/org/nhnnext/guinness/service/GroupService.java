@@ -42,7 +42,7 @@ public class GroupService {
 	}
 
 	public Group create(String groupName, String groupCaptainUserId, String status) {
-		Group group = new Group(createGroupId(), groupName, groupCaptainUserId, status, null);
+		Group group = new Group(createGroupId(), groupName, groupCaptainUserId, status);
 		groupDao.createGroup(group);
 		groupDao.createGroupUser(group.getGroupCaptainUserId(), group.getGroupId());
 		return group;

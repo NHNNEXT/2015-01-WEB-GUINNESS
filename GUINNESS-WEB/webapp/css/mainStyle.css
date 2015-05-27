@@ -179,6 +179,18 @@ div#pCommentBoxCancel {
     padding-bottom: 9px;
 }
 
+#group-header > a {
+	float : left;
+}
+
+#groupConfig {
+	float : left;
+}
+
+.background-default {
+	float:left;
+}
+
 #group-container > a > li > div.alarm-count {
     position:absolute;
     width:20px;
