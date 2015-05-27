@@ -1,4 +1,5 @@
 window.addEventListener('load', function() {
+	document.querySelector(".searchForm").setAttribute("style","display: block");
 	document.title = groupName;
 	document.querySelector('#group-name').innerHTML = groupName;
 	

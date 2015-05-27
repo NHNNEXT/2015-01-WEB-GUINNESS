@@ -1,4 +1,5 @@
 window.addEventListener('load', function() {
+	document.querySelector(".searchForm").setAttribute("style","display: block");
 	guinness.ajax({
 		method : "get",
 		url : "/groups",

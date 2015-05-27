@@ -102,6 +102,7 @@
 	var groupCaptainUserId = "${group.groupCaptainUserId}";
 	const groupId = window.location.pathname.split("/")[2];
 	window.addEventListener("load", function() {
+		document.querySelector(".searchForm").setAttribute("style","display: block");
 		var groupImage = "${group.groupImage}";	
 		if (groupImage !== "") {
 			window.document.body.querySelector("#backImg").style.backgroundImage=
