@@ -152,6 +152,8 @@ function createPCommentListBox(pId, noteContent, noteId) {
             for(var index in result.objectValues ) {
                 pComment.appendPComment(result.objectValues[index]);
             }
+            var pCommentList = document.body.querySelector(".pCommentList");
+            pCommentList.scrollTop = 0;
         }
     });
 }
