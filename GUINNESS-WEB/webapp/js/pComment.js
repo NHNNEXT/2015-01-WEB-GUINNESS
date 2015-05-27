@@ -28,16 +28,29 @@ pComment.appendPComment = function (json) {
     var pCommentList = document.body.querySelector(".pCommentList");
     var elPComment = document.querySelector(".aPCommentTemplate").text;
     elPComment = elPComment.replace("pId", json.pId)
-                .replace("pCommentId", json.pCommentId)
+                .replace("pCommentId", "pCId"+json.pCommentId)
                 .replace("sameSenCount", json.sameSenCount)
                 .replace("sameSenIndex", json.sameSenIndex)
                 .replace("userImage", "/img/profile/"+json.sessionUser.userImage)
                 .replace("userId", "("+json.sessionUser.userId+")")
                 .replace("userName", json.sessionUser.userName)
                 .replace("pCommentText", json.pCommentText)
-                .replace("createDate", json.pCommentCreateDate);
+                .replace("createDate", json.pCommentCreateDate)
+                .replace("selectedText", json.selectedText);
     pCommentList.insertAdjacentHTML("beforeend", elPComment);
+    var PCommentCard = document.body.querySelector(".pCommentList #pCId"+json.pCommentId);
+    PCommentCard.addEventListener('mouseover', pComment.highlite, false);
+    PCommentCard.addEventListener('mouseleave', refresh, false);
     pCommentList.scrollTop = pCommentList.scrollHeight;
+}
+
+pComment.highlite = function (e) {
+    var info = e.target.closest("li").querySelector("input[type=hidden]");
+    var pId = info.p-id;
+    var sameSenCount = info.samecount;
+    var sameSenIndex = info.sameindex;
+    var selectedText = info.selecttext;
+    debugger;
 }
 
 function selectText() {
@@ -112,24 +125,45 @@ function _createPCommentBox () {
 function refresh() {
     var noteContent = document.body.querySelector(".note-content");
     noteContent.innerHTML = document.body.querySelector(".hidden-note-content").value;
-    arShowP = noteContent.querySelectorAll(".ShowPComment");
-    for(var index in arShowP) {
-        if (index === "length") {
-            return;
-        }
-        arShowP[index].innerHTML = "<i class='fa fa-lightbulb-o'></i>";
-        
-        arShowP[index].addEventListener('click', function (e) {
-            e.preventDefault;
-            var noteId = document.body.querySelector(".hiddenNoteId").value;
-            var pId = e.target.closest("P").id;
-            if (pId.indexOf("pId-") === -1) {
-                pId = e.target.closest("PRE").id;
-            }
-            createPCommentListBox(pId, noteContent, noteId);
-        }, false);
-    }
+    pCommentCountByP(document.querySelector('.hiddenNoteId').value);
 }
+
+function pCommentCountByP(noteId) {
+    guinness.ajax({
+        method : "get",
+        url : "/pComments/readCountByP?noteId="+noteId,
+        success : function (req) {
+            var result = JSON.parse(req.responseText);
+            if (result.success !== true) {
+                return false;
+            }
+            var arShowP = document.body.querySelectorAll(".ShowPComment");
+            for(var index in arShowP) {
+                if (index === "length") {
+                    break;
+                }
+                var count = result.mapValues[index];
+                if (count === undefined ){
+                    return false;
+                }
+                if (count['count(1)'] > 0) {
+                    arShowP[index].innerHTML = "<i class='fa fa-lightbulb-o'></i>";
+                    arShowP[index].addEventListener('click', function (e) {
+                        e.preventDefault;
+                        var noteId = document.body.querySelector(".hiddenNoteId").value;
+                        var pId = e.target.closest("P").id;
+                        if (pId.indexOf("pId-") === -1) {
+                            pId = e.target.closest("PRE").id;
+                        }
+                        var noteContent = document.querySelector('.note-content');
+                        createPCommentListBox(pId, noteContent, noteId);
+                    }, false);
+                }
+            }
+        }
+    });
+}
+
 
 function createPCommentListBox(pId, noteContent, noteId) {
     var regacyBox = document.body.querySelector(".pCommentListBox");

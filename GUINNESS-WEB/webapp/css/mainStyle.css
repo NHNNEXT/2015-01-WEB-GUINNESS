@@ -142,6 +142,7 @@ input.text {
     background: #F9EE7A;
     float: right;
     padding-left: 2px;
+    position: relative;
 }
 
 ul.pCommentList {
@@ -1315,6 +1316,23 @@ span.tag {
 	font-size:20px;
 	font-weight:bold;
 	color:rgb(116, 175, 173);
+}
+
+
+/*
+ * 임시 저장 관련 Style
+ */
+
+.btn-temp {
+	float: left;
+	margin-left: 0;
+}
+
+#temp-save-message {
+	float: left;
+	font-size: 12px;
+	color: orange;
+	margin: 25px 0px 0px 10px;
 }
 
 #temp-note-list {
