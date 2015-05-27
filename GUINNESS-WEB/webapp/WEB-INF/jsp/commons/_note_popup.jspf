@@ -32,7 +32,7 @@
 	</template>
 	
 	<!-- 부분코멘트 템플릿 -->
-<	<script type="template" class="pCommentTemplate">
+	<script type="template" class="pCommentTemplate">
 		<div class="pCommentBox" draggable="true">
 			<div id="pCommentCancel">
 				<i class="fa fa-remove"></i>
