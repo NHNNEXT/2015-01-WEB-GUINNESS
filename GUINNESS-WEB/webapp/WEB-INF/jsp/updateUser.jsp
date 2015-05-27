@@ -54,7 +54,8 @@
 								<span class="errorMessage"></span><br/>
 							</p> 
 							<hr />
-							<input type="button" value="수정" class="btn btn-pm" onclick="validCheck()"/>
+							<input type="button" class="btn btn-pm" onclick="validCheck()" value="수정" />
+							<input type="button" class="btn btn-pm" onclick ="backToNoteList()" value="취소"/>
 						</td>
 					</tr>
 				</table>
@@ -63,6 +64,9 @@
 	</div>
 	
 	<script>
+	function backToNoteList() {
+		window.location.href = "/";
+	}
 	function validCheck() {
 		var userName = document.querySelector("input[name='userName']").value;
 		var userPassword = document.querySelector("input[name='userPassword']").value;

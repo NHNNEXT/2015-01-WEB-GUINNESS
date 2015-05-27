@@ -114,7 +114,15 @@
 		readMember(groupId);
 		appendNoteList(json);
 		appendMarkList(json);
+		var elCreateBtn = document.querySelector("#create-new-button");
 		getDateExistNotes();
+		if(document.querySelector("#member-template") !== null)
+			memberTemplate = document.querySelector("#member-template").content;
+		document.querySelector("#escape-group-btn").addEventListener("click", function() {
+			guinness.confirmLeave(groupId, groupName);
+			
+		}, false);
+		
 	}, false);
 	
 	window.addEventListener("scroll", function(e) {
