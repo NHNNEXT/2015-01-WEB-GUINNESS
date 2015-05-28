@@ -356,8 +356,13 @@ pComment.deletePComment = function(pCommentId) {
             if (result.success !== true) {
                 return;
             }
-            //TODO 부분코멘트 삭제 시 카운트 변경 해야함(노트 팝업, 노트리스트)
+            var pid = "pId-" + document.querySelector("#pCId"+pCommentId+" input").getAttribute("ptagid");
             document.querySelector("#pCId"+pCommentId).remove();
+            document.querySelector("#"+pid+" i").innerText--;
+            if(document.querySelector("#"+pid+" i").innerText === "0") {
+            	document.querySelector("#"+pid+" i").remove();
+            	document.querySelector(".pCommentListBox").remove();
+            }
         }
     });
 };
