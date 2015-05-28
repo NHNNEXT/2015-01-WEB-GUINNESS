@@ -172,7 +172,6 @@ function showNoteModal(obj) {
         body: bodyTemplate,
         defaultCloseEvent: false,
         whenCloseEvent: function () {
-        	debugger;
             clearInterval(commentTimeUpdate);
             var elPopupBtn = document.querySelector(".popupCommentBtn");
             if (elPopupBtn !== null ){
@@ -315,8 +314,6 @@ function deleteComment(commentId, noteId) {
 }
 
 function recountComments(noteId, pCommentCount){
-	debugger;
-	
 	if(pCommentCount === undefined){
 		var pComment = document.querySelectorAll(".fa.fa-lightbulb-o");
 		pCommentCount=0;

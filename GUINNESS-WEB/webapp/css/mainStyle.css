@@ -98,6 +98,7 @@ input.text {
 
 .controll > a.update, a.comment-update{
   margin-right:5px;
+  cursor: pointer;
 }
 
 .pComment-text {

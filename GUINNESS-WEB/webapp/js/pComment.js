@@ -40,10 +40,10 @@ pComment.appendPComment = function (json) {
     PCommentCard.addEventListener('mouseleave', pComment.clearHighlight, false);
     pCommentList.scrollTop = pCommentList.scrollHeight;
     pComment.countByP(document.querySelector('.hiddenNoteId').value);
-    pCommentList.querySelector(".update").addEventListener("click", function(e) {
+    document.getElementById("pCId"+json.pCommentId).querySelector(".update").addEventListener("click", function(e) {
     	var el = e.target.parentElement.parentElement;
     	var pCommentText = el.querySelector('.pComment-text').innerHTML;
-    	var pCommnetId = (el.id).substring(4,5);
+    	var pCommnetId = (el.id).substr(4);
     	el.querySelector('.update').hide();
     	el.querySelector('.delete').hide();
     	el.querySelector('.pComment-text').setAttribute('contentEditable', true);
@@ -64,9 +64,10 @@ pComment.appendPComment = function (json) {
         });
         
         updateButton.addEventListener('click', function(e) {
+        	debugger;
         	var el = e.target.parentElement.parentElement;
         	var commentText = el.querySelector('.pComment-text').innerHTML;
-        	var pCommnetId = (el.id).substring(4,5);
+        	var pCommnetId = (el.id).substr(4);
             updatePComment(pCommnetId, commentText);
         }, false);
         cancelButton.addEventListener('click', function(e) {
@@ -77,9 +78,9 @@ pComment.appendPComment = function (json) {
             el.querySelector('.update').style.display="inline-block";
             el.querySelector('.delete').style.display="inline-block";        	
         }, false);
-        
         el.querySelector('.controll').appendChild(updateButton);
         el.querySelector('.controll').appendChild(cancelButton);
+       
 
     }, false);
 }
@@ -124,7 +125,6 @@ pComment.countByP = function (noteId) {
             if (result.success !== true) {
                 return false;
             }
-            debugger;
             pComment.countByP.createBulbBtn(noteId, result.mapValues);
         }
     });
@@ -144,7 +144,6 @@ pComment.countByP.createBulbBtn = function (noteId, json) {
         sumOfpCommentCount = sumOfpCommentCount + pCommentCount;
     }
     if(noteId!==""){
-    	debugger;
     	recountComments(noteId, sumOfpCommentCount);
     }
 }
@@ -272,7 +271,6 @@ pComment.refresh.removeHighlighting = function (element, targetContent) {
         targetContent.innerHTML = targetContent.innerHTML.replace(element.outerHTML, element.innerHTML);
     }
 }
-
 
 function createPCommentListBox(pId, noteContent, noteId) {
     var regacyBox = document.body.querySelector(".pCommentListBox");
