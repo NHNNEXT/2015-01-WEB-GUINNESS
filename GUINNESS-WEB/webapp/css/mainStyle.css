@@ -93,7 +93,7 @@ input.text {
   left: 172px;
 }
 
-.controll > a.update {
+.controll > a.update, a.comment-update{
   margin-right:5px;
 }
 

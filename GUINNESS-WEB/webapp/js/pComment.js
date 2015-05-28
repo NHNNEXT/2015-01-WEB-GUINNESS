@@ -39,6 +39,33 @@ pComment.appendPComment = function (json) {
     PCommentCard.addEventListener('mouseleave', pComment.clearHighlight, false);
     pCommentList.scrollTop = pCommentList.scrollHeight;
     pComment.countByP(document.querySelector('.hiddenNoteId').value);
+    pCommentList.querySelector(".update").addEventListener("click", function(e) {
+    	var el = e.target.parentElement.parentElement;
+    	var pCommentText = el.querySelector('.pComment-text').innerHTML;
+    	var pCommnetId = (el.id).substring(4,5);
+    	el.querySelector('.update').hide();
+    	el.querySelector('.delete').hide();
+    	el.querySelector('.pComment-text').setAttribute('contentEditable', true);
+    	
+        var updateButton = guinness.createElement({
+            name: "a",
+            attrs: {
+                'class': "comment-update"
+            },
+            content: "확인"
+        });
+        var cancelButton = guinness.createElement({
+            name: "a",
+            attrs: {
+                'class': "comment-update"
+            },
+            content: "취소"
+        });
+        
+        el.querySelector('.controll').appendChild(updateButton);
+        el.querySelector('.controll').appendChild(cancelButton);
+
+    }, false);
 }
 
 pComment.clearHighlight = function (e) {
