@@ -51,7 +51,7 @@ public class Markdown {
 		Pattern pattern = Pattern.compile("!{3}[^\n]{1,}!{3}");
 		Matcher matcher = pattern.matcher(markdownText);
 		while (matcher.find()) {
-			String change = matcher.group().replaceAll("^!!!", "<strong class='attention'><i class='fa fa-exclamation-circle'></i>")
+			String change = matcher.group().replaceAll("^!!!", "<strong class='attention'>")
 					.replaceAll("!!!$", "</strong>");
 			markdownText = markdownText.replace(matcher.group(), change);
 		}
@@ -62,7 +62,7 @@ public class Markdown {
 		Pattern pattern = Pattern.compile("\\?{3}[^\n]{1,}\\?{3}");
 		Matcher matcher = pattern.matcher(markdownText);
 		while (matcher.find()) {
-			String change = matcher.group().replaceAll("^\\?\\?\\?", "<strong class='question'><i class='fa fa-question-circle'></i>")
+			String change = matcher.group().replaceAll("^\\?\\?\\?", "<strong class='question'>")
 					.replaceAll("\\?\\?\\?$", "</strong>");
 			markdownText = markdownText.replace(matcher.group(), change);
 		}
