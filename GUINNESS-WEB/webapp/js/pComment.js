@@ -124,13 +124,12 @@ pComment.countByP = function (noteId) {
             if (result.success !== true) {
                 return false;
             }
-            debugger;
-            pComment.countByP.createBulbBtn(noteId, result.mapValues);
+            pComment.countByP.createBulbBtn(result.mapValues);
         }
     });
 }
 
-pComment.countByP.createBulbBtn = function (noteId, json) {
+pComment.countByP.createBulbBtn = function (json) {
 	var sumOfpCommentCount = 0;
     for (var index in json) {
         var pCommentCount = (json[index])['count(1)'];
@@ -142,10 +141,6 @@ pComment.countByP.createBulbBtn = function (noteId, json) {
         showBtn.querySelector("i").textContent = pCommentCount;
         pComment.countByP.setShowBtnEvent(showBtn);
         sumOfpCommentCount = sumOfpCommentCount + pCommentCount;
-    }
-    if(noteId!==""){
-    	debugger;
-    	recountComments(noteId, sumOfpCommentCount);
     }
 }
 
