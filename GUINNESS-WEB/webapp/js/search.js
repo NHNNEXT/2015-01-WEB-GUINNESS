@@ -32,11 +32,9 @@ searchForm.prototype._setPosition = function() {
 }
 
 function focusOut(e) {
-  if (e.relatedTarget === null) {
-    document.querySelector(".onSearchForm").className = "searchForm";
-	document.querySelector(".searchForm i").className = "fa fa-search";
-  }
-  document.querySelector("#search-groups-container").hide();
+  document.querySelector(".onSearchForm").className = "searchForm";
+  document.querySelector(".searchForm i").className = "fa fa-search";
+  document.querySelector(".searchResult").style.display="";
 }
 
 window.addEventListener('load', function() {

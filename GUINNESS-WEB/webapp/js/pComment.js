@@ -274,8 +274,9 @@ function createPCommentListBox(pId, noteContent, noteId) {
     }
     var noteContent = document.body.querySelector(".markdown-body .note-content");
     noteContent.style.float = "left";
-    var pCommentList = document.querySelector(".pCommentListTemplate").text;
-    noteContent.insertAdjacentHTML("afterend", pCommentList);
+    var pCommentListTemplate = document.querySelector(".pCommentListTemplate").text;
+    noteContent.insertAdjacentHTML("afterend", pCommentListTemplate);
+    setPositionPCommentListBox(noteContent, pId);
     document.body.querySelector("#pCommentBoxCancel").addEventListener('click', pComment.listRemover, false);
     guinness.ajax({
         method: "GET",
@@ -296,6 +297,13 @@ function createPCommentListBox(pId, noteContent, noteId) {
             pCommentList.scrollTop = 0;
         }
     });
+}
+
+function setPositionPCommentListBox (noteContent, pId) {
+    var pCommentListBox = document.body.querySelector(".pCommentListBox");
+    var showPCommentRect = noteContent.querySelector("#"+pId+" > .showPComment").getBoundingClientRect();
+    var markdownBodyRect = noteContent.parentNode.getBoundingClientRect();
+    pCommentListBox.style.top = showPCommentRect.top - markdownBodyRect.top + "px";
 }
 
 pComment.listRemover = function () {
