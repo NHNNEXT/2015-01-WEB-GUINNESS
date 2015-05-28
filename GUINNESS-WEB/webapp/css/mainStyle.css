@@ -1299,8 +1299,7 @@ i.fa.fa-sort-desc, i.fa.fa-sort-up {
 
 #commentListUl {
 	margin-top: 10px;
-	padding-top: 25px;
-	padding-bottom: 25px;
+	padding-bottom: 10px;
 	list-style: none;
 	border-top: 2px solid #f8f8f8;
 	font-size: 13px;
@@ -1312,6 +1311,8 @@ i.fa.fa-sort-desc, i.fa.fa-sort-up {
 
 #commentListUl li {
 	padding-top:15px;
+	padding-left:15px;
+	padding-right:15px;
 }
 
 #commentListUl .comment-container {
@@ -1339,7 +1340,7 @@ i.fa.fa-sort-desc, i.fa.fa-sort-up {
 #commentListUl .comment {
 	margin-top:5px;
 	padding-top:30px;
-	padding-bottom:20px;
+	padding-bottom:10px;
 	font-size:15px;
 	transition-property:outline;
 	transition-duration:.5s;
