@@ -27,11 +27,24 @@
 				enctype="multipart/form-data" method="post" action="/user/update">
 				<table class="panel-body" style="width: 100%">
 					<tr>
-						<td valign=top id="editProfile-photoArea"
-							style="width: 200px; text-align: center;"><img
-							class="avatar" src="/img/profile/${sessionUser.userImage}"> <input
-							type="file" name="profileImage"
-							accept="image/x-png, image/gif, image/jpeg" /></td>
+						<td valign=top id="editProfile-photoArea" style="width: 200px; text-align: center;">
+							<!-- new -->
+							<div>
+								<a href="#">
+									<img class="avatar" id="avatarSanp" src="/img/profile/${sessionUser.userImage}" onmouseover="mouseOver()" >
+									<img class="avatar" id="avatarHover" onclick="mouseClick()" onmouseout="mouseOut()" src="/img/group/user_hover.png" style="display:none">
+								</a>
+							</div>
+							<input id="imageFile" type="file" name="profileImage" accept="image/x-png, image/gif, image/jpeg" style="display:none;" onchange="changeImage(this)"/>
+							<!-- <input type="file" id="imageFile" name="backgroundImage" accept="image/x-png, image/gif, image/jpeg" style="display:none;" onchange="changeImage(this)"/> --> 
+							<div>
+								<input type="button" class ="background-default" name="background-default" value="원래대로" onclick="setPreImage('${sessionUser.userImage}')">
+								<input type="button" class ="background-default" name="background-default" value="배경초기화" onclick="setInitImage();">
+							</div>
+							<form:hidden path="userImage" value="" readonly="true"/>
+							<!-- new -->
+						</td>
+						
 						<td valign=top style="padding-left: 25px;">
 							<form:hidden path="userId" value="${sessionUser.userId}" />
 							<p>
@@ -64,6 +77,36 @@
 	</div>
 	
 	<script>
+	function mouseClick() {
+		document.getElementById('imageFile').click();
+	}
+	function mouseOver() {
+		document.querySelector("#avatarHover").style.display = "block";
+	}
+	function mouseOut() {
+		document.querySelector("#avatarHover").style.display = "none";
+	}
+	
+	function changeImage(input) {
+		if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+            	document.getElementById('avatarSanp').src = e.target.result;
+            	document.querySelector("#userImage").value = "changed";
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+	}
+	// 원래 배경
+	function setPreImage(userId){
+		document.querySelector("#avatarSanp").src = "/img/profile/" + userId;
+		document.querySelector("#userImage").value = userId;
+	}
+	// 배경 없음 
+	function setInitImage(){
+		document.querySelector("#avatarSanp").src = '/img/avatar-default.png';
+		document.querySelector("#userImage").value = "avatar-default.png";
+	}
 	function backToNoteList() {
 		window.location.href = "/";
 	}

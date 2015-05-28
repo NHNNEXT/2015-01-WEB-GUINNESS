@@ -128,9 +128,6 @@ public class GroupController {
 		if (group.getGroupName().equals("")) {
 			throw new GroupUpdateException("그룹명이 공백입니다.");
 		}
-		logger.debug("Group: {}", group);
-		logger.debug("backgroundImage: {}", backgroundImage.getSize());
-		
 		String rootPath = session.getServletContext().getRealPath("/");
 		groupService.update(sessionUserId, group, rootPath, backgroundImage);
 		return "redirect:/g/" + group.getGroupId();

@@ -36,7 +36,7 @@
 							</div>
 							<input type="file" id="imageFile" name="backgroundImage" accept="image/x-png, image/gif, image/jpeg" style="display:none;" onchange="changeImage(this)"/> 
 							<div>
-								<input type="button" class ="background-default" name="background-default" value="원래대로" onclick="setPreImage('${group.groupId}')">
+								<input type="button" class ="background-default" name="background-default" value="원래대로" onclick="setPreImage('${group.groupImage}')">
 								<input type="button" class ="background-default" name="background-default" value="배경초기화" onclick="setInitImage();">
 							</div>
 							<form:hidden path="groupImage" value="" readonly="true"/>

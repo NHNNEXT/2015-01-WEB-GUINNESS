@@ -12,13 +12,15 @@
   	top: 60px;
 }
 
-#editProfile-photoArea img.avatar {
+#editProfile-photoArea img.avatar  {
 	width: 200px;
 	height: 200px;
-	background-color: #558;
 	border-radius: 5px;
 	overflow: hidden;
 	margin-bottom: 10px;
+	position: absolute;
+  	left: 20px;
+  	top: 60px;
 }
 
 .update-form p {
