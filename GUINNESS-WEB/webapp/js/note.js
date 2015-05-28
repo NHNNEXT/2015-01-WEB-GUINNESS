@@ -415,6 +415,8 @@ function isJoinedUser() {
     document.querySelector("#addMemberForm .inputBtn").style.width="30%";
     document.querySelector("#addMemberForm .inputBtn").value="가입하기";
     document.querySelector(".leaveGroup span").style.display="none";
+    document.querySelector("#create-note").style.display="none";
+    
     return false;
 }
 
