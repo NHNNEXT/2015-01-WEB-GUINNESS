@@ -1338,7 +1338,6 @@ i.fa.fa-sort-desc, i.fa.fa-sort-up {
 }
 
 #commentListUl .comment {
-	margin-top:5px;
 	padding-top:30px;
 	padding-bottom:10px;
 	font-size:15px;
@@ -1348,6 +1347,7 @@ i.fa.fa-sort-desc, i.fa.fa-sort-up {
 
 #commentListUl .comment[contenteditable=true] {
 	outline:2px solid #fff;
+	background-color : white;
 }
 
 #commentListUl .comment-util{
