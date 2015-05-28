@@ -6,6 +6,10 @@
 
 #editBackgroundImage-photoArea img {
 	width: 200px;
+	height: 125px;
+	position: absolute;
+  	left: 20px;
+  	top: 60px;
 }
 
 #editProfile-photoArea img.avatar {

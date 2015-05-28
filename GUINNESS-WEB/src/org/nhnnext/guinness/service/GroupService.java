@@ -137,9 +137,9 @@ public class GroupService {
 		return alarmId;
 	}
 
-	public void update(String sessionUserId, Group group, String rootPath, MultipartFile groupImage)
-			throws GroupUpdateException {
+	public void update(String sessionUserId, Group group, String rootPath, MultipartFile groupImage) throws GroupUpdateException {
 		Group dbGroup = groupDao.readGroup(group.getGroupId());
+		
 		if (!sessionUserId.equals(dbGroup.getGroupCaptainUserId())) {
 			throw new GroupUpdateException("그룹장만이 그룹설정이 가능합니다.");
 		}
@@ -149,17 +149,19 @@ public class GroupService {
 		if (!groupDao.checkJoinedGroup(group.getGroupCaptainUserId(), group.getGroupId())) {
 			throw new GroupUpdateException("그룹멤버가 아닙니다.");
 		}
-		try {
-			group.setGroupImage(dbGroup.getGroupImage());
-			if (!groupImage.isEmpty()) {
+
+		boolean isDefaultImage = "background-default.png".equals(group.getGroupImage());
+		boolean isChangedImage = group.getGroupId().equals(group.getGroupImage());
+		
+		if(!isDefaultImage && !isChangedImage && !groupImage.isEmpty()) {
+			try {
 				String fileName = group.getGroupId();
 				groupImage.transferTo(new File(rootPath + "img/group/" + fileName));
 				group.setGroupImage(fileName);
+			} catch (IOException e) {
+				throw new GroupUpdateException("잘못된 형식입니다.");
 			}
-		} catch (IOException e) {
-			throw new GroupUpdateException("잘못된 형식입니다.");
 		}
-
 		groupDao.updateGroup(group);
 	}
 }
