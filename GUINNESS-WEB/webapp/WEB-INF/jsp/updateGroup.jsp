@@ -112,8 +112,7 @@
 				}
 			});
 		}
-		
-		/* function defaultGroupImage(){
+/* 		function defaultGroupImage(){
 			//TODO 배경을 기본 이미지로 바꿔주는 기능 구현.
 		} */
 	</script>
