@@ -434,10 +434,14 @@ a#escape-note {
 
 .attention {
 	color:#ff5a5a;
+	font-size:13px;
+	font-weight:bold;
 }
 
 .question{
 	color:#ffa500;
+	font-size:13px;
+	font-weight:bold;
 }
 
 #noteTextBox {
@@ -1285,6 +1289,10 @@ span.sDate {
 .warn {
 	background-color:#ff5a5a;
 	color:#fff;
+}
+
+i.fa.fa-sort-desc, i.fa.fa-sort-up {
+	margin-right: 10px;
 }
 
 #commentListUl {
