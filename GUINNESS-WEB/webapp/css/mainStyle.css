@@ -1317,12 +1317,13 @@ i.fa.fa-sort-desc, i.fa.fa-sort-up {
 
 #commentListUl .comment-container {
 	position:relative;
-	padding-left:40px;
+	padding-left:30px;
 }
 
 #commentListUl .comment-info {
 	display:block;
 	font-weight:bold;
+	padding-left:10px;
 }
 
 #commentListUl .comment-date {
@@ -1339,6 +1340,7 @@ i.fa.fa-sort-desc, i.fa.fa-sort-up {
 
 #commentListUl .comment {
 	padding-top:30px;
+	padding-left:10px;
 	padding-bottom:10px;
 	font-size:15px;
 	transition-property:outline;
@@ -1346,7 +1348,7 @@ i.fa.fa-sort-desc, i.fa.fa-sort-up {
 }
 
 #commentListUl .comment[contenteditable=true] {
-	outline:2px solid #fff;
+	outline:1px solid #BEBEBE;
 	background-color : white;
 }
 
