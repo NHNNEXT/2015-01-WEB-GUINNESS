@@ -30,7 +30,7 @@
 			<a style="display:inline-block" href="/g/${groupId}"><span id="group-name"></span></a>		
 			<form id="groupConfig" action="/groups/update/form/${groupId}" method="post">
 				<input type="hidden" name="groupImage" value="${groupImage}">
-				<i class="fa fa-cog" style="font-size:20px;" onclick="groupUpdate();"></i>
+				<i class="fa fa-cog" style="font-size:20px; padding-top:6px;" onclick="groupUpdate();"></i>
 			</form>
 	</div>
 	<div id="note-list-container" class="content wrap">
@@ -150,7 +150,7 @@
 				id : "allShow",
 				class : "inputBtn",
 				type : "submit",
-				value : "오늘",
+				value : "모두보기",
 				onclick : "readNoteList()"
 			}
 	    });
