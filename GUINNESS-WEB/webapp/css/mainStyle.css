@@ -434,10 +434,14 @@ a#escape-note {
 
 .attention {
 	color:#ff5a5a;
+	font-size:13px;
+	font-weight:bold;
 }
 
 .question{
 	color:#ffa500;
+	font-size:13px;
+	font-weight:bold;
 }
 
 #noteTextBox {
