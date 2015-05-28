@@ -204,7 +204,7 @@ guinness.util.alert = function(header, message, agreeFunc, disagreeFunc) {
 		innerEl.innerHTML += "<div class='panel'><div class='panel-header warn'>"
 				+ header
 				+ "</div><div class='panel-body'>"
-				+ message
+				+ "<span>" + message + "</span>"
 				+ "<br/><div class='btn-group'><button class='btn'>확인</button></div></div></div>";
 		el.appendChild(innerEl);
 		el.querySelector(".btn:first-child").addEventListener("click",
@@ -217,7 +217,7 @@ guinness.util.alert = function(header, message, agreeFunc, disagreeFunc) {
 		innerEl.innerHTML += "<div class='panel'><div class='panel-header warn'>"
 				+ header
 				+ "</div><div class='panel-body'>"
-				+ message
+				+ "<span>" + message + "</span>"
 				+ "<br/><div class='btn-group'><button class='btn'>예</button><button class='btn'>아니오</button></div></div></div>";
 		el.appendChild(innerEl);
 		el.querySelector(".btn:first-child").addEventListener("click",
@@ -303,8 +303,8 @@ guinness.leaveGroup = function(sessionUserId, groupId, location) {
 }
 
 guinness.confirmDeleteUser = function(userId, userName) {
-	var message = userName + "님을 멤버에서 제외 하시겠습니까?";
-	guinness.util.alert("멤버 강퇴", message,
+	var message = "<strong>" + userName + "</strong>님을 멤버에서 제외 하시겠습니까?";
+	guinness.util.alert("멤버 제외", message,
 		function() {
 			document.body.style.overflow = "auto";
 			var sessionUserId = document.getElementById("sessionUserId").value;
