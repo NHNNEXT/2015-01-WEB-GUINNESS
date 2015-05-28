@@ -401,6 +401,9 @@ function setPopupPCommentBtn() {
                 elPopupBtn.style.display = "none";
             }
         }
+        if (selectedText === false) {
+        	elPopupBtn.style.display = "none";
+        }
     }, false);
 }
 
