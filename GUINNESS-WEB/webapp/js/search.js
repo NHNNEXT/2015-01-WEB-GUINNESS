@@ -7,6 +7,7 @@ searchForm.prototype.init = function() {
   this._createResultBox();
   this._setPosition();
   this.elSearch.addEventListener("focus", function(e) {
+	new searchForm()._setPosition();
     this.className = "onSearchForm";
     document.querySelector(".searchResult").style.display="block";
     document.querySelector(".onSearchForm i").className = "fa fa-external-link";
@@ -31,15 +32,12 @@ searchForm.prototype._setPosition = function() {
 }
 
 function focusOut(e) {
-  if (e.relatedTarget===null) {
+  if (e.relatedTarget === null) {
     document.querySelector(".onSearchForm").className = "searchForm";
 	document.querySelector(".searchForm i").className = "fa fa-search";
   }
+  document.querySelector("#search-groups-container").hide();
 }
-
-window.addEventListener('resize', function() {
-  new searchForm()._setPosition();
-}, false);
 
 window.addEventListener('load', function() {
   var elSearch = document.querySelector(".searchForm");
