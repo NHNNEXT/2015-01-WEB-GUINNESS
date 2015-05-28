@@ -444,3 +444,39 @@ function getSameSentence(pComment, selectedText, selection) {
     selectRange.deleteContents();
     selectRange.insertNode(span);
 }
+
+//하이라이팅 none 관련 수정 중인 코드.
+//function getSameSentence(pComment, selectedText, selection) {
+//    var selectRange = selection.getRangeAt(0);
+//    var pId = pComment.pId;
+//    var pText = document.body.querySelector("#" + pId).innerText;
+//    var sameIndex = 1;
+//    var sameTexts = new Array();
+//    var indexSelectedText = selectedText.replace(/^<strong class="attention">/, "")
+//        .replace(/^<strong class="question">/, "")
+//        .replace(/^<strong>/, "").replace(/^<em>/, "").replace(/<\/em>$/, "").replace(/<\/strong>$/, "");
+//    var sameText = pText.indexOf(indexSelectedText);
+//    selectRange.insertNode(document.createTextNode("`'`ran"));
+//    var tempText = document.body.querySelector("#" + pId).innerText;
+//    var searchPrefix = tempText.indexOf("`'`ran");
+//    selectRange.deleteContents();
+//    selectRange.insertNode(document.createTextNode(selectedText));
+//    if (sameText === searchPrefix) {
+//        pComment.sameSenIndex = sameIndex;
+//    }
+//    while (sameText !== -1) {
+//        sameIndex += 1;
+//        sameTexts.push(sameText);
+//        sameText = pText.indexOf(indexSelectedText, sameText + indexSelectedText.length);
+//        if (sameText === searchPrefix) {
+//            pComment.sameSenIndex = sameIndex;
+//        }
+//    }
+//    pComment.sameSenCount = sameTexts.length;
+//
+//    var span = document.createElement("SPAN");
+//    span.innerHTML = getSelection();
+//    span.className = "selected";
+//    selectRange.deleteContents();
+//    selectRange.insertNode(span);
+//}
