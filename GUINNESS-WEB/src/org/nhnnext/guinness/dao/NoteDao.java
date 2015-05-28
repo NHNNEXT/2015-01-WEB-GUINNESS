@@ -73,9 +73,14 @@ public class NoteDao extends JdbcDaoSupport {
 		getJdbcTemplate().update(sql, noteId);
 	}
 
-	public int decreaseCommentCount(String commentId) {
+	public int decreaseCommentCountByComment(String commentId) {
 		String sql = "update NOTES set commentCount = commentCount - 1 where noteId = (select noteId from COMMENTS where commentId = ?)";
 		return getJdbcTemplate().update(sql, Long.parseLong(commentId));
+	}
+	
+	public int decreaseCommentCountByPComment(String pCommentId) {
+		String sql = "update NOTES set commentCount = commentCount - 1 where noteId = (select noteId from PCOMMENTS where pCommentId = ?)";
+		return getJdbcTemplate().update(sql, Long.parseLong(pCommentId));
 	}
 
 	public int deleteNote(String noteId) {

@@ -74,7 +74,7 @@ public class CommentService {
 	}
 
 	public void delete(String commentId) {
-		noteDao.decreaseCommentCount(commentId);
+		noteDao.decreaseCommentCountByComment(commentId);
 		commentDao.deleteComment(commentId);
 	}
 }
