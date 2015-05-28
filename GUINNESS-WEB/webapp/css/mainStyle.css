@@ -67,9 +67,12 @@ input.text {
 
 .note-content {
     width:640px;
-    margin:0 auto;
-    padding:5px;
+    margin:0 auto 10px auto;
+    padding:15px 25px 25px 25px;
     min-height:260px;
+    background-color:#fff;
+	border:1px solid #ccc;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 }
 
 #pCommentBoxCancel {
@@ -1156,6 +1159,9 @@ span.sDate {
 
 .modal-body.note-modal {
 	width: 890px;
+	
+	
+	background-color:#f8f8f8;
 }
 
 #create-new-button {
@@ -1277,9 +1283,9 @@ span.sDate {
 }
 
 #commentListUl {
-	margin-top: 10px;
-	padding-top: 25px;
-	padding-bottom: 25px;
+	width:640px;
+	padding: 25px 0;
+	margin:0 auto;
 	list-style: none;
 	border-top: 2px solid #f8f8f8;
 	font-size: 13px;
@@ -1317,13 +1323,13 @@ span.sDate {
 	padding-top:30px;
 	padding-bottom:20px;
 	font-size:15px;
-	outline:2px solid #fff;
+	outline:2px solid #f8f8f8;
 	transition-property:outline;
 	transition-duration:.5s;
 }
 
 #commentListUl .comment[contenteditable=true] {
-	outline:2px solid #eee;
+	outline:2px solid #fff;
 }
 
 #commentListUl .comment-util{
@@ -1334,6 +1340,11 @@ span.sDate {
 	display:inline-block;
 	cursor:pointer;
 	padding:5px;
+}
+
+#commentForm {
+	width:640px;
+	margin:0 auto;
 }
 
 .comment-div { 
