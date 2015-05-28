@@ -18,12 +18,13 @@
 	<mvc:interceptors>
 		<bean class="org.nhnnext.guinness.intercepter.CharacterSetInterceptor" />
 		<mvc:interceptor>
-			<mvc:mapping path="/comment/**" />
-			<mvc:mapping path="/note/**" />
-			<mvc:mapping path="/noteList/**" />
-			<mvc:mapping path="/group/**" />
-			<mvc:mapping path="/groups/**" />
+			<mvc:mapping path="/alarms/**" />
+			<mvc:mapping path="/comments/**" />
 			<mvc:mapping path="/g/**" />
+			<mvc:mapping path="/groups/**" />
+			<mvc:mapping path="/notes/**" />
+			<mvc:mapping path="/pComments/**" />
+			<mvc:mapping path="/search/**" />
 			<mvc:mapping path="/api/**" />
 			<bean class="org.nhnnext.guinness.intercepter.SessionCheckInterceptor" />
 		</mvc:interceptor>

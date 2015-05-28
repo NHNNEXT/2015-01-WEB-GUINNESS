@@ -5,12 +5,12 @@
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
-	<enableImports><![CDATA[false]]></enableImports>
+	<enableImports><![CDATA[true]]></enableImports>
 	<configs>
-		<config>webapp/WEB-INF/GUINNESS-servlet.xml</config>
 		<config>src/main/resources/applicationContext.xml</config>
 	</configs>
 	<autoconfigs>
+		<config>webapp/WEB-INF/guinness-servlet.xml</config>
 	</autoconfigs>
 	<configSets>
 	</configSets>

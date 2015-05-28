@@ -250,7 +250,7 @@ guinness.ajax = function(o) {
 			if (req.status == 200) {
 				o.success(req);
 			} else {
-				window.location.href = "/exception";
+				document.body.innerHTML = req.responseText;
 			}
 		}
 	};
