@@ -1287,6 +1287,10 @@ span.sDate {
 	color:#fff;
 }
 
+i.fa.fa-sort-desc, i.fa.fa-sort-up {
+	margin-right: 10px;
+}
+
 #commentListUl {
 	margin-top: 10px;
 	padding-top: 25px;
