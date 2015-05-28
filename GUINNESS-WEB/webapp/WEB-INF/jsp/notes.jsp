@@ -165,7 +165,6 @@
 	}, false);
 	
 	function groupUpdate(){
-		console.log("gggg");
 		document.getElementById("groupConfig").submit();
 	}
 	
