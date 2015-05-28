@@ -25,7 +25,7 @@
 			</c:otherwise>
 		</c:choose>
 		<a href="/">홈으로 돌아가기</a><br><br>
-		<a href="http://${mailSite}">메일 확인하기</a>
+		<a href="http://${mailSite}" target="_blank" onclick="location.href='/'">메일 확인하기</a>
 	</div>
 </body>
 </html>
