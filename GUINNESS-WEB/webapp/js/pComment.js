@@ -1,4 +1,5 @@
 var mousePosition = {};
+
 mousePosition.downPoint = {
     x: 0,
     y: 0
@@ -221,6 +222,7 @@ pComment.refresh.removeHighlighting = function (element, targetContent) {
     if (undefined !== element) {
         targetContent.innerHTML = targetContent.innerHTML.replace(element.outerHTML, element.innerHTML);
     }
+}
 
 
 function createPCommentListBox(pId, noteContent, noteId) {
