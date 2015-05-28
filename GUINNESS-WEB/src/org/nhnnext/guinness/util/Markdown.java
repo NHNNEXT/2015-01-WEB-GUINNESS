@@ -22,6 +22,7 @@ public class Markdown {
 	private String pIdNumbering(String textHtml) {
 		int idNumber = 1;
 		int pIndex=0, preIndex=0;
+		String bulbBtn = "' class='pCommentText'><strong class='showPComment'><i class='fa fa-lightbulb-o'></i></strong>";
 		while(true) {
 			pIndex = textHtml.indexOf("<p>");
 			preIndex = textHtml.indexOf("<pre>");
@@ -29,17 +30,17 @@ public class Markdown {
 				return textHtml;
 			}
 			if( pIndex == -1 && preIndex >= 0){
-				textHtml = textHtml.replaceFirst("<pre>", "<pre id='pId-"+idNumber+"' class='pCommentText' ><strong class='ShowPComment'></strong>");
+				textHtml = textHtml.replaceFirst("<pre>", "<pre id='pId-"+idNumber+bulbBtn);
 			}
 			if( pIndex >= 0 && preIndex == -1 ){
-				textHtml = textHtml.replaceFirst("<p>", "<p id='pId-"+idNumber+"' class='pCommentText' ><strong class='ShowPComment'></strong>");
+				textHtml = textHtml.replaceFirst("<p>", "<p id='pId-"+idNumber+bulbBtn);
 			}
 			if( pIndex >= 0 && preIndex >= 0 ){
 				if( pIndex < preIndex ){
-					textHtml = textHtml.replaceFirst("<p>", "<p id='pId-"+idNumber+"' class='pCommentText' ><strong class='ShowPComment'></strong>");
+					textHtml = textHtml.replaceFirst("<p>", "<p id='pId-"+idNumber+bulbBtn);
 				}
 				else {
-					textHtml = textHtml.replaceFirst("<pre>", "<pre id='pId-"+idNumber+"' class='pCommentText' ><strong class='ShowPComment'></strong>");
+					textHtml = textHtml.replaceFirst("<pre>", "<pre id='pId-"+idNumber+bulbBtn);
 				}
 			}
 			idNumber++;

@@ -29,9 +29,9 @@ public class GroupDao extends JdbcDaoSupport {
 	}
 
 	public void createGroup(Group group) {
-		String sql = "insert into GROUPS values(?,?,?,DEFAULT,?,DEFAULT)";
+		String sql = "insert into GROUPS values(?,?,?,DEFAULT,?, ?)";
 		getJdbcTemplate().update(sql, group.getGroupId(), group.getGroupName(), group.getGroupCaptainUserId(),
-				group.getStatus());
+				group.getStatus(), group.getGroupImage());
 	}
 
 	public void deleteGroup(String groupId) {

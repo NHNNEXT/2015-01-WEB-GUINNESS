@@ -8,11 +8,6 @@ mousePosition.upPoint = {
     y: 0
 };
 
-dragBox = {
-    top : 0,
-    left: 0
-}
-
 var pComment = {
     pCommentText: null,
     selectedText: null,
@@ -28,36 +23,37 @@ pComment.appendPComment = function (json) {
     var pCommentList = document.body.querySelector(".pCommentList");
     var elPComment = document.querySelector(".aPCommentTemplate").text;
     elPComment = elPComment.replace("pId", json.pId)
-                .replace("pCommentId", "pCId"+json.pCommentId)
-                .replace("sameSenCount", json.sameSenCount)
-                .replace("sameSenIndex", json.sameSenIndex)
-                .replace("userImage", "/img/profile/"+json.sessionUser.userImage)
-                .replace("userId", "("+json.sessionUser.userId+")")
-                .replace("userName", json.sessionUser.userName)
-                .replace("pCommentText", json.pCommentText)
-                .replace("createDate", json.pCommentCreateDate)
-                .replace("selectedText", json.selectedText);
+        .replace("pCommentId", "pCId" + json.pCommentId)
+        .replace("sameSenCount", json.sameSenCount)
+        .replace("sameSenIndex", json.sameSenIndex)
+        .replace("userImage", "/img/profile/" + json.sessionUser.userImage)
+        .replace("userId", "(" + json.sessionUser.userId + ")")
+        .replace("userName", json.sessionUser.userName)
+        .replace("pCommentText", json.pCommentText)
+        .replace("createDate", json.pCommentCreateDate)
+        .replace("selectedText", json.selectedText);
     pCommentList.insertAdjacentHTML("beforeend", elPComment);
-    var PCommentCard = document.body.querySelector(".pCommentList #pCId"+json.pCommentId);
-    PCommentCard.addEventListener('mouseover', pComment.highlite, false);
-    PCommentCard.addEventListener('mouseleave', function(e) {
-        var info = e.target.closest("li").querySelector("input[type=hidden]");
-        var p = document.body.querySelector('#pId-'+info.getAttribute('ptagid'));
-        var highlighted = p.querySelector('.highlighted');
-        p.innerHTML = p.innerHTML.replace(/<span class="highlighted">.+<\/span>/, highlighted.innerHTML);
-    }, false);
+    var PCommentCard = document.body.querySelector(".pCommentList #pCId" + json.pCommentId);
+    PCommentCard.addEventListener('mouseover', pComment.highlight, false);
+    PCommentCard.addEventListener('mouseleave', pComment.clearHighlight, false);
     pCommentList.scrollTop = pCommentList.scrollHeight;
-    pCommentCountByP(document.querySelector('.hiddenNoteId').value);
+    pComment.countByP(document.querySelector('.hiddenNoteId').value);
 }
 
-pComment.highlite = function (e) {
+pComment.clearHighlight = function (e) {
+    var info = e.target.closest("li").querySelector("input[type=hidden]");
+    var p = document.body.querySelector('#pId-' + info.getAttribute('ptagid'));
+    var highlighted = p.querySelector('.highlighted');
+    pComment.refresh.removeHighlighting(highlighted, p);
+}
+
+pComment.highlight = function (e) {
     var info = e.target.closest("li").querySelector("input[type=hidden]");
     var pId = info.getAttribute('ptagid');
     var sameSenCount = info.getAttribute('samecount');
     var sameSenIndex = Number(info.getAttribute('sameindex'));
     var selectedText = info.getAttribute('selecttext');
-    var p = document.body.querySelector('#pId-'+pId);
-    
+    var p = document.body.querySelector('#pId-' + pId);
     var cloneSeletedText = selectedText;
     cloneSeletedText = cloneSeletedText.replace(/^<strong class="attention">/, "");
     cloneSeletedText = cloneSeletedText.replace(/^<strong class="question">/, "");
@@ -67,35 +63,100 @@ pComment.highlite = function (e) {
     do {
         count++;
         index = p.innerHTML.indexOf(cloneSeletedText);
-    } while(index !== -1 && count < sameSenIndex);
-    
+    } while (index !== -1 && count < sameSenIndex);
+
     if (p.innerHTML.search('<span class="highlighted">') < 0 && index !== -1) {
-        p.innerHTML = p.innerHTML.slice(0, index)+"<span class='highlighted'>"
-            + cloneSeletedText + "</span>"+p.innerHTML.slice(index+cloneSeletedText.length);
+        p.innerHTML = p.innerHTML.slice(0, index) + "<span class='highlighted'>"
+            + cloneSeletedText + "</span>" + p.innerHTML.slice(index + cloneSeletedText.length);
     }
 }
 
-function selectText() {
-    var select = document.getSelection();
-    var range = select.getRangeAt(0);
+pComment.countByP = function (noteId) {
+    guinness.ajax({
+        method: "get",
+        url: "/pComments/readCountByP?noteId=" + noteId,
+        success: function (req) {
+            var result = JSON.parse(req.responseText);
+            if (result.success !== true) {
+                return false;
+            }
+            pComment.countByP.createBulbBtn(result.mapValues);
+            recountComments(pComment.noteId);			// 부분코멘트가 생성되면 노트리스트의 코멘트 갯수 1개 증가.
+        }
+    });
+}
+
+pComment.countByP.createBulbBtn = function (json) {
+    for (var index in json) {
+        var pCommentCount = (json[index])['count(1)'];
+        var showBtn = pComment.countByP.createBulbBtn.getShowBtnByPId(json[index].pId);
+        if (showBtn === false) {
+            return false;
+        }
+        showBtn.style.display = "block";
+        showBtn.querySelector("i").textContent = pCommentCount;
+        pComment.countByP.setShowBtnEvent(showBtn);
+    }
+}
+
+pComment.countByP.setShowBtnEvent = function (showBtn) {
+    showBtn.addEventListener('mouseup', function (e) {
+        e.preventDefault;
+        var noteId = document.body.querySelector(".hiddenNoteId").value;
+        var pOrPreId = pComment.getPid(e.target);
+        var noteContent = document.querySelector('.note-content');
+        createPCommentListBox(pOrPreId, noteContent, noteId);
+    }, false);
+}
+
+pComment.countByP.createBulbBtn.getShowBtnByPId = function (pId) {
+    var showBtns = document.body.querySelectorAll(".showPComment");
+    if (showBtns.length <= 0) {
+        return false;
+    }
+    for (var index = 0; index < showBtns.length; index++) {
+        if (showBtns[index] === null) {
+            break
+        }
+        var pOrPreId = pComment.getPid(showBtns[index]);
+        if (pOrPreId === "pId-" + pId) {
+            return showBtns[index];
+        }
+    }
+    return false;
+}
+
+pComment.getPid = function (selectedEl) {
+    if (selectedEl === null) {
+        console.error("nullError");
+        return false;
+    }
+    return selectedEl.closest('P') !== null ? selectedEl.closest('P').id : selectedEl.closest('PRE').id;
+}
+
+pComment.selectText = function () {
+    var range = document.getSelection().getRangeAt(0);
+    if (range.endContainer.className === "fa fa-lightbulb-o" ||  range.endContainer.className === "showPComment") {
+        return false;
+    }
     var content = range.cloneContents();
-    var span = document.createElement('SPAN');
-    span.appendChild(content);
-    var selectedText = span.innerHTML;
+    var elTemp = document.createElement('SPAN');
+    elTemp.appendChild(content);
+    var selectedText = elTemp.innerHTML;
     if (selectedText.length > 0) {
         return selectedText.replace(/^<strong class="ShowPComment">.{1,}<\/strong>/, "");
     }
     return false;
 }
 
-function createPopupPCommentBtn() {
+pComment.createPopupPCommentBtn = function () {
     var templatePopupBtn = document.querySelector("#popupCommentBtnTemplate").text;
     document.body.insertAdjacentHTML("beforeend", templatePopupBtn);
     _createPCommentBox();
     var popupCommentBtn = document.querySelector(".popupCommentBtn");
     mutateObserver(popupCommentBtn);
     popupCommentBtn.addEventListener('click', function (e) {
-        pCommentListRemover();
+        pComment.listRemover();
         e.target.style.display = "none";
         var pCommentBox = document.querySelector(".pCommentBox");
         pCommentBox.style.display = "block";
@@ -108,104 +169,73 @@ function createPopupPCommentBtn() {
     }, false);
 }
 
-function mutateObserver (popupCommentBtn) {
+function mutateObserver(popupCommentBtn) {
     var target = popupCommentBtn;
-    var observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
+    var observer = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
             if (mutation.type !== "attributes" || mutation.attributeName !== "style") {
                 return;
             }
-            if (mutation.target.style.display !== "none" ) {
-                return;   
+            if (mutation.target.style.display !== "none") {
+                return;
             }
             var pCommentBoxDisplay = document.body.querySelector(".pCommentBox").style.display;
-            if (pCommentBoxDisplay === "" || pCommentBoxDisplay === "none" ) {
-                if (event.target.className !== "fa fa-lightbulb-o" && event.target.className !== "ShowPComment") {
-                    refresh();
+            if (pCommentBoxDisplay === "" || pCommentBoxDisplay === "none") {
+                if (event.target.className !== "fa fa-lightbulb-o" && event.target.className !== "showPComment") {
+                    pComment.refresh();
                 }
             }
         });
     });
-    var config = { attributes: true, childList: true, characterData: true };
+    var config = {attributes: true, childList: true, characterData: true};
     observer.observe(target, config);
 }
 
-function _createPCommentBox () {
+function _createPCommentBox() {
     var pCommentTemplate = document.querySelector(".pCommentTemplate").text;
     document.body.insertAdjacentHTML("beforeend", pCommentTemplate);
     var pCommentBox = document.body.querySelector(".pCommentBox");
-    pCommentBox.querySelector(".setUp").addEventListener("click", createPComment, false);
+    pCommentBox.querySelector(".setUp").addEventListener("click", pComment.createPComment, false);
     pCommentBox.querySelector("#pCommentCancel").addEventListener("click", function (e) {
         e.target.parentElement.parentElement.style.display = "none";
         document.body.querySelector(".inputP").innerText = "";
-        document.body.querySelector(".selected").className = "none";
-        refresh();
-        pCommentListRemover();
+        pComment.refresh();
+        pComment.listRemover();
     }, false);
 }
 
-function refresh() {
+pComment.refresh = function () {
     var noteContent = document.body.querySelector(".note-content");
-    noteContent.innerHTML = document.body.querySelector(".hidden-note-content").value;
-    pCommentCountByP(document.querySelector('.hiddenNoteId').value);
-}
-
-function pCommentCountByP(noteId) {
-    guinness.ajax({
-        method : "get",
-        url : "/pComments/readCountByP?noteId="+noteId,
-        success : function (req) {
-            var result = JSON.parse(req.responseText);
-            if (result.success !== true) {
-                return false;
-            }
-            var arShowP = document.body.querySelectorAll(".ShowPComment");
-            if (arShowP.length<=0) {
-                return false;
-            }
-
-            for(var index=0; index < length; index++) {
-                var count = 0;
-                var json = null;
-                for (var jndex=0; jndex < result.mapValues.length; jndex++) {
-                    json = result.mapValues[jndex];
-                    if (json.pId === arShowP[index].closest('P').id.replace("pId-","")*1) {
-                        count = json['count(1)'];
-                        console.log(count, json.pId);
-                    }
-                }
-                if (count > 0) {
-                    arShowP[index].innerHTML = "<i class='fa fa-lightbulb-o'></i>";
-                    arShowP[index].addEventListener('click', function (e) {
-                        e.preventDefault;
-                        var noteId = document.body.querySelector(".hiddenNoteId").value;
-                        var pId = e.target.closest("P").id;
-                        if (pId.indexOf("pId-") === -1) {
-                            pId = e.target.closest("PRE").id;
-                        }
-                        var noteContent = document.querySelector('.note-content');
-                        createPCommentListBox(pId, noteContent, noteId);
-                    }, false);
-                }
-            }
+    var highlighteds = noteContent.querySelectorAll(".selected");
+    for (var index in highlighteds) {
+        index = index*1;
+        if (typeof(index) !== "number") {
+            break;
         }
-    });
+        pComment.refresh.removeHighlighting(highlighteds[index], noteContent);
+    }
+    pComment.countByP(document.querySelector('.hiddenNoteId').value);
 }
+
+pComment.refresh.removeHighlighting = function (element, targetContent) {
+    if (undefined !== element) {
+        targetContent.innerHTML = targetContent.innerHTML.replace(element.outerHTML, element.innerHTML);
+    }
 
 
 function createPCommentListBox(pId, noteContent, noteId) {
     var regacyBox = document.body.querySelector(".pCommentListBox");
-    if (regacyBox !== null ) {
-        regacyBox.remove();   
+    if (regacyBox !== null) {
+        regacyBox.remove();
     }
     var noteContent = document.body.querySelector(".markdown-body .note-content");
     noteContent.style.float = "left";
     var pCommentList = document.querySelector(".pCommentListTemplate").text;
     noteContent.insertAdjacentHTML("afterend", pCommentList);
-    document.body.querySelector("#pCommentBoxCancel").addEventListener('click', pCommentListRemover, false);
+    document.body.querySelector("#pCommentBoxCancel").addEventListener('click', pComment.listRemover, false);
     guinness.ajax({
-        method : "GET",
-        url : "/pComments?pId="+pId+"&noteId="+noteId,
+        method: "GET",
+        url: "/pComments?pId=" + pId + "&noteId=" + noteId,
         success: function (req) {
             var result = JSON.parse(req.responseText);
             if (result.success !== true) {
@@ -213,8 +243,9 @@ function createPCommentListBox(pId, noteContent, noteId) {
             }
             var pCommentList = document.body.querySelector(".pCommentList");
             pCommentList.innerHTML = "";
-            for(var index in result.objectValues ) {
-            	debugger;
+            
+            var length = result.objectValues.length
+            for (var index = 0; index < length; index++) {
                 pComment.appendPComment(result.objectValues[index]);
             }
             var pCommentList = document.body.querySelector(".pCommentList");
@@ -223,37 +254,38 @@ function createPCommentListBox(pId, noteContent, noteId) {
     });
 }
 
-function pCommentListRemover() {
+pComment.listRemover = function () {
     var pCommentListBox = document.body.querySelector(".pCommentListBox");
-    if (pCommentListBox !== null ) {
+    if (pCommentListBox !== null) {
         pCommentListBox.remove();
     }
     var noteContent = document.body.querySelector(".markdown-body .note-content");
     noteContent.style.float = "";
 }
 
-function createPComment () {
+pComment.createPComment = function () {
     document.body.querySelector(".pCommentBox").style.display = "none";
     var inputP = document.body.querySelector(".inputP");
     pComment.pCommentText = inputP.innerText;
     inputP.innerText = "";
     document.body.querySelector(".selected").className = "none";
-    refresh();
-    if(pComment.pCommentText.length < 1) {
+    pComment.refresh();
+    if (pComment.pCommentText.length < 1) {
         return false;
     }
     var pId = pComment.pId.replace("pId-", "");
     guinness.ajax({
-        method : "post",
-        url : "/pComments",
-        param : "pId="+pId+"&sameSenCount="+pComment.sameSenCount+"&sameSenIndex="+pComment.sameSenIndex
-                +"&pCommentText="+pComment.pCommentText+"&selectedText="+pComment.selectedText
-                +"&noteId="+pComment.noteId,
+        method: "post",
+        url: "/pComments",
+        param: "pId=" + pId + "&sameSenCount=" + pComment.sameSenCount + "&sameSenIndex=" + pComment.sameSenIndex
+        + "&pCommentText=" + pComment.pCommentText + "&selectedText=" + pComment.selectedText
+        + "&noteId=" + pComment.noteId,
         success: function (req) {
             var result = JSON.parse(req.responseText);
             if (result.success !== true) {
                 return;
             }
+            recountComments(pComment.noteId);			// 부분코멘트가 생성되면 노트리스트의 코멘트 갯수 1개 증가.
             pComment.appendPComment(result.object);
         }
     });
@@ -270,7 +302,7 @@ function setPopupPCommentBtn() {
     var elNoteText = document.body.querySelector(".note-content");
 
     elNoteText.addEventListener('mousedown', function (e) {
-        
+        pComment.refresh();
         mousePosition.downPoint.x = e.clientX;
         mousePosition.downPoint.y = e.clientY;
     }, false);
@@ -284,19 +316,20 @@ function setPopupPCommentBtn() {
         var top = mousePosition.upPoint.y;
 
         var elPopupBtn = document.querySelector(".popupCommentBtn");
-        var selectedText = selectText();
-        var selectedElClass = window.getSelection().getRangeAt(0).commonAncestorContainer;
-        if (selectedText && selectedElClass.className !== "note-content") {
-            elPopupBtn.style.top = top + "px";
-            elPopupBtn.style.left = left + "px";
-
-            elPopupBtn.style.display = "block";
-            pComment.selectedText = selectedText;
-            pComment.pId = getPid(selectedElClass);
-            getSameSentence(pComment, selectedText, window.getSelection());
-            getNoteInfo();
-        } else {
-            elPopupBtn.style.display = "none";
+        var selectedText = pComment.selectText();
+        if (selectedText !== false) {
+            var selectedEl = window.getSelection().getRangeAt(0).commonAncestorContainer;
+            if (selectedText && selectedEl.className !== "note-content") {
+                elPopupBtn.style.top = top + "px";
+                elPopupBtn.style.left = left + "px";
+                elPopupBtn.style.display = "block";
+                pComment.selectedText = selectedText;
+                pComment.pId = pComment.getPid(selectedEl.parentElement);
+                getSameSentence(pComment, selectedText, window.getSelection());
+                getNoteInfo();
+            } else {
+                elPopupBtn.style.display = "none";
+            }
         }
     }, false);
 }
@@ -306,29 +339,22 @@ function getNoteInfo() {
     pComment.noteId = document.querySelector(".hiddenNoteId").value;
 }
 
-function getPid (selectedElClass) {
-    while (selectedElClass.tagName !== "P" && selectedElClass.tagName !== "PRE") {
-        selectedElClass = selectedElClass.parentNode;
-    }
-    return selectedElClass.id;
-}
-
-function getSameSentence (pComment, selectedText, selection) {
+function getSameSentence(pComment, selectedText, selection) {
     var selectRange = selection.getRangeAt(0);
     var pId = pComment.pId;
-    var pText = document.body.querySelector("#"+pId).innerText;
+    var pText = document.body.querySelector("#" + pId).innerText;
     var sameIndex = 1;
     var sameTexts = new Array();
     var sameText = pText.indexOf(selectedText);
     selectRange.insertNode(document.createTextNode("`'`ran"));
-    var tempText = document.body.querySelector("#"+pId).innerText;
+    var tempText = document.body.querySelector("#" + pId).innerText;
     var searchPrefix = tempText.indexOf("`'`ran");
     selectRange.deleteContents();
     selectRange.insertNode(document.createTextNode(selectedText));
     if (sameText === searchPrefix) {
         pComment.sameSenIndex = sameIndex;
     }
-    while(sameText !== -1){
+    while (sameText !== -1) {
         sameIndex += 1;
         sameTexts.push(sameText);
         sameText = pText.indexOf(selectedText, sameText + selectedText.length);
@@ -337,7 +363,7 @@ function getSameSentence (pComment, selectedText, selection) {
         }
     }
     pComment.sameSenCount = sameTexts.length;
-    
+
     var span = document.createElement("SPAN");
     span.innerHTML = getSelection();
     span.className = "selected";

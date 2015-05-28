@@ -25,8 +25,8 @@
 				<div class="comment-info">
 					<span class="comment-user"></span> <span class="comment-date"></span>
 				</div>
-				<div class="comment"></div>
 				<div class="comment-util"></div>
+				<div class="comment"></div>
 			</div>
 		</li>
 	</template>

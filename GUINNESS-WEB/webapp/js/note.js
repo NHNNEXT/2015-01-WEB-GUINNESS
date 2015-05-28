@@ -156,7 +156,7 @@ function readNoteContents(noteId) {
                 return;
             showNoteModal(result.object);
             document.body.scrollTop = currScrollTop;
-            createPopupPCommentBtn();
+            pComment.createPopupPCommentBtn();
         	setPopupPCommentBtn();
         }
     });
@@ -187,10 +187,10 @@ function showNoteModal(obj) {
     var noteContent = document.querySelector('.note-content');
     var viewContent = document.createElement('DIV');
     viewContent.innerHTML = obj.noteText;
-    pCommentCountByP(obj.noteId);
+    pComment.countByP(obj.noteId);
     
-    document.querySelector('.hidden-note-content').value = viewContent.innerHTML;
-    refresh();
+    document.querySelector('.note-content').innerHTML = viewContent.innerHTML;
+    pComment.refresh();
     viewContent.remove();
     document.querySelector('.hiddenUserId').value = obj.user.userId;
     document.querySelector('.hiddenNoteId').value = obj.noteId;
@@ -286,11 +286,19 @@ function deleteComment(commentId, noteId) {
             	var noteEl = document.getElementById(noteId);
             	if(noteEl === null)
             		return;
-            	var commentCount = document.getElementById(noteId).querySelector(".comment-div span").innerText;
-            	document.getElementById(noteId).querySelector(".comment-div span").innerText = commentCount*1 - 1;
+            	recountComments(noteId);
             }
         }
     });
+}
+
+function recountComments(noteId){
+	var pComment = document.querySelectorAll(".fa.fa-lightbulb-o");
+	var pCommentCount=0;
+	for(var i=0; i<pComment.length; i++){
+		pCommentCount = pCommentCount +  pComment[i].innerText*1;
+	}
+	document.getElementById(noteId).querySelector(".comment-div span").innerHTML = " "+ (document.querySelector("#commentListUl").childElementCount*1 + pCommentCount);
 }
 
 function showEditInputBox(commentId) {
@@ -347,8 +355,7 @@ function createComment(obj) {
                 document.querySelector('#commentText').value = "";
                 //노트 리스트에서 댓글 수 수정(노트 에디트 화면에서는 필요없음)
                 if(document.getElementById(noteId) !== null){
-                	var commentCount = document.getElementById(noteId).querySelector(".comment-div span").innerText;
-            		document.getElementById(noteId).querySelector(".comment-div span").innerText = commentCount*1 + 1;
+                	recountComments(noteId);
                 }
             }
         });
