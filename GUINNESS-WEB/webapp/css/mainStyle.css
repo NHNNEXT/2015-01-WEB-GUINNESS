@@ -81,9 +81,9 @@ input.text {
 
 .pCommentCreateDate {
   font-size: 10px !important;
-  color:gray;
+  color:black !important;
   font-weight: 100;
-  top: -7px !important;
+
 }
 
 .controll {
@@ -103,10 +103,8 @@ input.text {
   max-width: 228px;
   clear:both;
   position:relative;
-  top: 4px;
   padding: 3px;
-  font-size: 14px;
-  font-family: serif;
+  font-size: 13px;
 }
 
 .pCommentList {
@@ -114,8 +112,8 @@ input.text {
 }
 
 .aPComment .userProfile > img {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   border-radius: 2px;
   float: left;
 }
@@ -129,7 +127,8 @@ input.text {
   float: left;
   margin-left: 4px;
   margin-right: 4px;
-  font-size: 15px;
+	margin-bottom: -12px;
+  font-size: 12px;
   position: relative;
   top: -4px;
   font-weight: 400;
@@ -242,6 +241,7 @@ div#pCommentBoxCancel {
   float: left;
   clear: both;
   margin-left: -31px;
+	margin-bottom: 2px;
   background-color:#fff;
   border-radius: 2px;
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
