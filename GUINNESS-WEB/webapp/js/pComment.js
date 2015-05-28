@@ -305,9 +305,9 @@ function createPCommentListBox(pId, noteContent, noteId) {
 
 function setPositionPCommentListBox (noteContent, pId) {
     var pCommentListBox = document.body.querySelector(".pCommentListBox");
-    var showPCommentRect = noteContent.querySelector("#"+pId+" > .showPComment").getBoundingClientRect();
+    var pRect = noteContent.querySelector("#"+pId).getBoundingClientRect();
     var markdownBodyRect = noteContent.parentNode.getBoundingClientRect();
-    pCommentListBox.style.top = showPCommentRect.top - markdownBodyRect.top + "px";
+    pCommentListBox.style.top = pRect.top - markdownBodyRect.top + "px";
 }
 
 pComment.listRemover = function () {
