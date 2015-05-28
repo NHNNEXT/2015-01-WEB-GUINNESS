@@ -357,10 +357,10 @@ pComment.deletePComment = function(pCommentId) {
                 return;
             }
             var pid = "pId-" + document.querySelector("#pCId"+pCommentId+" input").getAttribute("ptagid");
+            document.querySelector(".showPComment[pid='"+pid+"'] i").innerText--;
             document.querySelector("#pCId"+pCommentId).remove();
-            document.querySelector("#"+pid+" i").innerText--;
-            if(document.querySelector("#"+pid+" i").innerText === "0") {
-            	document.querySelector("#"+pid+" i").remove();
+            if(document.querySelector(".showPComment[pid='"+pid+"'] i").innerText === "0") {
+            	document.querySelector(".showPComment[pid='"+pid+"'] i").remove();
             	document.querySelector(".pCommentListBox").remove();
             }
         }
