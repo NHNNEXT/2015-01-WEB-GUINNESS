@@ -39,6 +39,14 @@ pComment.reloadCountByP = function (pId, noteId) {
 
 pComment.reloadCountByP.refreshBulbBtn = function (pId, count) {
     var showBtn = document.body.querySelector(".showPComment[pid='pId-"+pId+"']");
+    if (showBtn.querySelector('i').innerHTML === "") {
+        showBtn.addEventListener('mouseup', function(e) {
+            var noteId = document.body.querySelector(".hiddenNoteId").value;
+            var pOrPreId = e.target.closest('.showPComment').getAttribute('pid');
+            var noteContent = document.querySelector('.note-content');
+            createPCommentListBox(pOrPreId, noteContent, noteId);
+        }, false);
+    }
     if (count*1 > 0) {
         if (showBtn.style.display === "none" || showBtn.style.display === "") {
             showBtn.style.display = "block";
