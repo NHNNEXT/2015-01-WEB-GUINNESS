@@ -63,6 +63,21 @@ pComment.appendPComment = function (json) {
             content: "취소"
         });
         
+        updateButton.addEventListener('click', function(e) {
+        	var el = e.target.parentElement.parentElement;
+        	var commentText = el.querySelector('.pComment-text').innerHTML;
+        	var pCommnetId = (el.id).substring(4,5);
+            updatePComment(pCommnetId, commentText);
+        }, false);
+        cancelButton.addEventListener('click', function(e) {
+        	var el = e.target.parentElement.parentElement;
+        	el.querySelector('.pComment-text').innerHTML = pCommentText.replace(/\n/g, '<br/>');
+        	el.querySelector('.pComment-text').setAttribute('contentEditable', false);
+        	el.querySelectorAll('.comment-update').remove();
+            el.querySelector('.update').style.display="inline-block";
+            el.querySelector('.delete').style.display="inline-block";        	
+        }, false);
+        
         el.querySelector('.controll').appendChild(updateButton);
         el.querySelector('.controll').appendChild(cancelButton);
 
@@ -253,7 +268,7 @@ pComment.refresh = function () {
 }
 
 pComment.refresh.removeHighlighting = function (element, targetContent) {
-    if (undefined !== element && element !== null) {
+    if (undefined !== element) {
         targetContent.innerHTML = targetContent.innerHTML.replace(element.outerHTML, element.innerHTML);
     }
 }
@@ -266,6 +281,8 @@ function createPCommentListBox(pId, noteContent, noteId) {
     }
     var noteContent = document.body.querySelector(".markdown-body .note-content");
     noteContent.style.float = "left";
+    document.querySelector("form#commentForm").style.float = "left";
+    document.querySelector("#commentListUl").style.float = "left";
     var pCommentListTemplate = document.querySelector(".pCommentListTemplate").text;
     noteContent.insertAdjacentHTML("afterend", pCommentListTemplate);
     setPositionPCommentListBox(noteContent, pId);
@@ -305,6 +322,8 @@ pComment.listRemover = function () {
     }
     var noteContent = document.body.querySelector(".markdown-body .note-content");
     noteContent.style.float = "";
+    document.querySelector("form#commentForm").style.float = "";
+    document.querySelector("#commentListUl").style.float = "";
 }
 
 pComment.createPComment = function () {
