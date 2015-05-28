@@ -28,9 +28,18 @@
 				<table class="panel-body" style="width:100%">
 					<tr>
 						<td valign=top id="editBackgroundImage-photoArea">
-							<img src="/img/group/${group.groupImage}" style="border: solid 1px rgb(191, 191, 191);"> 
-							<input type="file" id="imageFile" name="backgroundImage" accept="image/x-png, image/gif, image/jpeg" />
-							<!-- <input type="button" class ="background-default" name="background-default" value="배경 삭제" onclick="defaultGroupImage();"> -->
+							<div>
+							<a href="#">
+								<img id="imageSnap" src="/img/group/${group.groupImage}" onmouseover="mouseOver()" style="border: solid 1px rgb(191, 191, 191);">
+								<img id="imageSnapHover" onclick="mouseClick()" onmouseout="mouseOut()" src="/img/group/change_hover.png" style="display:none">
+							</a>
+							</div>
+							<input type="file" id="imageFile" name="backgroundImage" accept="image/x-png, image/gif, image/jpeg" style="display:none;" onchange="changeImage(this)"/> 
+							<div>
+								<input type="button" class ="background-default" name="background-default" value="원래대로" onclick="setPreImage('${group.groupId}')">
+								<input type="button" class ="background-default" name="background-default" value="배경초기화" onclick="setInitImage();">
+							</div>
+							<form:hidden path="groupImage" value="" readonly="true"/>
 						</td>
 						<td style="padding-left: 25px;">
 							<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUser.userId}" readonly>
@@ -73,6 +82,36 @@
 	</div>
 	
 	<script>
+		function mouseClick() {
+			document.getElementById('imageFile').click();
+		}
+		function mouseOver() {
+			document.querySelector("#imageSnapHover").style.display = "block";
+		}
+		function mouseOut() {
+			document.querySelector("#imageSnapHover").style.display = "none";
+		}
+		
+		function changeImage(input) {
+			if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                	document.getElementById('imageSnap').src = e.target.result;
+                	document.querySelector("#groupImage").value = "changed";
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+		}
+		// 원래 배경
+		function setPreImage(groupId){
+			document.querySelector("#imageSnap").src = "/img/group/" + groupId;
+			document.querySelector("#groupImage").value = groupId;
+		}
+		// 배경 없음 
+		function setInitImage(){
+			document.querySelector("#imageSnap").src = '/img/group/background-default.png';
+			document.querySelector("#groupImage").value = "background-default.png";
+		}
 		function backToNoteList() {
 			window.location.href = "/g/"+group.groupId.value;
 		}
@@ -112,9 +151,6 @@
 				}
 			});
 		}
-/* 		function defaultGroupImage(){
-			//TODO 배경을 기본 이미지로 바꿔주는 기능 구현.
-		} */
 	</script>
 </body>
 </html>
