@@ -82,7 +82,7 @@ pComment.countByP = function (noteId) {
                 return false;
             }
             pComment.countByP.createBulbBtn(result.mapValues);
-            recountComments(pComment.noteId);			// 부분코멘트가 생성되면 노트리스트의 코멘트 갯수 1개 증가.
+//            recountComments(pComment.noteId);			// 부분코멘트가 생성되면 노트리스트의 코멘트 갯수 1개 증가.
         }
     });
 }
