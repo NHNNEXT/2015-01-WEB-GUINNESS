@@ -96,9 +96,9 @@ pComment.highlight = function (e) {
     var selectedText = info.getAttribute('selecttext');
     var p = document.body.querySelector('#pId-' + pId);
     var cloneSeletedText = selectedText;
-    cloneSeletedText = cloneSeletedText.replace(/^<strong class="attention">/, "");
-    cloneSeletedText = cloneSeletedText.replace(/^<strong class="question">/, "");
-    cloneSeletedText = cloneSeletedText.replace(/<\/strong>$/, "");
+    cloneSeletedText = cloneSeletedText.replace(/^<strong class="attention">/, "")
+        .replace(/^<strong class="question">/, "")
+        .replace(/^<strong>/, "").replace(/^<em>/, "").replace(/<\/em>$/, "").replace(/<\/strong>$/, "");
     var count = 0;
     var index = 0;
     do {
@@ -395,7 +395,7 @@ function setPopupPCommentBtn() {
                 elPopupBtn.style.left = left + "px";
                 elPopupBtn.style.display = "block";
                 pComment.selectedText = selectedText;
-                pComment.pId = pComment.getPid(selectedEl.parentElement);
+                pComment.pId = selectedEl.tagName === 'P' || selectedEl.tagName === 'PRE' ? selectedEl.id : pComment.getPid(selectedEl.parentElement);
                 getSameSentence(pComment, selectedText, window.getSelection());
                 getNoteInfo();
             } else {
