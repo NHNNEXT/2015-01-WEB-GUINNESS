@@ -26,6 +26,10 @@ html, body {
 	background-color:rgb(250, 250, 250);
 }
 
+.question, .attention {
+  font-family: FontAwesome;
+}
+
 ul {
 	margin:0;
 	padding:0;
@@ -1299,8 +1303,7 @@ i.fa.fa-sort-desc, i.fa.fa-sort-up {
 
 #commentListUl {
 	margin-top: 10px;
-	padding-top: 25px;
-	padding-bottom: 25px;
+	padding-bottom: 10px;
 	list-style: none;
 	border-top: 2px solid #f8f8f8;
 	font-size: 13px;
@@ -1312,16 +1315,19 @@ i.fa.fa-sort-desc, i.fa.fa-sort-up {
 
 #commentListUl li {
 	padding-top:15px;
+	padding-left:15px;
+	padding-right:15px;
 }
 
 #commentListUl .comment-container {
 	position:relative;
-	padding-left:40px;
+	padding-left:30px;
 }
 
 #commentListUl .comment-info {
 	display:block;
 	font-weight:bold;
+	padding-left:10px;
 }
 
 #commentListUl .comment-date {
@@ -1337,16 +1343,17 @@ i.fa.fa-sort-desc, i.fa.fa-sort-up {
 }
 
 #commentListUl .comment {
-	margin-top:5px;
 	padding-top:30px;
-	padding-bottom:20px;
+	padding-left:10px;
+	padding-bottom:10px;
 	font-size:15px;
 	transition-property:outline;
 	transition-duration:.5s;
 }
 
 #commentListUl .comment[contenteditable=true] {
-	outline:2px solid #fff;
+	outline:1px solid #BEBEBE;
+	background-color : white;
 }
 
 #commentListUl .comment-util{

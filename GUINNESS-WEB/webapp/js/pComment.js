@@ -18,6 +18,44 @@ var pComment = {
     noteId: null
 };
 
+pComment.reloadCountByP = function (pId, noteId) {
+    guinness.ajax({
+        method: "get",
+        url: "/pComments/readCountByP?noteId=" + noteId,
+        success: function (req) {
+            var result = JSON.parse(req.responseText);
+            if (result.success !== true) {
+                return false;
+            }
+            var objs = result.mapValues;
+            objs.forEach(function (obj) {
+                if (obj.pId === pId*1) {
+                    pComment.reloadCountByP.refreshBulbBtn(pId, obj['count(1)']); 
+                }
+            });
+        }
+    });
+};
+
+pComment.reloadCountByP.refreshBulbBtn = function (pId, count) {
+    var showBtn = document.body.querySelector(".showPComment[pid='pId-"+pId+"']");
+    if (showBtn.querySelector('i').innerHTML === "") {
+        showBtn.addEventListener('mouseup', function(e) {
+            var noteId = document.body.querySelector(".hiddenNoteId").value;
+            var pOrPreId = e.target.closest('.showPComment').getAttribute('pid');
+            var noteContent = document.querySelector('.note-content');
+            createPCommentListBox(pOrPreId, noteContent, noteId);
+        }, false);
+    }
+    if (count*1 > 0) {
+        if (showBtn.style.display === "none" || showBtn.style.display === "") {
+            showBtn.style.display = "block";
+        }
+        showBtn.querySelector("i").innerHTML = count;
+    }
+    return false;
+};
+
 pComment.appendPComment = function (json) {
     var date = guinness.util.koreaDate(Number(new Date(json.pCommentCreateDate)));
     var pCommentList = document.body.querySelector(".pCommentList");
@@ -38,6 +76,7 @@ pComment.appendPComment = function (json) {
     PCommentCard.addEventListener('mouseover', pComment.highlight, false);
     PCommentCard.addEventListener('mouseleave', pComment.clearHighlight, false);
     pCommentList.scrollTop = pCommentList.scrollHeight;
+    pComment.reloadCountByP(json.pId, json.note.noteId);
 
     document.getElementById("pCId"+json.pCommentId).querySelector(".update").addEventListener("click", function(e) {
     	var el = e.target.parentElement.parentElement;
@@ -360,7 +399,7 @@ pComment.deletePComment = function(pCommentId) {
             document.querySelector(".showPComment[pid='"+pid+"'] i").innerText--;
             document.querySelector("#pCId"+pCommentId).remove();
             if(document.querySelector(".showPComment[pid='"+pid+"'] i").innerText === "0") {
-            	document.querySelector(".showPComment[pid='"+pid+"'] i").remove();
+            	document.querySelector(".showPComment[pid='"+pid+"']").style.display = "none";
             	document.querySelector(".pCommentListBox").remove();
             }
         }

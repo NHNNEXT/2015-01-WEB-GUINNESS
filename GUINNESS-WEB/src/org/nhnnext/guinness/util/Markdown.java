@@ -63,8 +63,9 @@ public class Markdown {
 	private String attention(String markdownText) {
 		Pattern pattern = Pattern.compile("!{3}[^\n]{1,}!{3}");
 		Matcher matcher = pattern.matcher(markdownText);
+		char circleAttention = '\uf06a';
 		while (matcher.find()) {
-			String change = matcher.group().replaceAll("^!!!", "<strong class='attention'>")
+			String change = matcher.group().replaceAll("^!!!", "<strong class='attention'>"+circleAttention)
 					.replaceAll("!!!$", "</strong>");
 			markdownText = markdownText.replace(matcher.group(), change);
 		}
@@ -74,8 +75,9 @@ public class Markdown {
 	private String question(String markdownText) {
 		Pattern pattern = Pattern.compile("\\?{3}[^\n]{1,}\\?{3}");
 		Matcher matcher = pattern.matcher(markdownText);
+		char circleQuestion = '\uf059';
 		while (matcher.find()) {
-			String change = matcher.group().replaceAll("^\\?\\?\\?", "<strong class='question'>")
+			String change = matcher.group().replaceAll("^\\?\\?\\?", "<strong class='question'>"+circleQuestion)
 					.replaceAll("\\?\\?\\?$", "</strong>");
 			markdownText = markdownText.replace(matcher.group(), change);
 		}
