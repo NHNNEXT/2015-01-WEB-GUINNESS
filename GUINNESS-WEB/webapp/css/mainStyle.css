@@ -77,10 +77,10 @@ input.text {
 }
 
 #pCommentBoxCancel {
-  float:left;
+  float:right;
   margin-left: 10px;
-  margin-top: 10px;
   font-size: 18px;
+  font-color: white;
 }
 
 .pCommentCreateDate {
@@ -157,7 +157,7 @@ ul.pCommentList {
 }
 
 div#pCommentBoxCancel {
-  color: red;
+  cursor: pointer;
 }
 
 #allShow {
