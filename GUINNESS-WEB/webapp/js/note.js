@@ -172,6 +172,7 @@ function showNoteModal(obj) {
         body: bodyTemplate,
         defaultCloseEvent: false,
         whenCloseEvent: function () {
+        	reloadCommentCount(obj.noteId);
             clearInterval(commentTimeUpdate);
             var elPopupBtn = document.querySelector(".popupCommentBtn");
             if (elPopupBtn !== null ){
@@ -307,22 +308,23 @@ function deleteComment(commentId, noteId) {
             	var noteEl = document.getElementById(noteId);
             	if(noteEl === null)
             		return;
-            	recountComments(noteId);
             }
         }
     });
 }
 
-function recountComments(noteId, pCommentCount){
-	if(pCommentCount === undefined){
-		var pComment = document.querySelectorAll(".fa.fa-lightbulb-o");
-		pCommentCount=0;
-		for(var i=0; i<pComment.length; i++){
-			pCommentCount = pCommentCount +  pComment[i].innerText*1;
-		}
-	}
-	
-	document.getElementById(noteId).querySelector(".comment-div span").innerHTML = " "+ (document.querySelector("#commentListUl").childElementCount*1 + pCommentCount);
+function reloadCommentCount(noteId){
+    guinness.ajax({
+        method: "get",
+        url: "/notes/" + noteId,
+        success: function (req) {
+            var result = JSON.parse(req.responseText);
+            if (result.success !== true){
+                return;
+            }
+            document.getElementById(noteId).querySelector(".comment-div span").innerHTML = " " + result.object.commentCount;
+        }
+    });
 }
 
 function showEditInputBox(commentId) {
@@ -378,7 +380,6 @@ function createComment(obj) {
                 appendComment(result.mapValues, noteId);
                 document.querySelector('#commentText').value = "";
                 if(document.getElementById(noteId) !== null){
-                	recountComments(noteId);
                 }
             }
         });

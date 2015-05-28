@@ -21,11 +21,11 @@
 				<h1> ${message} </h1>
 			</c:when>
 			<c:otherwise>
-				<h1>회원가입에 성공하였습니다. 메일을 확인하셔서 인증을 해주세요.</h1>
+				<h1>회원가입에 성공하였습니다. 메일 인증 후 사용 가능합니다.</h1>
 			</c:otherwise>
 		</c:choose>
 		<a href="/">홈으로 돌아가기</a><br><br>
-		<a href="http://${mailSite}">메일 확인하기</a>
+		<a href="http://${mailSite}" target="_blank" onclick="location.href='/'">메일 확인하기</a>
 	</div>
 </body>
 </html>

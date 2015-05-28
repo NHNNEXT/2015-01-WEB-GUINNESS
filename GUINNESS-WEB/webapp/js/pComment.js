@@ -64,7 +64,6 @@ pComment.appendPComment = function (json) {
         });
         
         updateButton.addEventListener('click', function(e) {
-        	debugger;
         	var el = e.target.parentElement.parentElement;
         	var commentText = el.querySelector('.pComment-text').innerHTML;
         	var pCommnetId = (el.id).substr(4);
@@ -125,12 +124,12 @@ pComment.countByP = function (noteId) {
             if (result.success !== true) {
                 return false;
             }
-            pComment.countByP.createBulbBtn(noteId, result.mapValues);
+            pComment.countByP.createBulbBtn(result.mapValues);
         }
     });
 }
 
-pComment.countByP.createBulbBtn = function (noteId, json) {
+pComment.countByP.createBulbBtn = function (json) {
 	var sumOfpCommentCount = 0;
     for (var index in json) {
         var pCommentCount = (json[index])['count(1)'];
@@ -142,9 +141,6 @@ pComment.countByP.createBulbBtn = function (noteId, json) {
         showBtn.querySelector("i").textContent = pCommentCount;
         pComment.countByP.setShowBtnEvent(showBtn);
         sumOfpCommentCount = sumOfpCommentCount + pCommentCount;
-    }
-    if(noteId!==""){
-    	recountComments(noteId, sumOfpCommentCount);
     }
 }
 
