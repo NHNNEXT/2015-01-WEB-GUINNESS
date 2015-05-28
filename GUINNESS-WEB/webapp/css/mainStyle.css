@@ -8,7 +8,8 @@
 *   === Color Convention
 *	Black: #454545
 *	White: #fff
-*	Red / Error: #ff5a5a
+*	Red / Error / Attention: #ff5a5a
+*   Orange / Question : #ffa500;
 *	Mint: #9CD1C7
 *   DarkMint: #7cc4b5
 *	Gray: #888
@@ -436,7 +437,7 @@ a#escape-note {
 }
 
 .question{
-	color:#ffd68b;
+	color:#ffa500;
 }
 
 #noteTextBox {
