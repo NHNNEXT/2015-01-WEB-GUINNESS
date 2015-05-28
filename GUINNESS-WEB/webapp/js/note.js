@@ -40,7 +40,9 @@ function appendNoteList(json) {
     var newEl = undefined;
     var obj = undefined;
     var out = "";
-    for (var i = 0; i < json.length; i++) {
+
+    var length = json.length;
+    for (var i = 0; i < length; i++) {
         obj = json[i];
         var createDate = obj.note.noteTargetDate;
         createDate = createDate.split(" ");
@@ -130,7 +132,9 @@ function deleteNote(noteId) {
                     t.remove();
                 }
                 var list = document.querySelectorAll("#summary-container>ul>li");
-                for(var i=0; i<list.length; i++) {
+
+                var length = list.length;
+                for(var i = 0; i < length; i++) {
                 	if( list[i].getAttribute("value") === noteId ) {
                 		list[i].remove();
                 	}
@@ -219,7 +223,9 @@ function appendComment(json, noteId) {
     while (el.hasChildNodes()) {
         el.removeChild(el.firstChild);
     }
-    for (var i = 0; i < json.length; i++) {
+
+    var length = json.length;
+    for (var i = 0; i < length; i++) {
         obj = json[i];
         var commentTemplate = document.querySelector("#comment-template").content;
         commentTemplate = document.importNode(commentTemplate, true);
@@ -351,7 +357,9 @@ function createComment(obj) {
 
 function isJoinedUser() {
     var sessionUserId = document.getElementById("sessionUserId").value;
-    for (var i = 0; i < member.length; i++) {
+
+    var length = member.length;
+    for (var i = 0; i < length; i++) {
         if (member[i].userId === sessionUserId) {
             return true;
         }
@@ -468,14 +476,17 @@ function appendMember(obj) {
 }
 
 function appendMembers(json) {
-    for (var i = 0; i < json.length; i++) {
+    var length = json.length;
+    for (var i = 0; i < length; i++) {
         appendMember(json[i]);
     }
 }
 
 function onOffMemberNotes(flag, userId) {
     var previewNotes = document.querySelectorAll(".preview-note");
-    for(var i = 0; i < previewNotes.length; i++) {
+
+    var length = previewNotes.length;
+    for(var i = 0; i < length; i++) {
         if(previewNotes[i].dataset.id === userId && flag === "off") {
             previewNotes[i].setAttribute("style", "display: none");
         }
@@ -597,10 +608,11 @@ function tempSave() {
 
 function appendTempNoteList(tempNotes) {
     var dropdownMenu = document.querySelector(".dropdown-menu");
-    for(var i = 0; i < tempNotes.length; i++) {
+
+    for(var i = 0, tempNote; tempNote = tempNotes[i]; i++) {
         var el = document.createElement("li");
-        el.innerHTML = "<a href='#' data-id='" + tempNotes[i].noteId + "' onclick='loadTempNote(" + tempNotes[i].noteId + ")'>" + guinness.util.koreaDate(new Date(tempNotes[i].createDate)) + "에 저장된 글이 있습니다</a>" +
-        "<i class='fa fa-close' onclick='deleteTempNote(" + tempNotes[i].noteId + ");'></i>";
+        el.innerHTML = "<a href='#' data-id='" + tempNote.noteId + "' onclick='loadTempNote(" + tempNote.noteId + ")'>" + guinness.util.koreaDate(new Date(tempNote.createDate)) + "에 저장된 글이 있습니다</a>" +
+        "<i class='fa fa-close' onclick='deleteTempNote(" + tempNote.noteId + ");'></i>";
 
         dropdownMenu.appendChild(el);
     }

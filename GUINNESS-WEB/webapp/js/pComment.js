@@ -163,7 +163,8 @@ function pCommentCountByP(noteId) {
             if (arShowP.length<=0) {
                 return false;
             }
-            for(var index=0; index < arShowP.length; index++) {
+
+            for(var index=0; index < length; index++) {
                 var count = 0;
                 var json = null;
                 for (var jndex=0; jndex < result.mapValues.length; jndex++) {

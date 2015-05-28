@@ -29,7 +29,8 @@ function switchForm(flag) {
 	var el;
 	if(flag) {
 		el = document.querySelectorAll(".errorMessage");
-		for (var i = 0; i < el.length; i++) {
+		var length = el.length;
+		for (var i = 0; i < length; i++) {
 		  el[i].innerHTML = "";
 		}
 	}

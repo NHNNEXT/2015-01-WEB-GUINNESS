@@ -125,7 +125,9 @@ function appendGroups(json) {
 	var template = document.querySelector("#group-card-template").content;
 	var obj = null;
 	var newEl;
-	for (var i = 0; i < json.length; i++) {
+
+	var length = json.length;
+	for (var i = 0; i < length; i++) {
 		appendGroup(json[i])
 	}
 }

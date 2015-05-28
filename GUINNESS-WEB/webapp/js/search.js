@@ -68,32 +68,41 @@ function searchResult(json){
   var noteTemplate = document.querySelector("#searchResultTemplate").content;
   var groupTemplate = document.querySelector("#groupResultTemplate").content;
   var elDiv;
-  for (var i = 0; i < json.listValues.groups.length; i++) {
-	var group = json.listValues.groups[i];
-	document.querySelector("#search-groups-container").style.display="table";
-	elDiv = document.importNode(groupTemplate, true);
-	elDiv.querySelector(".searchResultBody").id = "searchResultGroup-"+group.groupId;
-	elDiv.querySelector(".searchResultName").innerHTML = group.groupName;
-	elDiv.querySelector(".searchResultCaptain").innerHTML = group.groupCaptainUserId;
-	elDiv.querySelector(".searchResultDate").innerHTML = guinness.util.koreaDate(group.groupCreateDate);;
-	elDiv.querySelector(".searchResultBody").addEventListener("click",function(){
-		location.href="/g/"+this.id.split("-")[1];
-	},false);
-	document.querySelector(".search-groups").appendChild(elDiv);
+
+  var length = json.listValues.groups.length;
+  for (var i = 0; i < length; i++) {
+  	var group = json.listValues.groups[i];
+  	document.querySelector("#search-groups-container").style.display="table";
+
+  	elDiv = document.importNode(groupTemplate, true);
+  	elDiv.querySelector(".searchResultBody").id = "searchResultGroup-"+group.groupId;
+  	elDiv.querySelector(".searchResultName").innerHTML = group.groupName;
+  	elDiv.querySelector(".searchResultCaptain").innerHTML = group.groupCaptainUserId;
+  	elDiv.querySelector(".searchResultDate").innerHTML = guinness.util.koreaDate(group.groupCreateDate);;
+
+  	elDiv.querySelector(".searchResultBody").addEventListener("click",function() {
+  		location.href="/g/"+this.id.split("-")[1];
+    },false);
+
+    document.querySelector(".search-groups").appendChild(elDiv);
   }
   
-  for (var i = 0; i < json.listValues.notes.length; i++) {
-	var note = json.listValues.notes[i];
-	document.querySelector("#search-notes-container").style.display="table";  
-	elDiv = document.importNode(noteTemplate, true);
+  var length = json.listValues.notes.length;
+  for (var i = 0; i < length; i++) {
+  	var note = json.listValues.notes[i];
+  	document.querySelector("#search-notes-container").style.display="table";
+
+  	elDiv = document.importNode(noteTemplate, true);
     elDiv.querySelector(".searchResultBody").id = "searchResultNoteId-" + note.noteId;
     elDiv.querySelector(".searchResultText").innerHTML = note.noteText;
     elDiv.querySelector(".searchResultName").innerHTML = note.userName;
     elDiv.querySelector(".searchResultDate").innerHTML = guinness.util.koreaDate(note.noteTargetDate);
     elDiv.querySelector(".searchResultGroup").innerHTML = note.groupName;
+
     elDiv.querySelector(".searchResultBody").addEventListener("click", function(e) {
-    	readNoteContents(this.id.split("-")[1]);
+      readNoteContents(this.id.split("-")[1]);
     }, false)
+
     document.querySelector('.search-notes').appendChild(elDiv);
   }
 }
