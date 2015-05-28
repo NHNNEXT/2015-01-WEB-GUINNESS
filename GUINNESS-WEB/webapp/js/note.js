@@ -91,8 +91,14 @@ function appendNoteList(json) {
             out += "<span class='question'>" + question + "</span><br />";
         }
         out += "<div class='comment-div'><i class='fa fa-comments'></i><span>"+obj.note.commentCount+"</span></div></div></li>";
+        
         newEl.innerHTML = out;
         el.appendChild(newEl);
+        
+        if(obj.note.commentCount === 0){
+        	document.getElementById(obj.note.noteId).querySelector(".comment-div").style.display="none";
+        }
+        
         document.getElementById(obj.note.noteId).addEventListener(
             "click",
             function (e) {
@@ -322,7 +328,15 @@ function reloadCommentCount(noteId){
             if (result.success !== true){
                 return;
             }
+            
+            debugger;
             document.getElementById(noteId).querySelector(".comment-div span").innerHTML = " " + result.object.commentCount;
+            if(result.object.commentCount === 0){
+            	document.getElementById(noteId).querySelector(".comment-div").style.display="none";
+            }
+            else{
+            	document.getElementById(noteId).querySelector(".comment-div").style.display="block";
+            }
         }
     });
 }
