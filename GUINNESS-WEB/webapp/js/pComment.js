@@ -40,6 +40,48 @@ pComment.appendPComment = function (json) {
     PCommentCard.addEventListener('mouseleave', pComment.clearHighlight, false);
     pCommentList.scrollTop = pCommentList.scrollHeight;
     pComment.countByP(document.querySelector('.hiddenNoteId').value);
+    document.getElementById("pCId"+json.pCommentId).querySelector(".update").addEventListener("click", function(e) {
+    	var el = e.target.parentElement.parentElement;
+    	var pCommentText = el.querySelector('.pComment-text').innerHTML;
+    	var pCommnetId = (el.id).substr(4);
+    	el.querySelector('.update').hide();
+    	el.querySelector('.delete').hide();
+    	el.querySelector('.pComment-text').setAttribute('contentEditable', true);
+    	
+        var updateButton = guinness.createElement({
+            name: "a",
+            attrs: {
+                'class': "comment-update"
+            },
+            content: "확인"
+        });
+        var cancelButton = guinness.createElement({
+            name: "a",
+            attrs: {
+                'class': "comment-update"
+            },
+            content: "취소"
+        });
+        
+        updateButton.addEventListener('click', function(e) {
+        	var el = e.target.parentElement.parentElement;
+        	var commentText = el.querySelector('.pComment-text').innerHTML;
+        	var pCommnetId = (el.id).substr(4);
+            updatePComment(pCommnetId, commentText);
+        }, false);
+        cancelButton.addEventListener('click', function(e) {
+        	var el = e.target.parentElement.parentElement;
+        	el.querySelector('.pComment-text').innerHTML = pCommentText.replace(/\n/g, '<br/>');
+        	el.querySelector('.pComment-text').setAttribute('contentEditable', false);
+        	el.querySelectorAll('.comment-update').remove();
+            el.querySelector('.update').style.display="inline-block";
+            el.querySelector('.delete').style.display="inline-block";        	
+        }, false);
+        el.querySelector('.controll').appendChild(updateButton);
+        el.querySelector('.controll').appendChild(cancelButton);
+       
+
+    }, false);
 }
 
 pComment.clearHighlight = function (e) {
@@ -88,6 +130,7 @@ pComment.countByP = function (noteId) {
 }
 
 pComment.countByP.createBulbBtn = function (json) {
+	var sumOfpCommentCount = 0;
     for (var index in json) {
         var pCommentCount = (json[index])['count(1)'];
         var showBtn = pComment.countByP.createBulbBtn.getShowBtnByPId(json[index].pId);
@@ -97,6 +140,7 @@ pComment.countByP.createBulbBtn = function (json) {
         showBtn.style.display = "block";
         showBtn.querySelector("i").textContent = pCommentCount;
         pComment.countByP.setShowBtnEvent(showBtn);
+        sumOfpCommentCount = sumOfpCommentCount + pCommentCount;
     }
 }
 
@@ -219,11 +263,10 @@ pComment.refresh = function () {
 }
 
 pComment.refresh.removeHighlighting = function (element, targetContent) {
-    if (undefined !== element && element !== null) {
+    if (undefined !== element) {
         targetContent.innerHTML = targetContent.innerHTML.replace(element.outerHTML, element.innerHTML);
     }
 }
-
 
 function createPCommentListBox(pId, noteContent, noteId) {
     var regacyBox = document.body.querySelector(".pCommentListBox");
@@ -232,8 +275,11 @@ function createPCommentListBox(pId, noteContent, noteId) {
     }
     var noteContent = document.body.querySelector(".markdown-body .note-content");
     noteContent.style.float = "left";
-    var pCommentList = document.querySelector(".pCommentListTemplate").text;
-    noteContent.insertAdjacentHTML("afterend", pCommentList);
+    document.querySelector("form#commentForm").style.float = "left";
+    document.querySelector("#commentListUl").style.float = "left";
+    var pCommentListTemplate = document.querySelector(".pCommentListTemplate").text;
+    noteContent.insertAdjacentHTML("afterend", pCommentListTemplate);
+    setPositionPCommentListBox(noteContent, pId);
     document.body.querySelector("#pCommentBoxCancel").addEventListener('click', pComment.listRemover, false);
     guinness.ajax({
         method: "GET",
@@ -256,6 +302,13 @@ function createPCommentListBox(pId, noteContent, noteId) {
     });
 }
 
+function setPositionPCommentListBox (noteContent, pId) {
+    var pCommentListBox = document.body.querySelector(".pCommentListBox");
+    var showPCommentRect = noteContent.querySelector("#"+pId+" > .showPComment").getBoundingClientRect();
+    var markdownBodyRect = noteContent.parentNode.getBoundingClientRect();
+    pCommentListBox.style.top = showPCommentRect.top - markdownBodyRect.top + "px";
+}
+
 pComment.listRemover = function () {
     var pCommentListBox = document.body.querySelector(".pCommentListBox");
     if (pCommentListBox !== null) {
@@ -263,6 +316,8 @@ pComment.listRemover = function () {
     }
     var noteContent = document.body.querySelector(".markdown-body .note-content");
     noteContent.style.float = "";
+    document.querySelector("form#commentForm").style.float = "";
+    document.querySelector("#commentListUl").style.float = "";
 }
 
 pComment.createPComment = function () {

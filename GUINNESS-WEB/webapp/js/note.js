@@ -172,6 +172,7 @@ function showNoteModal(obj) {
         body: bodyTemplate,
         defaultCloseEvent: false,
         whenCloseEvent: function () {
+        	reloadCommentCount(obj.noteId);
             clearInterval(commentTimeUpdate);
             var elPopupBtn = document.querySelector(".popupCommentBtn");
             if (elPopupBtn !== null ){
@@ -276,6 +277,27 @@ function updateComment(commentId, commentText) {
         });
 }
 
+function updatePComment(pCommentId, commentText) {
+    guinness
+        .ajax({
+            method: "put",
+            url: "/pComments/" + pCommentId,
+            param: "commentText=" + commentText,
+            success: function (req) {
+                var result = JSON.parse(req.responseText);
+                if (result.success !== true)
+                    return;
+                var el = document.getElementById("pCId"+pCommentId);
+                el.querySelector('.pComment-text').innerHTML = result.object.pCommentText.replace(/\n/g, '<br/>');
+                el.querySelector('.pCommentCreateDate').innerHTML = result.object.pCommentCreateDate;
+                el.querySelector('.pComment-text').setAttribute('contentEditable', false);
+                el.querySelectorAll('.comment-update').remove();
+                el.querySelector('.update').style.display="inline-block";
+                el.querySelector('.delete').style.display="inline-block";
+            }
+        });
+}
+
 function deleteComment(commentId, noteId) {
     guinness.ajax({
         method: "delete",
@@ -286,19 +308,23 @@ function deleteComment(commentId, noteId) {
             	var noteEl = document.getElementById(noteId);
             	if(noteEl === null)
             		return;
-            	recountComments(noteId);
             }
         }
     });
 }
 
-function recountComments(noteId){
-	var pComment = document.querySelectorAll(".fa.fa-lightbulb-o");
-	var pCommentCount=0;
-	for(var i=0; i<pComment.length; i++){
-		pCommentCount = pCommentCount +  pComment[i].innerText*1;
-	}
-	document.getElementById(noteId).querySelector(".comment-div span").innerHTML = " "+ (document.querySelector("#commentListUl").childElementCount*1 + pCommentCount);
+function reloadCommentCount(noteId){
+    guinness.ajax({
+        method: "get",
+        url: "/notes/" + noteId,
+        success: function (req) {
+            var result = JSON.parse(req.responseText);
+            if (result.success !== true){
+                return;
+            }
+            document.getElementById(noteId).querySelector(".comment-div span").innerHTML = " " + result.object.commentCount;
+        }
+    });
 }
 
 function showEditInputBox(commentId) {
@@ -353,9 +379,7 @@ function createComment(obj) {
                 }
                 appendComment(result.mapValues, noteId);
                 document.querySelector('#commentText').value = "";
-                //노트 리스트에서 댓글 수 수정(노트 에디트 화면에서는 필요없음)
                 if(document.getElementById(noteId) !== null){
-                	recountComments(noteId);
                 }
             }
         });
