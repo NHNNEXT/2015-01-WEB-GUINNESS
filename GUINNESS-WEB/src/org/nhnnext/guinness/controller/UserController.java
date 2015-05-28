@@ -48,6 +48,8 @@ public class UserController {
             return "index";
         }
 		userService.join(user);
+		String []userIdSplit = user.getUserId().split("@");
+		model.addAttribute("mailSite", userIdSplit[1]);
 		return "sendEmail";
 	}
 

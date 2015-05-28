@@ -24,7 +24,8 @@
 				<h1>회원가입에 성공하였습니다. 메일을 확인하셔서 인증을 해주세요.</h1>
 			</c:otherwise>
 		</c:choose>
-		<a href="/">돌아가기</a>
+		<a href="/">홈으로 돌아가기</a><br><br>
+		<a href="http://${mailSite}">메일 확인하기</a>
 	</div>
 </body>
 </html>

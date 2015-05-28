@@ -303,7 +303,7 @@ guinness.leaveGroup = function(sessionUserId, groupId, location) {
 }
 
 guinness.confirmDeleteUser = function(userId, userName) {
-	var message = userName + "을/를 멤버에서 제외 하시겠습니까?";
+	var message = userName + "님을 멤버에서 제외 하시겠습니까?";
 	guinness.util.alert("멤버 강퇴", message,
 		function() {
 			document.body.style.overflow = "auto";
