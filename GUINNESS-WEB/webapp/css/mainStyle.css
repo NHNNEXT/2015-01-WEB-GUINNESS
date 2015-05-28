@@ -9,8 +9,8 @@
 *	Black: #454545
 *	White: #fff
 *	Red / Error: #ff5a5a
-*	Mint: #7cc4b5
-*   DarkMint: #619493
+*	Mint: #9CD1C7
+*   DarkMint: #7cc4b5
 *	Gray: #888
 *   Gray for Border: #ccc
 *	Yellow / Warning: #FFD68B
@@ -81,9 +81,9 @@ input.text {
 
 .pCommentCreateDate {
   font-size: 10px !important;
-  color:gray;
+  color:black !important;
   font-weight: 100;
-  top: -7px !important;
+
 }
 
 .controll {
@@ -93,7 +93,7 @@ input.text {
   left: 172px;
 }
 
-.controll > a.update {
+.controll > a.update, a.comment-update{
   margin-right:5px;
 }
 
@@ -103,10 +103,8 @@ input.text {
   max-width: 228px;
   clear:both;
   position:relative;
-  top: 4px;
   padding: 3px;
-  font-size: 14px;
-  font-family: serif;
+  font-size: 13px;
 }
 
 .pCommentList {
@@ -114,8 +112,8 @@ input.text {
 }
 
 .aPComment .userProfile > img {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   border-radius: 2px;
   float: left;
 }
@@ -129,7 +127,8 @@ input.text {
   float: left;
   margin-left: 4px;
   margin-right: 4px;
-  font-size: 15px;
+	margin-bottom: -12px;
+  font-size: 12px;
   position: relative;
   top: -4px;
   font-weight: 400;
@@ -242,6 +241,7 @@ div#pCommentBoxCancel {
   float: left;
   clear: both;
   margin-left: -31px;
+	margin-bottom: 2px;
   background-color:#fff;
   border-radius: 2px;
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
@@ -593,16 +593,17 @@ a {
 #header {
 	position:fixed;
 	z-index:9;
-	top:0px;
+	top:0;
 	width:100%;
     height:40px;
 }
 
 .headerBackground {
   position:absolute;
-  background-color:#7cc4b5;
+  background-color:#9CD1C7;
   width:100%;
   height:100%;
+  opacity:.8;
 }
 
 
@@ -696,6 +697,10 @@ a {
 	display:none;
 	top:0;
 	left:0;
+}
+
+.searchResult:hover {
+	display:block;
 }
 
 .onSearchForm>input {
@@ -1402,34 +1407,34 @@ span.tag {
 	font-size:12px;
 }
 
-.dropdown {
+#temp-note-list .dropdown {
 	margin-top: 10px;
 	color: #fff;
 }
 
-.dropdown a {
+#temp-note-list .dropdown a {
 	padding: 5px;
 }
 
-.dropdown-menu {
+#temp-note-list .dropdown-menu {
 	position:absolute;
 	right:0;
 	background-color:#fff;
 	margin-top:10px;
 }
 
-.dropdown-menu li {
+#temp-note-list .dropdown-menu li {
 	margin-bottom:12px;
 }
-.dropdown > a:link, .dropdown a:visited {
+#temp-note-list .dropdown > a:link, #temp-note-list .dropdown a:visited {
 	color:#fff;
 }
 
-.dropdown-menu > a:link, .dropdown-menu a:visited {
+#temp-note-list .dropdown-menu > a:link, #temp-note-list .dropdown-menu a:visited {
 	color:#454545;
 }
 
-.dropdown-menu .fa-close {
+#temp-note-list .dropdown-menu .fa-close {
 	margin-left:10px;
 	cursor:pointer;
 }

@@ -32,13 +32,41 @@ pComment.appendPComment = function (json) {
         .replace("userName", json.sessionUser.userName)
         .replace("pCommentText", json.pCommentText)
         .replace("createDate", json.pCommentCreateDate)
-        .replace("selectedText", json.selectedText);
+        .replace("selectedText", json.selectedText)
+        .replace("deletePComment()", 'pComment.deletePComment('+json.pCommentId+')');
     pCommentList.insertAdjacentHTML("beforeend", elPComment);
     var PCommentCard = document.body.querySelector(".pCommentList #pCId" + json.pCommentId);
     PCommentCard.addEventListener('mouseover', pComment.highlight, false);
     PCommentCard.addEventListener('mouseleave', pComment.clearHighlight, false);
     pCommentList.scrollTop = pCommentList.scrollHeight;
     pComment.countByP(document.querySelector('.hiddenNoteId').value);
+    pCommentList.querySelector(".update").addEventListener("click", function(e) {
+    	var el = e.target.parentElement.parentElement;
+    	var pCommentText = el.querySelector('.pComment-text').innerHTML;
+    	var pCommnetId = (el.id).substring(4,5);
+    	el.querySelector('.update').hide();
+    	el.querySelector('.delete').hide();
+    	el.querySelector('.pComment-text').setAttribute('contentEditable', true);
+    	
+        var updateButton = guinness.createElement({
+            name: "a",
+            attrs: {
+                'class': "comment-update"
+            },
+            content: "확인"
+        });
+        var cancelButton = guinness.createElement({
+            name: "a",
+            attrs: {
+                'class': "comment-update"
+            },
+            content: "취소"
+        });
+        
+        el.querySelector('.controll').appendChild(updateButton);
+        el.querySelector('.controll').appendChild(cancelButton);
+
+    }, false);
 }
 
 pComment.clearHighlight = function (e) {
@@ -225,7 +253,7 @@ pComment.refresh = function () {
 }
 
 pComment.refresh.removeHighlighting = function (element, targetContent) {
-    if (undefined !== element) {
+    if (undefined !== element && element !== null) {
         targetContent.innerHTML = targetContent.innerHTML.replace(element.outerHTML, element.innerHTML);
     }
 }
@@ -238,8 +266,9 @@ function createPCommentListBox(pId, noteContent, noteId) {
     }
     var noteContent = document.body.querySelector(".markdown-body .note-content");
     noteContent.style.float = "left";
-    var pCommentList = document.querySelector(".pCommentListTemplate").text;
-    noteContent.insertAdjacentHTML("afterend", pCommentList);
+    var pCommentListTemplate = document.querySelector(".pCommentListTemplate").text;
+    noteContent.insertAdjacentHTML("afterend", pCommentListTemplate);
+    setPositionPCommentListBox(noteContent, pId);
     document.body.querySelector("#pCommentBoxCancel").addEventListener('click', pComment.listRemover, false);
     guinness.ajax({
         method: "GET",
@@ -260,6 +289,13 @@ function createPCommentListBox(pId, noteContent, noteId) {
             pCommentList.scrollTop = 0;
         }
     });
+}
+
+function setPositionPCommentListBox (noteContent, pId) {
+    var pCommentListBox = document.body.querySelector(".pCommentListBox");
+    var showPCommentRect = noteContent.querySelector("#"+pId+" > .showPComment").getBoundingClientRect();
+    var markdownBodyRect = noteContent.parentNode.getBoundingClientRect();
+    pCommentListBox.style.top = showPCommentRect.top - markdownBodyRect.top + "px";
 }
 
 pComment.listRemover = function () {
@@ -294,6 +330,20 @@ pComment.createPComment = function () {
                 return;
             }
             pComment.appendPComment(result.object);
+        }
+    });
+}
+pComment.deletePComment = function(pCommentId) {
+	guinness.ajax({
+        method: "delete",
+        url: "/pComments/" + pCommentId,
+        success: function (req) {
+            var result = JSON.parse(req.responseText);
+            if (result.success !== true) {
+                return;
+            }
+            //TODO 부분코멘트 삭제 시 카운트 변경 해야함(노트 팝업, 노트리스트)
+            document.querySelector("#pCId"+pCommentId).remove();
         }
     });
 }

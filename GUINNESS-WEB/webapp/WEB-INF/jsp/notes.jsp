@@ -30,7 +30,9 @@
 			<a style="display:inline-block" href="/g/${groupId}"><span id="group-name"></span></a>		
 			<form id="groupConfig" action="/groups/update/form/${groupId}" method="post">
 				<input type="hidden" name="groupImage" value="${groupImage}">
-				<i class="fa fa-cog" style="font-size:20px; padding-top:6px;" onclick="groupUpdate();"></i>
+				<c:if test="${group.groupCaptainUserId eq sessionUser.userId}">
+					<i class="fa fa-cog" style="font-size:20px; padding-top:6px;" onclick="groupUpdate();"></i>
+				</c:if>
 			</form>
 	</div>
 	<div id="note-list-container" class="content wrap">

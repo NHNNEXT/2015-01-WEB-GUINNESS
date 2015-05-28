@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+	
+	<script src="/js/pComment.js"></script>
 
 	<!-- 노트 모달 템플릿 -->
 	<template id="view-note-template">
@@ -54,13 +55,12 @@
             <input type="hidden" ptagid="pId" sameCount="sameSenCount" sameIndex="sameSenIndex"/ selectText='selectedText'>
             <div class="userProfile">
                 <img src="userImage">
-                <div>userName<span>userId</span></div><br>
-                <div class="pCommentCreateDate">createDate</div>
+                <div>userName<span>userId</span><br><span class="pCommentCreateDate">createDate</span></div>
             </div>
             <div class="pComment-text">pCommentText</div>
             <div class="controll">
-                <a href="#" class="update">수정</a>
-                <a href="#" class="delete">삭제</a>
+                <a href="#" class="update" onclick="updatePComment()">수정</a>
+                <a href="#" class="delete" onclick="deletePComment()">삭제</a>
             </div>
         </li>
     </script>
@@ -69,6 +69,5 @@
     	<div class="popupCommentBtn">
         	댓글 달기
     	</div>
-	</script>  
+	</script>
 	
-	<script src="/js/pComment.js"></script>
