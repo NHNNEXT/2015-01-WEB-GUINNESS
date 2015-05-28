@@ -1,5 +1,6 @@
 package org.nhnnext.guinness.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -74,7 +75,7 @@ public class UserController {
 	}
 
 	@RequestMapping("/form")
-	protected String updateForm() {
+	protected String updateForm(Model model, HttpSession session) throws IOException {
 		return "updateUserCheck";
 	}
 	
@@ -91,7 +92,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	protected String updateUser(@RequestParam String userAgainPassword, @RequestParam("profileImage") MultipartFile profileImage, HttpSession session, Model model, User user) throws UserUpdateException {
+	protected String updateUser(User user, @RequestParam String userAgainPassword, HttpSession session, @RequestParam("profileImage") MultipartFile profileImage, Model model) throws UserUpdateException {
 		if(!user.isCorrectPassword(userAgainPassword))
 			throw new UserUpdateException("비밀번호가 다릅니다.");
 		String rootPath = session.getServletContext().getRealPath("/");

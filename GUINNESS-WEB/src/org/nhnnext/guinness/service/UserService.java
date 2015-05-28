@@ -110,4 +110,8 @@ public class UserService {
 		userDao.initPassword(user);
 		mailService.sendMailforInitPassword(tempPassword, userId);
 	}
+
+	public String readUserImage(String userId) {
+		return userDao.findUserByUserId(userId).getUserImage();
+	}
 }

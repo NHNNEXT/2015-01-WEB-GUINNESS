@@ -12,9 +12,7 @@
 <link rel="stylesheet" href="/css/mainStyle.css">
 </head>
 <body>
-	
 	<%@ include file="./commons/_guest_topnav.jspf"%>
-	
 	<div class="sendmail-content">
 		<c:choose>
 			<c:when test="${not empty message}">

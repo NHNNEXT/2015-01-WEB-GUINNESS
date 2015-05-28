@@ -26,22 +26,22 @@ import org.springframework.web.servlet.view.RedirectView;
 @ControllerAdvice
 public class ControllerExceptionHandler {
 	private static final Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
-
-	// 디비 접속 안되었을 경우 예외처리
-	@ExceptionHandler(CannotGetJdbcConnectionException.class)
-	public ModelAndView cannotGetJdbcConnectionException(CannotGetJdbcConnectionException e) {
-		e.printStackTrace();
-		ModelAndView mav = new ModelAndView("/exception");
-		logger.debug("exception: {}", e.getClass().getSimpleName());
-		return mav;
-	}
-	
-	// 본인 확인을 위한 메일 전송 시 예외처리
-	@ExceptionHandler(SendMailException.class)
-	public String sendMailException(SendMailException e) {
-		e.printStackTrace();
-		return "/exception";
-	}
+//
+//	// 디비 접속 안되었을 경우 예외처리
+//	@ExceptionHandler(CannotGetJdbcConnectionException.class)
+//	public ModelAndView cannotGetJdbcConnectionException(CannotGetJdbcConnectionException e) {
+//		e.printStackTrace();
+//		ModelAndView mav = new ModelAndView("/exception");
+//		logger.debug("exception: {}", e.getClass().getSimpleName());
+//		return mav;
+//	}
+//	
+//	// 본인 확인을 위한 메일 전송 시 예외처리
+//	@ExceptionHandler(SendMailException.class)
+//	public String sendMailException(SendMailException e) {
+//		e.printStackTrace();
+//		return "/exception";
+//	}
 	
 	// 회원가입시 중복 아이디 예외처리
 	@ExceptionHandler(AlreadyExistedUserIdException.class)
@@ -123,14 +123,6 @@ public class ControllerExceptionHandler {
 	public ModelAndView notExistedUserIdException(NotExistedUserIdException e) {
 		ModelAndView mav = new ModelAndView("/findPassword");
 		mav.addObject("message", "존재하지 않는 이메일입니다.");
-		return mav;
-	}
-	
-	@ExceptionHandler(Exception.class)
-	public ModelAndView exception(Exception e) {
-		e.printStackTrace();
-		ModelAndView mav = new ModelAndView("/exception");
-		logger.debug("exception: {}", e.getClass().getSimpleName());
 		return mav;
 	}
 }

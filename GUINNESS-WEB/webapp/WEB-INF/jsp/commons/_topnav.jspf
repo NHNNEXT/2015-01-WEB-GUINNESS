@@ -20,9 +20,8 @@
 			</div>
 		</div>
 		<ul class="util">
-			<li class="menu drop-down"><img class="avatar"
-				src="/img/profile/${sessionUser.userImage}"
-				style="margin-left: 15px;">
+			<li class="menu drop-down">
+				<img class="avatar" src="/img/profile/${sessionUser.userImage}" style="margin-left: 15px;">
 				<div class="label">
 					<a href="#">${sessionUser.userName}</a>
 				</div>

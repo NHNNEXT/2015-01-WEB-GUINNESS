@@ -36,12 +36,11 @@
 								</a>
 							</div>
 							<input id="imageFile" type="file" name="profileImage" accept="image/x-png, image/gif, image/jpeg" style="display:none;" onchange="changeImage(this)"/>
-							<!-- <input type="file" id="imageFile" name="backgroundImage" accept="image/x-png, image/gif, image/jpeg" style="display:none;" onchange="changeImage(this)"/> --> 
 							<div>
 								<input type="button" class ="background-default" name="background-default" value="원래대로" onclick="setPreImage('${sessionUser.userImage}')">
 								<input type="button" class ="background-default" name="background-default" value="배경초기화" onclick="setInitImage();">
 							</div>
-							<form:hidden path="userImage" value="" readonly="true"/>
+							<form:hidden path="userImage" value="${sessionUser.userImage}" readonly="true"/>
 							<!-- new -->
 						</td>
 						

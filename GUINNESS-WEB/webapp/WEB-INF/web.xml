@@ -69,4 +69,17 @@
 		<filter-name>multipartFilter</filter-name>
 		<url-pattern>/</url-pattern>
 	</filter-mapping>
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/jsp/exception_404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>405</error-code>
+		<location>/WEB-INF/jsp/exception_404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/jsp/exception.jsp</location>
+	</error-page>
 </web-app>
