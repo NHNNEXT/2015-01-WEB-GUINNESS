@@ -33,7 +33,7 @@ pComment.appendPComment = function (json) {
         .replace("pCommentText", json.pCommentText)
         .replace("createDate", json.pCommentCreateDate)
         .replace("selectedText", json.selectedText)
-        .replace("deletePComment()", 'pComment.deletePComment('+json.pCommentId+')');
+        .replace("deletePComment()", 'pComment.deletePComment('+json.note.noteId+','+json.pCommentId+')');
     pCommentList.insertAdjacentHTML("beforeend", elPComment);
     var PCommentCard = document.body.querySelector(".pCommentList #pCId" + json.pCommentId);
     PCommentCard.addEventListener('mouseover', pComment.highlight, false);
@@ -347,7 +347,7 @@ pComment.createPComment = function () {
         }
     });
 }
-pComment.deletePComment = function(pCommentId) {
+pComment.deletePComment = function(noteId, pCommentId) {
 	guinness.ajax({
         method: "delete",
         url: "/pComments/" + pCommentId,

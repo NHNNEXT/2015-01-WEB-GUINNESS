@@ -78,7 +78,7 @@ public class PCommentService {
 	}
 
 	public void delete(String pCommentId) {
-		noteDao.decreaseCommentCount(pCommentId);
+		noteDao.decreaseCommentCountByPComment(pCommentId);
 		pCommentDao.deletePComment(pCommentId);
 	}
 
