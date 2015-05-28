@@ -56,13 +56,13 @@ public class PCommentController {
 	}
 
 	@RequestMapping(value = "/{pCommentId}", method = RequestMethod.PUT)
-	protected @ResponseBody JsonResult update(@PathVariable String commentId, @RequestParam String commentText) {
-		return new JsonResult().setSuccess(true).setObject((PComment) pCommentService.update(commentId, commentText));
+	protected @ResponseBody JsonResult update(@PathVariable String pCommentId, @RequestParam String commentText) {
+		return new JsonResult().setSuccess(true).setObject((PComment) pCommentService.update(pCommentId, commentText));
 	}
 
 	@RequestMapping(value = "/{pCommentId}", method = RequestMethod.DELETE)
-	protected @ResponseBody JsonResult delete(@PathVariable String commentId) {
-		pCommentService.delete(commentId);
+	protected @ResponseBody JsonResult delete(@PathVariable String pCommentId) {
+		pCommentService.delete(pCommentId);
 		return new JsonResult().setSuccess(true);
 	}
 }
