@@ -98,7 +98,7 @@ public class ControllerExceptionHandler {
 	// 허가되지않은 그룹 접속 시도 시 예외처리
 	@ExceptionHandler(UnpermittedAccessGroupException.class)
 	public ModelAndView unpermittedAccessGroupException(UnpermittedAccessGroupException e) {
-		ModelAndView mav = new ModelAndView("/illegal");
+		ModelAndView mav = new ModelAndView("/groups");
 		mav.addObject("errorMessage", e.getMessage());
 		return mav;
 	}

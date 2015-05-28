@@ -29,7 +29,7 @@ public class PreviewService {
 	public List<Preview> initNotes(String sessionUserId, String groupId) throws UnpermittedAccessGroupException {
 		Group group = groupDao.readGroup(groupId);
 		if (!group.checkStatus() && !groupDao.checkJoinedGroup(sessionUserId, groupId)) {
-			throw new UnpermittedAccessGroupException("비정상적 접근시도.");
+			throw new UnpermittedAccessGroupException("비공개 된 그룹입니다");
 		}
 		return previewDao.initReadPreviews(groupId);
 	}
