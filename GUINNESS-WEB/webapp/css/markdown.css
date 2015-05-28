@@ -41,13 +41,13 @@
   height: 0;
 }
 
-.markdown-body pre {
+.markdown-body code {
   overflow: auto;
 }
 
 .markdown-body code,
 .markdown-body kbd,
-.markdown-body pre {
+.markdown-body code {
   font-family: monospace, monospace;
   font-size: 1em;
 }
@@ -128,6 +128,8 @@
   margin-top: 15px;
   margin-bottom: 15px;
   line-height: 1.1;
+  font-family:'Nanum Gothic';
+  border-bottom: 1px solid lightslategray;
 }
 
 .markdown-body h1 {
@@ -182,11 +184,6 @@
 }
 
 .markdown-body code {
-  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-  font-size: 12px;
-}
-
-.markdown-body pre {
   margin-top: 0;
   margin-bottom: 0;
   font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
@@ -341,8 +338,7 @@
 .markdown-body ul,
 .markdown-body ol,
 .markdown-body dl,
-.markdown-body table,
-.markdown-body pre {
+.markdown-body table {
   margin-top: 0;
   margin-bottom: 16px;
 }
@@ -441,8 +437,11 @@
   padding-bottom: 0.2em;
   margin: 0;
   font-size: 85%;
-  background-color: rgba(0,0,0,0.04);
+  background-color: gray;
   border-radius: 3px;
+  display: block !important;
+  overflow-x: auto;
+  width: 100%;
 }
 
 .markdown-body code:before,
@@ -451,7 +450,7 @@
   content: "\00a0";
 }
 
-.markdown-body pre>code {
+.markdown-body code {
   padding: 0;
   margin: 0;
   font-size: 100%;
@@ -459,14 +458,21 @@
   white-space: pre;
   background: transparent;
   border: 0;
+  max-width: initial;
+  padding: 0;
+  margin: 0;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
 }
 
 .markdown-body .highlight {
   margin-bottom: 16px;
 }
 
-.markdown-body .highlight pre,
-.markdown-body pre {
+.markdown-body .highlight code,
+.markdown-body code {
   padding: 16px;
   overflow: auto;
   font-size: 85%;
@@ -475,29 +481,13 @@
   border-radius: 3px;
 }
 
-.markdown-body .highlight pre {
+.markdown-body .highlight code {
   margin-bottom: 0;
   word-break: normal;
 }
 
-.markdown-body pre {
-  word-wrap: normal;
-}
-
-.markdown-body pre code {
-  display: inline;
-  max-width: initial;
-  padding: 0;
-  margin: 0;
-  overflow: initial;
-  line-height: inherit;
-  word-wrap: normal;
-  background-color: transparent;
-  border: 0;
-}
-
-.markdown-body pre code:before,
-.markdown-body pre code:after {
+.markdown-body code:before,
+.markdown-body code:after {
   content: normal;
 }
 

@@ -1,5 +1,4 @@
 var mousePosition = {};
-
 mousePosition.downPoint = {
     x: 0,
     y: 0
@@ -31,7 +30,7 @@ pComment.appendPComment = function (json) {
         .replace("userId", "(" + json.sessionUser.userId + ")")
         .replace("userName", json.sessionUser.userName)
         .replace("pCommentText", json.pCommentText)
-        .replace("createDate", json.pCommentCreateDate)
+        .replace("createDate", date)
         .replace("selectedText", json.selectedText)
         .replace("deletePComment()", 'pComment.deletePComment('+json.pCommentId+')');
     pCommentList.insertAdjacentHTML("beforeend", elPComment);
@@ -39,11 +38,11 @@ pComment.appendPComment = function (json) {
     PCommentCard.addEventListener('mouseover', pComment.highlight, false);
     PCommentCard.addEventListener('mouseleave', pComment.clearHighlight, false);
     pCommentList.scrollTop = pCommentList.scrollHeight;
-    pComment.countByP(document.querySelector('.hiddenNoteId').value);
+
     document.getElementById("pCId"+json.pCommentId).querySelector(".update").addEventListener("click", function(e) {
     	var el = e.target.parentElement.parentElement;
     	var pCommentText = el.querySelector('.pComment-text').innerHTML;
-    	var pCommnetId = (el.id).substr(4);
+    	var pCommnetId = el.id.slice(4);
     	el.querySelector('.update').hide();
     	el.querySelector('.delete').hide();
     	el.querySelector('.pComment-text').setAttribute('contentEditable', true);
@@ -66,7 +65,7 @@ pComment.appendPComment = function (json) {
         updateButton.addEventListener('click', function(e) {
         	var el = e.target.parentElement.parentElement;
         	var commentText = el.querySelector('.pComment-text').innerHTML;
-        	var pCommnetId = (el.id).substr(4);
+        	var pCommnetId = el.id.slice(4);
             updatePComment(pCommnetId, commentText);
         }, false);
         cancelButton.addEventListener('click', function(e) {
@@ -79,17 +78,15 @@ pComment.appendPComment = function (json) {
         }, false);
         el.querySelector('.controll').appendChild(updateButton);
         el.querySelector('.controll').appendChild(cancelButton);
-       
-
     }, false);
-}
+};
 
 pComment.clearHighlight = function (e) {
     var info = e.target.closest("li").querySelector("input[type=hidden]");
     var p = document.body.querySelector('#pId-' + info.getAttribute('ptagid'));
     var highlighted = p.querySelector('.highlighted');
     pComment.refresh.removeHighlighting(highlighted, p);
-}
+};
 
 pComment.highlight = function (e) {
     var info = e.target.closest("li").querySelector("input[type=hidden]");
@@ -99,9 +96,9 @@ pComment.highlight = function (e) {
     var selectedText = info.getAttribute('selecttext');
     var p = document.body.querySelector('#pId-' + pId);
     var cloneSeletedText = selectedText;
-    cloneSeletedText = cloneSeletedText.replace(/^<strong class="attention">/, "");
-    cloneSeletedText = cloneSeletedText.replace(/^<strong class="question">/, "");
-    cloneSeletedText = cloneSeletedText.replace(/<\/strong>$/, "");
+    cloneSeletedText = cloneSeletedText.replace(/^<strong class="attention">/, "")
+        .replace(/^<strong class="question">/, "")
+        .replace(/^<strong>/, "").replace(/^<em>/, "").replace(/<\/em>$/, "").replace(/<\/strong>$/, "");
     var count = 0;
     var index = 0;
     do {
@@ -113,7 +110,7 @@ pComment.highlight = function (e) {
         p.innerHTML = p.innerHTML.slice(0, index) + "<span class='highlighted'>"
             + cloneSeletedText + "</span>" + p.innerHTML.slice(index + cloneSeletedText.length);
     }
-}
+};
 
 pComment.countByP = function (noteId) {
     guinness.ajax({
@@ -127,7 +124,7 @@ pComment.countByP = function (noteId) {
             pComment.countByP.createBulbBtn(result.mapValues);
         }
     });
-}
+};
 
 pComment.countByP.createBulbBtn = function (json) {
 	var sumOfpCommentCount = 0;
@@ -142,17 +139,16 @@ pComment.countByP.createBulbBtn = function (json) {
         pComment.countByP.setShowBtnEvent(showBtn);
         sumOfpCommentCount = sumOfpCommentCount + pCommentCount;
     }
-}
+};
 
 pComment.countByP.setShowBtnEvent = function (showBtn) {
     showBtn.addEventListener('mouseup', function (e) {
-        e.preventDefault;
         var noteId = document.body.querySelector(".hiddenNoteId").value;
-        var pOrPreId = pComment.getPid(e.target);
+        var pOrPreId = e.target.closest('.showPComment').getAttribute('pid');
         var noteContent = document.querySelector('.note-content');
         createPCommentListBox(pOrPreId, noteContent, noteId);
     }, false);
-}
+};
 
 pComment.countByP.createBulbBtn.getShowBtnByPId = function (pId) {
     var showBtns = document.body.querySelectorAll(".showPComment");
@@ -163,13 +159,13 @@ pComment.countByP.createBulbBtn.getShowBtnByPId = function (pId) {
         if (showBtns[index] === null) {
             break
         }
-        var pOrPreId = pComment.getPid(showBtns[index]);
+        var pOrPreId = showBtns[index].getAttribute('pid');
         if (pOrPreId === "pId-" + pId) {
             return showBtns[index];
         }
     }
     return false;
-}
+};
 
 pComment.getPid = function (selectedEl) {
     if (selectedEl === null) {
@@ -177,7 +173,7 @@ pComment.getPid = function (selectedEl) {
         return false;
     }
     return selectedEl.closest('P') !== null ? selectedEl.closest('P').id : selectedEl.closest('PRE').id;
-}
+};
 
 pComment.selectText = function () {
     var range = document.getSelection().getRangeAt(0);
@@ -192,7 +188,7 @@ pComment.selectText = function () {
         return selectedText.replace(/^<strong class="ShowPComment">.{1,}<\/strong>/, "");
     }
     return false;
-}
+};
 
 pComment.createPopupPCommentBtn = function () {
     var templatePopupBtn = document.querySelector("#popupCommentBtnTemplate").text;
@@ -212,7 +208,7 @@ pComment.createPopupPCommentBtn = function () {
         var noteContent = document.body.querySelector(".note-content");
         createPCommentListBox(pComment.pId, noteContent, pComment.noteId);
     }, false);
-}
+};
 
 function mutateObserver(popupCommentBtn) {
     var target = popupCommentBtn;
@@ -253,20 +249,24 @@ pComment.refresh = function () {
     var noteContent = document.body.querySelector(".note-content");
     var highlighteds = noteContent.querySelectorAll(".selected");
     for (var index in highlighteds) {
-        index = index*1;
-        if (typeof(index) !== "number") {
-            break;
+        if (index === "length") {
+            return;
         }
-        pComment.refresh.removeHighlighting(highlighteds[index], noteContent);
+        index = index*1;
+        var pAndPre= [].slice.call(noteContent.querySelectorAll("p, pre"));
+        if (pAndPre.length > 0) {
+            pAndPre.forEach(function(elPOrPre){
+                pComment.refresh.removeHighlighting(highlighteds[index], elPOrPre);
+            });
+        }
     }
-    pComment.countByP(document.querySelector('.hiddenNoteId').value);
-}
+};
 
 pComment.refresh.removeHighlighting = function (element, targetContent) {
-    if (undefined !== element) {
+    if (undefined !== element && element !== null) {
         targetContent.innerHTML = targetContent.innerHTML.replace(element.outerHTML, element.innerHTML);
     }
-}
+};
 
 function createPCommentListBox(pId, noteContent, noteId) {
     var regacyBox = document.body.querySelector(".pCommentListBox");
@@ -292,7 +292,7 @@ function createPCommentListBox(pId, noteContent, noteId) {
             var pCommentList = document.body.querySelector(".pCommentList");
             pCommentList.innerHTML = "";
             
-            var length = result.objectValues.length
+            var length = result.objectValues.length;
             for (var index = 0; index < length; index++) {
                 pComment.appendPComment(result.objectValues[index]);
             }
@@ -304,9 +304,9 @@ function createPCommentListBox(pId, noteContent, noteId) {
 
 function setPositionPCommentListBox (noteContent, pId) {
     var pCommentListBox = document.body.querySelector(".pCommentListBox");
-    var showPCommentRect = noteContent.querySelector("#"+pId+" > .showPComment").getBoundingClientRect();
+    var pRect = noteContent.querySelector("#"+pId).getBoundingClientRect();
     var markdownBodyRect = noteContent.parentNode.getBoundingClientRect();
-    pCommentListBox.style.top = showPCommentRect.top - markdownBodyRect.top + "px";
+    pCommentListBox.style.top = pRect.top - markdownBodyRect.top + "px";
 }
 
 pComment.listRemover = function () {
@@ -318,7 +318,7 @@ pComment.listRemover = function () {
     noteContent.style.float = "";
     document.querySelector("form#commentForm").style.float = "";
     document.querySelector("#commentListUl").style.float = "";
-}
+};
 
 pComment.createPComment = function () {
     document.body.querySelector(".pCommentBox").style.display = "none";
@@ -345,7 +345,8 @@ pComment.createPComment = function () {
             pComment.appendPComment(result.object);
         }
     });
-}
+};
+
 pComment.deletePComment = function(pCommentId) {
 	guinness.ajax({
         method: "delete",
@@ -364,7 +365,7 @@ pComment.deletePComment = function(pCommentId) {
             }
         }
     });
-}
+};
 
 function dragEnd(e) {
     e.preventDefault();
@@ -399,7 +400,7 @@ function setPopupPCommentBtn() {
                 elPopupBtn.style.left = left + "px";
                 elPopupBtn.style.display = "block";
                 pComment.selectedText = selectedText;
-                pComment.pId = pComment.getPid(selectedEl.parentElement);
+                pComment.pId = selectedEl.tagName === 'P' || selectedEl.tagName === 'PRE' ? selectedEl.id : pComment.getPid(selectedEl.parentElement);
                 getSameSentence(pComment, selectedText, window.getSelection());
                 getNoteInfo();
             } else {

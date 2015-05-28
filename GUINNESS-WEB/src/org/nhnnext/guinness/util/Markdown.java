@@ -20,31 +20,44 @@ public class Markdown {
 	}
 	
 	private String pIdNumbering(String textHtml) {
+		textHtml = headerAndListContainPre(textHtml);
 		int idNumber = 1;
 		int pIndex=0, preIndex=0;
-		String bulbBtn = "' class='pCommentText'><strong class='showPComment'><i class='fa fa-lightbulb-o'></i></strong>";
+		String bulbBtn = "";
 		while(true) {
+			bulbBtn = "<strong class='showPComment' pId='pId-"+idNumber+"'><i class='fa fa-lightbulb-o'></i></strong>";
 			pIndex = textHtml.indexOf("<p>");
 			preIndex = textHtml.indexOf("<pre>");
 			if( pIndex == -1 && preIndex == -1 ) {
 				return textHtml;
 			}
 			if( pIndex == -1 && preIndex >= 0){
-				textHtml = textHtml.replaceFirst("<pre>", "<pre id='pId-"+idNumber+bulbBtn);
+				textHtml = textHtml.replaceFirst("<pre>", bulbBtn+"<pre id='pId-"+idNumber+"' class='pCommentText'>");
 			}
 			if( pIndex >= 0 && preIndex == -1 ){
-				textHtml = textHtml.replaceFirst("<p>", "<p id='pId-"+idNumber+bulbBtn);
+				textHtml = textHtml.replaceFirst("<p>", bulbBtn+"<p id='pId-"+idNumber+"' class='pCommentText'>");
 			}
 			if( pIndex >= 0 && preIndex >= 0 ){
 				if( pIndex < preIndex ){
-					textHtml = textHtml.replaceFirst("<p>", "<p id='pId-"+idNumber+bulbBtn);
+					textHtml = textHtml.replaceFirst("<p>", bulbBtn+"<p id='pId-"+idNumber+"' class='pCommentText'>");
 				}
 				else {
-					textHtml = textHtml.replaceFirst("<pre>", "<pre id='pId-"+idNumber+bulbBtn);
+					textHtml = textHtml.replaceFirst("<pre>", bulbBtn+"<pre id='pId-"+idNumber+"' class='pCommentText'>");
 				}
 			}
 			idNumber++;
 		}
+	}
+	
+	private String headerAndListContainPre(String textHtml) {
+		return textHtml.replaceAll("<ul>", "<pre><ul>").replaceAll("</ul>", "</ul></pre>")
+				.replaceAll("<ol>", "<pre><ol>").replaceAll("</ol>", "</ol></pre>")
+				.replaceAll("<h1>", "<pre><h1>").replaceAll("</h1>", "</h1></pre>")
+				.replaceAll("<h2>", "<pre><h2>").replaceAll("</h2>", "</h2></pre>")
+				.replaceAll("<h3>", "<pre><h3>").replaceAll("</h3>", "</h3></pre>")
+				.replaceAll("<h4>", "<pre><h4>").replaceAll("</h4>", "</h4></pre>")
+				.replaceAll("<h5>", "<pre><h5>").replaceAll("</h5>", "</h5></pre>")
+				.replaceAll("<h6>", "<pre><h6>").replaceAll("</h6>", "</h6></pre>");
 	}
 
 	private String attention(String markdownText) {
