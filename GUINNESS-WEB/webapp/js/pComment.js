@@ -30,7 +30,7 @@ pComment.appendPComment = function (json) {
         .replace("userId", "(" + json.sessionUser.userId + ")")
         .replace("userName", json.sessionUser.userName)
         .replace("pCommentText", json.pCommentText)
-        .replace("createDate", json.pCommentCreateDate)
+        .replace("createDate", date)
         .replace("selectedText", json.selectedText)
         .replace("deletePComment()", 'pComment.deletePComment('+json.pCommentId+')');
     pCommentList.insertAdjacentHTML("beforeend", elPComment);
@@ -253,12 +253,17 @@ pComment.refresh = function () {
             return;
         }
         index = index*1;
-        pComment.refresh.removeHighlighting(highlighteds[index], noteContent);
+        var pAndPre= [].slice.call(noteContent.querySelectorAll("p, pre"));
+        if (pAndPre.length > 0) {
+            pAndPre.forEach(function(elPOrPre){
+                pComment.refresh.removeHighlighting(highlighteds[index], elPOrPre);
+            });
+        }
     }
 };
 
 pComment.refresh.removeHighlighting = function (element, targetContent) {
-    if (undefined !== element) {
+    if (undefined !== element && element !== null) {
         targetContent.innerHTML = targetContent.innerHTML.replace(element.outerHTML, element.innerHTML);
     }
 };
