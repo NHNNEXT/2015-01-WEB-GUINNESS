@@ -328,8 +328,6 @@ function reloadCommentCount(noteId){
             if (result.success !== true){
                 return;
             }
-            
-            debugger;
             document.getElementById(noteId).querySelector(".comment-div span").innerHTML = " " + result.object.commentCount;
             if(result.object.commentCount === 0){
             	document.getElementById(noteId).querySelector(".comment-div").style.display="none";
