@@ -26,6 +26,10 @@ html, body {
 	background-color:rgb(250, 250, 250);
 }
 
+.question, .attention {
+  font-family: FontAwesome;
+}
+
 ul {
 	margin:0;
 	padding:0;
