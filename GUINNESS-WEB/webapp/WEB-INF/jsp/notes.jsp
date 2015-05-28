@@ -71,7 +71,7 @@
 				<table id="group-member">
 				</table>
 			</div>
-			<div onclick="leaveGroup()" style="margin:10px; cursor:pointer;"> <span>그룹 탈퇴하기</span> </div>
+			<div class="leaveGroup" onclick="leaveGroup()" style="margin:10px; cursor:pointer;"> <span>그룹 탈퇴하기</span> </div>
 		</div>
 	</div>
 

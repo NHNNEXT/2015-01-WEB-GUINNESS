@@ -414,6 +414,7 @@ function isJoinedUser() {
     document.querySelector("#addMemberForm .inputText").value=sessionUserId;
     document.querySelector("#addMemberForm .inputBtn").style.width="30%";
     document.querySelector("#addMemberForm .inputBtn").value="가입하기";
+    document.querySelector(".leaveGroup span").style.display="none";
     return false;
 }
 
