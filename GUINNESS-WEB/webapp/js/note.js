@@ -276,6 +276,27 @@ function updateComment(commentId, commentText) {
         });
 }
 
+function updatePComment(pCommentId, commentText) {
+    guinness
+        .ajax({
+            method: "put",
+            url: "/pComments/" + pCommentId,
+            param: "commentText=" + commentText,
+            success: function (req) {
+                var result = JSON.parse(req.responseText);
+                if (result.success !== true)
+                    return;
+                var el = document.getElementById("pCId"+pCommentId);
+                el.querySelector('.pComment-text').innerHTML = result.object.pCommentText.replace(/\n/g, '<br/>');
+                el.querySelector('.pCommentCreateDate').innerHTML = result.object.pCommentCreateDate;
+                el.querySelector('.pComment-text').setAttribute('contentEditable', false);
+                el.querySelectorAll('.comment-update').remove();
+                el.querySelector('.update').style.display="inline-block";
+                el.querySelector('.delete').style.display="inline-block";
+            }
+        });
+}
+
 function deleteComment(commentId, noteId) {
     guinness.ajax({
         method: "delete",
