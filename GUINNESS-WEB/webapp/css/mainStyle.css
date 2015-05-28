@@ -9,8 +9,8 @@
 *	Black: #454545
 *	White: #fff
 *	Red / Error: #ff5a5a
-*	Mint: #7cc4b5
-*   DarkMint: #619493
+*	Mint: #9CD1C7
+*   DarkMint: #7cc4b5
 *	Gray: #888
 *   Gray for Border: #ccc
 *	Yellow / Warning: #FFD68B
@@ -93,7 +93,7 @@ input.text {
   left: 172px;
 }
 
-.controll > a.update {
+.controll > a.update, a.comment-update{
   margin-right:5px;
 }
 
@@ -593,16 +593,17 @@ a {
 #header {
 	position:fixed;
 	z-index:9;
-	top:0px;
+	top:0;
 	width:100%;
     height:40px;
 }
 
 .headerBackground {
   position:absolute;
-  background-color:#7cc4b5;
+  background-color:#9CD1C7;
   width:100%;
   height:100%;
+  opacity:.8;
 }
 
 
@@ -696,6 +697,10 @@ a {
 	display:none;
 	top:0;
 	left:0;
+}
+
+.searchResult:hover {
+	display:block;
 }
 
 .onSearchForm>input {
