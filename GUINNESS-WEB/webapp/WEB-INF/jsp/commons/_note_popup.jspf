@@ -54,8 +54,7 @@
             <input type="hidden" ptagid="pId" sameCount="sameSenCount" sameIndex="sameSenIndex"/ selectText='selectedText'>
             <div class="userProfile">
                 <img src="userImage">
-                <div>userName<span>userId</span></div><br>
-                <div class="pCommentCreateDate">createDate</div>
+                <div>userName<span>userId</span><br><span class="pCommentCreateDate">createDate</span></div>
             </div>
             <div class="pComment-text">pCommentText</div>
             <div class="controll">
