@@ -32,7 +32,8 @@ pComment.appendPComment = function (json) {
         .replace("userName", json.sessionUser.userName)
         .replace("pCommentText", json.pCommentText)
         .replace("createDate", json.pCommentCreateDate)
-        .replace("selectedText", json.selectedText);
+        .replace("selectedText", json.selectedText)
+        .replace("deletePComment()", 'pComment.deletePComment('+json.pCommentId+')');
     pCommentList.insertAdjacentHTML("beforeend", elPComment);
     var PCommentCard = document.body.querySelector(".pCommentList #pCId" + json.pCommentId);
     PCommentCard.addEventListener('mouseover', pComment.highlight, false);
@@ -79,7 +80,7 @@ pComment.appendPComment = function (json) {
         
         el.querySelector('.controll').appendChild(updateButton);
         el.querySelector('.controll').appendChild(cancelButton);
-    	
+
     }, false);
 }
 
@@ -123,13 +124,14 @@ pComment.countByP = function (noteId) {
             if (result.success !== true) {
                 return false;
             }
-            pComment.countByP.createBulbBtn(result.mapValues);
-//            recountComments(pComment.noteId);			// 부분코멘트가 생성되면 노트리스트의 코멘트 갯수 1개 증가.
+            debugger;
+            pComment.countByP.createBulbBtn(noteId, result.mapValues);
         }
     });
 }
 
-pComment.countByP.createBulbBtn = function (json) {
+pComment.countByP.createBulbBtn = function (noteId, json) {
+	var sumOfpCommentCount = 0;
     for (var index in json) {
         var pCommentCount = (json[index])['count(1)'];
         var showBtn = pComment.countByP.createBulbBtn.getShowBtnByPId(json[index].pId);
@@ -139,6 +141,11 @@ pComment.countByP.createBulbBtn = function (json) {
         showBtn.style.display = "block";
         showBtn.querySelector("i").textContent = pCommentCount;
         pComment.countByP.setShowBtnEvent(showBtn);
+        sumOfpCommentCount = sumOfpCommentCount + pCommentCount;
+    }
+    if(noteId!==""){
+    	debugger;
+    	recountComments(noteId, sumOfpCommentCount);
     }
 }
 
@@ -341,8 +348,21 @@ pComment.createPComment = function () {
             if (result.success !== true) {
                 return;
             }
-            recountComments(pComment.noteId);			// 부분코멘트가 생성되면 노트리스트의 코멘트 갯수 1개 증가.
             pComment.appendPComment(result.object);
+        }
+    });
+}
+pComment.deletePComment = function(pCommentId) {
+	guinness.ajax({
+        method: "delete",
+        url: "/pComments/" + pCommentId,
+        success: function (req) {
+            var result = JSON.parse(req.responseText);
+            if (result.success !== true) {
+                return;
+            }
+            //TODO 부분코멘트 삭제 시 카운트 변경 해야함(노트 팝업, 노트리스트)
+            document.querySelector("#pCId"+pCommentId).remove();
         }
     });
 }

@@ -172,6 +172,7 @@ function showNoteModal(obj) {
         body: bodyTemplate,
         defaultCloseEvent: false,
         whenCloseEvent: function () {
+        	debugger;
             clearInterval(commentTimeUpdate);
             var elPopupBtn = document.querySelector(".popupCommentBtn");
             if (elPopupBtn !== null ){
@@ -313,12 +314,17 @@ function deleteComment(commentId, noteId) {
     });
 }
 
-function recountComments(noteId){
-	var pComment = document.querySelectorAll(".fa.fa-lightbulb-o");
-	var pCommentCount=0;
-	for(var i=0; i<pComment.length; i++){
-		pCommentCount = pCommentCount +  pComment[i].innerText*1;
+function recountComments(noteId, pCommentCount){
+	debugger;
+	
+	if(pCommentCount === undefined){
+		var pComment = document.querySelectorAll(".fa.fa-lightbulb-o");
+		pCommentCount=0;
+		for(var i=0; i<pComment.length; i++){
+			pCommentCount = pCommentCount +  pComment[i].innerText*1;
+		}
 	}
+	
 	document.getElementById(noteId).querySelector(".comment-div span").innerHTML = " "+ (document.querySelector("#commentListUl").childElementCount*1 + pCommentCount);
 }
 
@@ -374,7 +380,6 @@ function createComment(obj) {
                 }
                 appendComment(result.mapValues, noteId);
                 document.querySelector('#commentText').value = "";
-                //노트 리스트에서 댓글 수 수정(노트 에디트 화면에서는 필요없음)
                 if(document.getElementById(noteId) !== null){
                 	recountComments(noteId);
                 }
