@@ -235,6 +235,13 @@ div#pCommentBoxCancel {
   width: 230px;
 }
 
+form#commentForm {
+	width: 640px;
+	margin: 0 auto;
+	background: #F6F7F8;
+	padding: 6px;
+}
+
 .aPComment {
   width: 238px;
   display: block;
@@ -1284,10 +1291,13 @@ span.sDate {
 	border-top: 2px solid #f8f8f8;
 	font-size: 13px;
     clear: both;
+	background: #F6F7F8;
+	width: 640px;
+	margin: 0 auto;
 }
 
 #commentListUl li {
-	padding-top:15px 0;
+	padding-top:15px;
 }
 
 #commentListUl .comment-container {
@@ -1317,7 +1327,6 @@ span.sDate {
 	padding-top:30px;
 	padding-bottom:20px;
 	font-size:15px;
-	outline:2px solid #fff;
 	transition-property:outline;
 	transition-duration:.5s;
 }

@@ -259,6 +259,8 @@ function createPCommentListBox(pId, noteContent, noteId) {
     }
     var noteContent = document.body.querySelector(".markdown-body .note-content");
     noteContent.style.float = "left";
+    document.querySelector("form#commentForm").style.float = "left";
+    document.querySelector("#commentListUl").style.float = "left";
     var pCommentListTemplate = document.querySelector(".pCommentListTemplate").text;
     noteContent.insertAdjacentHTML("afterend", pCommentListTemplate);
     setPositionPCommentListBox(noteContent, pId);
@@ -298,6 +300,8 @@ pComment.listRemover = function () {
     }
     var noteContent = document.body.querySelector(".markdown-body .note-content");
     noteContent.style.float = "";
+    document.querySelector("form#commentForm").style.float = "";
+    document.querySelector("#commentListUl").style.float = "";
 }
 
 pComment.createPComment = function () {
