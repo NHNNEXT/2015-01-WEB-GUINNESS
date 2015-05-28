@@ -32,14 +32,14 @@ pComment.appendPComment = function (json) {
         .replace("pCommentText", json.pCommentText)
         .replace("createDate", json.pCommentCreateDate)
         .replace("selectedText", json.selectedText)
-        .replace("deletePComment()", 'pComment.deletePComment('+json.note.noteId+','+json.pCommentId+')');
+        .replace("deletePComment()", 'pComment.deletePComment('+json.pCommentId+')');
     pCommentList.insertAdjacentHTML("beforeend", elPComment);
     var PCommentCard = document.body.querySelector(".pCommentList #pCId" + json.pCommentId);
     PCommentCard.addEventListener('mouseover', pComment.highlight, false);
     PCommentCard.addEventListener('mouseleave', pComment.clearHighlight, false);
     pCommentList.scrollTop = pCommentList.scrollHeight;
 
-    pCommentList.querySelector(".update").addEventListener("click", function(e) {
+    document.getElementById("pCId"+json.pCommentId).querySelector(".update").addEventListener("click", function(e) {
     	var el = e.target.parentElement.parentElement;
     	var pCommentText = el.querySelector('.pComment-text').innerHTML;
     	var pCommnetId = el.id.slice(4);
@@ -76,10 +76,8 @@ pComment.appendPComment = function (json) {
             el.querySelector('.update').style.display="inline-block";
             el.querySelector('.delete').style.display="inline-block";        	
         }, false);
-        
         el.querySelector('.controll').appendChild(updateButton);
         el.querySelector('.controll').appendChild(cancelButton);
-
     }, false);
 };
 
@@ -143,11 +141,8 @@ pComment.countByP.createBulbBtn = function (json) {
     }
 };
 
-var ccc = 1;
 pComment.countByP.setShowBtnEvent = function (showBtn) {
     showBtn.addEventListener('mouseup', function (e) {
-        console.log(ccc);
-        ccc++;
         var noteId = document.body.querySelector(".hiddenNoteId").value;
         var pOrPreId = e.target.closest('.showPComment').getAttribute('pid');
         var noteContent = document.querySelector('.note-content');
@@ -347,7 +342,7 @@ pComment.createPComment = function () {
     });
 };
 
-pComment.deletePComment = function(noteId, pCommentId) {
+pComment.deletePComment = function(pCommentId) {
 	guinness.ajax({
         method: "delete",
         url: "/pComments/" + pCommentId,
@@ -402,6 +397,9 @@ function setPopupPCommentBtn() {
                 elPopupBtn.style.display = "none";
             }
         }
+        if (selectedText === false) {
+        	elPopupBtn.style.display = "none";
+        }
     }, false);
 }
 
@@ -415,7 +413,7 @@ function getSameSentence(pComment, selectedText, selection) {
     var pId = pComment.pId;
     var pText = document.body.querySelector("#" + pId).innerText;
     var sameIndex = 1;
-    var sameTexts = [];
+    var sameTexts = new Array();
     var sameText = pText.indexOf(selectedText);
     selectRange.insertNode(document.createTextNode("`'`ran"));
     var tempText = document.body.querySelector("#" + pId).innerText;

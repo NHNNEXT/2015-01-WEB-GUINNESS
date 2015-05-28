@@ -45,7 +45,7 @@
         
     <script type="template" class="pCommentListTemplate">
         <div class="pCommentListBox">
-            <div id="pCommentBoxCancel"><i class="fa fa-thumb-tack"></i></div>
+            <div id="pCommentBoxCancel"><i class="fa fa-times" style="padding-right:5px;"></i></div>
             <ul class="pCommentList"></ul>
         </div>
     </script>

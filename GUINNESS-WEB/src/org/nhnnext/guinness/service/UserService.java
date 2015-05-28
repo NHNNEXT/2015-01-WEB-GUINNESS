@@ -9,6 +9,7 @@ import org.nhnnext.guinness.dao.ConfirmDao;
 import org.nhnnext.guinness.dao.UserDao;
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
 import org.nhnnext.guinness.exception.FailedLoginException;
+import org.nhnnext.guinness.exception.GroupUpdateException;
 import org.nhnnext.guinness.exception.NotExistedUserIdException;
 import org.nhnnext.guinness.exception.SendMailException;
 import org.nhnnext.guinness.exception.UserUpdateException;
@@ -76,19 +77,21 @@ public class UserService {
 	
 	public void update(User user, String rootPath, MultipartFile profileImage) throws UserUpdateException {
 		User dbUser = userDao.findUserByUserId(user.getUserId());
-		try {
-			user.setUserImage(dbUser.getUserImage());
-			if (!profileImage.isEmpty()) {
+		
+		boolean isDefaultImage = "avatar-default.png".equals(user.getUserImage());
+		boolean isChangedImage = user.getUserId().equals(user.getUserImage());
+		
+		if(!isDefaultImage && !isChangedImage && !profileImage.isEmpty()) {
+			try {
 				String fileName = user.getUserId();
 				profileImage.transferTo(new File(rootPath + "img/profile/" + fileName));
 				user.setUserImage(fileName);
+			} catch (IllegalStateException | IOException | DataIntegrityViolationException e) {
+				throw new UserUpdateException("잘못된 형식입니다.");
 			}
-			dbUser.update(user);
-			userDao.updateUser(dbUser);
-		} catch (IllegalStateException | IOException | DataIntegrityViolationException e) {
-			e.printStackTrace();
-			throw new UserUpdateException("잘못된 형식입니다.");
 		}
+		dbUser.update(user);
+		userDao.updateUser(dbUser);
 	}
 
 	public boolean checkUpdatePassword(String userId, String userPassword) {

@@ -77,10 +77,10 @@ input.text {
 }
 
 #pCommentBoxCancel {
-  float:left;
+  float:right;
   margin-left: 10px;
-  margin-top: 10px;
   font-size: 18px;
+  font-color: white;
 }
 
 .pCommentCreateDate {
@@ -99,6 +99,7 @@ input.text {
 
 .controll > a.update, a.comment-update{
   margin-right:5px;
+  cursor: pointer;
 }
 
 .pComment-text {
@@ -156,7 +157,7 @@ ul.pCommentList {
 }
 
 div#pCommentBoxCancel {
-  color: red;
+  cursor: pointer;
 }
 
 #allShow {
@@ -434,12 +435,13 @@ a#escape-note {
 
 .attention {
 	color:#ff5a5a;
-	font-size:13px;
-	font-weight:bold;
 }
 
 .question{
 	color:#ffa500;
+}
+
+span.attention, span.question {
 	font-size:13px;
 	font-weight:bold;
 }
