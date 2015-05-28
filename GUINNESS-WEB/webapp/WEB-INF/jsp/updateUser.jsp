@@ -31,7 +31,7 @@
 							<!-- new -->
 							<div>
 								<a href="#">
-									<img class="avatar" id="avatarSanp" src="/img/profile/${sessionUser.userImage}" onmouseover="mouseOver()" >
+									<img class="avatar" id="avatarSanp" src="/img/profile/${sessionUser.userImage}" onmouseover="mouseOver()" style="border: solid 1px rgb(191, 191, 191);" >
 									<img class="avatar" id="avatarHover" onclick="mouseClick()" onmouseout="mouseOut()" src="/img/group/user_hover.png" style="display:none">
 								</a>
 							</div>
