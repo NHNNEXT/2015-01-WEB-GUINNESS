@@ -67,9 +67,12 @@ input.text {
 
 .note-content {
     width:640px;
-    margin:0 auto;
-    padding:5px;
+    margin:0 auto 10px auto;
+    padding:15px 25px 25px 25px;
     min-height:260px;
+    background-color:#fff;
+	border:1px solid #ccc;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 }
 
 #pCommentBoxCancel {
@@ -1332,7 +1335,7 @@ span.sDate {
 }
 
 #commentListUl .comment[contenteditable=true] {
-	outline:2px solid #eee;
+	outline:2px solid #fff;
 }
 
 #commentListUl .comment-util{
