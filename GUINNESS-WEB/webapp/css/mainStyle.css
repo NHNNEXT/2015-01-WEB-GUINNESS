@@ -157,6 +157,8 @@ div#pCommentBoxCancel {
 }
 
 #allShow {
+  padding:2px;
+  width:27%;
   top:-10px;
   outline:none;
 }
