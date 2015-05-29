@@ -74,7 +74,7 @@ public class PCommentDao extends JdbcDaoSupport {
 
 
 	public PComment readByPCommentId(String pCommentId) {
-		String sql = "select * from PCOMMENTS, USERS where PCOMMENTS.userId = USERS.userId AND pCommentId = ?";
+		String sql = "select * from PCOMMENTS, USERS where PCOMMENTS.userId = USERS.userId AND PCOMMENTS.pCommentId = ?";
 		return getJdbcTemplate().queryForObject(
 				sql,
 				(rs, rowNum) -> new PComment(rs.getString("pCommentId"), rs.getString("pId"), rs

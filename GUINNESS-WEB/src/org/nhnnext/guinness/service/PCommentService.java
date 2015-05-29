@@ -43,11 +43,15 @@ public class PCommentService {
 			throw new UnpermittedAccessGroupException("권한이 없습니다. 그룹 가입을 요청하세요.");
 		}
 		User noteWriter = noteDao.readNote(note.getNoteId()).getUser();
+		logger.debug("noteDao.readNote(note.getNoteId()).getUser();");
 		String pCommentId = pCommentDao.createPComment(pComment);
+		logger.debug("pCommentDao.createPComment(pComment);");
 		noteDao.increaseCommentCount(pComment.getNote().getNoteId());
+		logger.debug("noteDao.increaseCommentCount(pComment.getNote().getNoteId());");
 		
 		if(!sessionUser.getUserId().equals(noteWriter.getUserId())){
 			alarmDao.createNewNotes(new Alarm(createAlarmId(), "P", pComment.getSessionUser(), noteWriter, pComment.getNote()));
+			logger.debug("alarmDao.createNewNotes");
 		}
 		return pCommentDao.readByPCommentId(pCommentId);
 	}

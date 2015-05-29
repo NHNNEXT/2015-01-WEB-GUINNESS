@@ -54,7 +54,7 @@ public class NoteDao extends JdbcDaoSupport {
 	}
 
 	public Note readNote(String noteId) {
-		String sql = "select * from NOTES,USERS where noteId = ? AND NOTES.userId = USERS.userId";
+		String sql = "select * from NOTES,USERS where NOTES.noteId = ? AND NOTES.userId = USERS.userId";
 		try {
 			return getJdbcTemplate().queryForObject(
 					sql, (rs, rowNum) -> new Note(rs.getString("noteId"),
@@ -111,5 +111,12 @@ public class NoteDao extends JdbcDaoSupport {
 	public List<String> readNotesByDate(String groupId, String startDate, String lastDate) {
 		String sql = "SELECT * FROM NOTES WHERE groupId = ? and noteTargetDate >= ? and noteTargetDate <= ?";
 		return getJdbcTemplate().query(sql, (rs, rowNum) -> new String(rs.getString("noteTargetDate").substring(0, 19)), groupId, startDate, lastDate);
+	}
+	
+	public boolean checkAccessibleNote(String userId, String noteId) {
+		String sql = "select count(*) from NOTES where userId = ? and noteId = ?";
+		if (getJdbcTemplate().queryForObject(sql, Integer.class, new Object[] { userId, noteId }) > 0)
+			return true;
+		return false;
 	}
 }
