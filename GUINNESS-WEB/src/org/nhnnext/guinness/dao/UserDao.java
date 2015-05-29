@@ -24,7 +24,6 @@ public class UserDao extends JdbcDaoSupport {
 	private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
 
 	public void createUser(User user) {
-		logger.debug("user: {}", user);
 		String sql = "insert into USERS values(?,?,?,default,default,default)";
 		getJdbcTemplate().update(sql, user.getUserId(), user.getUserName(), user.getUserPassword());
 	}

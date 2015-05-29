@@ -6,10 +6,11 @@ import java.io.IOException;
 import javax.annotation.Resource;
 
 import org.nhnnext.guinness.dao.ConfirmDao;
+import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.UserDao;
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
+import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
 import org.nhnnext.guinness.exception.FailedLoginException;
-import org.nhnnext.guinness.exception.GroupUpdateException;
 import org.nhnnext.guinness.exception.NotExistedUserIdException;
 import org.nhnnext.guinness.exception.SendMailException;
 import org.nhnnext.guinness.exception.UserUpdateException;
@@ -26,20 +27,28 @@ public class UserService {
 	@Resource
 	private UserDao userDao;
 	@Resource
+	private GroupDao groupDao;
+	@Resource
 	private ConfirmDao confirmDao;
 	@Resource
 	private MailService mailService;
 	
-	public void join(User user) throws AlreadyExistedUserIdException, SendMailException {
+	public void join(User user) throws AlreadyExistedUserIdException, SendMailException, FailedAddGroupMemberException {
 		User existedUser = createUser(user);
 		createConfirm(user, existedUser);
 	}
 	
-	private User createUser(User user) throws AlreadyExistedUserIdException {
+	private User createUser(User user) throws AlreadyExistedUserIdException, FailedAddGroupMemberException {
 		if(userDao.findUserByUserId(user.getUserId()) != null) {
 			throw new AlreadyExistedUserIdException("이미 존재하는 계정입니다.");
 		}
 		userDao.createUser(user);
+		//TODO 피드백 그룹으로 자동 가입을 위한 구문 
+		try{
+			groupDao.createGroupUser(user.getUserId(), "Dcdmp");
+		} catch(Exception e) {
+			// do nothing ...
+		}
 		return userDao.findUserByUserId(user.getUserId());
 	}
 

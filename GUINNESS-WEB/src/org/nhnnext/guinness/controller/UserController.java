@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
+import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
 import org.nhnnext.guinness.exception.FailedLoginException;
 import org.nhnnext.guinness.exception.NotExistedUserIdException;
 import org.nhnnext.guinness.exception.SendMailException;
@@ -37,7 +38,7 @@ public class UserController {
 	private UserService userService;
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	protected String create(@Valid User user, BindingResult result, Model model) throws AlreadyExistedUserIdException, SendMailException {
+	protected String create(@Valid User user, BindingResult result, Model model) throws AlreadyExistedUserIdException, SendMailException, FailedAddGroupMemberException {
 		// 유효성 검사
 		if(result.hasErrors()) {
             List<ObjectError> list = result.getAllErrors();
