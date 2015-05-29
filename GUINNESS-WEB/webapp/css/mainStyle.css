@@ -202,8 +202,31 @@ div#pCommentBoxCancel {
 	float : left;
 }
 
+.background-default[value="수정 취소"] {
+  background-color: gray;
+}
+
+.background-default[value="수정 취소"]:hover {
+  background-color: #3879D9;
+}
+
+
 .background-default {
-	float:left;
+  float: left;
+  width: 95px;
+  background-color: #005580;
+  color: white;
+  outline: none;
+  border: none;
+  margin-left: 2px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 2px;
+  font-size: 12px;
+}
+
+.background-default:hover {
+    background-color: #3879D9;
 }
 
 #group-container > a > li > div.alarm-count {

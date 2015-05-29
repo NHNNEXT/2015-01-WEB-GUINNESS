@@ -11,6 +11,7 @@
 	href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
 <link rel="stylesheet" href="/css/mainStyle.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/markdown.css">
 </head>
 <body>
 	<%@ include file="./commons/_topnav.jspf"%>
