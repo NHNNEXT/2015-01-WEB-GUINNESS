@@ -97,7 +97,7 @@ input.text {
 .controll {
   font-size: 13px;
   position: relative;
-  top: 4px;
+  top: -10px;
   left: 172px;
 }
 
