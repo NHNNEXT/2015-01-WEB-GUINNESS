@@ -140,12 +140,16 @@ pComment.highlight = function (e) {
         .replace(/^<strong>/, "").replace(/^<em>/, "").replace(/<\/em>$/, "").replace(/<\/strong>$/, "");
     var count = 0;
     var index = 0;
-    do {
+    index = p.innerHTML.indexOf(cloneSeletedText);
+    while (index !== -1) {
         count++;
-        index = p.innerHTML.indexOf(cloneSeletedText);
-    } while (index !== -1 && count < sameSenIndex);
+        if ( sameSenIndex <= count ) {
+            break;
+        }
+        index = p.innerHTML.indexOf(cloneSeletedText, index+cloneSeletedText.length);
+    }
 
-    if (p.innerHTML.search('<span class="highlighted">') < 0 && index !== -1) {
+    if (p.innerHTML.search('<span class="highlighted">') < 0) {
         p.innerHTML = p.innerHTML.slice(0, index) + "<span class='highlighted'>"
             + cloneSeletedText + "</span>" + p.innerHTML.slice(index + cloneSeletedText.length);
     }

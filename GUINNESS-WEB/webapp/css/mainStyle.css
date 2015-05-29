@@ -791,6 +791,10 @@ div#leftTopBox {
 	width:350px;
 }
 
+.aPComment div span {
+  font-size: 8px;
+}
+
 #brand img {
 	padding:5px;
 	height:28px;
