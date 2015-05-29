@@ -80,6 +80,10 @@ input.text {
     box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 }
 
+.pComment-text[contenteditable=true] {
+	outline:1px solid #BEBEBE;
+}
+
 #pCommentBoxCancel {
   float:right;
   margin-left: 10px;
@@ -97,7 +101,7 @@ input.text {
 .controll {
   font-size: 13px;
   position: relative;
-  top: -10px;
+  top: -15px;
   left: 172px;
 }
 
@@ -107,6 +111,7 @@ input.text {
 }
 
 .pComment-text {
+  top: -10px;
   width: 235px;
   display: block;
   max-width: 228px;
