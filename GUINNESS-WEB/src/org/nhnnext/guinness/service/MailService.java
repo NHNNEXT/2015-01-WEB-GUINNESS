@@ -1,5 +1,7 @@
 package org.nhnnext.guinness.service;
 
+import java.io.UnsupportedEncodingException;
+
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -28,11 +30,11 @@ public class MailService {
 			"<p>Copyright &copy; by link413. All rights reserved.</p>";
 			
 			messageHelper.setTo(userId);
-			messageHelper.setFrom("hakimaru@naver.com");
+			messageHelper.setFrom("hakimaru@naver.com","페이퍼민트");
 			messageHelper.setSubject("환영합니다. 페이퍼민트 가입 인증 메일입니다.");
 			messageHelper.setText(htmlMsg, true);
 			javaMailSender.send(message);
-		} catch (MessagingException | NullPointerException | MailAuthenticationException e) {
+		} catch (MessagingException | NullPointerException | MailAuthenticationException | UnsupportedEncodingException e) {
 			throw new SendMailException(e.getClass().getSimpleName());
 		}
 	}
@@ -42,7 +44,7 @@ public class MailService {
 			MimeMessage message = javaMailSender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 			messageHelper.setTo(userId);
-			messageHelper.setFrom("hakimaru@naver.com");
+			messageHelper.setFrom("hakimaru@naver.com","페이퍼민트");
 			messageHelper.setSubject("페이퍼민트 임시 비밀번호를 보내드립니다.");
 			messageHelper.setText("임시 비밀번호는 " + tempPassword + " 입니다."
 					+"<a href='http://localhost:8080/' style='font-size: 15px;"
@@ -52,7 +54,7 @@ public class MailService {
 		    		+ "text-align:center'>페이퍼민트로 가기</div></a>" +
 			"<p>Copyright &copy; by link413. All rights reserved.</p>", true);
 			javaMailSender.send(message);
-		} catch (MessagingException | NullPointerException | MailAuthenticationException e) {
+		} catch (MessagingException | NullPointerException | MailAuthenticationException | UnsupportedEncodingException e) {
 			throw new SendMailException(e.getClass().getSimpleName());
 		}
 	}
