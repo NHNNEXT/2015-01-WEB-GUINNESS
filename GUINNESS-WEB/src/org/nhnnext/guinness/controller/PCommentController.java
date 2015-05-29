@@ -31,18 +31,14 @@ public class PCommentController {
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	protected @ResponseBody JsonResult create(HttpSession session, @RequestParam String pId,
 			@RequestParam String sameSenCount, @RequestParam String sameSenIndex, @RequestParam String pCommentText,
-			@RequestParam String selectedText, @RequestParam String noteId) throws IOException {
+			@RequestParam String selectedText, @RequestParam String noteId) throws IOException, UnpermittedAccessGroupException {
 		SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
 		if (pCommentText.equals("")) {
 			return new JsonResult().setSuccess(false);
 		}
-		try {
-			Note note = new Note(noteId);
-			PComment pComment = new PComment(pId, sameSenCount, sameSenIndex, pCommentText, selectedText, sessionUser, note);
-			return new JsonResult().setSuccess(true).setObject(pCommentService.create(sessionUser, note, pComment));
-		} catch (UnpermittedAccessGroupException e) {
-			return new JsonResult().setSuccess(false).setMessage(e.getMessage()).setLocationWhenFail("/illegal");
-		}
+		Note note = new Note(noteId);
+		PComment pComment = new PComment(pId, sameSenCount, sameSenIndex, pCommentText, selectedText, sessionUser, note);
+		return new JsonResult().setSuccess(true).setObject(pCommentService.create(sessionUser, note, pComment));
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
