@@ -18,7 +18,7 @@
 		<div class="modal-header">
 			<div class="modal-title">계정찾기</div>
 		</div>
-		<div class="modal-body" style="width: 325px; padding-top: 5px;">
+		<div class="modal-body" style="width: 650px; padding-top: 5px;">
 			<div style="border-bottom: 2px solid #f8f8f8; height: 30px;">
 				<p>
 					<span>이메일을 입력하세요.</span>
