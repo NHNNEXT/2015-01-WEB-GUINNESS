@@ -15,22 +15,19 @@ import org.nhnnext.guinness.dao.AlarmDao;
 import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.NoteDao;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
+import org.nhnnext.guinness.exception.UnpermittedAccessNoteException;
 import org.nhnnext.guinness.model.Alarm;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
 public class NoteService {
-	private static final Logger logger = LoggerFactory.getLogger(NoteService.class);
-	
 	@Resource
 	private GroupDao groupDao;
 	@Resource
@@ -44,7 +41,7 @@ public class NoteService {
 	@Resource
 	private PCommentService pCommentService;
 
-	public Note readNote(String noteId) {
+	public Note readNote(String sessionUserId, String noteId) throws UnpermittedAccessNoteException {
 		return noteDao.readNote(noteId);
 	}
 

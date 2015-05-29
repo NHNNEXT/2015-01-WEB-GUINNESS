@@ -14,6 +14,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
+import org.nhnnext.guinness.exception.UnpermittedAccessNoteException;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.Preview;
 import org.nhnnext.guinness.service.GroupService;
@@ -74,10 +75,10 @@ public class NoteController {
 				.setObjectValues(previewService.reloadPreviews(groupId, noteTargetDate));
 	}
 
-	// 여기.
 	@RequestMapping("/notes/{noteId}")
-	protected @ResponseBody JsonResult show(@PathVariable String noteId) throws IOException {
-		Note note = noteService.readNote(noteId);
+	protected @ResponseBody JsonResult show(@PathVariable String noteId, HttpSession session) throws IOException, UnpermittedAccessNoteException {
+		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
+		Note note = noteService.readNote(sessionUserId, noteId);
 		note.setNoteText(new Markdown().toHTML(note.getNoteText()));
 		return new JsonResult().setSuccess(true).setObject(note);
 	}
@@ -100,7 +101,7 @@ public class NoteController {
 	private String update(@RequestParam String groupId, @RequestParam String noteId,
 			@RequestParam String noteTargetDate, @RequestParam String noteText, HttpSession session) throws Exception {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
-		Note note = noteService.readNote(noteId);
+		Note note = noteService.readNote(sessionUserId, noteId);
 		if(!sessionUserId.equals(note.getUser().getUserId())){
 			throw new Exception("불일치");
 		}
@@ -151,7 +152,7 @@ public class NoteController {
 	@RequestMapping("/notes/editor/{noteId}")
 	private String updateEditor(@PathVariable String noteId, Model model, HttpSession session) throws Exception {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
-		Note note = noteService.readNote(noteId);
+		Note note = noteService.readNote(sessionUserId, noteId);
 		if(!sessionUserId.equals(note.getUser().getUserId())){
 			throw new Exception("노트 작성자, 수정자 불일치 예외.");
 		}

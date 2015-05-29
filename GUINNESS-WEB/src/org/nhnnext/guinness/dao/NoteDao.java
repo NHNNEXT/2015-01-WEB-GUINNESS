@@ -112,4 +112,11 @@ public class NoteDao extends JdbcDaoSupport {
 		String sql = "SELECT * FROM NOTES WHERE groupId = ? and noteTargetDate >= ? and noteTargetDate <= ?";
 		return getJdbcTemplate().query(sql, (rs, rowNum) -> new String(rs.getString("noteTargetDate").substring(0, 19)), groupId, startDate, lastDate);
 	}
+	
+	public boolean checkAccessibleNote(String userId, String noteId) {
+		String sql = "select count(*) from NOTES where userId = ? and noteId = ?";
+		if (getJdbcTemplate().queryForObject(sql, Integer.class, new Object[] { userId, noteId }) > 0)
+			return true;
+		return false;
+	}
 }
