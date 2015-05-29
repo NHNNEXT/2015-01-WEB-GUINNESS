@@ -303,6 +303,7 @@ pComment.refresh = function () {
 
 pComment.refresh.removeHighlighting = function (element, targetContent) {
     if (undefined !== element && element !== null) {
+        window.getSelection().removeAllRanges();
         targetContent.innerHTML = targetContent.innerHTML.replace(element.outerHTML, element.innerHTML);
     }
 };
