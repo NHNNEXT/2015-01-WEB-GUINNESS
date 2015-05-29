@@ -101,7 +101,7 @@ input.text {
 .controll {
   font-size: 13px;
   position: relative;
-  top: -10px;
+  top: -15px;
   left: 172px;
 }
 
@@ -111,6 +111,7 @@ input.text {
 }
 
 .pComment-text {
+  top: -10px;
   width: 235px;
   display: block;
   max-width: 228px;
