@@ -37,14 +37,20 @@ public class CommentService {
 	private GroupDao groupDao;
 
 	public List<Map<String, Object>> create(SessionUser sessionUser, Note note, Comment comment) throws UnpermittedAccessGroupException {
+		System.out.println("5");
 		Group group = groupDao.readGroupByNoteId(note.getNoteId());
+		System.out.println("6");
 		if (!groupDao.checkJoinedGroup(sessionUser.getUserId(), group.getGroupId())) {
 			throw new UnpermittedAccessGroupException("권한이 없습니다. 그룹 가입을 요청하세요.");
 		}
 		comment = new Comment(comment.getCommentText(), sessionUser, note);
+		System.out.println("7");
 		comment.setCommentId(""+commentDao.createComment(comment));
+		System.out.println("11");
 		noteDao.increaseCommentCount(comment.getNote().getNoteId());
+		System.out.println("12");
 		createAlarm(comment);
+		System.out.println("13");
 		return commentDao.readCommentListByNoteId(comment.getNote().getNoteId());
 	}
 
