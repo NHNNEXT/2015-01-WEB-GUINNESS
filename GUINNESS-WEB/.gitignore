@@ -25,3 +25,5 @@
 !/webapp/img/profile/avatar-default.png
 /webapp/img/group/*.*
 !/webapp/img/group/background-default.png
+!/webapp/img/profile/user_hover.png
+!/webapp/img/group/change_hover.png

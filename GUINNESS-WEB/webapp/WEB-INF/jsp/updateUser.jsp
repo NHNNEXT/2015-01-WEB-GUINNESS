@@ -32,7 +32,7 @@
 							<div>
 								<a href="#">
 									<img class="avatar" id="avatarSanp" src="/img/profile/${sessionUser.userImage}" onmouseover="mouseOver()" style="border: solid 1px rgb(191, 191, 191);" >
-									<img class="avatar" id="avatarHover" onclick="mouseClick()" onmouseout="mouseOut()" src="/img/group/user_hover.png" style="display:none">
+									<img class="avatar" id="avatarHover" onclick="mouseClick()" onmouseout="mouseOut()" src="/img/profile/user_hover.png" style="display:none">
 								</a>
 							</div>
 							<input id="imageFile" type="file" name="profileImage" accept="image/x-png, image/gif, image/jpeg" style="display:none;" onchange="changeImage(this)"/>

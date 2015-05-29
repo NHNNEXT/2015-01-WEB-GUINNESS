@@ -74,14 +74,14 @@ public class ControllerExceptionHandler {
 	public @ResponseBody JsonResult groupUpdateException(GroupUpdateException e) {
 		return new JsonResult().setSuccess(false).setMessage(e.getMessage());
 	}
-	
-	// 그룹정보 수정시 예외처리 페이지 포워딩
-	@ExceptionHandler(GroupUpdateExceptionIllegalPage.class)
-	public ModelAndView groupUpdateExceptionIllegalPage(GroupUpdateExceptionIllegalPage e) {
-		ModelAndView mav = new ModelAndView("/exception");
-		mav.addObject("errorMessage", e.getMessage());
-		return mav;
-	}
+//	
+//	// 그룹정보 수정시 예외처리 페이지 포워딩
+//	@ExceptionHandler(GroupUpdateExceptionIllegalPage.class)
+//	public ModelAndView groupUpdateExceptionIllegalPage(GroupUpdateExceptionIllegalPage e) {
+//		ModelAndView mav = new ModelAndView("/exception");
+//		mav.addObject("errorMessage", e.getMessage());
+//		return mav;
+//	}
 	
 	// 그룹 생성시 그룹명 길 경우 예외처리
 	@ExceptionHandler(FailedMakingGroupException.class )
@@ -103,14 +103,14 @@ public class ControllerExceptionHandler {
 		return mav;
 	}
 	
-	// 없는 그룹 삭제 시 예외처리
-	@ExceptionHandler(FailedDeleteGroupException.class)
-	public ModelAndView failedDeleteGroupException(FailedDeleteGroupException e) {
-		e.printStackTrace();
-		ModelAndView mav = new ModelAndView("/exception");
-		logger.debug("exception: {}", e.getClass().getSimpleName());
-		return mav;
-	}
+//	// 없는 그룹 삭제 시 예외처리
+//	@ExceptionHandler(FailedDeleteGroupException.class)
+//	public ModelAndView failedDeleteGroupException(FailedDeleteGroupException e) {
+//		e.printStackTrace();
+//		ModelAndView mav = new ModelAndView("/exception");
+//		logger.debug("exception: {}", e.getClass().getSimpleName());
+//		return mav;
+//	}
 	
 	// 삭제 권한 없는 그룹 삭제 시 예외처리
 	@ExceptionHandler(UnpermittedDeleteGroupException.class)
