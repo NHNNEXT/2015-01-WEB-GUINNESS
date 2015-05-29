@@ -401,6 +401,7 @@ pComment.deletePComment = function(pCommentId) {
             if(document.querySelector(".showPComment[pid='"+pid+"'] i").innerText === "0") {
             	document.querySelector(".showPComment[pid='"+pid+"']").style.display = "none";
             	document.querySelector(".pCommentListBox").remove();
+                pComment.listRemover();
             }
         }
     });
