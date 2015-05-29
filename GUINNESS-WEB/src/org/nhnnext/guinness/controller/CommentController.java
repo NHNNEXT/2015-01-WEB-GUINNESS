@@ -26,16 +26,12 @@ public class CommentController {
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	protected @ResponseBody JsonResult create(HttpSession session, @RequestParam String commentText, @RequestParam String noteId) throws IOException{
-		System.out.println("1");
 		SessionUser sessionUser = (SessionUser)session.getAttribute("sessionUser");
 		
 		Note note = new Note(noteId);
-		System.out.println("2");
 		if (commentText.equals(""))
 			return new JsonResult().setSuccess(false);
-		System.out.println("3");
 		Comment comment = new Comment(commentText, sessionUser, note);
-		System.out.println("4");
 		try {
 			return new JsonResult().setSuccess(true).setMapValues(commentService.create(sessionUser, note, comment));
 		} catch (UnpermittedAccessGroupException e) {

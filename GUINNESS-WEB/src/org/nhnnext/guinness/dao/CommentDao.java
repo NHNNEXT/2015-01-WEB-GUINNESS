@@ -32,10 +32,8 @@ public class CommentDao extends JdbcDaoSupport {
 	public long createComment(Comment comment) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		String sql = "insert into COMMENTS (commentText, userId, noteId) values(?, ?, ?)";
-		System.out.println("8");
 		getJdbcTemplate().update(new PreparedStatementCreator() {
 			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-				System.out.println("9");
 				PreparedStatement ps = connection.prepareStatement(sql, new String[] { "commentId" });
 				ps.setString(1, comment.getCommentText());
 				ps.setString(2, comment.getUser().getUserId());
@@ -43,7 +41,6 @@ public class CommentDao extends JdbcDaoSupport {
 				return ps;
 			}
 		}, keyHolder);
-		System.out.println("10");
 		return keyHolder.getKey().longValue();
 		
 	}
