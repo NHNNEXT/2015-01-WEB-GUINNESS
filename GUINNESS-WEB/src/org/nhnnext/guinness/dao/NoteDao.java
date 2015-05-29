@@ -54,7 +54,7 @@ public class NoteDao extends JdbcDaoSupport {
 	}
 
 	public Note readNote(String noteId) {
-		String sql = "select * from NOTES,USERS where noteId = ? AND NOTES.userId = USERS.userId";
+		String sql = "select * from NOTES,USERS where NOTES.noteId = ? AND NOTES.userId = USERS.userId";
 		try {
 			return getJdbcTemplate().queryForObject(
 					sql, (rs, rowNum) -> new Note(rs.getString("noteId"),

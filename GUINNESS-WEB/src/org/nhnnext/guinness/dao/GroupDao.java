@@ -98,8 +98,8 @@ public class GroupDao extends JdbcDaoSupport {
 	}
 
 	public Group readGroupByNoteId(String noteId) {
-		String sql = "select * from groups where groupId = "
-				+ "(select distinct(groupId) from notes where noteId =?)";
+		String sql = "select * from GROUPS where groupId = "
+				+ "(select distinct(groupId) from NOTES where noteId =?)";
 
 		try {
 			return getJdbcTemplate().queryForObject(
