@@ -73,17 +73,28 @@ function sendJoinRequest() {
     var userName = document.querySelector('#join-userName').value.trim();
     var userPassword = document.querySelector('#join-userPassword').value.trim();
   	var param = "userId="+userId+"&userName="+userName+"&userPassword="+userPassword;
-  	guinness.ajax({
+  	guinness.restAjax({
   		method: "post",
   		url: "/user",
   		param: param,
-  		success: function(req) {
-  			var result = JSON.parse(req.responseText)
-  			if (result.success === false) { 
-  				document.querySelector(".errorMessage").innerHTML = result.json.message; 
-  			} else { 
-  				window.location.href = result.location;
+  		statusCode: {
+  			201: function(res) {	// 생성 성공 
+  				window.location.href = res;
+  			},
+  			409: function(res) {	// 이미 존재하는 아이디 
+  				document.querySelector(".errorMessage").innerHTML = res; 
+  			},
+  			412: function(res) {	// 유효성 통과 못함
+  				var errorList = JSON.parse(res);
+  				var errorListLength = errorList.length;
+  				for(var i=0; i<errorListLength; i++) {
+  					joinCheck.setErrorMessage({
+  	  					element: "join-"+errorList[i].id,
+  	  					status: "block",
+  	  					message: errorList[i].message
+  	  			  	});
+  				}
   			}
-		}
+  		}
   	});
 }

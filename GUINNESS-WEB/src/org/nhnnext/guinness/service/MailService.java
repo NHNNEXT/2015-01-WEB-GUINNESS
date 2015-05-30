@@ -17,7 +17,7 @@ public class MailService {
 	@Resource
 	private JavaMailSender javaMailSender;
 
-	public void sendMailforSignUp(String keyAddress, String userId) throws SendMailException {
+	public void sendMailforSignUp(String keyAddress, String userId) {
 		try {
 			MimeMessage message = javaMailSender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message, false, "utf-8");

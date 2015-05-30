@@ -31,7 +31,7 @@ public class PCommentController {
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	protected @ResponseBody JsonResult create(HttpSession session, @RequestParam String pId,
 			@RequestParam String sameSenCount, @RequestParam String sameSenIndex, @RequestParam String pCommentText,
-			@RequestParam String selectedText, @RequestParam String noteId) throws IOException, UnpermittedAccessGroupException {
+			@RequestParam String selectedText, @RequestParam String noteId) throws IOException{
 		SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
 		if (pCommentText.equals("")) {
 			return new JsonResult().setSuccess(false);

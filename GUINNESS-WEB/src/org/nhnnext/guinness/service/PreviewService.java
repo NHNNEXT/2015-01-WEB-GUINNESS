@@ -26,7 +26,7 @@ public class PreviewService {
 	@Resource
 	private GroupDao groupDao;
 	
-	public List<Preview> initNotes(String sessionUserId, String groupId) throws UnpermittedAccessGroupException {
+	public List<Preview> initNotes(String sessionUserId, String groupId) {
 		Group group = groupDao.readGroup(groupId);
 		if (!group.checkStatus() && !groupDao.checkJoinedGroup(sessionUserId, groupId)) {
 			throw new UnpermittedAccessGroupException("비공개 된 그룹입니다");

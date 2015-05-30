@@ -1,6 +1,6 @@
 package org.nhnnext.guinness.exception;
 
-public class UnpermittedDeleteGroupException extends Exception {
+public class UnpermittedDeleteGroupException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	public UnpermittedDeleteGroupException() {

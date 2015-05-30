@@ -9,10 +9,8 @@ import org.nhnnext.guinness.dao.ConfirmDao;
 import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.UserDao;
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
-import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
 import org.nhnnext.guinness.exception.FailedLoginException;
 import org.nhnnext.guinness.exception.NotExistedUserIdException;
-import org.nhnnext.guinness.exception.SendMailException;
 import org.nhnnext.guinness.exception.UserUpdateException;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
@@ -33,12 +31,12 @@ public class UserService {
 	@Resource
 	private MailService mailService;
 	
-	public void join(User user) throws AlreadyExistedUserIdException, SendMailException, FailedAddGroupMemberException {
+	public void join(User user) {
 		User existedUser = createUser(user);
 		createConfirm(user, existedUser);
 	}
 	
-	private User createUser(User user) throws AlreadyExistedUserIdException, FailedAddGroupMemberException {
+	private User createUser(User user) {
 		if(userDao.findUserByUserId(user.getUserId()) != null) {
 			throw new AlreadyExistedUserIdException("이미 존재하는 계정입니다.");
 		}
@@ -52,7 +50,7 @@ public class UserService {
 		return userDao.findUserByUserId(user.getUserId());
 	}
 
-	private void createConfirm(User user, User existedUser) throws SendMailException {
+	private void createConfirm(User user, User existedUser) {
 		if("R".equals(existedUser.getUserStatus())) {
 			confirmDao.deleteConfirmByUserId(user.getUserId());
 		}
@@ -76,7 +74,7 @@ public class UserService {
 		return userDao.findUserByUserId(userId);
 	}
 	
-	public User login(String userId, String userPassword) throws FailedLoginException {
+	public User login(String userId, String userPassword) {
 		User user = userDao.findUserByUserId(userId);
 		if (user == null || !user.isCorrectPassword(userPassword) || !user.checkUserStatus("E")) {
 			throw new FailedLoginException();
@@ -84,7 +82,7 @@ public class UserService {
 		return user;
 	}
 	
-	public void update(User user, String rootPath, MultipartFile profileImage) throws UserUpdateException {
+	public void update(User user, String rootPath, MultipartFile profileImage) {
 		User dbUser = userDao.findUserByUserId(user.getUserId());
 		
 		boolean isDefaultImage = "avatar-default.png".equals(user.getUserImage());
@@ -108,7 +106,7 @@ public class UserService {
 		return user.isCorrectPassword(userPassword);
 	}
 
-	public void initPassword(String userId) throws NotExistedUserIdException, SendMailException {
+	public void initPassword(String userId) {
 		if(userDao.findUserByUserId(userId) == null) {
 			throw new NotExistedUserIdException("사용자를 찾을 수 없습니다.");
 		}

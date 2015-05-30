@@ -1,6 +1,6 @@
 package org.nhnnext.guinness.exception;
 
-public class SendMailException extends Exception {
+public class SendMailException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	public SendMailException() {

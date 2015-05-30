@@ -5,8 +5,6 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.nhnnext.guinness.model.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -21,8 +19,6 @@ public class UserDao extends JdbcDaoSupport {
 		setDataSource(dataSource);
 	}
 	
-	private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
-
 	public void createUser(User user) {
 		String sql = "insert into USERS values(?,?,?,default,default,default)";
 		getJdbcTemplate().update(sql, user.getUserId(), user.getUserName(), user.getUserPassword());

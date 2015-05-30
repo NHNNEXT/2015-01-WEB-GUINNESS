@@ -1,6 +1,6 @@
 package org.nhnnext.guinness.exception;
 
-public class FailedAddGroupMemberException extends Exception {
+public class FailedAddGroupMemberException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	public FailedAddGroupMemberException() {

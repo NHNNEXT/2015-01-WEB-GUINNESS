@@ -32,7 +32,7 @@
 					</c:if>
 					<form:input id="join-userEmail" cssClass="text" path="userId" placeholder="이메일"
 						autocomplete="off" value="${userId}" required="required" />
-					<span id="join-userEmail-message" class="errorMessage">${userId_message}</span>
+					<span id="join-userId-message" class="errorMessage">${userId_message}</span>
 					<form:input id="join-userName" cssClass="text" path="userName" placeholder="이름"
 						autocomplete="off" value="${userName}" required="required" />
 					<span id="join-userName-message" class="errorMessage">${userName_message}</span>

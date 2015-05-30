@@ -1,6 +1,6 @@
 package org.nhnnext.guinness.controller;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,16 +9,13 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
-import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
-import org.nhnnext.guinness.exception.FailedLoginException;
-import org.nhnnext.guinness.exception.NotExistedUserIdException;
-import org.nhnnext.guinness.exception.SendMailException;
 import org.nhnnext.guinness.exception.UserUpdateException;
 import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.service.UserService;
-import org.nhnnext.guinness.util.JsonResponse;
+import org.nhnnext.guinness.util.JSONResponseUtil;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,19 +34,12 @@ public class UserController {
 	private UserService userService;
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	protected @ResponseBody JsonResponse create(@Valid User user, BindingResult result) throws AlreadyExistedUserIdException, SendMailException, FailedAddGroupMemberException {
-		Map<String, Object> messages = new HashMap<String, Object>();
-		// 유효성 검사
+	protected ResponseEntity<Object> create(@Valid User user, BindingResult result) {
 		if(result.hasErrors()) {
-            List<ObjectError> list = result.getAllErrors();
-            for (ObjectError e : list) {
-            	String element = e.getCodes()[0].split("\\.")[2];
-            	messages.put(element+"_message", result.getFieldError(element).getDefaultMessage());
-            }
-            return new JsonResponse().setSuccess(false).setLocation("index").setJson(messages);
+			return JSONResponseUtil.getJSONResponse(extractValidationMessages(result), HttpStatus.PRECONDITION_FAILED);
         }
 		userService.join(user);
-		return new JsonResponse().setSuccess(true).setLocation("/user/sendEmail");
+		return JSONResponseUtil.getJSONResponse("/user/sendEmail", HttpStatus.CREATED);
 	}
 	
 	@RequestMapping("/sendEmail")
@@ -65,7 +55,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	protected @ResponseBody boolean login(@RequestParam String userId, @RequestParam String userPassword, HttpSession session) throws FailedLoginException {
+	protected @ResponseBody boolean login(@RequestParam String userId, @RequestParam String userPassword, HttpSession session) {
 		SessionUser sessionUser = (userService.login(userId, userPassword)).createSessionUser();
 		session.setAttribute("sessionUser", sessionUser);
 		return true;
@@ -78,7 +68,7 @@ public class UserController {
 	}
 
 	@RequestMapping("/form")
-	protected String updateForm(Model model, HttpSession session) throws IOException {
+	protected String updateForm(Model model, HttpSession session) {
 		return "updateUserCheck";
 	}
 	
@@ -95,7 +85,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	protected String updateUser(User user, @RequestParam String userAgainPassword, HttpSession session, @RequestParam("profileImage") MultipartFile profileImage, Model model) throws UserUpdateException {
+	protected String updateUser(User user, @RequestParam String userAgainPassword, HttpSession session, @RequestParam("profileImage") MultipartFile profileImage, Model model) {
 		if(!user.isCorrectPassword(userAgainPassword))
 			throw new UserUpdateException("비밀번호가 다릅니다.");
 		String rootPath = session.getServletContext().getRealPath("/");
@@ -111,9 +101,22 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/findPassword", method = RequestMethod.POST)
-	protected String findPassword(@RequestParam("userId") String userId, Model model) throws NotExistedUserIdException, SendMailException {
+	protected String findPassword(@RequestParam("userId") String userId, Model model) {
 		userService.initPassword(userId);
 		model.addAttribute("message", "임시 비밀번호를 이메일로 보내드렸습니다.");
 		return "sendEmail";
+	}
+
+	private List<Map<String, Object>> extractValidationMessages(BindingResult result) {
+		List<Map<String, Object>> messages = new ArrayList<>();
+		List<ObjectError> list = result.getAllErrors();
+		for (ObjectError e : list) {
+			String element = e.getCodes()[0].split("\\.")[2];
+			Map<String, Object> map = new HashMap<>();
+			map.put("id", element+"-message");
+			map.put("message", result.getFieldError(element).getDefaultMessage());
+			messages.add(map);
+		}
+		return messages;
 	}
 }

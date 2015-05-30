@@ -15,7 +15,6 @@ import org.nhnnext.guinness.dao.AlarmDao;
 import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.NoteDao;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
-import org.nhnnext.guinness.exception.UnpermittedAccessNoteException;
 import org.nhnnext.guinness.model.Alarm;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
@@ -41,12 +40,11 @@ public class NoteService {
 	@Resource
 	private PCommentService pCommentService;
 
-	public Note readNote(String sessionUserId, String noteId) throws UnpermittedAccessNoteException {
+	public Note readNote(String sessionUserId, String noteId) {
 		return noteDao.readNote(noteId);
 	}
 
-	public void create(String sessionUserId, String groupId, String noteText, String noteTargetDate, String tempNoteId)
-			throws UnpermittedAccessGroupException {
+	public void create(String sessionUserId, String groupId, String noteText, String noteTargetDate, String tempNoteId) {
 		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
 			throw new UnpermittedAccessGroupException();
 		}
@@ -84,7 +82,7 @@ public class NoteService {
 		return noteDao.deleteNote(noteId);
 	}
 
-	public boolean checkJoinedGroup(String groupId, String sessionUserId) throws UnpermittedAccessGroupException {
+	public boolean checkJoinedGroup(String groupId, String sessionUserId) {
 		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
 			throw new UnpermittedAccessGroupException("권한이 없습니다. 그룹 가입을 요청하세요.");
 		}

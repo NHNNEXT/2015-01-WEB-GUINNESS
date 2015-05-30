@@ -1,6 +1,6 @@
 package org.nhnnext.guinness.exception;
 
-public class NotExistedUserIdException extends Exception {
+public class NotExistedUserIdException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	public NotExistedUserIdException() {

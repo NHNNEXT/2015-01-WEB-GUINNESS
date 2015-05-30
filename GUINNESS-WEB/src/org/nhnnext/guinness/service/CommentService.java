@@ -17,16 +17,12 @@ import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
 public class CommentService {
-	private static final Logger logger = LoggerFactory.getLogger(CommentService.class);
-	
 	@Resource
 	private CommentDao commentDao;
 	@Resource
@@ -36,7 +32,7 @@ public class CommentService {
 	@Resource
 	private GroupDao groupDao;
 
-	public List<Map<String, Object>> create(SessionUser sessionUser, Note note, Comment comment) throws UnpermittedAccessGroupException {
+	public List<Map<String, Object>> create(SessionUser sessionUser, Note note, Comment comment) {
 		Group group = groupDao.readGroupByNoteId(note.getNoteId());
 		if (!groupDao.checkJoinedGroup(sessionUser.getUserId(), group.getGroupId())) {
 			throw new UnpermittedAccessGroupException("권한이 없습니다. 그룹 가입을 요청하세요.");

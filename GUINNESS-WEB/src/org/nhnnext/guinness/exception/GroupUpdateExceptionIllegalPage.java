@@ -1,6 +1,6 @@
 package org.nhnnext.guinness.exception;
 
-public class GroupUpdateExceptionIllegalPage extends Exception {
+public class GroupUpdateExceptionIllegalPage extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	public GroupUpdateExceptionIllegalPage() {

@@ -13,8 +13,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
-import org.nhnnext.guinness.exception.UnpermittedAccessNoteException;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.Preview;
 import org.nhnnext.guinness.service.GroupService;
@@ -54,8 +52,7 @@ public class NoteController {
 	private TempNoteService tempNoteService;
 	
 	@RequestMapping("/g/{groupId}")
-	protected String initReadNoteList(@PathVariable String groupId, HttpSession session, Model model)
-			throws IOException, UnpermittedAccessGroupException {
+	protected String initReadNoteList(@PathVariable String groupId, HttpSession session, Model model) throws IOException{
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		model.addAttribute("group", groupService.readGroup(groupId));
 		model.addAttribute("noteList", new Gson().toJson(previewService.initNotes(sessionUserId, groupId)));
@@ -76,7 +73,7 @@ public class NoteController {
 	}
 
 	@RequestMapping("/notes/{noteId}")
-	protected @ResponseBody JsonResult show(@PathVariable String noteId, HttpSession session) throws IOException, UnpermittedAccessNoteException {
+	protected @ResponseBody JsonResult show(@PathVariable String noteId, HttpSession session) throws IOException{
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		Note note = noteService.readNote(sessionUserId, noteId);
 		note.setNoteText(new Markdown().toHTML(note.getNoteText()));
@@ -85,8 +82,7 @@ public class NoteController {
 
 	@RequestMapping(value = "/notes", method = RequestMethod.POST)
 	protected String create(@RequestParam String groupId, @RequestParam String noteText,
-			@RequestParam String noteTargetDate, @RequestParam String tempNoteId, HttpSession session, Model model) throws IOException,
-			UnpermittedAccessGroupException {
+			@RequestParam String noteTargetDate, @RequestParam String tempNoteId, HttpSession session, Model model) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		
 		
@@ -140,8 +136,7 @@ public class NoteController {
 	}
 
 	@RequestMapping("/notes/editor/g/{groupId}")
-	private String createForm(@PathVariable String groupId, Model model, HttpSession session)
-			throws UnpermittedAccessGroupException, IOException {
+	private String createForm(@PathVariable String groupId, Model model, HttpSession session) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		noteService.checkJoinedGroup(groupId, sessionUserId);
 		model.addAttribute("group", groupService.readGroup(groupId));

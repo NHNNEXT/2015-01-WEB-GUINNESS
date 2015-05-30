@@ -13,7 +13,6 @@ import org.nhnnext.guinness.dao.UserDao;
 import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
 import org.nhnnext.guinness.exception.FailedDeleteGroupException;
 import org.nhnnext.guinness.exception.GroupUpdateException;
-import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.exception.UnpermittedDeleteGroupException;
 import org.nhnnext.guinness.model.Alarm;
 import org.nhnnext.guinness.model.Group;
@@ -56,8 +55,7 @@ public class GroupService {
 		return groupId;
 	}
 
-	public void delete(String groupId, String userId) throws FailedDeleteGroupException,
-			UnpermittedDeleteGroupException {
+	public void delete(String groupId, String userId) {
 		logger.debug("groupId: {}", groupId);
 		Group group = groupDao.readGroup(groupId);
 		if (group == null) {
@@ -70,8 +68,7 @@ public class GroupService {
 		alarmDao.deleteGroupByGroupId(groupId);
 	}
 
-	public void inviteGroupMember(String sessionUserId, String userId, String groupId)
-			throws FailedAddGroupMemberException, UnpermittedAccessGroupException {
+	public void inviteGroupMember(String sessionUserId, String userId, String groupId) {
 		if (userDao.findUserByUserId(userId) == null)
 			throw new FailedAddGroupMemberException("사용자를 찾을 수 없습니다!");
 		if (groupDao.checkJoinedGroup(userId, groupId))
@@ -83,8 +80,7 @@ public class GroupService {
 		alarmDao.createGroupInvitation(alarm);
 	}
 
-	public void joinGroupMember(String sessionUserId, String groupId)
-			throws FailedAddGroupMemberException, UnpermittedAccessGroupException {
+	public void joinGroupMember(String sessionUserId, String groupId) {
 		if (alarmDao.checkJoinedGroupAlarms(sessionUserId, groupId))
 			throw new FailedAddGroupMemberException("가입 승인 대기중 입니다!");
 		String groupUserCaptionId = groupDao.findGroupCaptianUserId(groupId);
@@ -93,17 +89,17 @@ public class GroupService {
 		alarmDao.createGroupInvitation(alarm);
 	}
 	
-	public User addGroupMember(String userId, String groupId) throws FailedAddGroupMemberException {
+	public User addGroupMember(String userId, String groupId) {
 		groupDao.createGroupUser(userId, groupId);
 		return userDao.findUserByUserId(userId);
 	}
 
-	public void leaveGroup(String userId, String groupId) throws GroupUpdateException {
+	public void leaveGroup(String userId, String groupId) {
 		checkPossibleDeleteGroupMember(userId, groupDao.readGroup(groupId));
 		groupDao.deleteGroupUser(userId, groupId);
 	}
 
-	public void deleteGroupMember(String sessionUserId, String userId, String groupId) throws GroupUpdateException {
+	public void deleteGroupMember(String sessionUserId, String userId, String groupId) {
 		Group group = groupDao.readGroup(groupId);
 		if (!group.getGroupCaptainUserId().equals(sessionUserId)) {
 			throw new GroupUpdateException("그룹장만이 추방이 가능합니다.");
@@ -112,7 +108,7 @@ public class GroupService {
 		groupDao.deleteGroupUser(userId, groupId);
 	}
 
-	private void checkPossibleDeleteGroupMember(String userId, Group group) throws GroupUpdateException {
+	private void checkPossibleDeleteGroupMember(String userId, Group group) {
 		if (!groupDao.checkJoinedGroup(userId, group.getGroupId())) {
 			throw new GroupUpdateException("그룹멤버가 아닙니다.");
 		}
@@ -137,7 +133,7 @@ public class GroupService {
 		return alarmId;
 	}
 
-	public void update(String sessionUserId, Group group, String rootPath, MultipartFile groupImage) throws GroupUpdateException {
+	public void update(String sessionUserId, Group group, String rootPath, MultipartFile groupImage) {
 		Group dbGroup = groupDao.readGroup(group.getGroupId());
 		
 		if (!sessionUserId.equals(dbGroup.getGroupCaptainUserId())) {

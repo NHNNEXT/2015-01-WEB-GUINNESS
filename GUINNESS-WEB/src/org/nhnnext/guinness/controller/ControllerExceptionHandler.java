@@ -1,26 +1,20 @@
 package org.nhnnext.guinness.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
 import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
-import org.nhnnext.guinness.exception.FailedDeleteGroupException;
 import org.nhnnext.guinness.exception.FailedLoginException;
 import org.nhnnext.guinness.exception.FailedMakingGroupException;
 import org.nhnnext.guinness.exception.GroupUpdateException;
-import org.nhnnext.guinness.exception.GroupUpdateExceptionIllegalPage;
 import org.nhnnext.guinness.exception.NotExistedUserIdException;
-import org.nhnnext.guinness.exception.SendMailException;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.exception.UnpermittedDeleteGroupException;
 import org.nhnnext.guinness.exception.UserUpdateException;
-import org.nhnnext.guinness.model.User;
-import org.nhnnext.guinness.util.JsonResponse;
+import org.nhnnext.guinness.util.JSONResponseUtil;
 import org.nhnnext.guinness.util.JsonResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.CannotGetJdbcConnectionException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,29 +24,11 @@ import org.springframework.web.servlet.view.RedirectView;
 @ControllerAdvice
 public class ControllerExceptionHandler {
 	private static final Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
-//
-//	// 디비 접속 안되었을 경우 예외처리
-//	@ExceptionHandler(CannotGetJdbcConnectionException.class)
-//	public ModelAndView cannotGetJdbcConnectionException(CannotGetJdbcConnectionException e) {
-//		e.printStackTrace();
-//		ModelAndView mav = new ModelAndView("/exception");
-//		logger.debug("exception: {}", e.getClass().getSimpleName());
-//		return mav;
-//	}
-//	
-//	// 본인 확인을 위한 메일 전송 시 예외처리
-//	@ExceptionHandler(SendMailException.class)
-//	public String sendMailException(SendMailException e) {
-//		e.printStackTrace();
-//		return "/exception";
-//	}
 	
 	// 회원가입시 중복 아이디 예외처리
 	@ExceptionHandler(AlreadyExistedUserIdException.class)
-	public @ResponseBody JsonResponse alreadyExistedUserIdException(AlreadyExistedUserIdException e) {
-		Map<String, Object> messages = new HashMap<String, Object>();
-		messages.put("message", "이미 존재하는 아이디입니다.");
-		return new JsonResponse().setSuccess(false).setLocation("index").setJson(messages);
+	public ResponseEntity<Object> alreadyExistedUserIdException(AlreadyExistedUserIdException e) {
+		return JSONResponseUtil.getJSONResponse("이미 존재하는 아이디입니다.", HttpStatus.CONFLICT);
 	}
 	
 	// 로그인 실패시 예외처리
