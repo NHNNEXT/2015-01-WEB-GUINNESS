@@ -83,13 +83,16 @@ joinCheck.setErrorMessage = function(param) {
 }
 
 joinCheck.checkJoinFieldsStatus = function() {
+	var subitBtn = document.querySelector("#join-submit");
 	var errorMessageFiles = document.querySelectorAll(".errorMessage");
 	var lengthOfFields = errorMessageFiles.length;
 	for(var i=0; i<lengthOfFields; i++) {
 		if(errorMessageFiles[i].style.cssText.indexOf("block") !== -1) {
-			document.querySelector("#join-submit").disabled = true;
+			subitBtn.disabled = true;
+			subitBtn.style.backgroundColor="rgba(194, 194, 194, 0.4)";
 			return;
 		}
 	}
-	document.querySelector("#join-submit").disabled = false;
+	subitBtn.disabled = false;
+	subitBtn.style.backgroundColor="#7cc4b5";
 }
