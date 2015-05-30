@@ -44,7 +44,7 @@
 					<form:password id="join-userPassword" cssClass="text" path="userPassword"
 						placeholder="비밀번호" required="required" />
 					<span id="join-userPassword-message" class="errorMessage">${userPassword_message}</span>
-					<button type="submit" class="btn btn-pm">회원가입</button>
+					<button id="join-submit" type="submit" class="btn btn-pm">회원가입</button>
 				</form:form>
 				<form method="post" id="login-form" class="form-group"
 					style="margin: 0 auto; display: block;">
