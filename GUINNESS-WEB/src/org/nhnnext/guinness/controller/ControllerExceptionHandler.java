@@ -1,5 +1,8 @@
 package org.nhnnext.guinness.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
 import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
 import org.nhnnext.guinness.exception.FailedDeleteGroupException;
@@ -13,6 +16,7 @@ import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.exception.UnpermittedDeleteGroupException;
 import org.nhnnext.guinness.exception.UserUpdateException;
 import org.nhnnext.guinness.model.User;
+import org.nhnnext.guinness.util.JsonResponse;
 import org.nhnnext.guinness.util.JsonResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,11 +49,10 @@ public class ControllerExceptionHandler {
 	
 	// 회원가입시 중복 아이디 예외처리
 	@ExceptionHandler(AlreadyExistedUserIdException.class)
-	public ModelAndView alreadyExistedUserIdException(AlreadyExistedUserIdException e) {
-		ModelAndView mav = new ModelAndView("/index");
-		mav.addObject("user", new User());
-		mav.addObject("message", "이미 존재하는 아이디입니다.");
-		return mav;
+	public @ResponseBody JsonResponse alreadyExistedUserIdException(AlreadyExistedUserIdException e) {
+		Map<String, Object> messages = new HashMap<String, Object>();
+		messages.put("message", "이미 존재하는 아이디입니다.");
+		return new JsonResponse().setSuccess(false).setLocation("index").setJson(messages);
 	}
 	
 	// 로그인 실패시 예외처리

@@ -1,7 +1,9 @@
 package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -16,8 +18,7 @@ import org.nhnnext.guinness.exception.UserUpdateException;
 import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.nhnnext.guinness.util.JsonResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,26 +33,27 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
 	@Resource
 	private UserService userService;
-
+	
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	protected String create(@Valid User user, BindingResult result, Model model) throws AlreadyExistedUserIdException, SendMailException, FailedAddGroupMemberException {
+	protected @ResponseBody JsonResponse create(@Valid User user, BindingResult result) throws AlreadyExistedUserIdException, SendMailException, FailedAddGroupMemberException {
+		Map<String, Object> messages = new HashMap<String, Object>();
 		// 유효성 검사
 		if(result.hasErrors()) {
             List<ObjectError> list = result.getAllErrors();
             for (ObjectError e : list) {
             	String element = e.getCodes()[0].split("\\.")[2];
-            	model.addAttribute(element+"_message", result.getFieldError(element).getDefaultMessage());
-            	logger.debug("field: {}, message: {}", element, result.getFieldError(element).getDefaultMessage());
+            	messages.put(element+"_message", result.getFieldError(element).getDefaultMessage());
             }
-            return "index";
+            return new JsonResponse().setSuccess(false).setLocation("index").setJson(messages);
         }
 		userService.join(user);
-		String []userIdSplit = user.getUserId().split("@");
-		model.addAttribute("mailSite", userIdSplit[1]);
+		return new JsonResponse().setSuccess(true).setLocation("/user/sendEmail");
+	}
+	
+	@RequestMapping("/sendEmail")
+	protected String emailCheck() {
 		return "sendEmail";
 	}
 

@@ -3,11 +3,9 @@
  * required::guinness.js
  */
 window.addEventListener('load', function() {
-	if(document.querySelector('.errorMessage').innerHTML) {
-		switchForm(false);
-	}
-	// 이벤트리스너 등록
-	setEventListener();
+	//회원가입 유효성 이벤트 등록
+	setEventListener();	
+	
 });
 
 var setEventListener = function() {
@@ -17,13 +15,15 @@ var setEventListener = function() {
 	joinCheck.setNameValidation("join-userName", "join-userName-message");
 	// Password //
 	joinCheck.setPasswordValidation("join-userPassword", "join-userPassword-message");
+	
+	// 회원가입/로그인 폼 전환 이벤트 등록
+	document.querySelector(".switchForm").addEventListener("click", function() { switchForm(true)}, false);
+	// 로그인 이벤트 등록 
+	document.querySelector("#login-form").addEventListener("submit", function(e) {e.preventDefault(); loginCheck(); }, false);
+	// 회원가입 이벤트 등록 
+	document.querySelector("#join-submit").addEventListener("click", function() {sendJoinRequest();}, false);
+
 }
-
-var el = document.querySelector(".switchForm");
-el.addEventListener("click", function() { 
-	switchForm(true)}, false);
-
-document.querySelector("#login-form").addEventListener("submit", function(e) { e.preventDefault(); loginCheck(); }, false);
 
 function switchForm(flag) {
 	var el;
@@ -65,5 +65,25 @@ function loginCheck() {
   				   }
   				   else { window.location.href = "/groups/form"}
   		}
+  	});
+}
+
+function sendJoinRequest() {
+	var userId = document.querySelector('#join-userEmail').value.trim();
+    var userName = document.querySelector('#join-userName').value.trim();
+    var userPassword = document.querySelector('#join-userPassword').value.trim();
+  	var param = "userId="+userId+"&userName="+userName+"&userPassword="+userPassword;
+  	guinness.ajax({
+  		method: "post",
+  		url: "/user",
+  		param: param,
+  		success: function(req) {
+  			var result = JSON.parse(req.responseText)
+  			if (result.success === false) { 
+  				document.querySelector(".errorMessage").innerHTML = result.json.message; 
+  			} else { 
+  				window.location.href = result.location;
+  			}
+		}
   	});
 }

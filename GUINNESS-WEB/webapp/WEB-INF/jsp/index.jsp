@@ -22,9 +22,7 @@
 					그룹을 생성하여 학습 노트를 공유하거나 언제 어디에서나 피드백을 받으세요!</div>
 				
 				<!-- 아이디 중복시 -->
-				<c:if test="${not empty message}">
-					<span class="errorMessage"> ${ message }</span>
-				</c:if>
+				<span class="errorMessage"> ${ message }</span>
 
 				<form:form commandName="user" id="signup-form" method="post"
 					action="/user" class="form-group" style="margin: 0 auto; display: none;">
@@ -41,7 +39,7 @@
 					<form:password id="join-userPassword" cssClass="text" path="userPassword"
 						placeholder="비밀번호" required="required" />
 					<span id="join-userPassword-message" class="errorMessage">${userPassword_message}</span>
-					<button id="join-submit" type="submit" class="btn btn-pm">회원가입</button>
+					<button id="join-submit" type="button" class="btn btn-pm">회원가입</button>
 				</form:form>
 				<form method="post" id="login-form" class="form-group"
 					style="margin: 0 auto; display: block;">
