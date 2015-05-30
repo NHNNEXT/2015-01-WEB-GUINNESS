@@ -46,6 +46,9 @@ function switchForm(flag) {
 		document.querySelector("#login-form").hide();
 		document.querySelector("#label-signUp").hide();
 	}
+	joinCheck.ckeckEmailValidation(document.querySelector("#join-userEmail").value, "join-userEmail-message");
+	joinCheck.checkNameValidation(document.querySelector("#join-userName").value, "join-userName-message");
+	joinCheck.checkPasswordValidation(document.querySelector("#join-userPassword").value, "join-userPassword-message");
 }
 
 function loginCheck() {
