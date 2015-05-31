@@ -13,8 +13,6 @@ import javax.sql.DataSource;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.PComment;
 import org.nhnnext.guinness.model.SessionUser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -23,8 +21,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class PCommentDao extends JdbcDaoSupport {
-	private static final Logger logger = LoggerFactory.getLogger(PCommentDao.class);
-	
 	@Resource
 	private DataSource dataSource;
 
