@@ -46,7 +46,7 @@
 					</div>
 				</div>
 				<textarea id="noteTextBox" rows="28" cols="28" name="noteText"
-					form="noteForm">${note.noteText}</textarea>
+					form="noteForm" onKeyPress="keyHandler(event)">${note.noteText}</textarea>
 				<div id="view-preview-template">
 					<div id="previewBox" class="markdown-body"></div>
 				</div>

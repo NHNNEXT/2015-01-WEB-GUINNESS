@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
-import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
+import org.nhnnext.guinness.exception.UnpermittedAccessPCommentException;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.PComment;
 import org.nhnnext.guinness.model.SessionUser;
@@ -52,13 +52,24 @@ public class PCommentController {
 	}
 
 	@RequestMapping(value = "/{pCommentId}", method = RequestMethod.PUT)
-	protected @ResponseBody JsonResult update(@PathVariable String pCommentId, @RequestParam String commentText) {
-		return new JsonResult().setSuccess(true).setObject((PComment) pCommentService.update(pCommentId, commentText));
+	protected @ResponseBody JsonResult update(HttpSession session, @PathVariable String pCommentId, @RequestParam String commentText) {
+		SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+		try {
+			return new JsonResult().setSuccess(true).setObject((PComment) pCommentService.update(pCommentId, commentText, sessionUser));
+		} catch (UnpermittedAccessPCommentException e) {
+			return new JsonResult().setSuccess(false).setMessage(e.getMessage());
+		}
 	}
 
 	@RequestMapping(value = "/{pCommentId}", method = RequestMethod.DELETE)
-	protected @ResponseBody JsonResult delete(@PathVariable String pCommentId) {
-		pCommentService.delete(pCommentId);
-		return new JsonResult().setSuccess(true);
+	protected @ResponseBody JsonResult delete(HttpSession session, @PathVariable String pCommentId) {
+		SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+		try {
+			pCommentService.delete(pCommentId, sessionUser);
+			return new JsonResult().setSuccess(true);
+		} catch (UnpermittedAccessPCommentException e) {
+			logger.debug(e.getMessage());
+			return new JsonResult().setSuccess(false).setMessage(e.getMessage());
+		}
 	}
 }

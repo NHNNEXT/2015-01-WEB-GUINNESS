@@ -56,7 +56,7 @@ pComment.reloadCountByP.refreshBulbBtn = function (pId, count) {
     return false;
 };
 
-pComment.appendPComment = function (json) {
+pComment.appendPComment = function (json, userId) {
     var date = guinness.util.koreaDate(Number(new Date(json.pCommentCreateDate)));
     var pCommentList = document.body.querySelector(".pCommentList");
     var elPComment = document.querySelector(".aPCommentTemplate").text;
@@ -73,6 +73,9 @@ pComment.appendPComment = function (json) {
         .replace("deletePComment()", 'pComment.deletePComment('+json.pCommentId+')');
     pCommentList.insertAdjacentHTML("beforeend", elPComment);
     var PCommentCard = document.body.querySelector(".pCommentList #pCId" + json.pCommentId);
+    if (json.sessionUser.userId === userId) {
+        PCommentCard.querySelector(".controll").style.display = "block";
+    }
     PCommentCard.addEventListener('mouseover', pComment.highlight, false);
     PCommentCard.addEventListener('mouseleave', pComment.clearHighlight, false);
     pCommentList.scrollTop = pCommentList.scrollHeight;
@@ -335,10 +338,10 @@ function createPCommentListBox(pId, noteContent, noteId) {
             }
             var pCommentList = document.body.querySelector(".pCommentList");
             pCommentList.innerHTML = "";
-            
+            var userId = document.body.querySelector("#sessionUserId").value
             var length = result.objectValues.length;
             for (var index = 0; index < length; index++) {
-                pComment.appendPComment(result.objectValues[index]);
+                pComment.appendPComment(result.objectValues[index], userId);
             }
             var pCommentList = document.body.querySelector(".pCommentList");
             pCommentList.scrollTop = 0;
@@ -386,7 +389,8 @@ pComment.createPComment = function () {
             if (result.success !== true) {
                 return;
             }
-            pComment.appendPComment(result.object);
+            var userId =  document.body.querySelector("#sessionUserId").value;
+            pComment.appendPComment(result.object, document.body.querySelector("#sessionUserId").value);
         }
     });
 };

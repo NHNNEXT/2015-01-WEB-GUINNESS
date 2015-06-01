@@ -36,20 +36,42 @@ window.addEventListener('load', function() {
 		previewBox.innerHTML = json.message;
     }
 
-    textBox.addEventListener('keydown', keyHandler,false);
-
-    function keyHandler(e) {
-        var TABKEY = 9;
-        if(e.keyCode == TABKEY) {
-            var insertTabPoint = e.currentTarget.selectionStart;
-            this.value = this.value.slice(0, insertTabPoint) + "\t" + this.value.slice(insertTabPoint);
-            if(e.preventDefault) {
-                e.preventDefault();
-            }
-            return false;
-        }
-    }
+    textBox.addEventListener('keydown', tabKeyHandler, false);
 }, false);
 
+function tabKeyHandler(e) {
+    var TABKEY = 9;
+    if(e.keyCode === TABKEY) {
+        e.preventDefault();
+        insertAtCaret(e.target, '\t');
+    }
+}
 
-
+function insertAtCaret(target, text) {
+    var scrollPos = target.scrollTop;
+    var strPos = 0;
+    var br = ((target.selectionStart || target.selectionStart == '0') ? "ff" : (document.selection ? "ie" : false ) );
+    if (br == "ie") {
+        target.focus();
+        var range = document.selection.createRange();
+        range.moveStart ('character', -txtarea.value.length);
+        strPos = range.text.length;
+    } else if (br == "ff") strPos = target.selectionStart;
+    var front = (target.value).substring(0,strPos);
+    var back = (target.value).substring(strPos,target.value.length);
+    target.value = front + text + back;
+    strPos = strPos + text.length;
+    if (br == "ie") {
+        target.focus();
+        var range = document.selection.createRange();
+        range.moveStart ('character', -target.value.length);
+        range.moveStart ('character', strPos);
+        range.moveEnd ('character', 0);
+        range.select();
+    } else if (br == "ff") {
+        target.selectionStart = strPos;
+        target.selectionEnd = strPos;
+        target.focus();
+    }
+    target.scrollTop = scrollPos;
+} 

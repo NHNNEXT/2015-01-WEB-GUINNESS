@@ -10,6 +10,7 @@ import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.NoteDao;
 import org.nhnnext.guinness.dao.PCommentDao;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
+import org.nhnnext.guinness.exception.UnpermittedAccessPCommentException;
 import org.nhnnext.guinness.model.Alarm;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
@@ -68,12 +69,20 @@ public class PCommentService {
 		return pCommentDao.countByPGroupPCommnent(noteId);
 	}
 
-	public Object update(String commentId, String commentText) {
-		pCommentDao.updatePComment(commentId, commentText);
-		return pCommentDao.readByPCommentId(commentId);
+	public Object update(String pCommentId, String pCommentText, SessionUser sessionUser) {
+		PComment pComment = pCommentDao.readByPCommentId(pCommentId);
+		if (!sessionUser.getUserId().equals(pComment.getSessionUser().getUserId())) {
+			throw new UnpermittedAccessPCommentException("수정할 권한이 없는 코멘트입니다.");
+		}
+		pCommentDao.updatePComment(pCommentId, pCommentText);
+		return pCommentDao.readByPCommentId(pCommentId);
 	}
 
-	public void delete(String pCommentId) {
+	public void delete(String pCommentId, SessionUser sessionUser) {
+		PComment pComment = pCommentDao.readByPCommentId(pCommentId);
+		if (!sessionUser.getUserId().equals(pComment.getSessionUser().getUserId())) {
+			throw new UnpermittedAccessPCommentException("삭제할 권한이 없는 코멘트입니다.");
+		}
 		noteDao.decreaseCommentCountByPComment(pCommentId);
 		pCommentDao.deletePComment(pCommentId);
 	}

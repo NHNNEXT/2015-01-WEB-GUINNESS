@@ -103,6 +103,7 @@ input.text {
   position: relative;
   top: -15px;
   left: 172px;
+    display: none;
 }
 
 .controll > a.update, a.comment-update{
@@ -111,7 +112,7 @@ input.text {
 }
 
 .pComment-text {
-  top: -10px;
+  top: -4px;
   width: 235px;
   display: block;
   max-width: 228px;
