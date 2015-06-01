@@ -72,7 +72,8 @@ function createGroup() {
 		var form = document.querySelector('#create-group-form');
 
 		if(document.querySelector('.modal-cover input[name="groupName"]').value != ""){
-			var param = "groupName="+form.groupName.value+"&status="+form.status.value;
+			var status = document.querySelector('input[name=status]:checked');
+			var param = "groupName="+form.groupName.value+"&status="+status.value;
 			guinness.ajax({
 				method : "post",
 				url : "/groups",
