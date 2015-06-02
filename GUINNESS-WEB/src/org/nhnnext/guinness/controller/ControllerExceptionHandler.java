@@ -5,6 +5,7 @@ import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
 import org.nhnnext.guinness.exception.FailedLoginException;
 import org.nhnnext.guinness.exception.FailedMakingGroupException;
 import org.nhnnext.guinness.exception.GroupUpdateException;
+import org.nhnnext.guinness.exception.JoinValidationException;
 import org.nhnnext.guinness.exception.NotExistedUserIdException;
 import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.exception.UnpermittedDeleteGroupException;
@@ -31,10 +32,16 @@ public class ControllerExceptionHandler {
 		return JSONResponseUtil.getJSONResponse("이미 존재하는 아이디입니다.", HttpStatus.CONFLICT);
 	}
 	
+	// 회원가입시 유효성 검사 예외처리
+	@ExceptionHandler(JoinValidationException.class)
+	public ResponseEntity<Object> joinValidationException(JoinValidationException e) {
+		return JSONResponseUtil.getJSONResponse(e.getExtractValidationMessages(), HttpStatus.PRECONDITION_FAILED);
+	}
+	
 	// 로그인 실패시 예외처리
 	@ExceptionHandler(FailedLoginException.class)
-	public @ResponseBody boolean failedLoginException(FailedLoginException e) {
-		return false;
+	public ResponseEntity<Object> failedLoginException(FailedLoginException e) {
+		return JSONResponseUtil.getJSONResponse(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
 	}
 	
 	// 회원정보 수정시 예외처리

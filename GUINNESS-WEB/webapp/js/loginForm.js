@@ -9,13 +9,13 @@ window.addEventListener('load', function() {
 });
 
 var setEventListener = function() {
-	// Emanl //
-	joinCheck.setEmailValidation("join-userEmail", "join-userEmail-message");
-	// Name //
-	joinCheck.setNameValidation("join-userName", "join-userName-message");
-	// Password //
-	joinCheck.setPasswordValidation("join-userPassword", "join-userPassword-message");
-	
+//	// Emanl //
+//	joinCheck.setEmailValidation("join-userId", "join-userId-message");
+//	// Name //
+//	joinCheck.setNameValidation("join-userName", "join-userName-message");
+//	// Password //
+//	joinCheck.setPasswordValidation("join-userPassword", "join-userPassword-message");
+//	
 	// 회원가입/로그인 폼 전환 이벤트 등록
 	document.querySelector(".switchForm").addEventListener("click", function() { switchForm(true)}, false);
 	// 로그인 이벤트 등록 
@@ -46,7 +46,7 @@ function switchForm(flag) {
 		document.querySelector("#login-form").hide();
 		document.querySelector("#label-signUp").hide();
 	}
-	joinCheck.ckeckEmailValidation(document.querySelector("#join-userEmail").value, "join-userEmail-message");
+	joinCheck.ckeckEmailValidation(document.querySelector("#join-userId").value, "join-userId-message");
 	joinCheck.checkNameValidation(document.querySelector("#join-userName").value, "join-userName-message");
 	joinCheck.checkPasswordValidation(document.querySelector("#join-userPassword").value, "join-userPassword-message");
 }
@@ -55,21 +55,23 @@ function loginCheck() {
     var userId = document.querySelector('#login-userId').value.trim();
     var userPassword = document.querySelector('#login-userPassword').value.trim();
   	var param = "userId="+userId+"&userPassword="+userPassword;
-  	guinness.ajax({
+  	guinness.restAjax({
   		method: "post",
   		url: "/user/login",
   		param: param,
-  		success: function(req) {
-  				   if (JSON.parse(req.responseText) === false) { 
-  					   document.querySelector("#login-error-message").innerHTML = "로그인 실패!"; 
-  				   }
-  				   else { window.location.href = "/groups/form"}
+  		statusCode: {
+  			202: function(res) {	// 로그인 성공 
+  				window.location.href = "/groups/form";
+  			},
+  			406: function(res) {	// 로그인 실패
+  				document.querySelector("#login-error-message").innerHTML = "로그인 실패!"; 
+  			}
   		}
   	});
 }
 
 function sendJoinRequest() {
-	var userId = document.querySelector('#join-userEmail').value.trim();
+	var userId = document.querySelector('#join-userId').value.trim();
     var userName = document.querySelector('#join-userName').value.trim();
     var userPassword = document.querySelector('#join-userPassword').value.trim();
   	var param = "userId="+userId+"&userName="+userName+"&userPassword="+userPassword;
@@ -79,7 +81,7 @@ function sendJoinRequest() {
   		param: param,
   		statusCode: {
   			201: function(res) {	// 생성 성공 
-  				window.location.href = res;
+  				document.body.innerHTML = res;
   			},
   			409: function(res) {	// 이미 존재하는 아이디 
   				document.querySelector(".errorMessage").innerHTML = res; 

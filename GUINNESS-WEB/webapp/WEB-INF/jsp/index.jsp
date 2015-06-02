@@ -30,7 +30,7 @@
 						<span class="errorMessage"> ${signValidErrorMessage } <br />
 						</span>
 					</c:if>
-					<form:input id="join-userEmail" cssClass="text" path="userId" placeholder="이메일"
+					<form:input id="join-userId" cssClass="text" path="userId" placeholder="이메일"
 						autocomplete="off" value="${userId}" required="required" />
 					<span id="join-userId-message" class="errorMessage">${userId_message}</span>
 					<form:input id="join-userName" cssClass="text" path="userName" placeholder="이름"
