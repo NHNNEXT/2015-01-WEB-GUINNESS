@@ -57,14 +57,9 @@ public class ControllerExceptionHandler {
 	
 	// 그룹 탈퇴 시 예외처리
 	// 그룹 추방 시 예외처리
-	@ExceptionHandler(GroupMemberException.class)
-	public ResponseEntity<Object> groupMemberException(GroupMemberException e) {
-		return JSONResponseUtil.getJSONResponse(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
-	}
-	
 	// 그룹 멤버 추가 실패 시 예외처리
 	@ExceptionHandler(GroupMemberException.class)
-	public ResponseEntity<Object> failedAddGroupMemberException(GroupMemberException e) {
+	public ResponseEntity<Object> groupMemberException(GroupMemberException e) {
 		return JSONResponseUtil.getJSONResponse(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
 	}
 
