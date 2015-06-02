@@ -9,13 +9,13 @@ window.addEventListener('load', function() {
 });
 
 var setEventListener = function() {
-//	// Emanl //
-//	joinCheck.setEmailValidation("join-userId", "join-userId-message");
-//	// Name //
-//	joinCheck.setNameValidation("join-userName", "join-userName-message");
-//	// Password //
-//	joinCheck.setPasswordValidation("join-userPassword", "join-userPassword-message");
-//	
+	// Emanl //
+	joinCheck.setEmailValidation("join-userId", "join-userId-message");
+	// Name //
+	joinCheck.setNameValidation("join-userName", "join-userName-message");
+	// Password //
+	joinCheck.setPasswordValidation("join-userPassword", "join-userPassword-message");
+	
 	// 회원가입/로그인 폼 전환 이벤트 등록
 	document.querySelector(".switchForm").addEventListener("click", function() { switchForm(true)}, false);
 	// 로그인 이벤트 등록 
