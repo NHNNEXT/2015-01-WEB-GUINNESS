@@ -377,7 +377,7 @@ function createComment(obj) {
     }
 }
 
-function isJoinedUser() {
+function isJoinedUser(member) {
     var sessionUserId = document.getElementById("sessionUserId").value;
 
     var length = member.length;
@@ -419,23 +419,23 @@ function addMember() {
     	var message = "초대 요청을 보냈습니다.";
     }
     
-    guinness.ajax({
+    guinness.restAjax({
         method: "post",
         url: url,
         param: "userId=" + userId + "&groupId=" + groupId + "&sessionUserId=" + sessionUserId,
-        success: function (req) {
-            var json = JSON.parse(req.responseText);
-            if (json.success === false) {
-                alert.style.visibility = "visible";
+        statusCode: {
+  			406: function(res) {	// 멤버 추가 실패 
+  				alert.style.visibility = "visible";
                 alert.style.color = "#ff5a5a";
                 alert.style.fontSize = "11px";
-                alert.innerHTML = "<br/>"+json.message;
+                alert.innerHTML = "<br/>"+res;
                 if(bJoinedUser){
                 	document.querySelector('#addMemberForm input[name="userId"]').value = "";
                 }
                 return;
-            } else {
-                alert.style.visibility = "visible";
+  			}, 
+  			200: function(res) {	// 멤버 추가 성공  
+  				alert.style.visibility = "visible";
                 alert.style.color = "#86E57F";
                 alert.style.fontSize = "11px";
                 alert.innerHTML = "<br/>"+message;
@@ -443,26 +443,22 @@ function addMember() {
                 	document.querySelector('#addMemberForm input[name="userId"]').value = "";
                 }
                 return;
-            }
-        }
+  			}, 
+  			
+  		}
     });
 }
 
-
-var member;
-
 function readMember(groupId) {
-    guinness.ajax({
+    guinness.restAjax({
         method: "get",
         url: "/groups/members/" + groupId,
-        success: function (req) {
-            if (JSON.parse(req.responseText).success) {
-                member = JSON.parse(req.responseText).mapValues;
-                bJoinedUser = isJoinedUser();
+        statusCode: {
+  			200: function(res) {	// 멤버 추가 실패 
+  				var member = JSON.parse(res);
+                bJoinedUser = isJoinedUser(member);
                 appendMembers(member);
-            } else {
-                window.location.href = JSON.parse(req.responseText).locationWhenFail;
-            }
+  			}
         }
     });
 }

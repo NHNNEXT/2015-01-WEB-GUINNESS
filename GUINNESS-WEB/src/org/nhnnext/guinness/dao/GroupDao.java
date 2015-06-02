@@ -62,7 +62,7 @@ public class GroupDao extends JdbcDaoSupport {
 		}
 	}
 
-	public List<Map<String, Object>> readGroupListForMap(String userId) {
+	public List<Map<String, Object>> readGroups(String userId) {
 		String sql = "select * from GROUPS as G, (select groupId from GROUPS_USERS as A, USERS as B where A.userId = B.userId and B.userId = ?) as C where G.groupId = C.groupId ORDER BY groupName;";
 		return getJdbcTemplate().queryForList(sql, userId);
 	}
@@ -74,7 +74,7 @@ public class GroupDao extends JdbcDaoSupport {
 		return false;
 	}
 
-	public List<Map<String, Object>> readGroupMemberForMap(String groupId) {
+	public List<Map<String, Object>> readGroupMembers(String groupId) {
 		String sql = "select * from USERS,GROUPS_USERS where GROUPS_USERS.groupId = ? and GROUPS_USERS.userId = USERS.userId ORDER BY userName;";
 		return getJdbcTemplate().queryForList(sql, groupId);
 	}

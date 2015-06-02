@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
+import org.nhnnext.guinness.exception.user.AlreadyExistedUserException;
 import org.nhnnext.guinness.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -25,7 +25,7 @@ public class UserDaoTest {
 	}
 	
 	@Test
-	public void CRUDTest() throws ClassNotFoundException, AlreadyExistedUserIdException {
+	public void CRUDTest() throws ClassNotFoundException, AlreadyExistedUserException {
 		userDao.createUser(new User("daoTest@guinness.com","Name","password", "I"));
 		User user = userDao.findUserByUserId("daoTest@guinness.com");
 		assertNotNull(user);

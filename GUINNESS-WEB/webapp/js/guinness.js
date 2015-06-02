@@ -258,24 +258,25 @@ guinness.confirmLeave = function(groupId, groupName, location) {
 
 guinness.leaveGroup = function(sessionUserId, groupId, location) {
 	var param = "sessionUserId="+sessionUserId+"&groupId="+groupId;
-	guinness.ajax({
+	guinness.restAjax({
 		method:"post",
 		url:"/groups/members/leave",
 		param: param,
-		success: function(req) {
-			if(JSON.parse(req.responseText).success !== true) {
-				guinness.util.alert('경고', JSON.parse(req.responseText).message);
-				return;
-			}
-			if(location !== undefined){
-				window.location.href = "/groups/form";
-			}
-			var groupCard = document.querySelector('#' + groupId);
-			if(groupCard === null) { 
-				window.location.href = "/";
-				return;
-			}
-				groupCard.remove();
+		statusCode: {
+			200: function(res) {
+				if(location !== undefined){
+					window.location.href = "/groups/form";
+				}
+				var groupCard = document.querySelector('#' + groupId);
+				if(groupCard === null) { 
+					window.location.href = "/";
+					return;
+				}
+					groupCard.remove();
+			}, 
+  			406: function(res) {	// 멤버 추가 실패 
+  				guinness.util.alert('경고', res);
+  			}
 		}
 	});
 }
@@ -297,16 +298,17 @@ guinness.confirmDeleteUser = function(userId, userName) {
 
 guinness.deleteMember = function(sessionUserId, userId, groupId) {
 	var param = "sessionUserId="+sessionUserId+"&userId="+userId+"&groupId="+groupId;
-	guinness.ajax({
+	guinness.restAjax({
 		method:"post",
 		url:"/groups/members/delete",
 		param: param,
-		success: function(req) {
-			if(JSON.parse(req.responseText).success !== true) {
-				guinness.util.alert('경고', JSON.parse(req.responseText).message);
-				return;
+		statusCode: {
+			200: function(res) {
+				(document.getElementById(userId)).parentElement.remove()
+			}, 
+			406: function(res) {
+				guinness.util.alert('경고', res);
 			}
-			(document.getElementById(userId)).parentElement.remove();
 		}
 	});
 }

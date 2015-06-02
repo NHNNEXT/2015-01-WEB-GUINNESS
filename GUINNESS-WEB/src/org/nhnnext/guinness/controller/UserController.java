@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.nhnnext.guinness.exception.JoinValidationException;
-import org.nhnnext.guinness.exception.UserUpdateException;
+import org.nhnnext.guinness.exception.user.FailedUpdateUserException;
+import org.nhnnext.guinness.exception.user.JoinValidationException;
 import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.service.UserService;
@@ -84,7 +84,7 @@ public class UserController {
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	protected String updateUser(User user, @RequestParam String userAgainPassword, HttpSession session, @RequestParam("profileImage") MultipartFile profileImage, Model model) {
 		if(!user.isCorrectPassword(userAgainPassword))
-			throw new UserUpdateException("비밀번호가 다릅니다.");
+			throw new FailedUpdateUserException("비밀번호가 다릅니다.");
 		String rootPath = session.getServletContext().getRealPath("/");
 		userService.update(user, rootPath, profileImage);
 		session.setAttribute("sessionUser", user.createSessionUser());

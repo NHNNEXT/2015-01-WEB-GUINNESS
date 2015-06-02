@@ -1,4 +1,4 @@
-package org.nhnnext.guinness.exception;
+package org.nhnnext.guinness.exception.group;
 
 public class FailedDeleteGroupException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
