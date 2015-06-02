@@ -18,22 +18,43 @@ var pComment = {
     noteId: null
 };
 
+function updatePComment(pCommentId, commentText) {
+    guinness.restAjax({
+            method: "put",
+            url: "/pComments/" + pCommentId,
+            param: "commentText=" + commentText,
+	        statusCode: {
+	    		201 : function (res) {	//수정 성공
+	                var result = JSON.parse(res);
+	                var el = document.getElementById("pCId"+pCommentId);
+	                el.querySelector('.pComment-text').innerHTML = result.pCommentText.replace(/\n/g, '<br/>');
+	                el.querySelector('.pCommentCreateDate').innerHTML = result.pCommentCreateDate;
+	                el.querySelector('.pComment-text').setAttribute('contentEditable', false);
+	                el.querySelectorAll('.comment-update').remove();
+	                el.querySelector('.update').style.display="inline-block";
+	                el.querySelector('.delete').style.display="inline-block";
+	            },
+            	412 : function(res) {	// 수정 실패
+            		return;
+            	}
+	    	}
+        });
+}
+
 pComment.reloadCountByP = function (pId, noteId) {
-    guinness.ajax({
+    guinness.restAjax({
         method: "get",
         url: "/pComments/readCountByP?noteId=" + noteId,
-        success: function (req) {
-            var result = JSON.parse(req.responseText);
-            if (result.success !== true) {
-                return false;
+    	statusCode: {
+    		200 : function (res) {
+                var objs = JSON.parse(res);
+                objs.forEach(function (obj) {
+                    if (obj.pId === pId*1) {
+                        pComment.reloadCountByP.refreshBulbBtn(pId, obj['count(1)']); 
+                    }
+                });
             }
-            var objs = result.mapValues;
-            objs.forEach(function (obj) {
-                if (obj.pId === pId*1) {
-                    pComment.reloadCountByP.refreshBulbBtn(pId, obj['count(1)']); 
-                }
-            });
-        }
+    	}
     });
 };
 
@@ -159,16 +180,15 @@ pComment.highlight = function (e) {
 };
 
 pComment.countByP = function (noteId) {
-    guinness.ajax({
+    guinness.restAjax({
         method: "get",
         url: "/pComments/readCountByP?noteId=" + noteId,
-        success: function (req) {
-            var result = JSON.parse(req.responseText);
-            if (result.success !== true) {
-                return false;
+    	statusCode: {
+    		200 : function (res) {
+                var result = JSON.parse(res);
+                pComment.countByP.createBulbBtn(result);
             }
-            pComment.countByP.createBulbBtn(result.mapValues);
-        }
+    	}
     });
 };
 
@@ -328,25 +348,24 @@ function createPCommentListBox(pId, noteContent, noteId) {
     noteContent.insertAdjacentHTML("afterend", pCommentListTemplate);
     setPositionPCommentListBox(noteContent, pId);
     document.body.querySelector("#pCommentBoxCancel").addEventListener('click', pComment.listRemover, false);
-    guinness.ajax({
-        method: "GET",
-        url: "/pComments?pId=" + pId + "&noteId=" + noteId,
-        success: function (req) {
-            var result = JSON.parse(req.responseText);
-            if (result.success !== true) {
-                return;
-            }
-            var pCommentList = document.body.querySelector(".pCommentList");
-            pCommentList.innerHTML = "";
-            var userId = document.body.querySelector("#sessionUserId").value
-            var length = result.objectValues.length;
-            for (var index = 0; index < length; index++) {
-                pComment.appendPComment(result.objectValues[index], userId);
-            }
-            var pCommentList = document.body.querySelector(".pCommentList");
-            pCommentList.scrollTop = 0;
-        }
-    });
+    guinness.restAjax({
+  		method: "get",
+  		url: "/pComments?pId=" + pId + "&noteId=" + noteId,
+  		statusCode: {
+  			200: function(res) {	// 생성 성공 
+  				var result = JSON.parse(res);
+  				var pCommentList = document.body.querySelector(".pCommentList");
+  				pCommentList.innerHTML = "";
+  				var userId = document.body.querySelector("#sessionUserId").value
+  				var length = result.length;
+  				for (var index = 0; index < length; index++) {
+  					pComment.appendPComment(result[index], userId);
+                  }
+  				var pCommentList = document.body.querySelector(".pCommentList");
+  				pCommentList.scrollTop = 0;
+  			}
+  		}
+  	});
 }
 
 function setPositionPCommentListBox (noteContent, pId) {
@@ -378,42 +397,45 @@ pComment.createPComment = function () {
         return false;
     }
     var pId = pComment.pId.replace("pId-", "");
-    guinness.ajax({
-        method: "post",
-        url: "/pComments",
-        param: "pId=" + pId + "&sameSenCount=" + pComment.sameSenCount + "&sameSenIndex=" + pComment.sameSenIndex
+    guinness.restAjax({
+  		method: "post",
+  		url: "/pComments",
+  		param: "pId=" + pId + "&sameSenCount=" + pComment.sameSenCount + "&sameSenIndex=" + pComment.sameSenIndex
         + "&pCommentText=" + pComment.pCommentText + "&selectedText=" + pComment.selectedText
         + "&noteId=" + pComment.noteId,
-        success: function (req) {
-            var result = JSON.parse(req.responseText);
-            if (result.success !== true) {
-                return;
-            }
-            var userId =  document.body.querySelector("#sessionUserId").value;
-            pComment.appendPComment(result.object, document.body.querySelector("#sessionUserId").value);
-        }
-    });
+  		statusCode: {
+  			201: function(res) {	// 생성 성공 
+  				var result = JSON.parse(res);
+  	            var userId =  document.body.querySelector("#sessionUserId").value;
+  	            pComment.appendPComment(result, document.body.querySelector("#sessionUserId").value);
+  			},
+  			412: function(res) {	// 유효성 통과 못함
+  				return;
+  			}
+  		}
+  	});
 };
 
 pComment.deletePComment = function(pCommentId) {
-	guinness.ajax({
-        method: "delete",
-        url: "/pComments/" + pCommentId,
-        success: function (req) {
-            var result = JSON.parse(req.responseText);
-            if (result.success !== true) {
-                return;
-            }
-            var pid = "pId-" + document.querySelector("#pCId"+pCommentId+" input").getAttribute("ptagid");
-            document.querySelector(".showPComment[pid='"+pid+"'] i").innerText--;
-            document.querySelector("#pCId"+pCommentId).remove();
-            if(document.querySelector(".showPComment[pid='"+pid+"'] i").innerText === "0") {
-            	document.querySelector(".showPComment[pid='"+pid+"']").style.display = "none";
-            	document.querySelector(".pCommentListBox").remove();
-                pComment.listRemover();
-            }
-        }
-    });
+	guinness.restAjax({
+		method : "delete",
+		url : "/pComments/" + pCommentId,
+		statusCode : {
+			204 : function (res) {
+				var pid = "pId-" + document.querySelector("#pCId"+pCommentId+" input").getAttribute("ptagid");
+	            document.querySelector(".showPComment[pid='"+pid+"'] i").innerText--;
+	            document.querySelector("#pCId"+pCommentId).remove();
+	            if(document.querySelector(".showPComment[pid='"+pid+"'] i").innerText === "0") {
+	            	document.querySelector(".showPComment[pid='"+pid+"']").style.display = "none";
+	            	document.querySelector(".pCommentListBox").remove();
+	                pComment.listRemover();
+	            }
+			},
+			412 : function (res) {
+				return;
+			}
+		}
+	});
 };
 
 function dragEnd(e) {
