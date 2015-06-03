@@ -48,8 +48,7 @@ public class NoteService {
 		if (!groupDao.checkJoinedGroup(sessionUserId, groupId)) {
 			throw new UnpermittedAccessGroupException();
 		}
-		String noteId = ""
-				+ noteDao.createNote(new Note(noteText, noteTargetDate, new User(sessionUserId), new Group(groupId)));
+		String noteId = "" + noteDao.createNote(new Note(noteText, noteTargetDate, new User(sessionUserId), new Group(groupId)));
 		String alarmId = null;
 		Alarm alarm = null;
 		SessionUser sessionUser = noteDao.readNote(noteId).getUser().createSessionUser();

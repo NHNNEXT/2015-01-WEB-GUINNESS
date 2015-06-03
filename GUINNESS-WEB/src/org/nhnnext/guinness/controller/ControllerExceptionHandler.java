@@ -62,7 +62,7 @@ public class ControllerExceptionHandler {
 	public ResponseEntity<Object> groupMemberException(GroupMemberException e) {
 		return JSONResponseUtil.getJSONResponse(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
 	}
-
+	
 	// 비밀번호 찾기시 미존재 아이디 예외처리
 	@ExceptionHandler(NotExistedUserException.class)
 	public ModelAndView notExistedUserIdException(NotExistedUserException e) {
@@ -70,4 +70,6 @@ public class ControllerExceptionHandler {
 		mav.addObject("message", "존재하지 않는 이메일입니다.");
 		return mav;
 	}
+	
+	
 }

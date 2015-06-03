@@ -124,48 +124,47 @@ function confirmDeleteNote(noteId) {
 }
 
 function deleteNote(noteId) {
-    guinness.ajax({
-        method: "delete",
+	guinness.restAjax({
+		method: "delete",
         url: "/notes/" + noteId,
-        success: function (req) {
-            var json = JSON.parse(req.responseText);
-            if (json.success === true) {
-                var t = document.getElementById(noteId);
-                if (t.parentElement.childElementCount <= 2) {
-                    t.parentElement.remove();
-                    document.querySelector("#empty-message").style.visibility = "visible";
-                } else {
-                    t.remove();
-                }
-                var list = document.querySelectorAll("#summary-container>ul>li");
+        statusCode: {
+  			200: function(res) { 
+  				var t = document.getElementById(noteId);
+	                if (t.parentElement.childElementCount <= 2) {
+	                    t.parentElement.remove();
+	                    document.querySelector("#empty-message").style.visibility = "visible";
+	                } else {
+	                    t.remove();
+	                }
+	                var list = document.querySelectorAll("#summary-container>ul>li");
 
-                var length = list.length;
-                for(var i = 0; i < length; i++) {
-                	if( list[i].getAttribute("value") === noteId ) {
-                		list[i].remove();
-                	}
-                }
-            }
+	                var length = list.length;
+	                for(var i = 0; i < length; i++) {
+	                	if( list[i].getAttribute("value") === noteId ) {
+	                		list[i].remove();
+	                	}
+	                }
+  			}
         }
-    });
+	});
 }
 
 var currScrollTop;
 function readNoteContents(noteId) {
     currScrollTop = document.body.scrollTop;
-    guinness.ajax({
-        method: 'get',
-        url: '/notes/' + noteId,
-        success: function (req) {
-            var result = JSON.parse(req.responseText);
-            if (result.success !== true)
-                return;
-            showNoteModal(result.object);
-            document.body.scrollTop = currScrollTop;
-            pComment.createPopupPCommentBtn();
-        	setPopupPCommentBtn();
+    guinness.restAjax({
+		method: "get",
+        url: "/notes/" + noteId,
+        statusCode: {
+  			200: function(res) { 
+				var result = JSON.parse(res);
+				showNoteModal(result);
+	            document.body.scrollTop = currScrollTop;
+	            pComment.createPopupPCommentBtn();
+	        	setPopupPCommentBtn();
+  			}
         }
-    });
+	});
 }
 
 var commentTimeUpdate;
@@ -299,23 +298,22 @@ function deleteComment(commentId, noteId) {
 }
 
 function reloadCommentCount(noteId){
-    guinness.ajax({
-        method: "get",
+	guinness.restAjax({
+		method: "get",
         url: "/notes/" + noteId,
-        success: function (req) {
-            var result = JSON.parse(req.responseText);
-            if (result.success !== true){
-                return;
-            }
-            document.getElementById(noteId).querySelector(".comment-div span").innerHTML = " " + result.object.commentCount;
-            if(result.object.commentCount === 0){
-            	document.getElementById(noteId).querySelector(".comment-div").style.display="none";
-            }
-            else{
-            	document.getElementById(noteId).querySelector(".comment-div").style.display="block";
-            }
+        statusCode: {
+  			200: function(res) { 
+				var result = JSON.parse(res);
+				document.getElementById(noteId).querySelector(".comment-div span").innerHTML = " " + result.commentCount;
+	            if(result.commentCount === 0){
+	            	document.getElementById(noteId).querySelector(".comment-div").style.display="none";
+	            }
+	            else{
+	            	document.getElementById(noteId).querySelector(".comment-div").style.display="block";
+	            }
+  			}
         }
-    });
+	});
 }
 
 function showEditInputBox(commentId) {
@@ -532,19 +530,21 @@ function deleteMarkList() {
 }
 
 function readNoteList(noteTargetDate) {
-    guinness.ajax({
-        method: "get",
-        url: '/notes/reload/?groupId=' + groupId + '&noteTargetDate=' + noteTargetDate,
-        success: function (req) {
-            var result = JSON.parse(req.responseText);
-            if (result.success) {
-                deleteNoteList();
-                deleteMarkList();
-                appendNoteList(result.objectValues);
-                appendMarkList(result.objectValues);
-            }
-        }
-    });
+	 guinness.restAjax({
+		 method: "get",
+		 url: '/notes/reload/?groupId=' + groupId + '&noteTargetDate=' + noteTargetDate,
+	        statusCode: {
+	  			200: function(res) {	// 멤버 추가 실패 
+	  				var result = JSON.parse(res);
+	  				if (result.length !== 0) {
+	  					deleteNoteList();
+		                deleteMarkList();
+	  	                appendNoteList(result);
+	  	                appendMarkList(result);
+	  	            }
+	  			}
+	        }
+	 });
     getDateExistNotes();
 }
 
@@ -568,17 +568,19 @@ var infiniteScroll = function () {
 
 var reloadWithoutDeleteNoteList = function (noteTargetDate) {
     var objs = document.querySelectorAll(".memberChk");
-    guinness.ajax({
-        method: "get",
-        url: '/notes/reload/?groupId=' + groupId + '&noteTargetDate=' + noteTargetDate,
-        success: function (req) {
-            var result = JSON.parse(req.responseText);
-            if (result.success && result.objectValues.length !== 0) {
-                appendNoteList(result.objectValues);
-                appendMarkList(result.objectValues);
-            }
-        }
-    });
+    guinness.restAjax({
+		 method: "get",
+		 url: '/notes/reload/?groupId=' + groupId + '&noteTargetDate=' + noteTargetDate,
+	        statusCode: {
+	  			200: function(res) {	// 멤버 추가 실패 
+	  				var result = JSON.parse(res);
+	  				if (result.length !== 0) {
+	  	                appendNoteList(result);
+	  	                appendMarkList(result);
+	  	            }
+	  			}
+	        }
+	 });
 }
 
 function tempSave() {
