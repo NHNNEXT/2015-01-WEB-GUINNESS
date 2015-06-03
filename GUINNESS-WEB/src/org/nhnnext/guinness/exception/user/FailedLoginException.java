@@ -1,4 +1,4 @@
-package org.nhnnext.guinness.exception;
+package org.nhnnext.guinness.exception.user;
 
 public class FailedLoginException extends RuntimeException {
 	private static final long serialVersionUID = 1L;

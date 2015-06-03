@@ -235,26 +235,23 @@ function appendGroupCard(groupId){
 }
 
 function joinGroupMember(userId, groupId, alarmStatus) {
-	guinness.ajax({
+	guinness.restAjax({
 			method : "post",
 			url : "/groups/members/accept",
 			param : "userId=" + userId + "&groupId=" + groupId,
-			success : function(req) {
-				var json = JSON.parse(req.responseText);
-				if (json.success === false) {
-					guinness.util.alert("멤버초대 실패", json.message);
-				} else {
-					if(alarmStatus === 'I'){
-						if(document.querySelector("#group-container") !== null){
-							appendGroupCard(groupId);
+			 statusCode: {
+		  			202: function(res) {	// 그룹 초대 승인
+		  				if(alarmStatus === 'I'){
+							if(document.querySelector("#group-container") !== null){
+								appendGroup(JSON.parse(res));
+							}
+			 				guinness.util.alert("알림", "그룹에 가입되었습니다.");
 						}
-		 				guinness.util.alert("알림", "그룹에 가입되었습니다.");
-					}
-					if(alarmStatus === 'J'){
-		 				guinness.util.alert("알림", "그룹 가입이 승인되었습니다.");
-					}
-				}
-			}
+						if(alarmStatus === 'J'){
+			 				guinness.util.alert("알림", "그룹 가입이 승인되었습니다.");
+						}
+		  			} 
+			 }
 		});
 }
 

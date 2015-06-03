@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 
 import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.PreviewDao;
-import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
+import org.nhnnext.guinness.exception.group.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.Preview;

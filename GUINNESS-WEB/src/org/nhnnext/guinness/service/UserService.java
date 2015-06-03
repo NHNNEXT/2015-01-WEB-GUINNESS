@@ -8,10 +8,10 @@ import javax.annotation.Resource;
 import org.nhnnext.guinness.dao.ConfirmDao;
 import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.UserDao;
-import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
-import org.nhnnext.guinness.exception.FailedLoginException;
-import org.nhnnext.guinness.exception.NotExistedUserIdException;
-import org.nhnnext.guinness.exception.UserUpdateException;
+import org.nhnnext.guinness.exception.user.AlreadyExistedUserException;
+import org.nhnnext.guinness.exception.user.FailedLoginException;
+import org.nhnnext.guinness.exception.user.FailedUpdateUserException;
+import org.nhnnext.guinness.exception.user.NotExistedUserException;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.util.RandomFactory;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -38,7 +38,7 @@ public class UserService {
 	
 	private User createUser(User user) {
 		if(userDao.findUserByUserId(user.getUserId()) != null) {
-			throw new AlreadyExistedUserIdException("이미 존재하는 계정입니다.");
+			throw new AlreadyExistedUserException("이미 존재하는 계정입니다.");
 		}
 		userDao.createUser(user);
 		//TODO 피드백 그룹으로 자동 가입을 위한 구문 
@@ -94,7 +94,7 @@ public class UserService {
 				profileImage.transferTo(new File(rootPath + "img/profile/" + fileName));
 				user.setUserImage(fileName);
 			} catch (IllegalStateException | IOException | DataIntegrityViolationException e) {
-				throw new UserUpdateException("잘못된 형식입니다.");
+				throw new FailedUpdateUserException("잘못된 형식입니다.");
 			}
 		}
 		dbUser.update(user);
@@ -108,7 +108,7 @@ public class UserService {
 
 	public void initPassword(String userId) {
 		if(userDao.findUserByUserId(userId) == null) {
-			throw new NotExistedUserIdException("사용자를 찾을 수 없습니다.");
+			throw new NotExistedUserException("사용자를 찾을 수 없습니다.");
 		}
 		String tempPassword = "temp_" + RandomFactory.getRandomId(4);
 		User user = new User();

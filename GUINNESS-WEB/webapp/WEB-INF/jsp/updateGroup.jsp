@@ -139,16 +139,17 @@
 		}
 
 		function deleteGroup(groupId) {
-			guinness.ajax({
+			guinness.restAjax({
 				method:"delete",
 				url:"/groups/" + groupId,
-				success: function(req) {
-					if(JSON.parse(req.responseText).success !== true) {
-						guinness.util.alert("경고", "삭제할 권한이 없습니다.");
-						return;
-					}
-					window.location.href = "/groups/form";
-				}
+				statusCode: {
+		  			200: function(res) {	// 그룹 삭제 성공
+		  				window.location.href = "/groups/form";
+		  			},
+		  			406: function(res) {	// 그룹 삭제 실패(그룹장이 아닐 경우)
+		  				guinness.util.alert("경고", "삭제할 권한이 없습니다.");
+		  			}
+		  		}
 			});
 		}
 	</script>

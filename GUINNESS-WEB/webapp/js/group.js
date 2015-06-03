@@ -1,15 +1,14 @@
 window.addEventListener('load', function() {
 	document.querySelector(".searchForm").setAttribute("style","display: block");
-	guinness.ajax({
+	guinness.restAjax({
 		method : "get",
 		url : "/groups",
-		success : function(req) {
-			var result = JSON.parse(req.responseText);
-			if (result.success) {
-				appendGroups(result.mapValues);
+		statusCode: {
+  			200: function(res) {	// 그룹 리스트 받아오기 성공  
+  				appendGroups(JSON.parse(res));
 				loadGroupAlarm();
-			}
-        }
+  			}
+  		}
 	});
 	document.querySelector('#create-new').addEventListener('mouseup', createGroup, false);
 }, false);
@@ -72,19 +71,22 @@ function createGroup() {
 		var form = document.querySelector('#create-group-form');
 
 		if(document.querySelector('.modal-cover input[name="groupName"]').value != ""){
-			var param = "groupName="+form.groupName.value+"&status="+form.status.value;
-			guinness.ajax({
+			var status = document.querySelector('input[name=status]:checked');
+			var param = "groupName="+form.groupName.value+"&status="+status.value;
+			guinness.restAjax({
 				method : "post",
 				url : "/groups",
 				param: param,
-				success : function(req) { 
-					if(JSON.parse(req.responseText).success !== false) {
-						appendGroup(JSON.parse(req.responseText).object);
-						document.querySelector('.modal-cover').remove();
-					}
-					else
-						guinness.util.alert("경고!", JSON.parse(req.responseText).message);
-				}
+				statusCode: {
+		  			201: function(res) {	// 그룹 생성 성공
+		  				appendGroup(JSON.parse(res));
+		  				document.querySelector('.modal-cover').remove();
+		  			},
+		  			412: function(res) {	// 그룹명 15자 이상 시 실패
+		  				document.querySelector('.modal-cover').remove();
+		  				guinness.util.alert("경고!", res);
+		  			}
+		  		}
 			});
 			return;
 		}

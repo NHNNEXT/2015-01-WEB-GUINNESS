@@ -14,7 +14,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.nhnnext.guinness.dao.AlarmDao;
 import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.NoteDao;
-import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
+import org.nhnnext.guinness.exception.group.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.model.Alarm;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;

@@ -1,23 +1,18 @@
 package org.nhnnext.guinness.controller;
 
-import org.nhnnext.guinness.exception.AlreadyExistedUserIdException;
-import org.nhnnext.guinness.exception.FailedAddGroupMemberException;
-import org.nhnnext.guinness.exception.FailedLoginException;
-import org.nhnnext.guinness.exception.FailedMakingGroupException;
-import org.nhnnext.guinness.exception.GroupUpdateException;
-import org.nhnnext.guinness.exception.NotExistedUserIdException;
-import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
-import org.nhnnext.guinness.exception.UnpermittedDeleteGroupException;
-import org.nhnnext.guinness.exception.UserUpdateException;
+import org.nhnnext.guinness.exception.groupmember.GroupMemberException;
+import org.nhnnext.guinness.exception.user.AlreadyExistedUserException;
+import org.nhnnext.guinness.exception.user.FailedLoginException;
+import org.nhnnext.guinness.exception.user.FailedUpdateUserException;
+import org.nhnnext.guinness.exception.user.JoinValidationException;
+import org.nhnnext.guinness.exception.user.NotExistedUserException;
 import org.nhnnext.guinness.util.JSONResponseUtil;
-import org.nhnnext.guinness.util.JsonResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -26,20 +21,26 @@ public class ControllerExceptionHandler {
 	private static final Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
 	
 	// 회원가입시 중복 아이디 예외처리
-	@ExceptionHandler(AlreadyExistedUserIdException.class)
-	public ResponseEntity<Object> alreadyExistedUserIdException(AlreadyExistedUserIdException e) {
+	@ExceptionHandler(AlreadyExistedUserException.class)
+	public ResponseEntity<Object> alreadyExistedUserIdException(AlreadyExistedUserException e) {
 		return JSONResponseUtil.getJSONResponse("이미 존재하는 아이디입니다.", HttpStatus.CONFLICT);
+	}
+	
+	// 회원가입시 유효성 검사 예외처리
+	@ExceptionHandler(JoinValidationException.class)
+	public ResponseEntity<Object> joinValidationException(JoinValidationException e) {
+		return JSONResponseUtil.getJSONResponse(e.getExtractValidationMessages(), HttpStatus.PRECONDITION_FAILED);
 	}
 	
 	// 로그인 실패시 예외처리
 	@ExceptionHandler(FailedLoginException.class)
-	public @ResponseBody boolean failedLoginException(FailedLoginException e) {
-		return false;
+	public ResponseEntity<Object> failedLoginException(FailedLoginException e) {
+		return JSONResponseUtil.getJSONResponse(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
 	}
 	
 	// 회원정보 수정시 예외처리
-	@ExceptionHandler(UserUpdateException.class)
-	public ModelAndView userUpdateException(UserUpdateException e) {
+	@ExceptionHandler(FailedUpdateUserException.class)
+	public ModelAndView userUpdateException(FailedUpdateUserException e) {
 		RedirectView rv = new RedirectView("/user/form");
 		rv.setExposeModelAttributes(false);
 		ModelAndView mav = new ModelAndView(rv);
@@ -48,58 +49,23 @@ public class ControllerExceptionHandler {
 		return mav;
 	}
 	
-	// 그룹정보 수정시 예외처리 API전달
-	@ExceptionHandler(GroupUpdateException.class)
-	public @ResponseBody JsonResult groupUpdateException(GroupUpdateException e) {
-		return new JsonResult().setSuccess(false).setMessage(e.getMessage());
-	}
-//	
-//	// 그룹정보 수정시 예외처리 페이지 포워딩
-//	@ExceptionHandler(GroupUpdateExceptionIllegalPage.class)
-//	public ModelAndView groupUpdateExceptionIllegalPage(GroupUpdateExceptionIllegalPage e) {
-//		ModelAndView mav = new ModelAndView("/exception");
-//		mav.addObject("errorMessage", e.getMessage());
-//		return mav;
+//	// 그룹정보 수정시 예외처리 API전달
+//	@ExceptionHandler(GroupUpdateException.class)
+//	public ResponseEntity<Object> groupUpdateException(GroupUpdateException e) {
+//		return JSONResponseUtil.getJSONResponse(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
 //	}
 	
-	// 그룹 생성시 그룹명 길 경우 예외처리
-	@ExceptionHandler(FailedMakingGroupException.class )
-	public @ResponseBody JsonResult failedMakingGroupException(FailedMakingGroupException e) {
-		return new JsonResult().setSuccess(false).setMessage(e.getMessage());
-	}
-	
-	// 그룹 멤버 추가시 예외처리
-	@ExceptionHandler(FailedAddGroupMemberException.class)
-	public @ResponseBody JsonResult failedAddGroupMemberException(FailedAddGroupMemberException e) {
-		return new JsonResult().setSuccess(false).setMessage(e.getMessage());
-	}
-	
-	// 허가되지않은 그룹 접속 시도 시 예외처리
-	@ExceptionHandler(UnpermittedAccessGroupException.class)
-	public ModelAndView unpermittedAccessGroupException(UnpermittedAccessGroupException e) {
-		ModelAndView mav = new ModelAndView("/groups");
-		mav.addObject("errorMessage", e.getMessage());
-		return mav;
-	}
-	
-//	// 없는 그룹 삭제 시 예외처리
-//	@ExceptionHandler(FailedDeleteGroupException.class)
-//	public ModelAndView failedDeleteGroupException(FailedDeleteGroupException e) {
-//		e.printStackTrace();
-//		ModelAndView mav = new ModelAndView("/exception");
-//		logger.debug("exception: {}", e.getClass().getSimpleName());
-//		return mav;
-//	}
-	
-	// 삭제 권한 없는 그룹 삭제 시 예외처리
-	@ExceptionHandler(UnpermittedDeleteGroupException.class)
-	public @ResponseBody JsonResult unpermittedDeleteGroupException(UnpermittedDeleteGroupException e) {
-		return new JsonResult().setSuccess(false);
+	// 그룹 탈퇴 시 예외처리
+	// 그룹 추방 시 예외처리
+	// 그룹 멤버 추가 실패 시 예외처리
+	@ExceptionHandler(GroupMemberException.class)
+	public ResponseEntity<Object> groupMemberException(GroupMemberException e) {
+		return JSONResponseUtil.getJSONResponse(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
 	}
 
 	// 비밀번호 찾기시 미존재 아이디 예외처리
-	@ExceptionHandler(NotExistedUserIdException.class)
-	public ModelAndView notExistedUserIdException(NotExistedUserIdException e) {
+	@ExceptionHandler(NotExistedUserException.class)
+	public ModelAndView notExistedUserIdException(NotExistedUserException e) {
 		ModelAndView mav = new ModelAndView("/findPassword");
 		mav.addObject("message", "존재하지 않는 이메일입니다.");
 		return mav;

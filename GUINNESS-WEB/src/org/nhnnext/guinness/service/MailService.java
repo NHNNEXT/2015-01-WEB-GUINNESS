@@ -6,7 +6,7 @@ import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import org.nhnnext.guinness.exception.SendMailException;
+import org.nhnnext.guinness.exception.user.FailedSendingEmailException;
 import org.springframework.mail.MailAuthenticationException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -35,11 +35,11 @@ public class MailService {
 			messageHelper.setText(htmlMsg, true);
 			javaMailSender.send(message);
 		} catch (MessagingException | NullPointerException | MailAuthenticationException | UnsupportedEncodingException e) {
-			throw new SendMailException(e.getClass().getSimpleName());
+			throw new FailedSendingEmailException(e.getClass().getSimpleName());
 		}
 	}
 	
-	public void sendMailforInitPassword(String tempPassword, String userId) throws SendMailException {
+	public void sendMailforInitPassword(String tempPassword, String userId) throws FailedSendingEmailException {
 		try {
 			MimeMessage message = javaMailSender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
@@ -55,7 +55,7 @@ public class MailService {
 			"<p>Copyright &copy; by link413. All rights reserved.</p>", true);
 			javaMailSender.send(message);
 		} catch (MessagingException | NullPointerException | MailAuthenticationException | UnsupportedEncodingException e) {
-			throw new SendMailException(e.getClass().getSimpleName());
+			throw new FailedSendingEmailException(e.getClass().getSimpleName());
 		}
 	}
 }

@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.nhnnext.guinness.exception.UserUpdateException;
+import org.nhnnext.guinness.exception.user.FailedUpdateUserException;
+import org.nhnnext.guinness.exception.user.JoinValidationException;
 import org.nhnnext.guinness.model.SessionUser;
 import org.nhnnext.guinness.model.User;
 import org.nhnnext.guinness.service.UserService;
@@ -24,7 +26,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -33,32 +34,28 @@ public class UserController {
 	@Resource
 	private UserService userService;
 	
-	@RequestMapping(value = "", method = RequestMethod.POST)
-	protected ResponseEntity<Object> create(@Valid User user, BindingResult result) {
+	@RequestMapping(method = RequestMethod.POST)
+	protected String create(@Valid User user, BindingResult result, HttpServletResponse response) {
 		if(result.hasErrors()) {
-			return JSONResponseUtil.getJSONResponse(extractValidationMessages(result), HttpStatus.PRECONDITION_FAILED);
+			throw new JoinValidationException(extractValidationMessages(result));
         }
 		userService.join(user);
-		return JSONResponseUtil.getJSONResponse("/user/sendEmail", HttpStatus.CREATED);
-	}
-	
-	@RequestMapping("/sendEmail")
-	protected String emailCheck() {
+		response.setStatus(HttpServletResponse.SC_CREATED);
 		return "sendEmail";
 	}
-
+	
 	@RequestMapping("/confirm/{keyAddress}")
 	protected String confirm(@PathVariable String keyAddress, HttpSession session) {
 		SessionUser sessionUser = userService.confirm(keyAddress).createSessionUser();
 		session.setAttribute("sessionUser", sessionUser);
 		return "redirect:/";
 	}
-	
+
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	protected @ResponseBody boolean login(@RequestParam String userId, @RequestParam String userPassword, HttpSession session) {
+	protected ResponseEntity<Object> login(@RequestParam String userId, @RequestParam String userPassword, HttpSession session) {
 		SessionUser sessionUser = (userService.login(userId, userPassword)).createSessionUser();
 		session.setAttribute("sessionUser", sessionUser);
-		return true;
+		return JSONResponseUtil.getJSONResponse("", HttpStatus.ACCEPTED);
 	}
 	
 	@RequestMapping("/logout")
@@ -87,7 +84,7 @@ public class UserController {
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	protected String updateUser(User user, @RequestParam String userAgainPassword, HttpSession session, @RequestParam("profileImage") MultipartFile profileImage, Model model) {
 		if(!user.isCorrectPassword(userAgainPassword))
-			throw new UserUpdateException("비밀번호가 다릅니다.");
+			throw new FailedUpdateUserException("비밀번호가 다릅니다.");
 		String rootPath = session.getServletContext().getRealPath("/");
 		userService.update(user, rootPath, profileImage);
 		session.setAttribute("sessionUser", user.createSessionUser());
