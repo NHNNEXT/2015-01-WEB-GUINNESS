@@ -66,6 +66,8 @@
 		var noteTargetDate = "${note.noteTargetDate}";
 		var groupName = "${group.groupName}";
 		window.addEventListener("load", function() {
+			var temp = ${tempNotes};
+			debugger;
 			appendTempNoteList(${tempNotes});
 		});
 
