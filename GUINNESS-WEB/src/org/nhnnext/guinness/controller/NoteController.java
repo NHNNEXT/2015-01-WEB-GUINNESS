@@ -2,7 +2,6 @@ package org.nhnnext.guinness.controller;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +12,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.nhnnext.guinness.exception.note.UnpermittedAccessNotesException;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.Preview;
 import org.nhnnext.guinness.service.GroupService;
@@ -21,12 +21,15 @@ import org.nhnnext.guinness.service.PCommentService;
 import org.nhnnext.guinness.service.PreviewService;
 import org.nhnnext.guinness.service.TempNoteService;
 import org.nhnnext.guinness.util.DateTimeUtil;
+import org.nhnnext.guinness.util.JSONResponseUtil;
 import org.nhnnext.guinness.util.JsonResult;
 import org.nhnnext.guinness.util.Markdown;
 import org.nhnnext.guinness.util.ReconnectPComments;
 import org.nhnnext.guinness.util.ServletRequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,32 +63,28 @@ public class NoteController {
 	}
 
 	@RequestMapping("/notes/reload")
-	protected @ResponseBody JsonResult<Preview> reloadNotes(@RequestParam String groupId,
-			@RequestParam String noteTargetDate) {
+	protected ResponseEntity<Object> reloadNotes(@RequestParam String groupId, @RequestParam String noteTargetDate) {
 		logger.debug("noteTargetDate:{}", noteTargetDate);
 		if (groupId == null) {
-			return new JsonResult().setSuccess(false).setMapValues(new ArrayList<Preview>());
+			throw new UnpermittedAccessNotesException();
 		}
 		if ("undefined".equals(noteTargetDate))
 			noteTargetDate = null;
-		return new JsonResult().setSuccess(true)
-				.setObjectValues(previewService.reloadPreviews(groupId, noteTargetDate));
+		return JSONResponseUtil.getJSONResponse(previewService.reloadPreviews(groupId, noteTargetDate), HttpStatus.OK);
 	}
 
 	@RequestMapping("/notes/{noteId}")
-	protected @ResponseBody JsonResult show(@PathVariable String noteId, HttpSession session) throws IOException{
+	protected ResponseEntity<Object> show(@PathVariable String noteId, HttpSession session) throws IOException{
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		Note note = noteService.readNote(sessionUserId, noteId);
 		note.setNoteText(new Markdown().toHTML(note.getNoteText()));
-		return new JsonResult().setSuccess(true).setObject(note);
+		return JSONResponseUtil.getJSONResponse(note, HttpStatus.OK);
 	}
 
+	//TODO Note객체로 묶어서 받아오기
 	@RequestMapping(value = "/notes", method = RequestMethod.POST)
-	protected String create(@RequestParam String groupId, @RequestParam String noteText,
-			@RequestParam String noteTargetDate, @RequestParam String tempNoteId, HttpSession session, Model model) throws IOException {
+	protected String create(@RequestParam String tempNoteId, @RequestParam String noteText, @RequestParam String noteTargetDate, @RequestParam String groupId, HttpSession session, Model model) throws IOException {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
-		
-		
 		if (noteText.equals("")) {
 			return "redirect:/notes/editor/g/" + groupId;
 		}
@@ -94,8 +93,7 @@ public class NoteController {
 	}
 
 	@RequestMapping(value = "/notes", method = RequestMethod.PUT)
-	private String update(@RequestParam String groupId, @RequestParam String noteId,
-			@RequestParam String noteTargetDate, @RequestParam String noteText, HttpSession session) throws Exception {
+	private String update(@RequestParam String groupId, @RequestParam String noteId, @RequestParam String noteTargetDate, @RequestParam String noteText, HttpSession session) throws Exception {
 		String sessionUserId = ServletRequestUtil.getUserIdFromSession(session);
 		Note note = noteService.readNote(sessionUserId, noteId);
 		if(!sessionUserId.equals(note.getUser().getUserId())){
@@ -127,12 +125,12 @@ public class NoteController {
 	}
 
 	@RequestMapping(value = "/notes/{noteId}", method = RequestMethod.DELETE)
-	protected @ResponseBody JsonResult delete(@PathVariable String noteId) {
+	protected ResponseEntity<Object> delete(@PathVariable String noteId) {
 		logger.debug(" noteId : " + noteId);
-		if (noteService.delete(noteId) == 1) {
-			return new JsonResult().setSuccess(true).setObject(noteId);
+		if (noteService.delete(noteId) != 1) {
+			return JSONResponseUtil.getJSONResponse("", HttpStatus.BAD_REQUEST);
 		}
-		return new JsonResult().setSuccess(false);
+		return JSONResponseUtil.getJSONResponse("", HttpStatus.OK);
 	}
 
 	@RequestMapping("/notes/editor/g/{groupId}")

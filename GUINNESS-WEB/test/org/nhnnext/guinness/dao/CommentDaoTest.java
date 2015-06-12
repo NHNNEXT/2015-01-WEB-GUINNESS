@@ -9,7 +9,6 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.nhnnext.guinness.exception.MakingObjectListFromJdbcException;
 import org.nhnnext.guinness.model.Comment;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
@@ -34,7 +33,7 @@ public class CommentDaoTest {
 	List<Map<String, Object>> comments2 = null;
 
 	@Before
-	public void before() throws MakingObjectListFromJdbcException, ClassNotFoundException {
+	public void before() throws ClassNotFoundException {
 		commentDao.deleteAllCommentsByNoteId("9");
 		comment = new Comment("unit test", new User("admin@guinness.com").createSessionUser(), new Note("9"));
 		commentDao.createComment(comment);

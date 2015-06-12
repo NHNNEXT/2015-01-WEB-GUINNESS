@@ -1,4 +1,4 @@
-package org.nhnnext.guinness.exception;
+package org.nhnnext.guinness.exception.comment;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

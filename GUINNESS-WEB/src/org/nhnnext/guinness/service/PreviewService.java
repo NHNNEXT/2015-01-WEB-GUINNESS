@@ -9,18 +9,14 @@ import javax.annotation.Resource;
 
 import org.nhnnext.guinness.dao.GroupDao;
 import org.nhnnext.guinness.dao.PreviewDao;
-import org.nhnnext.guinness.exception.UnpermittedAccessGroupException;
+import org.nhnnext.guinness.exception.group.UnpermittedAccessGroupException;
 import org.nhnnext.guinness.model.Group;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.Preview;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PreviewService {
-	private static final Logger logger = LoggerFactory.getLogger(PreviewService.class);
-	
 	@Resource
 	private PreviewDao previewDao;
 	@Resource
@@ -35,9 +31,7 @@ public class PreviewService {
 	}
 	
 	public List<Preview> reloadPreviews(String groupId, String noteTargetDate) {
-		List<Preview> list = previewDao.reloadPreviews(groupId, noteTargetDate);
-		logger.debug("list: {}", list.size());
-		return list;
+		return previewDao.reloadPreviews(groupId, noteTargetDate);
 	}
 	
 	public void createPreview(String noteId, String groupId, String noteText) {

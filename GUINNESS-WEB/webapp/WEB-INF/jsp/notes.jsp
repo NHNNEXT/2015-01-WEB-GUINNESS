@@ -257,18 +257,17 @@
 	function leaveGroup() {
 		guinness.util.alert(groupName, "그룹을 탈퇴하시겠습니까?", function(){
 			var param = "sessionUserId="+document.querySelector("#sessionUserId").value+"&groupId="+groupId;
-			guinness.ajax({
+			guinness.restAjax({
 				method:"post",
 				url:"/groups/members/leave",
 				param: param,
-				success: function(req) {
-					if (JSON.parse(req.responseText).success !== true) {
-						guinness.util.alert('경고', JSON.parse(req.responseText).message);
-						return;
-					}
-					if (location !== undefined) {
+				statusCode: {
+					200: function(res) {	// 그룹 탈퇴 성공
 						window.location.href = "/groups/form";
-					}
+					}, 
+		  			406: function(res) {	// 그룹 탈퇴 실패 
+		  				guinness.util.alert('경고', res);
+		  			}
 				}
 			});
 		}, function(){});

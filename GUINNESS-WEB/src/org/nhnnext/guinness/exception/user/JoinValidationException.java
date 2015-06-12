@@ -1,7 +1,5 @@
-package org.nhnnext.guinness.exception;
+package org.nhnnext.guinness.exception.user;
 
-import java.util.List;
-import java.util.Map;
 
 
 public class JoinValidationException extends RuntimeException {

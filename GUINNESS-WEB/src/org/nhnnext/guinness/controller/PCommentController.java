@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
-import org.nhnnext.guinness.exception.UnpermittedAccessPCommentException;
+import org.nhnnext.guinness.exception.comment.UnpermittedAccessPCommentException;
 import org.nhnnext.guinness.model.Note;
 import org.nhnnext.guinness.model.PComment;
 import org.nhnnext.guinness.model.SessionUser;

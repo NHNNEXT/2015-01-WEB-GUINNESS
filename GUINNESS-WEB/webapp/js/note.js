@@ -124,48 +124,47 @@ function confirmDeleteNote(noteId) {
 }
 
 function deleteNote(noteId) {
-    guinness.ajax({
-        method: "delete",
+	guinness.restAjax({
+		method: "delete",
         url: "/notes/" + noteId,
-        success: function (req) {
-            var json = JSON.parse(req.responseText);
-            if (json.success === true) {
-                var t = document.getElementById(noteId);
-                if (t.parentElement.childElementCount <= 2) {
-                    t.parentElement.remove();
-                    document.querySelector("#empty-message").style.visibility = "visible";
-                } else {
-                    t.remove();
-                }
-                var list = document.querySelectorAll("#summary-container>ul>li");
+        statusCode: {
+  			200: function(res) { 
+  				var t = document.getElementById(noteId);
+	                if (t.parentElement.childElementCount <= 2) {
+	                    t.parentElement.remove();
+	                    document.querySelector("#empty-message").style.visibility = "visible";
+	                } else {
+	                    t.remove();
+	                }
+	                var list = document.querySelectorAll("#summary-container>ul>li");
 
-                var length = list.length;
-                for(var i = 0; i < length; i++) {
-                	if( list[i].getAttribute("value") === noteId ) {
-                		list[i].remove();
-                	}
-                }
-            }
+	                var length = list.length;
+	                for(var i = 0; i < length; i++) {
+	                	if( list[i].getAttribute("value") === noteId ) {
+	                		list[i].remove();
+	                	}
+	                }
+  			}
         }
-    });
+	});
 }
 
 var currScrollTop;
 function readNoteContents(noteId) {
     currScrollTop = document.body.scrollTop;
-    guinness.ajax({
-        method: 'get',
-        url: '/notes/' + noteId,
-        success: function (req) {
-            var result = JSON.parse(req.responseText);
-            if (result.success !== true)
-                return;
-            showNoteModal(result.object);
-            document.body.scrollTop = currScrollTop;
-            pComment.createPopupPCommentBtn();
-        	setPopupPCommentBtn();
+    guinness.restAjax({
+		method: "get",
+        url: "/notes/" + noteId,
+        statusCode: {
+  			200: function(res) { 
+				var result = JSON.parse(res);
+				showNoteModal(result);
+	            document.body.scrollTop = currScrollTop;
+	            pComment.createPopupPCommentBtn();
+	        	setPopupPCommentBtn();
+  			}
         }
-    });
+	});
 }
 
 var commentTimeUpdate;
@@ -299,23 +298,22 @@ function deleteComment(commentId, noteId) {
 }
 
 function reloadCommentCount(noteId){
-    guinness.ajax({
-        method: "get",
+	guinness.restAjax({
+		method: "get",
         url: "/notes/" + noteId,
-        success: function (req) {
-            var result = JSON.parse(req.responseText);
-            if (result.success !== true){
-                return;
-            }
-            document.getElementById(noteId).querySelector(".comment-div span").innerHTML = " " + result.object.commentCount;
-            if(result.object.commentCount === 0){
-            	document.getElementById(noteId).querySelector(".comment-div").style.display="none";
-            }
-            else{
-            	document.getElementById(noteId).querySelector(".comment-div").style.display="block";
-            }
+        statusCode: {
+  			200: function(res) { 
+				var result = JSON.parse(res);
+				document.getElementById(noteId).querySelector(".comment-div span").innerHTML = " " + result.commentCount;
+	            if(result.commentCount === 0){
+	            	document.getElementById(noteId).querySelector(".comment-div").style.display="none";
+	            }
+	            else{
+	            	document.getElementById(noteId).querySelector(".comment-div").style.display="block";
+	            }
+  			}
         }
-    });
+	});
 }
 
 function showEditInputBox(commentId) {
@@ -377,7 +375,7 @@ function createComment(obj) {
     }
 }
 
-function isJoinedUser() {
+function isJoinedUser(member) {
     var sessionUserId = document.getElementById("sessionUserId").value;
 
     var length = member.length;
@@ -419,23 +417,23 @@ function addMember() {
     	var message = "초대 요청을 보냈습니다.";
     }
     
-    guinness.ajax({
+    guinness.restAjax({
         method: "post",
         url: url,
         param: "userId=" + userId + "&groupId=" + groupId + "&sessionUserId=" + sessionUserId,
-        success: function (req) {
-            var json = JSON.parse(req.responseText);
-            if (json.success === false) {
-                alert.style.visibility = "visible";
+        statusCode: {
+  			406: function(res) {	// 멤버 추가 실패 
+  				alert.style.visibility = "visible";
                 alert.style.color = "#ff5a5a";
                 alert.style.fontSize = "11px";
-                alert.innerHTML = "<br/>"+json.message;
+                alert.innerHTML = "<br/>"+res;
                 if(bJoinedUser){
                 	document.querySelector('#addMemberForm input[name="userId"]').value = "";
                 }
                 return;
-            } else {
-                alert.style.visibility = "visible";
+  			}, 
+  			200: function(res) {	// 멤버 추가 성공  
+  				alert.style.visibility = "visible";
                 alert.style.color = "#86E57F";
                 alert.style.fontSize = "11px";
                 alert.innerHTML = "<br/>"+message;
@@ -443,26 +441,22 @@ function addMember() {
                 	document.querySelector('#addMemberForm input[name="userId"]').value = "";
                 }
                 return;
-            }
-        }
+  			}, 
+  			
+  		}
     });
 }
 
-
-var member;
-
 function readMember(groupId) {
-    guinness.ajax({
+    guinness.restAjax({
         method: "get",
         url: "/groups/members/" + groupId,
-        success: function (req) {
-            if (JSON.parse(req.responseText).success) {
-                member = JSON.parse(req.responseText).mapValues;
-                bJoinedUser = isJoinedUser();
+        statusCode: {
+  			200: function(res) {	// 멤버 추가 실패 
+  				var member = JSON.parse(res);
+                bJoinedUser = isJoinedUser(member);
                 appendMembers(member);
-            } else {
-                window.location.href = JSON.parse(req.responseText).locationWhenFail;
-            }
+  			}
         }
     });
 }
@@ -536,19 +530,21 @@ function deleteMarkList() {
 }
 
 function readNoteList(noteTargetDate) {
-    guinness.ajax({
-        method: "get",
-        url: '/notes/reload/?groupId=' + groupId + '&noteTargetDate=' + noteTargetDate,
-        success: function (req) {
-            var result = JSON.parse(req.responseText);
-            if (result.success) {
-                deleteNoteList();
-                deleteMarkList();
-                appendNoteList(result.objectValues);
-                appendMarkList(result.objectValues);
-            }
-        }
-    });
+	 guinness.restAjax({
+		 method: "get",
+		 url: '/notes/reload/?groupId=' + groupId + '&noteTargetDate=' + noteTargetDate,
+	        statusCode: {
+	  			200: function(res) {	// 멤버 추가 실패 
+	  				var result = JSON.parse(res);
+	  				if (result.length !== 0) {
+	  					deleteNoteList();
+		                deleteMarkList();
+	  	                appendNoteList(result);
+	  	                appendMarkList(result);
+	  	            }
+	  			}
+	        }
+	 });
     getDateExistNotes();
 }
 
@@ -572,17 +568,19 @@ var infiniteScroll = function () {
 
 var reloadWithoutDeleteNoteList = function (noteTargetDate) {
     var objs = document.querySelectorAll(".memberChk");
-    guinness.ajax({
-        method: "get",
-        url: '/notes/reload/?groupId=' + groupId + '&noteTargetDate=' + noteTargetDate,
-        success: function (req) {
-            var result = JSON.parse(req.responseText);
-            if (result.success && result.objectValues.length !== 0) {
-                appendNoteList(result.objectValues);
-                appendMarkList(result.objectValues);
-            }
-        }
-    });
+    guinness.restAjax({
+		 method: "get",
+		 url: '/notes/reload/?groupId=' + groupId + '&noteTargetDate=' + noteTargetDate,
+	        statusCode: {
+	  			200: function(res) {	// 멤버 추가 실패 
+	  				var result = JSON.parse(res);
+	  				if (result.length !== 0) {
+	  	                appendNoteList(result);
+	  	                appendMarkList(result);
+	  	            }
+	  			}
+	        }
+	 });
 }
 
 function tempSave() {
